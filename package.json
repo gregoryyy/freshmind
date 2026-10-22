@@ -1,6 +1,7 @@
 {
   "name": "fm4",
   "version": "0.1.0",
+  "author": "Gregor Heinrich",
   "license": "SEE LICENSE IN LICENSE",
   "description": "A TypeScript port of the classic Java graph browser API and spring embedder",
   "type": "module",

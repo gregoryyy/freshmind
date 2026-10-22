@@ -1,10 +1,12 @@
 # Freshmind 4
 
+**Author and maintainer:** Gregor Heinrich.
+
 **Freshmind 4** is a partial port of the Java-based **Freshmind** project to TypeScript and JavaScript, with additional functionality for the browser. The package uses the short name `fm4`.
 
 ## Background
 
-The original Freshmind was developed by this project's author in several waves between **2002 and 2011**. Freshmind 4 continues that work through a partial port, carrying selected functionality forward and adding new capabilities.
+The original Freshmind was developed by **Gregor Heinrich** in several waves between **2002 and 2011**. Freshmind 4 continues that work through a partial port, carrying selected functionality forward and adding new capabilities.
 
 The current implementation concentrates on the graph browsing foundation: spring embedding, neighborhood exploration, and focus and context views. Its TouchGraph-derived core preserves the **1.21 API and physics**. D3 supplies SVG data joins, dragging, panning, and zooming; the ported spring embedder calculates the layout.
 
@@ -22,6 +24,18 @@ The current implementation concentrates on the graph browsing foundation: spring
 ```sh
 npm install
 npm run dev
+```
+
+With `just` installed, use the equivalent recipes:
+
+```sh
+just install
+just dev
+just build       # Library and TypeScript declarations
+just build-demo  # Production demo
+just preview     # Build and serve the production demo
+just check       # Type checking, core tests, and demo build
+just --list      # All recipes, including Java and browser tests
 ```
 
 Open the localhost address printed by Vite. Select a node, choose **Focus here**, and adjust neighborhood depth and the focus + context slider. Double-click a node (or press Space on a focused node) to expand it. Drag nodes to rearrange them, drag the background to pan, and scroll to zoom. Pinning holds a node in physical coordinates.
