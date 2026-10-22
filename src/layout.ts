@@ -49,11 +49,11 @@
 
 // TypeScript adaptation, 2026. See NOTICE for the pinned Java reference.
 
-import type { GraphEltSet } from "./graph.js";
+import type { ImmutableGraphEltSet } from "./graph.js";
 import type { Node } from "./model.js";
 
 export interface LayoutHost {
-  getGES(): GraphEltSet;
+  getGES(): ImmutableGraphEltSet;
   repaintAfterMove(): void;
 }
 
@@ -69,6 +69,7 @@ export class TGLayout {
   private dragNode: Node | null = null;
   private timer: ReturnType<typeof setTimeout> | undefined;
   private running = false;
+  private generation = 0;
 
   constructor(private readonly panel: LayoutHost, private readonly random: () => number = Math.random) {}
   setRigidity(value: number): void { this.newRigidity = value; }
@@ -158,13 +159,16 @@ export class TGLayout {
   start(): void {
     if (this.running) return;
     this.running = true;
+    const generation = ++this.generation;
+    let first = true;
     const run = () => {
-      if (!this.running) return;
-      if (!(this.damper < 0.1 && this.damping && this.maxMotion < 0.001)) this.relax();
+      if (!this.running || generation !== this.generation) return;
+      if (first || !(this.damper < 0.1 && this.damping && this.maxMotion < 0.001)) { first = false; this.relax(); }
+      if (!this.running || generation !== this.generation) return;
       this.timer = setTimeout(run, this.damper < 0.1 && this.damping && this.maxMotion < 0.001 ? 100 : 20);
     };
     // Unlike a Java thread, scheduling yields to the caller before the first batch.
     this.timer = setTimeout(run, 0);
   }
-  stop(): void { this.running = false; clearTimeout(this.timer); this.timer = undefined; }
+  stop(): void { this.running = false; this.generation++; clearTimeout(this.timer); this.timer = undefined; }
 }

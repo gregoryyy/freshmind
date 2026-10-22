@@ -58,6 +58,7 @@ export interface LocalityHost {
   repaint(): void;
   getSelect(): Node | null;
   clearSelect(): void;
+  localityChanged?(): void;
 }
 
 /** Java's locality animation threads become serialized, awaitable browser operations. */
@@ -90,7 +91,7 @@ export class LocalityUtils {
       try { await operation(); }
       finally {
         this.unmarkNewAdditions();
-        if (!this.disposed) { this.host.resetDamper(); this.host.repaint(); }
+        if (!this.disposed) { this.host.localityChanged?.(); this.host.resetDamper(); this.host.repaint(); }
       }
     });
     this.pending = next.catch(() => {});

@@ -106,6 +106,13 @@ get("show-all").addEventListener("click", async () => {
   allVisible = true; get("view-status").textContent = "WHOLE GRAPH";
   await panel.setLocaleAll(); updateCounts();
 });
+get("edit-mode").addEventListener("click", () => {
+  const editing = panel.getInteractionMode() !== "edit";
+  panel.setInteractionMode(editing ? "edit" : "navigate");
+  get("edit-mode").textContent = editing ? "Finish editing" : "Edit graph";
+  get("edit-mode").setAttribute("aria-pressed", String(editing));
+  get("edit-help").hidden = !editing;
+});
 get("zoom-in").addEventListener("click", () => panel.zoomBy(1.2));
 get("zoom-out").addEventListener("click", () => panel.zoomBy(1 / 1.2));
 get("center").addEventListener("click", () => panel.centerView());

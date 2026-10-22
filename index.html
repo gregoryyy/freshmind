@@ -26,6 +26,8 @@
           <input type="range" id="hyper" min="0" max="100" value="60" step="1" />
           <div class="range-labels"><span>Undistorted</span><span>Strong lens</span></div>
           <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
+          <button id="edit-mode" class="quiet-button" aria-pressed="false">Edit graph <span aria-hidden="true">✎</span></button>
+          <p id="edit-help" class="intro" hidden>Double-click the background to add a node. Select a source, then Shift-click a target to connect them. Focus a node and press Delete to remove it.</p>
           <section class="inspector" aria-live="polite">
             <div class="section-label">SELECTED NODE <span class="status-dot"></span></div>
             <h2 id="selected-name">Graph browsers</h2>

@@ -16,8 +16,11 @@ The current implementation concentrates on the graph browsing foundation: spring
 - The original spring layout calculations, including momentum and adaptive damping.
 - Focus and context browsing through visible neighborhoods, expansion, collapse, and a nonlinear viewing lens.
 - A browser interface with SVG rendering, dragging through the lens, panning, zooming, selection, and pinning.
+- Graph editing with node creation/deletion and directed connections, plus Shift-drag rectangle selection.
 - An ESM library for JavaScript and TypeScript, plus a DOM-independent core for headless use.
 - A runnable example and compatibility checks against the Java layout and lens implementations.
+
+Milestone 1 is complete for the plain TouchGraph browsing core and browser interactions. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
 
 ## Run the example
 
@@ -41,6 +44,8 @@ just --list      # All recipes, including Java and browser tests
 Open the localhost address printed by Vite. Select a node, choose **Focus here**, and adjust neighborhood depth and the focus + context slider. Double-click a node (or press Space on a focused node) to expand it. Drag nodes to rearrange them, drag the background to pan, and scroll to zoom. Pinning holds a node in physical coordinates.
 
 The example's `window.graphBrowser` exposes the `TGPanel` for experimentation.
+
+Click a selected node again or click the background to clear selection. Shift-drag the background to select a node inside a rectangle; as in Java, this chooses one candidate rather than retaining a selection set. In **Edit graph** mode, double-click the background to add a node, select a source and Shift-click a target to connect them, and focus a node and press Delete/Backspace to remove it and its links.
 
 ## Use the library
 
@@ -148,7 +153,7 @@ Use `start()` / `stop()` for timed layout, or `tick()` for deterministic steppin
 | `TGPoint2D`, `TGAbstractLens`, `TGLensSet` | Mutable points, composable forward transforms and reverse-order inverse transforms. |
 | `HyperScroll` | `HyperLens`, plus `panel.setHyperbolic(0…100)`; the demo slider replaces Swing's scrollbar. |
 
-Freshmind 4 currently provides the core graph browsing library and a browser example. The table above describes compatibility with the TouchGraph Java components used as its foundation. AWT painting hooks, Swing controls, edit/multiselect UI modes, rotation scrollbar widgets, XML import/export and `GLPanel` are not ported. Rotation is available through `setRotation(radians)`. SVG edges connect transformed endpoints, matching the original's straight-line rendering.
+Freshmind 4 provides the core graph browsing library and browser equivalents for navigation, editing, and rectangle selection. The [compatibility audit](docs/DONE.md#compatibility-audit) describes the supported APIs. Swing controls, AWT painting hooks, and the `GLPanel`/applet wrappers are replaced by SVG, DOM events, and browser controls. Freshmind file I/O is planned in milestone 2. Rotation is available through `setRotation(radians)`. SVG edges connect transformed endpoints and show their direction with arrow markers.
 
 Known differences and limits:
 
@@ -172,10 +177,11 @@ npm run test:browser
 ```
 
 To use an installed Google Chrome instead, run `PLAYWRIGHT_CHANNEL=chrome npm run test:browser`.
+If the default test-server port 4173 is occupied, choose another with `PLAYWRIGHT_PORT`, for example `PLAYWRIGHT_CHANNEL=chrome PLAYWRIGHT_PORT=4175 just test-browser`.
 
 The Java harness compares **9 scenarios, 276 layout batches and 35 lens cases** against the unmodified upstream `TGLayout` and `HyperScroll` implementations. It checks node coordinates, velocities, damper state and lens transforms with a relative tolerance of `1e-10` (absolute `1e-10` below unit magnitude). Scenarios cover fixed/dragged nodes, locality flags, the repulsion cutoff, integer truncation/overflow, delayed rigidity and damper controls. Coincident positions are tested separately with a controlled random function.
 
-Committed Java-generated snapshots allow ordinary tests to run without a JDK. Browser tests cover locality exploration, inverse dragging, moving the focal node, selection, pinning, zoom, and a narrow viewport.
+Committed Java-generated snapshots allow ordinary tests to run without a JDK. Browser tests cover locality exploration, inverse dragging, moving the focal node, selection, pinning, zoom, a narrow viewport, graph editing, directed edges, hover, and rectangle selection.
 
 ## Source and attribution
 
