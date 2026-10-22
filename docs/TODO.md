@@ -21,10 +21,12 @@ See the [milestone 1 compatibility audit and completion record](DONE.md#mileston
 
 ## 2. Port Freshmind functionality from FM 2014
 
-Use FM 2014 as the source baseline; it is essentially the version of Freshmind developed through 2011.
+Use the Java FM 2014 prototype as the feature reference for labels, editing, navigation, search, file I/O and related behavior; it is essentially the version of Freshmind developed through 2011. Recover these features from the source and complete or correct unfinished behavior during the port.
 Use the thesis excerpt as a reference for browser behavior and presentation.
 
-- [ ] 2.1 Review the FM 2014 source and identify the components and dependencies to port.
+Reference project: `../knowceans/knowceans-freshmind-2014/`. The [source analysis](FM2014_REFERENCE_ANALYSIS.md) records active features, incomplete paths, dependencies, defects and the proposed port order.
+
+- [x] 2.1 Review the FM 2014 source and identify the components and dependencies to port.
 - [ ] 2.2 Port the typed graph model.
   - [ ] 2.2.1 Support typed nodes and labeled relations, including the authoring and citation relations illustrated in Figure 10.17.
 - [ ] 2.3 Port Freshmind navigation behavior and integrate it with the browser interactions.
@@ -37,10 +39,10 @@ Use the thesis excerpt as a reference for browser behavior and presentation.
 
 ## 3. Add Reinforcement Focus + Context
 
-Base this milestone on GH's 2005 paper. RFC reinforces recognizable local structures through additional layout forces; it can be combined with the viewing lens and structural filtering.
+Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is historical context, not the implementation specification. RFC reinforces recognizable local structures through additional layout forces; it can be combined with the viewing lens and structural filtering. Keep reinforcement constraints separate from persistent semantic graph relations.
 
 - [x] 3.1 Add the paper reference and extract the mechanism's implementation requirements into the tasks below.
-- [ ] 3.2 Implement the Reinforcement Focus + Context mechanism.
+- [ ] 3.2 Rebuild the Reinforcement Focus + Context mechanism.
   - [ ] 3.2.1 Identify the focal tree around each center node and strengthen its edge springs.
   - [ ] 3.2.2 Reinforce even branch spacing using the angular constraint or its pairwise-force approximation in equations (1)–(2).
   - [ ] 3.2.3 Support weighted coordinate distances to accommodate horizontally extended labels.
@@ -56,9 +58,11 @@ Base this milestone on GH's 2005 paper. RFC reinforces recognizable local struct
 
 Use the thesis excerpt as the interaction reference. Its community browser uses ETT models; this milestone introduces LDA-based retrieval with the same style of graph interaction.
 
+The LDA libraries used by the Java prototype are available as sources. Local source references include `../knowceans/knowceans-lda-simple/` and `../knowceans/knowceans-ilda/`, with simple LDA implementations in `org.knowceans.topics.simple`. Select and audit the required source subset and map it to the prototype's search interfaces.
+
 - [ ] 4.1 Identify the Lucene functionality and `knowceans` dependencies required for graph visual search.
 - [ ] 4.2 Port the required Lucene search functionality and integration points.
-- [ ] 4.3 Port the `knowceans.lda.simple` framework.
+- [ ] 4.3 Port the required `knowceans-lda-simple` framework functionality from the available sources (`org.knowceans.topics.simple`).
 - [ ] 4.4 Port the required utilities from `knowceans.util.*`.
 - [ ] 4.5 Integrate LDA-based graph visual search methods with the browser.
   - [ ] 4.5.1 Represent term and tag queries as graph nodes linked to retrieved results.

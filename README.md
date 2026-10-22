@@ -22,6 +22,8 @@ The current implementation concentrates on the graph browsing foundation: spring
 
 Milestone 1 is complete for the plain TouchGraph browsing core and browser interactions. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
 
+The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/FM2014_REFERENCE_ANALYSIS.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC will be rebuilt from the 2005 paper.
+
 ## Run the example
 
 ```sh
