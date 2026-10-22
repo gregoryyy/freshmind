@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f5f0" />
+    <title>fm4 — Spring graph browser</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="fm4 home"><span class="brand-mark">f</span> fm4 <span class="tag">GRAPH BROWSER</span></a>
+        <span class="project-name">A small atlas of graph browsing</span>
+        <a class="source-link" href="https://github.com/componavt/wikokit/tree/0db2310283d792abbaa57746fe9fe475fe9e6ab8/TGWikiBrowser/src/com/touchgraph/graphlayout" target="_blank" rel="noreferrer">Java reference ↗</a>
+      </header>
+      <main>
+        <aside class="sidebar">
+          <div class="eyebrow">EXPLORE THE CONNECTIONS</div>
+          <h1>Follow your<br />curiosity.</h1>
+          <p class="intro">Bring a neighborhood into focus. Keep the surrounding ideas in view.</p>
+          <div class="section-label">YOUR VIEW <span id="view-status">LOCAL NEIGHBORHOOD</span></div>
+          <label class="control-label" for="depth">Neighborhood depth <output id="depth-value">2 hops</output></label>
+          <input type="range" id="depth" min="0" max="4" value="2" step="1" />
+          <div class="range-labels"><span>Immediate</span><span>Further out</span></div>
+          <label class="control-label lens-label" for="hyper">Focus + context <output id="hyper-value">60%</output></label>
+          <input type="range" id="hyper" min="0" max="100" value="60" step="1" />
+          <div class="range-labels"><span>Undistorted</span><span>Strong lens</span></div>
+          <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
+          <section class="inspector" aria-live="polite">
+            <div class="section-label">SELECTED NODE <span class="status-dot"></span></div>
+            <h2 id="selected-name">Graph browsers</h2>
+            <p id="selected-detail">The starting point for this atlas.</p>
+            <div id="node-meta" class="node-meta"></div>
+            <button id="focus" class="primary-button">Focus here <span>◎</span></button>
+            <div class="actions"><button id="expand">Expand</button><button id="collapse">Collapse</button><button id="hide">Hide</button></div>
+            <label class="pin-control"><input id="pin" type="checkbox" /> Pin this node in place</label>
+            <div class="section-label connection-label">CONNECTED IDEAS</div>
+            <div id="connections" class="connections"></div>
+          </section>
+          <p class="attribution">This product includes software developed by <a href="https://www.touchgraph.com/">TouchGraph LLC</a>.<br />This product includes software developed by TouchGraph (http://www.touchgraph.com/).</p>
+        </aside>
+        <section class="workspace" aria-label="Graph workspace">
+          <div class="canvas-heading"><span class="live-dot"></span><span>THE GRAPH ATLAS</span><span id="graph-count"></span></div>
+          <div id="graph"></div>
+          <div class="canvas-tools"><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button><button id="center" aria-label="Center view">◎</button></div>
+          <div class="canvas-footer"><span>Drag to rearrange · Scroll to zoom · Double-click to expand</span><button id="motion">Pause motion</button></div>
+          <div class="focus-note"><span>◎</span><div><strong>A different point of view.</strong><br />The lens changes your view. The graph keeps its shape.</div></div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/demo/main.ts"></script>
+  </body>
+</html>

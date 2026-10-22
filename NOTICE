@@ -1,0 +1,37 @@
+fm4 — TypeScript adaptation of the classic Java graph browser core
+
+This product includes software developed by TouchGraph LLC
+(http://www.touchgraph.com/).
+
+This product includes software developed by TouchGraph
+(http://www.touchgraph.com/).
+
+Copyright (c) 2001-2002 Alexander Shapiro. All rights reserved.
+HyperScroll: Copyright (c) 2001 Alexander Shapiro. All rights reserved.
+
+Adapted classes: Node, Edge, GraphEltSet, Locality, VisibleLocality,
+GESUtils, LocalityUtils, TGLayout, TGPanel, TGPoint2D, TGAbstractLens,
+TGLensSet, and the HyperScroll lens calculations. The original code
+notes that parts build upon Sun's Graph Layout example:
+http://java.sun.com/applets/jdk/1.1/demo/GraphLayout/Graph.java
+
+Reference: componavt/wikokit, commit
+0db2310283d792abbaa57746fe9fe475fe9e6ab8
+TGWikiBrowser/src/com/touchgraph/graphlayout/
+https://github.com/componavt/wikokit/tree/0db2310283d792abbaa57746fe9fe475fe9e6ab8/TGWikiBrowser/src/com/touchgraph/graphlayout
+
+The TypeScript adaptation replaces Java threads with event-loop scheduling,
+Swing painting with SVG, and Java collections with JavaScript collections.
+Core layout calculations follow TGLayout 1.21. The nonlinear lens follows
+HyperScroll 1.06, including its sampled inverse. Locality additions at
+equal distance use stable BFS ordering rather than Hashtable ordering.
+
+Unmodified reference Java files used in tests retain their original
+copyright and license headers. Headless test hosts and field carriers are
+identified in their source comments and are not upstream implementations.
+
+D3 dependencies (d3-selection, d3-drag, d3-zoom and their dependencies)
+are distributed under their respective ISC licenses. See the installed
+packages' LICENSE files. They supply browser interaction and rendering,
+and do not replace the original spring layout engine.
+The demo build includes their full notices in LICENSES-D3.txt.

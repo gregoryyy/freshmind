@@ -1,0 +1,37 @@
+{
+  "name": "fm4",
+  "version": "0.1.0",
+  "license": "SEE LICENSE IN LICENSE",
+  "description": "A TypeScript port of the classic Java graph browser API and spring embedder",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./core": { "types": "./dist/core.d.ts", "import": "./dist/core.js" }
+  },
+  "files": ["dist", "src", "LICENSE", "NOTICE", "README.md"],
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -p tsconfig.build.json",
+    "build:demo": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "test:java": "npm run build && node scripts/java-reference.mjs",
+    "test:browser": "playwright test",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "d3-drag": "^3.0.0",
+    "d3-selection": "^3.0.0",
+    "d3-zoom": "^3.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/d3-drag": "^3.0.7",
+    "@types/d3-selection": "^3.0.11",
+    "@types/d3-zoom": "^3.0.8",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}
