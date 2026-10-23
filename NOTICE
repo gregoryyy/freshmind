@@ -62,6 +62,13 @@ The yaml package is distributed under its ISC license. It parses Freshmind
 type configuration and is excluded from the headless core entry points.
 The demo build includes its full notice in LICENSE-YAML.txt.
 
+Graphology, graphology-components, graphology-communities-louvain and their
+graphology-indices, graphology-utils, graphology-types, mnemonist, obliterator,
+pandemonium and events dependencies are distributed under their respective
+MIT licenses. They provide detached clustering projections, not a replacement
+for TouchGraph's graph model or physics. See the installed packages' license
+files; the production demo includes their full notices in LICENSES-CLUSTERING.txt.
+
 Public example graph representations from NetworkX 3.4.2
 
 Copyright (C) 2004-2024, NetworkX Developers. All rights reserved.

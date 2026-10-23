@@ -12,14 +12,56 @@ import type { NodeStyle, EdgeStyle } from "../config/types.js";
 import type { EdgeGeometry } from "./geometry.js";
 import { createNodeOutline, dashArray } from "./shapes.js";
 import type { NodeOutline } from "./shapes.js";
+import {createClusterBoundary} from "./cluster-boundary.js";
+
+export interface ClusterRegion {id:string;nodes:FreshNode[];edges:FreshEdge[];}
 
 export interface EdgeInteraction {
   hover(edge: FreshEdge | null): void;
   select(edge: FreshEdge): void;
 }
+let nextHaloId = 0;
 /** SVG extension only: registry/model/geometry remain usable without DOM or D3. */
 export class FreshmindPresentation {
+  private readonly haloFilterId = `fm-rfc-glow-${++nextHaloId}`;
   private readonly measurements = new WeakMap<SVGGElement, { key: string; width: number; height: number; outline: NodeOutline }>();
+  /** Draws translucent rounded enclosures behind halos/edges, without owning interaction or physical forces. */
+  paintClusterRegions(layer:SVGGElement,clusters:ClusterRegion[],geometries:Map<FreshEdge,EdgeGeometry>,nodeStyle:(node:FreshNode)=>NodeStyle):void {
+    const root=select(layer).selectAll<SVGGElement,null>("g.fm-cluster-regions").data(clusters.length?[null]:[])
+      .join("g").attr("class","fm-cluster-regions").attr("aria-hidden","true").style("pointer-events","none").lower();
+    const colors=["#b58a21","#268b83","#7766a5","#ba6e4d","#628847","#5d85aa"];
+    const color=(id:string)=>{let hash=0;for(const c of id)hash=(Math.imul(hash,31)+c.charCodeAt(0))>>>0;return colors[hash%colors.length];};
+    root.selectAll<SVGPathElement,ClusterRegion>("path.fm-cluster-boundary").data(clusters,c=>c.id).join("path")
+      .attr("class","fm-cluster-boundary").attr("data-structure-id",c=>c.id)
+      .attr("d",c=>createClusterBoundary(c.nodes.map(node=>{const stroke=nodeStyle(node).stroke.width;return {x:node.drawx,y:node.drawy,width:node.getWidth()+stroke,height:node.getHeight()+stroke};}),
+        c.edges.flatMap(edge=>{const geometry=geometries.get(edge);return geometry?[geometry.start,geometry.control,geometry.end]:[];})))
+      .attr("fill",c=>color(c.id)).attr("fill-opacity",.1).attr("stroke",c=>color(c.id)).attr("stroke-opacity",.65)
+      .attr("stroke-width",1.5).attr("stroke-linejoin","round");
+  }
+  /** Paints transient RFC membership beneath semantic edges/nodes, reusing their exact geometry. */
+  paintRfcHalos(layer: SVGGElement, nodes: FreshNode[], edges: FreshEdge[], geometries: Map<FreshEdge, EdgeGeometry>,
+    nodeStyle: (node: FreshNode) => NodeStyle, edgeStyle: (edge: FreshEdge) => EdgeStyle): void {
+    const background = select(layer).selectAll<SVGGElement, null>("g.fm-rfc-halos").data(nodes.length ? [null] : [])
+      .join(enter => enter.insert("g", ":first-child").attr("class", "fm-rfc-halos")
+        .attr("aria-hidden", "true").style("pointer-events", "none"));
+    // Blur the combined silhouette: yellow fades out instead of forming an outline.
+    // A group bounding box remains nonzero even for a horizontal/vertical edge.
+    background.attr("filter", `url(#${this.haloFilterId})`);
+    const filter = background.selectAll("defs").data([null]).join("defs")
+      .selectAll("filter").data([null]).join("filter").attr("id", this.haloFilterId)
+      .attr("x", "-100%").attr("y", "-100%").attr("width", "300%").attr("height", "300%");
+    filter.selectAll("feGaussianBlur").data([null]).join("feGaussianBlur").attr("stdDeviation", 5);
+    background.selectAll<SVGPathElement, FreshEdge>("path.fm-rfc-edge-halo").data(edges, edge => edge.getID()!).join("path")
+      .attr("class", "fm-rfc-edge-halo").attr("data-rfc-edge-id", edge => edge.getID())
+      .attr("d", edge => geometries.get(edge)!.path).attr("fill", "none").attr("stroke", "#ffda35")
+      .attr("stroke-width", edge => edgeStyle(edge).stroke.width * Math.max(.5, edge.getWeight() / 10) + 14)
+      .attr("stroke-opacity", .55).attr("stroke-linecap", "round").attr("stroke-linejoin", "round");
+    background.selectAll<SVGPathElement, FreshNode>("path.fm-rfc-node-halo").data(nodes, node => node.getID()!).join("path")
+      .attr("class", "fm-rfc-node-halo").attr("data-rfc-node-id", node => node.getID())
+      .attr("d", node => createNodeOutline(nodeStyle(node).shape, node.getWidth() + 20, node.getHeight() + 20).path)
+      .attr("transform", node => `translate(${node.drawx},${node.drawy})`)
+      .attr("fill", "#ffda35").attr("fill-opacity", .45).attr("stroke", "none");
+  }
   /**
    * Paints a node inside TGPanel's existing focusable group, retaining its input handlers.
    * Measures/wraps SVG text, updates body dimensions and caches the matching local hit outline.
@@ -88,7 +130,9 @@ export class FreshmindPresentation {
       group.append("text").attr("class","fm-edge-label").style("pointer-events","none");
       return group;
     });
-    groups.attr("data-edge-id",edge=>edge.getID()).attr("data-semantic-type",edge=>edge.getSemanticType())
+    // Native SVG focus outlines enclose the whole curve/label bounding box.
+    // Keyboard focus is shown on the routed stroke below, alongside selection color.
+    groups.style("outline","none").attr("data-edge-id",edge=>edge.getID()).attr("data-semantic-type",edge=>edge.getSemanticType())
       .attr("aria-pressed",edge=>String(edge===selected))
       .attr("aria-label",edge=>`${edge.from.getLabel()} → ${edge.to.getLabel()}, ${edge.getLabel()||"Unlabeled relation"}, ${edge.getSemanticType()}`)
       .attr("opacity",edge=>(edge.from.markedForRemoval||edge.to.markedForRemoval)?0.15:1)
@@ -98,7 +142,7 @@ export class FreshmindPresentation {
     groups.each((edge,index,elements)=>{
       const group=select(elements[index]),style=styleOf(edge),geometry=geometries.get(edge)!;
       edge.setGeometry(geometry);
-      const width=style.stroke.width*Math.max(.5,edge.getWeight()/10),size=style.arrow.size;
+      const width=style.stroke.width*Math.max(.5,edge.getWeight()/10)+(elements[index].matches(":focus-visible")?2:0),size=style.arrow.size;
       group.select(".fm-edge-path").attr("d",geometry.path).attr("stroke",style.stroke.color)
         .attr("stroke-width",width).attr("stroke-dasharray",dashArray(style.stroke.dash));
       group.select(".fm-edge-hit").attr("d",geometry.path).attr("stroke-width",Math.max(12,width+8));

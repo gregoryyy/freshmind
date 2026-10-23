@@ -1,0 +1,3214 @@
+{
+  "description": "Separate opt-in RFC damping experiment; fixed force laws, movable center, radial stiffness 2, virtual monotonic clock at 2 ms per step.",
+  "seed": "0x1234abcd",
+  "batches": 400,
+  "millisecondsPerBatch": 20,
+  "quietMs": 500,
+  "recoveryMs": 3000,
+  "results": [
+    {
+      "enabled": false,
+      "name": "crowded-star",
+      "trace": [
+        {
+          "batch": 10,
+          "time": 200,
+          "movement": 32.09826026049078,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.2246280499480277,
+          "radialLengthRms": 33.3563532584661
+        },
+        {
+          "batch": 20,
+          "time": 400,
+          "movement": 31.11622343902938,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24649787243400434,
+          "radialLengthRms": 28.566913898789487
+        },
+        {
+          "batch": 30,
+          "time": 600,
+          "movement": 13.746775898226671,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.23199989094777876,
+          "radialLengthRms": 28.147961589220973
+        },
+        {
+          "batch": 40,
+          "time": 800,
+          "movement": 31.277597848136637,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22608466568672253,
+          "radialLengthRms": 33.36263033547607
+        },
+        {
+          "batch": 50,
+          "time": 1000,
+          "movement": 30.685053127087546,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24497732323364788,
+          "radialLengthRms": 28.497949001807818
+        },
+        {
+          "batch": 60,
+          "time": 1200,
+          "movement": 12.972054084631564,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.23256690569885574,
+          "radialLengthRms": 28.225602596811612
+        },
+        {
+          "batch": 70,
+          "time": 1400,
+          "movement": 30.615805985386086,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22720270020219274,
+          "radialLengthRms": 33.3754774655745
+        },
+        {
+          "batch": 80,
+          "time": 1600,
+          "movement": 30.345820313722886,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24371707207927173,
+          "radialLengthRms": 28.439991613800423
+        },
+        {
+          "batch": 90,
+          "time": 1800,
+          "movement": 12.226502563520091,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.23310138043188194,
+          "radialLengthRms": 28.29812153920928
+        },
+        {
+          "batch": 100,
+          "time": 2000,
+          "movement": 30.046205008277177,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.2280636310070993,
+          "radialLengthRms": 33.391771293912726
+        },
+        {
+          "batch": 110,
+          "time": 2200,
+          "movement": 30.089267139241404,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.2427191250702847,
+          "radialLengthRms": 28.393086624244294
+        },
+        {
+          "batch": 120,
+          "time": 2400,
+          "movement": 11.520089211718213,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.2330150550085707,
+          "radialLengthRms": 28.338911527051938
+        },
+        {
+          "batch": 130,
+          "time": 2600,
+          "movement": 29.834038694380283,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22813624592994092,
+          "radialLengthRms": 33.43577464717782
+        },
+        {
+          "batch": 140,
+          "time": 2800,
+          "movement": 30.092736670452002,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24280067325003346,
+          "radialLengthRms": 28.417317763979977
+        },
+        {
+          "batch": 150,
+          "time": 3000,
+          "movement": 10.88524782270434,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.231813147934543,
+          "radialLengthRms": 28.324615358527613
+        },
+        {
+          "batch": 160,
+          "time": 3200,
+          "movement": 29.76925328859273,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22779343378762484,
+          "radialLengthRms": 33.48238002279824
+        },
+        {
+          "batch": 170,
+          "time": 3400,
+          "movement": 30.12430802097873,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24299806631810972,
+          "radialLengthRms": 28.44513910162243
+        },
+        {
+          "batch": 180,
+          "time": 3600,
+          "movement": 10.299515323485009,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.230765408194101,
+          "radialLengthRms": 28.31550565184723
+        },
+        {
+          "batch": 190,
+          "time": 3800,
+          "movement": 29.649341568908735,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22738073744815773,
+          "radialLengthRms": 33.515226507887746
+        },
+        {
+          "batch": 200,
+          "time": 4000,
+          "movement": 30.159086220311607,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24327165829162664,
+          "radialLengthRms": 28.47556549132196
+        },
+        {
+          "batch": 210,
+          "time": 4200,
+          "movement": 9.760353406180725,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22984982391451544,
+          "radialLengthRms": 28.311570646607528
+        },
+        {
+          "batch": 220,
+          "time": 4400,
+          "movement": 29.48300575326635,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.2269455587162785,
+          "radialLengthRms": 33.540649557508594
+        },
+        {
+          "batch": 230,
+          "time": 4600,
+          "movement": 30.09231865975542,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24344502401258686,
+          "radialLengthRms": 28.518564824086898
+        },
+        {
+          "batch": 240,
+          "time": 4800,
+          "movement": 9.1883296848284,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22895334370355022,
+          "radialLengthRms": 28.315012159000993
+        },
+        {
+          "batch": 250,
+          "time": 5000,
+          "movement": 29.301448365921953,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22670138833059605,
+          "radialLengthRms": 33.575567767584026
+        },
+        {
+          "batch": 260,
+          "time": 5200,
+          "movement": 29.881354685940902,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24370699099534018,
+          "radialLengthRms": 28.576295877093067
+        },
+        {
+          "batch": 270,
+          "time": 5400,
+          "movement": 8.788908280760296,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22784686405073687,
+          "radialLengthRms": 28.296842987725167
+        },
+        {
+          "batch": 280,
+          "time": 5600,
+          "movement": 29.349281317966163,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.22794579034347506,
+          "radialLengthRms": 33.55458333183718
+        },
+        {
+          "batch": 290,
+          "time": 5800,
+          "movement": 30.21461233728053,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.24320335605273002,
+          "radialLengthRms": 28.69237442917304
+        },
+        {
+          "batch": 300,
+          "time": 6000,
+          "movement": 2.3735061677125913,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.19797923156459074,
+          "radialLengthRms": 30.02504156476511
+        },
+        {
+          "batch": 310,
+          "time": 6200,
+          "movement": 20.365345866930863,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.03480685371986794,
+          "radialLengthRms": 5.1700345036235875
+        },
+        {
+          "batch": 320,
+          "time": 6400,
+          "movement": 3.6387744376652265,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.00847299181958327,
+          "radialLengthRms": 1.5797136766431816
+        },
+        {
+          "batch": 330,
+          "time": 6600,
+          "movement": 2.27926341797552,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.008319826994120011,
+          "radialLengthRms": 1.5728664806100592
+        },
+        {
+          "batch": 340,
+          "time": 6800,
+          "movement": 2.3590884098122387,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.011386936417358932,
+          "radialLengthRms": 1.524172301872563
+        },
+        {
+          "batch": 350,
+          "time": 7000,
+          "movement": 2.269685124619948,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.01454340296373791,
+          "radialLengthRms": 1.1071462478862106
+        },
+        {
+          "batch": 360,
+          "time": 7200,
+          "movement": 1.5839655691917571,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.014597502927330691,
+          "radialLengthRms": 0.9376334867511524
+        },
+        {
+          "batch": 370,
+          "time": 7400,
+          "movement": 1.0575928074733305,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.014531373541226609,
+          "radialLengthRms": 0.8710742739804004
+        },
+        {
+          "batch": 380,
+          "time": 7600,
+          "movement": 0.6718247587163563,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.014536294064818548,
+          "radialLengthRms": 0.844800150794048
+        },
+        {
+          "batch": 390,
+          "time": 7800,
+          "movement": 0.41611265837431455,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.014579374908620555,
+          "radialLengthRms": 0.835401969829323
+        },
+        {
+          "batch": 400,
+          "time": 8000,
+          "movement": 0.26020090329324674,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.014626936199327482,
+          "radialLengthRms": 0.8325903986773986
+        }
+      ],
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "positions": [
+        [
+          179.78938173693652,
+          35.75917986858906
+        ],
+        [
+          76.87628233989042,
+          95.00730427942207
+        ],
+        [
+          75.75564102710378,
+          -21.56955411179778
+        ],
+        [
+          177.13048618525633,
+          -84.90048417023799
+        ],
+        [
+          283.26230573204475,
+          -24.475260886915454
+        ],
+        [
+          284.3922518310345,
+          94.0464072961194
+        ],
+        [
+          179.3704674093139,
+          156.4680620772475
+        ],
+        [
+          230,
+          -70
+        ],
+        [
+          230,
+          140
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "name": "crowded-star",
+      "trace": [
+        {
+          "batch": 10,
+          "time": 200,
+          "movement": 3.3640221705459847,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.33164202465751186,
+          "angularGapRms": 0.008431137558197414,
+          "radialLengthRms": 1.7716788397780558
+        },
+        {
+          "batch": 20,
+          "time": 400,
+          "movement": 2.351529556033573,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.23243744263674862,
+          "angularGapRms": 0.007909194608486398,
+          "radialLengthRms": 1.6465702760883274
+        },
+        {
+          "batch": 30,
+          "time": 600,
+          "movement": 1.6984141548264637,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.16794906603015633,
+          "angularGapRms": 0.008077823709010452,
+          "radialLengthRms": 1.6393148389650065
+        },
+        {
+          "batch": 40,
+          "time": 800,
+          "movement": 1.7368338579213496,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.17522839681684907,
+          "angularGapRms": 0.010807158034961736,
+          "radialLengthRms": 1.5770351863357392
+        },
+        {
+          "batch": 50,
+          "time": 1000,
+          "movement": 1.7518463210641737,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.17384672376643137,
+          "angularGapRms": 0.013789339372784171,
+          "radialLengthRms": 1.2953370635420123
+        },
+        {
+          "batch": 60,
+          "time": 1200,
+          "movement": 1.3547765203993665,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.13418997099475166,
+          "angularGapRms": 0.014301563879584821,
+          "radialLengthRms": 1.1150944465745352
+        },
+        {
+          "batch": 70,
+          "time": 1400,
+          "movement": 1.0320564052581316,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.10224407788021253,
+          "angularGapRms": 0.014435355422440286,
+          "radialLengthRms": 1.005590699410273
+        },
+        {
+          "batch": 80,
+          "time": 1600,
+          "movement": 0.8333468572997893,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.08276326956343336,
+          "angularGapRms": 0.014469918604837395,
+          "radialLengthRms": 0.9333756994085671
+        },
+        {
+          "batch": 90,
+          "time": 1800,
+          "movement": 0.6760271406056497,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.06710256716860845,
+          "angularGapRms": 0.014466117405838535,
+          "radialLengthRms": 0.8892344580491962
+        },
+        {
+          "batch": 100,
+          "time": 2000,
+          "movement": 0.5464940735587913,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.127019584,
+          "detections": 3,
+          "maxStepDisplacement": 0.054326981788855117,
+          "angularGapRms": 0.01446854265892516,
+          "radialLengthRms": 0.8635962917656247
+        },
+        {
+          "batch": 110,
+          "time": 2200,
+          "movement": 0.4865905414787957,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.1470399988148148,
+          "detections": 3,
+          "maxStepDisplacement": 0.048517412431575126,
+          "angularGapRms": 0.014489593172755135,
+          "radialLengthRms": 0.8483431578963174
+        },
+        {
+          "batch": 120,
+          "time": 2400,
+          "movement": 0.44345961552868407,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.1859759691851852,
+          "detections": 3,
+          "maxStepDisplacement": 0.04415663542160817,
+          "angularGapRms": 0.014532550298170445,
+          "radialLengthRms": 0.8394262549157925
+        },
+        {
+          "batch": 130,
+          "time": 2600,
+          "movement": 0.3694330546099173,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.240716384,
+          "detections": 3,
+          "maxStepDisplacement": 0.036610569050078555,
+          "angularGapRms": 0.014593866319740122,
+          "radialLengthRms": 0.8355702210302285
+        },
+        {
+          "batch": 140,
+          "time": 2800,
+          "movement": 0.46988825080331975,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.3045250058518518,
+          "detections": 3,
+          "maxStepDisplacement": 0.6808895545337115,
+          "angularGapRms": 0.013138083582646303,
+          "radialLengthRms": 1.2220028748112612
+        },
+        {
+          "batch": 150,
+          "time": 3000,
+          "movement": 0.08306665950264065,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.1522625029259259,
+          "detections": 4,
+          "maxStepDisplacement": 0.008209579114728005,
+          "angularGapRms": 0.01468233274300203,
+          "radialLengthRms": 0.8355338262983378
+        },
+        {
+          "batch": 160,
+          "time": 3200,
+          "movement": 0.05971829778310678,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.1522625029259259,
+          "detections": 4,
+          "maxStepDisplacement": 0.005904112943493124,
+          "angularGapRms": 0.014700047140705047,
+          "radialLengthRms": 0.835888577970492
+        },
+        {
+          "batch": 170,
+          "time": 3400,
+          "movement": 0.04399316310760737,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.1545056163431839,
+          "detections": 4,
+          "maxStepDisplacement": 0.004360711520720654,
+          "angularGapRms": 0.014713301142166669,
+          "radialLengthRms": 0.8361876284543402
+        },
+        {
+          "batch": 180,
+          "time": 3600,
+          "movement": 0.034285379947087545,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.1744958944778921,
+          "detections": 4,
+          "maxStepDisplacement": 0.003364102186170006,
+          "angularGapRms": 0.014723691798617124,
+          "radialLengthRms": 0.8364246538825532
+        },
+        {
+          "batch": 190,
+          "time": 3800,
+          "movement": 0.02226305089621114,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.21272194810521594,
+          "detections": 4,
+          "maxStepDisplacement": 0.0021803589538445895,
+          "angularGapRms": 0.014730931779007013,
+          "radialLengthRms": 0.8365776801586428
+        },
+        {
+          "batch": 200,
+          "time": 4000,
+          "movement": 0.012879326749762773,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.26616959945778096,
+          "detections": 4,
+          "maxStepDisplacement": 0.0012797953170490101,
+          "angularGapRms": 0.014735382765185195,
+          "radialLengthRms": 0.8366590294427781
+        },
+        {
+          "batch": 210,
+          "time": 4200,
+          "movement": 0.013665013682967872,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.33182467076821265,
+          "detections": 4,
+          "maxStepDisplacement": 0.0013693256246737333,
+          "angularGapRms": 0.014738675765831778,
+          "radialLengthRms": 0.8367082026465568
+        },
+        {
+          "batch": 220,
+          "time": 4400,
+          "movement": 0.014375408583800334,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.40667298426913645,
+          "detections": 4,
+          "maxStepDisplacement": 0.0014397391805614516,
+          "angularGapRms": 0.014741927973184113,
+          "radialLengthRms": 0.8367426082481346
+        },
+        {
+          "batch": 230,
+          "time": 4600,
+          "movement": 0.014956535290210056,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.48770036219317797,
+          "detections": 4,
+          "maxStepDisplacement": 0.001497605548601268,
+          "angularGapRms": 0.014744987459627585,
+          "radialLengthRms": 0.8367557867067189
+        },
+        {
+          "batch": 240,
+          "time": 4800,
+          "movement": 0.015515515492467737,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.5718926267729627,
+          "detections": 4,
+          "maxStepDisplacement": 0.0015535498041320637,
+          "angularGapRms": 0.014747744432346421,
+          "radialLengthRms": 0.8367440249056918
+        },
+        {
+          "batch": 250,
+          "time": 5000,
+          "movement": 0.01608810063483393,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.6562356002411163,
+          "detections": 4,
+          "maxStepDisplacement": 0.0016107923656013662,
+          "angularGapRms": 0.014750156883542158,
+          "radialLengthRms": 0.8367074814976954
+        },
+        {
+          "batch": 260,
+          "time": 5200,
+          "movement": 0.0166136777598928,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.7377151048302639,
+          "detections": 4,
+          "maxStepDisplacement": 0.0016630022279496282,
+          "angularGapRms": 0.014752243153325498,
+          "radialLengthRms": 0.8366497979901824
+        },
+        {
+          "batch": 270,
+          "time": 5400,
+          "movement": 0.016985579433731805,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.8133169627730313,
+          "detections": 4,
+          "maxStepDisplacement": 0.0016994641341193236,
+          "angularGapRms": 0.014754055055662308,
+          "radialLengthRms": 0.8365766976052577
+        },
+        {
+          "batch": 280,
+          "time": 5600,
+          "movement": 0.017217953073983796,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.8800269963020441,
+          "detections": 4,
+          "maxStepDisplacement": 0.0017222394983457355,
+          "angularGapRms": 0.014755649861312812,
+          "radialLengthRms": 0.8364944196880649
+        },
+        {
+          "batch": 290,
+          "time": 5800,
+          "movement": 0.017141867656123622,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9348310276499276,
+          "detections": 4,
+          "maxStepDisplacement": 0.0017131963905259577,
+          "angularGapRms": 0.014757072755719226,
+          "radialLengthRms": 0.8364085983667653
+        },
+        {
+          "batch": 300,
+          "time": 6000,
+          "movement": 0.016692475291849914,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9747148790493073,
+          "detections": 4,
+          "maxStepDisplacement": 0.0018605509569252095,
+          "angularGapRms": 0.01475868551273436,
+          "radialLengthRms": 0.8362806206107799
+        },
+        {
+          "batch": 310,
+          "time": 6200,
+          "movement": 0.007405627285613448,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.4934959067409671,
+          "detections": 5,
+          "maxStepDisplacement": 0.0007389939425136771,
+          "angularGapRms": 0.01475929366965673,
+          "radialLengthRms": 0.8362578120800116
+        },
+        {
+          "batch": 320,
+          "time": 6400,
+          "movement": 0.006968397424732108,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.4934959067409671,
+          "detections": 5,
+          "maxStepDisplacement": 0.0006953393420406947,
+          "angularGapRms": 0.01475978574299844,
+          "radialLengthRms": 0.8362225800286704
+        },
+        {
+          "batch": 330,
+          "time": 6600,
+          "movement": 0.006547568764431614,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.4934959067409671,
+          "detections": 5,
+          "maxStepDisplacement": 0.000653311558585881,
+          "angularGapRms": 0.01476023825620272,
+          "radialLengthRms": 0.8361897558201913
+        },
+        {
+          "batch": 340,
+          "time": 6800,
+          "movement": 0.006194445290051492,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.49797669347611734,
+          "detections": 5,
+          "maxStepDisplacement": 0.000618499719889484,
+          "angularGapRms": 0.014760656149217764,
+          "radialLengthRms": 0.8361591600364072
+        },
+        {
+          "batch": 350,
+          "time": 7000,
+          "movement": 0.005991606060226043,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.514272858623697,
+          "detections": 5,
+          "maxStepDisplacement": 0.0005986606512920817,
+          "angularGapRms": 0.014761049560820303,
+          "radialLengthRms": 0.8361301494495824
+        },
+        {
+          "batch": 360,
+          "time": 7200,
+          "movement": 0.00589179221416262,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.5407801462913787,
+          "detections": 5,
+          "maxStepDisplacement": 0.0005889584717594353,
+          "angularGapRms": 0.014761427650194238,
+          "radialLengthRms": 0.8361021101693775
+        },
+        {
+          "batch": 370,
+          "time": 7400,
+          "movement": 0.005851524835675719,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.5756976530364638,
+          "detections": 5,
+          "maxStepDisplacement": 0.0005850718768111073,
+          "angularGapRms": 0.01476179600772382,
+          "radialLengthRms": 0.8360746673333023
+        },
+        {
+          "batch": 380,
+          "time": 7600,
+          "movement": 0.005834449474291941,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.6172244754162535,
+          "detections": 5,
+          "maxStepDisplacement": 0.0005833889629025932,
+          "angularGapRms": 0.014762157425260868,
+          "radialLengthRms": 0.8360476409201153
+        },
+        {
+          "batch": 390,
+          "time": 7800,
+          "movement": 0.005024228042520612,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.6635597099880488,
+          "detections": 5,
+          "maxStepDisplacement": 0.0004937238020443568,
+          "angularGapRms": 0.014762504779345955,
+          "radialLengthRms": 0.8360215875983024
+        },
+        {
+          "batch": 400,
+          "time": 8000,
+          "movement": 0.000018812040833675094,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.712902453309151,
+          "detections": 5,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.014762642261788937,
+          "radialLengthRms": 0.8360112574063577
+        }
+      ],
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "positions": [
+        [
+          185.6445011764603,
+          32.07834643122015
+        ],
+        [
+          81.2611076859212,
+          88.88384732469366
+        ],
+        [
+          83.01966987996126,
+          -27.683161707292985
+        ],
+        [
+          185.81245640418024,
+          -88.74415674480241
+        ],
+        [
+          290.5911295235635,
+          -25.652967725413273
+        ],
+        [
+          288.7568202938055,
+          92.97705332710778
+        ],
+        [
+          182.21995483262106,
+          152.74714996409264
+        ],
+        [
+          230,
+          -70
+        ],
+        [
+          230,
+          140
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "name": "unequal-radii",
+      "trace": [
+        {
+          "batch": 10,
+          "time": 200,
+          "movement": 14.72675653589622,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16038031096743394,
+          "radialLengthRms": 28.253764189046862
+        },
+        {
+          "batch": 20,
+          "time": 400,
+          "movement": 13.273753224135275,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1800957433060497,
+          "radialLengthRms": 29.581709597473864
+        },
+        {
+          "batch": 30,
+          "time": 600,
+          "movement": 15.558654086200411,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1678826493038103,
+          "radialLengthRms": 29.92611127350492
+        },
+        {
+          "batch": 40,
+          "time": 800,
+          "movement": 14.483695871054817,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16045841444799255,
+          "radialLengthRms": 28.307898099205243
+        },
+        {
+          "batch": 50,
+          "time": 1000,
+          "movement": 12.709964722886053,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.17890410552519298,
+          "radialLengthRms": 29.615565801569083
+        },
+        {
+          "batch": 60,
+          "time": 1200,
+          "movement": 15.196243081495666,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1669948993180728,
+          "radialLengthRms": 29.97065572894082
+        },
+        {
+          "batch": 70,
+          "time": 1400,
+          "movement": 14.206494187418004,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16055758870627918,
+          "radialLengthRms": 28.367399113526922
+        },
+        {
+          "batch": 80,
+          "time": 1600,
+          "movement": 12.099824762932583,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.17773829590125026,
+          "radialLengthRms": 29.648199494400142
+        },
+        {
+          "batch": 90,
+          "time": 1800,
+          "movement": 14.766891719985523,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1662277393446656,
+          "radialLengthRms": 30.00957728841042
+        },
+        {
+          "batch": 100,
+          "time": 2000,
+          "movement": 13.888589550889261,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16066679867173242,
+          "radialLengthRms": 28.432948782471012
+        },
+        {
+          "batch": 110,
+          "time": 2200,
+          "movement": 11.439561351325926,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.17659594572300202,
+          "radialLengthRms": 29.678609168915152
+        },
+        {
+          "batch": 120,
+          "time": 2400,
+          "movement": 14.271882332673773,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16556875068126092,
+          "radialLengthRms": 30.04402672002023
+        },
+        {
+          "batch": 130,
+          "time": 2600,
+          "movement": 13.523652511245183,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16077747836502398,
+          "radialLengthRms": 28.50508533021241
+        },
+        {
+          "batch": 140,
+          "time": 2800,
+          "movement": 10.74980176340209,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.17543582823924178,
+          "radialLengthRms": 29.709504798071418
+        },
+        {
+          "batch": 150,
+          "time": 3000,
+          "movement": 13.710473711477007,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1650675612818686,
+          "radialLengthRms": 30.081444617500452
+        },
+        {
+          "batch": 160,
+          "time": 3200,
+          "movement": 13.105500875367515,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1609118758780836,
+          "radialLengthRms": 28.579209951102946
+        },
+        {
+          "batch": 170,
+          "time": 3400,
+          "movement": 10.056386761632751,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.17420289112565682,
+          "radialLengthRms": 29.744478744356172
+        },
+        {
+          "batch": 180,
+          "time": 3600,
+          "movement": 13.082550599989256,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16469662552175174,
+          "radialLengthRms": 30.1206333031415
+        },
+        {
+          "batch": 190,
+          "time": 3800,
+          "movement": 12.628221790224375,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16102817141040005,
+          "radialLengthRms": 28.66219024313588
+        },
+        {
+          "batch": 200,
+          "time": 4000,
+          "movement": 9.283149942358417,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.173007061411207,
+          "radialLengthRms": 29.773622815193786
+        },
+        {
+          "batch": 210,
+          "time": 4200,
+          "movement": 1.9934611727074196,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1477441950030988,
+          "radialLengthRms": 22.114529059514762
+        },
+        {
+          "batch": 220,
+          "time": 4400,
+          "movement": 3.3305047762698776,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.00950404017583086,
+          "radialLengthRms": 2.181517465827068
+        },
+        {
+          "batch": 230,
+          "time": 4600,
+          "movement": 2.245657112429661,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.009502551265447521,
+          "radialLengthRms": 2.118496533374837
+        },
+        {
+          "batch": 240,
+          "time": 4800,
+          "movement": 1.6676480627230965,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.010421965237071486,
+          "radialLengthRms": 2.074470480115685
+        },
+        {
+          "batch": 250,
+          "time": 5000,
+          "movement": 1.2420357750687183,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.011056222786445644,
+          "radialLengthRms": 2.013420723843991
+        },
+        {
+          "batch": 260,
+          "time": 5200,
+          "movement": 0.8979539254378289,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.011329350297912136,
+          "radialLengthRms": 1.959408342668196
+        },
+        {
+          "batch": 270,
+          "time": 5400,
+          "movement": 0.6822435182838038,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.011300963424753034,
+          "radialLengthRms": 1.9136518415287003
+        },
+        {
+          "batch": 280,
+          "time": 5600,
+          "movement": 0.6902173823738749,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.01088350166589989,
+          "radialLengthRms": 1.8677206313889163
+        },
+        {
+          "batch": 290,
+          "time": 5800,
+          "movement": 0.9132635557571015,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.009900423568989895,
+          "radialLengthRms": 1.8115648571111846
+        },
+        {
+          "batch": 300,
+          "time": 6000,
+          "movement": 1.4239310198999395,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.008325731053408024,
+          "radialLengthRms": 1.7269518101979877
+        },
+        {
+          "batch": 310,
+          "time": 6200,
+          "movement": 1.7677463149239316,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.007181676148152146,
+          "radialLengthRms": 1.6321204320410008
+        },
+        {
+          "batch": 320,
+          "time": 6400,
+          "movement": 1.5374038720053327,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.006480356004331328,
+          "radialLengthRms": 1.6027775371544686
+        },
+        {
+          "batch": 330,
+          "time": 6600,
+          "movement": 1.2141587269536747,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.006040979655759902,
+          "radialLengthRms": 1.6037638547757334
+        },
+        {
+          "batch": 340,
+          "time": 6800,
+          "movement": 0.9200483530898299,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.00587576764672267,
+          "radialLengthRms": 1.6086568050614447
+        },
+        {
+          "batch": 350,
+          "time": 7000,
+          "movement": 0.6773713757451337,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.005881496001530117,
+          "radialLengthRms": 1.613568878411159
+        },
+        {
+          "batch": 360,
+          "time": 7200,
+          "movement": 0.4905960092961875,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.0059685508283705314,
+          "radialLengthRms": 1.6180821673867714
+        },
+        {
+          "batch": 370,
+          "time": 7400,
+          "movement": 0.2590134200926322,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.006074005163640106,
+          "radialLengthRms": 1.621817044694967
+        },
+        {
+          "batch": 380,
+          "time": 7600,
+          "movement": 0.0013977820382743667,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.00609740377458114,
+          "radialLengthRms": 1.6225626280859482
+        },
+        {
+          "batch": 390,
+          "time": 7800,
+          "movement": 0,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.006097406181550977,
+          "radialLengthRms": 1.6225627038381611
+        },
+        {
+          "batch": 400,
+          "time": 8000,
+          "movement": 0,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.006097406181550977,
+          "radialLengthRms": 1.6225627038381611
+        }
+      ],
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "positions": [
+        [
+          192.17429689199201,
+          11.539014434579371
+        ],
+        [
+          172.5216999445796,
+          126.39060932388306
+        ],
+        [
+          80.93682796940341,
+          54.230111430630586
+        ],
+        [
+          99.16639363303122,
+          -64.5366063730949
+        ],
+        [
+          211.11377347410135,
+          -106.09938786469675
+        ],
+        [
+          305.3613350169256,
+          -31.25456019330052
+        ],
+        [
+          285.78218510632934,
+          88.36939941274862
+        ],
+        [
+          230,
+          -70
+        ],
+        [
+          230,
+          140
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "name": "unequal-radii",
+      "trace": [
+        {
+          "batch": 10,
+          "time": 200,
+          "movement": 2.0652836568692328,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.2044409593009126,
+          "angularGapRms": 0.009561104476937752,
+          "radialLengthRms": 2.1873358597898664
+        },
+        {
+          "batch": 20,
+          "time": 400,
+          "movement": 1.6059008519880038,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.15933747051614397,
+          "angularGapRms": 0.009313538822829873,
+          "radialLengthRms": 2.1326311280688808
+        },
+        {
+          "batch": 30,
+          "time": 600,
+          "movement": 1.312268547130278,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.13038827726465058,
+          "angularGapRms": 0.009708252011727574,
+          "radialLengthRms": 2.103159788157131
+        },
+        {
+          "batch": 40,
+          "time": 800,
+          "movement": 1.1047567214997351,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.10983486407582362,
+          "angularGapRms": 0.01034606339412461,
+          "radialLengthRms": 2.069532687055439
+        },
+        {
+          "batch": 50,
+          "time": 1000,
+          "movement": 0.9347708293094328,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.0929194241306867,
+          "angularGapRms": 0.010857866975927319,
+          "radialLengthRms": 2.026854338170287
+        },
+        {
+          "batch": 60,
+          "time": 1200,
+          "movement": 0.7838663498016654,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.07788939788334823,
+          "angularGapRms": 0.011170746476257622,
+          "radialLengthRms": 1.9836384814047263
+        },
+        {
+          "batch": 70,
+          "time": 1400,
+          "movement": 0.6518646714518708,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.06476460392007467,
+          "angularGapRms": 0.011324450103896481,
+          "radialLengthRms": 1.944662722706749
+        },
+        {
+          "batch": 80,
+          "time": 1600,
+          "movement": 0.5847589215221572,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.13487799348148147,
+          "detections": 3,
+          "maxStepDisplacement": 0.058431901054428546,
+          "angularGapRms": 0.011339594684110933,
+          "radialLengthRms": 1.9090502129124782
+        },
+        {
+          "batch": 90,
+          "time": 1800,
+          "movement": 0.6568541309833961,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.16512276385185184,
+          "detections": 3,
+          "maxStepDisplacement": 0.06624024112872143,
+          "angularGapRms": 0.011155072217254154,
+          "radialLengthRms": 1.8701317632178551
+        },
+        {
+          "batch": 100,
+          "time": 2000,
+          "movement": 0.963773767576201,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.21266531200000002,
+          "detections": 3,
+          "maxStepDisplacement": 0.09830210141737873,
+          "angularGapRms": 0.010480509811044024,
+          "radialLengthRms": 1.8170490787224138
+        },
+        {
+          "batch": 110,
+          "time": 2200,
+          "movement": 1.4971413433769405,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.21377123318518518,
+          "detections": 3,
+          "maxStepDisplacement": 0.15235891796197237,
+          "angularGapRms": 0.008887292580708408,
+          "radialLengthRms": 1.7335936081553875
+        },
+        {
+          "batch": 120,
+          "time": 2400,
+          "movement": 2.148319959317693,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.21377123318518518,
+          "detections": 3,
+          "maxStepDisplacement": 0.21560194130391452,
+          "angularGapRms": 0.007339527649724082,
+          "radialLengthRms": 1.623113036106862
+        },
+        {
+          "batch": 130,
+          "time": 2600,
+          "movement": 1.9605599052842404,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.21377123318518518,
+          "detections": 3,
+          "maxStepDisplacement": 0.19468697292183967,
+          "angularGapRms": 0.006464862919392547,
+          "radialLengthRms": 1.5881207014417604
+        },
+        {
+          "batch": 140,
+          "time": 2800,
+          "movement": 1.4735865495470999,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.21377123318518518,
+          "detections": 3,
+          "maxStepDisplacement": 0.1455948140274473,
+          "angularGapRms": 0.0059978139667888645,
+          "radialLengthRms": 1.5932490517039921
+        },
+        {
+          "batch": 150,
+          "time": 3000,
+          "movement": 1.0091458161274516,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.21377123318518518,
+          "detections": 3,
+          "maxStepDisplacement": 0.09947045689576567,
+          "angularGapRms": 0.005926608832885945,
+          "radialLengthRms": 1.6010002800492003
+        },
+        {
+          "batch": 160,
+          "time": 3200,
+          "movement": 0.6512881959965106,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.21377123318518518,
+          "detections": 3,
+          "maxStepDisplacement": 0.06408315748041477,
+          "angularGapRms": 0.0060434194262372395,
+          "radialLengthRms": 1.6077945751826392
+        },
+        {
+          "batch": 170,
+          "time": 3400,
+          "movement": 0.4043584643871647,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.21377123318518518,
+          "detections": 3,
+          "maxStepDisplacement": 0.03974168101076205,
+          "angularGapRms": 0.006202626891659062,
+          "radialLengthRms": 1.6130707398199025
+        },
+        {
+          "batch": 180,
+          "time": 3600,
+          "movement": 0.24716509600867465,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.2165403388224338,
+          "detections": 3,
+          "maxStepDisplacement": 0.024311960668969453,
+          "angularGapRms": 0.006339725298981133,
+          "radialLengthRms": 1.6165199238705759
+        },
+        {
+          "batch": 190,
+          "time": 3800,
+          "movement": 0.157403574356303,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.23635507421687166,
+          "detections": 3,
+          "maxStepDisplacement": 0.015496755370473392,
+          "angularGapRms": 0.0064433972493609225,
+          "radialLengthRms": 1.6182040067945294
+        },
+        {
+          "batch": 200,
+          "time": 4000,
+          "movement": 0.12883642835717865,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.27288678036882985,
+          "detections": 3,
+          "maxStepDisplacement": 0.013014790341119596,
+          "angularGapRms": 0.0065194127899632325,
+          "radialLengthRms": 1.6180663867188563
+        },
+        {
+          "batch": 210,
+          "time": 4200,
+          "movement": 0.0627385892741763,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.14878090224336654,
+          "detections": 4,
+          "maxStepDisplacement": 0.006217701032263695,
+          "angularGapRms": 0.006563176107784088,
+          "radialLengthRms": 1.6165116500617993
+        },
+        {
+          "batch": 220,
+          "time": 4400,
+          "movement": 0.04386096192094661,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.14878090224336654,
+          "detections": 4,
+          "maxStepDisplacement": 0.004321871291864383,
+          "angularGapRms": 0.006578493987621328,
+          "radialLengthRms": 1.6154873113597583
+        },
+        {
+          "batch": 230,
+          "time": 4600,
+          "movement": 0.02651002115286539,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.14878090224336654,
+          "detections": 4,
+          "maxStepDisplacement": 0.002650443051040455,
+          "angularGapRms": 0.006587035813169897,
+          "radialLengthRms": 1.6147884807234798
+        },
+        {
+          "batch": 240,
+          "time": 4800,
+          "movement": 0.02769175539033149,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.1570392392567235,
+          "detections": 4,
+          "maxStepDisplacement": 0.0027798903137349388,
+          "angularGapRms": 0.006593698520014947,
+          "radialLengthRms": 1.6141825503453895
+        },
+        {
+          "batch": 250,
+          "time": 5000,
+          "movement": 0.03250622838952432,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.18517073154029032,
+          "detections": 4,
+          "maxStepDisplacement": 0.003273528262529173,
+          "angularGapRms": 0.006600857541247759,
+          "radialLengthRms": 1.6134780455951976
+        },
+        {
+          "batch": 260,
+          "time": 5200,
+          "movement": 0.04064418286154762,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.23034173856294993,
+          "detections": 4,
+          "maxStepDisplacement": 0.004098488021726139,
+          "angularGapRms": 0.006609323705572158,
+          "radialLengthRms": 1.6125851955433104
+        },
+        {
+          "batch": 270,
+          "time": 5400,
+          "movement": 0.05190319845642985,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.28952570353267876,
+          "detections": 4,
+          "maxStepDisplacement": 0.005235182030445402,
+          "angularGapRms": 0.006619837320711841,
+          "radialLengthRms": 1.611411449547413
+        },
+        {
+          "batch": 280,
+          "time": 5600,
+          "movement": 0.06627415507987144,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.35969606965745315,
+          "detections": 4,
+          "maxStepDisplacement": 0.006683387207888315,
+          "angularGapRms": 0.006633253143481959,
+          "radialLengthRms": 1.6098599475147652
+        },
+        {
+          "batch": 290,
+          "time": 5800,
+          "movement": 0.08394362203128297,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.4378262801452496,
+          "detections": 4,
+          "maxStepDisplacement": 0.008462434384731066,
+          "angularGapRms": 0.006650792429163847,
+          "radialLengthRms": 1.6078290431567606
+        },
+        {
+          "batch": 300,
+          "time": 6000,
+          "movement": 0.10528324614873413,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.5208897782040446,
+          "detections": 4,
+          "maxStepDisplacement": 0.010610099666222087,
+          "angularGapRms": 0.006674369985735883,
+          "radialLengthRms": 1.6052136110623934
+        },
+        {
+          "batch": 310,
+          "time": 6200,
+          "movement": 0.1308208917377792,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.6058600070418143,
+          "detections": 4,
+          "maxStepDisplacement": 0.013179628486962695,
+          "angularGapRms": 0.006707000342312677,
+          "radialLengthRms": 1.6019085248989275
+        },
+        {
+          "batch": 320,
+          "time": 6400,
+          "movement": 0.16117196326413347,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.6897104098665354,
+          "detections": 4,
+          "maxStepDisplacement": 0.016232662389426066,
+          "angularGapRms": 0.006753289501345666,
+          "radialLengthRms": 1.5978157563023625
+        },
+        {
+          "batch": 330,
+          "time": 6600,
+          "movement": 0.19688262183385058,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.769414429886184,
+          "detections": 4,
+          "maxStepDisplacement": 0.019823124215995008,
+          "angularGapRms": 0.0068199895282975145,
+          "radialLengthRms": 1.5928587450394749
+        },
+        {
+          "batch": 340,
+          "time": 6800,
+          "movement": 0.238099330993108,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.841945510308737,
+          "detections": 4,
+          "maxStepDisplacement": 0.023963369928317036,
+          "angularGapRms": 0.006916453237753131,
+          "radialLengthRms": 1.5870099458133728
+        },
+        {
+          "batch": 350,
+          "time": 7000,
+          "movement": 0.2839534432104707,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9042770943421703,
+          "detections": 4,
+          "maxStepDisplacement": 0.02856148180913082,
+          "angularGapRms": 0.007054467620176205,
+          "radialLengthRms": 1.5803369839325236
+        },
+        {
+          "batch": 360,
+          "time": 7200,
+          "movement": 0.3316214257950927,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9533826251944604,
+          "detections": 4,
+          "maxStepDisplacement": 0.03332638190077305,
+          "angularGapRms": 0.007246365089395085,
+          "radialLengthRms": 1.5730636421018536
+        },
+        {
+          "batch": 370,
+          "time": 7400,
+          "movement": 0.375370834486324,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9862355460735841,
+          "detections": 4,
+          "maxStepDisplacement": 0.03767370513192695,
+          "angularGapRms": 0.007500073763259692,
+          "radialLengthRms": 1.5656162491905767
+        },
+        {
+          "batch": 380,
+          "time": 7600,
+          "movement": 0.40659956185220764,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9998093001875175,
+          "detections": 4,
+          "maxStepDisplacement": 0.040735752174378956,
+          "angularGapRms": 0.00781148551312656,
+          "radialLengthRms": 1.5585911028494495
+        },
+        {
+          "batch": 390,
+          "time": 7800,
+          "movement": 0.42440679337658327,
+          "enabled": true,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 4,
+          "maxStepDisplacement": 0.04248186935352219,
+          "angularGapRms": 0.008161126488565788,
+          "radialLengthRms": 1.552556620391633
+        },
+        {
+          "batch": 400,
+          "time": 8000,
+          "movement": 0.2425081004146079,
+          "enabled": true,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 4,
+          "maxStepDisplacement": 0.023167037723699598,
+          "angularGapRms": 0.00846791906540916,
+          "radialLengthRms": 1.5484396205152686
+        }
+      ],
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "positions": [
+        [
+          215.7492575592508,
+          9.138826556703323
+        ],
+        [
+          180.8753088405746,
+          120.43254144564881
+        ],
+        [
+          99.78902617199974,
+          36.866847127206306
+        ],
+        [
+          133.33242816222284,
+          -78.74412230063152
+        ],
+        [
+          251.2157537523803,
+          -104.83770034262777
+        ],
+        [
+          333.31756662551464,
+          -18.321867813844452
+        ],
+        [
+          298.46999884728217,
+          97.6163388011188
+        ],
+        [
+          230,
+          -70
+        ],
+        [
+          230,
+          140
+        ]
+      ]
+    },
+    {
+      "enabled": false,
+      "name": "wide-labels",
+      "trace": [
+        {
+          "batch": 10,
+          "time": 200,
+          "movement": 30.75243092557972,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16368733367483393,
+          "radialLengthRms": 25.321639686685536
+        },
+        {
+          "batch": 20,
+          "time": 400,
+          "movement": 17.729980304527814,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13846951644879504,
+          "radialLengthRms": 22.88641924124971
+        },
+        {
+          "batch": 30,
+          "time": 600,
+          "movement": 6.815816363581076,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.136579503682764,
+          "radialLengthRms": 21.646800104474973
+        },
+        {
+          "batch": 40,
+          "time": 800,
+          "movement": 21.651500172725445,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16547079954202393,
+          "radialLengthRms": 24.844665624877845
+        },
+        {
+          "batch": 50,
+          "time": 1000,
+          "movement": 17.159885885515124,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13532268840039316,
+          "radialLengthRms": 22.114794091253156
+        },
+        {
+          "batch": 60,
+          "time": 1200,
+          "movement": 5.015913145535378,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1369123962861143,
+          "radialLengthRms": 21.587771968974266
+        },
+        {
+          "batch": 70,
+          "time": 1400,
+          "movement": 21.05503512940862,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16513279117054858,
+          "radialLengthRms": 24.78757910095356
+        },
+        {
+          "batch": 80,
+          "time": 1600,
+          "movement": 17.105130455852684,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13532562836050369,
+          "radialLengthRms": 22.07300839079258
+        },
+        {
+          "batch": 90,
+          "time": 1800,
+          "movement": 4.545189554772018,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13718590569554628,
+          "radialLengthRms": 21.609054457285033
+        },
+        {
+          "batch": 100,
+          "time": 2000,
+          "movement": 20.37205402142587,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16460106589210916,
+          "radialLengthRms": 24.73834527370426
+        },
+        {
+          "batch": 110,
+          "time": 2200,
+          "movement": 16.954381643953024,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13532979397120953,
+          "radialLengthRms": 22.03218781637266
+        },
+        {
+          "batch": 120,
+          "time": 2400,
+          "movement": 3.8490100490080725,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1375970409615487,
+          "radialLengthRms": 21.678203212602654
+        },
+        {
+          "batch": 130,
+          "time": 2600,
+          "movement": 19.237628774668966,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1635477033782629,
+          "radialLengthRms": 24.67420903288314
+        },
+        {
+          "batch": 140,
+          "time": 2800,
+          "movement": 16.700834977809745,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13535309009649893,
+          "radialLengthRms": 21.994120225628613
+        },
+        {
+          "batch": 150,
+          "time": 3000,
+          "movement": 3.220850039127766,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13805501884096147,
+          "radialLengthRms": 21.759128741981122
+        },
+        {
+          "batch": 160,
+          "time": 3200,
+          "movement": 18.05482164982418,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16247666092113558,
+          "radialLengthRms": 24.605448418819705
+        },
+        {
+          "batch": 170,
+          "time": 3400,
+          "movement": 16.381643886891737,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13543248206897487,
+          "radialLengthRms": 21.964776398704693
+        },
+        {
+          "batch": 180,
+          "time": 3600,
+          "movement": 2.7558272197931144,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1385756070135504,
+          "radialLengthRms": 21.84719203750084
+        },
+        {
+          "batch": 190,
+          "time": 3800,
+          "movement": 16.837544178556758,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.16140063258778609,
+          "radialLengthRms": 24.53285611598242
+        },
+        {
+          "batch": 200,
+          "time": 4000,
+          "movement": 15.998757466758784,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13556437001440438,
+          "radialLengthRms": 21.944204900614498
+        },
+        {
+          "batch": 210,
+          "time": 4200,
+          "movement": 0.020014170618765093,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.14833701018413775,
+          "radialLengthRms": 23.27964452086075
+        },
+        {
+          "batch": 220,
+          "time": 4400,
+          "movement": 0.004926108782963179,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1483950377272443,
+          "radialLengthRms": 23.281070797713042
+        },
+        {
+          "batch": 230,
+          "time": 4600,
+          "movement": 0.008481134955477658,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.14844758985230083,
+          "radialLengthRms": 23.283067415219115
+        },
+        {
+          "batch": 240,
+          "time": 4800,
+          "movement": 0.00908176589089186,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.14842833725897825,
+          "radialLengthRms": 23.281121367297214
+        },
+        {
+          "batch": 250,
+          "time": 5000,
+          "movement": 0.00904551473408916,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.1484086931673735,
+          "radialLengthRms": 23.279238354133042
+        },
+        {
+          "batch": 260,
+          "time": 5200,
+          "movement": 5.485306891754933,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.13674397537201127,
+          "radialLengthRms": 21.329613620940567
+        },
+        {
+          "batch": 270,
+          "time": 5400,
+          "movement": 9.029937973760912,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.045304805722797076,
+          "radialLengthRms": 7.507606864003993
+        },
+        {
+          "batch": 280,
+          "time": 5600,
+          "movement": 1.3437493770870417,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027087831132623183,
+          "radialLengthRms": 5.741800571286639
+        },
+        {
+          "batch": 290,
+          "time": 5800,
+          "movement": 0.8745729510284307,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027289455678783398,
+          "radialLengthRms": 5.704695423758768
+        },
+        {
+          "batch": 300,
+          "time": 6000,
+          "movement": 0.5465021820853642,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.02745638050243773,
+          "radialLengthRms": 5.684938537976556
+        },
+        {
+          "batch": 310,
+          "time": 6200,
+          "movement": 0.36770057165839476,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.02757849892923631,
+          "radialLengthRms": 5.673880237539887
+        },
+        {
+          "batch": 320,
+          "time": 6400,
+          "movement": 0.24988082171858797,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.02766607147006234,
+          "radialLengthRms": 5.667312312586879
+        },
+        {
+          "batch": 330,
+          "time": 6600,
+          "movement": 0.16906347356870088,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027727199897885493,
+          "radialLengthRms": 5.663323350220997
+        },
+        {
+          "batch": 340,
+          "time": 6800,
+          "movement": 0.11666056738739732,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027769798641191806,
+          "radialLengthRms": 5.66081481966714
+        },
+        {
+          "batch": 350,
+          "time": 7000,
+          "movement": 0.08195347192580943,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027799850297515194,
+          "radialLengthRms": 5.6591742487587435
+        },
+        {
+          "batch": 360,
+          "time": 7200,
+          "movement": 0.05852388861945284,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027821338038233112,
+          "radialLengthRms": 5.658065131027296
+        },
+        {
+          "batch": 370,
+          "time": 7400,
+          "movement": 0.04242555657463963,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.02783691115153269,
+          "radialLengthRms": 5.657294070629133
+        },
+        {
+          "batch": 380,
+          "time": 7600,
+          "movement": 0.031177829715627884,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027848344196174636,
+          "radialLengthRms": 5.656745303795712
+        },
+        {
+          "batch": 390,
+          "time": 7800,
+          "movement": 0.023097067943736456,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027856858741952723,
+          "radialLengthRms": 5.656346046361763
+        },
+        {
+          "batch": 400,
+          "time": 8000,
+          "movement": 0,
+          "enabled": false,
+          "phase": "steady",
+          "gain": 1,
+          "detections": 0,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.027859564501898797,
+          "radialLengthRms": 5.656220845086576
+        }
+      ],
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "positions": [
+        [
+          459.91830381633866,
+          33.96572534040212
+        ],
+        [
+          376.4787194115864,
+          143.75963915607335
+        ],
+        [
+          241.46737110043642,
+          53.07528104959509
+        ],
+        [
+          316.2364103569438,
+          -58.95452215897992
+        ],
+        [
+          543.3212483094053,
+          -75.82470545238958
+        ],
+        [
+          678.3958467832576,
+          14.851695752615264
+        ],
+        [
+          603.5977953820523,
+          126.87879071303217
+        ],
+        [
+          460,
+          -70
+        ],
+        [
+          460,
+          140
+        ]
+      ]
+    },
+    {
+      "enabled": true,
+      "name": "wide-labels",
+      "trace": [
+        {
+          "batch": 10,
+          "time": 200,
+          "movement": 5.2160070419379725,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.5140250092605962,
+          "angularGapRms": 0.03706634919549104,
+          "radialLengthRms": 7.48139180012919
+        },
+        {
+          "batch": 20,
+          "time": 400,
+          "movement": 3.321090578107498,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.32742185279664887,
+          "angularGapRms": 0.034276028720207616,
+          "radialLengthRms": 7.100852288395365
+        },
+        {
+          "batch": 30,
+          "time": 600,
+          "movement": 2.2836667406725306,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.22556238319069613,
+          "angularGapRms": 0.03290242477654011,
+          "radialLengthRms": 6.859980588649739
+        },
+        {
+          "batch": 40,
+          "time": 800,
+          "movement": 1.6324179305572781,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.1614119880184297,
+          "angularGapRms": 0.03220277994471429,
+          "radialLengthRms": 6.7210258213960525
+        },
+        {
+          "batch": 50,
+          "time": 1000,
+          "movement": 1.1995658592211407,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.11871630667574269,
+          "angularGapRms": 0.03194108158708227,
+          "radialLengthRms": 6.640294626951742
+        },
+        {
+          "batch": 60,
+          "time": 1200,
+          "movement": 0.8943160784146084,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.08853585185814557,
+          "angularGapRms": 0.03190450380435273,
+          "radialLengthRms": 6.592801001078354
+        },
+        {
+          "batch": 70,
+          "time": 1400,
+          "movement": 0.6754902536225911,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.06689732016733367,
+          "angularGapRms": 0.031940411449341434,
+          "radialLengthRms": 6.564391326768588
+        },
+        {
+          "batch": 80,
+          "time": 1600,
+          "movement": 0.5135001628202162,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.125,
+          "detections": 3,
+          "maxStepDisplacement": 0.05086008644966506,
+          "angularGapRms": 0.03197987871084032,
+          "radialLengthRms": 6.546915154794486
+        },
+        {
+          "batch": 90,
+          "time": 1800,
+          "movement": 0.41799491229066615,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.13467342599999998,
+          "detections": 3,
+          "maxStepDisplacement": 0.041602190206993295,
+          "angularGapRms": 0.03200766016794966,
+          "radialLengthRms": 6.535639891889642
+        },
+        {
+          "batch": 100,
+          "time": 2000,
+          "movement": 0.3768812663177102,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.1647295074814815,
+          "detections": 3,
+          "maxStepDisplacement": 0.037570494495627695,
+          "angularGapRms": 0.03202477808632345,
+          "radialLengthRms": 6.527471371291284
+        },
+        {
+          "batch": 110,
+          "time": 2200,
+          "movement": 0.34278278394094835,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.21211447785185183,
+          "detections": 3,
+          "maxStepDisplacement": 0.03416111480124438,
+          "angularGapRms": 0.03202315729729072,
+          "radialLengthRms": 6.5214042099598535
+        },
+        {
+          "batch": 120,
+          "time": 2400,
+          "movement": 0.32401212572957583,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.27371722600000004,
+          "detections": 3,
+          "maxStepDisplacement": 0.03243842655720335,
+          "angularGapRms": 0.031969484366015426,
+          "radialLengthRms": 6.517170694516719
+        },
+        {
+          "batch": 130,
+          "time": 2600,
+          "movement": 0.16716938127261396,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.15958384440740742,
+          "detections": 4,
+          "maxStepDisplacement": 0.016741435279000308,
+          "angularGapRms": 0.03182571084515756,
+          "radialLengthRms": 6.514645067390811
+        },
+        {
+          "batch": 140,
+          "time": 2800,
+          "movement": 0.18127922412767808,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.15958384440740742,
+          "detections": 4,
+          "maxStepDisplacement": 0.018202048150026198,
+          "angularGapRms": 0.03168805721355169,
+          "radialLengthRms": 6.51336843014297
+        },
+        {
+          "batch": 150,
+          "time": 3000,
+          "movement": 0.20977690265002769,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.15958384440740742,
+          "detections": 4,
+          "maxStepDisplacement": 0.021105774074381297,
+          "angularGapRms": 0.0314960434321404,
+          "radialLengthRms": 6.51208829100631
+        },
+        {
+          "batch": 160,
+          "time": 3200,
+          "movement": 0.18836416982713863,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.16583754860637862,
+          "detections": 4,
+          "maxStepDisplacement": 0.018666400933483106,
+          "angularGapRms": 0.031266532472389204,
+          "radialLengthRms": 6.510768869728948
+        },
+        {
+          "batch": 170,
+          "time": 3400,
+          "movement": 0.1523040602013378,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.19157903477962038,
+          "detections": 4,
+          "maxStepDisplacement": 0.014927201249578272,
+          "angularGapRms": 0.03104344077944664,
+          "radialLengthRms": 6.509565434586125
+        },
+        {
+          "batch": 180,
+          "time": 3600,
+          "movement": 0.07869678369515709,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.2344724808927785,
+          "detections": 4,
+          "maxStepDisplacement": 0.007932112531192333,
+          "angularGapRms": 0.030901401145118423,
+          "radialLengthRms": 6.508816721703622
+        },
+        {
+          "batch": 190,
+          "time": 3800,
+          "movement": 0.09965230221521178,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.29152974061485715,
+          "detections": 4,
+          "maxStepDisplacement": 0.010050014084899667,
+          "angularGapRms": 0.03077027062436284,
+          "radialLengthRms": 6.508130171482852
+        },
+        {
+          "batch": 200,
+          "time": 4000,
+          "movement": 0.1273509233156169,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.35976266761486037,
+          "detections": 4,
+          "maxStepDisplacement": 0.012845232707701753,
+          "angularGapRms": 0.03059515851908806,
+          "radialLengthRms": 6.507215824396258
+        },
+        {
+          "batch": 210,
+          "time": 4200,
+          "movement": 0.16308881047861495,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.43618311556179235,
+          "detections": 4,
+          "maxStepDisplacement": 0.01645063159672412,
+          "angularGapRms": 0.03035824005309295,
+          "radialLengthRms": 6.505975735826865
+        },
+        {
+          "batch": 220,
+          "time": 4400,
+          "movement": 0.209232959987826,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.517802938124657,
+          "detections": 4,
+          "maxStepDisplacement": 0.02110722946852953,
+          "angularGapRms": 0.030034213495352097,
+          "radialLengthRms": 6.504260066905558
+        },
+        {
+          "batch": 230,
+          "time": 4600,
+          "movement": 0.2695567027407676,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.6016339889724589,
+          "detections": 4,
+          "maxStepDisplacement": 0.027197845026727254,
+          "angularGapRms": 0.029585781521505997,
+          "radialLengthRms": 6.50182147196846
+        },
+        {
+          "batch": 240,
+          "time": 4800,
+          "movement": 0.34939788293407636,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.6846881217742018,
+          "detections": 4,
+          "maxStepDisplacement": 0.03526103555468967,
+          "angularGapRms": 0.02895799245414593,
+          "radialLengthRms": 6.4982258192644915
+        },
+        {
+          "batch": 250,
+          "time": 5000,
+          "movement": 0.45435469140667506,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.7639771901988897,
+          "detections": 4,
+          "maxStepDisplacement": 0.04585052396747866,
+          "angularGapRms": 0.02807579324297486,
+          "radialLengthRms": 6.492685022815256
+        },
+        {
+          "batch": 260,
+          "time": 5200,
+          "movement": 0.6149668792753729,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.8365130479155272,
+          "detections": 4,
+          "maxStepDisplacement": 0.062158966370376594,
+          "angularGapRms": 0.026834042328703834,
+          "radialLengthRms": 6.483602194232116
+        },
+        {
+          "batch": 270,
+          "time": 5400,
+          "movement": 0.8257766441929927,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.8993075485931179,
+          "detections": 4,
+          "maxStepDisplacement": 0.08330295896688503,
+          "angularGapRms": 0.025126181609459473,
+          "radialLengthRms": 6.467887640835017
+        },
+        {
+          "batch": 280,
+          "time": 5600,
+          "movement": 1.004331339502373,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.9459061686624672,
+          "detections": 4,
+          "maxStepDisplacement": 0.1006716263295658,
+          "angularGapRms": 0.023117277446496675,
+          "radialLengthRms": 6.443194905111121
+        },
+        {
+          "batch": 290,
+          "time": 5800,
+          "movement": 1.006495402025059,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.9459061686624672,
+          "detections": 4,
+          "maxStepDisplacement": 0.09688381675750177,
+          "angularGapRms": 0.021282842350649006,
+          "radialLengthRms": 6.413076029955253
+        },
+        {
+          "batch": 300,
+          "time": 6000,
+          "movement": 0.0007514554295258429,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.9459061686624672,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 310,
+          "time": 6200,
+          "movement": 0,
+          "enabled": true,
+          "phase": "damping",
+          "gain": 0.9459061686624672,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 320,
+          "time": 6400,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9460895138616521,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 330,
+          "time": 6600,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9474403273872308,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 340,
+          "time": 6800,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9499432193117849,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 350,
+          "time": 7000,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.953405856012781,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 360,
+          "time": 7200,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9576359038676856,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 370,
+          "time": 7400,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9624410292539651,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 380,
+          "time": 7600,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9676288985490863,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 390,
+          "time": 7800,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9730071781305155,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        },
+        {
+          "batch": 400,
+          "time": 8000,
+          "movement": 0,
+          "enabled": true,
+          "phase": "recovering",
+          "gain": 0.9783835343757195,
+          "detections": 4,
+          "maxStepDisplacement": 0,
+          "angularGapRms": 0.020887372792472554,
+          "radialLengthRms": 6.405422597481029
+        }
+      ],
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "positions": [
+        [
+          439.49347183816457,
+          16.802792561561994
+        ],
+        [
+          230.5045332762875,
+          52.78673655969598
+        ],
+        [
+          272.0888695885218,
+          -59.85993838980996
+        ],
+        [
+          486.46099942472966,
+          -101.67355931804474
+        ],
+        [
+          649.0566941237331,
+          -19.260998929242092
+        ],
+        [
+          607.7420813942047,
+          94.63893889539465
+        ],
+        [
+          390.14880460395636,
+          134.16913871368902
+        ],
+        [
+          460,
+          -70
+        ],
+        [
+          460,
+          140
+        ]
+      ]
+    }
+  ]
+}

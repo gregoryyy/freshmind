@@ -17,6 +17,12 @@ export interface LayoutHost {
   repaintAfterMove(): void;
 }
 
+/** Accumulates extra dx/dy impulses before integration; must not change graph membership or positions. */
+export type LayoutForce = ((graph: ImmutableGraphEltSet, rigidity: number) => void) & {
+  /** Optional extension activity: keep invoking batches while a timed force transition finishes. */
+  needsTicks?: () => boolean;
+};
+
 /** Direct port of TGLayout 1.21, including Java integer repulsion arithmetic. */
 export class TGLayout {
   private damper = 0;
@@ -30,6 +36,7 @@ export class TGLayout {
   private timer: ReturnType<typeof setTimeout> | undefined;
   private running = false;
   private generation = 0;
+  private readonly forces = new Map<symbol, LayoutForce>();
 
   /**
    * Creates a stopped layout with a zero damper.
@@ -37,6 +44,12 @@ export class TGLayout {
    * @param random Random source used only to separate coincident nodes.
    */
   constructor(private readonly panel: LayoutHost, private readonly random: () => number = Math.random) {}
+  /** Registers an optional force without replacing baseline physics. The returned disposer removes this registration. */
+  addForce(force: LayoutForce): () => void {
+    const registration = Symbol();
+    this.forces.set(registration, force);
+    return () => { this.forces.delete(registration); };
+  }
   /** Queues a rigidity change for the end of the next ten-step relax batch. */
   setRigidity(value: number): void { this.newRigidity = value; }
   /** Excludes this node from position integration while still accumulating forces. */
@@ -128,7 +141,11 @@ export class TGLayout {
    * Repaints once after the batch, even when all motion is damped to zero.
    */
   relax(): void {
-    for (let i = 0; i < 10; i++) { this.relaxEdges(); this.avoidLabels(); this.moveNodes(); }
+    for (let i = 0; i < 10; i++) {
+      this.relaxEdges(); this.avoidLabels();
+      for (const force of this.forces.values()) force(this.panel.getGES(), this.rigidity);
+      this.moveNodes();
+    }
     this.rigidity = this.newRigidity;
     this.panel.repaintAfterMove();
   }
@@ -147,11 +164,12 @@ export class TGLayout {
     this.running = true;
     const generation = ++this.generation;
     let first = true;
+    const needsTicks = () => [...this.forces.values()].some(force => force.needsTicks?.());
     const run = () => {
       if (!this.running || generation !== this.generation) return;
-      if (first || !(this.damper < 0.1 && this.damping && this.maxMotion < 0.001)) { first = false; this.relax(); }
+      if (first || needsTicks() || !(this.damper < 0.1 && this.damping && this.maxMotion < 0.001)) { first = false; this.relax(); }
       if (!this.running || generation !== this.generation) return;
-      this.timer = setTimeout(run, this.damper < 0.1 && this.damping && this.maxMotion < 0.001 ? 100 : 20);
+      this.timer = setTimeout(run, !needsTicks() && this.damper < 0.1 && this.damping && this.maxMotion < 0.001 ? 100 : 20);
     };
     // Unlike a Java thread, scheduling yields to the caller before the first batch.
     this.timer = setTimeout(run, 0);

@@ -23,16 +23,62 @@ The current implementation concentrates on the graph browsing foundation: spring
 - Graph editing with node creation/deletion and directed connections, plus Shift-drag rectangle selection.
 - Freshmind semantic types and metadata, YAML-configured visual types, multiline labels and twelve node shapes.
 - Labeled spider/lens curves with midpoint arrows, parallel relations, self-loops and shared picking geometry.
+- Keyboard navigation with neighbor/relation preselection, independent graph spacing and canvas zoom, rotation and scroll controls.
+- Inline label and metadata editors, plus resizable node-content popups for plain text and sanitized HTML.
+- Native YAML loading/saving, the approved Java examples and three attributed public example networks.
+- RFC with multiple centers, persistent tree/DAG/cluster memberships, angular/length constraints, weighted coordinates, cluster rigidity and translucent cluster boundaries.
 - An ESM library for JavaScript and TypeScript, plus a DOM-independent core for headless use.
 - A runnable example and compatibility checks against the Java layout and lens implementations.
 
-Milestone 1 and Freshmind milestones 2.1–2.5 are complete. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
+**Progress:** Milestone 1 (plain TouchGraph) and Freshmind milestones 2.1–2.5 (types, rendering, navigation, editing and native YAML persistence) are complete. RFC is partially implemented: stars/trees, weighted x/y geometry and multiple foci have reproducible experiments. The original multi-focus comparison covers 120 runs; [follow-up Experiments F–H](docs/experiments/rfc-followup/README.md) add 780 runs comparing damping with lower rigidity, nonuniform importance and compact clusters. Eight further diagrams distinguish quiet motion, force balance and remaining geometric error. Tree/DAG/cluster memberships are available; DAG templates have functional checks without a comparative layout study.
 
-The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC will be rebuilt from the 2005 paper.
+Node and relation weights now control added RFC stiffness through bounded importance factors, independently of coordinate weights and ordinary TouchGraph forces. Defaults (node 1, relation 10) preserve the recorded experiments; zero disables the corresponding reinforcement while keeping semantic context. See the [importance contract](docs/rfc-importance.md) and the **Weighted tree** example. First-class clusters retain cyclic internal links and use adjustable internal spring rigidity, weighted-centroid compactness and smooth translucent boundaries; see the [cluster design](docs/rfc-clusters.md) and **Overlapping clusters** example. Next is elliptical focal-region exclusion, followed by structural aggregation. Multiple centers and shared membership are implemented; overlapping-region exclusion remains open. LDA-based graph visual search remains planned. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
+
+Porting and re-implementation based on the existing concepts have required only a few hours so far, including code archaeology in the original Java sources.
+
+The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC is being rebuilt from the 2005 paper.
 
 The [Freshmind feature design](docs/fm_port-design.md) describes the implemented typed/visual models, labeled curves, keyboard navigation, metadata/inline editors and native YAML persistence. The approved `berry` and `nips-fm` examples are converted from the Java reference; other datasets are proprietary and excluded.
 
+## Reinforcement Focus + Context
+
+The main browser starts with RFC active on its initial center. Loading another graph reinforces its initial focus when RFC is on; **Remove RFC** turns it off and subsequent loads keep it off. Expand **Reinforcement Focus + Context** to choose another node with **Reinforce selected node** or adjust the forces. The default **Tree structure** preset combines an explicit target focal length with radial and angular stiffness. **Attraction only** retains the earlier attraction-multiplier approach, including its angular forces. Soft yellow halos fade outward beneath reinforced nodes and relations. With RFC enabled, press Return or double-click an already centered node to make it the reinforced focus. Pause/resume motion still controls the ordinary layout runner. Library panels and document installation remain inactive until an application opts in; `installDocument(panel, document, {reinforceFocus: true})` reinforces the loaded document's initial focus without storing activation in YAML.
+
+RFC centers are independent of selection, neighborhood origin and the viewing lens. Shift+Enter or Shift+double-click toggles a node's center while retaining other centers and the visible neighborhood. Ordinary RFC activation replaces all centers with the chosen node, including when it is already the primary center. The center selector removes one activation at a time; the Add RFC center button adds without toggling. Hidden centers suspend reinforcement and resume when shown; replacing the graph clears activation. Activating RFC leaves semantic nodes/relations and stored membership definitions unchanged; exported positions can retain the resulting layout. Horizontal/vertical coordinate weights control physical RFC geometry: (0.25, 1) permits a focal layout twice as wide in the ideal case, while (1, 1) retains ordinary distances. The viewing lenses are independent. Node/link importance affects RFC stiffness; elliptical exclusion and aggregation remain later tasks.
+
+```ts
+const rfc = panel.getRfc();
+rfc.configure({radialStiffness: 1, radialLength: 120, angularStiffness: 10000, coordinateWeights: {x: 0.25, y: 1}});
+rfc.setFocus(node); // node must belong to the visible graph
+console.log(rfc.getState());
+rfc.setFocus(null);
+```
+
+Under **Substructures**, store tree/DAG/cluster membership, add or remove the selected node, choose a root or cluster representative and reinforce the definition. Membership is saved to YAML; active centers are transient. Under **Graph clusters**, choose Louvain communities or connected components, select visible/complete scope, inspect a cluster and reinforce it directly as a stored cluster. Clusters keep internal cycles, reinforce internal spring lengths and use weighted-centroid compactness rather than branch angles. **Cluster rigidity** adjusts how strongly links resist deformation; smooth boundaries and translucent fills show the groups. Try **Load example → Overlapping clusters**, **Trees and DAG**, or **Zachary's karate club** for community detection. The [substructure and clustering design](docs/rfc-substructures.md) documents the data model, force semantics and limits.
+
+`fm4/fm/rfc` exports the headless controller/force helpers; `bindRfcControls()` from `fm4/fm/ui` binds application-owned controls and returns a disposer. A standalone layout can register `rfc.apply` through `layout.addForce()` and remove it through the returned disposer. The [design](docs/rfc-design.md) explains the force law, defaults and lifecycle. The [experiment report](docs/experiments/rfc-single-focus/README.md) contains three synthetic native YAML graphs to open in the browser and the recorded baseline/RFC results.
+
+```sh
+just rfc-experiment  # Regenerate deterministic synthetic comparisons and initial graphs
+just rfc-multifocus-experiment # Two tree foci, leaf connections and shared subtrees (120 runs)
+just rfc-followup-experiment # Damping/rigidity, weights and clusters (780 runs, reports and eight diagrams)
+just rfc-followup-figures # Redraw the recorded follow-up comparisons
+just rfc-plot        # Render the report with Python/matplotlib
+just rfc-paper       # Regenerate eleven figures and the second draft PDF
+```
+
+The [second draft paper](docs/papers/rfc-revisited-draft2.md) reviews the 2005 method, compares attraction, angle and length constraints, and derives local oscillation/stability conditions from the actual TouchGraph update. Its eleven [drawings](docs/papers/figures/rfc/) are supplied as SVG, PDF and PNG. The experiments include ablations, a stiffness sweep, a separate damping comparison and [multiple tree foci](docs/experiments/rfc-multifocus/README.md). The main browser offers the three new tree fixtures under **Load example → RFC**. These small mechanism checks do not establish general convergence or perceptual benefit.
+
+**Experimental adaptive damping** is a separate opt-in checkbox under the RFC controls, off by default. Repeated movement reversals reduce focal-node impulses. After 0.5 seconds of quiet integration, damping eases off over three seconds; renewed oscillation triggers another backoff. Configured forces stay unchanged. [Experiment B](docs/experiments/rfc-single-focus/README.md#experiment-b-adaptive-local-damping) records comparisons with damping off/on. Applications can opt in with `rfc.setStabilizationEnabled(true)` or `new FreshmindPanel(host, {rfcStabilization: {enabled: true}})`; diagnostics are available in `rfc.getState().stabilization`.
+
+**Oscillation diagnostics:** the damping experiment remains opt-in. Enable **Experimental adaptive damping** to watch individual focal nodes for reversals and circulation, including small/multiple-center structures. The controls show whether detection is off, detected node IDs, gain and recovery backoffs. The [stability comparison](docs/experiments/rfc-stability/README.md) records the old detector's blind spots and the revised response. Small graphs can still contain stiff coupled modes; more centers can introduce competing constraints.
+
+The [follow-up reports](docs/experiments/rfc-followup/README.md) complete the current experimental round. Lower global rigidity often reaches a better force balance than aggressive local damping on these starts; weight-based errors can hide distorted low-weight branches; cyclic cluster constraints preserve dense reference geometry while sparse clusters can still deform. These are finite synthetic studies, with no production default change or claim of general convergence/readability. Node bodies/fonts still lack clear importance encoding; the report drawings encode weights separately for evaluation.
+
+
 ## Run the example
+
+The left pane groups Graph files, View, RFC, Navigation options and Selected item into collapsible sections with larger headings. Force settings, substructures, clusters and connections can also be collapsed. Keyboard annotation editing reopens a collapsed inspector when needed.
 
 ```sh
 npm install
@@ -49,6 +95,7 @@ just dev
 just build       # Library and TypeScript declarations
 just build-demo  # Production demo
 just preview     # Build and serve the production demo
+just flipbook    # Production walkthrough: screenshots, Markdown and HTML
 just check       # Type checking, core tests, and demo build
 just pdf README.md  # PDF beside one Markdown source
 just pdfs docs      # PDFs for Markdown files under docs (omit docs for all)
@@ -56,6 +103,10 @@ just --list      # All recipes, including Java and browser tests
 ```
 
 PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mermaid support as Kibitz. Build assets live in `scripts/pdf/`, alongside the other development tools. Install Pandoc with `brew install pandoc`; set `CHROME` to use another Chrome executable. Outputs use the source's full name (`file.md.pdf`) and unchanged PDFs are skipped. Mermaid diagrams require network access during PDF generation. Delete the PDF to rebuild after changing only an embedded image.
+
+`just flipbook` builds and serves the production demo on an available loopback port, drives it with headless Chrome, and writes the [walkthrough](docs/flipbook/README.md), numbered screenshots, an [HTML viewer](docs/flipbook/index.html) and a manifest under `docs/flipbook/`. The viewer works from disk with Previous/Next buttons, arrow keys and Home/End. Edit [scripts/flipbook/tour.mjs](scripts/flipbook/tour.mjs) to change the acts and captions, then regenerate. The tour covers browsing, both zooms, key-map help, types, editing, the node-content popup, YAML saving, RFC comparison, Florentine families and the approved Berry/NIPS-FM examples. It uses the existing Playwright dependency and Google Chrome; no separate service needs to be running.
+
+Use `just flipbook --output /tmp/fm4-flipbook --port 4176` to choose an output directory and port, or `--channel chromium` / `PLAYWRIGHT_CHANNEL` to select another installed Playwright browser channel. A requested busy port fails without reusing its server. Generation captures all steps before publishing; regeneration replaces its own manifest-listed files and preserves unrelated files. The command stops its local server and browser on completion or failure. Layout inputs are seeded and paused for capture; screenshots may still vary with browser/font versions.
 
 Open the localhost address printed by Vite. Double-click a node to select and center it, or select it and choose **Focus here**. Adjust neighborhood depth and the focus + context slider. Press **E** with the graph focused, or use **Expand**, to reveal neighbors. Drag nodes to rearrange them and drag the background to pan. **Graph spacing** changes distances between node centers while keeping shapes and labels the same size. Vertical scrolling changes **graph spacing**, keeping shapes and labels the same size. Horizontal two-finger scrolling decreases/increases **focus + context** strength to the left/right; the dominant scroll axis chooses one operation for each event. Trackpad pinch (Ctrl+wheel) controls canvas zoom around the pointer. The canvas toolbar also zooms in/out; its percentage button resets canvas scale to 100%. Centering retains both zoom levels. Pinning holds a node in physical coordinates. Double-click follows the same centering/neighborhood option as Enter; plain `TGPanel` retains double-click expansion and canvas-only wheel handling.
 
@@ -116,7 +167,7 @@ The popup reads committed node annotations and URL metadata. The application sup
 
 Use **Open YAML** or **Ctrl/Cmd+O** to select one `.fm.yaml` graph and, when required, its companion type YAML. A failed parse or missing companion leaves the current graph intact. **Save YAML** / **Ctrl/Cmd+S** downloads the complete graph, including hidden/isolated nodes, parallel relations and loops. **Ctrl/Cmd+Shift+S** opens the filename dialog. Exports include committed model changes; editor drafts remain separate until saved.
 
-**Export options** selects layout positions, view settings and embedded/companion type configuration. Fixed-node positions are always retained. Saved views include neighborhood filters, graph zoom, focus/context, rotation, lens pan, canvas zoom and canvas pan. Velocities, hover, selection, preselection and derived geometry are transient. The codec uses strict YAML 1.2, validates IDs/references/types, rejects aliases/merge keys/custom tags/duplicate keys and preserves metadata/extensions and unknown semantic type IDs with diagnostics.
+**Options → Export options** selects layout positions, view settings and embedded/companion type configuration. The top-bar Options popover supports Escape and outside-click dismissal. Fixed-node positions are always retained. Saved views include neighborhood filters, graph zoom, focus/context, rotation, lens pan, canvas zoom and canvas pan. Velocities, hover, selection, preselection and derived geometry are transient. The codec uses strict YAML 1.2, validates IDs/references/types, rejects aliases/merge keys/custom tags/duplicate keys and preserves metadata/extensions and unknown semantic type IDs with diagnostics.
 
 **Load example → Freshmind 2014** offers the approved [berry](examples/fm2014/berry.fm.yaml) (21 nodes, 22 relations) and [nips-fm](examples/fm2014/nips-fm.fm.yaml) (3,777 nodes, 5,257 relations). NIPS opens a bounded neighborhood over the complete graph. Other reference datasets are proprietary and are excluded from migration, tests and distribution. The [migration report](examples/fm2014/conversion-report.json) records source hashes, counts and unavailable resource targets.
 
@@ -274,6 +325,9 @@ Freshmind keyboard-focus frames follow the configured node shape and stay outsid
 | `fm4/fm/core` | Freshmind model, registry, preset and pure geometry without D3 or YAML. |
 | `fm4/fm/config` | YAML type loader for applications supplying their own configuration. |
 | `fm4/fm/ui` | Reusable key-map dialog and graph/canvas zoom bindings; optional `fm4/fm/ui/style.css`. |
+| `fm4/fm/rfc` | Headless multi-center reinforcement controller, focal-star and force helpers. |
+| `fm4/fm/structures` | Validated tree/DAG/cluster memberships, internal-link capture and spanning-tree projections. |
+| `fm4/fm/clustering` | Detached Louvain/component detection and cluster-to-substructure conversion. |
 
 ## Library support
 

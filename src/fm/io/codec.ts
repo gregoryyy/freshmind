@@ -13,6 +13,7 @@ import { clone, jsonData, keys, number, record, text } from "../config/validatio
 import { parseYamlValue } from "./yaml-value.js";
 import type { DocumentRecord, DocumentView, LoadOptions, SaveOptions } from "./types.js";
 import type { FreshNodeOptions, FreshEdgeOptions, Metadata } from "../model.js";
+import {validateSubstructure} from "../structures/model.js";
 
 function string(value: unknown, path: string): asserts value is string {
   if (typeof value !== "string") throw new TypeError(path + ": expected a string");
@@ -56,7 +57,7 @@ function view(value: unknown, document: FreshmindDocument): DocumentView {
 export function readDocument(value: unknown, options: LoadOptions = {}): FreshmindDocument {
   jsonData(value); const root = record(value, "document");
   nonNullFields(root);
-  keys(root, ["format", "version", "title", "types", "typesFile", "nodes", "edges", "view", "data", "extensions"], "document");
+  keys(root, ["format", "version", "title", "types", "typesFile", "nodes", "edges", "substructures", "view", "data", "extensions"], "document");
   if (root.format !== "freshmind" || root.version !== 1) throw new TypeError("Expected format: freshmind and version: 1");
   if (root.types !== undefined && root.typesFile !== undefined) throw new TypeError("types and typesFile are mutually exclusive");
   let configuration: unknown = root.types ?? freshmind2014Configuration;
@@ -90,6 +91,14 @@ export function readDocument(value: unknown, options: LoadOptions = {}): Freshmi
     const {from: _from, to: _to, ...fields} = e;
     document.graph.addEdge(new FreshEdge(from, to, fields as FreshEdgeOptions));
   }
+  if(root.substructures!==undefined) {
+    if(!Array.isArray(root.substructures))throw new TypeError("substructures: expected a sequence");
+    for(const value of root.substructures) {
+      const definition=validateSubstructure(document.graph,value);
+      if(document.graph.getSubstructure(definition.id))throw new TypeError(`Duplicate substructure ID: ${definition.id}`);
+      document.graph.setSubstructure(definition);
+    }
+  }
   if (root.view !== undefined) document.view = view(root.view, document);
   const config = document.types.getConfiguration();
   for (const node of document.graph.getNodes()) if (!Object.hasOwn(config.nodeTypes, node.getSemanticType())
@@ -115,6 +124,7 @@ export function documentToRecord(document: FreshmindDocument, options: SaveOptio
     edges: [...document.graph.getEdges()].map(e => ({id: e.getID()!, from: e.from.getID()!, to: e.to.getID()!, label: e.getLabel(),
       type: e.getSemanticType(), visual: e.getVisual(), weight: e.getWeight(), length: e.getLength(), data: e.getData(), extensions: e.getExtensions()})),
     data: clone(document.data), extensions: clone(document.extensions)};
+  if(document.graph.getSubstructures().length)result.substructures=document.graph.getSubstructures();
   if (options.includeView !== false && document.view) result.view = clone(document.view);
   return result;
 }
