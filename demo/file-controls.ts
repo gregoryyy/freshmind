@@ -16,6 +16,7 @@ import florentineURL from "../examples/public/florentine.fm.yaml?url";
 import karateURL from "../examples/public/karate.fm.yaml?url";
 import lesMiserablesURL from "../examples/public/les-miserables.fm.yaml?url";
 import substructuresURL from "../docs/experiments/rfc-substructures/trees-and-dag.fm.yaml?url";
+import weightedTreeURL from "../docs/experiments/rfc-substructures/weighted-tree.fm.yaml?url";
 import joinedTreesURL from "../docs/experiments/rfc-multifocus/joined-trees.fm.yaml?url";
 import leafTreesURL from "../docs/experiments/rfc-multifocus/leaf-connected-trees.fm.yaml?url";
 import sharedTreesURL from "../docs/experiments/rfc-multifocus/shared-subtree.fm.yaml?url";
@@ -23,7 +24,7 @@ import sharedTreesURL from "../docs/experiments/rfc-multifocus/shared-subtree.fm
 const examples: Record<string, {url: string; companion?: string}> = {
   berry: {url: berryURL, companion: typesURL}, "nips-fm": {url: nipsURL, companion: typesURL},
   florentine: {url: florentineURL}, karate: {url: karateURL}, "les-miserables": {url: lesMiserablesURL},substructures:{url:substructuresURL},
-  "joined-trees": {url: joinedTreesURL}, "leaf-connected-trees": {url: leafTreesURL}, "shared-subtree": {url: sharedTreesURL}
+  "joined-trees": {url: joinedTreesURL}, "leaf-connected-trees": {url: leafTreesURL}, "shared-subtree": {url: sharedTreesURL}, "weighted-tree": {url: weightedTreeURL}
 };
 
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;

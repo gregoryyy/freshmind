@@ -10,6 +10,7 @@ import type { Node } from "../../tg/model.js";
 import type { ImmutableGraphEltSet } from "../../tg/graph.js";
 import type { CoordinateWeights, FocalStar, RfcBranch, RfcSettings } from "./types.js";
 import {validateCoordinateWeights, weightedDistance} from "./metric.js";
+import {rfcRelationStrength} from "./importance.js";
 
 const tau = 2 * Math.PI;
 const compare = (a: string | null, b: string | null) => (a ?? "") < (b ?? "") ? -1 : (a ?? "") > (b ?? "") ? 1 : 0;
@@ -20,7 +21,7 @@ export function collectFocalStar(graph: ImmutableGraphEltSet, center: Node, coor
   const byNode = new Map<Node, RfcBranch>();
   if (graph.contains(center)) for (const edge of center.getEdges()) {
     const node = edge.getOtherEndpt(center);
-    if (node === center || !graph.contains(edge) || !graph.contains(node)) continue;
+    if (node === center || !graph.contains(edge) || !graph.contains(node) || rfcRelationStrength(edge)===0) continue;
     const previous = byNode.get(node);
     if (!previous || compare(edge.getID(), previous.edge.getID()) < 0)
       byNode.set(node, {node, edge, angle: Math.atan2(sy * (node.y - center.y), sx * (node.x - center.x))});
@@ -54,27 +55,30 @@ function moment(center: Node, branch: Node, value: number, weights: CoordinateWe
   branchImpulse(center, branch, -y * scale, x * scale);
 }
 
-/** Adds radial reinforcement and the paper's equation (1) moments; only dx/dy are mutated. */
+/** Adds importance-scaled radial and angular reinforcement; zero-strength branches do not enter gap targets. */
 export function applyRfcForces(star: FocalStar, settings: Pick<RfcSettings, "springMultiplier" | "angularStiffness"> & Partial<Pick<RfcSettings, "radialStiffness" | "radialLength">>, rigidity: number, memberships?:ReadonlyMap<Node,number>): void {
-  const {center, branches, coordinateWeights: weights} = star;
+  const {center, coordinateWeights: weights} = star;
+  const branches=star.branches.filter(branch=>rfcRelationStrength(branch.edge)>0);
+  const activeStar=branches.length===star.branches.length?star:{...star,branches};
   if (settings.springMultiplier !== 1) for (const {node, edge} of branches) {
     const x = node.x - center.x, y = node.y - center.y;
-    const pull = (settings.springMultiplier - 1) * rigidity * weightedDistance(node, center, weights) / (edge.getLength() * 100);
+    const pull = (settings.springMultiplier - 1) * rigidity * weightedDistance(node, center, weights) / (edge.getLength() * 100)*rfcRelationStrength(edge);
     branchImpulse(center, node, -weights.x * x * pull, -weights.y * y * pull);
   }
-  if (settings.radialStiffness) for (const {node} of branches) {
+  if (settings.radialStiffness) for (const {node,edge} of branches) {
     const x = node.x - center.x, y = node.y - center.y;
     const distance = weightedDistance(node, center, weights);
     // Smooth D near zero using sqrt(D² + 1); this is the gradient of k/2·(sqrt(D²+1)−L)².
     const radius = Math.hypot(distance, 1);
-    const pull = settings.radialStiffness * rigidity * (radius - (settings.radialLength ?? 120)) / radius;
+    const pull = settings.radialStiffness * rigidity * (radius - (settings.radialLength ?? 120)) / radius*rfcRelationStrength(edge);
     branchImpulse(center, node, -weights.x * x * pull, -weights.y * y * pull);
   }
   if (branches.length < 2 || settings.angularStiffness === 0) return;
   for (const [index, branch] of branches.entries()) {
     const next=branches[(index+1)%branches.length];
     const sharing=Math.max(1,memberships?.get(branch.node)??1,memberships?.get(next.node)??1);
-    const value = settings.angularStiffness * rigidity * (gap(star, index) - tau / branches.length) / sharing;
+    const importance=Math.sqrt(rfcRelationStrength(branch.edge))*Math.sqrt(rfcRelationStrength(next.edge));
+    const value = settings.angularStiffness * rigidity * (gap(activeStar, index) - tau / branches.length) / sharing*importance;
     moment(center, branch.node, value, weights);
     moment(center, branches[(index + 1) % branches.length].node, -value, weights);
   }

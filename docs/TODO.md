@@ -4,7 +4,7 @@ Develop the browser in stages: establish a plain TouchGraph baseline, restore Fr
 
 Completed work, implementation notes, deviations, and lessons are recorded in [DONE.md](DONE.md).
 
-**Current status:** Milestones 1 and 2 are complete. Milestone 3 includes multiple RFC centers, stored tree/DAG memberships, clustering, and reproducible single- and multiple-focus tree experiments. It remains open for node/link force weighting, focal-region exclusion and structural aggregation. Milestone 4 (LDA-based visual search) has not started.
+**Current status:** Milestones 1 and 2 are complete. Milestone 3 includes multiple RFC centers, stored tree/DAG memberships, clustering, and reproducible single- and multiple-focus tree experiments. Node/link importance now affects added RFC stiffness. The milestone remains open for focal-region exclusion and structural aggregation. Milestone 4 (LDA-based visual search) has not started.
 
 ## Source material
 
@@ -83,7 +83,7 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
   - [ ] 3.2.4 Repel non-focal nodes from the elliptical focal region.
   - [ ] 3.2.5 Handle overlapping focal regions and elliptical overlap exclusion for multiple foci. Center activation and shared-constraint handling are complete in 3.2.11 and evaluated for trees in 3.4.5; region exclusion remains pending.
   - [ ] 3.2.6 Add type-based structural aggregation/filtering and combine it with RFC and the viewing lens. RFC already operates independently of, and alongside, the lens; aggregation/filtering remains pending.
-  - [ ] 3.2.7 Support node and link weights in RFC physics, separately from coordinate weights and visual styling. Define force semantics, normalization/defaults, zero-weight behavior and multigraph handling; verify weight changes affect reinforcement while preserving plain TouchGraph behavior.
+  - [x] 3.2.7 Support node and link weights in RFC physics, separately from coordinate weights and visual styling. Define force semantics, normalization/defaults, zero-weight behavior and multigraph handling; verify weight changes affect reinforcement while preserving plain TouchGraph behavior.
   - [x] 3.2.8 Add explicit focal target-length springs and tree/attraction presets; show soft yellow reinforcement halos and transfer enabled RFC on repeated Return/double-click of the center.
   - [x] 3.2.9 Add a separate opt-in oscillation/damping experiment with per-step detection, local impulse attenuation, quiet-time detection and three-second annealed recovery. Keep fixed-force RFC the default.
   - [x] 3.2.10 Store validated overlapping tree/DAG substructures with YAML persistence and membership editing; render deeper trees and layered DAGs.
@@ -96,6 +96,7 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
   - [x] 3.3.2 Add synthetic single-focus competing-context fixtures, including unequal branch radii and horizontally extended labels, with loadable native YAML graphs.
   - [x] 3.3.3 Add a synthetic deep-tree/DAG example with overlapping membership and shared descendants.
   - [x] 3.3.4 Add loadable tree-only multi-focus fixtures: joined trees, additional within/across-tree leaf relations, and shared subtrees.
+  - [x] 3.3.5 Add a loadable stored tree with nonuniform/zero node and relation importance, retaining ordinary context and all saved membership IDs.
 - [ ] 3.4 Create reproducible experiments comparing the mechanism with the plain TouchGraph baseline.
   - [x] 3.4.1 Compare the single-focus implementation from identical starting states with seeded randomness and recorded settings/coordinates/metrics.
   - [ ] 3.4.2 Extend comparisons to focal-region exclusion and hybrid filtering when implemented. Weighted-coordinate comparisons are complete in 3.4.1; multiple tree foci are covered in 3.4.5.
@@ -103,12 +104,13 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
   - [x] 3.4.4 Record adaptive damping off/on comparisons separately, including recovery traces, unchanged force settings and limitations; extend the second draft and drawings.
   - [x] 3.4.5 Compare neither/either/both tree foci across five matched initializations and pinned/movable roots; report per-tree/union errors, per-step motion, shared-root feasibility and failed runs. Keep adaptive damping separate.
   - [ ] 3.4.6 Compare adaptive damping and lower rigidity on the recorded multiple-focus oscillatory starts as a separate experiment, retaining the fixed-force runs and distinguishing infeasible targets from dynamic instability.
+  - [ ] 3.4.7 Compare nonuniform node/link importance on matched tree fixtures, including saturation, zero transitions and coupled-stiffness effects. Current force/gradient checks and the loadable example verify the contract; weighted layout quality has not been quantitatively evaluated.
 - [x] 3.5 Record experiment settings, results, and observations.
   - [x] 3.5.1 Document the initial force design, deviations from the paper's underspecified details, and single-focus comparison results.
   - [x] 3.5.2 Write a second draft reviewing the 2005 paper, with reproducible drawings, unequal-radius chord analysis and a discrete oscillation/damping calculation.
   - [x] 3.5.3 Extend the second draft with tree-only Experiments C–E, all 120 matched runs, per-tree/union measurements, clipped-motion outliers and a shared-root feasibility calculation; provide eleven drawings, explicit captions and a rebuilt PDF.
 
-The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-focus/README.md), [multiple-focus tree report](experiments/rfc-multifocus/README.md) and [second draft paper](papers/rfc-revisited-draft2.md) document the implementation and experiments. The main browser exposes activation/removal and strength controls under **Reinforcement Focus + Context**, with all three multiple-focus tree fixtures in the RFC examples. Coordinate weights support anisotropic focal geometry. Node/link weights are stored, edited and serialized but do not influence RFC forces. Implement 3.2.7 before focal-region exclusion (3.2.4). Multiple centers, tree/DAG memberships and clustering are documented in [the substructure design](rfc-substructures.md). DAG templates and clustering have functional checks; the comparative numerical experiments cover stars and trees. Focal-region exclusion and structural aggregation remain open.
+The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-focus/README.md), [multiple-focus tree report](experiments/rfc-multifocus/README.md) and [second draft paper](papers/rfc-revisited-draft2.md) document the implementation and experiments. The main browser exposes activation/removal and strength controls under **Reinforcement Focus + Context**, with all three multiple-focus tree fixtures in the RFC examples. Coordinate weights support anisotropic focal geometry. Node/link weights now scale added RFC stiffness through bounded importance factors; default weights preserve recorded runs. The [importance contract](rfc-importance.md) defines defaults, zero/multigraph/DAG behavior and the difference from mass or coordinate weights. Focal-region exclusion (3.2.4) is next. Multiple centers, tree/DAG memberships and clustering are documented in [the substructure design](rfc-substructures.md). DAG templates and clustering have functional checks; the comparative numerical experiments cover stars and trees. Focal-region exclusion and structural aggregation remain open.
 
 ## 4. Add graph visual search with LDA
 

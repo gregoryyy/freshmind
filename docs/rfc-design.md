@@ -34,11 +34,11 @@ The paper introduces weighted distance with the longitudinal approximation in eq
 
 Explicit persistent tree/DAG membership, multiple centers and shared-branch handling extend this primitive; see [the substructure and clustering design](rfc-substructures.md). Elliptical exclusion of non-focal nodes, overlapping-region exclusion and structural aggregation remain subsequent tasks. Weighted geometry does not promise an empty focal region or readable arbitrarily high-degree stars. RFC settings/activation remain transient and are not serialized as semantic data or view settings.
 
-## Node and link weights: pending
+## Node and link importance
 
-The implemented coordinate weights describe the x/y distance metric. They are independent of `FreshNode.getWeight()` and `FreshEdge.getWeight()`. Those fields are already retained by the model, editors and YAML codec, but currently control visual halos and strokes; neither the base layout nor RFC uses them as force multipliers. RFC reads each representative relation's physical length and applies global reinforcement strengths.
+Model weights now control added RFC stiffness independently of the coordinate metric and ordinary TouchGraph physics. Normalize nonnegative weights with `s(w; d) = 2w/(w+d)`, using node default 1 and relation default 10. A relation coefficient `sqrt(s(u)) sqrt(s(v)) s(e)` multiplies added attraction and length stiffness; neighboring angular moments use the geometric mean of their relation coefficients. Defaults preserve existing numerical results exactly. Zeros disable corresponding reinforcement without deleting semantic context or leaving angular ghost branches. The coefficients are bounded, not mass changes.
 
-The FM2014 `TGLayout`/`FMLayout` contains commented-out node-weight repulsion experiments; ordinary `FreshEdge` weights control rendering. There is no active, consistent node/link force-weighting path to copy as a completed Java feature. RFC still requires an explicit design for those semantics, including node repulsion versus inertia/importance, link-strength normalization, default/zero weights and parallel relations. TODO 3.2.7 records this requirement and takes priority over elliptical exclusion. Preserve ordinary TouchGraph behavior and existing visual/serialization contracts while introducing force weighting through the Freshmind extension.
+The [importance contract](rfc-importance.md) specifies energy gradients, zero/member/halo semantics, shared and multigraph behavior, the DAG incoming-relation mean, live updates and limitations. This completes TODO 3.2.7. The Java prototype did not supply an active, consistent node/link force-weighting implementation; the bounded mapping is an explicit 2026 extension rather than a claimed port of a 2005 equation. Elliptical focal-region exclusion is next.
 
 ## Browser and verification
 

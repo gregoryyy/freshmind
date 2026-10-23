@@ -1,0 +1,473 @@
+format: freshmind
+version: 1
+title: RFC node and relation importance (synthetic)
+types:
+  format: freshmind-types
+  version: 1
+  id: freshmind-2014
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#0000b0"
+        width: 1
+        dash: solid
+      arrow:
+        placement: middle
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: root
+    label: Weighted project
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: Choose Weighted tree in Substructures and Reinforce substructure. Node default is 1 and relation default is 10. Importance stiffens added RFC constraints; zeros retain ordinary graph forces. The saved definition still contains every member/relation.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": -40
+    data: {}
+    extensions: {}
+  - id: a
+    label: Important branch
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic node importance: 9. Change Weight in the inspector to compare reinforcement."
+    url: ""
+    weight: 9
+    fixed: false
+    position:
+      x: -150
+      "y": 90
+    data: {}
+    extensions: {}
+  - id: b
+    label: Ordinary branch
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic node importance: 1. Change Weight in the inspector to compare reinforcement."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 150
+      "y": 90
+    data: {}
+    extensions: {}
+  - id: c
+    label: Zero-importance context
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic node importance: 0. Change Weight in the inspector to compare reinforcement."
+    url: ""
+    weight: 0
+    fixed: false
+    position:
+      x: 30
+      "y": -190
+    data: {}
+    extensions: {}
+  - id: a1
+    label: Detail A1
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic node importance: 1. Change Weight in the inspector to compare reinforcement."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -240
+      "y": 220
+    data: {}
+    extensions: {}
+  - id: a2
+    label: Zero-strength relation
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic node importance: 1. Change Weight in the inspector to compare reinforcement."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -70
+      "y": 240
+    data: {}
+    extensions: {}
+  - id: b1
+    label: Detail B1
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic node importance: 1. Change Weight in the inspector to compare reinforcement."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 200
+      "y": 230
+    data: {}
+    extensions: {}
+edges:
+  - id: ra
+    from: root
+    to: a
+    label: branch
+    type: default
+    visual: {}
+    weight: 30
+    length: 90
+    data: {}
+    extensions: {}
+  - id: rb
+    from: root
+    to: b
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: rc
+    from: root
+    to: c
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: aa1
+    from: a
+    to: a1
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: aa2
+    from: a
+    to: a2
+    label: ordinary context
+    type: default
+    visual: {}
+    weight: 0
+    length: 90
+    data: {}
+    extensions: {}
+  - id: bb1
+    from: b
+    to: b1
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+data: {}
+extensions: {}
+substructures:
+  - id: weighted-tree
+    label: Weighted tree
+    kind: tree
+    rootId: root
+    nodeIds:
+      - root
+      - a
+      - b
+      - c
+      - a1
+      - a2
+      - b1
+    edgeIds:
+      - ra
+      - rb
+      - rc
+      - aa1
+      - aa2
+      - bb1
+view:
+  focus: root
+  wholeGraph: true
+  radius: 3
+  lenses:
+    zoom: 1
+    hyperbolic: 0
+    rotation: 0
+  canvas:
+    zoom: 1

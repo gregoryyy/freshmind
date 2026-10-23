@@ -158,12 +158,22 @@ export class RfcController {
     let entries=this.entries();if(entries.length!==this.centers.size){this.reconcile();entries=this.entries();}
     const projections=entries.filter(([n])=>graph.contains(n)).map(([n,id])=>this.project(n,id));
     if(!projections.length){this.stabilizer.reset();return;}
-    const members=new Set(projections.flatMap(p=>p.nodes));
+    const contributors=projections.map(p=>{
+      const nodes=new Set<Node>();
+      const tree=p.definition?.kind!=="dag";
+      if(this.settings.springMultiplier>1||(tree&&this.settings.radialStiffness>0))
+        for(const edge of p.edges){nodes.add(edge.from);nodes.add(edge.to);}
+      if(tree&&this.settings.angularStiffness>0)for(const star of p.stars)if(star.branches.length>1)
+        for(const branch of star.branches){nodes.add(star.center);nodes.add(branch.node);}
+      if(this.settings.radialStiffness>0)for(const [node] of p.targets)if(node!==p.root&&(p.targetWeights.get(node)??0)>0){nodes.add(p.root);nodes.add(node);}
+      return nodes;
+    });
+    const members=new Set(contributors.flatMap(nodes=>[...nodes]));
     if(projections.length===1&&!projections[0].definition) {
       // Preserve the original single-star numerical path exactly.
       applyRfcForces(projections[0].rootStar,this.settings,rigidity);
     } else {
-      const ownership=new Map<Node,number>();for(const p of projections)for(const n of p.nodes)ownership.set(n,(ownership.get(n)??0)+1);
+      const ownership=new Map<Node,number>();for(const nodes of contributors)for(const n of nodes)ownership.set(n,(ownership.get(n)??0)+1);
       const radial=new Map<Edge,{center:Node;branch:Node;tree:boolean}>(),angular=new Map<Node,Set<Edge>>();
       for(const p of projections) {
         const tree=p.definition?.kind!=="dag";
@@ -178,12 +188,12 @@ export class RfcController {
       for(const [center,edges] of angular)applyRfcForces(constrainedStar(center,edges,this.settings.coordinateWeights),
         {...this.settings,springMultiplier:1,radialStiffness:0},rigidity,ownership);
       for(const p of projections)for(const [node,target] of p.targets)if(node!==p.root) {
-        const scale=this.settings.radialStiffness*rigidity/Math.max(ownership.get(node)??1,ownership.get(p.root)??1),weights=this.settings.coordinateWeights;
+        const scale=this.settings.radialStiffness*rigidity/Math.max(ownership.get(node)??1,ownership.get(p.root)??1)*(p.targetWeights.get(node)??0),weights=this.settings.coordinateWeights;
         branchImpulse(p.root,node,-scale*weights.x*(node.x-p.root.x-target.x*this.settings.radialLength),
           -scale*weights.y*(node.y-p.root.y-target.y*this.settings.radialLength));
       }
     }
-    if(this.settings.springMultiplier>1||this.settings.radialStiffness>0||(this.settings.angularStiffness>0&&projections.some(p=>p.stars.some(s=>s.branches.length>1))))
+    if(members.size)
       this.stabilizer.apply([...members],this.host.getDragNode?.()??null);
     else this.stabilizer.reset();
   };

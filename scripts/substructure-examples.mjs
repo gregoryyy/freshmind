@@ -24,3 +24,18 @@ const doc=new FreshmindDocument(new TypeRegistry(freshmind2014Configuration),gra
 doc.view={focus:"tree-root",wholeGraph:true,radius:2,lenses:{zoom:1,hyperbolic:0,rotation:0},canvas:{zoom:.9}};
 const out=new URL("../docs/experiments/rfc-substructures/",import.meta.url);await mkdir(out,{recursive:true});
 await writeFile(new URL("trees-and-dag.fm.yaml",out),serializeDocument(doc));console.log("Wrote synthetic tree/DAG membership example (12 nodes, 13 relations).");
+
+// Importance changes added RFC stiffness; zeros retain ordinary semantic context.
+const weighted=new FreshGraph();
+for(const [id,label,x,y,weight] of [
+  ["root","Weighted project",0,-40,1],["a","Important branch",-150,90,9],["b","Ordinary branch",150,90,1],
+  ["c","Zero-importance context",30,-190,0],["a1","Detail A1",-240,220,1],["a2","Zero-strength relation",-70,240,1],["b1","Detail B1",200,230,1]
+])weighted.addNode(new FreshNode(id,label,{type:id==="root"?"project":"idea",weight,position:{x,y},annotation:{format:"text",text:
+  id==="root"?"Choose Weighted tree in Substructures and Reinforce substructure. Node default is 1 and relation default is 10. Importance stiffens added RFC constraints; zeros retain ordinary graph forces. The saved definition still contains every member/relation.":`Synthetic node importance: ${weight}. Change Weight in the inspector to compare reinforcement.`}}));
+for(const [id,from,to,weight] of [["ra","root","a",30],["rb","root","b",10],["rc","root","c",10],["aa1","a","a1",10],["aa2","a","a2",0],["bb1","b","b1",10]])
+  weighted.addEdge(new FreshEdge(weighted.findNode(from),weighted.findNode(to),{id,label:weight===0?"ordinary context":"branch",weight,length:90}));
+weighted.setSubstructure({id:"weighted-tree",label:"Weighted tree",kind:"tree",rootId:"root",nodeIds:[...weighted.getNodes()].map(n=>n.getID()),edgeIds:[...weighted.getEdges()].map(e=>e.getID())});
+const weightedDocument=new FreshmindDocument(new TypeRegistry(freshmind2014Configuration),weighted);weightedDocument.title="RFC node and relation importance (synthetic)";
+weightedDocument.view={focus:"root",wholeGraph:true,radius:3,lenses:{zoom:1,hyperbolic:0,rotation:0},canvas:{zoom:1}};
+await writeFile(new URL("weighted-tree.fm.yaml",out),serializeDocument(weightedDocument));
+console.log("Wrote synthetic importance tree (7 nodes, 6 relations; zero importance retained as context).");

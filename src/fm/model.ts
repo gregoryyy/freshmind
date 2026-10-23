@@ -33,7 +33,7 @@ function metadata(value: unknown): Metadata { record(value, "metadata"); jsonDat
 /**
  * TouchGraph node extended with semantic metadata and transient presentation state.
  * Semantic type remains separate from the inherited numeric getType shape contract.
- * Metadata/visual values are copied at API boundaries; weights affect halos, not forces.
+ * Metadata/visual values are copied at API boundaries; weights affect presentation and added RFC stiffness.
  */
 export class FreshNode extends Node {
   private semanticType = "default";
@@ -87,7 +87,7 @@ export class FreshNode extends Node {
   getURL(): string { return this.url; }
   setURL(url: string): void { if (typeof url !== "string") throw new TypeError("Expected URL string"); this.url = url; }
   getWeight(): number { return this.weight; }
-  /** Sets nonnegative visual halo weight, independently of the inherited physical repulsion. */
+  /** Sets nonnegative visual/RFC importance, independently of inherited TouchGraph repulsion and mass. */
   setWeight(weight: number): void { number(weight, "node.weight"); this.weight = weight; }
   getData(): Metadata { return clone(this.data); }
   /** Validates and copies JSON-compatible application metadata; getters return detached copies. */
@@ -152,7 +152,7 @@ export class FreshEdge extends Edge {
   /** Copies validated style overrides; the next repaint resolves and redraws the curve. */
   setVisual(visual: VisualOverride<EdgeStyle>): void { this.visual = validateVisualOverride(visual, "edge"); }
   getWeight(): number { return this.weight; }
-  /** Sets nonnegative stroke weight; it does not multiply spring attraction. */
+  /** Sets nonnegative stroke/RFC importance; ordinary TouchGraph spring attraction remains unchanged. */
   setWeight(weight: number): void { number(weight, "edge.weight"); this.weight = weight; }
   getData(): Metadata { return clone(this.data); }
   setData(data: Metadata): void { this.data = metadata(data); }

@@ -25,7 +25,7 @@
           <details class="sidebar-section" id="files-section" open><summary>Graph files</summary>
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <label class="control-label" for="example-graph">Load example</label>
-          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="substructures">Trees and DAG</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
+          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="substructures">Trees and DAG</option><option value="weighted-tree">Weighted tree</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
           <input type="file" id="open-graph-files" accept=".yaml,.yml" multiple hidden />
           <p id="file-status" class="control-help" role="status"></p>
           </details>
@@ -132,6 +132,7 @@
                 <label class="control-label" for="edge-curve" hidden>Relation curve</label>
                 <select id="edge-curve" hidden><option value="">Use view default</option><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
                 <label class="control-label" for="item-weight">Weight</label><input id="item-weight" type="number" min="0" step="any" required />
+                <p class="control-help">Importance controls visual emphasis and RFC stiffness. Defaults: node 1, relation 10. Zero disables incident RFC constraints; ordinary layout forces continue.</p>
                 <fieldset id="node-fields" class="metadata-fields">
                   <label class="control-label" for="node-url">Linked resource URL or path</label><input id="node-url" type="text" />
                   <label class="control-label" for="annotation-format">Annotation format</label><select id="annotation-format"><option value="text">Plain text</option><option value="html">HTML</option></select>
