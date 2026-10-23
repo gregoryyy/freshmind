@@ -75,6 +75,8 @@ const disposeKeymap = bindKeymap(panel, {button: get("keymap-help"), includeBrow
 const disposeRfc = bindRfcControls(panel, {
   activate: get<HTMLButtonElement>("rfc-activate"), clear: get<HTMLButtonElement>("rfc-clear"),
   springMultiplier: get<HTMLInputElement>("rfc-springs"), angularStiffness: get<HTMLInputElement>("rfc-angular"), status: get("rfc-status"),
+  radialStiffness: get<HTMLInputElement>("rfc-radial"), radialLength: get<HTMLInputElement>("rfc-length"),
+  treePreset: get<HTMLButtonElement>("rfc-tree"), attractionPreset: get<HTMLButtonElement>("rfc-attraction"),
   xWeight: get<HTMLInputElement>("rfc-x-weight"), yWeight: get<HTMLInputElement>("rfc-y-weight")
 });
 bindFileControls(panel);

@@ -11,8 +11,9 @@ import type { LayoutForce } from "../../tg/layout.js";
 import { angularGapRms, applyRfcForces, collectFocalStar } from "./forces.js";
 import type { RfcHost, RfcSettings, RfcState } from "./types.js";
 import {validateCoordinateWeights} from "./metric.js";
+import {rfcForcePresets} from "./presets.js";
 
-const defaults: RfcSettings = {springMultiplier: 3, angularStiffness: 300, coordinateWeights: {x: 1, y: 1}};
+const defaults: RfcSettings = {...rfcForcePresets.tree, coordinateWeights: {x: 1, y: 1}};
 
 /** Owns transient single-focus constraints; the host remains authoritative for graph membership. */
 export class RfcController {
@@ -26,7 +27,7 @@ export class RfcController {
     this.settings = this.validate({...defaults, ...options});
   }
   private validate(settings: RfcSettings): RfcSettings {
-    for (const [key, min, max] of [["springMultiplier", 1, 100], ["angularStiffness", 0, 100000]] as const)
+    for (const [key, min, max] of [["springMultiplier", 1, 100], ["radialStiffness", 0, 2], ["radialLength", 10, 1000], ["angularStiffness", 0, 100000]] as const)
       if (!Number.isFinite(settings[key]) || settings[key] < min || settings[key] > max)
         throw new RangeError(`${key} must be finite and in ${min}–${max}`);
     return {...settings, coordinateWeights: validateCoordinateWeights(settings.coordinateWeights)};
@@ -63,6 +64,7 @@ export class RfcController {
     if (this.disposed) throw new Error("RFC controller has been destroyed");
     const next = this.validate({...this.settings, ...changes});
     if (next.springMultiplier === this.settings.springMultiplier && next.angularStiffness === this.settings.angularStiffness
+      && next.radialStiffness === this.settings.radialStiffness && next.radialLength === this.settings.radialLength
       && next.coordinateWeights.x === this.settings.coordinateWeights.x && next.coordinateWeights.y === this.settings.coordinateWeights.y) return;
     this.settings = next; this.host.resetDamper(); this.publish();
   }

@@ -55,11 +55,19 @@ function moment(center: Node, branch: Node, value: number, weights: CoordinateWe
 }
 
 /** Adds radial reinforcement and the paper's equation (1) moments; only dx/dy are mutated. */
-export function applyRfcForces(star: FocalStar, settings: Pick<RfcSettings, "springMultiplier" | "angularStiffness">, rigidity: number): void {
+export function applyRfcForces(star: FocalStar, settings: Pick<RfcSettings, "springMultiplier" | "angularStiffness"> & Partial<Pick<RfcSettings, "radialStiffness" | "radialLength">>, rigidity: number): void {
   const {center, branches, coordinateWeights: weights} = star;
   if (settings.springMultiplier !== 1) for (const {node, edge} of branches) {
     const x = node.x - center.x, y = node.y - center.y;
     const pull = (settings.springMultiplier - 1) * rigidity * weightedDistance(node, center, weights) / (edge.getLength() * 100);
+    branchImpulse(center, node, -weights.x * x * pull, -weights.y * y * pull);
+  }
+  if (settings.radialStiffness) for (const {node} of branches) {
+    const x = node.x - center.x, y = node.y - center.y;
+    const distance = weightedDistance(node, center, weights);
+    // Smooth D near zero using sqrt(D² + 1); this is the gradient of k/2·(sqrt(D²+1)−L)².
+    const radius = Math.hypot(distance, 1);
+    const pull = settings.radialStiffness * rigidity * (radius - (settings.radialLength ?? 120)) / radius;
     branchImpulse(center, node, -weights.x * x * pull, -weights.y * y * pull);
   }
   if (branches.length < 2 || settings.angularStiffness === 0) return;

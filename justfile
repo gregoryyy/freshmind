@@ -52,6 +52,15 @@ rfc-experiment output="docs/experiments/rfc-single-focus": build
 rfc-plot output="docs/experiments/rfc-single-focus":
     python3 scripts/plot-rfc.py {{quote(output)}}
 
+# Render the second RFC draft's SVG/PDF/PNG figures; requires matplotlib and numpy.
+rfc-figures:
+    python3 scripts/rfc-paper-figures.py
+
+# Regenerate experiments/figures and render the second draft next to its Markdown source.
+rfc-paper: rfc-experiment rfc-plot rfc-figures
+    rm -f docs/papers/rfc-revisited-draft2.md.pdf
+    just pdf docs/papers/rfc-revisited-draft2.md
+
 # Build and serve the production demo; accepts Vite preview arguments.
 preview *args: build-demo
     npx --no-install vite preview --host 127.0.0.1 "$@"

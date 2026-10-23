@@ -15,7 +15,8 @@ root = Path(sys.argv[1] if len(sys.argv) > 1 else "docs/experiments/rfc-single-f
 report = json.loads((root / "results.json").read_text())
 names = list(dict.fromkeys(result["name"] for result in report["results"]))
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 9, "svg.hashsalt": "fm4-rfc-single-focus"})
-fig, axes = plt.subplots(len(names), 3, figsize=(12, 3.8 * len(names)), squeeze=False, layout="constrained")
+fig, axes = plt.subplots(len(names), 5, figsize=(19, 3.8 * len(names)), squeeze=False, layout="constrained")
+labels = {"baseline": "TouchGraph", "attraction": "Attraction RFC", "tree": "Tree RFC"}
 for row, name in enumerate(names):
     results = [result for result in report["results"] if result["name"] == name]
     nodes = [node for result in results for node in result["nodes"]]
@@ -32,10 +33,15 @@ for row, name in enumerate(names):
             ax.scatter([node["x"]], [node["y"]], c=color, marker="s" if node["fixed"] else "o", s=42, zorder=2)
             ax.annotate(node["label"], (node["x"], node["y"]), xytext=(4, 5), textcoords="offset points", fontsize=7)
         ax.set(xlim=(xmin, xmax), ylim=(ymax, ymin), xlabel="Physical x", ylabel="Physical y",
-               title=f'{name}: {"RFC" if result["reinforced"] else "TouchGraph"}\nweighted gap RMS {result["final"]["angularGapRms"]:.3f} rad')
+               title=f'{name}: {labels[result["profile"]]}\nweighted gap RMS {result["final"]["angularGapRms"]:.3f} rad')
         ax.set_aspect("equal", adjustable="box")
-        axes[row, 2].plot([point["batch"] for point in result["trace"]], [point["angularGapRms"] for point in result["trace"]], label="RFC" if result["reinforced"] else "TouchGraph")
-    axes[row, 2].set(xlabel="Layout batches (10 steps each)", ylabel="Weighted angular-gap RMS (rad)", title="Even branch spacing in the configured metric")
-    axes[row, 2].legend()
+        axes[row, 3].plot([point["batch"] for point in result["trace"]], [point["angularGapRms"] for point in result["trace"]], label=labels[result["profile"]])
+        axes[row, 4].plot([point["batch"] for point in result["trace"]], [point["radialLengthRms"] for point in result["trace"]], label=labels[result["profile"]])
+    axes[row, 3].set(xlabel="Layout batches (10 steps each)", ylabel="Weighted angular-gap RMS (rad)", title="Even branch spacing in the configured metric")
+    axes[row, 3].legend()
+    axes[row, 4].set(xlabel="Layout batches (10 steps each)", ylabel="Target-length RMS", title="Focal length error (target 120)")
+    axes[row, 4].legend()
 fig.savefig(root / "comparison.svg", metadata={"Date": None, "Creator": "Freshmind RFC experiment / matplotlib"})
-print(f'Wrote {root / "comparison.svg"}')
+svg = root / "comparison.svg"
+svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines()) + "\n")
+print(f'Wrote {svg}')

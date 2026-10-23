@@ -76,6 +76,8 @@ export interface NavigationHost {
   setSelectEdge(edge: FreshEdge | null): void;
   updateDrawPositions(): void;
   centerOn(node: Node, updateFocus?: boolean): void;
+  /** Optional extension invoked by a repeated center command on the current focal node. */
+  reinforceCenteredNode?(node: FreshNode): void;
   getZoom(): number;
   zoomBy(factor: number): void;
   getCanvasZoom(): number;

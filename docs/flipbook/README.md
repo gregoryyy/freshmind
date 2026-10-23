@@ -70,20 +70,26 @@ Ctrl+Shift+S opens the filename dialog. Saving downloads the complete stored gra
 
 The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.
 
-## 12. Single-focus comparison: reinforcement enabled
+## 12. Single-focus comparison: attraction reinforcement
 
-![Single-focus comparison: reinforcement enabled](12-rfc.png)
+![Single-focus comparison: attraction reinforcement](12-rfc-attraction.png)
 
-Reload the identical initial graph, activate RFC and run the same 250 batches. Strengthened focal springs and angular forces spread the branches more evenly; the 9 semantic nodes and 12 relations are unchanged. This comparison uses ordinary coordinate weights (1, 1). Focal-region exclusion remains later work.
+Reload the identical graph, choose Attraction only and run 250 batches. This earlier preset combines attraction multiplier 3 with angular stiffness 300, without a target-length spring. Soft yellow halos identify the reinforced nodes and relations; semantic graph records remain unchanged.
 
-## 13. Weighted RFC for horizontally extended labels
+## 13. Single-focus comparison: length-constrained tree
 
-![Weighted RFC for horizontally extended labels](13-rfc-weighted.png)
+![Single-focus comparison: length-constrained tree](13-rfc.png)
+
+The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. RFC halos fade away without a rim; focal-region exclusion remains later work.
+
+## 14. Weighted RFC for horizontally extended labels
+
+![Weighted RFC for horizontally extended labels](14-rfc-weighted.png)
 
 The wide-label fixture uses horizontal coordinate weight 0.25 and vertical weight 1. Equal angles are measured in weighted physical coordinates, permitting a wider focal layout while the viewing lens and both zooms stay independent. Ordinary context springs still compete with reinforcement; the metric alone does not guarantee clear space or eliminate label overlaps.
 
-## 14. Browse the approved NIPS dataset
+## 15. Browse the approved NIPS dataset
 
-![Browse the approved NIPS dataset](14-nips.png)
+![Browse the approved NIPS dataset](15-nips.png)
 
 NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.

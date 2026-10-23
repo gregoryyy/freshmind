@@ -9,12 +9,17 @@
 import { FreshNode } from "../model.js";
 import type { FreshmindPanel } from "../panel.js";
 import type { RfcSettings } from "../rfc/types.js";
+import {rfcForcePresets} from "../rfc/presets.js";
 
 export interface RfcControlElements {
   activate: HTMLButtonElement;
   clear: HTMLButtonElement;
   springMultiplier: HTMLInputElement;
   angularStiffness: HTMLInputElement;
+  radialStiffness?: HTMLInputElement;
+  radialLength?: HTMLInputElement;
+  treePreset?: HTMLButtonElement;
+  attractionPreset?: HTMLButtonElement;
   xWeight?: HTMLInputElement;
   yWeight?: HTMLInputElement;
   status: HTMLElement;
@@ -23,11 +28,13 @@ export interface RfcControlElements {
 /** Binds application-owned controls to transient reinforcement; dispose before removing the panel. */
 export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlElements): () => void {
   const rfc = panel.getRfc();
-  const fields = ["springMultiplier", "angularStiffness", "xWeight", "yWeight"] as const;
+  const fields = ["springMultiplier", "radialStiffness", "radialLength", "angularStiffness", "xWeight", "yWeight"] as const;
   const update = () => {
     const state = rfc.getState(), selected = panel.getSelection();
     elements.activate.disabled = !(selected instanceof FreshNode) || !panel.getGES().contains(selected);
     elements.clear.disabled = !state.enabled;
+    for (const [key, button] of [["tree", elements.treePreset], ["attraction", elements.attractionPreset]] as const)
+      button?.setAttribute("aria-pressed", String(Object.entries(rfcForcePresets[key]).every(([field, value]) => state.settings[field as keyof typeof rfcForcePresets.tree] === value)));
     for (const key of fields) {
       const input = elements[key];
       if (input && input.ownerDocument.activeElement !== input)
@@ -44,6 +51,14 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
   elements.activate.addEventListener("click", activate);
   elements.clear.addEventListener("click", clear);
   const removers: (() => void)[] = [];
+  for (const [key, button] of [["tree", elements.treePreset], ["attraction", elements.attractionPreset]] as const) {
+    const choose = () => {
+      for (const field of fields) elements[field]?.setCustomValidity("");
+      rfc.configure(rfcForcePresets[key]); panel.focusGraph(); update();
+    };
+    button?.addEventListener("click", choose);
+    removers.push(() => button?.removeEventListener("click", choose));
+  }
   for (const key of fields) {
     const input = elements[key];
     if (!input) continue;

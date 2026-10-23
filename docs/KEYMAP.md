@@ -11,7 +11,7 @@ Graph commands require graph focus. Text editors keep normal typing, caret movem
 | Arrow keys | Select a neighbor in that direction; several neighbors start preselection. |
 | Shift + arrows | Preselect relations rather than nodes, including parallel/incoming relations. |
 | Perpendicular arrows | Cycle ambiguous candidates; the original direction or Enter/Space confirms, the opposite cancels. |
-| Enter | Confirm candidates, otherwise center selection. N chooses whether centering also changes the neighborhood. |
+| Enter | Confirm candidates, otherwise center selection. Repeat on the center to transfer enabled RFC. N chooses whether centering changes the neighborhood. |
 | Space | Confirm candidates, otherwise show/hide the node content popup or relation details. |
 | Escape | Cancel candidates, then clear a selected relation back to its anchor, then clear node selection. |
 | E / K / H | Expand / collapse / hide the selected node. |
@@ -37,7 +37,7 @@ Graph commands require graph focus. Text editors keep normal typing, caret movem
 | Pinch / Ctrl + wheel | Scale the complete canvas around the pointer. |
 | Horizontal two-finger scroll | Adjust focus + context. Diagonal wheel events use their dominant axis. |
 | Drag node / background | Move a node through the viewing lenses / pan the canvas. |
-| Double-click node | Select and center it, using the same neighborhood option as Enter. |
+| Double-click node | Select and center it, using the same neighborhood option as Enter. Repeat on the center to transfer enabled RFC. |
 
 ## Editing
 

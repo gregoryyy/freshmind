@@ -1,0 +1,968 @@
+{
+  "seed": "0x1234abcd",
+  "batches": 250,
+  "fixedCenter": true,
+  "fixedContextAnchors": true,
+  "results": [
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.7212349996679783,
+        "physicalAngularGapRms": 0.7212349996679783,
+        "radialLengthRms": 3.5789443365493536,
+        "meanRadius": 119.49905589042258
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.08979747648660263,
+        "physicalAngularGapRms": 0.08979747648660263,
+        "radialLengthRms": 17.295301065004104,
+        "meanRadius": 111.90775978019342
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.030812769084819055,
+        "physicalAngularGapRms": 0.030812769084819055,
+        "radialLengthRms": 17.318718777473475,
+        "meanRadius": 111.4729142421346
+      },
+      "lastBatchMaxDisplacement": 0.018554139391509353
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.010969338406519272,
+        "physicalAngularGapRms": 0.010969338406519272,
+        "radialLengthRms": 17.011844685231065,
+        "meanRadius": 111.31378974586711
+      },
+      "lastBatchMaxDisplacement": 0.03332425117475847
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.7263212888998245,
+        "physicalAngularGapRms": 0.7263212888998245,
+        "radialLengthRms": 1.8553712046921336,
+        "meanRadius": 119.75090317968808
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.09085973590471644,
+        "physicalAngularGapRms": 0.09085973590471644,
+        "radialLengthRms": 10.100960021352781,
+        "meanRadius": 115.12271164300354
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.03088460367474429,
+        "physicalAngularGapRms": 0.03088460367474429,
+        "radialLengthRms": 10.142099182109195,
+        "meanRadius": 114.8665298296848
+      },
+      "lastBatchMaxDisplacement": 0.0000027194075180722546
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.010849842911473152,
+        "physicalAngularGapRms": 0.010849842911473152,
+        "radialLengthRms": 10.102464822047617,
+        "meanRadius": 114.7719236461814
+      },
+      "lastBatchMaxDisplacement": 0.011601251348417859
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.7292713056094816,
+        "physicalAngularGapRms": 0.7292713056094816,
+        "radialLengthRms": 0.9455692423061028,
+        "meanRadius": 119.87471082469158
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.1461341033464654,
+        "physicalAngularGapRms": 0.1461341033464654,
+        "radialLengthRms": 3.8413283522963724,
+        "meanRadius": 117.50543860317816
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.030935865804404498,
+        "physicalAngularGapRms": 0.030935865804404498,
+        "radialLengthRms": 5.562382870593254,
+        "meanRadius": 117.13749334054695
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.010911398659312538,
+        "physicalAngularGapRms": 0.010911398659312538,
+        "radialLengthRms": 5.530531143438274,
+        "meanRadius": 117.08329851473933
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.7308553812430704,
+        "physicalAngularGapRms": 0.7308553812430704,
+        "radialLengthRms": 0.47768764210494835,
+        "meanRadius": 119.93568196334415
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.15324121241442873,
+        "physicalAngularGapRms": 0.15324121241442873,
+        "radialLengthRms": 1.895021330552163,
+        "meanRadius": 118.70467995415298
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.030967120143970163,
+        "physicalAngularGapRms": 0.030967120143970163,
+        "radialLengthRms": 2.926953559996816,
+        "meanRadius": 118.47914202199303
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "crowded-star",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.011541864027691575,
+        "physicalAngularGapRms": 0.011541864027691575,
+        "radialLengthRms": 2.8625939488123024,
+        "meanRadius": 118.4492587351561
+      },
+      "lastBatchMaxDisplacement": 0.013274323511037326
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.7048023728010141,
+        "physicalAngularGapRms": 0.7048023728010141,
+        "radialLengthRms": 8.429075014946772,
+        "meanRadius": 117.970791540422
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.0903230418674011,
+        "physicalAngularGapRms": 0.0903230418674011,
+        "radialLengthRms": 20.296107313506695,
+        "meanRadius": 111.63648389757219
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.08835575651109512,
+        "physicalAngularGapRms": 0.08835575651109512,
+        "radialLengthRms": 21.89002503603293,
+        "meanRadius": 110.26279882802068
+      },
+      "lastBatchMaxDisplacement": 26.895751439833624
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.011149767321208655,
+        "physicalAngularGapRms": 0.011149767321208655,
+        "radialLengthRms": 19.910860821738556,
+        "meanRadius": 110.95144442700153
+      },
+      "lastBatchMaxDisplacement": 0.05663884649097235
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.7168997768921597,
+        "physicalAngularGapRms": 0.7168997768921597,
+        "radialLengthRms": 4.70449474147899,
+        "meanRadius": 118.73486176528706
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.09046182649396518,
+        "physicalAngularGapRms": 0.09046182649396518,
+        "radialLengthRms": 12.342601079383073,
+        "meanRadius": 114.60107017289737
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.03101428852483414,
+        "physicalAngularGapRms": 0.03101428852483414,
+        "radialLengthRms": 12.345511080004286,
+        "meanRadius": 114.34775239757575
+      },
+      "lastBatchMaxDisplacement": 0.00020257779407351908
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.013433967356990054,
+        "physicalAngularGapRms": 0.013433967356990054,
+        "radialLengthRms": 11.137582431648656,
+        "meanRadius": 113.87064050120661
+      },
+      "lastBatchMaxDisplacement": 0.05845572806117019
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.7240960552024346,
+        "physicalAngularGapRms": 0.7240960552024346,
+        "radialLengthRms": 2.5242278368165523,
+        "meanRadius": 119.27658965684809
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.12710656863743758,
+        "physicalAngularGapRms": 0.12710656863743758,
+        "radialLengthRms": 5.99643085340721,
+        "meanRadius": 116.96628878609953
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.030998142181354243,
+        "physicalAngularGapRms": 0.030998142181354243,
+        "radialLengthRms": 6.974577939218611,
+        "meanRadius": 116.70522742616014
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.01164935950306659,
+        "physicalAngularGapRms": 0.01164935950306659,
+        "radialLengthRms": 6.8275202316552726,
+        "meanRadius": 116.6331570242378
+      },
+      "lastBatchMaxDisplacement": 0.02378937186375805
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.7281220926577345,
+        "physicalAngularGapRms": 0.7281220926577345,
+        "radialLengthRms": 1.3148460316352466,
+        "meanRadius": 119.60899884655983
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.15064765700426255,
+        "physicalAngularGapRms": 0.15064765700426255,
+        "radialLengthRms": 2.689900264981374,
+        "meanRadius": 118.39600713065435
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.031005320435076804,
+        "physicalAngularGapRms": 0.031005320435076804,
+        "radialLengthRms": 3.741771614039411,
+        "meanRadius": 118.20143652842224
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "unequal-radii",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.015324862827209096,
+        "physicalAngularGapRms": 0.015324862827209096,
+        "radialLengthRms": 3.1953578425682148,
+        "meanRadius": 118.08324254004374
+      },
+      "lastBatchMaxDisplacement": 0.024166457983545123
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 1.4712658107734795,
+        "physicalAngularGapRms": 1.7657584979869887,
+        "radialLengthRms": 4.629534251173142,
+        "meanRadius": 195.858953591189
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.5136028686886892,
+        "physicalAngularGapRms": 0.6686813641051534,
+        "radialLengthRms": 43.949417144718964,
+        "meanRadius": 157.11945052905335
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.1708286899379432,
+        "physicalAngularGapRms": 0.48615228027427054,
+        "radialLengthRms": 54.51774536939266,
+        "meanRadius": 136.60603559654334
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.25,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.07117736591893815,
+        "physicalAngularGapRms": 0.38281632335846105,
+        "radialLengthRms": 44.76485588920819,
+        "meanRadius": 139.65120528656905
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 1.3736470514793204,
+        "physicalAngularGapRms": 1.653273799379587,
+        "radialLengthRms": 6.894766660152634,
+        "meanRadius": 195.8541163786991
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.5212236963531585,
+        "physicalAngularGapRms": 0.6797850971576539,
+        "radialLengthRms": 34.82306286939247,
+        "meanRadius": 161.0258497553547
+      },
+      "lastBatchMaxDisplacement": 0.018783037865280787
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.17372650954411722,
+        "physicalAngularGapRms": 0.4770249101859087,
+        "radialLengthRms": 43.890478869077405,
+        "meanRadius": 144.6122306815949
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 0.5,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.07259026595813063,
+        "physicalAngularGapRms": 0.37351625628327095,
+        "radialLengthRms": 38.994425324498216,
+        "meanRadius": 144.7048934109001
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 1.3764806098113522,
+        "physicalAngularGapRms": 1.664026255157134,
+        "radialLengthRms": 3.512425249151682,
+        "meanRadius": 198.1607312135866
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.6749046364542741,
+        "physicalAngularGapRms": 0.6884815504746401,
+        "radialLengthRms": 8.484696690529157,
+        "meanRadius": 174.45839997611495
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.19727076554416592,
+        "physicalAngularGapRms": 0.4699743665860325,
+        "radialLengthRms": 27.680697283657057,
+        "meanRadius": 159.20086007667499
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 1,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.0764820564502607,
+        "physicalAngularGapRms": 0.37117981464062105,
+        "radialLengthRms": 29.029920851486104,
+        "meanRadius": 154.47744304695667
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 1.377848537018877,
+        "physicalAngularGapRms": 1.6660701476331394,
+        "radialLengthRms": 1.864701306820619,
+        "meanRadius": 198.4411088342041
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 3000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.6554623636416442,
+        "physicalAngularGapRms": 0.6503721685885602,
+        "radialLengthRms": 7.602726806789861,
+        "meanRadius": 174.5003339189358
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 10000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.26100672935262464,
+        "physicalAngularGapRms": 0.44446823283296805,
+        "radialLengthRms": 13.792685921463418,
+        "meanRadius": 170.25571153782337
+      },
+      "lastBatchMaxDisplacement": 0
+    },
+    {
+      "name": "wide-labels",
+      "settings": {
+        "springMultiplier": 1,
+        "radialStiffness": 2,
+        "radialLength": 120,
+        "angularStiffness": 30000,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "final": {
+        "angularGapRms": 0.0838923283726725,
+        "physicalAngularGapRms": 0.36911073826230645,
+        "radialLengthRms": 17.56509780123178,
+        "meanRadius": 166.02197247025208
+      },
+      "lastBatchMaxDisplacement": 0
+    }
+  ]
+}

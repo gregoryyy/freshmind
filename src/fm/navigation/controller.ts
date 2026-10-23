@@ -202,8 +202,11 @@ export class FreshmindNavigation {
     const anchor = this.host.getSelect();
     if (!(anchor instanceof FreshNode) || !this.host.getCompleteEltSet().contains(anchor)) return;
     if (!this.settings.moveToCenter && !this.host.getGES().contains(anchor)) return;
+    const alreadyCentered = this.host.getFocus() === anchor;
     this.cancel(undefined, false); this.host.centerOn(anchor, this.settings.moveToCenter);
     if (this.settings.moveToCenter) await this.applyNeighborhood(anchor);
+    if (!this.disposed && alreadyCentered && this.host.getFocus() === anchor && this.host.getGES().contains(anchor))
+      this.host.reinforceCenteredNode?.(anchor);
   }
   private applyNeighborhood(focus: FreshNode): Promise<void> {
     const s = this.settings; return this.host.setLocale(focus, s.radius, s.maxAddEdgeCount, s.maxExpandEdgeCount, !s.backlinks);

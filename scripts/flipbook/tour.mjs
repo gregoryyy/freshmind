@@ -108,13 +108,24 @@ export const tour = [
     }
   },
   {
-    id: "rfc", title: "Single-focus comparison: reinforcement enabled",
-    caption: "Reload the identical initial graph, activate RFC and run the same 250 batches. Strengthened focal springs and angular forces spread the branches more evenly; the 9 semantic nodes and 12 relations are unchanged. This comparison uses ordinary coordinate weights (1, 1). Focal-region exclusion remains later work.",
+    id: "rfc-attraction", title: "Single-focus comparison: attraction reinforcement",
+    caption: "Reload the identical graph, choose Attraction only and run 250 batches. This earlier preset combines attraction multiplier 3 with angular stiffness 300, without a target-length spring. Soft yellow halos identify the reinforced nodes and relations; semantic graph records remain unchanged.",
     async run({page, advance}) {
       await openRfc(page);
+      await page.getByRole("button", {name: "Attraction only", exact: true}).click();
       await page.getByRole("button", {name: "Reinforce selected node", exact: true}).click();
       await advance(250);
       await page.waitForFunction(() => window.graphBrowser.getRfc().getState().branchIds.length === 6);
+    }
+  },
+  {
+    id: "rfc", title: "Single-focus comparison: length-constrained tree",
+    caption: "The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. RFC halos fade away without a rim; focal-region exclusion remains later work.",
+    async run({page, advance}) {
+      await openRfc(page);
+      await page.getByRole("button", {name: "Tree structure", exact: true}).click();
+      await page.getByRole("button", {name: "Reinforce selected node", exact: true}).click();
+      await advance(250);
     }
   },
   {

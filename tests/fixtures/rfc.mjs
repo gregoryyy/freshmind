@@ -1,12 +1,12 @@
 /* Freshmind. Apache-2.0. Copyright (c) 2002-2014, 2026 Gregor Heinrich.
  * TypeScript port by Gregor Heinrich using Codex GPT-6.1. */
 import {TGLayout} from "fm4/core";
-import {FreshGraph, FreshNode, FreshEdge, RfcController, collectFocalStar, angularGapRms} from "fm4/fm/core";
+import {FreshGraph, FreshNode, FreshEdge, RfcController, collectFocalStar, angularGapRms, weightedDistance, rfcForcePresets} from "fm4/fm/core";
 
 export const rfcScenarios = ["crowded-star", "unequal-radii", "wide-labels"];
 
 /** Synthetic examples only; fixed context anchors create competing ordinary spring forces. */
-export function rfcFixture(name = "crowded-star", reinforced = false) {
+export function rfcFixture(name = "crowded-star", reinforced = false, profile = "tree") {
   if (!rfcScenarios.includes(name)) throw new Error("Unknown RFC scenario " + name);
   const graph = new FreshGraph();
   const wide = name === "wide-labels", coordinateWeights = {x: wide ? .25 : 1, y: 1};
@@ -28,7 +28,8 @@ export function rfcFixture(name = "crowded-star", reinforced = false) {
   let seed = 0x1234abcd;
   const random = () => { seed = (Math.imul(1664525, seed) + 1013904223) >>> 0; return seed / 4294967296; };
   const host = {getGES: () => graph, getCompleteEltSet: () => graph, repaintAfterMove() {}, resetDamper: () => layout.resetDamper()};
-  const layout = new TGLayout(host, random), rfc = new RfcController(host, {coordinateWeights});
+  if (!Object.hasOwn(rfcForcePresets,profile)) throw new Error("Unknown RFC profile " + profile);
+  const layout = new TGLayout(host, random), rfc = new RfcController(host, {...rfcForcePresets[profile],coordinateWeights});
   layout.addForce(rfc.apply);
   if (reinforced) rfc.setFocus(center);
   layout.resetDamper();
@@ -36,20 +37,29 @@ export function rfcFixture(name = "crowded-star", reinforced = false) {
 }
 
 /** Fixed batch count, initial coordinates and RNG allow exact repeated comparisons in one runtime. */
-export function runRfcScenario(name, reinforced, batches = 250) {
-  const {graph, center, layout, rfc} = rfcFixture(name, reinforced);
+export function runRfcScenario(name, reinforced, batches = 250, profile = "tree", options = {}) {
+  const {graph, center, layout, rfc} = rfcFixture(name, reinforced, profile);
+  if (options.fixedCenter === false) center.fixed = false;
+  if (options.settings) rfc.configure(options.settings);
+  if (options.rigidity !== undefined) layout.setRigidity(options.rigidity);
   const sample = () => {
     const star = collectFocalStar(graph, center, rfc.getState().settings.coordinateWeights);
+    const target=rfc.getState().settings.radialLength;
     return {angularGapRms: angularGapRms(star), physicalAngularGapRms: angularGapRms(collectFocalStar(graph, center)),
+      radialLengthRms: Math.hypot(...star.branches.map(b=>weightedDistance(b.node,center,star.coordinateWeights)-target))/Math.sqrt(star.branches.length),
       meanRadius: star.branches.reduce((sum, branch) => sum + Math.hypot(branch.node.x - center.x, branch.node.y - center.y), 0) / star.branches.length};
   };
   const initial = sample();
   const trace = [{batch: 0, ...initial}];
+  let lastBatchMaxDisplacement = 0;
   for (let batch = 1; batch <= batches; batch++) {
+    const before = [...graph.getNodes()].map(node => [node.x, node.y]);
     layout.tick();
-    if (batch % 10 === 0 || batch === batches) trace.push({batch, ...sample()});
+    lastBatchMaxDisplacement = Math.max(...[...graph.getNodes()].map((node, i) => Math.hypot(node.x - before[i][0], node.y - before[i][1])));
+    if (batch % 10 === 0 || batch === batches) trace.push({batch, ...sample(), displacement:lastBatchMaxDisplacement, damper:layout.getState().damper});
   }
-  const result = {name, reinforced, batches, settings: rfc.getState().settings, initial, final: sample(), trace,
+  const result = {name, reinforced, profile: reinforced ? profile : "baseline", batches, fixedCenter: center.fixed, lastBatchMaxDisplacement,
+    settings: rfc.getState().settings, rigidity:options.rigidity ?? 1, initial, final: sample(), trace,
     nodes: [...graph.getNodes()].map(node => ({id: node.getID(), label: node.getLabel(), x: node.x, y: node.y, fixed: node.fixed})),
     edges: [...graph.getEdges()].map(edge => ({id: edge.getID(), from: edge.from.getID(), to: edge.to.getID(), length: edge.getLength()}))};
   rfc.destroy(); layout.stop();

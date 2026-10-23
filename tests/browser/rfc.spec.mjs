@@ -27,13 +27,13 @@ test("RFC controls activate and configure physical reinforcement without changin
   expect((await state(page)).focusId).toBe("center"); expect((await state(page)).branchIds).toHaveLength(6);
   await expect(page.locator("#rfc-status")).toContainText("Focal project · 6 visible branches");
   await page.getByRole("button", {name: "Reinforce selected node", exact: true}).click();
-  await page.getByLabel("Focal spring multiplier").fill("4"); await page.getByLabel("Focal spring multiplier").press("Tab");
+  await page.getByLabel("Attraction multiplier",{exact:true}).fill("4"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
   await page.getByLabel("Angular stiffness").fill("400"); await page.getByLabel("Angular stiffness").press("Tab");
-  expect((await state(page)).settings).toEqual({springMultiplier: 4, angularStiffness: 400, coordinateWeights: {x: 1, y: 1}});
-  await page.getByLabel("Focal spring multiplier").fill("0"); await page.getByLabel("Focal spring multiplier").press("Tab");
+  expect((await state(page)).settings).toEqual({springMultiplier: 4, radialStiffness:1,radialLength:120,angularStiffness: 400, coordinateWeights: {x: 1, y: 1}});
+  await page.getByLabel("Attraction multiplier",{exact:true}).fill("0"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
   expect((await state(page)).settings.springMultiplier).toBe(4);
-  expect(await page.getByLabel("Focal spring multiplier").evaluate(input => input.validationMessage)).toContain("springMultiplier");
-  await page.getByLabel("Focal spring multiplier").fill("3"); await page.getByLabel("Focal spring multiplier").press("Tab");
+  expect(await page.getByLabel("Attraction multiplier",{exact:true}).evaluate(input => input.validationMessage)).toContain("springMultiplier");
+  await page.getByLabel("Attraction multiplier",{exact:true}).fill("3"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
   const view = await page.evaluate(() => {
     const p = window.graphBrowser, before = p.getRfc().getState().angularGapRms;
     p.tgLayout.tick(50);
@@ -85,6 +85,83 @@ test("weighted RFC controls change physical geometry without changing lenses or 
   expect(await record(page)).toEqual(original);expect(errors).toEqual([]);
 });
 
+test("tree and attraction presets preserve focus/metric, expose length stiffness and leave semantic lengths unchanged",async({page})=>{
+  const errors=await ready(page),original=await record(page);
+  await page.getByRole("button",{name:"Reinforce selected node",exact:true}).click();
+  await page.getByLabel("Horizontal coordinate weight",{exact:true}).fill("0.25");await page.getByLabel("Horizontal coordinate weight",{exact:true}).press("Tab");
+  const tree=page.getByRole("button",{name:"Tree structure",exact:true}),attraction=page.getByRole("button",{name:"Attraction only",exact:true});
+  await attraction.click();await expect(attraction).toHaveAttribute("aria-pressed","true");
+  expect((await state(page)).settings).toMatchObject({radialStiffness:0,angularStiffness:300,coordinateWeights:{x:.25,y:1}});
+  await tree.click();await expect(tree).toHaveAttribute("aria-pressed","true");
+  expect(await state(page)).toMatchObject({focusId:"center",settings:{radialStiffness:1,radialLength:120,angularStiffness:10000,coordinateWeights:{x:.25,y:1}}});
+  const length=page.getByLabel("Target focal length",{exact:true}),stiffness=page.getByLabel("Radial stiffness",{exact:true});
+  await length.fill("150");await length.press("Tab");await stiffness.fill("1.5");await stiffness.press("Tab");
+  expect((await state(page)).settings).toMatchObject({radialLength:150,radialStiffness:1.5});await expect(tree).toHaveAttribute("aria-pressed","false");
+  for(const [input,value,field] of [[length,"0","radialLength"],[stiffness,"3","radialStiffness"]]){
+    await input.fill(value);await input.press("Tab");expect(await input.evaluate(i=>i.validationMessage)).toContain(field);
+  }
+  expect((await state(page)).settings).toMatchObject({radialLength:150,radialStiffness:1.5});
+  await tree.click();await expect(page.locator("#graph svg")).toBeFocused();
+  await expect(length).toHaveValue("120");await expect(stiffness).toHaveValue("1");
+  expect(await length.evaluate(input=>input.checkValidity())).toBe(true);expect(await stiffness.evaluate(input=>input.checkValidity())).toBe(true);
+  await page.evaluate(()=>window.graphBrowser.tgLayout.tick(100));expect(await record(page)).toEqual(original);expect(errors).toEqual([]);
+});
+
+test("RFC halos follow node shapes and routed edges beneath the graph, including paused activation and removal", async ({page}) => {
+  const errors = await ready(page), original = await record(page);
+  await expect(page.locator(".fm-rfc-halos")).toHaveCount(0);
+  await page.evaluate(() => {
+    const p = window.graphBrowser;
+    p.tgLayout.stop(); p.findNode("branch-0").setVisual({style:{shape:"trapezoid"}});
+    p.repaint(); p.getRfc().setFocus(p.findNode("center"));
+  });
+  await expect(page.locator(".fm-rfc-node-halo")).toHaveCount(7);
+  await expect(page.locator(".fm-rfc-edge-halo")).toHaveCount(6);
+  const geometry = await page.evaluate(async () => {
+    const p = window.graphBrowser, {createNodeOutline} = await import("/src/fm/rendering/shapes.ts");
+    p.setRotation(.6); p.setZoom(1.4); p.setCanvasZoom(1.2); p.setHyperbolic(25); p.repaint();
+    const layer = document.querySelector(".fm-rfc-halos"), node = p.findNode("branch-0");
+    const halo = layer.querySelector('[data-rfc-node-id="branch-0"]');
+    return {
+      first:layer.parentElement.firstElementChild === layer,
+      inert:getComputedStyle(halo).pointerEvents,
+      soft:layer.querySelector("feGaussianBlur").getAttribute("stdDeviation") === "5" && halo.getAttribute("stroke") === "none",
+      shape:halo.getAttribute("d") === createNodeOutline("trapezoid",node.getWidth()+20,node.getHeight()+20).path,
+      position:halo.getAttribute("transform") === `translate(${node.drawx},${node.drawy})`,
+      edges:[...layer.querySelectorAll(".fm-rfc-edge-halo")].every(h => {
+        const foreground = document.querySelector(`[data-edge-id="${h.dataset.rfcEdgeId}"] .fm-edge-path`);
+        return foreground.getAttribute("d") === h.getAttribute("d") && +h.getAttribute("stroke-width") > +foreground.getAttribute("stroke-width");
+      }),
+      context:layer.querySelectorAll('[data-rfc-node-id^="context"], [data-rfc-edge-id^="context"]').length
+    };
+  });
+  expect(geometry).toEqual({first:true,inert:"none",soft:true,shape:true,position:true,edges:true,context:0});
+  await page.locator('[data-node-id="branch-0"]').click();
+  expect(await page.evaluate(() => window.graphBrowser.getSelection().getID())).toBe("branch-0");
+  await page.evaluate(() => window.graphBrowser.getRfc().setFocus(null));
+  await expect(page.locator(".fm-rfc-halos")).toHaveCount(0);
+  // Only the explicit visual edit belongs in saved semantic records.
+  const edited = await record(page); original.nodes.find(node=>node.id==="branch-0").visual={style:{shape:"trapezoid"}};
+  expect(edited).toEqual(original); expect(errors).toEqual([]);
+});
+
+for (const gesture of ["Return", "double-click"]) test(`a second ${gesture} on the center transfers enabled RFC, while disabled RFC stays off`, async ({page}) => {
+  const errors = await ready(page);
+  await page.evaluate(() => window.graphBrowser.getNavigation().configure({radius:2}));
+  const hit = async id => {
+    await page.evaluate(id => window.graphBrowser.setSelect(window.graphBrowser.findNode(id)),id);
+    if (gesture === "Return") { await page.locator("#graph svg").focus(); await page.keyboard.press("Enter"); }
+    else await page.locator(`[data-node-id="${id}"]`).dispatchEvent("dblclick");
+    await page.evaluate(() => window.graphBrowser.getLocalityUtils().whenIdle());
+  };
+  await hit("center");expect((await state(page)).enabled).toBe(false);
+  await page.evaluate(() => window.graphBrowser.getRfc().setFocus(window.graphBrowser.findNode("center")));
+  await hit("context-0");expect((await state(page)).focusId).toBe("center");
+  await hit("context-0");expect((await state(page)).focusId).toBe("context-0");
+  await page.evaluate(() => window.graphBrowser.getRfc().setFocus(null));
+  await hit("context-0");expect((await state(page)).enabled).toBe(false);expect(errors).toEqual([]);
+});
+
 test("reusable RFC control bindings dispose without clearing separately owned controller state", async ({page}) => {
   await page.route("**/rfc-host.html", route => route.fulfill({contentType: "text/html", body: "<!doctype html><html><body></body></html>"}));
   await page.goto("/rfc-host.html");
@@ -102,7 +179,7 @@ test("reusable RFC control bindings dispose without clearing separately owned co
     const staleStatus = status.textContent;
     activate.click(); const removed = !panel.getRfc().getState().enabled;
     panel.destroy();
-    return {active, retained: retained.enabled && retained.settings.springMultiplier === 3, staleStatus, removed};
+    return {active, retained: retained.enabled && retained.settings.springMultiplier === 1, staleStatus, removed};
   });
   expect(result).toEqual({active: true, retained: true, staleStatus: "RFC: center · 1 visible branch.", removed: true});
 });

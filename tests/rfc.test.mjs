@@ -89,7 +89,7 @@ test("weighted angles recognize an elliptical focal star and unit weights preser
 });
 
 test("weighted physical impulses match the negative energy gradient and retain equal opposite reactions", () => {
-  const {graph,center}=star(),weights={x:.25,y:1.5},forceSettings={springMultiplier:3,angularStiffness:10},rigidity=.7;
+  const {graph,center}=star(),weights={x:.25,y:1.5},forceSettings={springMultiplier:3,radialStiffness:.7,radialLength:120,angularStiffness:10},rigidity=.7;
   const energy=()=>{
     const focal=collectFocalStar(graph,center,weights),target=2*Math.PI/focal.branches.length;
     let value=0;
@@ -98,6 +98,7 @@ test("weighted physical impulses match the negative energy gradient and retain e
       const gap=next.angle+(i===focal.branches.length-1?2*Math.PI:0)-branch.angle;
       value+=forceSettings.angularStiffness/2*(gap-target)**2;
       value+=(forceSettings.springMultiplier-1)*weightedDistance(branch.node,center,weights)**3/(3*branch.edge.getLength()*100);
+      value+=forceSettings.radialStiffness/2*(Math.hypot(weightedDistance(branch.node,center,weights),1)-forceSettings.radialLength)**2;
     }
     return value*rigidity;
   };
@@ -118,7 +119,7 @@ test("coordinate weights validate atomically, remain detached and apply independ
   assert.deepEqual(rfc.getState().settings.coordinateWeights,{x:.25,y:1});
   for(const value of [0,-1,NaN,Infinity,101])assert.throws(()=>rfc.configure({springMultiplier:4,coordinateWeights:{x:value,y:1}}),RangeError);
   assert.throws(()=>rfc.configure({coordinateWeights:null}),RangeError);
-  assert.equal(rfc.getState().settings.springMultiplier,3);
+  assert.equal(rfc.getState().settings.springMultiplier,1);
   const original=rfc.getState();panel.setZoom(2);panel.setCanvasZoom(3);panel.setRotation(1);panel.setHyperbolic(80);
   assert.deepEqual(rfc.getState(),original);
   const before=positions(graph);rfc.apply(panel.getGES(),1);const first=positions(graph);
@@ -139,6 +140,47 @@ test("radial reinforcement adds the original attraction multiplier and respects 
   close(branch.dx, -10); close(center.dx, 1);
 });
 
+test("length springs expand compressed focal edges, contract stretched ones and conserve pair forces",()=>{
+  for(const weights of [{x:1,y:1},{x:.25,y:1}])for(const distance of [0,50,Math.sqrt(100**2-1),150]){
+    const {graph,center}=star([0]),branch=graph.findNode("b0");branch.x=distance/Math.sqrt(weights.x);
+    applyRfcForces(collectFocalStar(graph,center,weights),{springMultiplier:1,angularStiffness:0,radialStiffness:.5,radialLength:100},1);
+    const expected=-.5*(Math.hypot(distance,1)-100)*weights.x*branch.x/Math.hypot(distance,1);
+    close(branch.dx,expected);close(center.dx,-expected);close(branch.dy,0);assert.ok(Number.isFinite(branch.dx));
+    if(distance===50)assert.ok(branch.dx>0);if(distance===150)assert.ok(branch.dx<0);
+  }
+});
+
+test("tree reinforcement reduces angular error and keeps focal lengths near their target",()=>{
+  for(const name of ["crowded-star","unequal-radii","wide-labels"]){
+    const attraction=runRfcScenario(name,true,250,"attraction"),tree=runRfcScenario(name,true,250,"tree");
+    assert.ok(tree.final.angularGapRms<attraction.final.angularGapRms*.25,JSON.stringify({name,attraction:attraction.final,tree:tree.final}));
+    assert.ok(tree.final.radialLengthRms<120*.25);
+    if(name!=="wide-labels")assert.ok(tree.final.radialLengthRms<attraction.final.radialLengthRms*.25);
+    assert.deepEqual(tree.edges,attraction.edges);
+  }
+});
+
+test("increasing radial stiffness reduces length error at the same angular stiffness and starting graph",()=>{
+  for(const name of ["crowded-star","unequal-radii","wide-labels"]){
+    let error=Infinity;
+    for(const radialStiffness of [.25,.5,1,2]){
+      const result=runRfcScenario(name,true,250,"tree",{settings:{radialStiffness}});
+      assert.ok(result.final.radialLengthRms<error);error=result.final.radialLengthRms;
+    }
+  }
+});
+
+test("tree reinforcement keeps a movable center and its branches finite under competing context forces",()=>{
+  for(const name of ["crowded-star","unequal-radii","wide-labels"]){
+    const {graph,center,layout,rfc}=rfcFixture(name,true);center.fixed=false;layout.tick(250);
+    assert.ok(positions(graph).flat().every(Number.isFinite));
+    const star=collectFocalStar(graph,center,rfc.getState().settings.coordinateWeights);
+    assert.ok(angularGapRms(star)<.1);
+    for(const branch of star.branches)assert.ok(Math.abs(weightedDistance(branch.node,center,star.coordinateWeights)-120)<60);
+    layout.stop();rfc.destroy();
+  }
+});
+
 test("isolated, one/two-branch and coincident focal structures remain finite", () => {
   for (const weights of [{x:1,y:1},{x:.01,y:100},{x:100,y:.01}]) for (const angles of [[], [0], [0, 30], [0, 0, 0]]) {
     const {graph, center} = star(angles);
@@ -157,10 +199,11 @@ test("activation/configuration are atomic and idempotent, snapshots detached and
   const before = positions(graph); rfc.setFocus(center); rfc.setFocus(center);
   assert.deepEqual(positions(graph), before);
   const state = rfc.getState(); state.settings.springMultiplier = 100; state.branchIds.length = 0;
-  assert.equal(rfc.getState().settings.springMultiplier, 3); assert.equal(rfc.getState().branchIds.length, 6);
-  for (const update of [{springMultiplier: 0}, {springMultiplier: Infinity}, {angularStiffness: NaN}, {angularStiffness: -1}, {springMultiplier: 4, angularStiffness: 100001}])
+  assert.equal(rfc.getState().settings.springMultiplier, 1); assert.equal(rfc.getState().branchIds.length, 6);
+  for (const update of [{springMultiplier: 0}, {springMultiplier: Infinity}, {angularStiffness: NaN}, {angularStiffness: -1}, {springMultiplier: 4, angularStiffness: 100001},
+    {radialStiffness:-1},{radialStiffness:2.1},{radialStiffness:NaN},{radialLength:0},{radialLength:Infinity},{radialLength:1001}])
     assert.throws(() => rfc.configure(update), RangeError);
-  assert.equal(rfc.getState().settings.springMultiplier, 3);
+  assert.equal(rfc.getState().settings.springMultiplier, 1);
   assert.throws(() => rfc.setFocus(new FreshNode("foreign")), /visible/); assert.equal(rfc.getState().focusId, center.getID());
   rfc.setFocus(null); layout.tick();
   assert.deepEqual([...graph.getNodes()].map(node => ({id: node.getID(), label: node.getLabel(), x: node.x, y: node.y, fixed: node.fixed})), untouched.nodes);

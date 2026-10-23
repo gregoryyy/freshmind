@@ -17,9 +17,35 @@ export interface EdgeInteraction {
   hover(edge: FreshEdge | null): void;
   select(edge: FreshEdge): void;
 }
+let nextHaloId = 0;
 /** SVG extension only: registry/model/geometry remain usable without DOM or D3. */
 export class FreshmindPresentation {
+  private readonly haloFilterId = `fm-rfc-glow-${++nextHaloId}`;
   private readonly measurements = new WeakMap<SVGGElement, { key: string; width: number; height: number; outline: NodeOutline }>();
+  /** Paints transient RFC membership beneath semantic edges/nodes, reusing their exact geometry. */
+  paintRfcHalos(layer: SVGGElement, nodes: FreshNode[], edges: FreshEdge[], geometries: Map<FreshEdge, EdgeGeometry>,
+    nodeStyle: (node: FreshNode) => NodeStyle, edgeStyle: (edge: FreshEdge) => EdgeStyle): void {
+    const background = select(layer).selectAll<SVGGElement, null>("g.fm-rfc-halos").data(nodes.length ? [null] : [])
+      .join(enter => enter.insert("g", ":first-child").attr("class", "fm-rfc-halos")
+        .attr("aria-hidden", "true").style("pointer-events", "none"));
+    // Blur the combined silhouette: yellow fades out instead of forming an outline.
+    // A group bounding box remains nonzero even for a horizontal/vertical edge.
+    background.attr("filter", `url(#${this.haloFilterId})`);
+    const filter = background.selectAll("defs").data([null]).join("defs")
+      .selectAll("filter").data([null]).join("filter").attr("id", this.haloFilterId)
+      .attr("x", "-100%").attr("y", "-100%").attr("width", "300%").attr("height", "300%");
+    filter.selectAll("feGaussianBlur").data([null]).join("feGaussianBlur").attr("stdDeviation", 5);
+    background.selectAll<SVGPathElement, FreshEdge>("path.fm-rfc-edge-halo").data(edges, edge => edge.getID()!).join("path")
+      .attr("class", "fm-rfc-edge-halo").attr("data-rfc-edge-id", edge => edge.getID())
+      .attr("d", edge => geometries.get(edge)!.path).attr("fill", "none").attr("stroke", "#ffda35")
+      .attr("stroke-width", edge => edgeStyle(edge).stroke.width * Math.max(.5, edge.getWeight() / 10) + 14)
+      .attr("stroke-opacity", .55).attr("stroke-linecap", "round").attr("stroke-linejoin", "round");
+    background.selectAll<SVGPathElement, FreshNode>("path.fm-rfc-node-halo").data(nodes, node => node.getID()!).join("path")
+      .attr("class", "fm-rfc-node-halo").attr("data-rfc-node-id", node => node.getID())
+      .attr("d", node => createNodeOutline(nodeStyle(node).shape, node.getWidth() + 20, node.getHeight() + 20).path)
+      .attr("transform", node => `translate(${node.drawx},${node.drawy})`)
+      .attr("fill", "#ffda35").attr("fill-opacity", .45).attr("stroke", "none");
+  }
   /**
    * Paints a node inside TGPanel's existing focusable group, retaining its input handlers.
    * Measures/wraps SVG text, updates body dimensions and caches the matching local hit outline.

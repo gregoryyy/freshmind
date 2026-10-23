@@ -47,6 +47,8 @@ export class FreshmindPanel extends TGPanel {
   private readonly navigationStatus?: HTMLElement;
   private rfc?: RfcController;
   private removeRfcForce?: () => void;
+  private removeRfcPaint?: () => void;
+  private rfcPaintRevision = 0;
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -61,6 +63,11 @@ export class FreshmindPanel extends TGPanel {
     this.navigationStatus = options.navigationStatus;
     this.rfc = new RfcController(this, options.rfc);
     this.removeRfcForce = this.tgLayout.addForce(this.rfc.apply);
+    this.removeRfcPaint = this.rfc.addListener(() => {
+      const revision = ++this.rfcPaintRevision;
+      // Render paused/headless updates without reentering an in-progress SVG join.
+      queueMicrotask(() => { if (revision === this.rfcPaintRevision) this.repaint(); });
+    });
     if(container){this.mount(container);if(options.autoStart!==false)this.tgLayout.start();}
   }
   getTypeRegistry():TypeRegistry{return this.types;}
@@ -68,6 +75,13 @@ export class FreshmindPanel extends TGPanel {
   getNavigation(): FreshmindNavigation { return this.navigation!; }
   /** Returns the optional single-focus reinforcement controller, disabled until a center is chosen. */
   getRfc(): RfcController { return this.rfc!; }
+  /** Repeated Return/double-click on the center transfers an already enabled RFC focus. */
+  reinforceCenteredNode(node: FreshNode): void {
+    if (this.rfc?.getState().enabled) {
+      this.rfc.setFocus(node);
+      this.resetDamper();
+    }
+  }
   /** Transfers the RFC force registration while retaining TouchGraph layout replacement behavior. */
   override setTGLayout(layout: TGLayout): void {
     this.removeRfcForce?.();
@@ -212,7 +226,12 @@ export class FreshmindPanel extends TGPanel {
     element.setAttribute("aria-pressed",String(node===this.getSelect()&&!this.selectedEdge));
   }
   protected override paintEdges(layer:SVGGElement):void {
-    this.presentation.paintEdges(layer,[...this.getGES().getEdges()] as FreshEdge[],this.geometries(),e=>this.getEdgeStyle(e),this.selectedEdge,{
+    const edges = [...this.getGES().getEdges()] as FreshEdge[], geometries = this.geometries(), state = this.rfc?.getState();
+    const nodeIds = new Set(state?.active ? [state.focusId!, ...state.branchIds] : []);
+    const edgeIds = new Set(state?.active ? state.radialEdgeIds : []);
+    this.presentation.paintRfcHalos(layer, [...this.getGES().getNodes()].filter(node => nodeIds.has(node.getID()!)) as FreshNode[],
+      edges.filter(edge => edgeIds.has(edge.getID()!)), geometries, node => this.getNodeStyle(node), edge => this.getEdgeStyle(edge));
+    this.presentation.paintEdges(layer,edges,geometries,e=>this.getEdgeStyle(e),this.selectedEdge,{
       hover:edge=>{this.setMouseOverE(edge);this.repaint();},
       select:edge=>this.setSelectEdge(edge===this.selectedEdge?null:edge)
     });
@@ -236,6 +255,7 @@ export class FreshmindPanel extends TGPanel {
     this.neighborhoodRevision++; this.changingNeighborhood = false; super.clearAll();
   }
   override destroy(): void {
+    this.rfcPaintRevision++; this.removeRfcPaint?.();
     this.removeRfcForce?.(); this.rfc?.destroy();
     this.unbindNavigation?.(); this.navigation?.destroy(); this.selectionListeners.clear(); super.destroy();
   }

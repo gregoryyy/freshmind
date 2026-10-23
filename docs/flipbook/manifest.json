@@ -20,9 +20,10 @@
     "09-annotation.png",
     "10-save-yaml.png",
     "11-rfc-baseline.png",
-    "12-rfc.png",
-    "13-rfc-weighted.png",
-    "14-nips.png",
+    "12-rfc-attraction.png",
+    "13-rfc.png",
+    "14-rfc-weighted.png",
+    "15-nips.png",
     "README.md",
     "index.html",
     "manifest.json"
@@ -95,22 +96,28 @@
       "file": "11-rfc-baseline.png"
     },
     {
+      "id": "rfc-attraction",
+      "title": "Single-focus comparison: attraction reinforcement",
+      "caption": "Reload the identical graph, choose Attraction only and run 250 batches. This earlier preset combines attraction multiplier 3 with angular stiffness 300, without a target-length spring. Soft yellow halos identify the reinforced nodes and relations; semantic graph records remain unchanged.",
+      "file": "12-rfc-attraction.png"
+    },
+    {
       "id": "rfc",
-      "title": "Single-focus comparison: reinforcement enabled",
-      "caption": "Reload the identical initial graph, activate RFC and run the same 250 batches. Strengthened focal springs and angular forces spread the branches more evenly; the 9 semantic nodes and 12 relations are unchanged. This comparison uses ordinary coordinate weights (1, 1). Focal-region exclusion remains later work.",
-      "file": "12-rfc.png"
+      "title": "Single-focus comparison: length-constrained tree",
+      "caption": "The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. RFC halos fade away without a rim; focal-region exclusion remains later work.",
+      "file": "13-rfc.png"
     },
     {
       "id": "rfc-weighted",
       "title": "Weighted RFC for horizontally extended labels",
       "caption": "The wide-label fixture uses horizontal coordinate weight 0.25 and vertical weight 1. Equal angles are measured in weighted physical coordinates, permitting a wider focal layout while the viewing lens and both zooms stay independent. Ordinary context springs still compete with reinforcement; the metric alone does not guarantee clear space or eliminate label overlaps.",
-      "file": "13-rfc-weighted.png"
+      "file": "14-rfc-weighted.png"
     },
     {
       "id": "nips",
       "title": "Browse the approved NIPS dataset",
       "caption": "NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.",
-      "file": "14-nips.png"
+      "file": "15-nips.png"
     }
   ]
 }

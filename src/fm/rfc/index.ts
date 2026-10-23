@@ -8,4 +8,5 @@
 export { RfcController } from "./controller.js";
 export { collectFocalStar, angularGapRms, applyRfcForces } from "./forces.js";
 export { weightedDistance } from "./metric.js";
+export { rfcForcePresets } from "./presets.js";
 export type { CoordinateWeights, RfcSettings, RfcState, RfcHost, FocalStar, RfcBranch } from "./types.js";

@@ -14,6 +14,10 @@ export interface CoordinateWeights { x: number; y: number; }
 export interface RfcSettings {
   /** Reference attraction multiplier in 1–100; extra weighted attraction uses (multiplier − 1). */
   springMultiplier: number;
+  /** Stiffness of a two-sided spring toward radialLength, in 0–2; zero disables the length constraint. */
+  radialStiffness: number;
+  /** Desired focal branch length in weighted physical units, in 10–1000. */
+  radialLength: number;
   /** Equation (1)'s angular spring constant, in 0–100,000. */
   angularStiffness: number;
   /** Positive physical-coordinate weights, each in 0.01–100. Smaller x permits wider focal layouts. */

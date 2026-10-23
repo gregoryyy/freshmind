@@ -33,12 +33,17 @@
           <details class="navigation-options"><summary>Reinforcement Focus + Context</summary>
             <p class="control-help">Reinforces the selected node's visible branches in the physical layout.</p>
             <div class="editor-actions"><button type="button" id="rfc-activate">Reinforce selected node</button><button type="button" id="rfc-clear" disabled>Remove RFC</button></div>
-            <label class="control-label" for="rfc-springs">Focal spring multiplier</label><input id="rfc-springs" type="number" min="1" max="100" step="0.5" value="3" required />
-            <label class="control-label" for="rfc-angular">Angular stiffness</label><input id="rfc-angular" type="number" min="0" max="100000" step="10" value="300" required />
+            <div class="editor-actions"><button type="button" id="rfc-tree" aria-pressed="true">Tree structure</button><button type="button" id="rfc-attraction" aria-pressed="false">Attraction only</button></div>
+            <label class="control-label" for="rfc-length">Target focal length</label><input id="rfc-length" type="number" min="10" max="1000" step="any" value="120" required />
+            <label class="control-label" for="rfc-radial">Radial stiffness</label><input id="rfc-radial" type="number" min="0" max="2" step="0.1" value="1" required />
+            <p class="control-help">Radial springs resist stretching and compression around the target length. Zero disables this constraint.</p>
+            <label class="control-label" for="rfc-springs">Attraction multiplier</label><input id="rfc-springs" type="number" min="1" max="100" step="0.5" value="1" required />
+            <label class="control-label" for="rfc-angular">Angular stiffness</label><input id="rfc-angular" type="number" min="0" max="100000" step="10" value="10000" required />
             <label class="control-label" for="rfc-x-weight">Horizontal coordinate weight</label><input id="rfc-x-weight" type="number" min="0.01" max="100" step="any" value="1" required />
             <label class="control-label" for="rfc-y-weight">Vertical coordinate weight</label><input id="rfc-y-weight" type="number" min="0.01" max="100" step="any" value="1" required />
             <p class="control-help">Weights of 1 use ordinary distances. Horizontal 0.25 with vertical 1 favors a focal layout twice as wide.</p>
             <p id="rfc-status" class="control-help" role="status" aria-live="polite">RFC off.</p>
+            <p class="control-help">When RFC is on, press Return or double-click the current center again to reinforce it. Yellow halos mark the reinforced nodes and relations.</p>
           </details>
           <label class="control-label" for="curve">Edge curves</label>
           <select id="curve" aria-describedby="curve-help"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>

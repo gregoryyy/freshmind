@@ -42,13 +42,13 @@ The [Freshmind feature design](docs/fm_port-design.md) describes the implemented
 
 ## Reinforcement Focus + Context
 
-In the main browser, select a node, expand **Reinforcement Focus + Context**, then choose **Reinforce selected node**. RFC strengthens its visible focal springs and applies angular forces that encourage evenly spaced branches. The spring multiplier and angular stiffness are adjustable; **Remove RFC** stops the additional forces while retaining the current layout. Pause/resume motion still controls the ordinary layout runner.
+In the main browser, select a node, expand **Reinforcement Focus + Context**, then choose **Reinforce selected node**. The default **Tree structure** preset combines an explicit target focal length with radial and angular stiffness. **Attraction only** retains the earlier attraction-multiplier approach, including its angular forces. Soft yellow halos fade outward beneath reinforced nodes and relations. With RFC enabled, press Return or double-click an already centered node to make it the reinforced focus. **Remove RFC** stops the additional forces while retaining the current layout. Pause/resume motion still controls the ordinary layout runner.
 
 The RFC center is independent of selection, neighborhood origin and the viewing lens. Hidden centers suspend reinforcement and resume when shown; replacing the graph clears activation. Semantic nodes/relations and YAML records remain unchanged, while exported positions can retain the resulting layout. Horizontal/vertical coordinate weights control physical RFC geometry: (0.25, 1) permits a focal layout twice as wide in the ideal case, while (1, 1) retains ordinary distances. The viewing lenses are independent. Node/link force weighting, elliptical exclusion, multiple foci and aggregation remain later tasks.
 
 ```ts
 const rfc = panel.getRfc();
-rfc.configure({springMultiplier: 3, angularStiffness: 300, coordinateWeights: {x: 0.25, y: 1}});
+rfc.configure({radialStiffness: 1, radialLength: 120, angularStiffness: 10000, coordinateWeights: {x: 0.25, y: 1}});
 rfc.setFocus(node); // node must belong to the visible graph
 console.log(rfc.getState());
 rfc.setFocus(null);
@@ -59,7 +59,10 @@ rfc.setFocus(null);
 ```sh
 just rfc-experiment  # Regenerate deterministic synthetic comparisons and initial graphs
 just rfc-plot        # Render the report with Python/matplotlib
+just rfc-paper       # Regenerate six figures and the second draft PDF
 ```
+
+The [second draft paper](docs/papers/rfc-revisited-draft2.md) reviews the 2005 method, compares attraction, angle and length constraints, and derives local oscillation/stability conditions from the actual TouchGraph update. Its [drawings](docs/papers/figures/rfc/) are supplied as SVG, PDF and PNG. The experiments include ablations, a stiffness sweep and a movable-center damping comparison; they do not establish general convergence or perceptual benefit.
 
 ## Run the example
 
