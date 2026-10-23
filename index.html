@@ -10,14 +10,9 @@
     <div class="app">
       <header class="topbar">
         <a class="brand" href="/" aria-label="fm4 home"><span class="brand-mark">f</span> fm4 <span class="tag">GRAPH BROWSER</span></a>
-        <span class="project-name">A small atlas of graph browsing</span>
-        <a class="source-link" href="https://github.com/componavt/wikokit/tree/0db2310283d792abbaa57746fe9fe475fe9e6ab8/TGWikiBrowser/src/com/touchgraph/graphlayout" target="_blank" rel="noreferrer">Java reference ↗</a>
       </header>
       <main>
         <aside class="sidebar">
-          <div class="eyebrow">EXPLORE THE CONNECTIONS</div>
-          <h1>Follow your<br />curiosity.</h1>
-          <p class="intro">Bring a neighborhood into focus. Keep the surrounding ideas in view.</p>
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <div class="section-label">YOUR VIEW <span id="view-status">LOCAL NEIGHBORHOOD</span></div>
           <label class="control-label" for="depth">Neighborhood depth <output id="depth-value">2 hops</output></label>
@@ -41,14 +36,15 @@
           </details>
           <p id="navigation-status" class="control-help" role="status" aria-live="polite" aria-atomic="true"></p>
           <p class="control-help">Arrows: nodes · Shift+arrows: relations · Enter: confirm/center · Esc: cancel · E/K/H: expand/collapse/hide</p>
+          <p class="control-help">Ctrl+↑/↓: zoom · Ctrl+Shift+↑/↓: focus + context</p>
           <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
           <button id="edit-mode" class="quiet-button" aria-pressed="false">Edit graph <span aria-hidden="true">✎</span></button>
           <p id="edit-help" class="intro" hidden>Edit labels, types and shapes below. Add a node here or double-click the background. Select a source, then Shift-click a target to connect them.</p>
           <button id="add-node" class="quiet-button" hidden>Add node</button>
           <section class="inspector" aria-live="polite">
-            <div class="section-label"><span id="selection-kind">SELECTED NODE</span><span class="status-dot"></span></div>
+            <div class="section-label"><span id="selection-kind">SELECTED NODE</span></div>
             <h2 id="selected-name">Graph browsers</h2>
-            <p id="selected-detail">The starting point for this atlas.</p>
+            <p id="selected-detail"></p>
             <div id="node-meta" class="node-meta"></div>
             <button id="focus" class="primary-button">Focus here <span>◎</span></button>
             <div class="actions"><button id="expand">Expand</button><button id="collapse">Collapse</button><button id="hide">Hide</button></div>
@@ -72,17 +68,16 @@
                 <button type="button" id="delete-item" class="quiet-button" hidden>Delete selected item</button>
               </fieldset>
             </form>
-            <div class="section-label connection-label">CONNECTED IDEAS</div>
+            <div class="section-label connection-label">CONNECTIONS</div>
             <div id="connections" class="connections"></div>
           </section>
           <p class="attribution">This product includes software developed by <a href="https://www.touchgraph.com/">TouchGraph LLC</a>.<br />This product includes software developed by TouchGraph (http://www.touchgraph.com/).</p>
         </aside>
         <section class="workspace" aria-label="Graph workspace">
-          <div class="canvas-heading"><span class="live-dot"></span><span>THE GRAPH ATLAS</span><span id="graph-count"></span></div>
+          <div class="canvas-heading"><span id="graph-count"></span></div>
           <div id="graph"></div>
           <div class="canvas-tools"><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button><button id="center" aria-label="Center view">◎</button></div>
           <div class="canvas-footer"><span>Drag to rearrange · Scroll to zoom · F2 to edit</span><button id="motion">Pause motion</button></div>
-          <div class="focus-note"><span>◎</span><div><strong>A different point of view.</strong><br />The lens changes your view. The graph keeps its shape.</div></div>
         </section>
       </main>
     </div>

@@ -45,6 +45,7 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.3.2 Restore directional neighbor/edge navigation, candidate highlighting/cycling, confirmation, cancellation and timeout behavior.
   - [x] 2.3.3 Integrate mouse selection, keyboard shortcuts, details and editing without intercepting text-entry or browser controls.
   - [x] 2.3.4 Verify radius/backlink/degree limits, centering, expansion, collapse and hide behavior with the selection model.
+  - [x] 2.3.5 Add Ctrl+↑/↓ zoom and Ctrl+Shift+↑/↓ focus + context controls, keeping view controls synchronized and text entry unaffected.
 - [ ] 2.4 Port labeling and the associated editors.
   - [ ] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
   - [ ] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.

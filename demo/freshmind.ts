@@ -14,6 +14,7 @@ import "./freshmind.css";
 
 const get=<T extends HTMLElement>(id:string)=>document.getElementById(id) as T;
 const panel=new FreshmindPanel(get("graph"),{autoStart:false,animateLocality:false});
+panel.addGraphListener({graphMoved:()=>{get<HTMLInputElement>("hyper").value=String(panel.getHyperbolic());}});
 const graph=new FreshGraph();
 const entries=Object.entries(panel.getTypeRegistry().getConfiguration().nodeTypes);
 entries.forEach(([type,definition],index)=>{

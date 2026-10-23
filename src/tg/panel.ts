@@ -312,6 +312,8 @@ export class TGPanel {
   }
   /** Sets viewing-lens strength from 0 to 100 without altering physical coordinates. */
   setHyperbolic(value: number): void { this.hyperLens.setValue(value); this.repaintAfterMove(); }
+  /** Returns the current focus/context lens strength, from 0 to 100. */
+  getHyperbolic(): number { return this.hyperLens.getValue(); }
   /** Rotates the viewing transform in radians without rotating physical coordinates. */
   setRotation(radians: number): void { this.rotateLens.angle = radians; this.repaintAfterMove(); }
   addGraphListener(listener: GraphListener): void { this.listeners.add(listener); }
