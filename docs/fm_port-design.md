@@ -53,7 +53,7 @@ New features should first use existing methods and subclassing/composition. Add 
 
 ## 2.2 Model types, visual types and labeled relations
 
-Implemented under `src/fm/`, extending `src/tg/`. See the [source boundaries](../src/README.md), [canonical type configuration](../config/fm2014.types.yaml), and [implementation record](DONE.md#milestone-22-freshmind-types-and-labeled-curves--2026-10-23). The standalone `/freshmind.html` demo exercises the palette and live configuration without changing the plain TouchGraph demo.
+Implemented under `src/fm/`, extending `src/tg/`. See the [source boundaries](../src/README.md), [canonical type configuration](../config/fm2014.types.yaml), and [implementation record](DONE.md#milestone-22-freshmind-types-and-labeled-curves--2026-10-23). The main `/` browser now integrates Freshmind nodes, labeled curves, curve controls and a basic selection editor. The standalone `/freshmind.html` page exercises the complete palette and live configuration.
 
 ### Data contract
 

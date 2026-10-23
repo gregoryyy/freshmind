@@ -20,11 +20,14 @@ import { routeEdges } from "./rendering/geometry.js";
 import type { EdgeGeometry } from "./rendering/geometry.js";
 
 export interface FreshmindPanelOptions extends TGPanelOptions { types?: TypeRegistry; }
+export type FreshmindSelection = FreshNode | FreshEdge | null;
+export type SelectionListener = (selection: FreshmindSelection) => void;
 /** Freshmind extends the TouchGraph panel; graph/locality/layout/lenses remain owned by TGPanel. */
 export class FreshmindPanel extends TGPanel {
   private types: TypeRegistry;
   private readonly presentation=new FreshmindPresentation();
   private selectedEdge: FreshEdge|null=null;
+  private readonly selectionListeners = new Set<SelectionListener>();
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -82,6 +85,16 @@ export class FreshmindPanel extends TGPanel {
     return (edgeOrFrom instanceof Edge?super.addEdge(edgeOrFrom):super.addEdge(edgeOrFrom,to!,length)) as FreshEdge;
   }
   getSelectEdge():FreshEdge|null{return this.selectedEdge;}
+  /** Returns the selected relation or node, keeping the inherited node navigation anchor separate. */
+  getSelection(): FreshmindSelection { return this.selectedEdge ?? this.getSelect() as FreshNode | null; }
+  /** Subscribes to committed node/edge selection changes; returns a disposer for UI controllers. */
+  addSelectionListener(listener: SelectionListener): () => void {
+    this.selectionListeners.add(listener);
+    return () => this.selectionListeners.delete(listener);
+  }
+  private selectionChanged(): void {
+    for (const listener of this.selectionListeners) listener(this.getSelection());
+  }
   /**
    * Selects a visible relation, retaining an incident selected node as the navigation anchor.
    * If necessary, selects its source through TGPanel before applying edge highlighting.
@@ -91,14 +104,16 @@ export class FreshmindPanel extends TGPanel {
   setSelectEdge(edge:FreshEdge|null):void {
     if(edge&&!this.getGES().contains(edge))throw new Error("Selected edge must be visible");
     if(edge&&this.getSelect()!==edge.from&&this.getSelect()!==edge.to)super.setSelect(edge.from);
-    this.selectedEdge=edge;this.repaint();
+    this.selectedEdge=edge;this.repaint();this.selectionChanged();
   }
   /** Explicit node selection also clears edge selection and delegates callbacks to TGPanel. */
-  override setSelect(node:Node|null):void{this.selectedEdge=null;super.setSelect(node);}
+  override setSelect(node:Node|null):void{this.selectedEdge=null;super.setSelect(node);this.selectionChanged();}
   /** Clears hidden edge selection/geometry after the base panel reconciles its references. */
   override localityChanged():void {
     super.localityChanged();
-    if(this.selectedEdge&&!this.getGES().contains(this.selectedEdge))this.selectedEdge=null;
+    if(this.selectedEdge&&!this.getGES().contains(this.selectedEdge)){
+      this.selectedEdge=null;this.selectionChanged();
+    }
     for(const edge of this.getCompleteEltSet().getEdges())if(edge instanceof FreshEdge&&!this.getGES().contains(edge))edge.setGeometry(null);
   }
   /** Resolves current node interaction styles; an edge anchor is not highlighted as node selection. */
@@ -142,4 +157,5 @@ export class FreshmindPanel extends TGPanel {
   protected override paintDecorations(layer:SVGGElement):void {
     this.presentation.paintDecorations(layer,[...this.getGES().getNodes()] as FreshNode[],n=>this.getNodeStyle(n),this.getFocus() as FreshNode|null);
   }
+  override destroy(): void { this.selectionListeners.clear(); super.destroy(); }
 }

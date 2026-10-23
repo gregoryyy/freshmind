@@ -1,13 +1,39 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { Node, Edge, TGLayout, HyperLens, RotateLens, TGLensSet } from "../dist/core.js";
-import { Node as TGNode } from "../dist/tg/core.js";
+import { Node, Edge, TGLayout, HyperLens, RotateLens, TGLensSet } from "fm4/core";
+import { Node as TGNode } from "fm4/tg/core";
 import { FreshNode, FreshEdge, FreshGraph, TypeRegistry, freshmind2014Configuration,
-  createEdgeGeometry, routeEdges, createNodeOutline, nodeShapes } from "../dist/fm/core.js";
-import { FreshmindPanel, parseTypeConfiguration } from "../dist/fm/index.js";
+  createEdgeGeometry, routeEdges, createNodeOutline, nodeShapes, applyNodeEdit, applyRelationEdit } from "fm4/fm/core";
+import { FreshmindPanel, parseTypeConfiguration } from "fm4/fm";
 
 const registry=()=>new TypeRegistry(freshmind2014Configuration);
+test("node edit commands validate before mutation and preserve identity, metadata and coordinates",()=>{
+  const node=new FreshNode("stable","Before",{type:"idea",position:{x:12.5,y:-8},annotation:{format:"text",text:"Keep"},data:{query:42},visual:{style:{fill:"pink"}}});
+  assert.throws(()=>applyNodeEdit(node,{label:"Rejected",type:"person",shape:"invalid"}),/expected/);
+  assert.equal(node.getLabel(),"Before");assert.equal(node.getSemanticType(),"idea");
+  applyNodeEdit(node,{label:"After\nMultiline",type:"person",shape:"ellipse"});
+  assert.equal(node.getID(),"stable");assert.deepEqual([node.x,node.y],[12.5,-8]);assert.deepEqual(node.getData(),{query:42});
+  assert.equal(node.getHint(),"Keep");assert.equal(node.getLabel(),"After\nMultiline");
+  assert.equal(registry().resolveNode(node).shape,"ellipse");assert.equal(node.getVisual().style.fill,"pink");
+  applyNodeEdit(node,{label:"",type:"person",shape:null});assert.equal(registry().resolveNode(node).shape,"rounded-rectangle");
+});
+test("relation edits preserve endpoints and physical settings while allowing inherited curve styles",()=>{
+  const a=new FreshNode("a"),b=new FreshNode("b"),edge=new FreshEdge(a,b,{id:"stable",label:"Before",length:70,data:{score:.7}});
+  assert.throws(()=>applyRelationEdit(edge,{label:"Rejected",type:"cites",curve:"invalid"}),/expected/);
+  assert.equal(edge.getLabel(),"Before");assert.equal(edge.getSemanticType(),"default");
+  applyRelationEdit(edge,{label:"references",type:"cites",curve:"straight"});
+  assert.equal(edge.from,a);assert.equal(edge.to,b);assert.equal(edge.getID(),"stable");assert.equal(edge.getLength(),70);
+  assert.deepEqual(edge.getData(),{score:.7});assert.equal(registry().resolveEdge(edge).curve,"straight");
+  applyRelationEdit(edge,{label:"references",type:"cites",curve:null});assert.equal(registry().resolveEdge(edge).curve,"spider");
+});
+test("Freshmind selection listeners observe edges, anchors and visibility cleanup",()=>{
+  const panel=new FreshmindPanel(undefined,{animateLocality:false}),a=panel.addNode("a"),b=panel.addNode("b"),edge=panel.addEdge(a,b),seen=[];
+  const dispose=panel.addSelectionListener(selection=>seen.push(selection));
+  panel.setSelect(a);panel.setSelectEdge(edge);assert.equal(panel.getSelect(),a);assert.equal(panel.getSelection(),edge);
+  panel.setSelectEdge(null);panel.setSelectEdge(edge);panel.hideEdge(edge);panel.deleteNode(a);
+  assert.deepEqual(seen,[a,edge,a,edge,a,null]);dispose();panel.setSelect(b);assert.equal(seen.length,6);panel.destroy();
+});
 const identity=(x,y)=>({x,y});
 function fixture(){
   const graph=new FreshGraph(),a=new FreshNode("a","Author",{type:"person",position:{x:-100,y:30}}),b=new FreshNode("b","Paper",{type:"paper",position:{x:100,y:-70}});
@@ -15,7 +41,7 @@ function fixture(){
   const edge=new FreshEdge(a,b,{id:"authored",type:"authored",label:"wrote"});graph.addEdge(edge);
   const r=registry();return {graph,a,b,edge,r};
 }
-test("Freshmind extends the same TouchGraph classes across compatibility entry points",()=>{
+test("Freshmind extends the same TouchGraph classes across public entry points",()=>{
   const {graph,a,edge}=fixture();assert.equal(Node,TGNode);assert.ok(a instanceof Node);assert.ok(edge instanceof Edge);
   a.setType(Node.TYPE_ELLIPSE);a.setSemanticType("idea");assert.equal(a.getType(),Node.TYPE_ELLIPSE);
   a.setLabel("Changed");edge.setLabel("authored");edge.setSemanticType("cites");assert.equal(a.getID(),"a");assert.equal(edge.getID(),"authored");
@@ -133,6 +159,6 @@ test("core dependency closures contain neither DOM rendering dependencies nor YA
       }
     }
   }
-  await walk(new URL("../dist/core.js",import.meta.url));await walk(new URL("../dist/fm/core.js",import.meta.url));
-  await walk(new URL("../dist/tg/index.js",import.meta.url),false);
+  await walk(new URL(import.meta.resolve("fm4/core")));await walk(new URL(import.meta.resolve("fm4/fm/core")));
+  await walk(new URL(import.meta.resolve("fm4/tg")),false);
 });

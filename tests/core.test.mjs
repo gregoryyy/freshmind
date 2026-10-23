@@ -2,8 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { GraphEltSet, Node, VisibleLocality, GESUtils, LocalityUtils, TGLayout,
-  HyperLens, TGLensSet, TranslateLens, ZoomLens, RotateLens, TGPoint2D, TGException } from "../dist/core.js";
-import { TGPanel } from "../dist/index.js";
+  HyperLens, TGLensSet, TranslateLens, ZoomLens, RotateLens, TGPoint2D, TGException } from "fm4/core";
+import { TGPanel } from "fm4";
 import { scenarios, lensCases, runScenario, runLens } from "./scenarios.mjs";
 import { compare } from "./compare.mjs";
 

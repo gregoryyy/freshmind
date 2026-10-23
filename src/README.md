@@ -1,6 +1,6 @@
 # Source boundaries
 
-`tg/` owns the TouchGraph API, model, complete/visible graph, locality, spring layout, lens pipeline and browser panel. It must not import `fm/`. The root TypeScript modules re-export these implementations for source compatibility; there is only one set of TouchGraph class constructors.
+`tg/` owns the TouchGraph API, model, complete/visible graph, locality, spring layout, lens pipeline and browser panel. It must not import `fm/`. Package exports map `fm4` / `fm4/tg` to its browser entry point and `fm4/core` / `fm4/tg/core` to its headless entry point. There are no root TypeScript shims and only one set of TouchGraph constructors.
 
 TouchGraph source headers retain copyright notices and point to the full original terms in the root [LICENSE](../LICENSE) and attribution in [NOTICE](../NOTICE). Both files must accompany redistribution. The Java reference sources keep their original headers; Freshmind-specific files use their separate Apache 2.0 notices.
 
@@ -12,7 +12,8 @@ TouchGraph source headers retain copyright notices and point to the full origina
 - `rendering/shapes.ts` and `geometry.ts` are pure helpers shared by drawing, picking and editor anchors. They do not import D3 or a DOM renderer.
 - `rendering/presentation.ts` owns SVG/D3 presentation. It receives resolved styles and geometry; it does not own graph membership or physics.
 - `panel.ts` connects factories, presentation and selection to `TGPanel`. TouchGraph retains mounting, dragging, locality, lenses, layout and destruction.
+- `editing/commands.ts` validates basic label/type/shape/curve edits before applying them to existing model objects. These commands remain headless; demo forms own their drafts and delegate model mutation here.
 
 `tg/core.ts` and `fm/core.ts` expose the headless dependency closures. `tg/index.ts` and `fm/index.ts` add browser integration. Tests enforce class identity, one-way dependencies and parser/renderer-free core imports.
 
-Navigation controllers, editors, persistence and search should be added under `fm/` as their milestones are implemented. They should delegate to the existing model and panel owners rather than copying live adjacency, visibility or node-selection state.
+Further navigation controllers, editors, persistence and search should be added under `fm/` as their milestones are implemented. They should delegate to the existing model and panel owners rather than copying live adjacency, visibility or node-selection state. Freshmind selection listeners expose committed node/edge selection to inspectors while retaining the base panel's node navigation anchor.

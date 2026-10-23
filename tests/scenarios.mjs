@@ -1,4 +1,4 @@
-import { GraphEltSet, Node, TGLayout, HyperLens, TGPoint2D } from "../dist/core.js";
+import { GraphEltSet, Node, TGLayout, HyperLens, TGPoint2D } from "fm4/core";
 
 const base = [
   { x: -85, y: 14 }, { x: 47, y: -33 }, { x: 21, y: 98 }, { x: -40, y: 135 }

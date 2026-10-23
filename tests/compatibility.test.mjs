@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { Edge, GraphEltSet, Node, TGException, TGLayout, TGPoint2D, VisibleLocality } from "../dist/core.js";
-import { TGPanel } from "../dist/index.js";
+import { Edge, GraphEltSet, Node, TGException, TGLayout, TGPoint2D, VisibleLocality } from "fm4/core";
+import { TGPanel } from "fm4";
 
 test("label lookup prefers an exact case-insensitive match before a substring", () => {
   const graph = new GraphEltSet();

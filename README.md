@@ -37,7 +37,7 @@ npm install
 npm run dev
 ```
 
-Open `/` for the plain TouchGraph demo or `/freshmind.html` for the Freshmind palette, curve modes and live YAML type configuration.
+Open `/` for the Freshmind graph browser with neighborhood navigation, editing and curve controls. `/freshmind.html` is the separate type-palette and live YAML configuration explorer. Both use the same Freshmind model/panel extensions; the ordinary TouchGraph library API remains available.
 
 With `just` installed, use the equivalent recipes:
 
@@ -57,9 +57,15 @@ PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mer
 
 Open the localhost address printed by Vite. Select a node, choose **Focus here**, and adjust neighborhood depth and the focus + context slider. Double-click a node (or press Space on a focused node) to expand it. Drag nodes to rearrange them, drag the background to pan, and scroll to zoom. Pinning holds a node in physical coordinates.
 
-The example's `window.graphBrowser` exposes the `TGPanel` for experimentation.
+The example's `window.graphBrowser` exposes its `FreshmindPanel` for experimentation, including the inherited TouchGraph API.
 
 Click a selected node again or click the background to clear selection. Shift-drag the background to select a node inside a rectangle; as in Java, this chooses one candidate rather than retaining a selection set. In **Edit graph** mode, double-click the background to add a node, select a source and Shift-click a target to connect them, and focus a node and press Delete/Backspace to remove it and its links.
+
+The main browser's **Edge curves** selector switches between **Spider**, **Lens midpoint** and **Straight**. Spider curves are easiest to see between diagonally separated nodes; drag a node to change the bend. Lens midpoint follows the nonlinear viewing transform: increase **Focus + context** and look at relations between off-center nodes. Edges through the lens center can remain straight. These controls change the view without changing physical positions.
+
+Select a node and press **F2**, or click **Edit graph**, to bring its label/type/shape controls into view. Use **Save changes** or **Ctrl/Cmd+Enter** to apply an edit, and **Cancel** or **Escape** to discard it. Drafts stay with their items when selection changes; layout animation does not overwrite them. Clearing a shape override restores the type's visual style. **Edit graph** also exposes **Add node** and **Delete selected item** buttons. Labels may repeat and edits preserve IDs.
+
+Select a relation to edit its independent label, semantic type and curve override. **Enter** saves its single-line label; **Use view default** restores the inherited curve. URL/annotation editors, arbitrary visual overrides and inline editing remain planned in milestone 2.4.
 
 ## Use the library
 
@@ -131,7 +137,7 @@ src/fm/panel.ts          FreshmindPanel extension of TGPanel
 config/                 Authoritative YAML type configuration
 ```
 
-TouchGraph imports no Freshmind code. Freshmind extends its model/panel classes and composes the registry and presentation helpers. Root source modules remain compatibility re-exports. [Source dependency rules](src/README.md) describe the boundaries.
+TouchGraph imports no Freshmind code. Freshmind extends its model/panel classes and composes the registry and presentation helpers. The package entry points `fm4` and `fm4/core` resolve directly to the TouchGraph build, alongside the explicit `fm4/tg` and `fm4/tg/core` names; no root source shims are needed. [Source dependency rules](src/README.md) describe the boundaries.
 
 ```ts
 import { FreshmindPanel, FreshNode, FreshEdge } from "fm4/fm";

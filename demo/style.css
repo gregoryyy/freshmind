@@ -6,7 +6,19 @@ button, a, input { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
 a { color: inherit; }
 button:focus-visible, a:focus-visible, input:focus-visible, .tg-node:focus-visible { outline: 3px solid #6cb08b; outline-offset: 4px; }
+.fm-node:focus-visible { outline-offset: 2px; }
 button:disabled { cursor: default; opacity: .4; }
+[hidden] { display: none !important; }
+select, textarea, input[type=text] { font: inherit; width: 100%; max-width: 100%; border: 1px solid #c4cdbf; border-radius: 6px; padding: 8px; background: #fff; color: inherit; }
+select, textarea, input[type=text] { font-size: 12px; }
+textarea { resize: vertical; }
+select:focus-visible, textarea:focus-visible { outline: 3px solid #6cb08b; outline-offset: 2px; }
+.control-help { font-size: 11px; line-height: 1.6; color: #647460; margin: 9px 0; }
+.editor-actions { display: flex; gap: 8px; margin-top: 12px; }
+.editor-actions button { border: 1px solid #dce1d7; border-radius: 5px; padding: 9px; font-size: 11px; }
+.editor-actions .primary-button { flex: 1; }
+#editor-fields { padding: 0; margin: 0; border: 0; min-width: 0; }
+#editor-status[data-error=true] { color: #a32b25; }
 .topbar { height: 78px; display: flex; align-items: center; justify-content: space-between; padding: 0 34px; border-bottom: 1px solid #dce1d7; background: #fafbf7; gap: 24px; }
 .brand { text-decoration: none; font-family: "Manrope", sans-serif; font-weight: 800; font-size: 24px; display: flex; align-items: center; gap: 10px; letter-spacing: -1px; }
 .brand-mark { background: #284b37; color: #eff4e9; border-radius: 10px; width: 31px; height: 34px; text-align: center; font-family: Georgia, serif; font-style: italic; font-size: 28px; }
