@@ -61,7 +61,18 @@ export type TGForEachNodePair = ((first: Node, second: Node) => void) | {
 
 export class TGException extends Error {
   static readonly NODE_EXISTS = 1;
-  constructor(public readonly type: number, message: string) { super(message); this.name = "TGException"; }
+  static readonly NODE_DOESNT_EXIST = 2;
+  static readonly NODE_NO_ID = 3;
+  readonly type: number;
+  readonly exception: Error | null;
+  constructor(typeOrMessage: number | string | Error, message = "") {
+    super(typeof typeOrMessage === "string" ? typeOrMessage : message,
+      typeOrMessage instanceof Error ? { cause: typeOrMessage } : undefined);
+    this.name = "TGException";
+    this.type = typeof typeOrMessage === "number" ? typeOrMessage : -1;
+    this.exception = typeOrMessage instanceof Error ? typeOrMessage : null;
+  }
+  getId(): number { return this.type; }
 }
 
 /** Ordered iteration is significant: it preserves the Java force accumulation order. */
@@ -72,8 +83,18 @@ export class GraphEltSet {
 
   nodeCount(): number { return this.nodes.length; }
   edgeCount(): number { return this.edges.length; }
-  nodeAt(index: number): Node { return this.nodes[index]; }
-  edgeAt(index: number): Edge { return this.edges[index]; }
+  nodeNum(): number { return this.nodeCount(); }
+  edgeNum(): number { return this.edgeCount(); }
+  nodeAt(index: number): Node {
+    const node = this.nodes[index];
+    if (!node) throw new RangeError(`No node at index ${index}`);
+    return node;
+  }
+  edgeAt(index: number): Edge {
+    const edge = this.edges[index];
+    if (!edge) throw new RangeError(`No edge at index ${index}`);
+    return edge;
+  }
   getNodes(): IterableIterator<Node> { return this.nodes.values(); }
   getEdges(): IterableIterator<Edge> { return this.edges.values(); }
   getFirstNode(): Node | null { return this.nodes[0] ?? null; }
@@ -85,11 +106,15 @@ export class GraphEltSet {
     return id === null ? null : this.nodes.find(node => node.getID() === id) ?? null;
   }
   findNodesByLabel(label: string): Node[] { return this.nodes.filter(node => node.getLabel() === label); }
+  findNodeLabelContaining(substring: string): Node | null {
+    const query = substring.toLowerCase();
+    return this.nodes.find(node => node.getLabel().toLowerCase() === query)
+      ?? this.nodes.find(node => node.getLabel().toLowerCase().includes(query)) ?? null;
+  }
   findEdge(from: Node, to: Node): Edge | null {
     return this.edges.find(edge => edge.from === from && edge.to === to) ?? null;
   }
   addNode(node: Node): void {
-    if (this.contains(node)) return;
     let id = node.getID();
     if (id !== null && this.findNode(id)) throw new TGException(TGException.NODE_EXISTS, `node ID '${id}' already exists.`);
     if (id === null) {
@@ -115,13 +140,18 @@ export class GraphEltSet {
     }
     return edge;
   }
-  deleteEdge(edge: Edge | null): boolean {
+  deleteEdge(edge: Edge | null): boolean;
+  deleteEdge(from: Node, to: Node): boolean;
+  deleteEdge(edgeOrFrom: Edge | Node | null, to?: Node): boolean {
+    const edge = edgeOrFrom instanceof Node ? (to ? this.findEdge(edgeOrFrom, to) : null) : edgeOrFrom;
     const index = edge ? this.edges.indexOf(edge) : -1;
     if (!edge || index < 0) return false;
     this.edges.splice(index, 1);
     if (this.ownsAdjacency) { edge.from.removeEdge(edge); edge.to.removeEdge(edge); }
     return true;
   }
+  deleteEdges(edges: Iterable<Edge>): void { for (const edge of [...edges]) this.deleteEdge(edge); }
+  deleteNodes(nodes: Iterable<Node>): void { for (const node of [...nodes]) this.deleteNode(node); }
   deleteNode(node: Node | null): boolean {
     const index = node ? this.nodes.indexOf(node) : -1;
     if (!node || index < 0) return false;
@@ -150,6 +180,12 @@ export class GraphEltSet {
     }
   }
 }
+
+/** Read-only membership/traversal contract; node coordinates remain mutable, as in Java. */
+export type ImmutableGraphEltSet = Pick<GraphEltSet,
+  "nodeCount" | "nodeNum" | "edgeCount" | "edgeNum" | "nodeAt" | "edgeAt" | "getNodes" | "getEdges"
+  | "getFirstNode" | "getRandomNode" | "contains" | "findNode" | "findNodesByLabel" | "findNodeLabelContaining"
+  | "findEdge" | "forAllNodes" | "forAllEdges" | "forAllNodePairs">;
 
 /** Visibility is a subset; removing from it never deletes the stored graph. */
 export class Locality extends GraphEltSet {
@@ -197,17 +233,39 @@ export class Locality extends GraphEltSet {
     node.setVisible(false);
     return true;
   }
-  override deleteEdge(edge: Edge | null): boolean { this.removeEdge(edge); return this.completeEltSet.deleteEdge(edge); }
+  override deleteEdge(edge: Edge | null): boolean;
+  override deleteEdge(from: Node, to: Node): boolean;
+  override deleteEdge(edgeOrFrom: Edge | Node | null, to?: Node): boolean {
+    const edge = edgeOrFrom instanceof Node ? (to ? this.completeEltSet.findEdge(edgeOrFrom, to) : null) : edgeOrFrom;
+    this.removeEdge(edge);
+    return this.completeEltSet.deleteEdge(edge);
+  }
   override deleteNode(node: Node | null): boolean { this.removeNode(node); return this.completeEltSet.deleteNode(node); }
+  removeEdges(edges: Iterable<Edge>): void { for (const edge of [...edges]) this.removeEdge(edge); }
+  removeNodes(nodes: Iterable<Node>): void { for (const node of [...nodes]) this.removeNode(node); }
   removeAll(): void { for (const node of [...this.nodes]) this.removeNode(node); }
   override clearAll(): void { this.removeAll(); this.completeEltSet.clearAll(); }
 }
 
-/** Kept as an export for Java callers; Locality itself updates the visibility fields. */
-export class VisibleLocality extends Locality {}
+/** Reconcile externally edited flags without destroying the complete graph. */
+export class VisibleLocality extends Locality {
+  updateLocalityFromVisibility(): void {
+    const complete = this.getCompleteEltSet();
+    for (const edge of [...this.edges]) if (!complete.contains(edge)) this.removeEdge(edge);
+    for (const node of [...this.nodes]) if (!complete.contains(node)) this.removeNode(node);
+    for (const node of complete.getNodes()) {
+      if (node.isVisible()) this.addNode(node);
+      else this.removeNode(node);
+    }
+    for (const edge of complete.getEdges()) {
+      if (edge.isVisible() && this.contains(edge.from) && this.contains(edge.to)) this.addEdge(edge);
+      else { this.removeEdge(edge); edge.setVisible(false); }
+    }
+  }
+}
 
 export class GESUtils {
-  static calculateDistances(graph: GraphEltSet, focus: Node, radius: number, maxAddEdgeCount = 1000,
+  static calculateDistances(graph: ImmutableGraphEltSet, focus: Node, radius: number, maxAddEdgeCount = 1000,
     maxExpandEdgeCount = 1000, unidirectional = false): Map<Node, number> {
     const distances = new Map<Node, number>([[focus, 0]]);
     const queue = [focus];
@@ -226,7 +284,7 @@ export class GESUtils {
     }
     return distances;
   }
-  static getLargestConnectedSubgraph(graph: GraphEltSet): Set<Node> {
+  static getLargestConnectedSubgraph(graph: ImmutableGraphEltSet): Set<Node> {
     const visited = new Set<Node>();
     let largest = new Set<Node>();
     for (const node of graph.getNodes()) {

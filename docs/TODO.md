@@ -2,6 +2,8 @@
 
 Develop the browser in stages: establish a plain TouchGraph baseline, restore Freshmind functionality, then add reinforcement and graph visual search.
 
+Completed work, implementation notes, deviations, and lessons are recorded in [DONE.md](DONE.md).
+
 ## Source material
 
 - [Reinforcement Focus+Context (2005)](literature/rfc@3ia05compact.pdf): RFC layout mechanism, equations (1)–(2), and single-focus, multiple-focus, and hybrid examples.
@@ -9,11 +11,13 @@ Develop the browser in stages: establish a plain TouchGraph baseline, restore Fr
 
 ## 1. Port plain TouchGraph
 
-- [ ] 1.1 Complete the TypeScript port.
+- [x] 1.1 Complete the TypeScript port.
   - [x] 1.1.1 Port the core graph model, spring layout, locality browsing, and lens pipeline.
   - [x] 1.1.2 Validate layout and lens behavior against the Java reference.
-  - [ ] 1.1.3 Audit remaining API and interaction gaps against the Java reference.
-  - [ ] 1.1.4 Complete the remaining compatibility work within the plain TouchGraph scope.
+  - [x] 1.1.3 Audit remaining API and interaction gaps against the Java reference.
+  - [x] 1.1.4 Complete the remaining compatibility work within the plain TouchGraph scope.
+
+See the [milestone 1 compatibility audit and completion record](DONE.md#milestone-1-plain-touchgraph-port--2026-10-22) for supported APIs, browser adaptations, verification, and remaining limits.
 
 ## 2. Port Freshmind functionality from FM 2014
 

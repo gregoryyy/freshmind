@@ -73,3 +73,94 @@ test("lens changes preserve the model, and focus can be dragged", async ({ page 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   expect(overflow).toBe(false); expect(errors).toEqual([]);
 });
+
+test("graph editing adds, connects and deletes nodes through the viewing lens", async ({ page }) => {
+  const errors = await ready(page);
+  const initialEdges = await page.evaluate(() => window.graphBrowser.getEdgeCount());
+  await page.getByRole("button", { name: "Edit graph", exact: true }).click();
+  const svg = page.locator("#graph svg");
+  await expect(svg).toHaveAttribute("data-interaction-mode", "edit");
+  const before = await page.evaluate(async () => {
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const panel = window.graphBrowser, size = panel.getSize();
+    const x = size.width * .55, y = size.height * .6;
+    const world = panel.getLensSet().convDrawToReal(x, y);
+    return { x, y, world };
+  });
+  await svg.dblclick({ position: { x: before.x, y: before.y } });
+  const added = page.locator('[data-node-id="New node"]');
+  await expect(added).toBeVisible();
+  const position = await page.evaluate(() => {
+    const node = window.graphBrowser.findNode("New node"); return [node.x, node.y];
+  });
+  expect(Math.abs(position[0] - before.world.x)).toBeLessThan(1); expect(Math.abs(position[1] - before.world.y)).toBeLessThan(1);
+  await page.locator('[data-node-id="root"]').click();
+  await added.click({ modifiers: ["Shift"] });
+  expect(await page.evaluate(() => window.graphBrowser.getEdgeCount())).toBe(initialEdges + 1);
+  expect(await page.evaluate(() => Boolean(window.graphBrowser.findEdge(window.graphBrowser.findNode("root"), window.graphBrowser.findNode("New node"))))).toBe(true);
+  await added.press("Delete");
+  await expect(added).toHaveCount(0);
+  expect(await page.evaluate(() => window.graphBrowser.getNodeCount())).toBe(48);
+  expect(await page.evaluate(() => window.graphBrowser.getEdgeCount())).toBe(initialEdges);
+  expect(errors).toEqual([]);
+});
+
+test("selection toggles, background clears, hover and directed arrows are present", async ({ page }) => {
+  const errors = await ready(page);
+  const root = page.locator('[data-node-id="root"]');
+  await root.click(); await expect(page.locator("#selected-name")).toHaveText("Choose an idea");
+  await root.click(); await expect(page.locator("#selected-name")).toHaveText("Graph browsers");
+  await page.locator("#graph svg").click({ position: { x: 8, y: 8 } });
+  await expect(page.locator("#selected-name")).toHaveText("Choose an idea");
+  await root.hover();
+  expect(await page.evaluate(() => window.graphBrowser.getMouseOverN()?.getID())).toBe("root");
+  const edge = page.locator(".tg-edges line").first();
+  await expect(edge).toHaveAttribute("marker-end", /url\(#tg-arrow-/);
+  expect(await page.evaluate(() => window.graphBrowser.findNode("root").getWidth())).toBeGreaterThan(30);
+  expect(errors).toEqual([]);
+});
+
+test("Shift-drag rectangle selects a node in screen coordinates", async ({ page }) => {
+  const errors = await ready(page);
+  const root = await page.locator('[data-node-id="root"]').boundingBox();
+  const x = root.x + root.width / 2, y = root.y + 14;
+  await page.keyboard.down("Shift");
+  await page.mouse.move(x - 65, y - 35); await page.mouse.down();
+  await page.mouse.move(x + 65, y + 35, { steps: 5 }); await page.mouse.up();
+  await page.keyboard.up("Shift");
+  expect(await page.evaluate(() => window.graphBrowser.getSelect()?.getID())).toBe("root");
+  await expect(page.locator(".tg-selection-box")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test("a node focus outline excludes the hidden-edge count", async ({ page }) => {
+  const errors = await ready(page);
+  const node = page.locator('[data-node-id="node-1-1"].tg-node');
+  await page.keyboard.press("Tab");
+  await node.focus();
+  await expect(node).toBeFocused();
+  const geometry = await node.evaluate(element => {
+    const group = element.getBBox();
+    const shape = element.querySelector(".tg-shape").getBBox();
+    return { groupHeight: group.height, shapeHeight: shape.height, keyboardFocus: element.matches(":focus-visible") };
+  });
+  expect(geometry.keyboardFocus).toBe(true);
+  expect(geometry.groupHeight).toBeCloseTo(geometry.shapeHeight, 5);
+  const badge = page.locator('.tg-hidden-count[data-for-node="node-1-1"]');
+  await expect(badge).toHaveText("+1");
+  const bodyBox = await node.boundingBox();
+  const badgeBox = await badge.boundingBox();
+  const outlineExtent = await node.evaluate(element => {
+    const style = getComputedStyle(element);
+    return parseFloat(style.outlineWidth) + parseFloat(style.outlineOffset);
+  });
+  expect(badgeBox.y).toBeGreaterThan(bodyBox.y + bodyBox.height + outlineExtent);
+  await page.screenshot({ path: test.info().outputPath("node-focus.png") });
+  await page.evaluate(async () => {
+    const panel = window.graphBrowser;
+    const expanding = panel.expandNode(panel.findNode("node-1-1"));
+    panel.fastFinishAnimation(); await expanding;
+  });
+  await expect(badge).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
