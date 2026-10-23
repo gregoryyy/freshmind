@@ -1,0 +1,14 @@
+/*!
+ * Freshmind. Licensed under the Apache License, Version 2.0.
+ * SPDX-License-Identifier: Apache-2.0
+ * Copyright (c) 2002-2014 Gregor Heinrich.
+ * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
+ * See LICENSE-APACHE-2.0 for the license text.
+ */
+
+.sidebar select, .sidebar textarea { width: 100%; border: 1px solid #c4cdbf; border-radius: 6px; background: #fff; padding: 8px; }
+.sidebar textarea { font: 11px/1.4 monospace; resize: vertical; }
+.sidebar .inspector h2 { font-size: 20px; }
+#config-status { overflow-wrap: anywhere; font-size: 12px; }
+.fm-edge:focus { outline: none; }
+.fm-edge:focus .fm-edge-hit { stroke: #3b4bd844; }

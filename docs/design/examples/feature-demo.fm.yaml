@@ -2,7 +2,7 @@
 format: freshmind
 version: 1
 title: Freshmind feature example
-typesFile: freshmind-2014.types.yaml
+typesFile: fm2014.types.yaml
 
 nodes:
   - id: gregor

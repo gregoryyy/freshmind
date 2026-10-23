@@ -1,3 +1,14 @@
+Freshmind licensing
+
+Freshmind-specific files marked SPDX-License-Identifier: Apache-2.0 are
+licensed under the Apache License, Version 2.0. The full license text is
+provided in LICENSE-APACHE-2.0. Their copyright notices identify Gregor
+Heinrich's original work and the TypeScript port.
+
+TouchGraph-derived components retain the original licenses reproduced below.
+
+====================================================================
+
 TouchGraph LLC. Apache-Style Software License
 
 

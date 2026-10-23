@@ -8,10 +8,45 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
-    "./core": { "types": "./dist/core.d.ts", "import": "./dist/core.js" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js"
+    },
+    "./tg": {
+      "types": "./dist/tg/index.d.ts",
+      "import": "./dist/tg/index.js"
+    },
+    "./tg/core": {
+      "types": "./dist/tg/core.d.ts",
+      "import": "./dist/tg/core.js"
+    },
+    "./fm": {
+      "types": "./dist/fm/index.d.ts",
+      "import": "./dist/fm/index.js"
+    },
+    "./fm/core": {
+      "types": "./dist/fm/core.d.ts",
+      "import": "./dist/fm/core.js"
+    },
+    "./fm/config": {
+      "types": "./dist/fm/config/yaml.d.ts",
+      "import": "./dist/fm/config/yaml.js"
+    },
+    "./config/fm2014.types.yaml": "./config/fm2014.types.yaml"
   },
-  "files": ["dist", "src", "LICENSE", "NOTICE", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "config",
+    "LICENSE",
+    "LICENSE-APACHE-2.0",
+    "NOTICE",
+    "README.md"
+  ],
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -p tsconfig.build.json",
@@ -20,12 +55,14 @@
     "test": "npm run build && node --test tests/*.test.mjs",
     "test:java": "npm run build && node scripts/java-reference.mjs",
     "test:browser": "playwright test",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "sync:fm-config": "node scripts/sync-fm-config.mjs"
   },
   "dependencies": {
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
-    "d3-zoom": "^3.0.0"
+    "d3-zoom": "^3.0.0",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
