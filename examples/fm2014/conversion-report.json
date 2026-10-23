@@ -1,0 +1,136 @@
+{
+  "format": "freshmind-migration",
+  "version": 1,
+  "approvedInputs": [
+    "berry.xml",
+    "nips-fm.xml"
+  ],
+  "files": [
+    {
+      "input": "berry.xml",
+      "sha256": "3efc566e3134931b40e14880fbb9b2cc71eda75132b5cc8f048fa8db93fd0307",
+      "warnings": [],
+      "recoveries": [],
+      "placeholders": [],
+      "unresolvedResources": [
+        {
+          "node": "second",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b09.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "[berry]",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b05.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b06.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b06.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b07.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b07.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b08.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b08.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b09.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b09.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b01.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b01.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b02.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b02.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b03.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b03.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b04.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b04.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b05.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b05.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b10.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b10.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b11.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b11.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b12.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b12.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b13.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b13.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b14.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b14.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b15.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b15.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b16.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b16.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        },
+        {
+          "node": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b17.txt",
+          "url": "C:\\eclipse\\workspace\\knowceans-freshmind\\berry.files\\b17.txt",
+          "reason": "Retained verbatim; external resources were not opened"
+        }
+      ],
+      "sourceNodes": 21,
+      "sourceRelations": 22,
+      "nodes": 21,
+      "edges": 22,
+      "status": "converted",
+      "output": "berry.fm.yaml",
+      "roundTrip": "all normalized records match"
+    },
+    {
+      "input": "nips-fm.xml",
+      "sha256": "334edb549c0c2bfd335e8e38dd7018c30f832954302232a1d10f4a1b506a83b4",
+      "warnings": [],
+      "recoveries": [],
+      "placeholders": [],
+      "unresolvedResources": [],
+      "sourceNodes": 3777,
+      "sourceRelations": 5257,
+      "nodes": 3777,
+      "edges": 5257,
+      "status": "converted",
+      "output": "nips-fm.fm.yaml",
+      "roundTrip": "all normalized records match"
+    }
+  ]
+}

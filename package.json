@@ -36,6 +36,10 @@
       "types": "./dist/fm/config/yaml.d.ts",
       "import": "./dist/fm/config/yaml.js"
     },
+    "./fm/io": {
+      "types": "./dist/fm/io/codec.d.ts",
+      "import": "./dist/fm/io/codec.js"
+    },
     "./config/fm2014.types.yaml": "./config/fm2014.types.yaml"
   },
   "files": [

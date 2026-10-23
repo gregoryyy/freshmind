@@ -9,6 +9,10 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel, TypeRegistry } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
+import { bindZoomControls } from "./zoom-controls.js";
+import { bindKeymap } from "./keymap.js";
+import { bindFileControls } from "./file-controls.js";
+import { renderAnnotation, resourceURL } from "../src/fm/editing/details.js";
 import "./style.css";
 
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -63,11 +67,14 @@ for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Co
 let allVisible = false;
 let paused = false;
 const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status") });
+bindZoomControls(panel);
+bindKeymap(panel, true);
+bindFileControls(panel);
 panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
 const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); });
 const navigation = panel.getNavigation();
-navigation.setActions({ edit: () => editor.focusLabel() });
+navigation.setActions({edit: () => editor.openInline(), editDetails: () => editor.focusDetails(), openResource, reverseRelation: () => editor.reverseRelation()});
 navigation.addListener(state => {
   allVisible = state.wholeGraph;
   get("view-status").textContent = allVisible ? "WHOLE GRAPH" : "LOCAL NEIGHBORHOOD";
@@ -84,7 +91,7 @@ panel.addSelectionListener(selection => { updateInspector(selection); editor.sho
 
 /** Reflects the panel's current lens value after keyboard, slider or programmatic view changes. */
 function updateViewControls(): void {
-  const strength = panel.getHyperbolic();
+  const strength = Math.round(panel.getHyperbolic());
   get<HTMLInputElement>("hyper").value = String(strength); get("hyper-value").textContent = `${strength}%`;
 }
 function updateCounts(): void {
@@ -97,11 +104,14 @@ function updateInspector(selection: FreshmindSelection): void {
   const edge = selection instanceof FreshEdge ? selection : null;
   get("selection-kind").textContent = edge ? "SELECTED RELATION" : "SELECTED NODE";
   get("selected-name").textContent = selection?.getLabel() || (edge ? "Unlabeled relation" : node ? "(empty label)" : "Choose an idea");
-  get("selected-detail").textContent = node ? node.getHint() : edge ? `${edge.from.getLabel()} → ${edge.to.getLabel()}` : "Select a node or relation to edit its label and appearance.";
+  const hint = node?.getAnnotation();
+  const preview = document.createElement("template"); if (hint?.format === "html") preview.innerHTML = hint.text;
+  get("selected-detail").textContent = hint ? (hint.format === "html" ? preview.content.textContent ?? "" : hint.text).slice(0, 240) : edge ? `${edge.from.getLabel()} → ${edge.to.getLabel()}` : "Select a node or relation to edit its label and appearance.";
   get("node-meta").textContent = node ? `${node.edgeCount()} connections · ${node.visibleEdgeCount()} in view` : edge ? edge.getSemanticType() : "";
   for (const id of ["focus", "expand", "collapse", "hide"]) get<HTMLButtonElement>(id).disabled = !panel.getSelect();
   get<HTMLInputElement>("pin").disabled = !node;
   get<HTMLInputElement>("pin").checked = node?.isFixed() ?? false;
+  get<HTMLButtonElement>("open-resource").disabled = !node?.getURL();
   updateDetails();
   get("connections").replaceChildren();
   if (node) for (const edge of node.getEdges()) {
@@ -117,7 +127,9 @@ function updateDetails(): void {
   get<HTMLButtonElement>("toggle-details").disabled = !item;
   get("toggle-details").textContent = visible ? "Hide details (Space)" : "Show details (Space)";
   get("selection-details").hidden = !item || !visible;
-  get("annotation-detail").textContent = item instanceof FreshNode ? item.getAnnotation().text : "";
+  if (visible && item instanceof FreshNode) renderAnnotation(get("annotation-detail"), item.getAnnotation(), id => {
+    const node = panel.findNode(id); if (node) void focusOn(node as FreshNode); else get("file-status").textContent = "Unknown linked node: " + id;
+  }); else get("annotation-detail").replaceChildren();
   get("item-detail").textContent = item instanceof FreshNode
     ? `ID: ${item.getID()} · Type: ${item.getSemanticType()} · Weight: ${item.getWeight()}${item.getURL() ? ` · URL: ${item.getURL()}` : ""}`
     : item instanceof FreshEdge ? `${item.from.getLabel()} → ${item.to.getLabel()} · Type: ${item.getSemanticType()} · Length: ${item.getLength()} · Weight: ${item.getWeight()}` : "";
@@ -136,6 +148,14 @@ get("expand").addEventListener("click", () => { void navigation.expand(); });
 get("collapse").addEventListener("click", () => { void navigation.collapse(); });
 get("hide").addEventListener("click", () => { void navigation.hide(); });
 get("toggle-details").addEventListener("click", () => navigation.toggleDetails());
+/** Opens resources only on an explicit button/key action; unsupported legacy paths stay editable data. */
+function openResource(): void {
+  const item = panel.getSelection(); if (!(item instanceof FreshNode)) return;
+  const url = resourceURL(item.getURL());
+  if (url) window.open(url, "_blank", "noopener,noreferrer");
+  else get("file-status").textContent = "This stored path cannot be opened by the browser. Edit the linked resource to a web URL if needed.";
+}
+get("open-resource").addEventListener("click", openResource);
 get<HTMLInputElement>("pin").addEventListener("change", event => {
   panel.getSelect()?.setFixed((event.target as HTMLInputElement).checked); panel.resetDamper(); panel.repaint();
 });
@@ -185,8 +205,6 @@ get<HTMLSelectElement>("curve").addEventListener("change", event => {
     : mode === "straight" ? "Straight connects endpoints directly."
     : "Spider bends relations into branching curves. Drag nodes diagonally to see the bend.";
 });
-get("zoom-in").addEventListener("click", () => navigation.zoomBy(1.2));
-get("zoom-out").addEventListener("click", () => navigation.zoomBy(1 / 1.2));
 get("center").addEventListener("click", () => panel.centerView());
 get("motion").addEventListener("click", () => {
   paused = !paused;

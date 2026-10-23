@@ -183,6 +183,7 @@ export class FreshmindPanel extends TGPanel {
   /**
    * Recomputes visible routes under the current lenses and caches the requested edge's result.
    * Body dimensions come from the latest paint, or caller-supplied headless measurements.
+   * Coordinates precede canvas scaling/pan; drawToScreen maps them into viewport pixels.
    * @returns Shared drawing/picking/editor geometry, or null for a hidden/nonmember edge.
    */
   getEdgeGeometry(edge:FreshEdge):EdgeGeometry|null {

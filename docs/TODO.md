@@ -26,7 +26,7 @@ Use the thesis excerpt as a reference for browser behavior and presentation.
 
 Reference project: `../knowceans/knowceans-freshmind-2014/`. The [source analysis](fm2014_analysis.md) records active features, incomplete paths, dependencies, defects and the proposed port order.
 
-The [Freshmind feature design](fm_port-design.md) specifies milestones 2.2–2.5, with supported YAML type configuration and a draft graph example. It preserves the Java feature intent while introducing a native YAML format and batch migration of the existing examples.
+The [Freshmind feature design](fm_port-design.md) specifies milestones 2.2–2.5, with supported YAML type configuration and a native graph example. It preserves the Java feature intent while introducing a native YAML format and batch migration of the existing examples.
 
 Keep the existing TouchGraph design as the foundation. Add Freshmind through model/panel subclasses, composed helpers and narrow default-compatible hooks; retain the graph/locality structure, layout, lenses and existing API behavior.
 
@@ -45,20 +45,23 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.3.2 Restore directional neighbor/edge navigation, candidate highlighting/cycling, confirmation, cancellation and timeout behavior.
   - [x] 2.3.3 Integrate mouse selection, keyboard shortcuts, details and editing without intercepting text-entry or browser controls.
   - [x] 2.3.4 Verify radius/backlink/degree limits, centering, expansion, collapse and hide behavior with the selection model.
-  - [x] 2.3.5 Add Ctrl+↑/↓ zoom and Ctrl+Shift+↑/↓ focus + context controls, keeping view controls synchronized and text entry unaffected.
-- [ ] 2.4 Port labeling and the associated editors.
-  - [ ] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
-  - [ ] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.
-  - [ ] 2.4.3 Implement commit/cancel and field validation through shared commands; preserve focus and position inline editors using renderer geometry.
+  - [x] 2.3.5 Add Ctrl+↑/↓ graph zoom, Ctrl+Shift+←/→ focus + context, and FM2014 Ctrl+Shift+↑/↓ / Ctrl+Shift+1 canvas zoom/reset controls, keeping view controls synchronized and text entry unaffected.
+  - [x] 2.3.6 Separate graph-distance zoom from canvas scaling, expose both controls and preserve inverse interaction, centering and physical coordinates through their composition.
+  - [x] 2.3.7 Add horizontal two-finger scroll for focus + context, preserving vertical/pinch canvas zoom, text-editor input and graph/navigation state.
+  - [x] 2.3.8 Adapt the reference `keys.txt` into a user key map and accessible browser help, showing implemented commands and documenting changes from Java.
+- [x] 2.4 Port labeling and the associated editors.
+  - [x] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
+  - [x] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.
+  - [x] 2.4.3 Implement commit/cancel and field validation through shared commands; preserve focus and position inline editors using renderer geometry.
 
-The main browser now has basic sidebar editors for node/relation labels and semantic types, node shapes and relation curve overrides. Save/cancel, retained drafts, graph focus restoration and shared validated commands are implemented. Full metadata editors, arbitrary visual overrides and inline editor positioning remain open under 2.4.
-- [ ] 2.5 Create native YAML persistence and migrate the legacy examples.
-  - [ ] 2.5.1 Define and validate the versioned `.fm.yaml` graph format, with embedded or companion YAML type configuration.
-  - [ ] 2.5.2 Implement browser loading/saving and complete-graph serialization, including optional saved view/layout state.
-  - [ ] 2.5.3 Build a standalone batch converter for the legacy XML example files; it may use another language.
-  - [ ] 2.5.4 Convert all seven top-level Java example graphs into `examples/fm2014/`, with conversion reports and explicit recovery of known legacy defects.
-  - [ ] 2.5.5 Verify source-to-YAML migration and YAML round trips preserve IDs, labels, annotations, metadata, isolated nodes, parallel relations and self-loops.
-  - [ ] 2.5.6 Load the converted examples in the demo and add `just` conversion/validation recipes.
+The main browser supports inline labels and full inspector edits, including annotations, URLs, visual overrides and metadata. Shared commands validate the entire draft before mutation, preserve stable IDs and restore graph focus. See the [user key map](KEYMAP.md) and [completion record](DONE.md).
+- [x] 2.5 Create native YAML persistence and migrate the legacy examples.
+  - [x] 2.5.1 Define and validate the versioned `.fm.yaml` graph format, with embedded or companion YAML type configuration.
+  - [x] 2.5.2 Implement browser loading/saving and complete-graph serialization, including optional saved view/layout state.
+  - [x] 2.5.3 Build a standalone batch converter for the legacy XML example files; it may use another language.
+  - [x] 2.5.4 Convert only the approved `berry` and `nips-fm` Java datasets into `examples/fm2014/`, with conversion reports and explicit recovery of known legacy defects. All other reference datasets are proprietary and excluded from migration, fixtures and distribution.
+  - [x] 2.5.5 Verify source-to-YAML migration and YAML round trips preserve IDs, labels, annotations, metadata, isolated nodes, parallel relations and self-loops.
+  - [x] 2.5.6 Load the converted examples in the demo and add `just` conversion/validation recipes.
 
 ## 3. Add Reinforcement Focus + Context
 

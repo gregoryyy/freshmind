@@ -52,6 +52,7 @@ export interface NavigationState {
 }
 export interface NavigationKey {
   key: string;
+  code?: string;
   repeat?: boolean;
   shiftKey?: boolean;
   ctrlKey?: boolean;
@@ -59,7 +60,10 @@ export interface NavigationKey {
   altKey?: boolean;
   isComposing?: boolean;
 }
-export interface NavigationActions { edit?(item: NavigationItem): void; }
+export interface NavigationActions {
+  edit?(item: NavigationItem): void; editDetails?(item: NavigationItem): void;
+  help?(): void; openResource?(): void; reverseRelation?(): void;
+}
 /** Existing panel owners supply graph, selection, view and locality operations. */
 export interface NavigationHost {
   getGES(): ImmutableGraphEltSet;
@@ -74,6 +78,8 @@ export interface NavigationHost {
   centerOn(node: Node, updateFocus?: boolean): void;
   getZoom(): number;
   zoomBy(factor: number): void;
+  getCanvasZoom(): number;
+  setCanvasZoom(scale: number): void;
   getHyperbolic(): number;
   setHyperbolic(value: number): void;
   setLocale(node: Node | null, radius: number, maxAdd?: number, maxExpand?: number, outgoingOnly?: boolean): Promise<void>;

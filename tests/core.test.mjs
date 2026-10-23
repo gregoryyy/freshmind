@@ -151,3 +151,41 @@ test("focus itself can be dragged without the lens chasing the pointer", async (
   compare([nodes[1].drawx, nodes[1].drawy], screen);
   panel.destroy();
 });
+test("graph and canvas zoom compose independently without changing physical positions", () => {
+  const { graph, nodes } = makeGraph();
+  const panel = new TGPanel(); panel.setGraphEltSet(graph); panel.getGES().addAll();
+  Object.assign(panel.getAdjustOriginLens(), panel.getDrawCenter());
+  const positions = nodes.map(node => [node.x, node.y]);
+  panel.setZoom(1.7); panel.setHyperbolic(65); panel.setRotation(.8);
+  const draw = nodes.map(node => [node.drawx, node.drawy]), center = panel.getCenter();
+  panel.setCanvasZoom(2.3);
+  assert.equal(panel.getZoom(), 1.7); assert.equal(panel.getCanvasZoom(), 2.3);
+  assert.deepEqual(nodes.map(node => [node.drawx, node.drawy]), draw);
+  compare([panel.getCenter().x, panel.getCenter().y], [center.x, center.y]);
+  for (const node of nodes) {
+    const screen = panel.drawToScreen({ x: node.drawx, y: node.drawy });
+    const back = panel.screenToDraw(screen);
+    compare([back.x, back.y], [node.drawx, node.drawy]);
+  }
+  panel.centerOn(nodes[1]);
+  const centered = panel.drawToScreen({ x: nodes[1].drawx, y: nodes[1].drawy });
+  compare([centered.x, centered.y], [panel.getDrawCenter().x, panel.getDrawCenter().y]);
+  assert.equal(panel.getZoom(), 1.7); assert.equal(panel.getCanvasZoom(), 2.3);
+  panel.setZoom(2.2);
+  const stillCentered = panel.drawToScreen({ x: nodes[1].drawx, y: nodes[1].drawy });
+  compare([stillCentered.x, stillCentered.y], [panel.getDrawCenter().x, panel.getDrawCenter().y]);
+  assert.deepEqual(nodes.map(node => [node.x, node.y]), positions);
+  panel.destroy();
+});
+test("both zoom APIs reject invalid scales and clamp independently", () => {
+  const panel = new TGPanel();
+  for (const scale of [0, -1, NaN, Infinity, -Infinity]) {
+    assert.throws(() => panel.setZoom(scale), RangeError);
+    assert.throws(() => panel.setCanvasZoom(scale), RangeError);
+  }
+  panel.setZoom(10); panel.setCanvasZoom(.01);
+  assert.equal(panel.getZoom(), 5); assert.equal(panel.getCanvasZoom(), .15);
+  panel.canvasZoomBy(100); panel.zoomBy(.001);
+  assert.equal(panel.getZoom(), .15); assert.equal(panel.getCanvasZoom(), 5);
+  panel.destroy();
+});

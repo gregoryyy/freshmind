@@ -11,7 +11,7 @@ import type { FreshmindNavigation } from "./controller.js";
 import type { NavigationHost, NavigationItem } from "./types.js";
 
 let nextId = 0;
-/** Attaches graph-scoped input and a live status region; returns complete DOM/subscription cleanup. */
+/** Attaches graph-scoped keyboard/horizontal-wheel input and live status; returns complete cleanup. */
 export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigation: FreshmindNavigation, externalStatus?: HTMLElement): () => void {
   const status = externalStatus ?? document.createElement("div");
   if (!externalStatus) {
@@ -62,6 +62,17 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     const item = (event.target as Element).closest<SVGElement>(".tg-node,.fm-edge");
     if (item) item.focus({ preventScroll: true }); else if (event.target === svg) svg.focus({ preventScroll: true });
   };
+  const wheel = (event: WheelEvent) => {
+    // Embedded editors keep native scrolling, bypassing inherited canvas zoom as well.
+    if (editable(event.target)) { event.stopPropagation(); return; }
+    if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey
+      || !Number.isFinite(event.deltaX) || !Number.isFinite(event.deltaY) || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+    // Sensitivity is one percentage point per 20 pixels. Wheels may emit lines/pages.
+    // Each event adjusts the lens or canvas, following its dominant scroll axis.
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? svg.clientWidth || 800 : 1;
+    event.preventDefault(); event.stopImmediatePropagation();
+    navigation.adjustFocusContext(event.deltaX * unit / 20);
+  };
   let disposed = false, focusPaintQueued = false;
   // Removing a focused SVG item fires blur during D3's DOM join. Paint after that join has finished.
   const refreshFocus = () => {
@@ -74,10 +85,12 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     refreshFocus();
   };
   svg.addEventListener("keydown", keydown, true); svg.addEventListener("click", click, true);
+  svg.addEventListener("wheel", wheel, { capture: true, passive: false });
   svg.addEventListener("focusout", focusout); svg.addEventListener("focusin", refreshFocus);
   return () => {
     disposed = true;
     unsubscribe(); svg.removeEventListener("keydown", keydown, true); svg.removeEventListener("click", click, true); svg.removeEventListener("focusout", focusout);
+    svg.removeEventListener("wheel", wheel, true);
     svg.removeEventListener("focusin", refreshFocus);
     if (!externalStatus) status.remove();
   };

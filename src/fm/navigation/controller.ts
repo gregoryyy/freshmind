@@ -51,7 +51,7 @@ export class FreshmindNavigation {
   addListener(listener: (state: NavigationState) => void): () => void {
     this.listeners.add(listener); return () => this.listeners.delete(listener);
   }
-  setActions(actions: NavigationActions): void { this.actions = actions; }
+  setActions(actions: NavigationActions): void { this.actions = {...this.actions, ...actions}; }
   private publish(repaint = false): void {
     if (repaint) this.host.repaint();
     const state = this.getState(); for (const listener of this.listeners) listener(state);
@@ -207,18 +207,29 @@ export class FreshmindNavigation {
     this.detailsVisible = !this.detailsVisible;
     this.message = `Details ${this.detailsVisible ? "shown" : "hidden"}.`; this.publish();
   }
-  /** Changes viewing scale through the panel's limits, retaining selection/locality and frozen candidates. */
+  /** Changes graph spacing through the panel's limits, retaining selection/locality and frozen candidates. */
   zoomBy(factor: number): void {
     if (this.disposed) return;
     this.host.zoomBy(factor); this.armTimer();
-    this.message = `Zoom ${Math.round(this.host.getZoom() * 100)}%.`; this.publish();
+    this.message = `Graph spacing ${Math.round(this.host.getZoom() * 100)}%.`; this.publish();
+  }
+  /** Scales the whole canvas independently of graph spacing, retaining frozen candidates. */
+  canvasZoomBy(factor: number): void {
+    if (this.disposed) return;
+    this.setCanvasZoom(this.host.getCanvasZoom() * factor);
+  }
+  /** Sets an absolute canvas scale, including an exact reset to 1, through the panel's limits. */
+  setCanvasZoom(scale: number): void {
+    if (this.disposed) return;
+    this.host.setCanvasZoom(scale); this.armTimer();
+    this.message = `Canvas zoom ${Math.round(this.host.getCanvasZoom() * 100)}%.`; this.publish();
   }
   /** Adjusts the existing focus/context lens in percentage points, clamped to 0–100. */
   adjustFocusContext(delta: number): void {
     if (this.disposed) return;
     if (!Number.isFinite(delta)) throw new RangeError("Focus/context adjustment must be finite");
     this.host.setHyperbolic(Math.max(0, Math.min(100, this.host.getHyperbolic() + delta))); this.armTimer();
-    this.message = `Focus + context ${this.host.getHyperbolic()}%.`; this.publish();
+    this.message = `Focus + context ${Math.round(this.host.getHyperbolic())}%.`; this.publish();
   }
   private run(operation: Promise<void>): void {
     void operation.catch(error => { if (!this.disposed) { this.message = error instanceof Error ? error.message : String(error); this.publish(); } });
@@ -227,10 +238,23 @@ export class FreshmindNavigation {
   handleKey(event: NavigationKey): boolean {
     if (this.disposed || event.metaKey || event.altKey || event.isComposing) return false;
     if (event.ctrlKey) {
+      if (!event.shiftKey && (event.key === "Enter" || event.key === " ")) {
+        const item = this.host.getSelection(), action = event.key === "Enter" ? this.actions.edit : this.actions.editDetails;
+        if (item && action) { action(item); return true; } return false;
+      }
+      if (event.shiftKey) {
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") this.adjustFocusContext(event.key === "ArrowRight" ? 5 : -5);
+        else if (event.key === "ArrowUp" || event.key === "ArrowDown") this.canvasZoomBy(1.2 ** (event.key === "ArrowUp" ? 1 : -1));
+        else if (event.code === "Digit1" || event.key === "1" || event.key === "!") this.setCanvasZoom(1);
+        else return false;
+        return true;
+      }
       if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return false;
-      const sign = event.key === "ArrowUp" ? 1 : -1;
-      if (event.shiftKey) this.adjustFocusContext(sign * 5);
-      else this.zoomBy(1.2 ** sign);
+      this.zoomBy(1.2 ** (event.key === "ArrowUp" ? 1 : -1));
+      return true;
+    }
+    if (event.key === "+" || event.key === "=" || event.key === "-" || event.key === "−") {
+      this.canvasZoomBy(event.key === "-" || event.key === "−" ? 1 / 1.2 : 1.2);
       return true;
     }
     const arrows: Record<string, Direction> = { ArrowUp: "up", ArrowRight: "right", ArrowDown: "down", ArrowLeft: "left" };
@@ -247,6 +271,7 @@ export class FreshmindNavigation {
       return true;
     }
     if (event.key === "F2") { const item = this.host.getSelection(); if (item && this.actions.edit) { this.actions.edit(item); return true; } return false; }
+    if ((event.key === "?" || event.key === "F1") && this.actions.help) { this.actions.help(); return true; }
     if (event.shiftKey || event.repeat) return false;
     const key = event.key.toLowerCase();
     if (/^[0-6]$/.test(key)) this.run(this.configure({ radius: Number(key) }));
@@ -255,6 +280,8 @@ export class FreshmindNavigation {
     else if (key === "e") this.run(this.expand());
     else if (key === "k") this.run(this.collapse());
     else if (key === "h") this.run(this.hide());
+    else if (key === "l" && this.actions.openResource) this.actions.openResource();
+    else if (key === "r" && this.host.getSelection() instanceof FreshEdge && this.actions.reverseRelation) this.actions.reverseRelation();
     else return false;
     return true;
   }

@@ -126,19 +126,14 @@ For milestone 2, these findings guide extensions to the existing TouchGraph mode
 
 The first two findings were reproduced using the original model/serializer classes after only the temporary compilation adaptations described below. Findings 3–5 follow from the inspected source; broader round trips have not been established.
 
-Seven top-level example XML files parse as XML. Counts below describe explicit records, not necessarily the final graph: destination references can create additional nodes.
+The original review inventoried seven top-level XML examples. Migration and distribution are now restricted to the following **two approved datasets**; the other reference datasets are proprietary and excluded from port fixtures and example conversion.
 
-| File | Node records | Relation records | Suggested use |
+| File | Node records | Relation records | Use |
 | --- | ---: | ---: | --- |
 | `berry.xml` | 21 | 22 | Small untyped import/navigation fixture. |
-| `roadmap.xml` | 11 | 10 | Weight/type serialization regression fixture. |
-| `sb.xml` | 6 | 5 | Small typed/untyped mix. |
-| `sb_design.xml` | 9 | 8 | Style/weight preservation fixture. |
-| `sddc.xml` | 12 | 19 | Small graph with denser relations. |
-| `stonebranch.xml` | 9 | 8 | Person types plus style/weight examples. |
-| `nips-fm.xml` | 3,777 | 5,257 | Larger locality/performance fixture; `group`/`project` types. |
+| `nips-fm.xml` | 3,777 | 5,257 | Larger locality fixture; `group`/`project` types. |
 
-`roadmap.xml`, `sb_design.xml` and `stonebranch.xml` already contain numeric `<type>` values such as `50.0`/`100.0`, consistent with the writer defect. A future importer should diagnose these and offer an explicit recovery rule; silent reinterpretation could destroy other data. These examples are application data, not this project's development roadmap. Backups and existing index directories may help later, but were not executed or modified.
+Both approved datasets have been converted under milestone 2.5. Their reports include input hashes, record counts and retained unavailable resource paths. The historical writer defects described above are tested with synthetic fixtures rather than proprietary source data. Backups, index directories and external resources are not migration inputs.
 
 ## RFC: rebuild from the paper
 
@@ -209,7 +204,7 @@ All compilation/probe outputs were written to temporary directories; reference s
 | Same compilation with only the aggregate `batik.jar` omitted | Fails with six diagnostics: unavailable import and exception constructor in each of `DbFileHandler`, `FmgFileHandler`, `TreeTxtFileHandler`. | Three handlers use internal `sun.reflect...NotImplementedException`, outside the Java 8 supported API exposed by `--release`. |
 | Diagnostic compilation with three temporary source copies replacing those exceptions with `UnsupportedOperationException`, aggregate Batik jar still omitted | All 178 Java sources compile; deprecation/unchecked warnings remain. | A bounded compatibility probe, **not** a successful unmodified build or feature-completeness claim. |
 | Headless original model/XML/RFC behavior after those compilation adaptations | Reproduces weight/type loss, isolated-node omission, untracked RFC edges, ineffective undo, repeated activation and isolated-center failure. | Concrete evidence for the reported defects. No algorithm/model changes were made for the probe. |
-| XML parsing of seven top-level examples | All parse; counts recorded above. | Syntax/record inventory only, not successful Freshmind import or round-trip validation. |
+| XML parsing of seven top-level examples | All parsed during the historical review; only the two approved counts are retained above. | Syntax/record inventory only, not successful Freshmind import or round-trip validation. |
 
 To reproduce the first source compilation from the reference root, using a JDK with `--release 8` support:
 
@@ -228,11 +223,11 @@ The diagnostic variant removes `lib/batik.jar` from that classpath. The behavior
 
 1. **Milestone 2.2 — model contracts.** Add Freshmind node metadata and labeled relation metadata, explicit semantic types and style resolution. Preserve IDs independently of label edits. Add node/edge factories or equivalent extension points so imports and edit commands create the correct model objects. Keep data headless and serialization independent of view state.
 2. **Milestones 2.3–2.4 — browser behavior.** Add edge selection, directional candidate navigation, typed shapes, multiline labels, relation labels/curves, URL and annotation details, and editors. Reuse existing locality/lenses; add the documented Freshmind lens composition explicitly. Verify hidden-count focus bounds remain correct.
-3. **Milestone 2.5 — native YAML and converted fixtures.** Define a versioned YAML graph format and YAML type configuration, then build a standalone batch converter for all seven XML examples. Cover duplicate labels with distinct IDs, forward references, isolated nodes, self-loops, direction, metadata, Unicode and relation element ordering. Record legacy corruption and explicit recoveries in conversion reports. Validate native YAML round trips; legacy XML/text/FMG/OWL/database runtime I/O is outside this design.
+3. **Milestone 2.5 — native YAML and converted fixtures.** Define a versioned YAML graph format and YAML type configuration, then build a standalone batch converter restricted to the approved `berry` and `nips-fm` XML examples; exclude the proprietary datasets. Cover duplicate labels with distinct IDs, forward references, isolated nodes, self-loops, direction, metadata, Unicode and relation element ordering. Record legacy corruption and explicit recoveries in conversion reports. Validate native YAML round trips; legacy XML/text/FMG/OWL/database runtime I/O is outside this design.
 4. **Milestone 3 — RFC rebuild.** Implement the paper's focal structures and force mechanism as optional constraints, with no synthetic edges in persistent user data. Validate single/multiple-focus behavior and reversible activation against the plain engine.
 5. **Milestone 4 — retrieval contracts and LDA.** Preserve graph-query interaction, replace string-encoded relation roles with explicit metadata, select the required implementation from the available `knowceans-lda-simple` / `knowceans-ilda` sources, and verify numerical ranking with small matrices before end-to-end experiments. Map the old bundled-library interfaces to that source subset. Keep backend selection and optional resource extraction separate from graph rendering.
 
-Milestone **2.1** is complete through this analysis. Implementation of the remaining milestones has not started on this branch. No legacy algorithms, Java build fixes or new runtime dependencies have been added to Freshmind 4.
+This source analysis completed milestone **2.1**. The subsequent **2.2–2.5** implementation is recorded in [DONE.md](DONE.md); RFC and retrieval remain later milestones. The review itself did not change the Java reference or its build.
 
 [FreshmindBrowser]: ../../knowceans/knowceans-freshmind-2014/src/org/knowceans/freshmind/FreshmindBrowser.java
 [TGPanel]: ../../knowceans/knowceans-freshmind-2014/src/org/knowceans/freshmind/tg/TGPanel.java

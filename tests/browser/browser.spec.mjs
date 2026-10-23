@@ -50,7 +50,7 @@ test("drags through the nonlinear lens, zooms, selects and pins", async ({ page 
   await node.click(); await expect(page.locator("#selected-name")).toHaveText("Layout");
   await page.getByLabel("Pin this node in place").check();
   expect(await page.evaluate(() => window.graphBrowser.findNode("topic-0").isFixed())).toBe(true);
-  await page.getByLabel("Zoom in", { exact: true }).click();
+  await page.getByLabel("Canvas zoom in", { exact: true }).click();
   const coordinates = await page.evaluate(() => [...window.graphBrowser.getGES().getNodes()].map(n => [n.drawx, n.drawy]));
   expect(coordinates.flat().every(Number.isFinite)).toBe(true);
   expect(errors).toEqual([]);
@@ -197,7 +197,7 @@ test("main browser exposes all curve modes through the same graph and preserves 
 test("main inspector saves node labels, types and shapes with stable identity and supports cancel", async ({ page }, testInfo) => {
   const errors = await ready(page),root=page.locator('[data-node-id="root"]');
   const before=await page.evaluate(()=>{const n=window.graphBrowser.findNode("root");return [n.x,n.y,n.getHint()];});
-  await root.press("F2");await expect(page.getByLabel("Node label",{exact:true})).toBeFocused();
+  await root.press("F2");await expect(page.getByLabel("Inline node label",{exact:true})).toBeFocused();
   await page.getByLabel("Node label",{exact:true}).fill("A new\nlabel");
   await page.getByLabel("Semantic type",{exact:true}).selectOption("person");
   await page.getByLabel("Node shape",{exact:true}).selectOption("ellipse");

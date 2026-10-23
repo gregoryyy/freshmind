@@ -53,6 +53,8 @@ export class TGPanel {
   private dragFocusOrigin: { x: number; y: number } | null = null;
   private listeners = new Set<GraphListener>();
   private svg?: SvgSelection;
+  private scene?: Selection<SVGGElement, unknown, null, undefined>;
+  private canvasTransform = zoomIdentity;
   private nodeLayer?: Selection<SVGGElement, unknown, null, undefined>;
   private badgeLayer?: Selection<SVGGElement, unknown, null, undefined>;
   private edgeLayer?: Selection<SVGGElement, unknown, null, undefined>;
@@ -214,8 +216,9 @@ export class TGPanel {
     this.mouseOverE = this.mouseOverN ? null : edge;
   }
   setMaintainMouseOver(maintain: boolean): void { this.maintainMouseOver = maintain; }
+  /** Returns the last pointer position in renderer coordinates, before canvas scaling/pan. */
   getMousePos(): TGPoint2D { return new TGPoint2D(this.mousePos); }
-  /** The Java API picks one candidate in the box; it does not retain a selection set. */
+  /** Picks one node inside a box in renderer coordinates, retaining Java's one-candidate semantics. */
   multiSelect(from: TGPoint2D, to: TGPoint2D): void {
     const candidates = [...this.visibleLocality.getNodes()].filter(node =>
       node.drawx > Math.min(from.x, to.x) && node.drawx < Math.max(from.x, to.x)
@@ -251,8 +254,6 @@ export class TGPanel {
       this.panLens.x += (this.focus.x - this.dragFocusOrigin.x) * this.zoomLens.scale;
       this.panLens.y += (this.focus.y - this.dragFocusOrigin.y) * this.zoomLens.scale;
       this.dragFocusOrigin = null;
-      if (this.svg && this.zoomBehavior) this.svg.call(this.zoomBehavior.transform,
-        zoomIdentity.translate(this.width / 2 + this.panLens.x, this.height / 2 + this.panLens.y).scale(this.zoomLens.scale));
     }
     if (!node) this.dragFocusOrigin = null;
     this.dragNode = node; this.tgLayout.setDragNode(node);
@@ -301,9 +302,8 @@ export class TGPanel {
     const focus = this.dragFocusOrigin ?? this.focus;
     const x = -(node.x - (focus?.x ?? 0)) * this.zoomLens.scale;
     const y = -(node.y - (focus?.y ?? 0)) * this.zoomLens.scale;
-    if (this.svg && this.zoomBehavior) this.svg.call(this.zoomBehavior.transform,
-      zoomIdentity.translate(this.width / 2 + x, this.height / 2 + y).scale(this.zoomLens.scale));
-    else { this.panLens.x = x; this.panLens.y = y; this.repaintAfterMove(); }
+    this.panLens.x = x; this.panLens.y = y;
+    this.centerCanvas();
   }
   showAll(): void { this.localityUtils.fastFinishAnimation(); void this.setLocaleAll(); }
   async setLocaleAll(): Promise<void> {
@@ -319,8 +319,18 @@ export class TGPanel {
   addGraphListener(listener: GraphListener): void { this.listeners.add(listener); }
   removeGraphListener(listener: GraphListener): void { this.listeners.delete(listener); }
   fireResetEvent(): void { for (const listener of this.listeners) listener.graphReset?.(); }
+  /** Returns the viewport midpoint in SVG pixels; screenToDraw maps it into renderer coordinates. */
   getDrawCenter(): TGPoint2D { return new TGPoint2D(this.width / 2, this.height / 2); }
-  getCenter(): TGPoint2D { return this.lensSet.convDrawToReal(this.getDrawCenter()); }
+  /** Returns the physical point beneath the viewport center through both inverse transforms. */
+  getCenter(): TGPoint2D { return this.lensSet.convDrawToReal(this.screenToDraw(this.getDrawCenter())); }
+  /** Converts renderer coordinates to viewport pixels, including canvas scale and pan. */
+  drawToScreen(point: { x: number; y: number }): TGPoint2D {
+    return new TGPoint2D(this.canvasTransform.applyX(point.x), this.canvasTransform.applyY(point.y));
+  }
+  /** Converts viewport pixels to renderer coordinates before applying the inverse lens chain. */
+  screenToDraw(point: { x: number; y: number }): TGPoint2D {
+    return new TGPoint2D(this.canvasTransform.invertX(point.x), this.canvasTransform.invertY(point.y));
+  }
   getTopLeftDraw(): TGPoint2D { return new TGPoint2D(this.topLeftDraw); }
   getBottomRightDraw(): TGPoint2D { return new TGPoint2D(this.bottomRightDraw); }
   updateGraphSize(): void {
@@ -332,11 +342,11 @@ export class TGPanel {
   }
   updateDrawPositions(): void { this.visibleLocality.forAllNodes(node => this.updateDrawPos(node)); }
   processGraphMove(): void { this.updateDrawPositions(); this.updateGraphSize(); }
-  /** Refreshes one node's draw pixels through the forward lens chain; physical position is retained. */
+  /** Refreshes renderer coordinates through the lens chain; canvas scaling is applied separately. */
   updateDrawPos(node: Node): void {
     const point = this.lensSet.convRealToDraw(node.x, node.y); node.drawx = point.x; node.drawy = point.y;
   }
-  /** Converts dragged draw pixels back into physical coordinates using the inverse lens chain. */
+  /** Converts renderer coordinates back into physical coordinates using the inverse lens chain. */
   updatePosFromDraw(node: Node): void {
     const point = this.lensSet.convDrawToReal(node.drawx, node.drawy); node.x = point.x; node.y = point.y;
   }
@@ -344,22 +354,69 @@ export class TGPanel {
     this.repaint();
     for (const listener of this.listeners) listener.graphMoved?.();
   }
-  centerView(): void {
-    if (this.svg && this.zoomBehavior) this.svg.call(this.zoomBehavior.transform, zoomIdentity.translate(this.width / 2, this.height / 2).scale(this.zoomLens.scale));
-    else { this.panLens.x = 0; this.panLens.y = 0; this.repaintAfterMove(); }
+  /** Centers the viewing origin while retaining both graph and canvas zoom. */
+  centerView(): void { this.panLens.x = 0; this.panLens.y = 0; this.centerCanvas(); }
+  private centerCanvas(): void {
+    const k = this.getCanvasZoom();
+    const transform = zoomIdentity.translate(this.width / 2 * (1 - k), this.height / 2 * (1 - k)).scale(k);
+    if (this.svg && this.zoomBehavior) this.svg.call(this.zoomBehavior.transform, transform);
+    else { this.canvasTransform = transform; this.repaintAfterMove(); }
   }
+  /** Returns graph-distance zoom. Node bodies, labels and strokes retain their renderer sizes. */
   getZoom(): number { return this.zoomLens.scale; }
+  /** Returns translation inside the viewing-lens chain, before its nonlinear/rotation stages. */
+  getLensPan(): TGPoint2D { return new TGPoint2D(this.panLens.x, this.panLens.y); }
+  /** Restores lens pan separately from canvas pan; used when restoring a saved view. */
+  setLensPan(x: number, y: number): void {
+    if (!Number.isFinite(x) || !Number.isFinite(y)) throw new RangeError("Lens pan must be finite");
+    this.panLens.x = x; this.panLens.y = y; this.repaintAfterMove();
+  }
   /**
-   * Sets viewing scale, clamped to 0.15–5, and refreshes the view.
+   * Sets graph-distance zoom before the focus/context lens, clamped to 0.15–5.
+   * Changes node spacing without scaling graphical objects or physical coordinates.
+   * Lens pan scales with it to retain the world point at the viewing-lens origin.
    * @throws {RangeError} If scale is not finite and strictly positive.
    */
   setZoom(scale: number): void {
     if (!Number.isFinite(scale) || scale <= 0) throw new RangeError("Zoom must be a positive finite scale");
     scale = Math.max(.15, Math.min(5, scale));
-    if (this.svg && this.zoomBehavior) this.svg.call(this.zoomBehavior.scaleTo, scale);
-    else { this.zoomLens.scale = scale; this.repaintAfterMove(); }
+    const ratio = scale / this.zoomLens.scale;
+    this.panLens.x *= ratio; this.panLens.y *= ratio;
+    this.zoomLens.scale = scale; this.repaintAfterMove();
   }
   zoomBy(factor: number): void { this.setZoom(this.zoomLens.scale * factor); }
+  /** Returns the independent scale of the complete drawing, including text, shapes and strokes. */
+  getCanvasZoom(): number { return this.canvasTransform.k; }
+  /** Returns canvas translation in viewport pixels relative to a centered drawing at the current scale. */
+  getCanvasPan(): TGPoint2D {
+    const center = this.getDrawCenter(), point = this.drawToScreen(center);
+    return new TGPoint2D(point.x - center.x, point.y - center.y);
+  }
+  /** Restores canvas pan independently of scale, for saved views and viewport controls. */
+  setCanvasPan(x: number, y: number): void {
+    if (!Number.isFinite(x) || !Number.isFinite(y)) throw new RangeError("Canvas pan must be finite");
+    const k = this.getCanvasZoom(), center = this.getDrawCenter();
+    const transform = zoomIdentity.translate(center.x * (1 - k) + x, center.y * (1 - k) + y).scale(k);
+    if (this.svg && this.zoomBehavior) this.svg.call(this.zoomBehavior.transform, transform);
+    else { this.canvasTransform = transform; this.repaintAfterMove(); }
+  }
+  /**
+   * Scales the complete drawing around the viewport center, clamped to 0.15–5.
+   * Preserves graph-distance zoom and the world point beneath the viewport center.
+   * @throws {RangeError} If scale is not finite and strictly positive.
+   */
+  setCanvasZoom(scale: number): void {
+    if (!Number.isFinite(scale) || scale <= 0) throw new RangeError("Canvas zoom must be a positive finite scale");
+    scale = Math.max(.15, Math.min(5, scale));
+    if (this.svg && this.zoomBehavior) this.svg.call(this.zoomBehavior.scaleTo, scale);
+    else {
+      const center = this.getDrawCenter(), draw = this.screenToDraw(center);
+      this.canvasTransform = zoomIdentity.translate(center.x - draw.x * scale, center.y - draw.y * scale).scale(scale);
+      this.repaintAfterMove();
+    }
+  }
+  /** Multiplies canvas scale, using the same limits and center anchor as setCanvasZoom. */
+  canvasZoomBy(factor: number): void { this.setCanvasZoom(this.getCanvasZoom() * factor); }
 
   /**
    * Installs SVG layers, input gestures and resize handling on a fresh panel.
@@ -375,36 +432,36 @@ export class TGPanel {
     this.svg.append("defs").append("marker").attr("id", this.arrowId).attr("viewBox", "0 0 10 10")
       .attr("refX", 9).attr("refY", 5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto")
       .append("path").attr("d", "M 0 0 L 10 5 L 0 10 Z").attr("fill", "context-stroke");
-    this.edgeLayer = this.svg.append("g").attr("class", "tg-edges");
-    this.decorationLayer = this.svg.append("g").attr("class", "tg-decorations").attr("aria-hidden", "true").style("pointer-events", "none");
-    this.nodeLayer = this.svg.append("g").attr("class", "tg-nodes");
-    this.badgeLayer = this.svg.append("g").attr("class", "tg-hidden-counts").attr("aria-hidden", "true")
+    this.scene = this.svg.append("g").attr("class", "tg-scene");
+    this.edgeLayer = this.scene.append("g").attr("class", "tg-edges");
+    this.decorationLayer = this.scene.append("g").attr("class", "tg-decorations").attr("aria-hidden", "true").style("pointer-events", "none");
+    this.nodeLayer = this.scene.append("g").attr("class", "tg-nodes");
+    this.badgeLayer = this.scene.append("g").attr("class", "tg-hidden-counts").attr("aria-hidden", "true")
       .style("pointer-events", "none");
     this.zoomBehavior = zoom<SVGSVGElement, unknown>().scaleExtent([0.15, 5])
       .filter(event => !event.shiftKey && (!event.ctrlKey || event.type === "wheel") && !event.button).on("zoom", event => {
-      this.zoomLens.scale = event.transform.k;
-      this.panLens.x = event.transform.x - this.width / 2;
-      this.panLens.y = event.transform.y - this.height / 2;
+      this.canvasTransform = event.transform;
       this.repaintAfterMove();
     });
     this.svg.call(this.zoomBehavior).on("dblclick.zoom", null);
     this.svg.on("mousemove.position", event => {
-      const [x, y] = pointer(event, this.svg!.node()); this.mousePos.setLocation(x, y);
+      const [x, y] = pointer(event, this.scene!.node()); this.mousePos.setLocation(x, y);
     }).on("click.selection", event => { if (event.target === this.svg!.node()) this.clearSelect(); });
     this.svg.on("dblclick.edit", event => {
       if (this.interactionMode !== "edit" || event.target !== this.svg!.node()) return;
-      const [x, y] = pointer(event, this.svg!.node());
+      const [x, y] = pointer(event, this.scene!.node());
       const position = this.lensSet.convDrawToReal(x, y);
       const node = this.addNode("New node");
       node.setLocation(position); this.setSelect(node); this.resetDamper();
     });
     let boxStart = new TGPoint2D();
     let box: Selection<SVGRectElement, unknown, null, undefined> | undefined;
-    this.svg.call(drag<SVGSVGElement, unknown>().container(this.svg.node()!)
+    this.svg.call(drag<SVGSVGElement, unknown>().container(this.scene.node()!)
+      .subject(event => ({ x: event.x, y: event.y }))
       .filter(event => event.shiftKey && !event.button && event.target === this.svg!.node())
       .on("start", event => {
         boxStart = new TGPoint2D(event.x, event.y);
-        box = this.svg!.append("rect").attr("class", "tg-selection-box").attr("fill", "#42674a22")
+        box = this.scene!.append("rect").attr("class", "tg-selection-box").attr("fill", "#42674a22")
           .attr("stroke", "#42674a").style("pointer-events", "none");
       }).on("drag", event => {
         box?.attr("x", Math.min(boxStart.x, event.x)).attr("y", Math.min(boxStart.y, event.y))
@@ -423,9 +480,11 @@ export class TGPanel {
     this.height = this.container.clientHeight || 600;
     this.originLens.x = this.width / 2; this.originLens.y = this.height / 2;
     this.svg.attr("viewBox", `0 0 ${this.width} ${this.height}`);
-    // Keep d3's translation and the origin lens consistent after a resize.
+    // Keep the canvas pan relative to the viewport center when the host changes size.
     if (this.zoomBehavior && (oldWidth !== this.width || oldHeight !== this.height)) {
-      const transform = zoomIdentity.translate(this.width / 2 + this.panLens.x, this.height / 2 + this.panLens.y).scale(this.zoomLens.scale);
+      const previous = this.canvasTransform, k = previous.k;
+      const transform = zoomIdentity.translate(previous.x + (this.width - oldWidth) / 2 * (1 - k),
+        previous.y + (this.height - oldHeight) / 2 * (1 - k)).scale(k);
       this.svg.call(this.zoomBehavior.transform, transform);
     }
     this.repaint();
@@ -440,6 +499,7 @@ export class TGPanel {
     if (this.destroyed) return;
     this.processGraphMove();
     if (!this.nodeLayer || !this.edgeLayer || !this.svg) return;
+    this.scene!.attr("transform", this.canvasTransform.toString());
     if (this.focus && !this.completeEltSet.contains(this.focus)) this.focus = null;
     const nodes = this.nodeLayer.selectAll<SVGGElement, Node>("g.tg-node").data([...this.visibleLocality.getNodes()], node => node.getID()!)
       .join(enter => {
@@ -475,7 +535,7 @@ export class TGPanel {
     this.paintEdges(this.edgeLayer.node()!);
     if (this.decorationLayer) this.paintDecorations(this.decorationLayer.node()!);
     nodes.select("title").text(node => this.getNodeTitle(node));
-    const behavior = drag<SVGGElement, Node, DragSubject>().container(this.svg.node()!)
+    const behavior = drag<SVGGElement, Node, DragSubject>().container(this.scene!.node()!)
       .subject((_event, node) => ({ x: node.drawx, y: node.drawy, node }))
       .on("start", event => { this.setDragNode(event.subject.node); this.stopDamper(); })
       .on("drag", event => {
@@ -484,7 +544,7 @@ export class TGPanel {
         this.updatePosFromDraw(node);
         this.repaintAfterMove();
       })
-      .on("end", () => { this.setDragNode(null); this.resetDamper(); });
+      .on("end", () => { this.setDragNode(null); this.resetDamper(); this.repaintAfterMove(); });
     nodes.call(behavior);
   }
   /** Override presentation without replacing the panel's input, dragging or lifecycle. */

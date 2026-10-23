@@ -178,6 +178,12 @@ export class FreshEdge extends Edge {
 
 /** Adds Freshmind identity/type invariants while retaining TouchGraph adjacency and traversal. */
 export class FreshGraph extends GraphEltSet {
+  /** Reconnects a stored relation without changing its ID/order, retaining loop incidence twice. */
+  reconnectEdge(edge: FreshEdge, from: FreshNode, to: FreshNode): void {
+    if (!this.contains(edge) || !this.contains(from) || !this.contains(to)) throw new Error("Relation and endpoints must belong to the graph");
+    edge.from.removeEdge(edge); edge.to.removeEdge(edge);
+    edge.from = from; edge.to = to; from.addEdge(edge); to.addEdge(edge); edge.setGeometry(null);
+  }
   override nodeAt(index:number):FreshNode{return super.nodeAt(index) as FreshNode;}
   override edgeAt(index:number):FreshEdge{return super.edgeAt(index) as FreshEdge;}
   override findNode(id:string|null):FreshNode|null{return super.findNode(id) as FreshNode|null;}
@@ -220,7 +226,9 @@ export class FreshGraph extends GraphEltSet {
 }
 /** Document metadata aggregates the existing graph; it never duplicates live adjacency. */
 export class FreshmindDocument {
-  readonly graph = new FreshGraph();
   title = "";
-  constructor(public types: TypeRegistry) {}
+  data: Metadata = {};
+  extensions: Metadata = {};
+  view?: import("./io/types.js").DocumentView;
+  constructor(public types: TypeRegistry, readonly graph = new FreshGraph()) {}
 }

@@ -12,7 +12,8 @@
 /**
  * TouchGraph node shared by the complete graph and its visible locality.
  * `x`/`y` are physical coordinates, `dx`/`dy` carry layout momentum, and
- * `drawx`/`drawy` are lens-transformed pixels. Colors and fonts use CSS strings.
+ * `drawx`/`drawy` are lens-transformed renderer coordinates before canvas scale/pan.
+ * Colors and fonts use CSS strings.
  */
 export class Node {
   static readonly TYPE_RECTANGLE = 1;
