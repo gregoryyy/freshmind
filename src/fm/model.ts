@@ -13,6 +13,8 @@ import { clone, jsonData, number, record, text, validateVisualOverride } from ".
 import type { TypeRegistry } from "./config/registry.js";
 import type { EdgeGeometry } from "./rendering/geometry.js";
 import type { NodeOutline } from "./rendering/shapes.js";
+import {validateSubstructure} from "./structures/model.js";
+import type {GraphSubstructure} from "./structures/model.js";
 
 /** Retained annotation source; an HTML format flag does not itself render or sanitize HTML. */
 export interface Annotation { format: "text" | "html"; text: string; }
@@ -31,7 +33,7 @@ function metadata(value: unknown): Metadata { record(value, "metadata"); jsonDat
 /**
  * TouchGraph node extended with semantic metadata and transient presentation state.
  * Semantic type remains separate from the inherited numeric getType shape contract.
- * Metadata/visual values are copied at API boundaries; weights affect halos, not forces.
+ * Metadata/visual values are copied at API boundaries; weights affect presentation and added RFC stiffness.
  */
 export class FreshNode extends Node {
   private semanticType = "default";
@@ -85,7 +87,7 @@ export class FreshNode extends Node {
   getURL(): string { return this.url; }
   setURL(url: string): void { if (typeof url !== "string") throw new TypeError("Expected URL string"); this.url = url; }
   getWeight(): number { return this.weight; }
-  /** Sets nonnegative visual halo weight, independently of the inherited physical repulsion. */
+  /** Sets nonnegative visual/RFC importance, independently of inherited TouchGraph repulsion and mass. */
   setWeight(weight: number): void { number(weight, "node.weight"); this.weight = weight; }
   getData(): Metadata { return clone(this.data); }
   /** Validates and copies JSON-compatible application metadata; getters return detached copies. */
@@ -150,7 +152,7 @@ export class FreshEdge extends Edge {
   /** Copies validated style overrides; the next repaint resolves and redraws the curve. */
   setVisual(visual: VisualOverride<EdgeStyle>): void { this.visual = validateVisualOverride(visual, "edge"); }
   getWeight(): number { return this.weight; }
-  /** Sets nonnegative stroke weight; it does not multiply spring attraction. */
+  /** Sets nonnegative stroke/RFC importance; ordinary TouchGraph spring attraction remains unchanged. */
   setWeight(weight: number): void { number(weight, "edge.weight"); this.weight = weight; }
   getData(): Metadata { return clone(this.data); }
   setData(data: Metadata): void { this.data = metadata(data); }
@@ -178,9 +180,33 @@ export class FreshEdge extends Edge {
 
 /** Adds Freshmind identity/type invariants while retaining TouchGraph adjacency and traversal. */
 export class FreshGraph extends GraphEltSet {
+  private readonly substructures=new Map<string,GraphSubstructure>();
+  private substructureRevision=0;
+  getSubstructureRevision():number{return this.substructureRevision;}
+  /** Adds/replaces validated membership atomically; nodes can belong to several structures. */
+  setSubstructure(definition:GraphSubstructure):void {
+    const validated=validateSubstructure(this,definition);this.substructures.set(validated.id,validated);this.substructureRevision++;
+  }
+  getSubstructure(id:string):GraphSubstructure|null{return clone(this.substructures.get(id)??null);}
+  getSubstructures():GraphSubstructure[]{return clone([...this.substructures.values()]);}
+  /** Returns memberships from their graph owner rather than maintaining duplicate lists on nodes. */
+  getNodeSubstructures(node:Node|string):GraphSubstructure[]{
+    const id=typeof node==="string"?node:node.getID();return this.getSubstructures().filter(s=>s.nodeIds.includes(id!));
+  }
+  removeSubstructure(id:string):boolean{const deleted=this.substructures.delete(id);if(deleted)this.substructureRevision++;return deleted;}
+  private invalidateSubstructures(nodeId?:string,edgeId?:string):void {
+    for(const [id,s] of this.substructures)if((nodeId&&s.nodeIds.includes(nodeId))||(edgeId&&s.edgeIds.includes(edgeId)))this.removeSubstructure(id);
+  }
+  /** Deletion invalidates affected definitions instead of leaving dangling structural references. */
+  override deleteNode(node:Node|null):boolean {
+    if(node&&this.contains(node))this.invalidateSubstructures(node.getID()!);
+    return super.deleteNode(node);
+  }
+  override clearAll():void {this.substructures.clear();this.substructureRevision++;super.clearAll();}
   /** Reconnects a stored relation without changing its ID/order, retaining loop incidence twice. */
   reconnectEdge(edge: FreshEdge, from: FreshNode, to: FreshNode): void {
     if (!this.contains(edge) || !this.contains(from) || !this.contains(to)) throw new Error("Relation and endpoints must belong to the graph");
+    if(edge.from!==from||edge.to!==to)this.invalidateSubstructures(undefined,edge.getID()!);
     edge.from.removeEdge(edge); edge.to.removeEdge(edge);
     edge.from = from; edge.to = to; from.addEdge(edge); to.addEdge(edge); edge.setGeometry(null);
   }
@@ -220,7 +246,7 @@ export class FreshGraph extends GraphEltSet {
   override deleteEdge(edgeOrFrom:Edge|Node|null,to?:Node):boolean {
     const edge=edgeOrFrom instanceof Node?(to?this.findEdge(edgeOrFrom,to):null):edgeOrFrom;
     const deleted=super.deleteEdge(edge);
-    if(deleted&&edge instanceof FreshEdge)edge.setGeometry(null);
+    if(deleted&&edge instanceof FreshEdge){edge.setGeometry(null);this.invalidateSubstructures(undefined,edge.getID()!);}
     return deleted;
   }
 }

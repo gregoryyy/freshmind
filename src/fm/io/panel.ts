@@ -22,15 +22,19 @@ export function captureDocument(panel: FreshmindPanel, current?: FreshmindDocume
   return snapshot;
 }
 
-/** Installs an already validated document, revealing its saved neighborhood or a bounded initial view. */
-export async function installDocument(panel: FreshmindPanel, document: FreshmindDocument): Promise<void> {
+export interface InstallDocumentOptions {
+  /** Reinforce the document's initial focus. Activation is application policy, never restored from file data. */
+  reinforceFocus?: boolean;
+}
+/** Installs a validated document and view, optionally reinforcing its initial focus for browser applications. */
+export async function installDocument(panel: FreshmindPanel, document: FreshmindDocument, options: InstallDocumentOptions = {}): Promise<void> {
   panel.fastFinishAnimation(); await panel.getLocalityUtils().whenIdle();
   panel.setGraphEltSet(document.graph); panel.setTypeRegistry(document.types);
   const view = document.view, nav = panel.getNavigation();
   await nav.configure({radius: view?.radius ?? 2, backlinks: view?.backlinks ?? true, moveToCenter: view?.moveToCenter ?? true,
     maxAddEdgeCount: view?.maxAddEdgeCount ?? 1000, maxExpandEdgeCount: view?.maxExpandEdgeCount ?? 1000});
   panel.setZoom(view?.lenses?.zoom ?? 1); panel.setHyperbolic(view?.lenses?.hyperbolic ?? 0); panel.setRotation(view?.lenses?.rotation ?? 0);
-  const focus = (view?.focus ? document.graph.findNode(view.focus) : null) ?? document.graph.nodeAt(0);
+  const focus = (view?.focus ? document.graph.findNode(view.focus) : null) ?? (document.graph.nodeCount() ? document.graph.nodeAt(0) : null);
   if (focus) {
     if (!view?.wholeGraph && (view?.focus || document.graph.nodeCount() > 100)) {
       const settings = nav.getState().settings;
@@ -45,5 +49,6 @@ export async function installDocument(panel: FreshmindPanel, document: Freshmind
   } else panel.centerView();
   if (view?.lenses?.pan) panel.setLensPan(view.lenses.pan.x, view.lenses.pan.y);
   panel.setCanvasZoom(view?.canvas?.zoom ?? 1); panel.setCanvasPan(view?.canvas?.pan?.x ?? 0, view?.canvas?.pan?.y ?? 0);
+  if (options.reinforceFocus && focus && panel.getGES().contains(focus)) panel.getRfc().setFocus(focus);
   panel.resetDamper(); panel.repaintAfterMove();
 }

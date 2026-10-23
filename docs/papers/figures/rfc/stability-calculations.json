@@ -1,0 +1,39 @@
+{
+  "update": "[[1-d*k,d],[-d*k/2,d/2]]",
+  "stability": "0 < d*k < 2+d, for 0<d<=1",
+  "scalarModes": [
+    {
+      "curvature": 1,
+      "damper": 1,
+      "spectralRadius": 0.7071067811865476
+    },
+    {
+      "curvature": 4,
+      "damper": 1,
+      "spectralRadius": 2.2807764064044154
+    },
+    {
+      "curvature": 8,
+      "damper": 1,
+      "spectralRadius": 6.4221443851123805
+    },
+    {
+      "curvature": 8,
+      "damper": 0.25,
+      "spectralRadius": 0.6951941016011038
+    }
+  ],
+  "sixBranchRadialCurvature": {
+    "fixedCenter": "k",
+    "movableCenter": "4*k",
+    "eigenvaluesPerUnitStiffness": [
+      0.9999999999999993,
+      0.9999999999999999,
+      1.0000000000000007,
+      1.0000000000000009,
+      3.999999999999999,
+      4.0
+    ]
+  },
+  "rigidityNote": "Graph rigidity changes apply after the first ten-step batch."
+}

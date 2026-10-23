@@ -1,0 +1,592 @@
+format: freshmind
+version: 1
+title: RFC shared-subtree (synthetic, two tree definitions)
+types:
+  format: freshmind-types
+  version: 1
+  id: freshmind-2014
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#0000b0"
+        width: 1
+        dash: solid
+      arrow:
+        placement: middle
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: a0
+    label: a0
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -166.06890305876732
+      "y": -21.97845684364438
+    data: {}
+    extensions: {}
+  - id: a1
+    label: a1
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -311.99222933501005
+      "y": -56.64841977879405
+    data: {}
+    extensions: {}
+  - id: a11
+    label: a11
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -442.0468593388796
+      "y": -134.65561071410775
+    data: {}
+    extensions: {}
+  - id: a12
+    label: a12
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -406.53846237808466
+      "y": -50.20444354042411
+    data: {}
+    extensions: {}
+  - id: s
+    label: s
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 2.5013133883476257
+      "y": 22.553177159279585
+    data: {}
+    extensions: {}
+  - id: s1
+    label: s1
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -43.90351232141256
+      "y": 140.0386385805905
+    data: {}
+    extensions: {}
+  - id: s2
+    label: s2
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 88.76879520714283
+      "y": 182.72760724648833
+    data: {}
+    extensions: {}
+  - id: b0
+    label: b0
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 199.33739881962538
+      "y": -17.344325240701437
+    data: {}
+    extensions: {}
+  - id: b2
+    label: b2
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 355.9141592681408
+      "y": 124.84123988077044
+    data: {}
+    extensions: {}
+  - id: b21
+    label: b21
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 413.69797725230455
+      "y": -0.528669934719801
+    data: {}
+    extensions: {}
+  - id: b22
+    label: b22
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 419.56234835088253
+      "y": 141.77419057115912
+    data: {}
+    extensions: {}
+edges:
+  - id: a0:a1
+    from: a0
+    to: a1
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: a1:a11
+    from: a1
+    to: a11
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: a1:a12
+    from: a1
+    to: a12
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: a0:s
+    from: a0
+    to: s
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: s:s1
+    from: s
+    to: s1
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: s:s2
+    from: s
+    to: s2
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: b0:s
+    from: b0
+    to: s
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: b0:b2
+    from: b0
+    to: b2
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: b2:b21
+    from: b2
+    to: b21
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: b2:b22
+    from: b2
+    to: b22
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+data: {}
+extensions: {}
+substructures:
+  - id: a-tree
+    label: Left tree
+    kind: tree
+    rootId: a0
+    nodeIds:
+      - a0
+      - a1
+      - a11
+      - a12
+      - s
+      - s1
+      - s2
+    edgeIds:
+      - a0:a1
+      - a1:a11
+      - a1:a12
+      - a0:s
+      - s:s1
+      - s:s2
+  - id: b-tree
+    label: Right tree
+    kind: tree
+    rootId: b0
+    nodeIds:
+      - b0
+      - s
+      - s1
+      - s2
+      - b2
+      - b21
+      - b22
+    edgeIds:
+      - b0:s
+      - s:s1
+      - s:s2
+      - b0:b2
+      - b2:b21
+      - b2:b22
+view:
+  focus: a0
+  radius: 3
+  wholeGraph: true
+  lenses:
+    zoom: 1
+    hyperbolic: 0
+    rotation: 0
+  canvas:
+    zoom: 0.8

@@ -7,6 +7,7 @@
  */
 import type { FreshNodeOptions, FreshEdgeOptions, Metadata } from "../model.js";
 import type { TypeConfiguration } from "../config/types.js";
+import type {GraphSubstructure} from "../structures/model.js";
 
 /** Persistent view settings; interaction state, velocities and derived geometry are excluded. */
 export interface DocumentView {
@@ -20,6 +21,7 @@ export interface EdgeRecord extends FreshEdgeOptions { id: string; from: string;
 export interface DocumentRecord {
   format: "freshmind"; version: 1; title?: string; types?: TypeConfiguration; typesFile?: string;
   nodes: NodeRecord[]; edges: EdgeRecord[]; view?: DocumentView; data?: Metadata; extensions?: Metadata;
+  substructures?: GraphSubstructure[];
 }
 /** Resolves companion contents relative to the document; no codec performs network or filesystem I/O. */
 export interface LoadOptions { resolveTypes?: (path: string) => string; }

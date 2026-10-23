@@ -45,6 +45,14 @@ export class TypeRegistry {
   /** Returns deduplicated unknown-type/visual warnings accumulated during style resolution. */
   getDiagnostics(): string[] { return [...this.warnings]; }
   clearDiagnostics(): void { this.warnings.clear(); }
+  /** Resolves the default relation visual, including inheritance and built-in fallbacks. */
+  getDefaultEdgeStyle(): EdgeStyle {
+    const { defaults } = this.configuration;
+    return this.resolveEdge({
+      getSemanticType: () => defaults.relationType,
+      getVisual: () => ({ type: defaults.edgeVisual })
+    });
+  }
   /**
    * Resolves a detached node style from defaults, inherited visuals and item overrides.
    * Active states merge last in fixed → hover → selected → preselected → activeCandidate

@@ -9,6 +9,7 @@
 import type { FreshNode, FreshEdge } from "../model.js";
 import type { Node } from "../../tg/model.js";
 import type { ImmutableGraphEltSet } from "../../tg/graph.js";
+import type { CurveMode } from "../config/types.js";
 
 export type Direction = "up" | "right" | "down" | "left";
 export type CandidateKind = "node" | "edge";
@@ -76,6 +77,14 @@ export interface NavigationHost {
   setSelectEdge(edge: FreshEdge | null): void;
   updateDrawPositions(): void;
   centerOn(node: Node, updateFocus?: boolean): void;
+  /** Optional extension invoked by a repeated center command on the current focal node. */
+  reinforceCenteredNode?(node: FreshNode): void;
+  /** Adds an independent RFC center without changing locality or the viewing-lens focus. */
+  addRfcCenter?(node: FreshNode): void;
+  /** Toggles one RFC center, retaining all others; returns whether it is now enabled. */
+  toggleRfcCenter?(node: FreshNode): boolean;
+  /** Optional Freshmind presentation extension; explicit per-relation forms remain authoritative. */
+  cycleEdgeCurve?(): CurveMode;
   getZoom(): number;
   zoomBy(factor: number): void;
   getCanvasZoom(): number;

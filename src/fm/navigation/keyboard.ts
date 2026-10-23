@@ -44,10 +44,13 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     const before = host.getSelection(), focused = itemAt(event.target);
     let handled: boolean;
     // Tab changes DOM focus alone. Enter activates a different focused item before centering it.
-    if (!modified && event.key === "Enter" && focused && focused !== before && !navigation.getState().preselection) {
+    if (!modified && !event.shiftKey && event.key === "Enter" && focused && focused !== before && !navigation.getState().preselection) {
       if (focused instanceof FreshNode) host.setSelect(focused); else host.setSelectEdge(focused);
       handled = true;
-    } else handled = navigation.handleKey(event);
+    } else {
+      if(!modified&&event.shiftKey&&event.key==="Enter"&&focused instanceof FreshNode&&focused!==before&&!navigation.getState().preselection)host.setSelect(focused);
+      handled = navigation.handleKey(event);
+    }
     if (!handled) {
       // Leave native chords intact while bypassing inherited activation/deletion handlers.
       if (modified && ["Enter", " ", "Escape", "Delete", "Backspace"].includes(event.key)) event.stopPropagation();

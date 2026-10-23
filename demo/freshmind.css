@@ -10,5 +10,3 @@
 .sidebar textarea { font: 11px/1.4 monospace; resize: vertical; }
 .sidebar .inspector h2 { font-size: 20px; }
 #config-status { overflow-wrap: anywhere; font-size: 12px; }
-.fm-edge:focus { outline: none; }
-.fm-edge:focus .fm-edge-hit { stroke: #3b4bd844; }

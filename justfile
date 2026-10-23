@@ -20,6 +20,10 @@ build:
 build-demo:
     npm run build:demo
 
+# Capture a production-build walkthrough into docs/flipbook/ (PNGs, Markdown and HTML).
+flipbook *args: build-demo
+    node scripts/flipbook.mjs "$@"
+
 # Regenerate the headless preset and documentation from the Freshmind type YAML.
 sync-fm-config:
     npm run sync:fm-config
@@ -39,6 +43,64 @@ validate-examples *args: build
 # Regenerate attributed public networks from the pinned source; requires Python 3, no NetworkX installation.
 public-examples: build
     node scripts/convert-public-examples.mjs
+
+# Compare plain TouchGraph and single-focus RFC on synthetic fixed-coordinate graphs.
+rfc-experiment output="docs/experiments/rfc-single-focus": build
+    node scripts/rfc-experiment.mjs {{quote(output)}}
+
+# Matched multi-focus tree, leaf-link and shared-subtree experiments (120 runs).
+rfc-multifocus-experiment output="docs/experiments/rfc-multifocus": build
+    node scripts/rfc-multifocus-experiment.mjs {{quote(output)}}
+
+# Compare archived/global and current/per-node damping on detector probes and two-center layouts.
+rfc-stability-experiment output="docs/experiments/rfc-stability": build
+    node scripts/rfc-stability-experiment.mjs {{quote(output)}}/v1 --historical
+    node scripts/rfc-stability-experiment.mjs {{quote(output)}}/v2
+    python3 scripts/rfc-stability-figures.py {{quote(output)}}
+
+# Redraw recorded stability probes, layouts and motion/gain/cooling comparisons; requires matplotlib/numpy.
+rfc-stability-figures output="docs/experiments/rfc-stability":
+    python3 scripts/rfc-stability-figures.py {{quote(output)}}
+
+# Matched damping/rigidity, importance and cluster comparisons (780 runs), reports and eight diagrams.
+rfc-followup-experiment output="docs/experiments/rfc-followup": build
+    node scripts/rfc-followup-experiment.mjs {{quote(output)}}
+    python3 scripts/rfc-followup-report.py {{quote(output)}}
+    python3 scripts/rfc-followup-figures.py {{quote(output)}}
+
+# Redraw recorded follow-up layouts and parameter comparisons; requires matplotlib/numpy.
+rfc-followup-figures output="docs/experiments/rfc-followup":
+    python3 scripts/rfc-followup-figures.py {{quote(output)}}
+
+# Rebuild follow-up narratives/tables from the recorded inputs without rerunning layout.
+rfc-followup-report output="docs/experiments/rfc-followup":
+    python3 scripts/rfc-followup-report.py {{quote(output)}}
+
+# Context and intersection exclusion: 100 matched runs, native examples, report and diagrams.
+rfc-exclusion-experiment output="docs/experiments/rfc-exclusion": build
+    node scripts/rfc-exclusion-experiment.mjs {{quote(output)}}
+    python3 scripts/rfc-exclusion-figures.py {{quote(output)}}
+
+# Redraw recorded exclusion comparisons and rebuild their report without rerunning layout.
+rfc-exclusion-figures output="docs/experiments/rfc-exclusion":
+    python3 scripts/rfc-exclusion-figures.py {{quote(output)}}
+
+# Regenerate the synthetic tree/DAG, weighted-tree and overlapping-cluster examples.
+substructure-examples: build
+    node scripts/substructure-examples.mjs
+
+# Plot an existing RFC report; requires Python 3 with matplotlib.
+rfc-plot output="docs/experiments/rfc-single-focus":
+    python3 scripts/plot-rfc.py {{quote(output)}}
+
+# Render the second RFC draft's SVG/PDF/PNG figures; requires matplotlib and numpy.
+rfc-figures:
+    python3 scripts/rfc-paper-figures.py
+
+# Regenerate experiments/figures and render the second draft next to its Markdown source.
+rfc-paper: rfc-experiment rfc-multifocus-experiment rfc-plot rfc-figures
+    rm -f docs/papers/rfc-revisited-draft2.md.pdf
+    just pdf docs/papers/rfc-revisited-draft2.md
 
 # Build and serve the production demo; accepts Vite preview arguments.
 preview *args: build-demo
