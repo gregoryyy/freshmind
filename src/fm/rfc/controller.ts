@@ -9,7 +9,7 @@
 import type {Node, Edge} from "../../tg/model.js";
 import type {LayoutForce} from "../../tg/layout.js";
 import {angularGapRms, applyRfcForces, branchImpulse} from "./forces.js";
-import type {RfcHost, RfcSettings, RfcState, RfcCenterState, RfcClusterSettings} from "./types.js";
+import type {RfcHost, RfcSettings, RfcState, RfcCenterState, RfcClusterSettings,RfcExclusionSettings} from "./types.js";
 import {validateCoordinateWeights} from "./metric.js";
 import {rfcForcePresets} from "./presets.js";
 import {RfcStabilizer} from "./stabilization.js";
@@ -17,6 +17,7 @@ import type {RfcStabilizationOptions} from "./stabilization.js";
 import {projectRfcStructure, constrainedStar} from "./structures.js";
 import type {RfcProjection} from "./structures.js";
 import {applyClusterLink,applyClusterCompactness} from "./clusters.js";
+import {focalRegions,applyRegionExclusion} from "./exclusion.js";
 import {analyzeSubstructure} from "../structures/model.js";
 import type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "../structures/model.js";
 
@@ -28,6 +29,7 @@ export class RfcController {
   private readonly centers=new Map<Node,string|null>();
   private settings:RfcSettings;
   private clusterSettings:RfcClusterSettings={rigidity:1};
+  private exclusionSettings:RfcExclusionSettings={enabled:false,overlap:true,strength:.25,padding:20};
   private disposed=false;
   private signature="";
   private readonly listeners=new Set<(state:RfcState)=>void>();
@@ -36,8 +38,9 @@ export class RfcController {
   private cachedRevision=-1;
   private readonly structures=new Map<string,{definition:GraphSubstructure;topology:SubstructureTopology}>();
 
-  constructor(private readonly host:RfcHost,options:Partial<RfcSettings>={},stabilization:RfcStabilizationOptions={}) {
+  constructor(private readonly host:RfcHost,options:Partial<RfcSettings>={},stabilization:RfcStabilizationOptions={},exclusion:Partial<RfcExclusionSettings>={}) {
     this.settings=this.validate({...defaults,...options});this.stabilizer=new RfcStabilizer(stabilization);
+    this.exclusionSettings=this.validateExclusion({...this.exclusionSettings,...exclusion});
     this.apply.needsTicks=()=>!this.disposed&&this.entries().some(([node])=>this.host.getGES().contains(node))
       &&this.stabilizer.getState().phase!=="steady";
   }
@@ -47,6 +50,12 @@ export class RfcController {
     return {...settings,coordinateWeights:validateCoordinateWeights(settings.coordinateWeights)};
   }
   private assertAlive():void {if(this.disposed)throw new Error("RFC controller has been destroyed");}
+  private validateExclusion(settings:RfcExclusionSettings):RfcExclusionSettings {
+    if(typeof settings.enabled!=="boolean"||typeof settings.overlap!=="boolean")throw new TypeError("Exclusion enabled/overlap must be boolean");
+    for(const [key,min,max] of [["strength",0,2],["padding",1,200]] as const)
+      if(!Number.isFinite(settings[key])||settings[key]<min||settings[key]>max)throw new RangeError(`Exclusion ${key} must be finite and in ${min}–${max}`);
+    return {...settings};
+  }
   private definition(id:string):GraphSubstructure|null {
     const graph=this.host.getCompleteEltSet() as Partial<SubstructureGraph>,revision=graph.getSubstructureRevision?.();
     if(this.cachedGraph!==graph||revision===undefined||revision!==this.cachedRevision){this.structures.clear();this.cachedGraph=graph;this.cachedRevision=revision??-1;}
@@ -79,7 +88,10 @@ export class RfcController {
       memberIds:[...new Set(projections.flatMap(p=>p.nodes.map(n=>n.getID()!)))],
       radialEdgeIds:[...new Set(projections.flatMap(p=>p.edges.map(e=>e.getID()!)))],
       angularGapRms:primary&&primary.definition?.kind!=="dag"&&primary.definition?.kind!=="cluster"?angularGapRms(primary.rootStar):0,
-      settings:{...this.settings,coordinateWeights:{...this.settings.coordinateWeights}},clusterSettings:{...this.clusterSettings},stabilization:this.stabilizer.getState()};
+      settings:{...this.settings,coordinateWeights:{...this.settings.coordinateWeights}},clusterSettings:{...this.clusterSettings},
+      exclusionSettings:{...this.exclusionSettings},regions:this.exclusionSettings.enabled?
+        focalRegions(projections,this.settings.coordinateWeights,this.exclusionSettings.padding).map(({anchors:_,members:__,...region})=>region):[],
+      stabilization:this.stabilizer.getState()};
   }
   /** Activation/settings/topology subscriptions; motion diagnostics remain polled after each batch. */
   addListener(listener:(state:RfcState)=>void):()=>void {this.listeners.add(listener);return()=>{this.listeners.delete(listener);};}
@@ -140,6 +152,12 @@ export class RfcController {
     if(!Number.isFinite(next.rigidity)||next.rigidity<0||next.rigidity>2)throw new RangeError("Cluster rigidity must be finite and in 0–2");
     if(next.rigidity===this.clusterSettings.rigidity)return;
     this.clusterSettings=next;this.stabilizer.forgetMotion();this.host.resetDamper();this.publish();
+  }
+  /** Configures optional context/intersection exclusion independently of historical tree/cluster presets. */
+  configureExclusion(changes:Partial<RfcExclusionSettings>):void {
+    this.assertAlive();const next=this.validateExclusion({...this.exclusionSettings,...changes});
+    if(JSON.stringify(next)===JSON.stringify(this.exclusionSettings))return;
+    this.exclusionSettings=next;this.stabilizer.forgetMotion();this.host.resetDamper();this.publish();
   }
   /** Drops deleted roots/invalidated definitions, suspending hidden roots independently. */
   reconcile():void {
@@ -213,6 +231,8 @@ export class RfcController {
           -scale*weights.y*(node.y-p.root.y-target.y*this.settings.radialLength));
       }
     }
+    if(this.exclusionSettings.enabled)for(const node of applyRegionExclusion(graph.getNodes(),
+      focalRegions(projections,this.settings.coordinateWeights,this.exclusionSettings.padding),this.exclusionSettings,rigidity,this.settings.radialLength))members.add(node);
     if(members.size)
       this.stabilizer.apply([...members],this.host.getDragNode?.()??null);
     else this.stabilizer.reset();

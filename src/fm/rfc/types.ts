@@ -17,6 +17,20 @@ export interface RfcClusterSettings {
   /** Two-sided internal spring stiffness in 0–2; zero retains soft compactness/link caps alone. */
   rigidity:number;
 }
+/** Optional region forces; defaults preserve the recorded RFC force comparisons. */
+export interface RfcExclusionSettings {
+  enabled:boolean;
+  /** Excludes focal members from foreign regions; members shared with that region remain exempt. */
+  overlap:boolean;
+  /** Soft exclusion strength in 0–2; force saturates at strength × focalLength × layoutRigidity. */
+  strength:number;
+  /** Padding in weighted physical units, in 1–200. Region fitting measures member centers, not labels. */
+  padding:number;
+}
+/** Detached, axis-aligned physical ellipse; viewing lenses are applied only when drawing it. */
+export interface RfcRegionState {
+  id:string; center:{x:number;y:number}; radius:number; coordinateWeights:CoordinateWeights; memberIds:string[];
+}
 export interface RfcSettings {
   /** Reference attraction multiplier in 1–100; extra weighted attraction uses (multiplier − 1). */
   springMultiplier: number;
@@ -41,6 +55,8 @@ export interface RfcState {
   angularGapRms: number;
   settings: RfcSettings;
   clusterSettings:RfcClusterSettings;
+  exclusionSettings:RfcExclusionSettings;
+  regions:RfcRegionState[];
   stabilization: RfcStabilizationState;
   /** Primary-first active/stored centers; hidden centers remain suspended independently. */
   centers: RfcCenterState[];

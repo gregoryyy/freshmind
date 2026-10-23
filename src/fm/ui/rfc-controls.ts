@@ -8,7 +8,7 @@
 
 import { FreshNode } from "../model.js";
 import type { FreshmindPanel } from "../panel.js";
-import type { RfcSettings } from "../rfc/types.js";
+import type { RfcSettings,RfcExclusionSettings } from "../rfc/types.js";
 import {rfcForcePresets} from "../rfc/presets.js";
 
 export interface RfcControlElements {
@@ -30,6 +30,10 @@ export interface RfcControlElements {
   status: HTMLElement;
   indicator?: HTMLElement;
   stabilizationStatus?:HTMLElement;
+  excludeContext?:HTMLInputElement;
+  excludeOverlap?:HTMLInputElement;
+  exclusionStrength?:HTMLInputElement;
+  exclusionPadding?:HTMLInputElement;
 }
 
 /** Binds application-owned controls to transient reinforcement; dispose before removing the panel. */
@@ -54,6 +58,10 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
       list.value=state.centers.some(c=>c.focusId===previous)?previous:state.focusId??"";
     }
     if (elements.adaptiveDamping) elements.adaptiveDamping.checked = state.stabilization.enabled;
+    if(elements.excludeContext)elements.excludeContext.checked=state.exclusionSettings.enabled;
+    if(elements.excludeOverlap)elements.excludeOverlap.checked=state.exclusionSettings.overlap;
+    for(const [input,value] of [[elements.exclusionStrength,state.exclusionSettings.strength],[elements.exclusionPadding,state.exclusionSettings.padding]] as const)
+      if(input&&input.ownerDocument.activeElement!==input)input.value=String(value);
     if(elements.stabilizationStatus) {
       const s=state.stabilization,gain=s.gain>=.001?s.gain.toFixed(3):s.gain.toExponential(1);
       const text=!s.enabled?"Damping off; detection is disabled.":!s.detections?"Damping on · watching focal motion.":
@@ -84,6 +92,18 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
   elements.activate.addEventListener("click", activate);
   elements.clear.addEventListener("click", clear);
   const removers: (() => void)[] = [];
+  for(const [element,key] of [["excludeContext","enabled"],["excludeOverlap","overlap"],["exclusionStrength","strength"],["exclusionPadding","padding"]] as const) {
+    const input=elements[element];if(!input)continue;
+    const reset=()=>input.setCustomValidity("");
+    const change=()=>{
+      reset();try {
+        const changes:Partial<RfcExclusionSettings>=key==="enabled"||key==="overlap"?{[key]:input.checked}:{[key]:input.valueAsNumber};
+        rfc.configureExclusion(changes);
+      }catch(error){input.setCustomValidity(error instanceof Error?error.message:String(error));input.reportValidity();}
+    };
+    input.addEventListener("input",reset);input.addEventListener("change",change);
+    removers.push(()=>{input.removeEventListener("input",reset);input.removeEventListener("change",change);input.setCustomValidity("");});
+  }
   if(elements.clusterRigidity) {
     const input=elements.clusterRigidity,reset=()=>input.setCustomValidity("");
     const change=()=>{reset();try{rfc.configureClusters({rigidity:input.valueAsNumber});}

@@ -13,6 +13,7 @@ import type { EdgeGeometry } from "./geometry.js";
 import { createNodeOutline, dashArray } from "./shapes.js";
 import type { NodeOutline } from "./shapes.js";
 import {createClusterBoundary} from "./cluster-boundary.js";
+import type {RfcRegionState} from "../rfc/types.js";
 
 export interface ClusterRegion {id:string;nodes:FreshNode[];edges:FreshEdge[];}
 
@@ -25,6 +26,19 @@ let nextHaloId = 0;
 export class FreshmindPresentation {
   private readonly haloFilterId = `fm-rfc-glow-${++nextHaloId}`;
   private readonly measurements = new WeakMap<SVGGElement, { key: string; width: number; height: number; outline: NodeOutline }>();
+  /** Draws the physical exclusion boundary through all current lenses, rather than a screen-space ellipse. */
+  paintRfcRegions(layer:SVGGElement,regions:readonly RfcRegionState[],project:(x:number,y:number)=>{x:number;y:number}):void {
+    const root=select(layer).selectAll<SVGGElement,null>("g.fm-exclusion-regions").data(regions.length?[null]:[])
+      .join("g").attr("class","fm-exclusion-regions").attr("aria-hidden","true").style("pointer-events","none").lower();
+    root.selectAll<SVGPathElement,RfcRegionState>("path.fm-exclusion-region").data(regions,r=>r.id).join("path")
+      .attr("class","fm-exclusion-region").attr("data-region-id",r=>r.id)
+      .attr("d",r=>Array.from({length:97},(_,i)=>{
+        const angle=i*Math.PI/48,p=project(r.center.x+r.radius/Math.sqrt(r.coordinateWeights.x)*Math.cos(angle),
+          r.center.y+r.radius/Math.sqrt(r.coordinateWeights.y)*Math.sin(angle));
+        return `${i?"L":"M"}${p.x},${p.y}`;
+      }).join(" ")+" Z")
+      .attr("fill","none").attr("stroke","#61758a").attr("stroke-width",1).attr("stroke-opacity",.65).attr("stroke-dasharray","5 5");
+  }
   /** Draws translucent rounded enclosures behind halos/edges, without owning interaction or physical forces. */
   paintClusterRegions(layer:SVGGElement,clusters:ClusterRegion[],geometries:Map<FreshEdge,EdgeGeometry>,nodeStyle:(node:FreshNode)=>NodeStyle):void {
     const root=select(layer).selectAll<SVGGElement,null>("g.fm-cluster-regions").data(clusters.length?[null]:[])

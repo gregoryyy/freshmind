@@ -22,7 +22,7 @@ import { FreshmindNavigation } from "./navigation/controller.js";
 import { bindNavigation } from "./navigation/keyboard.js";
 import type { NavigationOptions } from "./navigation/types.js";
 import { RfcController } from "./rfc/controller.js";
-import type { RfcSettings } from "./rfc/types.js";
+import type { RfcSettings,RfcExclusionSettings } from "./rfc/types.js";
 import type { RfcStabilizationOptions } from "./rfc/stabilization.js";
 import type { TGLayout } from "../tg/layout.js";
 
@@ -32,6 +32,7 @@ export interface FreshmindPanelOptions extends TGPanelOptions {
   navigationStatus?: HTMLElement;
   rfc?: Partial<RfcSettings>;
   rfcStabilization?: RfcStabilizationOptions;
+  rfcExclusion?:Partial<RfcExclusionSettings>;
 }
 export type FreshmindSelection = FreshNode | FreshEdge | null;
 export type SelectionListener = (selection: FreshmindSelection) => void;
@@ -63,7 +64,7 @@ export class FreshmindPanel extends TGPanel {
     this.setGraphEltSet(new FreshGraph());
     this.navigation = new FreshmindNavigation(this, options.navigation);
     this.navigationStatus = options.navigationStatus;
-    this.rfc = new RfcController(this, options.rfc, options.rfcStabilization);
+    this.rfc = new RfcController(this, options.rfc, options.rfcStabilization,options.rfcExclusion);
     this.removeRfcForce = this.tgLayout.addForce(this.rfc.apply);
     this.removeRfcPaint = this.rfc.addListener(() => {
       const revision = ++this.rfcPaintRevision;
@@ -257,6 +258,7 @@ export class FreshmindPanel extends TGPanel {
     const nodes=new Map([...this.getGES().getNodes()].map(node=>[node.getID()!,node as FreshNode])),byId=new Map(edges.map(edge=>[edge.getID()!,edge]));
     this.presentation.paintClusterRegions(layer,(state?.centers??[]).filter(c=>c.active&&c.kind==="cluster"&&c.memberIds.length)
       .map(c=>({id:c.structureId!,nodes:c.memberIds.map(id=>nodes.get(id)!),edges:c.edgeIds.map(id=>byId.get(id)!)})),geometries,node=>this.getNodeStyle(node));
+    this.presentation.paintRfcRegions(layer,state?.regions??[],(x,y)=>this.getLensSet().convRealToDraw(x,y));
     this.presentation.paintEdges(layer,edges,geometries,e=>this.getEdgeStyle(e),this.selectedEdge,{
       hover:edge=>{this.setMouseOverE(edge);this.repaint();},
       select:edge=>this.setSelectEdge(edge===this.selectedEdge?null:edge)
