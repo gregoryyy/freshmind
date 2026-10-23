@@ -6,10 +6,10 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel, TypeRegistry } from "../src/fm/index.js";
+import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls, bindKeymap, bindRfcControls, bindNodeDetails } from "../src/fm/ui/index.js";
+import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
 import { resourceURL } from "../src/fm/editing/details.js";
@@ -77,7 +77,17 @@ const disposeRfc = bindRfcControls(panel, {
   springMultiplier: get<HTMLInputElement>("rfc-springs"), angularStiffness: get<HTMLInputElement>("rfc-angular"), status: get("rfc-status"),
   radialStiffness: get<HTMLInputElement>("rfc-radial"), radialLength: get<HTMLInputElement>("rfc-length"),
   treePreset: get<HTMLButtonElement>("rfc-tree"), attractionPreset: get<HTMLButtonElement>("rfc-attraction"),
+  adaptiveDamping: get<HTMLInputElement>("rfc-adaptive-damping"),
+  addCenter:get<HTMLButtonElement>("rfc-add-center"),centers:get<HTMLSelectElement>("rfc-centers"),removeCenter:get<HTMLButtonElement>("rfc-remove-center"),
   xWeight: get<HTMLInputElement>("rfc-x-weight"), yWeight: get<HTMLInputElement>("rfc-y-weight")
+});
+const disposeStructures=bindSubstructureControls(panel,{
+  structure:get<HTMLSelectElement>("rfc-structure"),name:get<HTMLInputElement>("rfc-structure-name"),kind:get<HTMLSelectElement>("rfc-structure-kind"),
+  create:get<HTMLButtonElement>("rfc-structure-create"),save:get<HTMLButtonElement>("rfc-structure-save"),addMember:get<HTMLButtonElement>("rfc-structure-add"),removeMember:get<HTMLButtonElement>("rfc-structure-remove-member"),
+  reroot:get<HTMLButtonElement>("rfc-structure-root"),activate:get<HTMLButtonElement>("rfc-structure-render"),remove:get<HTMLButtonElement>("rfc-structure-delete"),
+  memberships:get("rfc-memberships"),status:get("rfc-structure-status"),algorithm:get<HTMLSelectElement>("cluster-algorithm"),resolution:get<HTMLInputElement>("cluster-resolution"),
+  weighted:get<HTMLInputElement>("cluster-weighted"),scope:get<HTMLSelectElement>("cluster-scope"),detect:get<HTMLButtonElement>("cluster-detect"),
+  cluster:get<HTMLSelectElement>("cluster-select"),members:get("cluster-members"),renderCluster:get<HTMLButtonElement>("cluster-render")
 });
 bindFileControls(panel);
 panel.setGraphEltSet(graph);
@@ -100,10 +110,16 @@ navigation.addListener(state => {
 });
 panel.addSelectionListener(selection => { updateInspector(selection); editor.show(selection); });
 
-/** Reflects the panel's current lens value after keyboard, slider or programmatic view changes. */
+/** Reflects lens and default edge-form changes from keyboard, controls or configuration reloads. */
 function updateViewControls(): void {
   const strength = Math.round(panel.getHyperbolic());
   get<HTMLInputElement>("hyper").value = String(strength); get("hyper-value").textContent = `${strength}%`;
+  const mode = panel.getEdgeCurve();
+  get<HTMLSelectElement>("curve").value = mode;
+  get("curve-help").textContent = mode === "lens"
+    ? "Lens midpoint follows focus + context. Increase the slider and look at edges away from the center."
+    : mode === "straight" ? "Straight connects endpoints directly."
+    : "Spider bends relations into branching curves. Drag nodes diagonally to see the bend.";
 }
 function updateCounts(): void {
   get("graph-count").textContent = `${panel.visibleNodeCount()} of ${panel.getNodeCount()} nodes`;
@@ -210,12 +226,7 @@ get("add-node").addEventListener("click", () => {
 });
 get<HTMLSelectElement>("curve").addEventListener("change", event => {
   const mode = (event.target as HTMLSelectElement).value as CurveMode;
-  const config = panel.getTypeRegistry().getConfiguration(); config.edgeVisuals.default.curve = mode;
-  panel.setTypeRegistry(new TypeRegistry(config));
-  get("curve-help").textContent = mode === "lens"
-    ? "Lens midpoint follows focus + context. Increase the slider and look at edges away from the center."
-    : mode === "straight" ? "Straight connects endpoints directly."
-    : "Spider bends relations into branching curves. Drag nodes diagonally to see the bend.";
+  panel.setEdgeCurve(mode);
 });
 get("center").addEventListener("click", () => { panel.centerView(); panel.focusGraph(); });
 get("motion").addEventListener("click", () => {
@@ -227,5 +238,5 @@ get("motion").addEventListener("click", () => {
 // Useful for experimenting with the library from the browser console.
 Object.assign(window, { graphBrowser: panel });
 void focusOn(root);
-window.addEventListener("pagehide", () => { disposeDetails(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

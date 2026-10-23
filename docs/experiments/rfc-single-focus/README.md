@@ -50,4 +50,21 @@ Three movable-center crowded-star runs compare radial stiffness 1 and 2 at rigid
 | 2 | 1 | 0.22670 | 33.576 | 29.3014 | 0.9149 |
 | 2 | 0.25 | 0.01475 | 0.837 | 0.0229 | 0.7786 |
 
-Net movement across a ten-step batch can alias faster oscillations; it is not a per-step velocity or the legacy maxMotion statistic. The [second draft paper](../../papers/rfc-revisited-draft2.md) derives the discrete update's local stability condition, explains the movable-center stiffness increase and discusses damping alternatives. Reproduce its six SVG/PDF/PNG figures with `just rfc-figures` or render the full draft with `just rfc-paper`. No alternative solver or automatic damping is introduced by these experiments.
+Net movement across a ten-step batch can alias faster oscillations; it is not a per-step velocity or the legacy maxMotion statistic. The [second draft paper](../../papers/rfc-revisited-draft2.md) derives the discrete update's local stability condition, explains the movable-center stiffness increase and discusses damping alternatives. Reproduce the paper’s SVG/PDF/PNG figures with `just rfc-figures` or render the full draft with `just rfc-paper`. These fixed-force comparisons do not enable a new solver or automatic RFC damping. See the separate opt-in Experiment B below.
+
+## Experiment B: adaptive local damping
+
+This separate opt-in experiment retains the configured force constants. It detects repeated reversals from actual per-step positions and halves a local multiplier on accumulated focal-node impulses. Following 500 ms of quiet integration, a cubic easing restores motion over 3000 ms; renewed oscillation causes another backoff. The main fixed-force comparisons above explicitly disable this controller. The browser option is **Experimental adaptive damping**, initially off.
+
+`adaptive-damping.json` compares off/on for each movable-center fixture, radial stiffness 2 and unchanged global rigidity 1. Both execute 400 batches, interpreted as 8 simulated seconds at 2 ms per integration step. This is a deterministic clock convention, not a runtime benchmark. Tail motion is RMS of the 10 sampled net batch displacements from batches 310–400; per-step motion is also recorded.
+
+| Fixture | Damping experiment | Tail motion RMS | Final angle RMS | Detected episodes | Final gain |
+| --- | --- | ---: | ---: | ---: | ---: |
+| crowded-star | off | 6.69492 | 0.01463 | 0 | 1.000 |
+| crowded-star | on | 0.00591 | 0.01476 | 5 | 0.713 |
+| unequal-radii | off | 0.92606 | 0.00610 | 0 | 1.000 |
+| unequal-radii | on | 0.29569 | 0.00847 | 4 | 1.000 |
+| wide-labels | off | 0.15915 | 0.02786 | 0 | 1.000 |
+| wide-labels | on | 0.00000 | 0.02089 | 4 | 0.978 |
+
+Damping preserves force constants and equilibria in the local idealization, but changes the transient path and may settle at another layout. The inherited global damper still cools and can freeze a residual error. Restoring local gain to one does not prove an accurate equilibrium or general convergence. No proprietary data is used.

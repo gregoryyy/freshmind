@@ -4,6 +4,7 @@ Generate the second RFC draft's vector figures from recorded runs and stated equ
 Requires Python 3, matplotlib and numpy; no external data or services.
 """
 import json
+import runpy
 from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
@@ -133,4 +134,18 @@ for ax,wx in zip(axes,[1,.25]):
         ax.text(x,y,"long label",ha="center",va="center",fontsize=8,bbox={"facecolor":"white","edgecolor":"#47735d","boxstyle":"round,pad=.2"})
     ax.set_aspect("equal");ax.set(xlim=(-280,280),ylim=(-150,150),title=f"λx={wx}, λy=1",xlabel="Physical x",ylabel="Physical y")
 save(fig,"06-weighted-geometry")
-print(f"Wrote six SVG/PDF/PNG figures and stability calculations to {OUT}")
+
+adaptive=json.loads((ROOT / "docs/experiments/rfc-single-focus/adaptive-damping.json").read_text())
+fig, axes=plt.subplots(3,2,figsize=(10,8),layout="constrained")
+for row,name in enumerate(names):
+    for enabled in [False,True]:
+        run=next(r for r in adaptive["results"] if r["name"]==name and r["enabled"]==enabled)
+        seconds=[p["time"]/1000 for p in run["trace"]]
+        axes[row,0].semilogy(seconds,[max(p["movement"],1e-6) for p in run["trace"]],label="Damping on" if enabled else "Damping off")
+        if enabled:axes[row,1].plot(seconds,[p["gain"] for p in run["trace"]],color="#26734b",label="Local impulse gain")
+    axes[row,0].set(title=name,xlabel="Simulated seconds",ylabel="Net batch motion (floor 10⁻⁶)")
+    axes[row,1].set(title=name+" — recovery",xlabel="Simulated seconds",ylabel="Local gain",ylim=(0,1.05))
+    axes[row,0].legend(fontsize=8);axes[row,1].legend(fontsize=8)
+save(fig,"07-adaptive-damping")
+print(f"Wrote Figures 1–7 and stability calculations to {OUT}")
+runpy.run_path(str(ROOT / "scripts/rfc-multifocus-figures.py"), run_name="__main__")

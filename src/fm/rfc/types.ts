@@ -8,6 +8,7 @@
 
 import type { Node, Edge } from "../../tg/model.js";
 import type { ImmutableGraphEltSet } from "../../tg/graph.js";
+import type { RfcStabilizationState } from "./stabilization.js";
 
 /** Coefficients λx and λy in D² = λx·dx² + λy·dy²; values are weights, not axis scale factors. */
 export interface CoordinateWeights { x: number; y: number; }
@@ -34,9 +35,19 @@ export interface RfcState {
   radialEdgeIds: string[];
   angularGapRms: number;
   settings: RfcSettings;
+  stabilization: RfcStabilizationState;
+  /** Primary-first active/stored centers; hidden centers remain suspended independently. */
+  centers: RfcCenterState[];
+  /** Union of visible reinforced members across all active centers. */
+  memberIds: string[];
+}
+export interface RfcCenterState {
+  focusId:string; structureId:string|null; kind:"star"|"tree"|"dag"; active:boolean;
+  memberIds:string[]; edgeIds:string[]; angularGapRms:number|null;
 }
 export interface RfcHost {
   getGES(): ImmutableGraphEltSet;
   getCompleteEltSet(): ImmutableGraphEltSet;
   resetDamper(): void;
+  getDragNode?(): Node | null;
 }

@@ -40,7 +40,7 @@ export function angularGapRms(star: FocalStar): number {
 }
 
 /** Applies opposite impulses with the same established/newly-local weighting as TouchGraph. */
-function branchImpulse(center: Node, branch: Node, fx: number, fy: number): void {
+export function branchImpulse(center: Node, branch: Node, fx: number, fy: number): void {
   const branchScale = branch.justMadeLocal || !center.justMadeLocal ? 1 : 10;
   const centerScale = center.justMadeLocal || !branch.justMadeLocal ? 1 : 10;
   branch.dx += fx / branchScale; branch.dy += fy / branchScale;
@@ -55,7 +55,7 @@ function moment(center: Node, branch: Node, value: number, weights: CoordinateWe
 }
 
 /** Adds radial reinforcement and the paper's equation (1) moments; only dx/dy are mutated. */
-export function applyRfcForces(star: FocalStar, settings: Pick<RfcSettings, "springMultiplier" | "angularStiffness"> & Partial<Pick<RfcSettings, "radialStiffness" | "radialLength">>, rigidity: number): void {
+export function applyRfcForces(star: FocalStar, settings: Pick<RfcSettings, "springMultiplier" | "angularStiffness"> & Partial<Pick<RfcSettings, "radialStiffness" | "radialLength">>, rigidity: number, memberships?:ReadonlyMap<Node,number>): void {
   const {center, branches, coordinateWeights: weights} = star;
   if (settings.springMultiplier !== 1) for (const {node, edge} of branches) {
     const x = node.x - center.x, y = node.y - center.y;
@@ -72,7 +72,9 @@ export function applyRfcForces(star: FocalStar, settings: Pick<RfcSettings, "spr
   }
   if (branches.length < 2 || settings.angularStiffness === 0) return;
   for (const [index, branch] of branches.entries()) {
-    const value = settings.angularStiffness * rigidity * (gap(star, index) - tau / branches.length);
+    const next=branches[(index+1)%branches.length];
+    const sharing=Math.max(1,memberships?.get(branch.node)??1,memberships?.get(next.node)??1);
+    const value = settings.angularStiffness * rigidity * (gap(star, index) - tau / branches.length) / sharing;
     moment(center, branch.node, value, weights);
     moment(center, branches[(index + 1) % branches.length].node, -value, weights);
   }

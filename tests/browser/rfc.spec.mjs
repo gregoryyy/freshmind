@@ -145,6 +145,24 @@ test("RFC halos follow node shapes and routed edges beneath the graph, including
   expect(edited).toEqual(original); expect(errors).toEqual([]);
 });
 
+test("adaptive damping is an opt-in experiment, reports detected motion and disables without changing force settings",async({page})=>{
+  const errors=await ready(page),original=await record(page);
+  const toggle=page.getByLabel("Experimental adaptive damping",{exact:true});
+  await expect(toggle).not.toBeChecked();expect((await state(page)).stabilization.enabled).toBe(false);
+  await page.getByRole("button",{name:"Reinforce selected node",exact:true}).click();
+  const settings=(await state(page)).settings;
+  await toggle.check();expect((await state(page)).stabilization.enabled).toBe(true);
+  await page.evaluate(()=>{
+    const p=window.graphBrowser,node=p.findNode("branch-0"),rfc=p.getRfc();p.tgLayout.stop();
+    for(let i=0;i<10;i++){node.x=i%2?0:4;rfc.apply(p.getGES(),1);}
+    p.repaintAfterMove();
+  });
+  expect((await state(page)).stabilization.gain).toBeLessThan(1);
+  await expect(page.locator("#rfc-status")).toContainText("damping oscillation");
+  await toggle.uncheck();expect((await state(page)).stabilization).toMatchObject({enabled:false,gain:1,phase:"steady",detections:0});
+  expect((await state(page)).settings).toEqual(settings);expect(await record(page)).toEqual(original);expect(errors).toEqual([]);
+});
+
 for (const gesture of ["Return", "double-click"]) test(`a second ${gesture} on the center transfers enabled RFC, while disabled RFC stays off`, async ({page}) => {
   const errors = await ready(page);
   await page.evaluate(() => window.graphBrowser.getNavigation().configure({radius:2}));

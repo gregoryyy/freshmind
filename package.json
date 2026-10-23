@@ -49,7 +49,15 @@
       "import": "./dist/fm/ui/index.js"
     },
     "./fm/ui/style.css": "./src/fm/ui/style.css",
-    "./config/fm2014.types.yaml": "./config/fm2014.types.yaml"
+    "./config/fm2014.types.yaml": "./config/fm2014.types.yaml",
+    "./fm/structures": {
+      "types": "./dist/fm/structures/model.d.ts",
+      "import": "./dist/fm/structures/model.js"
+    },
+    "./fm/clustering": {
+      "types": "./dist/fm/clustering/index.d.ts",
+      "import": "./dist/fm/clustering/index.js"
+    }
   },
   "files": [
     "dist",
@@ -76,6 +84,9 @@
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
     "d3-zoom": "^3.0.0",
+    "graphology": "^0.26.0",
+    "graphology-communities-louvain": "^2.0.2",
+    "graphology-components": "^1.5.4",
     "yaml": "^2.9.1"
   },
   "devDependencies": {

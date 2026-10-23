@@ -1,0 +1,636 @@
+format: freshmind
+version: 1
+title: RFC substructures (synthetic)
+types:
+  format: freshmind-types
+  version: 1
+  id: freshmind-2014
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#0000b0"
+        width: 1
+        dash: solid
+      arrow:
+        placement: middle
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: tree-root
+    label: Tree center
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Tree center."
+    url: ""
+    weight: 1
+    fixed: true
+    position:
+      x: -230
+      "y": -50
+    data: {}
+    extensions: {}
+  - id: t1
+    label: Branch A
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Branch A."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -340
+      "y": 50
+    data: {}
+    extensions: {}
+  - id: t2
+    label: Branch B
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Branch B."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -150
+      "y": 70
+    data: {}
+    extensions: {}
+  - id: t11
+    label: Detail A1
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Detail A1."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -410
+      "y": 180
+    data: {}
+    extensions: {}
+  - id: t12
+    label: Detail A2
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Detail A2."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -280
+      "y": 190
+    data: {}
+    extensions: {}
+  - id: t21
+    label: Detail B1
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Detail B1."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -120
+      "y": 210
+    data: {}
+    extensions: {}
+  - id: dag-root
+    label: DAG center
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: DAG center."
+    url: ""
+    weight: 1
+    fixed: true
+    position:
+      x: 240
+      "y": -80
+    data: {}
+    extensions: {}
+  - id: d1
+    label: Route A
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Route A."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 160
+      "y": 30
+    data: {}
+    extensions: {}
+  - id: d2
+    label: Route B
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Route B."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 330
+      "y": 30
+    data: {}
+    extensions: {}
+  - id: d3
+    label: Shared descendant
+    type: topic
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Shared descendant."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 240
+      "y": 150
+    data: {}
+    extensions: {}
+  - id: d4
+    label: Outcome
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: "Synthetic RFC substructure example: Outcome."
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 310
+      "y": 290
+    data: {}
+    extensions: {}
+  - id: shared
+    label: Shared member
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: This node belongs to both the saved tree and DAG. Activating either definition retains both memberships.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 30
+      "y": 260
+    data: {}
+    extensions: {}
+edges:
+  - id: t-a
+    from: tree-root
+    to: t1
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: t-b
+    from: tree-root
+    to: t2
+    label: branch
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: t-a1
+    from: t1
+    to: t11
+    label: detail
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: t-a2
+    from: t1
+    to: t12
+    label: detail
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: t-b1
+    from: t2
+    to: t21
+    label: detail
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: t-shared
+    from: t2
+    to: shared
+    label: member
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: d-a
+    from: dag-root
+    to: d1
+    label: route
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: d-b
+    from: dag-root
+    to: d2
+    label: route
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: d-ac
+    from: d1
+    to: d3
+    label: joins
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: d-bc
+    from: d2
+    to: d3
+    label: joins
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: d-end
+    from: d3
+    to: d4
+    label: result
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: d-shared
+    from: d3
+    to: shared
+    label: member
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+  - id: context
+    from: t11
+    to: d4
+    label: context
+    type: default
+    visual: {}
+    weight: 10
+    length: 100
+    data: {}
+    extensions: {}
+data: {}
+extensions: {}
+substructures:
+  - id: tree-example
+    label: Tree with descendants
+    kind: tree
+    rootId: tree-root
+    nodeIds:
+      - tree-root
+      - t1
+      - t2
+      - t11
+      - t12
+      - t21
+      - shared
+    edgeIds:
+      - t-a
+      - t-b
+      - t-a1
+      - t-a2
+      - t-b1
+      - t-shared
+  - id: dag-example
+    label: DAG with shared descendant
+    kind: dag
+    rootId: dag-root
+    nodeIds:
+      - dag-root
+      - d1
+      - d2
+      - d3
+      - d4
+      - shared
+    edgeIds:
+      - d-a
+      - d-b
+      - d-ac
+      - d-bc
+      - d-end
+      - d-shared
+view:
+  focus: tree-root
+  wholeGraph: true
+  radius: 2
+  lenses:
+    zoom: 1
+    hyperbolic: 0
+    rotation: 0
+  canvas:
+    zoom: 0.9

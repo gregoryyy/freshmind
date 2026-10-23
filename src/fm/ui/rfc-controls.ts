@@ -20,6 +20,10 @@ export interface RfcControlElements {
   radialLength?: HTMLInputElement;
   treePreset?: HTMLButtonElement;
   attractionPreset?: HTMLButtonElement;
+  adaptiveDamping?: HTMLInputElement;
+  addCenter?:HTMLButtonElement;
+  centers?:HTMLSelectElement;
+  removeCenter?:HTMLButtonElement;
   xWeight?: HTMLInputElement;
   yWeight?: HTMLInputElement;
   status: HTMLElement;
@@ -29,10 +33,22 @@ export interface RfcControlElements {
 export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlElements): () => void {
   const rfc = panel.getRfc();
   const fields = ["springMultiplier", "radialStiffness", "radialLength", "angularStiffness", "xWeight", "yWeight"] as const;
+  let centerSignature="";
   const update = () => {
     const state = rfc.getState(), selected = panel.getSelection();
     elements.activate.disabled = !(selected instanceof FreshNode) || !panel.getGES().contains(selected);
     elements.clear.disabled = !state.enabled;
+    if(elements.addCenter)elements.addCenter.disabled=elements.activate.disabled;
+    if(elements.removeCenter)elements.removeCenter.disabled=!state.centers.length;
+    const centerLabels=state.centers.map(c=>[c.focusId,panel.findNode(c.focusId)?.getLabel()??c.focusId,c.kind,c.active]);
+    if(elements.centers&&JSON.stringify(centerLabels)!==centerSignature) {
+      const list=elements.centers,previous=list.value;centerSignature=JSON.stringify(centerLabels);list.replaceChildren();
+      for(const [id,label,kind,active] of centerLabels) {
+        const option=list.ownerDocument.createElement("option");option.value=String(id);option.textContent=`${label} (${kind}${active?"":", hidden"})`;list.append(option);
+      }
+      list.value=state.centers.some(c=>c.focusId===previous)?previous:state.focusId??"";
+    }
+    if (elements.adaptiveDamping) elements.adaptiveDamping.checked = state.stabilization.enabled;
     for (const [key, button] of [["tree", elements.treePreset], ["attraction", elements.attractionPreset]] as const)
       button?.setAttribute("aria-pressed", String(Object.entries(rfcForcePresets[key]).every(([field, value]) => state.settings[field as keyof typeof rfcForcePresets.tree] === value)));
     for (const key of fields) {
@@ -41,9 +57,13 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
         input.value = String(key === "xWeight" ? state.settings.coordinateWeights.x : key === "yWeight" ? state.settings.coordinateWeights.y : state.settings[key]);
     }
     const label = state.focusId ? panel.findNode(state.focusId)?.getLabel() || state.focusId : "";
-    const message = !state.enabled ? "RFC off." : !state.active
+    let message = !state.enabled ? "RFC off." : !state.active
       ? `RFC paused: ${label} is outside the visible neighborhood.`
       : `RFC: ${label} · ${state.branchIds.length} visible ${state.branchIds.length === 1 ? "branch" : "branches"}.`;
+    if(state.centers.length>1)message=state.active?`RFC: ${state.centers.length} centers · ${state.memberIds.length} reinforced nodes.`:"RFC paused: all centers are outside the visible neighborhood.";
+    else if(state.active&&state.centers[0]?.structureId)message=`RFC: ${panel.getCompleteEltSet().getSubstructure(state.centers[0].structureId)?.label} · ${state.memberIds.length} ${state.centers[0].kind} members.`;
+    if (state.active && state.stabilization.phase !== "steady") message = message.slice(0,-1)
+      + (state.stabilization.phase === "damping" ? " · damping oscillation." : " · restoring motion.");
     if (elements.status.textContent !== message) elements.status.textContent = message;
   };
   const activate = () => { const node = panel.getSelection(); if (node instanceof FreshNode) rfc.setFocus(node); panel.focusGraph(); };
@@ -51,6 +71,13 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
   elements.activate.addEventListener("click", activate);
   elements.clear.addEventListener("click", clear);
   const removers: (() => void)[] = [];
+  const addCenter=()=>{panel.getNavigation().addRfcCenter();panel.focusGraph();};
+  const removeCenter=()=>{if(elements.centers?.value)rfc.removeFocus(elements.centers.value);panel.focusGraph();};
+  elements.addCenter?.addEventListener("click",addCenter);elements.removeCenter?.addEventListener("click",removeCenter);
+  removers.push(()=>{elements.addCenter?.removeEventListener("click",addCenter);elements.removeCenter?.removeEventListener("click",removeCenter);});
+  const toggleDamping = () => rfc.setStabilizationEnabled(elements.adaptiveDamping!.checked);
+  elements.adaptiveDamping?.addEventListener("change", toggleDamping);
+  removers.push(() => elements.adaptiveDamping?.removeEventListener("change", toggleDamping));
   for (const [key, button] of [["tree", elements.treePreset], ["attraction", elements.attractionPreset]] as const) {
     const choose = () => {
       for (const field of fields) elements[field]?.setCustomValidity("");

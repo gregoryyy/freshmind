@@ -194,6 +194,27 @@ test("main browser exposes all curve modes through the same graph and preserves 
   expect(errors).toEqual([]);
 });
 
+test("edge-form keys update the browser selector and geometry while editors keep typing", async ({ page }) => {
+  const errors = await ready(page), selector = page.getByLabel("Edge curves", {exact:true});
+  const original = await page.locator(".fm-edge-path").first().getAttribute("d");
+  await page.evaluate(() => window.graphBrowser.focusGraph());
+  await page.keyboard.press("w");
+  await expect(selector).toHaveValue("lens");
+  await expect(page.locator("#curve-help")).toContainText("Lens midpoint");
+  await expect(page.locator(".fm-edge-path").first()).not.toHaveAttribute("d", original);
+  await page.keyboard.press("c"); await expect(selector).toHaveValue("straight");
+  await page.keyboard.press("w"); await expect(selector).toHaveValue("spider");
+  await selector.selectOption("lens");
+  await page.evaluate(() => window.graphBrowser.focusGraph());
+  await page.keyboard.press("w"); await expect(selector).toHaveValue("straight");
+  const label = page.getByLabel("Node label", {exact:true});
+  await label.fill(""); await label.press("w"); await label.press("c");
+  await expect(label).toHaveValue("wc"); await expect(selector).toHaveValue("straight");
+  await page.evaluate(() => window.graphBrowser.setEdgeCurve("spider"));
+  await expect(selector).toHaveValue("spider");
+  expect(errors).toEqual([]);
+});
+
 test("main inspector saves node labels, types and shapes with stable identity and supports cancel", async ({ page }, testInfo) => {
   const errors = await ready(page),root=page.locator('[data-node-id="root"]');
   const before=await page.evaluate(()=>{const n=window.graphBrowser.findNode("root");return [n.x,n.y,n.getHint()];});

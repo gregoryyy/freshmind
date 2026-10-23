@@ -6,7 +6,7 @@ import {FreshGraph, FreshNode, FreshEdge, RfcController, collectFocalStar, angul
 export const rfcScenarios = ["crowded-star", "unequal-radii", "wide-labels"];
 
 /** Synthetic examples only; fixed context anchors create competing ordinary spring forces. */
-export function rfcFixture(name = "crowded-star", reinforced = false, profile = "tree") {
+export function rfcFixture(name = "crowded-star", reinforced = false, profile = "tree", stabilization = {enabled:false}) {
   if (!rfcScenarios.includes(name)) throw new Error("Unknown RFC scenario " + name);
   const graph = new FreshGraph();
   const wide = name === "wide-labels", coordinateWeights = {x: wide ? .25 : 1, y: 1};
@@ -29,7 +29,8 @@ export function rfcFixture(name = "crowded-star", reinforced = false, profile = 
   const random = () => { seed = (Math.imul(1664525, seed) + 1013904223) >>> 0; return seed / 4294967296; };
   const host = {getGES: () => graph, getCompleteEltSet: () => graph, repaintAfterMove() {}, resetDamper: () => layout.resetDamper()};
   if (!Object.hasOwn(rfcForcePresets,profile)) throw new Error("Unknown RFC profile " + profile);
-  const layout = new TGLayout(host, random), rfc = new RfcController(host, {...rfcForcePresets[profile],coordinateWeights});
+  // Controlled comparisons keep the separate oscillation experiment disabled.
+  const layout = new TGLayout(host, random), rfc = new RfcController(host, {...rfcForcePresets[profile],coordinateWeights}, stabilization);
   layout.addForce(rfc.apply);
   if (reinforced) rfc.setFocus(center);
   layout.resetDamper();
@@ -64,4 +65,23 @@ export function runRfcScenario(name, reinforced, batches = 250, profile = "tree"
     edges: [...graph.getEdges()].map(edge => ({id: edge.getID(), from: edge.from.getID(), to: edge.to.getID(), length: edge.getLength()}))};
   rfc.destroy(); layout.stop();
   return result;
+}
+
+/** Replay the stiff movable-center fixture at 2 ms per integration step (20 ms per batch). */
+export function adaptiveRun(enabled, name="crowded-star", batches=400) {
+  let time=0;
+  const {graph,center,layout,rfc}=rfcFixture(name,true,"tree",{enabled,now:()=>{time+=2;return time;}});
+  center.fixed=false;rfc.configure({radialStiffness:2});
+  const trace=[];
+  for(let batch=1;batch<=batches;batch++) {
+    const before=[...graph.getNodes()].map(n=>[n.x,n.y]);layout.tick();
+    const movement=Math.max(...[...graph.getNodes()].map((n,i)=>Math.hypot(n.x-before[i][0],n.y-before[i][1])));
+    if(batch%10===0) {
+      const state=rfc.getState(),star=collectFocalStar(graph,center,state.settings.coordinateWeights);
+      const radialLengthRms=Math.hypot(...star.branches.map(b=>weightedDistance(b.node,center,star.coordinateWeights)-state.settings.radialLength))/Math.sqrt(star.branches.length);
+      trace.push({batch,time:batch*20,movement,...state.stabilization,angularGapRms:state.angularGapRms,radialLengthRms});
+    }
+  }
+  const result={enabled,name,trace,settings:rfc.getState().settings,positions:[...graph.getNodes()].map(n=>[n.x,n.y])};
+  rfc.destroy();layout.stop();return result;
 }

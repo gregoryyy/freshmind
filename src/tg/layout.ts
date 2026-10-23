@@ -18,7 +18,10 @@ export interface LayoutHost {
 }
 
 /** Accumulates extra dx/dy impulses before integration; must not change graph membership or positions. */
-export type LayoutForce = (graph: ImmutableGraphEltSet, rigidity: number) => void;
+export type LayoutForce = ((graph: ImmutableGraphEltSet, rigidity: number) => void) & {
+  /** Optional extension activity: keep invoking batches while a timed force transition finishes. */
+  needsTicks?: () => boolean;
+};
 
 /** Direct port of TGLayout 1.21, including Java integer repulsion arithmetic. */
 export class TGLayout {
@@ -161,11 +164,12 @@ export class TGLayout {
     this.running = true;
     const generation = ++this.generation;
     let first = true;
+    const needsTicks = () => [...this.forces.values()].some(force => force.needsTicks?.());
     const run = () => {
       if (!this.running || generation !== this.generation) return;
-      if (first || !(this.damper < 0.1 && this.damping && this.maxMotion < 0.001)) { first = false; this.relax(); }
+      if (first || needsTicks() || !(this.damper < 0.1 && this.damping && this.maxMotion < 0.001)) { first = false; this.relax(); }
       if (!this.running || generation !== this.generation) return;
-      this.timer = setTimeout(run, this.damper < 0.1 && this.damping && this.maxMotion < 0.001 ? 100 : 20);
+      this.timer = setTimeout(run, !needsTicks() && this.damper < 0.1 && this.damping && this.maxMotion < 0.001 ? 100 : 20);
     };
     // Unlike a Java thread, scheduling yields to the caller before the first batch.
     this.timer = setTimeout(run, 0);

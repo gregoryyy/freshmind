@@ -16,7 +16,7 @@
         <aside class="sidebar">
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <label class="control-label" for="example-graph">Load example</label>
-          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
+          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="substructures">Trees and DAG</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
           <input type="file" id="open-graph-files" accept=".yaml,.yml" multiple hidden />
           <p id="file-status" class="control-help" role="status"></p>
           <details><summary>Export options</summary><label class="pin-control"><input id="save-layout" type="checkbox" checked /> Include layout positions</label><label class="pin-control"><input id="save-view" type="checkbox" checked /> Include view settings</label><label class="pin-control"><input id="save-companion" type="checkbox" /> Save types as a companion file</label></details>
@@ -33,6 +33,10 @@
           <details class="navigation-options"><summary>Reinforcement Focus + Context</summary>
             <p class="control-help">Reinforces the selected node's visible branches in the physical layout.</p>
             <div class="editor-actions"><button type="button" id="rfc-activate">Reinforce selected node</button><button type="button" id="rfc-clear" disabled>Remove RFC</button></div>
+            <div class="editor-actions"><button type="button" id="rfc-add-center">Add RFC center</button></div>
+            <label class="control-label" for="rfc-centers">RFC centers</label><select id="rfc-centers"></select>
+            <button type="button" id="rfc-remove-center">Remove selected RFC center</button>
+            <p class="control-help">Shift+Enter or Shift+double-click toggles a center and keeps the others. Ordinary RFC activation replaces all centers.</p>
             <div class="editor-actions"><button type="button" id="rfc-tree" aria-pressed="true">Tree structure</button><button type="button" id="rfc-attraction" aria-pressed="false">Attraction only</button></div>
             <label class="control-label" for="rfc-length">Target focal length</label><input id="rfc-length" type="number" min="10" max="1000" step="any" value="120" required />
             <label class="control-label" for="rfc-radial">Radial stiffness</label><input id="rfc-radial" type="number" min="0" max="2" step="0.1" value="1" required />
@@ -44,6 +48,29 @@
             <p class="control-help">Weights of 1 use ordinary distances. Horizontal 0.25 with vertical 1 favors a focal layout twice as wide.</p>
             <p id="rfc-status" class="control-help" role="status" aria-live="polite">RFC off.</p>
             <p class="control-help">When RFC is on, press Return or double-click the current center again to reinforce it. Yellow halos mark the reinforced nodes and relations.</p>
+            <label class="pin-control"><input id="rfc-adaptive-damping" type="checkbox" /> Experimental adaptive damping</label>
+            <p class="control-help">Detect repeated reversals and damp focal motion. After 0.5 seconds of quiet movement, ease damping off over 3 seconds.</p>
+            <details class="navigation-options"><summary>Substructures</summary>
+              <label class="control-label" for="rfc-structure">Substructure</label><select id="rfc-structure"></select>
+              <label class="control-label" for="rfc-structure-name">Substructure name</label><input id="rfc-structure-name" type="text" />
+              <label class="control-label" for="rfc-structure-kind">Structure kind</label><select id="rfc-structure-kind"><option value="tree">Tree</option><option value="dag">DAG</option></select>
+              <div class="editor-actions"><button type="button" id="rfc-structure-create">Create from visible graph</button><button type="button" id="rfc-structure-save">Save structure settings</button></div>
+              <div class="editor-actions"><button type="button" id="rfc-structure-add">Add selected node to structure</button><button type="button" id="rfc-structure-remove-member">Remove selected node from structure</button></div>
+              <div class="editor-actions"><button type="button" id="rfc-structure-root">Use selected node as root</button><button type="button" id="rfc-structure-render">Reinforce substructure</button><button type="button" id="rfc-structure-delete">Delete substructure</button></div>
+              <p id="rfc-memberships" class="control-help"></p>
+              <p class="control-help">Membership is saved with the graph. Trees select spanning relations; DAGs require directed acyclic relations reachable from the root. Other semantic relations remain in the graph.</p>
+            </details>
+            <details class="navigation-options"><summary>Graph clusters</summary>
+              <label class="control-label" for="cluster-algorithm">Clustering algorithm</label><select id="cluster-algorithm"><option value="louvain">Louvain communities</option><option value="components">Connected components</option></select>
+              <label class="control-label" for="cluster-scope">Clustering scope</label><select id="cluster-scope"><option value="visible">Visible graph</option><option value="complete">Complete graph</option></select>
+              <label class="control-label" for="cluster-resolution">Community resolution</label><input id="cluster-resolution" type="number" min="0.01" step="0.1" value="1" />
+              <label class="pin-control"><input id="cluster-weighted" type="checkbox" /> Use relation weights for clustering</label>
+              <button type="button" id="cluster-detect">Detect clusters</button>
+              <label class="control-label" for="cluster-select">Cluster</label><select id="cluster-select"></select>
+              <p id="cluster-members" class="control-help"></p>
+              <button type="button" id="cluster-render" disabled>Render cluster with RFC</button>
+            </details>
+            <p id="rfc-structure-status" class="control-help" role="status" aria-live="polite"></p>
           </details>
           <label class="control-label" for="curve">Edge curves</label>
           <select id="curve" aria-describedby="curve-help"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>

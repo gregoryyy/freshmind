@@ -114,7 +114,9 @@ export class FreshmindPresentation {
       group.append("text").attr("class","fm-edge-label").style("pointer-events","none");
       return group;
     });
-    groups.attr("data-edge-id",edge=>edge.getID()).attr("data-semantic-type",edge=>edge.getSemanticType())
+    // Native SVG focus outlines enclose the whole curve/label bounding box.
+    // Keyboard focus is shown on the routed stroke below, alongside selection color.
+    groups.style("outline","none").attr("data-edge-id",edge=>edge.getID()).attr("data-semantic-type",edge=>edge.getSemanticType())
       .attr("aria-pressed",edge=>String(edge===selected))
       .attr("aria-label",edge=>`${edge.from.getLabel()} → ${edge.to.getLabel()}, ${edge.getLabel()||"Unlabeled relation"}, ${edge.getSemanticType()}`)
       .attr("opacity",edge=>(edge.from.markedForRemoval||edge.to.markedForRemoval)?0.15:1)
@@ -124,7 +126,7 @@ export class FreshmindPresentation {
     groups.each((edge,index,elements)=>{
       const group=select(elements[index]),style=styleOf(edge),geometry=geometries.get(edge)!;
       edge.setGeometry(geometry);
-      const width=style.stroke.width*Math.max(.5,edge.getWeight()/10),size=style.arrow.size;
+      const width=style.stroke.width*Math.max(.5,edge.getWeight()/10)+(elements[index].matches(":focus-visible")?2:0),size=style.arrow.size;
       group.select(".fm-edge-path").attr("d",geometry.path).attr("stroke",style.stroke.color)
         .attr("stroke-width",width).attr("stroke-dasharray",dashArray(style.stroke.dash));
       group.select(".fm-edge-hit").attr("d",geometry.path).attr("stroke-width",Math.max(12,width+8));

@@ -208,6 +208,24 @@ export class FreshmindNavigation {
     if (!this.disposed && alreadyCentered && this.host.getFocus() === anchor && this.host.getGES().contains(anchor))
       this.host.reinforceCenteredNode?.(anchor);
   }
+  /** Adds the selected node as another RFC center; pending candidates are confirmed first. */
+  addRfcCenter():void {
+    if(this.disposed)return;
+    if(this.pending)this.confirm();
+    const selected=this.host.getSelection();
+    if(!(selected instanceof FreshNode)||!this.host.addRfcCenter)return;
+    this.cancel(undefined,false);this.host.addRfcCenter(selected);
+    this.message=`Added RFC center: ${selected.getLabel()}.`;this.publish();
+  }
+  /** Toggles the selected RFC center, confirming a pending node candidate before applying the change. */
+  toggleRfcCenter():void {
+    if(this.disposed)return;
+    if(this.pending)this.confirm();
+    const selected=this.host.getSelection();
+    if(!(selected instanceof FreshNode)||!this.host.toggleRfcCenter)return;
+    this.cancel(undefined,false);const enabled=this.host.toggleRfcCenter(selected);
+    this.message=`${enabled?"Added":"Removed"} RFC center: ${selected.getLabel()}.`;this.publish();
+  }
   private applyNeighborhood(focus: FreshNode): Promise<void> {
     const s = this.settings; return this.host.setLocale(focus, s.radius, s.maxAddEdgeCount, s.maxExpandEdgeCount, !s.backlinks);
   }
@@ -295,6 +313,7 @@ export class FreshmindNavigation {
     const arrows: Record<string, Direction> = { ArrowUp: "up", ArrowRight: "right", ArrowDown: "down", ArrowLeft: "left" };
     if (Object.hasOwn(arrows, event.key)) { this.navigate(arrows[event.key], event.shiftKey ? "edge" : "node", event.repeat); return true; }
     if (event.key === "Enter" || event.key === " ") {
+      if(event.key==="Enter"&&event.shiftKey){if(!event.repeat)this.toggleRfcCenter();return true;}
       if (this.pending) this.confirm();
       else if (event.key === "Enter") this.run(this.centerSelection()); else this.toggleDetails();
       return true;
@@ -315,6 +334,10 @@ export class FreshmindNavigation {
     else if (key === "e") this.run(this.expand());
     else if (key === "k") this.run(this.collapse());
     else if (key === "h") this.run(this.hide());
+    else if ((key === "c" || key === "w") && this.host.cycleEdgeCurve) {
+      const curve = this.host.cycleEdgeCurve();
+      this.armTimer(); this.message = `Edge curves: ${curve}.`; this.publish();
+    }
     else if (key === "l" && this.actions.openResource) this.actions.openResource();
     else if (key === "r" && this.host.getSelection() instanceof FreshEdge && this.actions.reverseRelation) this.actions.reverseRelation();
     else return false;

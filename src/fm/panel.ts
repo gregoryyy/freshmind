@@ -14,7 +14,7 @@ import { FreshNode, FreshEdge, FreshGraph } from "./model.js";
 import { TypeRegistry } from "./config/registry.js";
 import { freshmind2014Configuration } from "./config/fm2014.js";
 import { parseTypeConfiguration } from "./config/yaml.js";
-import type { EdgeStyle, InteractionState, NodeStyle } from "./config/types.js";
+import type { CurveMode, EdgeStyle, InteractionState, NodeStyle } from "./config/types.js";
 import { FreshmindPresentation } from "./rendering/presentation.js";
 import { routeEdges } from "./rendering/geometry.js";
 import type { EdgeGeometry } from "./rendering/geometry.js";
@@ -23,6 +23,7 @@ import { bindNavigation } from "./navigation/keyboard.js";
 import type { NavigationOptions } from "./navigation/types.js";
 import { RfcController } from "./rfc/controller.js";
 import type { RfcSettings } from "./rfc/types.js";
+import type { RfcStabilizationOptions } from "./rfc/stabilization.js";
 import type { TGLayout } from "../tg/layout.js";
 
 export interface FreshmindPanelOptions extends TGPanelOptions {
@@ -30,6 +31,7 @@ export interface FreshmindPanelOptions extends TGPanelOptions {
   navigation?: NavigationOptions;
   navigationStatus?: HTMLElement;
   rfc?: Partial<RfcSettings>;
+  rfcStabilization?: RfcStabilizationOptions;
 }
 export type FreshmindSelection = FreshNode | FreshEdge | null;
 export type SelectionListener = (selection: FreshmindSelection) => void;
@@ -61,7 +63,7 @@ export class FreshmindPanel extends TGPanel {
     this.setGraphEltSet(new FreshGraph());
     this.navigation = new FreshmindNavigation(this, options.navigation);
     this.navigationStatus = options.navigationStatus;
-    this.rfc = new RfcController(this, options.rfc);
+    this.rfc = new RfcController(this, options.rfc, options.rfcStabilization);
     this.removeRfcForce = this.tgLayout.addForce(this.rfc.apply);
     this.removeRfcPaint = this.rfc.addListener(() => {
       const revision = ++this.rfcPaintRevision;
@@ -71,11 +73,32 @@ export class FreshmindPanel extends TGPanel {
     if(container){this.mount(container);if(options.autoStart!==false)this.tgLayout.start();}
   }
   getTypeRegistry():TypeRegistry{return this.types;}
+  /** Returns the inherited default edge form, independently of relation-specific overrides. */
+  getEdgeCurve(): CurveMode {
+    return this.types.getDefaultEdgeStyle().curve;
+  }
+  /** Changes the default edge form without modifying explicit visual overrides or layout coordinates. */
+  setEdgeCurve(curve: CurveMode): void {
+    const config = this.types.getConfiguration();
+    config.edgeVisuals[config.defaults.edgeVisual].curve = curve;
+    this.setTypeRegistry(new TypeRegistry(config));
+  }
+  /** Cycles the available edge forms in the same order as the browser selector. */
+  cycleEdgeCurve(): CurveMode {
+    const curves: CurveMode[] = ["spider", "lens", "straight"];
+    const next = curves[(curves.indexOf(this.getEdgeCurve()) + 1) % curves.length];
+    this.setEdgeCurve(next);
+    return next;
+  }
   /** Returns the composed navigation controller used by both DOM input and application controls. */
   getNavigation(): FreshmindNavigation { return this.navigation!; }
-  /** Returns the optional single-focus reinforcement controller, disabled until a center is chosen. */
+  /** Returns the reinforcement controller, disabled until a center is chosen. */
   getRfc(): RfcController { return this.rfc!; }
-  /** Repeated Return/double-click on the center transfers an already enabled RFC focus. */
+  /** Adds a second or subsequent focal center without replacing locality or existing activation. */
+  addRfcCenter(node:FreshNode):void {this.rfc!.addFocus(node);}
+  /** Toggles a focal center independently of selection/locality and returns its new activation state. */
+  toggleRfcCenter(node:FreshNode):boolean {return this.rfc!.toggleFocus(node);}
+  /** Repeated Return/double-click on the center replaces all enabled RFC centers with this one. */
   reinforceCenteredNode(node: FreshNode): void {
     if (this.rfc?.getState().enabled) {
       this.rfc.setFocus(node);
@@ -113,7 +136,7 @@ export class FreshmindPanel extends TGPanel {
   /** Replaces a validated registry and repaints while preserving graph objects and physical positions. */
   setTypeRegistry(types:TypeRegistry):void{
     if(!(types instanceof TypeRegistry))throw new TypeError("Expected a TypeRegistry");
-    this.types=types;this.repaint();
+    this.types=types;this.repaintAfterMove();
   }
   /**
    * Parses and applies YAML type configuration atomically; failures leave the current registry intact.
@@ -227,7 +250,7 @@ export class FreshmindPanel extends TGPanel {
   }
   protected override paintEdges(layer:SVGGElement):void {
     const edges = [...this.getGES().getEdges()] as FreshEdge[], geometries = this.geometries(), state = this.rfc?.getState();
-    const nodeIds = new Set(state?.active ? [state.focusId!, ...state.branchIds] : []);
+    const nodeIds = new Set(state?.active ? state.memberIds : []);
     const edgeIds = new Set(state?.active ? state.radialEdgeIds : []);
     this.presentation.paintRfcHalos(layer, [...this.getGES().getNodes()].filter(node => nodeIds.has(node.getID()!)) as FreshNode[],
       edges.filter(edge => edgeIds.has(edge.getID()!)), geometries, node => this.getNodeStyle(node), edge => this.getEdgeStyle(edge));
@@ -244,6 +267,7 @@ export class FreshmindPanel extends TGPanel {
     event.stopPropagation();
     if (this.getInteractionMode() !== "navigate") return;
     event.preventDefault(); this.setSelect(node);
+    if(event.shiftKey&&!event.ctrlKey&&!event.altKey&&!event.metaKey){this.getNavigation().toggleRfcCenter();return;}
     void this.getNavigation().centerSelection();
   }
   protected override getNodeTitle(node: Node): string {

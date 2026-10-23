@@ -4,6 +4,7 @@
   "batches": 250,
   "stepsPerBatch": 10,
   "fixedContextAnchors": true,
+  "stabilizationEnabled": false,
   "results": [
     {
       "name": "crowded-star",

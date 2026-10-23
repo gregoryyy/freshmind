@@ -48,6 +48,14 @@ public-examples: build
 rfc-experiment output="docs/experiments/rfc-single-focus": build
     node scripts/rfc-experiment.mjs {{quote(output)}}
 
+# Matched multi-focus tree, leaf-link and shared-subtree experiments (120 runs).
+rfc-multifocus-experiment output="docs/experiments/rfc-multifocus": build
+    node scripts/rfc-multifocus-experiment.mjs {{quote(output)}}
+
+# Regenerate the synthetic persistent tree/DAG membership example.
+substructure-examples: build
+    node scripts/substructure-examples.mjs
+
 # Plot an existing RFC report; requires Python 3 with matplotlib.
 rfc-plot output="docs/experiments/rfc-single-focus":
     python3 scripts/plot-rfc.py {{quote(output)}}
@@ -57,7 +65,7 @@ rfc-figures:
     python3 scripts/rfc-paper-figures.py
 
 # Regenerate experiments/figures and render the second draft next to its Markdown source.
-rfc-paper: rfc-experiment rfc-plot rfc-figures
+rfc-paper: rfc-experiment rfc-multifocus-experiment rfc-plot rfc-figures
     rm -f docs/papers/rfc-revisited-draft2.md.pdf
     just pdf docs/papers/rfc-revisited-draft2.md
 

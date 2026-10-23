@@ -137,8 +137,13 @@ test("details, pan-only centering and radius/backlink/timeout controls share key
   await page.locator("summary").filter({hasText:"Navigation options"}).click();
   await page.locator("#candidate-timeout").fill("100");await page.locator("#candidate-timeout").press("Tab");
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode("anchor")));
-  await page.locator('[data-node-id="anchor"]').focus();await page.keyboard.press("ArrowRight");
-  await expect(page.locator("#navigation-status")).toContainText("candidates");
+  // Capture immediate feedback in the same event turn: the 100 ms inactivity
+  // timer can expire before a separate browser-protocol assertion under load.
+  const message=await page.locator('[data-node-id="anchor"]').evaluate(node=>{
+    node.focus();node.dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowRight",bubbles:true,cancelable:true}));
+    return document.querySelector("#navigation-status").textContent;
+  });
+  expect(message).toContain("candidates");
   await expect.poll(async()=> (await state(page)).candidates).toBeUndefined();expect((await state(page)).selected).toBe("anchor");
   expect(errors).toEqual([]);
 });

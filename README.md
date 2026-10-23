@@ -26,13 +26,13 @@ The current implementation concentrates on the graph browsing foundation: spring
 - Keyboard navigation with neighbor/relation preselection, independent graph spacing and canvas zoom, rotation and scroll controls.
 - Inline label and metadata editors, plus resizable node-content popups for plain text and sanitized HTML.
 - Native YAML loading/saving, the approved Java examples and three attributed public example networks.
-- Optional single-focus RFC with reinforced focal springs, even-angle branch forces and weighted coordinate geometry derived from the 2005 paper.
+- RFC with multiple centers, persistent tree/DAG memberships, angular/length constraints, weighted coordinates and cluster-to-tree rendering.
 - An ESM library for JavaScript and TypeScript, plus a DOM-independent core for headless use.
 - A runnable example and compatibility checks against the Java layout and lens implementations.
 
-**Progress:** Milestone 1 (plain TouchGraph) and Freshmind milestones 2.1–2.5 (types, rendering, navigation, editing and native YAML persistence) are complete. RFC is partially implemented: tasks 3.2.1–3.2.3 provide single-focus reinforcement, angular constraints and weighted x/y distances, with reproducible experiments and a generated browser walkthrough.
+**Progress:** Milestone 1 (plain TouchGraph) and Freshmind milestones 2.1–2.5 (types, rendering, navigation, editing and native YAML persistence) are complete. RFC is partially implemented: single-focus forces, weighted x/y geometry and multiple tree foci have reproducible experiments. The multi-focus comparison covers 120 runs with extra leaf links and shared subtrees, retaining oscillatory cases and feasibility limits. Tree/DAG memberships and cluster-to-tree conversion are available; DAG templates and clustering have functional checks.
 
-Node and link weights are retained by the model, editors and file format, but their effect on RFC forces is still pending. They are separate from the implemented coordinate weights. Next is node/link force weighting, followed by elliptical focal-region exclusion, multiple foci and structural aggregation. LDA-based graph visual search remains planned. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
+Node and link weights are retained by the model, editors and file format, but their effect on RFC forces is still pending. They are separate from the implemented coordinate weights. Next is node/link force weighting, followed by elliptical focal-region exclusion and structural aggregation. Multiple centers and shared membership are implemented; overlapping-region exclusion remains open. LDA-based graph visual search remains planned. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
 
 Porting and re-implementation based on the existing concepts have required only a few hours so far, including code archaeology in the original Java sources.
 
@@ -44,7 +44,7 @@ The [Freshmind feature design](docs/fm_port-design.md) describes the implemented
 
 In the main browser, select a node, expand **Reinforcement Focus + Context**, then choose **Reinforce selected node**. The default **Tree structure** preset combines an explicit target focal length with radial and angular stiffness. **Attraction only** retains the earlier attraction-multiplier approach, including its angular forces. Soft yellow halos fade outward beneath reinforced nodes and relations. With RFC enabled, press Return or double-click an already centered node to make it the reinforced focus. **Remove RFC** stops the additional forces while retaining the current layout. Pause/resume motion still controls the ordinary layout runner.
 
-The RFC center is independent of selection, neighborhood origin and the viewing lens. Hidden centers suspend reinforcement and resume when shown; replacing the graph clears activation. Semantic nodes/relations and YAML records remain unchanged, while exported positions can retain the resulting layout. Horizontal/vertical coordinate weights control physical RFC geometry: (0.25, 1) permits a focal layout twice as wide in the ideal case, while (1, 1) retains ordinary distances. The viewing lenses are independent. Node/link force weighting, elliptical exclusion, multiple foci and aggregation remain later tasks.
+RFC centers are independent of selection, neighborhood origin and the viewing lens. Shift+Enter or Shift+double-click toggles a node's center while retaining other centers and the visible neighborhood. Ordinary RFC activation replaces all centers with the chosen node, including when it is already the primary center. The center selector removes one activation at a time; the Add RFC center button adds without toggling. Hidden centers suspend reinforcement and resume when shown; replacing the graph clears activation. Activating RFC leaves semantic nodes/relations and stored membership definitions unchanged; exported positions can retain the resulting layout. Horizontal/vertical coordinate weights control physical RFC geometry: (0.25, 1) permits a focal layout twice as wide in the ideal case, while (1, 1) retains ordinary distances. The viewing lenses are independent. Node/link force weighting, elliptical exclusion and aggregation remain later tasks.
 
 ```ts
 const rfc = panel.getRfc();
@@ -54,15 +54,20 @@ console.log(rfc.getState());
 rfc.setFocus(null);
 ```
 
+Under **Substructures**, store tree/DAG membership, add or remove the selected node, choose a root and reinforce the definition. Membership is saved to YAML; active centers are transient. Under **Graph clusters**, choose Louvain communities or connected components, select visible/complete scope, inspect a cluster and render it as a stored RFC tree. Try **Load example → Trees and DAG** for shared memberships, or **Zachary's karate club** for clustering. The [substructure and clustering design](docs/rfc-substructures.md) documents the data model, force semantics and limits.
+
 `fm4/fm/rfc` exports the headless controller/force helpers; `bindRfcControls()` from `fm4/fm/ui` binds application-owned controls and returns a disposer. A standalone layout can register `rfc.apply` through `layout.addForce()` and remove it through the returned disposer. The [design](docs/rfc-design.md) explains the force law, defaults and lifecycle. The [experiment report](docs/experiments/rfc-single-focus/README.md) contains three synthetic native YAML graphs to open in the browser and the recorded baseline/RFC results.
 
 ```sh
 just rfc-experiment  # Regenerate deterministic synthetic comparisons and initial graphs
+just rfc-multifocus-experiment # Two tree foci, leaf connections and shared subtrees (120 runs)
 just rfc-plot        # Render the report with Python/matplotlib
-just rfc-paper       # Regenerate six figures and the second draft PDF
+just rfc-paper       # Regenerate eleven figures and the second draft PDF
 ```
 
-The [second draft paper](docs/papers/rfc-revisited-draft2.md) reviews the 2005 method, compares attraction, angle and length constraints, and derives local oscillation/stability conditions from the actual TouchGraph update. Its [drawings](docs/papers/figures/rfc/) are supplied as SVG, PDF and PNG. The experiments include ablations, a stiffness sweep and a movable-center damping comparison; they do not establish general convergence or perceptual benefit.
+The [second draft paper](docs/papers/rfc-revisited-draft2.md) reviews the 2005 method, compares attraction, angle and length constraints, and derives local oscillation/stability conditions from the actual TouchGraph update. Its eleven [drawings](docs/papers/figures/rfc/) are supplied as SVG, PDF and PNG. The experiments include ablations, a stiffness sweep, a separate damping comparison and [multiple tree foci](docs/experiments/rfc-multifocus/README.md). The main browser offers the three new tree fixtures under **Load example → RFC**. These small mechanism checks do not establish general convergence or perceptual benefit.
+
+**Experimental adaptive damping** is a separate opt-in checkbox under the RFC controls, off by default. Repeated movement reversals reduce focal-node impulses. After 0.5 seconds of quiet integration, damping eases off over three seconds; renewed oscillation triggers another backoff. Configured forces stay unchanged. [Experiment B](docs/experiments/rfc-single-focus/README.md#experiment-b-adaptive-local-damping) records comparisons with damping off/on. Applications can opt in with `rfc.setStabilizationEnabled(true)` or `new FreshmindPanel(host, {rfcStabilization: {enabled: true}})`; diagnostics are available in `rfc.getState().stabilization`.
 
 ## Run the example
 
@@ -311,7 +316,9 @@ Freshmind keyboard-focus frames follow the configured node shape and stay outsid
 | `fm4/fm/core` | Freshmind model, registry, preset and pure geometry without D3 or YAML. |
 | `fm4/fm/config` | YAML type loader for applications supplying their own configuration. |
 | `fm4/fm/ui` | Reusable key-map dialog and graph/canvas zoom bindings; optional `fm4/fm/ui/style.css`. |
-| `fm4/fm/rfc` | Headless single-focus reinforcement controller, focal-star and force helpers. |
+| `fm4/fm/rfc` | Headless multi-center reinforcement controller, focal-star and force helpers. |
+| `fm4/fm/structures` | Validated tree/DAG memberships and deterministic spanning-tree projections. |
+| `fm4/fm/clustering` | Detached Louvain/component detection and cluster-to-substructure conversion. |
 
 ## Library support
 

@@ -12,5 +12,7 @@ export { bindZoomControls } from "./zoom-controls.js";
 export type { ZoomControlElements } from "./zoom-controls.js";
 export { bindRfcControls } from "./rfc-controls.js";
 export type { RfcControlElements } from "./rfc-controls.js";
+export {bindSubstructureControls} from "./substructures.js";
+export type {SubstructureControlElements} from "./substructures.js";
 export { bindNodeDetails } from "./node-details.js";
 export type { NodeDetailsOptions } from "./node-details.js";

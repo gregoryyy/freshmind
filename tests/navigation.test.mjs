@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { TGLensSet, RotateLens } from "fm4/core";
 import { FreshNode, FreshEdge, FreshGraph, collectCandidates, screenDirection, bestCandidateIndex } from "fm4/fm/core";
-import { FreshmindPanel } from "fm4/fm";
+import { FreshmindPanel, TypeRegistry } from "fm4/fm";
 
 class Clock {
   time = 0; id = 0; tasks = new Map();
@@ -27,6 +27,34 @@ function fixture(t, options = {}) {
 }
 const active = n => { const s = n.getState().preselection; return s?.candidateIds[s.activeIndex]; };
 const visible = p => [...p.getGES().getNodes()].map(n => n.getID()).sort();
+
+test("edge-form shortcuts cycle inherited defaults, preserve overrides and ignore modifier chords", t => {
+  const { p, n, edges } = fixture(t);
+  const config = p.getTypeRegistry().getConfiguration();
+  config.edgeVisuals.browser = { extends: config.defaults.edgeVisual };
+  config.defaults.edgeVisual = "browser";
+  config.relationTypes[config.defaults.relationType].visual = "browser";
+  p.setTypeRegistry(new TypeRegistry(config));
+  edges[0].setVisual({ style: { curve: "straight" } });
+  const positions = [...p.getAllNodes()].map(node => [node.x, node.y]);
+  let notifications = 0;
+  p.addGraphListener({ graphMoved: () => { notifications++; } });
+  for (const [key, expected] of [["w", "lens"], ["c", "straight"], ["w", "spider"]]) {
+    assert.equal(n.handleKey({ key }), true);
+    assert.equal(p.getEdgeCurve(), expected);
+    assert.equal(p.getEdgeStyle(edges[1]).curve, expected);
+    assert.equal(p.getEdgeStyle(edges[0]).curve, "straight");
+    assert.match(n.getState().message, new RegExp(expected));
+  }
+  for (const modifier of ["ctrlKey", "metaKey", "altKey", "shiftKey", "repeat", "isComposing"]) {
+    assert.equal(n.handleKey({ key: "w", [modifier]: true }), false);
+    assert.equal(p.getEdgeCurve(), "spider");
+  }
+  assert.equal(notifications, 3);
+  assert.deepEqual([...p.getAllNodes()].map(node => [node.x, node.y]), positions);
+  assert.throws(() => p.setEdgeCurve("invalid"), TypeError);
+  assert.equal(p.getEdgeCurve(), "spider");
+});
 
 test("detail visibility can be dismissed explicitly and clears when selection disappears", t => {
   const {p,n,a} = fixture(t);

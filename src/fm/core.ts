@@ -21,6 +21,10 @@ export type { DocumentRecord, DocumentView, NodeRecord, EdgeRecord, LoadOptions,
 export { FreshmindNavigation } from "./navigation/controller.js";
 export { keymap } from "./navigation/keymap.js";
 export * from "./rfc/index.js";
+export {validateSubstructure, analyzeSubstructure, spanningTree} from "./structures/model.js";
+export type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "./structures/model.js";
+export {clusterGraph, clusterToSubstructure, clusteringSignature} from "./clustering/index.js";
+export type {ClusterOptions, ClusterResult, GraphCluster} from "./clustering/index.js";
 export { collectCandidates, bestCandidateIndex, screenDirection } from "./navigation/candidates.js";
 export type { Direction, CandidateKind, Candidate, Preselection, NavigationItem, NavigationState, NavigationOptions,
   NavigationSettings, NavigationHost, NavigationKey, NavigationActions, NavigationClock } from "./navigation/types.js";

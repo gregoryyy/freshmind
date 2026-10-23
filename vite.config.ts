@@ -16,6 +16,9 @@ export default defineConfig({
       const licenses = readdirSync(modules).filter(name => name.startsWith("d3-")).sort()
         .map(name => `${name}\n\n${readFileSync(new URL(`${name}/LICENSE`, modules), "utf8")}`).join("\n\n");
       this.emitFile({ type: "asset", fileName: "LICENSES-D3.txt", source: licenses });
+      const clusteringLicenses=readdirSync(modules).filter(name=>name.startsWith("graphology")||["mnemonist","obliterator","pandemonium","events"].includes(name)).sort()
+        .map(name=>`${name}\n\n${readFileSync(new URL(`${name}/${name==="events"?"LICENSE":"LICENSE.txt"}`,modules),"utf8")}`).join("\n\n");
+      this.emitFile({type:"asset",fileName:"LICENSES-CLUSTERING.txt",source:clusteringLicenses});
       this.emitFile({ type: "asset", fileName: "LICENSE-YAML.txt", source: readFileSync(new URL("yaml/LICENSE", modules), "utf8") });
       this.emitFile({ type: "asset", fileName: "LICENSE-NETWORKX.txt", source: readFileSync(new URL("examples/public/sources/LICENSE-NETWORKX.txt", import.meta.url), "utf8") });
     }
