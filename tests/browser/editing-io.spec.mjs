@@ -77,13 +77,13 @@ test("metadata and visual edits are atomic, annotation HTML is sanitized, and re
   await page.getByRole("button",{name:"Save changes",exact:true}).click();
   const saved=await page.evaluate(()=>{const n=window.graphBrowser.findNode("a");return {annotation:n.getAnnotation(),url:n.getURL(),weight:n.getWeight(),data:n.getData(),extensions:n.getExtensions(),visual:n.getVisual()};});
   expect(saved.annotation).toEqual({format:"html",text:html});expect(saved.weight).toBe(30);expect(saved.visual.style.fill).toBe("#123456");expect(saved.data).toEqual({query:{score:.7}});expect(saved.extensions).toEqual({app:{keep:true}});
-  await page.keyboard.press("Space");await expect(page.locator("#annotation-detail strong")).toHaveText("bold");await expect(page.locator("#annotation-detail script, #annotation-detail img, #annotation-detail [onclick]")).toHaveCount(0);
-  await expect(page.locator('#annotation-detail a').filter({hasText:"bad"})).not.toHaveAttribute("href",/./);expect(requests).toEqual([]);expect(await page.evaluate(()=>window.annotationExecuted)).toBeUndefined();
+  await page.keyboard.press("Space");await expect(page.locator(".fm-node-content strong")).toHaveText("bold");await expect(page.locator(".fm-node-content script, .fm-node-content img, .fm-node-content [onclick]")).toHaveCount(0);
+  await expect(page.locator('.fm-node-content a').filter({hasText:"bad"})).not.toHaveAttribute("href",/./);expect(requests).toEqual([]);expect(await page.evaluate(()=>window.annotationExecuted)).toBeUndefined();
   await page.getByRole("button",{name:"Open linked resource (L)",exact:true}).click();await expect(page.locator("#file-status")).toContainText("stored path cannot be opened");
   await page.getByLabel("Node label",{exact:true}).fill("Must not apply");await page.getByLabel("Application data (YAML)").fill("not: [valid");
   await page.getByRole("button",{name:"Save changes",exact:true}).click();await expect(page.locator("#editor-status")).toHaveAttribute("data-error","true");
   expect(await page.evaluate(()=>window.graphBrowser.findNode("a").getLabel())).toBe("Alpha");await page.getByRole("button",{name:"Cancel",exact:true}).click();
-  await page.locator('#annotation-detail a').filter({hasText:"Beta"}).click();expect(await page.evaluate(()=>window.graphBrowser.getSelect().getID())).toBe("b");expect(errors).toEqual([]);
+  await page.locator('.fm-node-content a').filter({hasText:"Beta"}).click();expect(await page.evaluate(()=>window.graphBrowser.getSelect().getID())).toBe("b");expect(errors).toEqual([]);
 });
 test("relation endpoint edits/reversal retain IDs and adjacency, including loops and hidden endpoints",async({page})=>{
   const errors=await ready(page);
@@ -109,12 +109,22 @@ test("YAML file open/save uses complete membership and rejects invalid loads wit
   await page.keyboard.press("Control+Shift+s");const dialog=page.getByRole("dialog",{name:"Save graph as"});await expect(dialog).toBeVisible();await page.getByLabel("Save filename").fill("renamed");
   const renamedPromise=page.waitForEvent("download");await page.getByRole("button",{name:"Download YAML",exact:true}).click();expect((await renamedPromise).suggestedFilename()).toBe("renamed.fm.yaml");expect(errors).toEqual([]);
 });
-test("only approved examples are offered and both can be loaded with the large graph bounded by locality",async({page})=>{
-  const errors=await ready(page);expect(await page.locator("#example-graph option").allTextContents()).toEqual(["Choose an example…","berry","nips-fm"]);
+test("legacy examples stay restricted to approved datasets and the large graph opens a bounded locality",async({page})=>{
+  const errors=await ready(page);expect(await page.locator('#example-graph optgroup[label="Freshmind 2014"] option').allTextContents()).toEqual(["berry","nips-fm"]);
   await page.locator("#example-graph").selectOption("berry");await expect(page.locator("#file-status")).toContainText("21 nodes, 22 relations");
   await page.locator("#example-graph").selectOption("nips-fm");await expect(page.locator("#file-status")).toContainText("3777 nodes, 5257 relations",{timeout:20000});
   const counts=await page.evaluate(()=>{const p=window.graphBrowser;p.tgLayout.stop();return [p.getNodeCount(),p.getEdgeCount(),p.visibleNodeCount()];});
   expect(counts[0]).toBe(3777);expect(counts[1]).toBe(5257);expect(counts[2]).toBeLessThan(3777);expect(counts[2]).toBeGreaterThan(0);expect(errors).toEqual([]);
+});
+test("finishing an example load preserves an editor focused while the request was pending",async({page})=>{
+  const errors=await ready(page);let release;const gate=new Promise(resolve=>{release=resolve;});
+  await page.route("**/examples/public/florentine.fm.yaml",async route=>{await gate;await route.continue();});
+  const requested=page.waitForRequest(request=>request.url().endsWith("/examples/public/florentine.fm.yaml"));
+  await page.locator("#example-graph").focus();await page.locator("#example-graph").selectOption("florentine");await requested;
+  const annotation=page.getByLabel("Annotation",{exact:true});await annotation.focus();release();
+  await expect(page.locator("#file-status")).toContainText("15 nodes, 20 relations");await expect(annotation).toBeFocused();
+  await page.keyboard.press("Control+Shift+Alt+ArrowRight");expect(await page.evaluate(()=>window.graphBrowser.getRotation())).toBe(0);
+  expect(errors).toEqual([]);
 });
 test("local companions are required before replacement and companion exports contain the effective configuration",async({page})=>{
   const errors=await ready(page),graph={name:"companion.fm.yaml",mimeType:"application/yaml",buffer:Buffer.from(source.replace("title: Browser fixture","typesFile: custom.types.yaml\ntitle: Companion fixture"))};

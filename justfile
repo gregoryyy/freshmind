@@ -36,6 +36,10 @@ convert-fm2014 *args: build
 validate-examples *args: build
     node scripts/validate-examples.mjs "$@"
 
+# Regenerate attributed public networks from the pinned source; requires Python 3, no NetworkX installation.
+public-examples: build
+    node scripts/convert-public-examples.mjs
+
 # Build and serve the production demo; accepts Vite preview arguments.
 preview *args: build-demo
     npx --no-install vite preview --host 127.0.0.1 "$@"

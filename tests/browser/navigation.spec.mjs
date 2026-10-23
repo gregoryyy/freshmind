@@ -127,7 +127,7 @@ test("mouse and focus changes cancel candidates; text entry, Tab and browser cho
   expect(embedded).toEqual([false,false,false,false]);expect((await state(page)).selected).toBe("anchor");expect(errors).toEqual([]);
 });
 test("details, pan-only centering and radius/backlink/timeout controls share keyboard state",async({page})=>{
-  const errors=await ready(page);await page.keyboard.press("Space");await expect(page.locator("#annotation-detail")).toHaveText("Details for anchor");
+  const errors=await ready(page);await page.keyboard.press("Space");await expect(page.locator(".fm-node-content")).toHaveText("Details for anchor");await page.keyboard.press("Space");
   await page.keyboard.press("n");await expect(page.locator("#move-to-center")).not.toBeChecked();
   await page.keyboard.press("ArrowRight");await page.keyboard.press("Enter");await page.keyboard.press("Enter");
   expect(await state(page)).toMatchObject({selected:"middle",focus:"anchor"});

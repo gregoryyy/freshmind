@@ -1,0 +1,38 @@
+{
+  "source": {
+    "release": "networkx-3.4.2",
+    "sha256": "2145605953149916941b6f14d0acc1fbed03b4a2dd0850f3e78b6427af56e26b",
+    "url": "https://raw.githubusercontent.com/networkx/networkx/networkx-3.4.2/networkx/generators/social.py"
+  },
+  "license": "BSD-3-Clause",
+  "licenseFile": "sources/LICENSE-NETWORKX.txt",
+  "graphs": [
+    {
+      "id": "florentine",
+      "file": "florentine.fm.yaml",
+      "nodes": 15,
+      "edges": 20,
+      "function": "florentine_families_graph",
+      "focus": "Medici",
+      "focusDegree": 6
+    },
+    {
+      "id": "karate",
+      "file": "karate.fm.yaml",
+      "nodes": 34,
+      "edges": 78,
+      "function": "karate_club_graph",
+      "focus": "member-1",
+      "focusDegree": 16
+    },
+    {
+      "id": "les-miserables",
+      "file": "les-miserables.fm.yaml",
+      "nodes": 77,
+      "edges": 254,
+      "function": "les_miserables_graph",
+      "focus": "Myriel",
+      "focusDegree": 10
+    }
+  ]
+}

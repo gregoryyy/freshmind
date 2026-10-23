@@ -17,6 +17,7 @@ export default defineConfig({
         .map(name => `${name}\n\n${readFileSync(new URL(`${name}/LICENSE`, modules), "utf8")}`).join("\n\n");
       this.emitFile({ type: "asset", fileName: "LICENSES-D3.txt", source: licenses });
       this.emitFile({ type: "asset", fileName: "LICENSE-YAML.txt", source: readFileSync(new URL("yaml/LICENSE", modules), "utf8") });
+      this.emitFile({ type: "asset", fileName: "LICENSE-NETWORKX.txt", source: readFileSync(new URL("examples/public/sources/LICENSE-NETWORKX.txt", import.meta.url), "utf8") });
     }
   }]
 });

@@ -1,0 +1,2060 @@
+format: freshmind
+version: 1
+title: Zachary's karate club
+types:
+  format: freshmind-types
+  version: 1
+  id: public-networks
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+    marriage:
+      label: marriage
+      visual: default
+    club-tie:
+      label: club-tie
+      visual: default
+    coappearance:
+      label: coappearance
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#708274"
+        width: 1
+        dash: solid
+      arrow:
+        placement: none
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: member-1
+    label: Member 1
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 0 (display number 1). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 1</strong> has 16 recorded neighbors; the sum of incident weights is 42.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-2">Member 2</a> — weight 4</li><li><a href="#node=member-3">Member 3</a> — weight 5</li><li><a href="#node=member-4">Member 4</a> — weight 3</li><li><a href="#node=member-5">Member 5</a> — weight 3</li><li><a href="#node=member-6">Member 6</a> — weight 3</li><li><a href="#node=member-7">Member 7</a> — weight 3</li><li><a href="#node=member-8">Member 8</a> — weight 2</li><li><a href="#node=member-9">Member 9</a> — weight 2</li><li><a href="#node=member-11">Member 11</a> — weight 2</li><li><a href="#node=member-12">Member 12</a> — weight 3</li><li><a href="#node=member-13">Member 13</a> — weight 1</li><li><a href="#node=member-14">Member 14</a> — weight 3</li><li><a href="#node=member-18">Member 18</a> — weight 2</li><li><a href="#node=member-20">Member 20</a> — weight 2</li><li><a href="#node=member-22">Member 22</a> — weight 2</li><li><a href="#node=member-32">Member 32</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": 0
+    data:
+      dataset: karate
+      sourceNode: 0
+      degree: 16
+      weightedDegree: 42
+      club: Mr. Hi
+    extensions: {}
+  - id: member-2
+    label: Member 2
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 1 (display number 2). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 2</strong> has 9 recorded neighbors; the sum of incident weights is 29.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 4</li><li><a href="#node=member-3">Member 3</a> — weight 6</li><li><a href="#node=member-4">Member 4</a> — weight 3</li><li><a href="#node=member-8">Member 8</a> — weight 4</li><li><a href="#node=member-14">Member 14</a> — weight 5</li><li><a href="#node=member-18">Member 18</a> — weight 1</li><li><a href="#node=member-20">Member 20</a> — weight 2</li><li><a href="#node=member-22">Member 22</a> — weight 2</li><li><a href="#node=member-31">Member 31</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 160
+      "y": 0
+    data:
+      dataset: karate
+      sourceNode: 1
+      degree: 9
+      weightedDegree: 29
+      club: Mr. Hi
+    extensions: {}
+  - id: member-3
+    label: Member 3
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 2 (display number 3). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 3</strong> has 10 recorded neighbors; the sum of incident weights is 33.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 5</li><li><a href="#node=member-2">Member 2</a> — weight 6</li><li><a href="#node=member-4">Member 4</a> — weight 3</li><li><a href="#node=member-8">Member 8</a> — weight 4</li><li><a href="#node=member-9">Member 9</a> — weight 5</li><li><a href="#node=member-10">Member 10</a> — weight 1</li><li><a href="#node=member-14">Member 14</a> — weight 3</li><li><a href="#node=member-28">Member 28</a> — weight 2</li><li><a href="#node=member-29">Member 29</a> — weight 2</li><li><a href="#node=member-33">Member 33</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 191.4760959662278
+      "y": 36.90399265027999
+    data:
+      dataset: karate
+      sourceNode: 2
+      degree: 10
+      weightedDegree: 33
+      club: Mr. Hi
+    extensions: {}
+  - id: member-4
+    label: Member 4
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 3 (display number 4). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 4</strong> has 6 recorded neighbors; the sum of incident weights is 18.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 3</li><li><a href="#node=member-2">Member 2</a> — weight 3</li><li><a href="#node=member-3">Member 3</a> — weight 3</li><li><a href="#node=member-8">Member 8</a> — weight 3</li><li><a href="#node=member-13">Member 13</a> — weight 3</li><li><a href="#node=member-14">Member 14</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 213.5246245936967
+      "y": 85.48236480187533
+    data:
+      dataset: karate
+      sourceNode: 3
+      degree: 6
+      weightedDegree: 18
+      club: Mr. Hi
+    extensions: {}
+  - id: member-5
+    label: Member 5
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 4 (display number 5). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 5</strong> has 3 recorded neighbors; the sum of incident weights is 8.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 3</li><li><a href="#node=member-7">Member 7</a> — weight 2</li><li><a href="#node=member-11">Member 11</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 134.60056525298899
+      "y": 86.50253079289561
+    data:
+      dataset: karate
+      sourceNode: 4
+      degree: 3
+      weightedDegree: 8
+      club: Mr. Hi
+    extensions: {}
+  - id: member-6
+    label: Member 6
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 5 (display number 6). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 6</strong> has 4 recorded neighbors; the sum of incident weights is 14.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 3</li><li><a href="#node=member-7">Member 7</a> — weight 5</li><li><a href="#node=member-11">Member 11</a> — weight 3</li><li><a href="#node=member-17">Member 17</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 141.1281374304887
+      "y": 134.56540723901182
+    data:
+      dataset: karate
+      sourceNode: 5
+      degree: 4
+      weightedDegree: 14
+      club: Mr. Hi
+    extensions: {}
+  - id: member-7
+    label: Member 7
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 6 (display number 7). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 7</strong> has 4 recorded neighbors; the sum of incident weights is 13.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 3</li><li><a href="#node=member-5">Member 5</a> — weight 2</li><li><a href="#node=member-6">Member 6</a> — weight 5</li><li><a href="#node=member-17">Member 17</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 133.41308920137558
+      "y": 187.35246897157722
+    data:
+      dataset: karate
+      sourceNode: 6
+      degree: 4
+      weightedDegree: 13
+      club: Mr. Hi
+    extensions: {}
+  - id: member-8
+    label: Member 8
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 7 (display number 8). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 8</strong> has 4 recorded neighbors; the sum of incident weights is 13.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 2</li><li><a href="#node=member-2">Member 2</a> — weight 4</li><li><a href="#node=member-3">Member 3</a> — weight 4</li><li><a href="#node=member-4">Member 4</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 66.46640208030183
+      "y": 145.54111925672294
+    data:
+      dataset: karate
+      sourceNode: 7
+      degree: 4
+      weightedDegree: 13
+      club: Mr. Hi
+    extensions: {}
+  - id: member-9
+    label: Member 9
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 8 (display number 9). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 9</strong> has 5 recorded neighbors; the sum of incident weights is 17.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 2</li><li><a href="#node=member-3">Member 3</a> — weight 5</li><li><a href="#node=member-31">Member 31</a> — weight 3</li><li><a href="#node=member-33">Member 33</a> — weight 3</li><li><a href="#node=member-34">Member 34</a> — weight 4</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 45.97299242433832
+      "y": 189.50325582309063
+    data:
+      dataset: karate
+      sourceNode: 8
+      degree: 5
+      weightedDegree: 17
+      club: Mr. Hi
+    extensions: {}
+  - id: member-10
+    label: Member 10
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 9 (display number 10). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 10</strong> has 2 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-3">Member 3</a> — weight 1</li><li><a href="#node=member-34">Member 34</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 10.943840639460753
+      "y": 229.73948801209184
+    data:
+      dataset: karate
+      sourceNode: 9
+      degree: 2
+      weightedDegree: 3
+      club: Officer
+    extensions: {}
+  - id: member-11
+    label: Member 11
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 10 (display number 11). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 11</strong> has 3 recorded neighbors; the sum of incident weights is 8.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 2</li><li><a href="#node=member-5">Member 5</a> — weight 3</li><li><a href="#node=member-6">Member 6</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -22.770374123725603
+      "y": 158.37143070094925
+    data:
+      dataset: karate
+      sourceNode: 10
+      degree: 3
+      weightedDegree: 8
+      club: Mr. Hi
+    extensions: {}
+  - id: member-12
+    label: Member 12
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 11 (display number 12). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 12</strong> has 1 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -63.778252846897225
+      "y": 184.27515964936035
+    data:
+      dataset: karate
+      sourceNode: 11
+      degree: 1
+      weightedDegree: 3
+      club: Mr. Hi
+    extensions: {}
+  - id: member-13
+    label: Member 13
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 12 (display number 13). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 13</strong> has 2 recorded neighbors; the sum of incident weights is 4.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 1</li><li><a href="#node=member-4">Member 4</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -114.99999999999994
+      "y": 199.1858428704209
+    data:
+      dataset: karate
+      sourceNode: 12
+      degree: 2
+      weightedDegree: 4
+      club: Mr. Hi
+    extensions: {}
+  - id: member-14
+    label: Member 14
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 13 (display number 14). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 14</strong> has 5 recorded neighbors; the sum of incident weights is 17.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 3</li><li><a href="#node=member-2">Member 2</a> — weight 5</li><li><a href="#node=member-3">Member 3</a> — weight 3</li><li><a href="#node=member-4">Member 4</a> — weight 3</li><li><a href="#node=member-34">Member 34</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -104.7777174312456
+      "y": 120.91993189668133
+    data:
+      dataset: karate
+      sourceNode: 13
+      degree: 5
+      weightedDegree: 17
+      club: Mr. Hi
+    extensions: {}
+  - id: member-15
+    label: Member 15
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 14 (display number 15). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 15</strong> has 2 recorded neighbors; the sum of incident weights is 5.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-33">Member 33</a> — weight 3</li><li><a href="#node=member-34">Member 34</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -153.28035347484357
+      "y": 120.54100231301801
+    data:
+      dataset: karate
+      sourceNode: 14
+      degree: 2
+      weightedDegree: 5
+      club: Officer
+    extensions: {}
+  - id: member-16
+    label: Member 16
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 15 (display number 16). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 16</strong> has 2 recorded neighbors; the sum of incident weights is 7.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-33">Member 33</a> — weight 3</li><li><a href="#node=member-34">Member 34</a> — weight 4</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -204.43215319063236
+      "y": 105.39209999730441
+    data:
+      dataset: karate
+      sourceNode: 15
+      degree: 2
+      weightedDegree: 7
+      club: Officer
+    extensions: {}
+  - id: member-17
+    label: Member 17
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 16 (display number 17). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 17</strong> has 2 recorded neighbors; the sum of incident weights is 6.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-6">Member 6</a> — weight 3</li><li><a href="#node=member-7">Member 7</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -153.51887577831957
+      "y": 45.07720909462881
+    data:
+      dataset: karate
+      sourceNode: 16
+      degree: 2
+      weightedDegree: 6
+      club: Mr. Hi
+    extensions: {}
+  - id: member-18
+    label: Member 18
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 17 (display number 18). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 18</strong> has 2 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 2</li><li><a href="#node=member-2">Member 2</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -194.1170249017515
+      "y": 18.535928444315662
+    data:
+      dataset: karate
+      sourceNode: 17
+      degree: 2
+      weightedDegree: 3
+      club: Mr. Hi
+    extensions: {}
+  - id: member-19
+    label: Member 19
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 18 (display number 19). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 19</strong> has 2 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-33">Member 33</a> — weight 1</li><li><a href="#node=member-34">Member 34</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -228.95854219180944
+      "y": -21.862889959962004
+    data:
+      dataset: karate
+      sourceNode: 18
+      degree: 2
+      weightedDegree: 3
+      club: Officer
+    extensions: {}
+  - id: member-20
+    label: Member 20
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 19 (display number 20). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 20</strong> has 3 recorded neighbors; the sum of incident weights is 5.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 2</li><li><a href="#node=member-2">Member 2</a> — weight 2</li><li><a href="#node=member-34">Member 34</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -153.5188757783196
+      "y": -45.0772090946287
+    data:
+      dataset: karate
+      sourceNode: 19
+      degree: 3
+      weightedDegree: 5
+      club: Mr. Hi
+    extensions: {}
+  - id: member-21
+    label: Member 21
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 20 (display number 21). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 21</strong> has 2 recorded neighbors; the sum of incident weights is 4.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-33">Member 33</a> — weight 3</li><li><a href="#node=member-34">Member 34</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -173.3229124877101
+      "y": -89.35417173684493
+    data:
+      dataset: karate
+      sourceNode: 20
+      degree: 2
+      weightedDegree: 4
+      club: Officer
+    extensions: {}
+  - id: member-22
+    label: Member 22
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 21 (display number 22). Post-split club: <strong>Mr. Hi</strong>.</p><p><strong>Member 22</strong> has 2 recorded neighbors; the sum of incident weights is 4.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 2</li><li><a href="#node=member-2">Member 2</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -180.7922117908411
+      "y": -142.1765668307392
+    data:
+      dataset: karate
+      sourceNode: 21
+      degree: 2
+      weightedDegree: 4
+      club: Mr. Hi
+    extensions: {}
+  - id: member-23
+    label: Member 23
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 22 (display number 23). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 23</strong> has 2 recorded neighbors; the sum of incident weights is 5.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-33">Member 33</a> — weight 2</li><li><a href="#node=member-34">Member 34</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -104.77771743124558
+      "y": -120.91993189668133
+    data:
+      dataset: karate
+      sourceNode: 22
+      degree: 2
+      weightedDegree: 5
+      club: Officer
+    extensions: {}
+  - id: member-24
+    label: Member 24
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 23 (display number 24). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 24</strong> has 5 recorded neighbors; the sum of incident weights is 21.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-26">Member 26</a> — weight 5</li><li><a href="#node=member-28">Member 28</a> — weight 4</li><li><a href="#node=member-30">Member 30</a> — weight 3</li><li><a href="#node=member-33">Member 33</a> — weight 5</li><li><a href="#node=member-34">Member 34</a> — weight 4</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -97.50000000000009
+      "y": -168.8749537379655
+    data:
+      dataset: karate
+      sourceNode: 23
+      degree: 5
+      weightedDegree: 21
+      club: Officer
+    extensions: {}
+  - id: member-25
+    label: Member 25
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 24 (display number 25). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 25</strong> has 3 recorded neighbors; the sum of incident weights is 7.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-26">Member 26</a> — weight 2</li><li><a href="#node=member-28">Member 28</a> — weight 3</li><li><a href="#node=member-32">Member 32</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -75.22563156300703
+      "y": -217.35018830437372
+    data:
+      dataset: karate
+      sourceNode: 24
+      degree: 3
+      weightedDegree: 7
+      club: Officer
+    extensions: {}
+  - id: member-26
+    label: Member 26
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 25 (display number 26). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 26</strong> has 3 recorded neighbors; the sum of incident weights is 14.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-24">Member 24</a> — weight 5</li><li><a href="#node=member-25">Member 25</a> — weight 2</li><li><a href="#node=member-32">Member 32</a> — weight 7</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -22.770374123725638
+      "y": -158.37143070094922
+    data:
+      dataset: karate
+      sourceNode: 25
+      degree: 3
+      weightedDegree: 14
+      club: Officer
+    extensions: {}
+  - id: member-27
+    label: Member 27
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 26 (display number 27). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 27</strong> has 2 recorded neighbors; the sum of incident weights is 6.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-30">Member 30</a> — weight 4</li><li><a href="#node=member-34">Member 34</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 9.278473585629765
+      "y": -194.77913114068656
+    data:
+      dataset: karate
+      sourceNode: 26
+      degree: 2
+      weightedDegree: 6
+      club: Officer
+    extensions: {}
+  - id: member-28
+    label: Member 28
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 27 (display number 28). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 28</strong> has 4 recorded neighbors; the sum of incident weights is 13.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-3">Member 3</a> — weight 2</li><li><a href="#node=member-24">Member 24</a> — weight 4</li><li><a href="#node=member-25">Member 25</a> — weight 3</li><li><a href="#node=member-34">Member 34</a> — weight 4</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 54.22455516716832
+      "y": -223.51666071441457
+    data:
+      dataset: karate
+      sourceNode: 27
+      degree: 4
+      weightedDegree: 13
+      club: Officer
+    extensions: {}
+  - id: member-29
+    label: Member 29
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 28 (display number 29). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 29</strong> has 3 recorded neighbors; the sum of incident weights is 6.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-3">Member 3</a> — weight 2</li><li><a href="#node=member-32">Member 32</a> — weight 2</li><li><a href="#node=member-34">Member 34</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 66.46640208030176
+      "y": -145.54111925672296
+    data:
+      dataset: karate
+      sourceNode: 28
+      degree: 3
+      weightedDegree: 6
+      club: Officer
+    extensions: {}
+  - id: member-30
+    label: Member 30
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 29 (display number 30). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 30</strong> has 4 recorded neighbors; the sum of incident weights is 13.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-24">Member 24</a> — weight 3</li><li><a href="#node=member-27">Member 27</a> — weight 4</li><li><a href="#node=member-33">Member 33</a> — weight 4</li><li><a href="#node=member-34">Member 34</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 113.1110973663836
+      "y": -158.8423106498155
+    data:
+      dataset: karate
+      sourceNode: 29
+      degree: 4
+      weightedDegree: 13
+      club: Officer
+    extensions: {}
+  - id: member-31
+    label: Member 31
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 30 (display number 31). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 31</strong> has 4 recorded neighbors; the sum of incident weights is 11.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-2">Member 2</a> — weight 2</li><li><a href="#node=member-9">Member 9</a> — weight 3</li><li><a href="#node=member-33">Member 33</a> — weight 3</li><li><a href="#node=member-34">Member 34</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 166.45882876416613
+      "y": -158.71817264088577
+    data:
+      dataset: karate
+      sourceNode: 30
+      degree: 4
+      weightedDegree: 11
+      club: Officer
+    extensions: {}
+  - id: member-32
+    label: Member 32
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 31 (display number 32). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 32</strong> has 6 recorded neighbors; the sum of incident weights is 21.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-1">Member 1</a> — weight 2</li><li><a href="#node=member-25">Member 25</a> — weight 2</li><li><a href="#node=member-26">Member 26</a> — weight 7</li><li><a href="#node=member-29">Member 29</a> — weight 2</li><li><a href="#node=member-33">Member 33</a> — weight 4</li><li><a href="#node=member-34">Member 34</a> — weight 4</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 134.60056525298893
+      "y": -86.50253079289571
+    data:
+      dataset: karate
+      sourceNode: 31
+      degree: 6
+      weightedDegree: 21
+      club: Officer
+    extensions: {}
+  - id: member-33
+    label: Member 33
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 32 (display number 33). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 33</strong> has 12 recorded neighbors; the sum of incident weights is 38.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-3">Member 3</a> — weight 2</li><li><a href="#node=member-9">Member 9</a> — weight 3</li><li><a href="#node=member-15">Member 15</a> — weight 3</li><li><a href="#node=member-16">Member 16</a> — weight 3</li><li><a href="#node=member-19">Member 19</a> — weight 1</li><li><a href="#node=member-21">Member 21</a> — weight 3</li><li><a href="#node=member-23">Member 23</a> — weight 2</li><li><a href="#node=member-24">Member 24</a> — weight 5</li><li><a href="#node=member-30">Member 30</a> — weight 4</li><li><a href="#node=member-31">Member 31</a> — weight 3</li><li><a href="#node=member-32">Member 32</a> — weight 4</li><li><a href="#node=member-34">Member 34</a> — weight 5</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 181.03174693813412
+      "y": -72.47417885376397
+    data:
+      dataset: karate
+      sourceNode: 32
+      degree: 12
+      weightedDegree: 38
+      club: Officer
+    extensions: {}
+  - id: member-34
+    label: Member 34
+    type: person
+    visual:
+      style:
+        fill: "#f6e5d3"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: '<p>Zachary&#39;s observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.</p><p>Source member index: 33 (display number 34). Post-split club: <strong>Officer</strong>.</p><p><strong>Member 34</strong> has 17 recorded neighbors; the sum of incident weights is 48.</p><h3>Connected nodes</h3><ul><li><a href="#node=member-9">Member 9</a> — weight 4</li><li><a href="#node=member-10">Member 10</a> — weight 2</li><li><a href="#node=member-14">Member 14</a> — weight 3</li><li><a href="#node=member-15">Member 15</a> — weight 2</li><li><a href="#node=member-16">Member 16</a> — weight 4</li><li><a href="#node=member-19">Member 19</a> — weight 2</li><li><a href="#node=member-20">Member 20</a> — weight 1</li><li><a href="#node=member-21">Member 21</a> — weight 1</li><li><a href="#node=member-24">Member 24</a> — weight 4</li><li><a href="#node=member-27">Member 27</a> — weight 2</li><li><a href="#node=member-28">Member 28</a> — weight 4</li><li><a href="#node=member-29">Member 29</a> — weight 2</li><li><a href="#node=member-30">Member 30</a> — weight 2</li><li><a href="#node=member-31">Member 31</a> — weight 3</li><li><a href="#node=member-32">Member 32</a> — weight 4</li><li><a href="#node=member-33">Member 33</a> — weight 5</li><li><a href="#node=member-23">Member 23</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html">NetworkX dataset reference</a></p>'
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.karate_club_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 225.8436003704225
+      "y": -43.52778620289445
+    data:
+      dataset: karate
+      sourceNode: 33
+      degree: 17
+      weightedDegree: 48
+      club: Officer
+    extensions: {}
+edges:
+  - id: karate-e1
+    from: member-1
+    to: member-2
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e2
+    from: member-1
+    to: member-3
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: karate-e3
+    from: member-1
+    to: member-4
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e4
+    from: member-1
+    to: member-5
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e5
+    from: member-1
+    to: member-6
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e6
+    from: member-1
+    to: member-7
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e7
+    from: member-1
+    to: member-8
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e8
+    from: member-1
+    to: member-9
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e9
+    from: member-1
+    to: member-11
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e10
+    from: member-1
+    to: member-12
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e11
+    from: member-1
+    to: member-13
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: karate-e12
+    from: member-1
+    to: member-14
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e13
+    from: member-1
+    to: member-18
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e14
+    from: member-1
+    to: member-20
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e15
+    from: member-1
+    to: member-22
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e16
+    from: member-1
+    to: member-32
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e17
+    from: member-2
+    to: member-3
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: karate-e18
+    from: member-2
+    to: member-4
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e19
+    from: member-2
+    to: member-8
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e20
+    from: member-2
+    to: member-14
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: karate-e21
+    from: member-2
+    to: member-18
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: karate-e22
+    from: member-2
+    to: member-20
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e23
+    from: member-2
+    to: member-22
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e24
+    from: member-2
+    to: member-31
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e25
+    from: member-3
+    to: member-4
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e26
+    from: member-3
+    to: member-8
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e27
+    from: member-3
+    to: member-9
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: karate-e28
+    from: member-3
+    to: member-10
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: karate-e29
+    from: member-3
+    to: member-14
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e30
+    from: member-3
+    to: member-28
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e31
+    from: member-3
+    to: member-29
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e32
+    from: member-3
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e33
+    from: member-4
+    to: member-8
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e34
+    from: member-4
+    to: member-13
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e35
+    from: member-4
+    to: member-14
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e36
+    from: member-5
+    to: member-7
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e37
+    from: member-5
+    to: member-11
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e38
+    from: member-6
+    to: member-7
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: karate-e39
+    from: member-6
+    to: member-11
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e40
+    from: member-6
+    to: member-17
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e41
+    from: member-7
+    to: member-17
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e42
+    from: member-9
+    to: member-31
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e43
+    from: member-9
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e44
+    from: member-9
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e45
+    from: member-10
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e46
+    from: member-14
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e47
+    from: member-15
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e48
+    from: member-15
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e49
+    from: member-16
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e50
+    from: member-16
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e51
+    from: member-19
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: karate-e52
+    from: member-19
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e53
+    from: member-20
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: karate-e54
+    from: member-21
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e55
+    from: member-21
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: karate-e56
+    from: member-23
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e57
+    from: member-24
+    to: member-26
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: karate-e58
+    from: member-24
+    to: member-28
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e59
+    from: member-24
+    to: member-30
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e60
+    from: member-24
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: karate-e61
+    from: member-24
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e62
+    from: member-25
+    to: member-26
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e63
+    from: member-25
+    to: member-28
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e64
+    from: member-25
+    to: member-32
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e65
+    from: member-26
+    to: member-32
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 7
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 7
+    extensions: {}
+  - id: karate-e66
+    from: member-27
+    to: member-30
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e67
+    from: member-27
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e68
+    from: member-28
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e69
+    from: member-29
+    to: member-32
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e70
+    from: member-29
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e71
+    from: member-30
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e72
+    from: member-30
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: karate-e73
+    from: member-31
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e74
+    from: member-31
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: karate-e75
+    from: member-32
+    to: member-33
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e76
+    from: member-32
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: karate-e77
+    from: member-33
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: karate-e78
+    from: member-23
+    to: member-34
+    label: ""
+    type: club-tie
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+data:
+  description: Zachary's observed karate-club network. The source includes post-split club membership and interaction-context weights. Member labels are anonymized numbers.
+  source:
+    release: networkx-3.4.2
+    sha256: 2145605953149916941b6f14d0acc1fbed03b4a2dd0850f3e78b6427af56e26b
+    url: https://raw.githubusercontent.com/networkx/networkx/networkx-3.4.2/networkx/generators/social.py
+    function: karate_club_graph
+    license: BSD-3-Clause
+  reference: W. W. Zachary, An Information Flow Model for Conflict and Fission in Small Groups, Journal of Anthropological Research 33, 1977, pp. 452–473.
+  directed: false
+  annotations: Freshmind graph-derived summaries and internal navigation links; no character biographies or historical descriptions are imported.
+extensions: {}
+view:
+  focus: member-1
+  radius: 2
+  wholeGraph: true
+  backlinks: true
+  lenses:
+    zoom: 1.5
+    hyperbolic: 0
+    rotation: 0
+  canvas:
+    zoom: 1

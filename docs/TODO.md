@@ -47,12 +47,14 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.3.4 Verify radius/backlink/degree limits, centering, expansion, collapse and hide behavior with the selection model.
   - [x] 2.3.5 Add Ctrl+Shift+↑/↓ graph spacing (also Ctrl+↑/↓), Ctrl+Shift+←/→ focus + context, and Ctrl+Shift+Option/Alt+↑/↓ / Ctrl+Shift+1 canvas zoom/reset controls, keeping view controls synchronized and text entry unaffected.
   - [x] 2.3.6 Separate graph-distance zoom from canvas scaling, expose both controls and preserve inverse interaction, centering and physical coordinates through their composition.
-  - [x] 2.3.7 Add horizontal two-finger scroll for focus + context, preserving vertical/pinch canvas zoom, text-editor input and graph/navigation state.
+  - [x] 2.3.7 Map vertical scrolling to graph spacing, horizontal two-finger scrolling to focus + context and pinch/Ctrl+wheel to canvas zoom, preserving text-editor input and graph/navigation state.
   - [x] 2.3.8 Adapt the reference `keys.txt` into a user key map and accessible browser help, showing implemented commands and documenting changes from Java.
+  - [x] 2.3.9 Add Ctrl+Shift+Option/Alt+←/→ view rotation, retaining physical positions, upright labels and navigation state.
 - [x] 2.4 Port labeling and the associated editors.
   - [x] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
   - [x] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.
   - [x] 2.4.3 Implement commit/cancel and field validation through shared commands; preserve focus and position inline editors using renderer geometry.
+  - [x] 2.4.4 Restore the FM2014 node-content popup: modeless/resizable text and safe HTML, selection tracking, internal navigation, keyboard close/focus return and editing through the shared inspector.
 
 The main browser supports inline labels and full inspector edits, including annotations, URLs, visual overrides and metadata. Shared commands validate the entire draft before mutation, preserve stable IDs and restore graph focus. See the [user key map](KEYMAP.md) and [completion record](DONE.md).
 - [x] 2.5 Create native YAML persistence and migrate the legacy examples.

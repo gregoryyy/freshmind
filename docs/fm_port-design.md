@@ -155,7 +155,9 @@ Freeze this ordering when preselection begins so spring motion cannot reshuffle 
 | Ctrl+Shift+↑ / Ctrl+Shift+↓ (also Ctrl+↑ / Ctrl+↓) | Increase/decrease graph spacing by a factor of 1.2 through the panel limits (0.15–5). |
 | Ctrl+Shift+← / Ctrl+Shift+→ | Decrease/increase focus + context strength by five percentage points, clamped to 0–100. |
 | Ctrl+Shift+Option/Alt+↑ / Ctrl+Shift+Option/Alt+↓ | Increase/decrease whole-canvas scale by a factor of 1.2, independently of graph spacing. |
+| Ctrl+Shift+Option/Alt+← / Ctrl+Shift+Option/Alt+→ | Rotate counterclockwise/clockwise by 5° through the existing rotation lens; labels stay upright. |
 | Ctrl+Shift+1 | Reset canvas scale to 100%, retaining the viewport center. |
+| Vertical scroll / pinch | Vertical scrolling changes graph spacing; pinch (Ctrl+wheel) scales the canvas around the pointer. Horizontal scrolling changes focus/context. |
 | F2 | Edit the selected label. |
 
 Changing between node and edge navigation clears the previous preselection and builds the requested kind from the anchor. Repeated arrow commands within that kind use the relative directions above. Keep the Java default **2,500 ms inactivity timeout**, which cancels candidates; make it configurable and allow disabling it. No automatic confirmation on timeout in the initial profile.
@@ -175,6 +177,8 @@ The new TouchGraph API `centerOn(node, updateFocus = false)` centers a stored no
 ## 2.4 Labels, details and editors
 
 Retain multiline node labels, semantic-type styling, relation labels, annotation details, URLs and hidden-link counts. Wrap node text to a configurable width and measure the resulting lines to size the actual shape. Store the original label string; visual line wrapping does not rewrite it.
+
+Node content uses a modeless, resizable popup, restoring the intent of FM2014's hint frame. Space opens it for the selected node, and selection changes update it while open. Escape or Space in the content closes it and restores graph focus; buttons and links retain native keyboard activation. It displays committed plain text or allowlisted HTML and the stored resource URL/path, with internal links delegated to graph navigation. It anchors near the node on opening, clamps to the viewport and stays still during layout motion so text remains readable. Relation details remain in the inspector. The reusable `bindNodeDetails` UI lives under `src/fm/ui/`, with caller-owned editing and navigation callbacks and explicit cleanup.
 
 Provide focused node and relation editors backed by commands. Node editing exposes label, semantic type, visual type/override, URL, weight and annotation. Relation editing exposes label, semantic type, endpoints/direction, visual settings, weight and length. Offer reverse as an explicit operation. Editing labels leaves IDs unchanged and duplicate labels are valid.
 

@@ -10,3 +10,5 @@ export { bindKeymap } from "./keymap.js";
 export type { KeymapOptions } from "./keymap.js";
 export { bindZoomControls } from "./zoom-controls.js";
 export type { ZoomControlElements } from "./zoom-controls.js";
+export { bindNodeDetails } from "./node-details.js";
+export type { NodeDetailsOptions } from "./node-details.js";

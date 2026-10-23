@@ -1,0 +1,893 @@
+format: freshmind
+version: 1
+title: Florentine families
+types:
+  format: freshmind-types
+  version: 1
+  id: public-networks
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+    marriage:
+      label: marriage
+      visual: default
+    club-tie:
+      label: club-tie
+      visual: default
+    coappearance:
+      label: coappearance
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#708274"
+        width: 1
+        dash: solid
+      arrow:
+        placement: none
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: Acciaiuoli
+    label: Acciaiuoli
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Acciaiuoli</strong> has 1 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Medici">Medici</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 160
+      "y": 0
+    data:
+      dataset: florentine
+      sourceNode: Acciaiuoli
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Medici
+    label: Medici
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Medici</strong> has 6 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Acciaiuoli">Acciaiuoli</a></li><li><a href="#node=Barbadori">Barbadori</a></li><li><a href="#node=Ridolfi">Ridolfi</a></li><li><a href="#node=Tornabuoni">Tornabuoni</a></li><li><a href="#node=Albizzi">Albizzi</a></li><li><a href="#node=Salviati">Salviati</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": 0
+    data:
+      dataset: florentine
+      sourceNode: Medici
+      degree: 6
+      weightedDegree: 6
+    extensions: {}
+  - id: Castellani
+    label: Castellani
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Castellani</strong> has 3 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Peruzzi">Peruzzi</a></li><li><a href="#node=Strozzi">Strozzi</a></li><li><a href="#node=Barbadori">Barbadori</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 175.68892924097173
+      "y": 84.60732912792383
+    data:
+      dataset: florentine
+      sourceNode: Castellani
+      degree: 3
+      weightedDegree: 3
+    extensions: {}
+  - id: Peruzzi
+    label: Peruzzi
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Peruzzi</strong> has 3 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Castellani">Castellani</a></li><li><a href="#node=Strozzi">Strozzi</a></li><li><a href="#node=Bischeri">Bischeri</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 143.40265442750874
+      "y": 179.82124096764684
+    data:
+      dataset: florentine
+      sourceNode: Peruzzi
+      degree: 3
+      weightedDegree: 3
+    extensions: {}
+  - id: Strozzi
+    label: Strozzi
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Strozzi</strong> has 4 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Castellani">Castellani</a></li><li><a href="#node=Peruzzi">Peruzzi</a></li><li><a href="#node=Ridolfi">Ridolfi</a></li><li><a href="#node=Bischeri">Bischeri</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 35.60334943301031
+      "y": 155.9884659490918
+    data:
+      dataset: florentine
+      sourceNode: Strozzi
+      degree: 4
+      weightedDegree: 4
+    extensions: {}
+  - id: Barbadori
+    label: Barbadori
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Barbadori</strong> has 2 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Castellani">Castellani</a></li><li><a href="#node=Medici">Medici</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -43.39158212148129
+      "y": 190.1109428754556
+    data:
+      dataset: florentine
+      sourceNode: Barbadori
+      degree: 2
+      weightedDegree: 2
+    extensions: {}
+  - id: Ridolfi
+    label: Ridolfi
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Ridolfi</strong> has 3 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Medici">Medici</a></li><li><a href="#node=Strozzi">Strozzi</a></li><li><a href="#node=Tornabuoni">Tornabuoni</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -143.4026544275087
+      "y": 179.82124096764687
+    data:
+      dataset: florentine
+      sourceNode: Ridolfi
+      degree: 3
+      weightedDegree: 3
+    extensions: {}
+  - id: Tornabuoni
+    label: Tornabuoni
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Tornabuoni</strong> has 3 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Medici">Medici</a></li><li><a href="#node=Ridolfi">Ridolfi</a></li><li><a href="#node=Guadagni">Guadagni</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -144.15501886438705
+      "y": 69.42139825880932
+    data:
+      dataset: florentine
+      sourceNode: Tornabuoni
+      degree: 3
+      weightedDegree: 3
+    extensions: {}
+  - id: Albizzi
+    label: Albizzi
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Albizzi</strong> has 3 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Medici">Medici</a></li><li><a href="#node=Ginori">Ginori</a></li><li><a href="#node=Guadagni">Guadagni</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -195
+      "y": 2.388061258337339e-14
+    data:
+      dataset: florentine
+      sourceNode: Albizzi
+      degree: 3
+      weightedDegree: 3
+    extensions: {}
+  - id: Salviati
+    label: Salviati
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Salviati</strong> has 2 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Medici">Medici</a></li><li><a href="#node=Pazzi">Pazzi</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -207.22283961755642
+      "y": -99.79325999703835
+    data:
+      dataset: florentine
+      sourceNode: Salviati
+      degree: 2
+      weightedDegree: 2
+    extensions: {}
+  - id: Pazzi
+    label: Pazzi
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Pazzi</strong> has 1 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Salviati">Salviati</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -99.7583682973974
+      "y": -125.09303719488474
+    data:
+      dataset: florentine
+      sourceNode: Pazzi
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Bischeri
+    label: Bischeri
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Bischeri</strong> has 3 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Peruzzi">Peruzzi</a></li><li><a href="#node=Strozzi">Strozzi</a></li><li><a href="#node=Guadagni">Guadagni</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -43.39158212148134
+      "y": -190.1109428754556
+    data:
+      dataset: florentine
+      sourceNode: Bischeri
+      degree: 3
+      weightedDegree: 3
+    extensions: {}
+  - id: Guadagni
+    label: Guadagni
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Guadagni</strong> has 4 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Tornabuoni">Tornabuoni</a></li><li><a href="#node=Albizzi">Albizzi</a></li><li><a href="#node=Bischeri">Bischeri</a></li><li><a href="#node=Lamberteschi">Lamberteschi</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 51.17981480995207
+      "y": -224.23341980181948
+    data:
+      dataset: florentine
+      sourceNode: Guadagni
+      degree: 4
+      weightedDegree: 4
+    extensions: {}
+  - id: Ginori
+    label: Ginori
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Ginori</strong> has 1 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Albizzi">Albizzi</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 99.75836829739734
+      "y": -125.09303719488479
+    data:
+      dataset: florentine
+      sourceNode: Ginori
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Lamberteschi
+    label: Lamberteschi
+    type: group
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.</p><p><strong>Lamberteschi</strong> has 1 recorded marriage links.</p><h3>Connected nodes</h3><ul><li><a href="#node=Guadagni">Guadagni</a></li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.florentine_families_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 175.6889292409718
+      "y": -84.60732912792372
+    data:
+      dataset: florentine
+      sourceNode: Lamberteschi
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+edges:
+  - id: florentine-e1
+    from: Acciaiuoli
+    to: Medici
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e2
+    from: Castellani
+    to: Peruzzi
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e3
+    from: Castellani
+    to: Strozzi
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e4
+    from: Castellani
+    to: Barbadori
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e5
+    from: Medici
+    to: Barbadori
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e6
+    from: Medici
+    to: Ridolfi
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e7
+    from: Medici
+    to: Tornabuoni
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e8
+    from: Medici
+    to: Albizzi
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e9
+    from: Medici
+    to: Salviati
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e10
+    from: Salviati
+    to: Pazzi
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e11
+    from: Peruzzi
+    to: Strozzi
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e12
+    from: Peruzzi
+    to: Bischeri
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e13
+    from: Strozzi
+    to: Ridolfi
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e14
+    from: Strozzi
+    to: Bischeri
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e15
+    from: Ridolfi
+    to: Tornabuoni
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e16
+    from: Tornabuoni
+    to: Guadagni
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e17
+    from: Albizzi
+    to: Ginori
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e18
+    from: Albizzi
+    to: Guadagni
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e19
+    from: Bischeri
+    to: Guadagni
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: florentine-e20
+    from: Guadagni
+    to: Lamberteschi
+    label: ""
+    type: marriage
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+data:
+  description: Recorded marriage links between Florentine families. The example is the 15-family network represented by NetworkX; it is not a complete history of Florence.
+  source:
+    release: networkx-3.4.2
+    sha256: 2145605953149916941b6f14d0acc1fbed03b4a2dd0850f3e78b6427af56e26b
+    url: https://raw.githubusercontent.com/networkx/networkx/networkx-3.4.2/networkx/generators/social.py
+    function: florentine_families_graph
+    license: BSD-3-Clause
+  reference: "R. L. Breiger and P. E. Pattison, Cumulated social roles: The duality of persons and their algebras, Social Networks 8(3), 1986, pp. 215–256."
+  directed: false
+  annotations: Freshmind graph-derived summaries and internal navigation links; no character biographies or historical descriptions are imported.
+extensions: {}
+view:
+  focus: Medici
+  radius: 2
+  wholeGraph: true
+  backlinks: true
+  lenses:
+    zoom: 1.5
+    hyperbolic: 0
+    rotation: 0
+  canvas:
+    zoom: 1

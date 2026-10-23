@@ -316,6 +316,10 @@ export class TGPanel {
   getHyperbolic(): number { return this.hyperLens.getValue(); }
   /** Rotates the viewing transform in radians without rotating physical coordinates. */
   setRotation(radians: number): void { this.rotateLens.angle = radians; this.repaintAfterMove(); }
+  /** Returns the viewing rotation in radians. */
+  getRotation(): number { return this.rotateLens.angle; }
+  /** Returns keyboard focus to the mounted graph after an application action; headless panels do nothing. */
+  focusGraph(): void { this.svg?.node()?.focus({preventScroll: true}); }
   addGraphListener(listener: GraphListener): void { this.listeners.add(listener); }
   removeGraphListener(listener: GraphListener): void { this.listeners.delete(listener); }
   fireResetEvent(): void { for (const listener of this.listeners) listener.graphReset?.(); }

@@ -11,7 +11,7 @@ import type { FreshmindNavigation } from "./controller.js";
 import type { NavigationHost, NavigationItem } from "./types.js";
 
 let nextId = 0;
-/** Attaches graph-scoped keyboard/horizontal-wheel input and live status; returns complete cleanup. */
+/** Attaches graph-scoped keyboard/scroll input and live status; returns complete cleanup. */
 export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigation: FreshmindNavigation, externalStatus?: HTMLElement): () => void {
   const status = externalStatus ?? document.createElement("div");
   if (!externalStatus) {
@@ -66,12 +66,18 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     // Embedded editors keep native scrolling, bypassing inherited canvas zoom as well.
     if (editable(event.target)) { event.stopPropagation(); return; }
     if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey
-      || !Number.isFinite(event.deltaX) || !Number.isFinite(event.deltaY) || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
-    // Sensitivity is one percentage point per 20 pixels. Wheels may emit lines/pages.
-    // Each event adjusts the lens or canvas, following its dominant scroll axis.
-    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? svg.clientWidth || 800 : 1;
+      || !Number.isFinite(event.deltaX) || !Number.isFinite(event.deltaY) || (!event.deltaX && !event.deltaY)) return;
     event.preventDefault(); event.stopImmediatePropagation();
-    navigation.adjustFocusContext(event.deltaX * unit / 20);
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+      // Sensitivity is one percentage point per 20 pixels. Wheels may emit lines/pages.
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? svg.clientWidth || 800 : 1;
+      navigation.adjustFocusContext(event.deltaX * unit / 20);
+    } else {
+      // Retain D3's normal wheel sensitivity, applying it to graph distances instead of the canvas.
+      // Ctrl+wheel (trackpad pinch) bypasses this handler and reaches D3's canvas transform.
+      const sensitivity = event.deltaMode === 1 ? .05 : event.deltaMode ? 1 : .002;
+      navigation.zoomBy(2 ** Math.max(-10, Math.min(10, -event.deltaY * sensitivity)));
+    }
   };
   let disposed = false, focusPaintQueued = false;
   // Removing a focused SVG item fires blur during D3's DOM join. Paint after that join has finished.
