@@ -2,6 +2,13 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Graph-spacing and canvas keyboard mapping — 2026-10-23
+
+- Assigned Ctrl+Shift+↑/↓ to graph spacing and Ctrl+Shift+Option/Alt+↑/↓ to canvas zoom. Ctrl+↑/↓ remains a graph-spacing alias; Ctrl+Shift+←/→ still adjusts focus/context and Ctrl+Shift+1 resets canvas scale. The triple-modifier arrow chord is the explicit exception to ignoring Alt input; other Alt chords retain normal behavior.
+- Updated both pages' help/tooltips, shared key-map rows, generated user guide, README and current design. Earlier DONE entries record the mappings at their implementation dates; this entry supersedes their canvas-arrow bindings.
+- Regression checks cover independent zoom levels, limits/repeat, unchanged physical coordinates and selection, candidate timeout rearming and editor isolation.
+- Verification: type checking, library/demo builds, **83 Node tests** and **15 targeted Chrome navigation/zoom tests** pass.
+
 ## Reusable browser controls and original artwork — 2026-10-23
 
 - Moved key-map help and graph/canvas zoom bindings from `demo/` into `src/fm/ui/`, exported through `fm4/fm/ui` and `fm4/fm`. Applications supply elements and receive explicit disposers. Optional help CSS ships separately; core entry points remain independent of DOM modules. Demo pages retain only element lookup and lifecycle wiring.

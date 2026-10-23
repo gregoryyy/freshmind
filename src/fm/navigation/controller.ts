@@ -249,7 +249,12 @@ export class FreshmindNavigation {
   }
   /** Handles graph-scoped keys, including explicit Ctrl view shortcuts; other modifier chords pass through. */
   handleKey(event: NavigationKey): boolean {
-    if (this.disposed || event.metaKey || event.altKey || event.isComposing) return false;
+    if (this.disposed || event.metaKey || event.isComposing) return false;
+    if (event.altKey) {
+      if (!event.ctrlKey || !event.shiftKey || (event.key !== "ArrowUp" && event.key !== "ArrowDown")) return false;
+      this.canvasZoomBy(1.2 ** (event.key === "ArrowUp" ? 1 : -1));
+      return true;
+    }
     if (event.ctrlKey) {
       if (!event.shiftKey && (event.key === "Enter" || event.key === " ")) {
         const item = this.host.getSelection(), action = event.key === "Enter" ? this.actions.edit : this.actions.editDetails;
@@ -257,7 +262,7 @@ export class FreshmindNavigation {
       }
       if (event.shiftKey) {
         if (event.key === "ArrowLeft" || event.key === "ArrowRight") this.adjustFocusContext(event.key === "ArrowRight" ? 5 : -5);
-        else if (event.key === "ArrowUp" || event.key === "ArrowDown") this.canvasZoomBy(1.2 ** (event.key === "ArrowUp" ? 1 : -1));
+        else if (event.key === "ArrowUp" || event.key === "ArrowDown") this.zoomBy(1.2 ** (event.key === "ArrowUp" ? 1 : -1));
         else if (event.code === "Digit1" || event.key === "1" || event.key === "!") this.setCanvasZoom(1);
         else return false;
         return true;

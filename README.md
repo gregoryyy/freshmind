@@ -67,13 +67,13 @@ The view shortcuts are:
 
 | Control | Action |
 | --- | --- |
-| **Ctrl+↑/↓** | Increase/decrease graph spacing by a factor of 1.2. |
+| **Ctrl+Shift+↑/↓** (also **Ctrl+↑/↓**) | Increase/decrease graph spacing by a factor of 1.2. |
 | **Ctrl+Shift+←/→** | Decrease/increase focus + context strength by five percentage points. |
-| **Ctrl+Shift+↑/↓** | Increase/decrease canvas scale by a factor of 1.2, around the viewport center. |
+| **Ctrl+Shift+Option/Alt+↑/↓** | Increase/decrease canvas scale by a factor of 1.2, around the viewport center. |
 | **Ctrl+Shift+1** | Reset canvas scale to exactly 100%, retaining the viewport center. |
 | **+ / −** (also **=**) | Additional canvas zoom shortcuts. |
 
-The canvas arrow/reset chords follow FM2014's `FreshKeys.java`. The port keeps Ctrl+↑/↓ for graph spacing and uses horizontal Ctrl+Shift arrows for focus/context; the Java snapshot used Alt+↑/↓ and Alt+←/→ respectively, and its +/− keys changed graph spacing. Both zoom levels are independent and limited to 15–500%; focus/context ranges from 0–100. Keyboard shortcuts require graph focus; scrolling applies while the pointer is over the graph. Both work without a selected node and preserve selection, the neighborhood and candidate order. Holding a key repeats the adjustment; the sliders and canvas percentage follow view changes. Horizontal scrolling is continuous (20 pixel-equivalent units per percentage point, with line/page deltas normalized). Editor input and unregistered modifier chords retain their normal behavior.
+Graph spacing uses Ctrl+Shift+↑/↓, with Ctrl+↑/↓ retained as an alias. Canvas zoom uses Ctrl+Shift+Option/Alt+↑/↓; Option is the Alt modifier on macOS. Horizontal Ctrl+Shift arrows adjust focus/context. The Java snapshot used Alt+↑/↓ and Alt+←/→ for graph spacing and fisheye strength, Ctrl+Shift+↑/↓ for canvas zoom, and +/− for graph spacing. Canvas reset retains its Ctrl+Shift+1 binding. Both zoom levels are independent and limited to 15–500%; focus/context ranges from 0–100. Keyboard shortcuts require graph focus; scrolling applies while the pointer is over the graph. Both work without a selected node and preserve selection, the neighborhood and candidate order. Holding a key repeats the adjustment; the sliders and canvas percentage follow view changes. Horizontal scrolling is continuous (20 pixel-equivalent units per percentage point, with line/page deltas normalized). Editor input and unregistered modifier chords retain their normal behavior.
 
 The example's `window.graphBrowser` exposes its `FreshmindPanel` for experimentation, including the inherited TouchGraph API.
 
