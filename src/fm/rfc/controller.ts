@@ -9,13 +9,14 @@
 import type {Node, Edge} from "../../tg/model.js";
 import type {LayoutForce} from "../../tg/layout.js";
 import {angularGapRms, applyRfcForces, branchImpulse} from "./forces.js";
-import type {RfcHost, RfcSettings, RfcState, RfcCenterState} from "./types.js";
+import type {RfcHost, RfcSettings, RfcState, RfcCenterState, RfcClusterSettings} from "./types.js";
 import {validateCoordinateWeights} from "./metric.js";
 import {rfcForcePresets} from "./presets.js";
 import {RfcStabilizer} from "./stabilization.js";
 import type {RfcStabilizationOptions} from "./stabilization.js";
 import {projectRfcStructure, constrainedStar} from "./structures.js";
 import type {RfcProjection} from "./structures.js";
+import {applyClusterLink,applyClusterCompactness} from "./clusters.js";
 import {analyzeSubstructure} from "../structures/model.js";
 import type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "../structures/model.js";
 
@@ -26,6 +27,7 @@ export class RfcController {
   private focus:Node|null=null;
   private readonly centers=new Map<Node,string|null>();
   private settings:RfcSettings;
+  private clusterSettings:RfcClusterSettings={rigidity:1};
   private disposed=false;
   private signature="";
   private readonly listeners=new Set<(state:RfcState)=>void>();
@@ -69,15 +71,15 @@ export class RfcController {
       if(projection)projections.push(projection);
       centers.push({focusId:node.getID()!,structureId:id,kind:id?this.definition(id)!.kind:"star",active,
         memberIds:projection?.nodes.map(n=>n.getID()!)??[],edgeIds:projection?.edges.map(e=>e.getID()!)??[],
-        angularGapRms:projection&&projection.definition?.kind!=="dag"?angularGapRms(projection.rootStar):null});
+        angularGapRms:projection&&projection.definition?.kind!=="dag"&&projection.definition?.kind!=="cluster"?angularGapRms(projection.rootStar):null});
     }
     const primary=focus&&this.host.getGES().contains(focus)?this.project(focus,entries[0][1]):null;
     return {focusId:focus?.getID()??null,enabled:entries.length>0,active:centers.some(c=>c.active),centers,
       branchIds:primary?.rootStar.branches.map(b=>b.node.getID()!)??[],
       memberIds:[...new Set(projections.flatMap(p=>p.nodes.map(n=>n.getID()!)))],
       radialEdgeIds:[...new Set(projections.flatMap(p=>p.edges.map(e=>e.getID()!)))],
-      angularGapRms:primary&&primary.definition?.kind!=="dag"?angularGapRms(primary.rootStar):0,
-      settings:{...this.settings,coordinateWeights:{...this.settings.coordinateWeights}},stabilization:this.stabilizer.getState()};
+      angularGapRms:primary&&primary.definition?.kind!=="dag"&&primary.definition?.kind!=="cluster"?angularGapRms(primary.rootStar):0,
+      settings:{...this.settings,coordinateWeights:{...this.settings.coordinateWeights}},clusterSettings:{...this.clusterSettings},stabilization:this.stabilizer.getState()};
   }
   /** Activation/settings/topology subscriptions; motion diagnostics remain polled after each batch. */
   addListener(listener:(state:RfcState)=>void):()=>void {this.listeners.add(listener);return()=>{this.listeners.delete(listener);};}
@@ -112,7 +114,7 @@ export class RfcController {
     if(this.centers.has(node)){this.removeFocus(node);return false;}
     this.addFocus(node);return true;
   }
-  /** Activates a stored tree/DAG exclusively by default; additive activation retains the other centers. */
+  /** Activates a stored structure exclusively by default; additive activation retains the other centers. */
   activateSubstructure(id:string,additive=false):void {
     this.assertAlive();const definition=this.definition(id);if(!definition)throw new Error(`Unknown substructure: ${id}`);
     const root=[...this.host.getCompleteEltSet().getNodes()].find(n=>n.getID()===definition.rootId)!;this.visible(root);
@@ -131,6 +133,13 @@ export class RfcController {
     this.assertAlive();const next=this.validate({...this.settings,...changes});
     if(JSON.stringify(next)===JSON.stringify(this.settings))return;
     this.settings=next;this.stabilizer.forgetMotion();this.host.resetDamper();this.publish();
+  }
+  /** Changes cluster rigidity without altering star/tree forces or pinning any member. */
+  configureClusters(changes:Partial<RfcClusterSettings>):void {
+    this.assertAlive();const next={...this.clusterSettings,...changes};
+    if(!Number.isFinite(next.rigidity)||next.rigidity<0||next.rigidity>2)throw new RangeError("Cluster rigidity must be finite and in 0–2");
+    if(next.rigidity===this.clusterSettings.rigidity)return;
+    this.clusterSettings=next;this.stabilizer.forgetMotion();this.host.resetDamper();this.publish();
   }
   /** Drops deleted roots/invalidated definitions, suspending hidden roots independently. */
   reconcile():void {
@@ -160,9 +169,10 @@ export class RfcController {
     if(!projections.length){this.stabilizer.reset();return;}
     const contributors=projections.map(p=>{
       const nodes=new Set<Node>();
-      const tree=p.definition?.kind!=="dag";
-      if(this.settings.springMultiplier>1||(tree&&this.settings.radialStiffness>0))
+      const tree=!p.definition||p.definition.kind==="tree",cluster=p.definition?.kind==="cluster";
+      if(this.settings.springMultiplier>1||((tree||cluster)&&this.settings.radialStiffness>0)||(cluster&&this.clusterSettings.rigidity>0))
         for(const edge of p.edges){nodes.add(edge.from);nodes.add(edge.to);}
+      if(cluster&&this.settings.radialStiffness>0&&p.nodes.length>1)for(const node of p.nodes)nodes.add(node);
       if(tree&&this.settings.angularStiffness>0)for(const star of p.stars)if(star.branches.length>1)
         for(const branch of star.branches){nodes.add(star.center);nodes.add(branch.node);}
       if(this.settings.radialStiffness>0)for(const [node] of p.targets)if(node!==p.root&&(p.targetWeights.get(node)??0)>0){nodes.add(p.root);nodes.add(node);}
@@ -175,8 +185,14 @@ export class RfcController {
     } else {
       const ownership=new Map<Node,number>();for(const nodes of contributors)for(const n of nodes)ownership.set(n,(ownership.get(n)??0)+1);
       const radial=new Map<Edge,{center:Node;branch:Node;tree:boolean}>(),angular=new Map<Node,Set<Edge>>();
+      const clusterEdges=new Map<Edge,number>();
       for(const p of projections) {
-        const tree=p.definition?.kind!=="dag";
+        const tree=!p.definition||p.definition.kind==="tree";
+        if(p.definition?.kind==="cluster") {
+          const degrees=new Map<Node,number>();for(const edge of p.edges)for(const node of [edge.from,edge.to])degrees.set(node,(degrees.get(node)??0)+1);
+          for(const edge of p.edges)clusterEdges.set(edge,Math.max(clusterEdges.get(edge)??1,degrees.get(edge.from)!,degrees.get(edge.to)!));
+          continue;
+        }
         for(const star of p.stars)for(const branch of star.branches) {
           const prior=radial.get(branch.edge);if(!prior)radial.set(branch.edge,{center:star.center,branch:branch.node,tree});else if(tree)prior.tree=true;
           if(!angular.has(star.center))angular.set(star.center,new Set());angular.get(star.center)!.add(branch.edge);
@@ -187,6 +203,10 @@ export class RfcController {
         {...this.settings,angularStiffness:0,radialStiffness:pair.tree?this.settings.radialStiffness:0},rigidity);
       for(const [center,edges] of angular)applyRfcForces(constrainedStar(center,edges,this.settings.coordinateWeights),
         {...this.settings,springMultiplier:1,radialStiffness:0},rigidity,ownership);
+      for(const [edge,degree] of clusterEdges)applyClusterLink(edge,{...this.settings,
+        springMultiplier:radial.has(edge)?1:this.settings.springMultiplier,
+        radialStiffness:radial.get(edge)?.tree?0:this.settings.radialStiffness},rigidity,degree,radial.get(edge)?.tree?0:this.clusterSettings.rigidity);
+      for(const p of projections)if(p.definition?.kind==="cluster")applyClusterCompactness(p.nodes,this.settings,rigidity,ownership);
       for(const p of projections)for(const [node,target] of p.targets)if(node!==p.root) {
         const scale=this.settings.radialStiffness*rigidity/Math.max(ownership.get(node)??1,ownership.get(p.root)??1)*(p.targetWeights.get(node)??0),weights=this.settings.coordinateWeights;
         branchImpulse(p.root,node,-scale*weights.x*(node.x-p.root.x-target.x*this.settings.radialLength),

@@ -7,7 +7,7 @@
  */
 import {FreshNode} from "../model.js";
 import type {FreshmindPanel} from "../panel.js";
-import {spanningTree,validateSubstructure} from "../structures/model.js";
+import {spanningTree,validateSubstructure,clusterStructure} from "../structures/model.js";
 import type {GraphSubstructure} from "../structures/model.js";
 import {clusterGraph,clusterToSubstructure} from "../clustering/index.js";
 import type {ClusterResult} from "../clustering/index.js";
@@ -42,13 +42,15 @@ export function bindSubstructureControls(panel:FreshmindPanel,e:SubstructureCont
     const node=panel.getSelection(),valid=node instanceof FreshNode,structure=graph.getSubstructure(e.structure.value);
     e.create.disabled=!valid;e.activate.disabled=e.remove.disabled=e.save.disabled=!structure;
     e.addMember.disabled=e.removeMember.disabled=e.reroot.disabled=!valid||!structure;
+    e.reroot.textContent=structure?.kind==="cluster"?"Use selected node as representative":"Use selected node as root";
     e.memberships.textContent=valid?`Member of: ${graph.getNodeSubstructures(node).map(s=>s.label).join(", ")||"none"}.`:"";
     e.resolution.disabled=e.algorithm.value!=="louvain";
   };
-  const choose=(id:string)=>{update();e.structure.value=id;update();};
-  const build=(kind:"tree"|"dag",rootId:string,nodeIds:string[],id:string,label:string):GraphSubstructure=>{
+  const choose=(id:string)=>{update();e.structure.value=id;const s=panel.getCompleteEltSet().getSubstructure(id);if(s){e.name.value=s.label;e.kind.value=s.kind;}update();};
+  const build=(kind:GraphSubstructure["kind"],rootId:string,nodeIds:string[],id:string,label:string):GraphSubstructure=>{
     const graph=panel.getCompleteEltSet();
     if(kind==="tree")return spanningTree(graph,nodeIds,rootId,id,label);
+    if(kind==="cluster")return clusterStructure(graph,nodeIds,rootId,id,label);
     const members=new Set(nodeIds),edgeIds=[...graph.getEdges()].filter(edge=>edge.from!==edge.to&&members.has(edge.from.getID()!)&&members.has(edge.to.getID()!)).map(edge=>edge.getID()!);
     return validateSubstructure(graph,{id,label,kind,rootId,nodeIds,edgeIds});
   };
@@ -64,14 +66,14 @@ export function bindSubstructureControls(panel:FreshmindPanel,e:SubstructureCont
   };
   on(e.structure,"change",()=>{const s=panel.getCompleteEltSet().getSubstructure(e.structure.value);if(s){e.name.value=s.label;e.kind.value=s.kind;}update();});
   action(e.create,()=>{
-    const root=selected(),id=nextId(),kind=e.kind.value;if(kind!=="tree"&&kind!=="dag")throw new Error("Choose tree or DAG");
+    const root=selected(),id=nextId(),kind=e.kind.value;if(kind!=="tree"&&kind!=="dag"&&kind!=="cluster")throw new Error("Choose tree, DAG or cluster");
     const s=build(kind,root.getID()!,[...panel.getGES().getNodes()].map(n=>n.getID()!),id,e.name.value.trim()||`${root.getLabel()} ${kind}`);
     panel.getCompleteEltSet().setSubstructure(s);choose(s.id);message(`Saved ${s.kind}: ${s.nodeIds.length} members.`);
   });
-  action(e.save,()=>{const s=definition(),kind=e.kind.value;if(kind!=="tree"&&kind!=="dag")throw new Error("Choose tree or DAG");const label=e.name.value.trim()||s.label;panel.getCompleteEltSet().setSubstructure(kind===s.kind?{...s,label}:build(kind,s.rootId,s.nodeIds,s.id,label));message("Saved substructure settings.");});
+  action(e.save,()=>{const s=definition(),kind=e.kind.value;if(kind!=="tree"&&kind!=="dag"&&kind!=="cluster")throw new Error("Choose tree, DAG or cluster");const label=e.name.value.trim()||s.label;panel.getCompleteEltSet().setSubstructure(kind===s.kind?{...s,label}:build(kind,s.rootId,s.nodeIds,s.id,label));message("Saved substructure settings.");});
   action(e.addMember,()=>{const s=definition(),id=selected().getID()!;s.nodeIds=[...new Set([...s.nodeIds,id])];panel.getCompleteEltSet().setSubstructure(build(s.kind,s.rootId,s.nodeIds,s.id,s.label));message("Added selected node to substructure.");});
-  action(e.removeMember,()=>{const s=definition(),id=selected().getID()!;if(id===s.rootId)throw new Error("Choose another root before removing this node");s.nodeIds=s.nodeIds.filter(n=>n!==id);panel.getCompleteEltSet().setSubstructure(build(s.kind,s.rootId,s.nodeIds,s.id,s.label));message("Removed selected node from substructure.");});
-  action(e.reroot,()=>{const s=definition(),id=selected().getID()!;panel.getCompleteEltSet().setSubstructure({...s,rootId:id});message("Changed substructure root.");});
+  action(e.removeMember,()=>{const s=definition(),id=selected().getID()!;if(id===s.rootId)throw new Error(`Choose another ${s.kind==="cluster"?"representative":"root"} before removing this node`);s.nodeIds=s.nodeIds.filter(n=>n!==id);panel.getCompleteEltSet().setSubstructure(build(s.kind,s.rootId,s.nodeIds,s.id,s.label));message("Removed selected node from substructure.");});
+  action(e.reroot,()=>{const s=definition(),id=selected().getID()!;panel.getCompleteEltSet().setSubstructure({...s,rootId:id});message(s.kind==="cluster"?"Changed cluster representative.":"Changed substructure root.");});
   action(e.activate,()=>{const s=definition();show(s);message(`Reinforcing ${s.label}.`);});
   action(e.remove,()=>{panel.getCompleteEltSet().removeSubstructure(definition().id);message("Removed substructure definition.");});
   const preview=()=>{

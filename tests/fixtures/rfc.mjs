@@ -2,6 +2,7 @@
  * TypeScript port by Gregor Heinrich using Codex GPT-6.1. */
 import {TGLayout} from "fm4/core";
 import {FreshGraph, FreshNode, FreshEdge, RfcController, collectFocalStar, angularGapRms, weightedDistance, rfcForcePresets} from "fm4/fm/core";
+import {RfcStabilizer as HistoricalStabilizer} from "./rfc-stabilization-v1.mjs";
 
 export const rfcScenarios = ["crowded-star", "unequal-radii", "wide-labels"];
 
@@ -68,9 +69,12 @@ export function runRfcScenario(name, reinforced, batches = 250, profile = "tree"
 }
 
 /** Replay the stiff movable-center fixture at 2 ms per integration step (20 ms per batch). */
-export function adaptiveRun(enabled, name="crowded-star", batches=400) {
+export function adaptiveRun(enabled, name="crowded-star", batches=400, {historical=false}={}) {
   let time=0;
-  const {graph,center,layout,rfc}=rfcFixture(name,true,"tree",{enabled,now:()=>{time+=2;return time;}});
+  const clock=()=>{time+=2;return time;};
+  const {graph,center,layout,rfc}=rfcFixture(name,true,"tree",{enabled:historical?false:enabled,now:clock});
+  const legacy=historical?new HistoricalStabilizer({enabled,now:clock}):null;
+  if(legacy)layout.addForce(()=>legacy.apply(rfc.getState().memberIds.map(id=>graph.findNode(id))));
   center.fixed=false;rfc.configure({radialStiffness:2});
   const trace=[];
   for(let batch=1;batch<=batches;batch++) {
@@ -79,7 +83,7 @@ export function adaptiveRun(enabled, name="crowded-star", batches=400) {
     if(batch%10===0) {
       const state=rfc.getState(),star=collectFocalStar(graph,center,state.settings.coordinateWeights);
       const radialLengthRms=Math.hypot(...star.branches.map(b=>weightedDistance(b.node,center,star.coordinateWeights)-state.settings.radialLength))/Math.sqrt(star.branches.length);
-      trace.push({batch,time:batch*20,movement,...state.stabilization,angularGapRms:state.angularGapRms,radialLengthRms});
+      trace.push({batch,time:batch*20,movement,...(legacy?.getState()??state.stabilization),angularGapRms:state.angularGapRms,radialLengthRms});
     }
   }
   const result={enabled,name,trace,settings:rfc.getState().settings,positions:[...graph.getNodes()].map(n=>[n.x,n.y])};

@@ -158,10 +158,12 @@ test("deterministic Louvain separates dense communities; components retain topol
   assert.equal(graph.nodeCount(),11);assert.equal(graph.edgeCount(),21);assert.equal(graph.getSubstructures().length,0);
 });
 
-test("cluster conversion preserves all semantic edges, verifies freshness and accepts chosen roots",()=>{
+test("cluster conversion retains cyclic memberships, supports explicit trees, verifies freshness and accepts representatives",()=>{
   const graph=communities(),result=clusterGraph(graph),cluster=result.clusters[0];
-  graph.findNode("a").x+=20;const tree=clusterToSubstructure(graph,result,cluster.id,"chosen","Chosen","c");
-  assert.equal(tree.rootId,"c");assert.equal(tree.edgeIds.length,tree.nodeIds.length-1);graph.setSubstructure(tree);assert.equal(graph.edgeCount(),21);
+  graph.findNode("a").x+=20;const stored=clusterToSubstructure(graph,result,cluster.id,"chosen","Chosen","c");
+  assert.equal(stored.rootId,"c");assert.equal(stored.kind,"cluster");assert.equal(stored.edgeIds.length,10);graph.setSubstructure(stored);assert.equal(graph.edgeCount(),21);
+  const tree=clusterToSubstructure(graph,result,cluster.id,"tree","Tree","c","tree");
+  assert.equal(tree.kind,"tree");assert.equal(tree.edgeIds.length,tree.nodeIds.length-1);
   assert.throws(()=>clusterToSubstructure(graph,result,cluster.id,"bad","Bad","isolate"));
   graph.addEdge(new FreshEdge(graph.findNode("a"),graph.findNode("isolate"),{id:"new"}));assert.throws(()=>clusterToSubstructure(graph,result,cluster.id,"stale"),/detect clusters again/);
 });

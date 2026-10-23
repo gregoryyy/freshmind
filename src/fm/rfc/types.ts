@@ -12,12 +12,17 @@ import type { RfcStabilizationState } from "./stabilization.js";
 
 /** Coefficients λx and λy in D² = λx·dx² + λy·dy²; values are weights, not axis scale factors. */
 export interface CoordinateWeights { x: number; y: number; }
+/** Cluster-only controls, independent of the original star/tree settings and recorded experiments. */
+export interface RfcClusterSettings {
+  /** Two-sided internal spring stiffness in 0–2; zero retains soft compactness/link caps alone. */
+  rigidity:number;
+}
 export interface RfcSettings {
   /** Reference attraction multiplier in 1–100; extra weighted attraction uses (multiplier − 1). */
   springMultiplier: number;
-  /** Stiffness of a two-sided spring toward radialLength, in 0–2; zero disables the length constraint. */
+  /** Length/template stiffness in 0–2; clusters use one-sided link limits and centroid compactness. */
   radialStiffness: number;
-  /** Desired focal branch length in weighted physical units, in 10–1000. */
+  /** Focal length in 10–1000 weighted units; clusters also derive their soft extent from this length. */
   radialLength: number;
   /** Equation (1)'s angular spring constant, in 0–100,000. */
   angularStiffness: number;
@@ -35,6 +40,7 @@ export interface RfcState {
   radialEdgeIds: string[];
   angularGapRms: number;
   settings: RfcSettings;
+  clusterSettings:RfcClusterSettings;
   stabilization: RfcStabilizationState;
   /** Primary-first active/stored centers; hidden centers remain suspended independently. */
   centers: RfcCenterState[];
@@ -42,7 +48,7 @@ export interface RfcState {
   memberIds: string[];
 }
 export interface RfcCenterState {
-  focusId:string; structureId:string|null; kind:"star"|"tree"|"dag"; active:boolean;
+  focusId:string; structureId:string|null; kind:"star"|"tree"|"dag"|"cluster"; active:boolean;
   memberIds:string[]; edgeIds:string[]; angularGapRms:number|null;
 }
 export interface RfcHost {

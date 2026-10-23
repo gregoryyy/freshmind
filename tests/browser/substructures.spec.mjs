@@ -137,7 +137,7 @@ test("manual tree membership editing persists through YAML without saving active
   expect(errors).toEqual([]);
 });
 
-test("cluster controls identify communities and convert a chosen cluster into a stored RFC tree",async({page})=>{
+test("cluster controls identify communities and retain their internal links in a stored RFC cluster",async({page})=>{
   const errors=await ready(page,"karate");await page.getByText("Graph clusters",{exact:true}).click();
   await page.getByLabel("Clustering scope",{exact:true}).selectOption("complete");
   await page.getByLabel("Community resolution",{exact:true}).fill("0");
@@ -151,7 +151,7 @@ test("cluster controls identify communities and convert a chosen cluster into a 
   expect(await page.locator("#cluster-select option").count()).toBeGreaterThan(1);await expect(page.locator("#cluster-members")).toContainText("nodes:");
   await page.getByRole("button",{name:"Render cluster with RFC",exact:true}).click();
   const group=await page.evaluate(()=>window.graphBrowser.getCompleteEltSet().getSubstructures()[0]);
-  expect(group.kind).toBe("tree");expect(group.nodeIds.length).toBeLessThan(34);expect(group.edgeIds).toHaveLength(group.nodeIds.length-1);
+  expect(group.kind).toBe("cluster");expect(group.nodeIds.length).toBeLessThan(34);expect(group.edgeIds.length).toBeGreaterThan(group.nodeIds.length-1);
   expect((await state(page)).centers[0].structureId).toBe(group.id);
   expect(await page.evaluate(()=>window.graphBrowser.getCompleteEltSet().edgeCount())).toBe(78);expect(errors).toEqual([]);
 });

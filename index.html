@@ -25,7 +25,7 @@
           <details class="sidebar-section" id="files-section" open><summary>Graph files</summary>
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <label class="control-label" for="example-graph">Load example</label>
-          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="substructures">Trees and DAG</option><option value="weighted-tree">Weighted tree</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
+          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="substructures">Trees and DAG</option><option value="weighted-tree">Weighted tree</option><option value="clusters">Overlapping clusters</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
           <input type="file" id="open-graph-files" accept=".yaml,.yml" multiple hidden />
           <p id="file-status" class="control-help" role="status"></p>
           </details>
@@ -46,7 +46,7 @@
           <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
           </details>
           <details class="sidebar-section" id="rfc-section"><summary><span>Reinforcement Focus + Context</span> <output id="rfc-indicator">On</output></summary>
-            <p class="control-help">Reinforces the selected node's visible branches in the physical layout.</p>
+            <p class="control-help">Reinforces visible branches or stored trees, DAGs and clusters in the physical layout.</p>
             <div class="editor-actions"><button type="button" id="rfc-activate">Reinforce selected node</button><button type="button" id="rfc-clear" disabled>Remove RFC</button></div>
             <div class="editor-actions"><button type="button" id="rfc-add-center">Add RFC center</button></div>
             <label class="control-label" for="rfc-centers">RFC centers</label><select id="rfc-centers"></select>
@@ -56,26 +56,29 @@
             <div class="editor-actions"><button type="button" id="rfc-tree" aria-pressed="true">Tree structure</button><button type="button" id="rfc-attraction" aria-pressed="false">Attraction only</button></div>
             <label class="control-label" for="rfc-length">Target focal length</label><input id="rfc-length" type="number" min="10" max="1000" step="any" value="120" required />
             <label class="control-label" for="rfc-radial">Radial stiffness</label><input id="rfc-radial" type="number" min="0" max="2" step="0.1" value="1" required />
-            <p class="control-help">Radial springs resist stretching and compression around the target length. Zero disables this constraint.</p>
+            <p class="control-help">Trees resist stretching and compression; DAGs use layered targets. Clusters limit long internal links and encourage compactness. Zero disables these constraints.</p>
             <label class="control-label" for="rfc-springs">Attraction multiplier</label><input id="rfc-springs" type="number" min="1" max="100" step="0.5" value="1" required />
             <label class="control-label" for="rfc-angular">Angular stiffness</label><input id="rfc-angular" type="number" min="0" max="100000" step="10" value="10000" required />
+            <label class="control-label" for="rfc-cluster-rigidity">Cluster rigidity</label><input id="rfc-cluster-rigidity" type="number" min="0" max="2" step="0.1" value="1" required />
+            <p class="control-help">Cluster links resist compression and stretching. Zero retains only the soft grouping forces. Trees and DAGs use their own constraints.</p>
             <label class="control-label" for="rfc-x-weight">Horizontal coordinate weight</label><input id="rfc-x-weight" type="number" min="0.01" max="100" step="any" value="1" required />
             <label class="control-label" for="rfc-y-weight">Vertical coordinate weight</label><input id="rfc-y-weight" type="number" min="0.01" max="100" step="any" value="1" required />
             <p class="control-help">Weights of 1 use ordinary distances. Horizontal 0.25 with vertical 1 favors a focal layout twice as wide.</p>
             <p id="rfc-status" class="control-help" role="status" aria-live="polite">RFC off.</p>
             <p class="control-help">When RFC is on, press Return or double-click the current center again to reinforce it. Yellow halos mark the reinforced nodes and relations.</p>
             <label class="pin-control"><input id="rfc-adaptive-damping" type="checkbox" /> Experimental adaptive damping</label>
-            <p class="control-help">Detect repeated reversals and damp focal motion. After 0.5 seconds of quiet movement, ease damping off over 3 seconds.</p>
+            <p class="control-help">Watch each focal node for repeated reversals and circulation. After 0.5 seconds of quiet motion, recover over 3 seconds; renewed movement rolls recovery back.</p>
+            <p id="rfc-stabilization-status" class="control-help">Damping off; detection is disabled.</p>
             </details>
             <details class="navigation-options"><summary>Substructures</summary>
               <label class="control-label" for="rfc-structure">Substructure</label><select id="rfc-structure"></select>
               <label class="control-label" for="rfc-structure-name">Substructure name</label><input id="rfc-structure-name" type="text" />
-              <label class="control-label" for="rfc-structure-kind">Structure kind</label><select id="rfc-structure-kind"><option value="tree">Tree</option><option value="dag">DAG</option></select>
+              <label class="control-label" for="rfc-structure-kind">Structure kind</label><select id="rfc-structure-kind"><option value="tree">Tree</option><option value="dag">DAG</option><option value="cluster">Cluster</option></select>
               <div class="editor-actions"><button type="button" id="rfc-structure-create">Create from visible graph</button><button type="button" id="rfc-structure-save">Save structure settings</button></div>
               <div class="editor-actions"><button type="button" id="rfc-structure-add">Add selected node to structure</button><button type="button" id="rfc-structure-remove-member">Remove selected node from structure</button></div>
               <div class="editor-actions"><button type="button" id="rfc-structure-root">Use selected node as root</button><button type="button" id="rfc-structure-render">Reinforce substructure</button><button type="button" id="rfc-structure-delete">Delete substructure</button></div>
               <p id="rfc-memberships" class="control-help"></p>
-              <p class="control-help">Membership is saved with the graph. Trees select spanning relations; DAGs require directed acyclic relations reachable from the root. Other semantic relations remain in the graph.</p>
+              <p class="control-help">Membership is saved with the graph. Trees select spanning relations; DAGs require rooted directed acyclic relations. Clusters keep internal links and use a weighted centroid, without angular targets. Other semantic relations remain in the graph.</p>
             </details>
             <details class="navigation-options"><summary>Graph clusters</summary>
               <label class="control-label" for="cluster-algorithm">Clustering algorithm</label><select id="cluster-algorithm"><option value="louvain">Louvain communities</option><option value="components">Connected components</option></select>

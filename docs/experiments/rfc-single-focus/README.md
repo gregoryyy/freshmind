@@ -68,3 +68,13 @@ This separate opt-in experiment retains the configured force constants. It detec
 | wide-labels | on | 0.00000 | 0.02089 | 4 | 0.978 |
 
 Damping preserves force constants and equilibria in the local idealization, but changes the transient path and may settle at another layout. The inherited global damper still cools and can freeze a residual error. Restoring local gain to one does not prove an accurate equilibrium or general convergence. No proprietary data is used.
+
+## Diagrams
+
+![Single-focus layout, angular error and length error](comparison.svg)
+
+*Identical physical axes within each fixture compare plain TouchGraph, attraction RFC and length-constrained tree RFC. Error traces show the corresponding trade-offs.* [Full SVG](comparison.svg)
+
+![Original adaptive-damping comparison](../../papers/figures/rfc/07-adaptive-damping.svg)
+
+*Paper Figure 7. Historical Experiment B uses the frozen v1 detector. The [current stability comparison](../rfc-stability/README.md) adds per-step motion and v1/v2 detector evaluation separately.* [PDF](../../papers/figures/rfc/07-adaptive-damping.pdf)

@@ -13,7 +13,8 @@ import {record, keys, text} from "../config/validation.js";
 export interface GraphSubstructure {
   id: string;
   label: string;
-  kind: "tree" | "dag";
+  kind: "tree" | "dag" | "cluster";
+  /** Hierarchical root for trees/DAGs; activation/navigation representative for clusters. */
   rootId: string;
   nodeIds: string[];
   edgeIds: string[];
@@ -37,20 +38,21 @@ function identities(value:unknown,path:string):string[] {
 }
 /**
  * Validates a rooted connected tree (ignoring semantic direction) or a rooted directed
- * acyclic graph. A DAG may have shared descendants; every member must be reachable.
- * @throws {TypeError} For unknown references, cycles, disconnected membership or extra fields.
+ * acyclic graph, or an unordered cluster. Cluster membership may contain cycles or
+ * disconnected members; its representative is not a hierarchical root.
+ * @throws {TypeError} For unknown references, invalid kind-specific topology or extra fields.
  */
 export function validateSubstructure(graph:ImmutableGraphEltSet,value:unknown):GraphSubstructure {
   const raw=record(value,"substructure");keys(raw,["id","label","kind","rootId","nodeIds","edgeIds"],"substructure");
   text(raw.id,"substructure.id");text(raw.label,"substructure.label");text(raw.rootId,"substructure.rootId");
-  if(raw.kind!=="tree"&&raw.kind!=="dag")throw new TypeError("substructure.kind: expected tree or dag");
+  if(raw.kind!=="tree"&&raw.kind!=="dag"&&raw.kind!=="cluster")throw new TypeError("substructure.kind: expected tree, dag or cluster");
   const definition:GraphSubstructure={id:raw.id,label:raw.label,kind:raw.kind,rootId:raw.rootId,
     nodeIds:identities(raw.nodeIds,"substructure.nodeIds"),edgeIds:identities(raw.edgeIds,"substructure.edgeIds")};
   const topology=analyzeSubstructure(graph,definition);
   if(topology.levels.size!==definition.nodeIds.length)throw new TypeError("Substructure members must be reachable from their root");
   return definition;
 }
-/** Resolves selected semantic relations and derives BFS tree depth or longest-path DAG ranks. */
+/** Resolves selected relations; clusters have no hierarchy and expose neutral zero ranks. */
 export function analyzeSubstructure(graph:ImmutableGraphEltSet,definition:GraphSubstructure):SubstructureTopology {
   const allNodes=new Map([...graph.getNodes()].map(n=>[n.getID()!,n])),allEdges=new Map([...graph.getEdges()].map(e=>[e.getID()!,e]));
   const nodes=new Map<string,Node>(),edges=new Map<string,Edge>();
@@ -65,7 +67,9 @@ export function analyzeSubstructure(graph:ImmutableGraphEltSet,definition:GraphS
     if(definition.kind==="tree")next.get(to)!.push(from);
   }
   const levels=new Map<string,number>([[definition.rootId,0]]);
-  if(definition.kind==="tree") {
+  if(definition.kind==="cluster") {
+    for(const id of nodes.keys())levels.set(id,0);
+  } else if(definition.kind==="tree") {
     if(edges.size!==nodes.size-1)throw new TypeError("A tree requires exactly one fewer structural relation than members");
     const queue=[definition.rootId];for(let i=0;i<queue.length;i++)for(const id of next.get(queue[i])!)if(!levels.has(id)){levels.set(id,levels.get(queue[i])!+1);queue.push(id);}
   } else {
@@ -80,6 +84,12 @@ export function analyzeSubstructure(graph:ImmutableGraphEltSet,definition:GraphS
     if(visited!==nodes.size)throw new TypeError("A DAG cannot contain directed cycles");
   }
   return {nodes,edges,levels};
+}
+/** Stores an unordered member set with all current internal non-loop semantic relations. */
+export function clusterStructure(graph:ImmutableGraphEltSet,nodeIds:Iterable<string>,representativeId:string,id:string,label=id):GraphSubstructure {
+  const members=new Set(nodeIds),edgeIds=[...graph.getEdges()]
+    .filter(edge=>edge.from!==edge.to&&members.has(edge.from.getID()!)&&members.has(edge.to.getID()!)).map(edge=>edge.getID()!);
+  return validateSubstructure(graph,{id,label,kind:"cluster",rootId:representativeId,nodeIds:[...members],edgeIds});
 }
 /**
  * Selects a deterministic BFS spanning tree within the supplied members. Extra semantic

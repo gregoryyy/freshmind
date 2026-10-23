@@ -40,10 +40,11 @@ export function projectRfcStructure(complete:ImmutableGraphEltSet,visible:Immuta
   const edges=definitionEdges.filter(e=>visible.contains(e)&&visible.contains(e.from)&&visible.contains(e.to)&&rfcRelationStrength(e)>0);
   const eligible=new Set(edges.flatMap(e=>[e.from,e.to]));
   if(rfcNodeImportance(root)>0)eligible.add(root);
+  if(definition.kind==="cluster")for(const node of topology.nodes.values())if(rfcNodeImportance(node)>0)eligible.add(node);
   const targetWeights=definition.kind==="dag"?rfcTargetStrengths(root,definitionEdges):new Map<Node,number>();
   for(const [node,strength] of targetWeights)if(strength>0)eligible.add(node);
   const nodes=[...topology.nodes.values()].filter(n=>visible.contains(n)&&eligible.has(n));
-  const rootStar=constrainedStar(root,edges,weights),targets=new Map<Node,{x:number;y:number}>();
+  const rootStar=constrainedStar(root,definition.kind==="cluster"?[]:edges,weights),targets=new Map<Node,{x:number;y:number}>();
   if(definition.kind==="dag") {
     const layers=new Map<number,string[]>();
     for(const [id,rank] of topology.levels){if(!layers.has(rank))layers.set(rank,[]);layers.get(rank)!.push(id);}

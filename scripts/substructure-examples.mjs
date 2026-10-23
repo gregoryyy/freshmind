@@ -1,7 +1,7 @@
 /* Freshmind. Apache-2.0. Copyright (c) 2026 Gregor Heinrich.
  * Prepared by Gregor Heinrich using Codex GPT-6.1. */
 import {mkdir,writeFile} from "node:fs/promises";
-import {FreshGraph,FreshNode,FreshEdge,FreshmindDocument,TypeRegistry,freshmind2014Configuration} from "fm4/fm/core";
+import {FreshGraph,FreshNode,FreshEdge,FreshmindDocument,TypeRegistry,freshmind2014Configuration,clusterStructure} from "fm4/fm/core";
 import {serializeDocument} from "fm4/fm/io";
 
 const graph=new FreshGraph();
@@ -39,3 +39,22 @@ const weightedDocument=new FreshmindDocument(new TypeRegistry(freshmind2014Confi
 weightedDocument.view={focus:"root",wholeGraph:true,radius:3,lenses:{zoom:1,hyperbolic:0,rotation:0},canvas:{zoom:1}};
 await writeFile(new URL("weighted-tree.fm.yaml",out),serializeDocument(weightedDocument));
 console.log("Wrote synthetic importance tree (7 nodes, 6 relations; zero importance retained as context).");
+
+// Two cyclic memberships share one node; boundary relations remain ordinary context.
+const clusters=new FreshGraph();
+for(const [id,label,x,y,weight] of [
+  ["a","Research",-230,-70,4],["b","Methods",-330,50,1],["c","Results",-200,160,1],
+  ["shared","Shared concept",0,30,2],["d","Applications",210,-70,1],["e","Systems",320,60,1],["f","Evaluation",190,170,1],
+  ["outside","External context",0,-230,1],["zero","Zero-importance member",-390,-160,0]
+])clusters.addNode(new FreshNode(id,label,{type:id==="a"||id==="d"?"project":"idea",weight,position:{x,y},annotation:{format:"text",text:
+  id==="a"?"Activate Research cluster and Applications cluster in Substructures. Each keeps all six links of a four-node clique, instead of a spanning tree. Shared concept belongs to both. External context has no reinforcement; the zero-weight member remains in the saved Research cluster without RFC forces.":"Synthetic cluster example. The representative controls activation, while forces use the weighted centroid."}}));
+for(const [prefix,ids] of [["a",["a","b","c","shared"]],["b",["shared","d","e","f"]]])
+  for(let i=0;i<ids.length;i++)for(let j=i+1;j<ids.length;j++)clusters.addEdge(new FreshEdge(clusters.findNode(ids[i]),clusters.findNode(ids[j]),{id:`${prefix}${i}${j}`,label:"internal",weight:prefix==="a"&&i===0?20:10,length:90}));
+for(const [id,from,to] of [["zero-link","a","zero"],["context-1","shared","outside"],["context-2","outside","zero"]])
+  clusters.addEdge(new FreshEdge(clusters.findNode(from),clusters.findNode(to),{id,label:"context",length:90}));
+clusters.setSubstructure(clusterStructure(clusters,["a","b","c","shared","zero"],"a","research-cluster","Research cluster"));
+clusters.setSubstructure(clusterStructure(clusters,["shared","d","e","f"],"d","applications-cluster","Applications cluster"));
+const clusterDocument=new FreshmindDocument(new TypeRegistry(freshmind2014Configuration),clusters);clusterDocument.title="RFC overlapping clusters (synthetic)";
+clusterDocument.view={focus:"a",wholeGraph:true,radius:3,lenses:{zoom:1,hyperbolic:0,rotation:0},canvas:{zoom:.85}};
+await writeFile(new URL("clusters.fm.yaml",out),serializeDocument(clusterDocument));
+console.log("Wrote overlapping cluster example (9 nodes, 15 relations; two cyclic memberships).");

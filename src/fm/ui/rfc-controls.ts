@@ -18,6 +18,7 @@ export interface RfcControlElements {
   angularStiffness: HTMLInputElement;
   radialStiffness?: HTMLInputElement;
   radialLength?: HTMLInputElement;
+  clusterRigidity?: HTMLInputElement;
   treePreset?: HTMLButtonElement;
   attractionPreset?: HTMLButtonElement;
   adaptiveDamping?: HTMLInputElement;
@@ -28,6 +29,7 @@ export interface RfcControlElements {
   yWeight?: HTMLInputElement;
   status: HTMLElement;
   indicator?: HTMLElement;
+  stabilizationStatus?:HTMLElement;
 }
 
 /** Binds application-owned controls to transient reinforcement; dispose before removing the panel. */
@@ -52,6 +54,14 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
       list.value=state.centers.some(c=>c.focusId===previous)?previous:state.focusId??"";
     }
     if (elements.adaptiveDamping) elements.adaptiveDamping.checked = state.stabilization.enabled;
+    if(elements.stabilizationStatus) {
+      const s=state.stabilization,gain=s.gain>=.001?s.gain.toFixed(3):s.gain.toExponential(1);
+      const text=!s.enabled?"Damping off; detection is disabled.":!s.detections?"Damping on · watching focal motion.":
+        `${s.phase==="recovering"?"Restoring motion":s.phase==="damping"?"Damping":"Damping on"} · ${s.detections} detections · gain ${gain} · last ${s.lastTrigger}: ${s.detectedNodeIds.slice(0,4).join(", ")}${s.detectedNodeIds.length>4?", …":""}${s.recoveryBackoffs?` · ${s.recoveryBackoffs} recovery backoffs`:""}.`;
+      if(elements.stabilizationStatus.textContent!==text)elements.stabilizationStatus.textContent=text;
+    }
+    if(elements.clusterRigidity&&elements.clusterRigidity.ownerDocument.activeElement!==elements.clusterRigidity)
+      elements.clusterRigidity.value=String(state.clusterSettings.rigidity);
     for (const [key, button] of [["tree", elements.treePreset], ["attraction", elements.attractionPreset]] as const)
       button?.setAttribute("aria-pressed", String(Object.entries(rfcForcePresets[key]).every(([field, value]) => state.settings[field as keyof typeof rfcForcePresets.tree] === value)));
     for (const key of fields) {
@@ -74,6 +84,13 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
   elements.activate.addEventListener("click", activate);
   elements.clear.addEventListener("click", clear);
   const removers: (() => void)[] = [];
+  if(elements.clusterRigidity) {
+    const input=elements.clusterRigidity,reset=()=>input.setCustomValidity("");
+    const change=()=>{reset();try{rfc.configureClusters({rigidity:input.valueAsNumber});}
+      catch(error){input.setCustomValidity(error instanceof Error?error.message:String(error));input.reportValidity();}};
+    input.addEventListener("input",reset);input.addEventListener("change",change);
+    removers.push(()=>{input.removeEventListener("input",reset);input.removeEventListener("change",change);input.setCustomValidity("");});
+  }
   const addCenter=()=>{panel.getNavigation().addRfcCenter();panel.focusGraph();};
   const removeCenter=()=>{if(elements.centers?.value)rfc.removeFocus(elements.centers.value);panel.focusGraph();};
   elements.addCenter?.addEventListener("click",addCenter);elements.removeCenter?.addEventListener("click",removeCenter);

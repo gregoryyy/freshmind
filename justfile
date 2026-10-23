@@ -52,7 +52,31 @@ rfc-experiment output="docs/experiments/rfc-single-focus": build
 rfc-multifocus-experiment output="docs/experiments/rfc-multifocus": build
     node scripts/rfc-multifocus-experiment.mjs {{quote(output)}}
 
-# Regenerate the synthetic persistent tree/DAG membership example.
+# Compare archived/global and current/per-node damping on detector probes and two-center layouts.
+rfc-stability-experiment output="docs/experiments/rfc-stability": build
+    node scripts/rfc-stability-experiment.mjs {{quote(output)}}/v1 --historical
+    node scripts/rfc-stability-experiment.mjs {{quote(output)}}/v2
+    python3 scripts/rfc-stability-figures.py {{quote(output)}}
+
+# Redraw recorded stability probes, layouts and motion/gain/cooling comparisons; requires matplotlib/numpy.
+rfc-stability-figures output="docs/experiments/rfc-stability":
+    python3 scripts/rfc-stability-figures.py {{quote(output)}}
+
+# Matched damping/rigidity, importance and cluster comparisons (780 runs), reports and eight diagrams.
+rfc-followup-experiment output="docs/experiments/rfc-followup": build
+    node scripts/rfc-followup-experiment.mjs {{quote(output)}}
+    python3 scripts/rfc-followup-report.py {{quote(output)}}
+    python3 scripts/rfc-followup-figures.py {{quote(output)}}
+
+# Redraw recorded follow-up layouts and parameter comparisons; requires matplotlib/numpy.
+rfc-followup-figures output="docs/experiments/rfc-followup":
+    python3 scripts/rfc-followup-figures.py {{quote(output)}}
+
+# Rebuild follow-up narratives/tables from the recorded inputs without rerunning layout.
+rfc-followup-report output="docs/experiments/rfc-followup":
+    python3 scripts/rfc-followup-report.py {{quote(output)}}
+
+# Regenerate the synthetic tree/DAG, weighted-tree and overlapping-cluster examples.
 substructure-examples: build
     node scripts/substructure-examples.mjs
 

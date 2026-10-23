@@ -254,6 +254,9 @@ export class FreshmindPanel extends TGPanel {
     const edgeIds = new Set(state?.active ? state.radialEdgeIds : []);
     this.presentation.paintRfcHalos(layer, [...this.getGES().getNodes()].filter(node => nodeIds.has(node.getID()!)) as FreshNode[],
       edges.filter(edge => edgeIds.has(edge.getID()!)), geometries, node => this.getNodeStyle(node), edge => this.getEdgeStyle(edge));
+    const nodes=new Map([...this.getGES().getNodes()].map(node=>[node.getID()!,node as FreshNode])),byId=new Map(edges.map(edge=>[edge.getID()!,edge]));
+    this.presentation.paintClusterRegions(layer,(state?.centers??[]).filter(c=>c.active&&c.kind==="cluster"&&c.memberIds.length)
+      .map(c=>({id:c.structureId!,nodes:c.memberIds.map(id=>nodes.get(id)!),edges:c.edgeIds.map(id=>byId.get(id)!)})),geometries,node=>this.getNodeStyle(node));
     this.presentation.paintEdges(layer,edges,geometries,e=>this.getEdgeStyle(e),this.selectedEdge,{
       hover:edge=>{this.setMouseOverE(edge);this.repaint();},
       select:edge=>this.setSelectEdge(edge===this.selectedEdge?null:edge)

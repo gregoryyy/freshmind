@@ -152,9 +152,11 @@ test("adaptive damping is an opt-in experiment, reports detected motion and disa
   const errors=await ready(page),original=await record(page);
   const toggle=page.getByLabel("Experimental adaptive damping",{exact:true});
   await expect(toggle).not.toBeChecked();expect((await state(page)).stabilization.enabled).toBe(false);
+  await expect(page.locator("#rfc-stabilization-status")).toContainText("detection is disabled");
   await page.getByRole("button",{name:"Reinforce selected node",exact:true}).click();
   const settings=(await state(page)).settings;
   await toggle.check();expect((await state(page)).stabilization.enabled).toBe(true);
+  await expect(page.locator("#rfc-stabilization-status")).toContainText("watching focal motion");
   await page.evaluate(()=>{
     const p=window.graphBrowser,node=p.findNode("branch-0"),rfc=p.getRfc();p.tgLayout.stop();
     for(let i=0;i<10;i++){node.x=i%2?0:4;rfc.apply(p.getGES(),1);}
@@ -162,7 +164,10 @@ test("adaptive damping is an opt-in experiment, reports detected motion and disa
   });
   expect((await state(page)).stabilization.gain).toBeLessThan(1);
   await expect(page.locator("#rfc-status")).toContainText("damping oscillation");
+  await expect(page.locator("#rfc-stabilization-status")).toContainText("detections");
+  await expect(page.locator("#rfc-stabilization-status")).toContainText("branch-0");
   await toggle.uncheck();expect((await state(page)).stabilization).toMatchObject({enabled:false,gain:1,phase:"steady",detections:0});
+  await expect(page.locator("#rfc-stabilization-status")).toContainText("detection is disabled");
   expect((await state(page)).settings).toEqual(settings);expect(await record(page)).toEqual(original);expect(errors).toEqual([]);
 });
 
@@ -191,16 +196,18 @@ test("reusable RFC control bindings dispose without clearing separately owned co
     const panel = new FreshmindPanel(undefined, {autoStart: false});
     const center = panel.addNode("center"), branch = panel.addNode("branch"); panel.addEdge(center, branch); panel.setSelect(center);
     const activate = document.createElement("button"), clear = document.createElement("button"), status = document.createElement("p");
-    const springMultiplier = document.createElement("input"), angularStiffness = document.createElement("input");
-    springMultiplier.type = angularStiffness.type = "number";
-    const dispose = bindRfcControls(panel, {activate, clear, status, springMultiplier, angularStiffness});
+    const springMultiplier = document.createElement("input"), angularStiffness = document.createElement("input"), clusterRigidity=document.createElement("input");
+    springMultiplier.type = angularStiffness.type = clusterRigidity.type = "number";
+    const dispose = bindRfcControls(panel, {activate, clear, status, springMultiplier, angularStiffness,clusterRigidity});
     activate.click(); const active = panel.getRfc().getState().enabled;
+    panel.getRfc().configureClusters({rigidity:.5});
     dispose(); dispose(); clear.click(); springMultiplier.value = "10"; springMultiplier.dispatchEvent(new Event("change"));
+    clusterRigidity.value="2";clusterRigidity.dispatchEvent(new Event("change"));
     const retained = panel.getRfc().getState(); panel.getRfc().setFocus(null); panel.repaintAfterMove();
     const staleStatus = status.textContent;
     activate.click(); const removed = !panel.getRfc().getState().enabled;
     panel.destroy();
-    return {active, retained: retained.enabled && retained.settings.springMultiplier === 1, staleStatus, removed};
+    return {active, retained: retained.enabled && retained.settings.springMultiplier === 1&&retained.clusterSettings.rigidity===.5, staleStatus, removed};
   });
   expect(result).toEqual({active: true, retained: true, staleStatus: "RFC: center · 1 visible branch.", removed: true});
 });

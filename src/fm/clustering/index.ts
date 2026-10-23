@@ -10,7 +10,7 @@ import louvain from "graphology-communities-louvain";
 import {connectedComponents} from "graphology-components";
 import type {ImmutableGraphEltSet} from "../../tg/graph.js";
 import type {Edge} from "../../tg/model.js";
-import {spanningTree} from "../structures/model.js";
+import {spanningTree,clusterStructure} from "../structures/model.js";
 import type {GraphSubstructure} from "../structures/model.js";
 
 export interface ClusterOptions {
@@ -77,9 +77,11 @@ export function clusterGraph(graph:ImmutableGraphEltSet,options:ClusterOptions={
   });
   return {algorithm,resolution,weighted,signature:clusteringSignature(graph,weighted),clusters,modularity};
 }
-/** Converts a chosen, still-current cluster to persistent tree membership without altering semantic edges. */
-export function clusterToSubstructure(graph:ImmutableGraphEltSet,result:ClusterResult,clusterId:string,id:string,label=id,rootId?:string):GraphSubstructure {
+/** Stores a current proposal as a cluster, or explicitly as a spanning tree, without altering semantic edges. */
+export function clusterToSubstructure(graph:ImmutableGraphEltSet,result:ClusterResult,clusterId:string,id:string,label=id,rootId?:string,kind:"cluster"|"tree"="cluster"):GraphSubstructure {
   if(clusteringSignature(graph,result.weighted)!==result.signature)throw new Error("Graph changed; detect clusters again");
   const cluster=result.clusters.find(c=>c.id===clusterId);if(!cluster)throw new Error("Unknown cluster");
+  if(kind==="cluster")return clusterStructure(graph,cluster.nodeIds,rootId??cluster.rootId,id,label);
+  if(kind!=="tree")throw new TypeError("Cluster conversion requires cluster or tree kind");
   return spanningTree(graph,cluster.nodeIds,rootId??cluster.rootId,id,label,new Set(cluster.edgeIds));
 }

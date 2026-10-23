@@ -54,3 +54,23 @@ The tail motion metric samples actual single integration steps, avoiding the ten
 Run `just rfc-multifocus-experiment`; `just rfc-figures` generates Figures 8–11, and `just rfc-paper` regenerates the full paper workflow. JSON records all 120 matched runs. Initial `*.fm.yaml` files embed the visual types and both stored tree definitions. Main-browser **Load example → RFC** offers all three families.
 
 For an interactive run, pause motion before loading. In **Substructures**, choose **Left tree** and **Reinforce substructure**, then **Right tree** and **Reinforce substructure** again (this action adds the stored tree without removing the first). Activate only one for a single-focus condition. Use the Tree structure preset, coordinate weights (1, 1), and leave Experimental adaptive damping off. Files store membership and initial coordinates, not activation or force settings. Roots are initially movable; pin a0 and b0 in the inspector for the pinned control. Resume motion after setting the condition. Browser timing and layout batches need not reproduce the fixed-budget JSON exactly.
+
+## Diagrams
+
+These recorded-data drawings use the first seed for layout panels and matched traces; the final motion plot shows all 120 runs. They retain fixed-force RFC with adaptive local damping off.
+
+![Joined tree foci and error traces](../../papers/figures/rfc/08-joined-trees.svg)
+
+*Paper Figure 8. Neither, one and both tree foci on shared physical axes, with angle/length traces.* [PDF](../../papers/figures/rfc/08-joined-trees.pdf)
+
+![Leaf-connected tree foci and error traces](../../papers/figures/rfc/09-leaf-connected-trees.svg)
+
+*Paper Figure 9. Extra semantic leaf connections compete with the reinforced trees.* [PDF](../../papers/figures/rfc/09-leaf-connected-trees.pdf)
+
+![Shared subtree and error traces](../../papers/figures/rfc/10-shared-subtree.svg)
+
+*Paper Figure 10. Shared membership distinguishes individual-tree and merged-neighborhood errors.* [PDF](../../papers/figures/rfc/10-shared-subtree.pdf)
+
+![Motion across all multiple-focus runs](../../papers/figures/rfc/11-multifocus-motion.svg)
+
+*Paper Figure 11. Per-step tail motion across all seeds/root conditions retains the oscillatory outliers. The [stability follow-up](../rfc-stability/README.md) compares damping on selected starts separately.* [PDF](../../papers/figures/rfc/11-multifocus-motion.pdf)

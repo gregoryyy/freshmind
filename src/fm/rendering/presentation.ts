@@ -12,6 +12,9 @@ import type { NodeStyle, EdgeStyle } from "../config/types.js";
 import type { EdgeGeometry } from "./geometry.js";
 import { createNodeOutline, dashArray } from "./shapes.js";
 import type { NodeOutline } from "./shapes.js";
+import {createClusterBoundary} from "./cluster-boundary.js";
+
+export interface ClusterRegion {id:string;nodes:FreshNode[];edges:FreshEdge[];}
 
 export interface EdgeInteraction {
   hover(edge: FreshEdge | null): void;
@@ -22,6 +25,19 @@ let nextHaloId = 0;
 export class FreshmindPresentation {
   private readonly haloFilterId = `fm-rfc-glow-${++nextHaloId}`;
   private readonly measurements = new WeakMap<SVGGElement, { key: string; width: number; height: number; outline: NodeOutline }>();
+  /** Draws translucent rounded enclosures behind halos/edges, without owning interaction or physical forces. */
+  paintClusterRegions(layer:SVGGElement,clusters:ClusterRegion[],geometries:Map<FreshEdge,EdgeGeometry>,nodeStyle:(node:FreshNode)=>NodeStyle):void {
+    const root=select(layer).selectAll<SVGGElement,null>("g.fm-cluster-regions").data(clusters.length?[null]:[])
+      .join("g").attr("class","fm-cluster-regions").attr("aria-hidden","true").style("pointer-events","none").lower();
+    const colors=["#b58a21","#268b83","#7766a5","#ba6e4d","#628847","#5d85aa"];
+    const color=(id:string)=>{let hash=0;for(const c of id)hash=(Math.imul(hash,31)+c.charCodeAt(0))>>>0;return colors[hash%colors.length];};
+    root.selectAll<SVGPathElement,ClusterRegion>("path.fm-cluster-boundary").data(clusters,c=>c.id).join("path")
+      .attr("class","fm-cluster-boundary").attr("data-structure-id",c=>c.id)
+      .attr("d",c=>createClusterBoundary(c.nodes.map(node=>{const stroke=nodeStyle(node).stroke.width;return {x:node.drawx,y:node.drawy,width:node.getWidth()+stroke,height:node.getHeight()+stroke};}),
+        c.edges.flatMap(edge=>{const geometry=geometries.get(edge);return geometry?[geometry.start,geometry.control,geometry.end]:[];})))
+      .attr("fill",c=>color(c.id)).attr("fill-opacity",.1).attr("stroke",c=>color(c.id)).attr("stroke-opacity",.65)
+      .attr("stroke-width",1.5).attr("stroke-linejoin","round");
+  }
   /** Paints transient RFC membership beneath semantic edges/nodes, reusing their exact geometry. */
   paintRfcHalos(layer: SVGGElement, nodes: FreshNode[], edges: FreshEdge[], geometries: Map<FreshEdge, EdgeGeometry>,
     nodeStyle: (node: FreshNode) => NodeStyle, edgeStyle: (edge: FreshEdge) => EdgeStyle): void {

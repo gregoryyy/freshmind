@@ -9,7 +9,7 @@ export const multiFocusSeeds = [0x1234abcd, 0x05eeda11, 0x00c0ffee, 0xdecafbad, 
 const rms = values => Math.sqrt(values.reduce((sum, value) => sum + value * value, 0) / (values.length || 1));
 
 /** Two depth-two trees; extra semantic links never enter either stored tree definition. */
-export function multiFocusFixture(name = "joined-trees", {seed = multiFocusSeeds[0], fixedRoots = false, mode = "baseline"} = {}) {
+export function multiFocusFixture(name = "joined-trees", {seed = multiFocusSeeds[0], fixedRoots = false, mode = "baseline", stabilization = {enabled:false}} = {}) {
   if (!multiFocusScenarios.includes(name) || !multiFocusModes.includes(mode)) throw new Error("Unknown multi-focus fixture or mode");
   let state = seed >>> 0;
   const random = () => {state = (Math.imul(state, 1664525) + 1013904223) >>> 0; return state / 4294967296;};
@@ -44,7 +44,7 @@ export function multiFocusFixture(name = "joined-trees", {seed = multiFocusSeeds
   }
   let onBatch = () => {};
   const host = {getGES: () => graph, getCompleteEltSet: () => graph, repaintAfterMove: () => onBatch(), resetDamper: () => layout.resetDamper()};
-  const layout = new TGLayout(host, random), rfc = new RfcController(host, rfcForcePresets.tree, {enabled: false});
+  const layout = new TGLayout(host, random), rfc = new RfcController(host, rfcForcePresets.tree, stabilization);
   layout.addForce(rfc.apply);
   if (mode === "left" || mode === "both") rfc.activateSubstructure("a-tree");
   if (mode === "right" || mode === "both") rfc.activateSubstructure("b-tree", mode === "both");

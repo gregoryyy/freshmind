@@ -76,8 +76,10 @@ const disposeRfc = bindRfcControls(panel, {
   activate: get<HTMLButtonElement>("rfc-activate"), clear: get<HTMLButtonElement>("rfc-clear"),
   springMultiplier: get<HTMLInputElement>("rfc-springs"), angularStiffness: get<HTMLInputElement>("rfc-angular"), status: get("rfc-status"),
   radialStiffness: get<HTMLInputElement>("rfc-radial"), radialLength: get<HTMLInputElement>("rfc-length"), indicator: get("rfc-indicator"),
+  clusterRigidity:get<HTMLInputElement>("rfc-cluster-rigidity"),
   treePreset: get<HTMLButtonElement>("rfc-tree"), attractionPreset: get<HTMLButtonElement>("rfc-attraction"),
   adaptiveDamping: get<HTMLInputElement>("rfc-adaptive-damping"),
+  stabilizationStatus:get("rfc-stabilization-status"),
   addCenter:get<HTMLButtonElement>("rfc-add-center"),centers:get<HTMLSelectElement>("rfc-centers"),removeCenter:get<HTMLButtonElement>("rfc-remove-center"),
   xWeight: get<HTMLInputElement>("rfc-x-weight"), yWeight: get<HTMLInputElement>("rfc-y-weight")
 });

@@ -26,13 +26,13 @@ The current implementation concentrates on the graph browsing foundation: spring
 - Keyboard navigation with neighbor/relation preselection, independent graph spacing and canvas zoom, rotation and scroll controls.
 - Inline label and metadata editors, plus resizable node-content popups for plain text and sanitized HTML.
 - Native YAML loading/saving, the approved Java examples and three attributed public example networks.
-- RFC with multiple centers, persistent tree/DAG memberships, angular/length constraints, weighted coordinates and cluster-to-tree rendering.
+- RFC with multiple centers, persistent tree/DAG/cluster memberships, angular/length constraints, weighted coordinates, cluster rigidity and translucent cluster boundaries.
 - An ESM library for JavaScript and TypeScript, plus a DOM-independent core for headless use.
 - A runnable example and compatibility checks against the Java layout and lens implementations.
 
-**Progress:** Milestone 1 (plain TouchGraph) and Freshmind milestones 2.1–2.5 (types, rendering, navigation, editing and native YAML persistence) are complete. RFC is partially implemented: single-focus forces, weighted x/y geometry and multiple tree foci have reproducible experiments. The multi-focus comparison covers 120 runs with extra leaf links and shared subtrees, retaining oscillatory cases and feasibility limits. Tree/DAG memberships and cluster-to-tree conversion are available; DAG templates and clustering have functional checks.
+**Progress:** Milestone 1 (plain TouchGraph) and Freshmind milestones 2.1–2.5 (types, rendering, navigation, editing and native YAML persistence) are complete. RFC is partially implemented: stars/trees, weighted x/y geometry and multiple foci have reproducible experiments. The original multi-focus comparison covers 120 runs; [follow-up Experiments F–H](docs/experiments/rfc-followup/README.md) add 780 runs comparing damping with lower rigidity, nonuniform importance and compact clusters. Eight further diagrams distinguish quiet motion, force balance and remaining geometric error. Tree/DAG/cluster memberships are available; DAG templates have functional checks without a comparative layout study.
 
-Node and relation weights now control added RFC stiffness through bounded importance factors, independently of coordinate weights and ordinary TouchGraph forces. Defaults (node 1, relation 10) preserve the recorded experiments; zero disables the corresponding reinforcement while keeping semantic context. See the [importance contract](docs/rfc-importance.md) and the **Weighted tree** example. Next is elliptical focal-region exclusion, followed by structural aggregation. Multiple centers and shared membership are implemented; overlapping-region exclusion remains open. LDA-based graph visual search remains planned. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
+Node and relation weights now control added RFC stiffness through bounded importance factors, independently of coordinate weights and ordinary TouchGraph forces. Defaults (node 1, relation 10) preserve the recorded experiments; zero disables the corresponding reinforcement while keeping semantic context. See the [importance contract](docs/rfc-importance.md) and the **Weighted tree** example. First-class clusters retain cyclic internal links and use adjustable internal spring rigidity, weighted-centroid compactness and smooth translucent boundaries; see the [cluster design](docs/rfc-clusters.md) and **Overlapping clusters** example. Next is elliptical focal-region exclusion, followed by structural aggregation. Multiple centers and shared membership are implemented; overlapping-region exclusion remains open. LDA-based graph visual search remains planned. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
 
 Porting and re-implementation based on the existing concepts have required only a few hours so far, including code archaeology in the original Java sources.
 
@@ -54,13 +54,15 @@ console.log(rfc.getState());
 rfc.setFocus(null);
 ```
 
-Under **Substructures**, store tree/DAG membership, add or remove the selected node, choose a root and reinforce the definition. Membership is saved to YAML; active centers are transient. Under **Graph clusters**, choose Louvain communities or connected components, select visible/complete scope, inspect a cluster and render it as a stored RFC tree. Try **Load example → Trees and DAG** for shared memberships, or **Zachary's karate club** for clustering. The [substructure and clustering design](docs/rfc-substructures.md) documents the data model, force semantics and limits.
+Under **Substructures**, store tree/DAG/cluster membership, add or remove the selected node, choose a root or cluster representative and reinforce the definition. Membership is saved to YAML; active centers are transient. Under **Graph clusters**, choose Louvain communities or connected components, select visible/complete scope, inspect a cluster and reinforce it directly as a stored cluster. Clusters keep internal cycles, reinforce internal spring lengths and use weighted-centroid compactness rather than branch angles. **Cluster rigidity** adjusts how strongly links resist deformation; smooth boundaries and translucent fills show the groups. Try **Load example → Overlapping clusters**, **Trees and DAG**, or **Zachary's karate club** for community detection. The [substructure and clustering design](docs/rfc-substructures.md) documents the data model, force semantics and limits.
 
 `fm4/fm/rfc` exports the headless controller/force helpers; `bindRfcControls()` from `fm4/fm/ui` binds application-owned controls and returns a disposer. A standalone layout can register `rfc.apply` through `layout.addForce()` and remove it through the returned disposer. The [design](docs/rfc-design.md) explains the force law, defaults and lifecycle. The [experiment report](docs/experiments/rfc-single-focus/README.md) contains three synthetic native YAML graphs to open in the browser and the recorded baseline/RFC results.
 
 ```sh
 just rfc-experiment  # Regenerate deterministic synthetic comparisons and initial graphs
 just rfc-multifocus-experiment # Two tree foci, leaf connections and shared subtrees (120 runs)
+just rfc-followup-experiment # Damping/rigidity, weights and clusters (780 runs, reports and eight diagrams)
+just rfc-followup-figures # Redraw the recorded follow-up comparisons
 just rfc-plot        # Render the report with Python/matplotlib
 just rfc-paper       # Regenerate eleven figures and the second draft PDF
 ```
@@ -68,6 +70,11 @@ just rfc-paper       # Regenerate eleven figures and the second draft PDF
 The [second draft paper](docs/papers/rfc-revisited-draft2.md) reviews the 2005 method, compares attraction, angle and length constraints, and derives local oscillation/stability conditions from the actual TouchGraph update. Its eleven [drawings](docs/papers/figures/rfc/) are supplied as SVG, PDF and PNG. The experiments include ablations, a stiffness sweep, a separate damping comparison and [multiple tree foci](docs/experiments/rfc-multifocus/README.md). The main browser offers the three new tree fixtures under **Load example → RFC**. These small mechanism checks do not establish general convergence or perceptual benefit.
 
 **Experimental adaptive damping** is a separate opt-in checkbox under the RFC controls, off by default. Repeated movement reversals reduce focal-node impulses. After 0.5 seconds of quiet integration, damping eases off over three seconds; renewed oscillation triggers another backoff. Configured forces stay unchanged. [Experiment B](docs/experiments/rfc-single-focus/README.md#experiment-b-adaptive-local-damping) records comparisons with damping off/on. Applications can opt in with `rfc.setStabilizationEnabled(true)` or `new FreshmindPanel(host, {rfcStabilization: {enabled: true}})`; diagnostics are available in `rfc.getState().stabilization`.
+
+**Oscillation diagnostics:** the damping experiment remains opt-in. Enable **Experimental adaptive damping** to watch individual focal nodes for reversals and circulation, including small/multiple-center structures. The controls show whether detection is off, detected node IDs, gain and recovery backoffs. The [stability comparison](docs/experiments/rfc-stability/README.md) records the old detector's blind spots and the revised response. Small graphs can still contain stiff coupled modes; more centers can introduce competing constraints.
+
+The [follow-up reports](docs/experiments/rfc-followup/README.md) complete the current experimental round. Lower global rigidity often reaches a better force balance than aggressive local damping on these starts; weight-based errors can hide distorted low-weight branches; cyclic cluster constraints preserve dense reference geometry while sparse clusters can still deform. These are finite synthetic studies, with no production default change or claim of general convergence/readability. Node bodies/fonts still lack clear importance encoding; the report drawings encode weights separately for evaluation.
+
 
 ## Run the example
 
@@ -319,7 +326,7 @@ Freshmind keyboard-focus frames follow the configured node shape and stay outsid
 | `fm4/fm/config` | YAML type loader for applications supplying their own configuration. |
 | `fm4/fm/ui` | Reusable key-map dialog and graph/canvas zoom bindings; optional `fm4/fm/ui/style.css`. |
 | `fm4/fm/rfc` | Headless multi-center reinforcement controller, focal-star and force helpers. |
-| `fm4/fm/structures` | Validated tree/DAG memberships and deterministic spanning-tree projections. |
+| `fm4/fm/structures` | Validated tree/DAG/cluster memberships, internal-link capture and spanning-tree projections. |
 | `fm4/fm/clustering` | Detached Louvain/component detection and cluster-to-substructure conversion. |
 
 ## Library support
