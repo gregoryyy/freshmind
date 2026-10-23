@@ -103,19 +103,19 @@ test("mouse and focus changes cancel candidates; text entry, Tab and browser cho
   await page.locator("#depth").focus();expect((await state(page)).candidates).toBeUndefined();
   await page.locator('[data-node-id="anchor"]').focus();await page.keyboard.press("ArrowRight");await page.keyboard.press("Tab");
   expect((await state(page)).selected).toBe("anchor");
-  // Focus a graph item, then F2 hands input to the existing sidebar editor.
+  // Focus a graph item, then F2 hands input to its inline label editor.
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode("anchor")));
   await page.locator('[data-node-id="anchor"]').focus();await page.keyboard.press("F2");
-  const label=page.getByLabel("Node label",{exact:true});await expect(label).toBeFocused();
+  const label=page.getByLabel("Inline node label",{exact:true});await expect(label).toBeFocused();
   await label.fill("Draft");await label.press("ArrowLeft");await label.press("Space");expect((await state(page)).selected).toBe("anchor");
   await page.locator('[data-node-id="upper"]').focus();
   const native=await page.locator('[data-node-id="upper"]').evaluate(node=>{
     window.graphBrowser.setInteractionMode("edit");
-    return ["Enter","Backspace","Delete"].map(key=>{
+    return ["Backspace","Delete"].map(key=>{
       const e=new KeyboardEvent("keydown",{key,ctrlKey:true,bubbles:true,cancelable:true});node.dispatchEvent(e);return e.defaultPrevented;
     });
   });
-  expect(native).toEqual([false,false,false]);expect((await state(page)).selected).toBe("anchor");
+  expect(native).toEqual([false,false]);expect((await state(page)).selected).toBe("anchor");
   await expect(page.locator('[data-node-id="upper"]')).toHaveCount(1);
   const embedded=await page.locator('[data-node-id="upper"]').evaluate(node=>{
     const box=document.createElementNS("http://www.w3.org/2000/svg","foreignObject"),input=document.createElement("textarea");
@@ -152,26 +152,34 @@ test("Ctrl view shortcuts change zoom/lens geometry, sync controls and preserve 
   await page.keyboard.press("Control+ArrowUp");
   let view=await page.evaluate(()=>{const p=window.graphBrowser;return {zoom:p.getZoom(),hyper:p.getHyperbolic(),distance:p.findNode("middle").drawx-p.findNode("anchor").drawx};});
   expect(view.zoom).toBeCloseTo(1.2,8);expect(view.hyper).toBe(0);expect(view.distance).toBeCloseTo(before.distance*1.2,6);
-  await page.keyboard.press("Control+Shift+ArrowUp");await expect(page.locator("#hyper")).toHaveValue("5");await expect(page.locator("#hyper-value")).toHaveText("5%");
-  await page.keyboard.press("Control+Shift+ArrowDown");await expect(page.locator("#hyper")).toHaveValue("0");
+  await page.keyboard.press("Control+Shift+ArrowRight");await expect(page.locator("#hyper")).toHaveValue("5");await expect(page.locator("#hyper-value")).toHaveText("5%");
+  await page.keyboard.press("Control+Shift+ArrowLeft");await expect(page.locator("#hyper")).toHaveValue("0");
+  await page.keyboard.press("Control+Shift+ArrowUp");
+  expect(await page.evaluate(()=>window.graphBrowser.getCanvasZoom())).toBeCloseTo(1.2,8);
+  await page.keyboard.press("Control+Shift+Digit1");
+  expect(await page.evaluate(()=>window.graphBrowser.getCanvasZoom())).toBe(1);
+  const svg=await page.locator("#graph svg").boundingBox();await page.mouse.move(svg.x+20,svg.y+20);
+  await page.mouse.wheel(100,0);await expect(page.locator("#hyper-value")).toHaveText("5%");
+  await page.mouse.wheel(-100,0);await expect(page.locator("#hyper-value")).toHaveText("0%");
   await page.keyboard.press("Control+ArrowDown");expect(await page.evaluate(()=>window.graphBrowser.getZoom())).toBeCloseTo(1,8);
   const after=await page.evaluate(()=>{const p=window.graphBrowser;return {candidates:p.getNavigation().getState().preselection,positions:[...p.getAllNodes()].map(n=>[n.getID(),n.x,n.y])};});
   expect(after.candidates).toEqual(before.candidates);expect(after.positions).toEqual(before.positions);expect((await state(page)).selected).toBe("anchor");
   await page.keyboard.press("Escape");await page.evaluate(()=>{const p=window.graphBrowser;p.setZoom(5);p.setHyperbolic(99);});
-  await page.keyboard.press("Control+ArrowUp");await page.keyboard.press("Control+Shift+ArrowUp");
+  await page.keyboard.press("Control+ArrowUp");await page.keyboard.press("Control+Shift+ArrowRight");
   expect(await page.evaluate(()=>window.graphBrowser.getZoom())).toBe(5);await expect(page.locator("#hyper")).toHaveValue("100");
   await page.evaluate(()=>window.graphBrowser.setZoom(1));await page.keyboard.press("F2");
-  const label=page.getByLabel("Node label",{exact:true});await expect(label).toBeFocused();
-  await label.press("Control+ArrowUp");await label.press("Control+Shift+ArrowDown");
+  const label=page.getByLabel("Inline node label",{exact:true});await expect(label).toBeFocused();
+  await label.press("Control+ArrowUp");await label.press("Control+Shift+ArrowLeft");await label.press("Control+Shift+ArrowUp");await label.press("Control+Shift+Digit1");
   expect(await page.evaluate(()=>window.graphBrowser.getZoom())).toBe(1);expect(await page.evaluate(()=>window.graphBrowser.getHyperbolic())).toBe(100);
+  expect(await page.evaluate(()=>window.graphBrowser.getCanvasZoom())).toBe(1);
   await page.locator("#graph svg").focus();await page.keyboard.press("Control+ArrowUp");
   expect(await page.evaluate(()=>window.graphBrowser.getZoom())).toBeCloseTo(1.2,8);expect(errors).toEqual([]);
 });
 test("palette focus/context slider follows Ctrl Shift keyboard changes",async({page})=>{
   const errors=[];page.on("pageerror",error=>errors.push(error.message));
   await page.goto("/freshmind.html");await page.waitForFunction(()=>Boolean(window.freshmindBrowser));
-  await page.locator('[data-node-id="person"]').click();await page.keyboard.press("Control+Shift+ArrowUp");
+  await page.locator('[data-node-id="person"]').click();await page.keyboard.press("Control+Shift+ArrowRight");
   await expect(page.locator("#hyper")).toHaveValue("5");await page.keyboard.press("Control+ArrowUp");
   expect(await page.evaluate(()=>window.freshmindBrowser.getZoom())).toBeCloseTo(.85*1.2,8);
-  await page.keyboard.press("Control+Shift+ArrowDown");await expect(page.locator("#hyper")).toHaveValue("0");expect(errors).toEqual([]);
+  await page.keyboard.press("Control+Shift+ArrowLeft");await expect(page.locator("#hyper")).toHaveValue("0");expect(errors).toEqual([]);
 });

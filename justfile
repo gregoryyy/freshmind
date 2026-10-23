@@ -24,6 +24,18 @@ build-demo:
 sync-fm-config:
     npm run sync:fm-config
 
+# Regenerate the user key map from the same rows used by browser help.
+keymap: build
+    node scripts/sync-keymap.mjs
+
+# Convert only the two approved Java data sets; pass --overwrite for an intentional rerun.
+convert-fm2014 *args: build
+    node scripts/convert-fm2014.mjs --recover-type-weights "$@"
+
+# Validate the approved examples and all normalized YAML round-trip records.
+validate-examples *args: build
+    node scripts/validate-examples.mjs "$@"
+
 # Build and serve the production demo; accepts Vite preview arguments.
 preview *args: build-demo
     npx --no-install vite preview --host 127.0.0.1 "$@"

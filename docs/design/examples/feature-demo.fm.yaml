@@ -1,4 +1,4 @@
-# Hand-authored design example; legacy example conversion is milestone 2.5.
+# Hand-authored format example; approved legacy conversions are in examples/fm2014/.
 format: freshmind
 version: 1
 title: Freshmind feature example
@@ -55,4 +55,5 @@ view:
   radius: 1
   backlinks: true
   moveToCenter: true
-  lenses: {hyperbolic: 40, rotation: 0, zoom: 1, horizontalStretch: 1.5}
+  lenses: {hyperbolic: 40, rotation: 0, zoom: 1}
+  canvas: {zoom: 1, pan: {x: 0, y: 0}}

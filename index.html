@@ -10,14 +10,23 @@
     <div class="app">
       <header class="topbar">
         <a class="brand" href="/" aria-label="fm4 home"><span class="brand-mark">f</span> fm4 <span class="tag">GRAPH BROWSER</span></a>
+        <div class="document-tools"><button id="open-graph">Open YAML</button><button id="save-graph">Save YAML</button><button id="keymap-help">Key map</button></div>
       </header>
       <main>
         <aside class="sidebar">
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
+          <label class="control-label" for="example-graph">Load example</label>
+          <select id="example-graph"><option value="">Choose an example…</option><option value="berry">berry</option><option value="nips-fm">nips-fm</option></select>
+          <input type="file" id="open-graph-files" accept=".yaml,.yml" multiple hidden />
+          <p id="file-status" class="control-help" role="status"></p>
+          <details><summary>Export options</summary><label class="pin-control"><input id="save-layout" type="checkbox" checked /> Include layout positions</label><label class="pin-control"><input id="save-view" type="checkbox" checked /> Include view settings</label><label class="pin-control"><input id="save-companion" type="checkbox" /> Save types as a companion file</label></details>
           <div class="section-label">YOUR VIEW <span id="view-status">LOCAL NEIGHBORHOOD</span></div>
           <label class="control-label" for="depth">Neighborhood depth <output id="depth-value">2 hops</output></label>
           <input type="range" id="depth" min="0" max="6" value="2" step="1" />
           <div class="range-labels"><span>Immediate</span><span>Further out</span></div>
+          <label class="control-label" for="graph-zoom">Graph spacing <output id="graph-zoom-value">100%</output></label>
+          <input type="range" id="graph-zoom" min="15" max="500" value="100" step="1" aria-describedby="graph-zoom-help" />
+          <p id="graph-zoom-help" class="control-help">Changes node distances; keeps labels and shapes the same size.</p>
           <label class="control-label lens-label" for="hyper">Focus + context <output id="hyper-value">60%</output></label>
           <input type="range" id="hyper" min="0" max="100" value="60" step="1" />
           <div class="range-labels"><span>Undistorted</span><span>Strong lens</span></div>
@@ -36,7 +45,8 @@
           </details>
           <p id="navigation-status" class="control-help" role="status" aria-live="polite" aria-atomic="true"></p>
           <p class="control-help">Arrows: nodes · Shift+arrows: relations · Enter: confirm/center · Esc: cancel · E/K/H: expand/collapse/hide</p>
-          <p class="control-help">Ctrl+↑/↓: zoom · Ctrl+Shift+↑/↓: focus + context</p>
+          <p class="control-help">Ctrl+↑/↓: graph spacing · Ctrl+Shift+←/→: focus + context</p>
+          <p class="control-help">Ctrl+Shift+↑/↓ or +/−: canvas zoom · Ctrl+Shift+1: reset canvas zoom</p>
           <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
           <button id="edit-mode" class="quiet-button" aria-pressed="false">Edit graph <span aria-hidden="true">✎</span></button>
           <p id="edit-help" class="intro" hidden>Edit labels, types and shapes below. Add a node here or double-click the background. Select a source, then Shift-click a target to connect them.</p>
@@ -50,7 +60,8 @@
             <div class="actions"><button id="expand">Expand</button><button id="collapse">Collapse</button><button id="hide">Hide</button></div>
             <label class="pin-control"><input id="pin" type="checkbox" /> Pin this node in place</label>
             <button id="toggle-details" class="quiet-button" disabled>Show details (Space)</button>
-            <div id="selection-details" hidden><p id="annotation-detail" class="control-help"></p><p id="item-detail" class="control-help"></p></div>
+            <div id="selection-details" hidden><div id="annotation-detail" class="control-help annotation"></div><p id="item-detail" class="control-help"></p></div>
+            <button id="open-resource" class="quiet-button" disabled>Open linked resource (L)</button>
             <form id="selection-editor" aria-label="Edit selected item">
               <fieldset id="editor-fields" disabled>
                 <label class="control-label" for="node-label">Node label</label>
@@ -63,6 +74,23 @@
                 <select id="node-shape"><option value="">Use type's visual style</option></select>
                 <label class="control-label" for="edge-curve" hidden>Relation curve</label>
                 <select id="edge-curve" hidden><option value="">Use view default</option><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
+                <label class="control-label" for="item-weight">Weight</label><input id="item-weight" type="number" min="0" step="any" required />
+                <fieldset id="node-fields" class="metadata-fields">
+                  <label class="control-label" for="node-url">Linked resource URL or path</label><input id="node-url" type="text" />
+                  <label class="control-label" for="annotation-format">Annotation format</label><select id="annotation-format"><option value="text">Plain text</option><option value="html">HTML</option></select>
+                  <label class="control-label" for="node-annotation">Annotation</label><textarea id="node-annotation" rows="6" spellcheck="false"></textarea>
+                </fieldset>
+                <fieldset id="relation-fields" class="metadata-fields" hidden disabled>
+                  <label class="control-label" for="edge-from">From node ID</label><input id="edge-from" type="text" list="node-ids" required />
+                  <label class="control-label" for="edge-to">To node ID</label><input id="edge-to" type="text" list="node-ids" required /><datalist id="node-ids"></datalist>
+                  <label class="control-label" for="edge-length">Spring length</label><input id="edge-length" type="number" min="1" step="1" required />
+                  <button type="button" id="reverse-edge" class="quiet-button">Reverse relation (R)</button>
+                </fieldset>
+                <details id="advanced-fields"><summary>Visual settings and metadata</summary>
+                  <label class="control-label" for="item-visual">Visual overrides (YAML)</label><textarea id="item-visual" rows="5" spellcheck="false"></textarea>
+                  <label class="control-label" for="item-data">Application data (YAML)</label><textarea id="item-data" rows="4" spellcheck="false"></textarea>
+                  <label class="control-label" for="item-extensions">Extensions (YAML)</label><textarea id="item-extensions" rows="4" spellcheck="false"></textarea>
+                </details>
                 <div class="editor-actions"><button type="submit" class="primary-button" id="save-item">Save changes</button><button type="button" id="cancel-edit">Cancel</button></div>
                 <p id="editor-status" class="control-help" role="status">Select a node or relation to edit.</p>
                 <button type="button" id="delete-item" class="quiet-button" hidden>Delete selected item</button>
@@ -76,8 +104,8 @@
         <section class="workspace" aria-label="Graph workspace">
           <div class="canvas-heading"><span id="graph-count"></span></div>
           <div id="graph"></div>
-          <div class="canvas-tools"><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button><button id="center" aria-label="Center view">◎</button></div>
-          <div class="canvas-footer"><span>Drag to rearrange · Scroll to zoom · F2 to edit</span><button id="motion">Pause motion</button></div>
+          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Ctrl+Shift+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Ctrl+Shift+↓ or −)">−</button><button id="center" aria-label="Center view" title="Center view">◎</button></div>
+          <div class="canvas-footer"><span>Scroll ↑/↓: canvas zoom · Scroll ←/→: focus + context · F2 to edit</span><button id="motion">Pause motion</button></div>
         </section>
       </main>
     </div>

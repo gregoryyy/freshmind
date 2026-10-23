@@ -1,0 +1,507 @@
+format: freshmind
+version: 1
+title: berry
+typesFile: fm2014.types.yaml
+nodes:
+  - id: second
+    label: second
+    type: default
+    visual: {}
+    annotation:
+      format: html
+      text: |
+        <html>
+          <head>
+            
+          </head>
+          <body>
+            <p style="margin-top: 0">
+              
+            </p>
+            <a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b06.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b06.txt</a><br><hr><br><a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b07.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b07.txt</a><br><hr><br><a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b08.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b08.txt</a>
+        <br><hr><br><a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b09.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b09.txt</a>
+          </body>
+        </html>
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b09.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: "[berry]"
+    label: "[berry]"
+    type: default
+    visual: {}
+    annotation:
+      format: html
+      text: |
+        <html>
+          <head>
+            
+          </head>
+          <body>
+            <p style="margin-top: 0">
+              
+            </p>
+            <a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b01.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b01.txt</a><br><hr><br><a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b02.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b02.txt</a><br><hr><br><a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b03.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b03.txt</a><br><hr><br><a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b04.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b04.txt</a>
+        <br><hr><br><a href="file:/C:/eclipse/workspace/knowceans-freshmind/berry.files/b05.txt">C:\eclipse\workspace\knowceans-freshmind\berry.files\b05.txt</a>
+          </body>
+        </html>
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b05.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: third-1
+    label: third-1
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: fourth-1
+    label: fourth-1
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b06.txt
+    label: b06.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b06.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b07.txt
+    label: b07.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b07.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b08.txt
+    label: b08.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b08.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b09.txt
+    label: b09.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b09.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b01.txt
+    label: b01.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b01.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b02.txt
+    label: b02.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b02.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b03.txt
+    label: b03.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b03.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b04.txt
+    label: b04.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b04.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b05.txt
+    label: b05.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b05.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b10.txt
+    label: b10.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b10.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b11.txt
+    label: b11.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b11.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b12.txt
+    label: b12.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b12.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b13.txt
+    label: b13.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b13.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b14.txt
+    label: b14.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b14.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b15.txt
+    label: b15.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b15.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b16.txt
+    label: b16.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b16.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+  - id: C:\eclipse\workspace\knowceans-freshmind\berry.files\b17.txt
+    label: b17.txt
+    type: default
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: C:\eclipse\workspace\knowceans-freshmind\berry.files\b17.txt
+    weight: 1
+    fixed: false
+    data: {}
+    extensions: {}
+edges:
+  - id: fm2014-e1
+    from: second
+    to: "[berry]"
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e2
+    from: second
+    to: third-1
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e3
+    from: second
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b06.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e4
+    from: second
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b07.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e5
+    from: second
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b08.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e6
+    from: second
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b09.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e7
+    from: "[berry]"
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b01.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e8
+    from: "[berry]"
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b02.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e9
+    from: "[berry]"
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b03.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e10
+    from: "[berry]"
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b04.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e11
+    from: "[berry]"
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b05.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e12
+    from: third-1
+    to: "[berry]"
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e13
+    from: third-1
+    to: fourth-1
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e14
+    from: third-1
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b10.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e15
+    from: third-1
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b11.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e16
+    from: third-1
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b12.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e17
+    from: third-1
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b13.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e18
+    from: fourth-1
+    to: "[berry]"
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e19
+    from: fourth-1
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b14.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e20
+    from: fourth-1
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b15.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e21
+    from: fourth-1
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b16.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: fm2014-e22
+    from: fourth-1
+    to: C:\eclipse\workspace\knowceans-freshmind\berry.files\b17.txt
+    label: ""
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+data: {}
+extensions:
+  fm2014:
+    source: berry.xml
+    sha256: 3efc566e3134931b40e14880fbb9b2cc71eda75132b5cc8f048fa8db93fd0307

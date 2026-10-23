@@ -167,14 +167,15 @@ test("Ctrl up/down zooms within panel limits without needing selection or changi
     assert.equal(n.handleKey({key:"ArrowUp",ctrlKey:true,...extra}),false);
   assert.equal(n.handleKey({key:"ArrowLeft",ctrlKey:true}),false);
 });
-test("Ctrl Shift up/down adjusts the live focus/context lens and clamps to its bounds", t => {
+test("Ctrl Shift left/right adjusts the live focus/context lens and clamps to its bounds", t => {
   const {p,n,a,edges}=fixture(t);p.setSelectEdge(edges[1]);p.setHyperbolic(37);
-  assert.equal(n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true}),true);assert.equal(p.getHyperbolic(),42);
-  n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),37);
-  p.setHyperbolic(97);n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),100);
-  n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true,repeat:true});assert.equal(p.getHyperbolic(),95);
-  p.setHyperbolic(2);n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),0);
+  assert.equal(n.handleKey({key:"ArrowRight",ctrlKey:true,shiftKey:true}),true);assert.equal(p.getHyperbolic(),42);
+  n.handleKey({key:"ArrowLeft",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),37);
+  p.setHyperbolic(97);n.handleKey({key:"ArrowRight",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),100);
+  n.handleKey({key:"ArrowLeft",ctrlKey:true,shiftKey:true,repeat:true});assert.equal(p.getHyperbolic(),95);
+  p.setHyperbolic(2);n.handleKey({key:"ArrowLeft",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),0);
   assert.equal(p.getZoom(),1);assert.equal(p.getSelection(),edges[1]);assert.equal(p.getSelect(),a);
+  assert.equal(p.getCanvasZoom(),1);
   assert.throws(()=>n.adjustFocusContext(NaN),RangeError);assert.equal(p.getHyperbolic(),0);
 });
 test("view shortcuts preserve frozen preselection and rearm its inactivity timer", t => {
@@ -183,5 +184,37 @@ test("view shortcuts preserve frozen preselection and rearm its inactivity timer
   assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
   n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true});clock.advance(2400);
   assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
+  n.handleKey({key:"ArrowRight",ctrlKey:true,shiftKey:true});clock.advance(2400);
+  assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
+  n.handleKey({key:"+",shiftKey:true});clock.advance(2400);
+  assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
   clock.advance(100);assert.equal(n.getState().preselection,null);assert.equal(p.getSelection(),a);
+});
+test("plus/minus canvas shortcuts repeat independently of graph zoom and pass browser chords through", t => {
+  const {p,n,a}=fixture(t);p.setZoom(1.8);p.setHyperbolic(40);
+  const positions=[...p.getAllNodes()].map(node=>[node.x,node.y]);
+  assert.equal(n.handleKey({key:"+",shiftKey:true}),true);assert.equal(p.getCanvasZoom(),1.2);
+  n.handleKey({key:"-"});assert.ok(Math.abs(p.getCanvasZoom()-1)<1e-12);
+  n.handleKey({key:"=",repeat:true});assert.equal(p.getCanvasZoom(),1.2);
+  p.setCanvasZoom(5);n.handleKey({key:"+"});assert.equal(p.getCanvasZoom(),5);
+  p.setCanvasZoom(.15);n.handleKey({key:"-"});assert.equal(p.getCanvasZoom(),.15);
+  assert.equal(p.getZoom(),1.8);assert.equal(p.getHyperbolic(),40);assert.equal(p.getSelect(),a);
+  assert.deepEqual([...p.getAllNodes()].map(node=>[node.x,node.y]),positions);
+  for(const extra of [{ctrlKey:true},{metaKey:true},{altKey:true},{isComposing:true}])
+    assert.equal(n.handleKey({key:"+",...extra}),false);
+});
+test("FM2014 Ctrl Shift up/down and 1 control canvas scale without changing spacing, lens or selection", t => {
+  const {p,n,a}=fixture(t);p.setZoom(1.8);p.setHyperbolic(37);
+  const positions=[...p.getAllNodes()].map(node=>[node.x,node.y]);
+  assert.equal(n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true}),true);assert.equal(p.getCanvasZoom(),1.2);
+  n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true});assert.ok(Math.abs(p.getCanvasZoom()-1)<1e-12);
+  n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true,repeat:true});assert.equal(p.getCanvasZoom(),1.2);
+  p.setCanvasZoom(5);n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true});assert.equal(p.getCanvasZoom(),5);
+  p.setCanvasZoom(.15);n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true});assert.equal(p.getCanvasZoom(),.15);
+  for (const key of [{key:"!",code:"Digit1"},{key:"1"},{key:"!"},{key:"&",code:"Digit1"}]) {
+    p.setCanvasZoom(2.1);assert.equal(n.handleKey({...key,ctrlKey:true,shiftKey:true}),true);assert.equal(p.getCanvasZoom(),1);
+  }
+  assert.equal(n.handleKey({key:"1",ctrlKey:true}),false);
+  assert.equal(p.getZoom(),1.8);assert.equal(p.getHyperbolic(),37);assert.equal(p.getSelection(),a);
+  assert.deepEqual([...p.getAllNodes()].map(node=>[node.x,node.y]),positions);
 });

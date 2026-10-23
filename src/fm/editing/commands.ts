@@ -6,33 +6,63 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { FreshNode, FreshEdge } from "../model.js";
+import { FreshNode, FreshEdge, FreshGraph } from "../model.js";
+import type { Annotation, Metadata } from "../model.js";
+import type { VisibleLocality } from "../../tg/graph.js";
 import type { NodeShape, CurveMode, NodeStyle, EdgeStyle } from "../config/types.js";
+import type { VisualOverride } from "../config/types.js";
 import { text, validateVisualOverride } from "../config/validation.js";
 
-export interface NodeEdit { label: string; type: string; shape: NodeShape | null; }
-export interface RelationEdit { label: string; type: string; curve: CurveMode | null; }
+export interface NodeEdit {
+  label: string; type: string; shape: NodeShape | null;
+  visual?: VisualOverride<NodeStyle>; annotation?: Annotation; url?: string; weight?: number; data?: Metadata; extensions?: Metadata;
+}
+export interface RelationEdit {
+  label: string; type: string; curve: CurveMode | null;
+  visual?: VisualOverride<EdgeStyle>; weight?: number; length?: number; from?: string; to?: string; data?: Metadata; extensions?: Metadata;
+}
+export interface RelationEditContext { graph: FreshGraph; locality?: VisibleLocality; }
 
 /** Validates a label/type/shape draft before mutation; identity, coordinates and metadata stay intact. */
 export function applyNodeEdit(node: FreshNode, edit: NodeEdit): void {
   if (typeof edit.label !== "string") throw new TypeError("Expected a label string");
   text(edit.type, "node.type");
-  const visual = node.getVisual();
+  const visual = structuredClone(edit.visual ?? node.getVisual());
   visual.style ??= {};
   if (edit.shape === null) delete visual.style.shape;
   else visual.style.shape = edit.shape;
   const validated = validateVisualOverride<NodeStyle>(visual, "node");
+  // Construct a detached candidate so every field is validated before any live mutation.
+  const candidate = new FreshNode(node.getID(), edit.label, {type: edit.type, visual: validated,
+    annotation: edit.annotation ?? node.getAnnotation(), url: edit.url ?? node.getURL(), weight: edit.weight ?? node.getWeight(),
+    data: edit.data ?? node.getData(), extensions: edit.extensions ?? node.getExtensions()});
+  node.setAnnotation(candidate.getAnnotation()); node.setURL(candidate.getURL()); node.setWeight(candidate.getWeight());
+  node.setData(candidate.getData()); node.setExtensions(candidate.getExtensions());
   node.setVisual(validated); node.setSemanticType(edit.type); node.setLabel(edit.label);
 }
 
 /** Applies a validated relation draft independently of its endpoints, spring length and metadata. */
-export function applyRelationEdit(edge: FreshEdge, edit: RelationEdit): void {
+export function applyRelationEdit(edge: FreshEdge, edit: RelationEdit, context?: RelationEditContext): void {
   if (typeof edit.label !== "string") throw new TypeError("Expected a label string");
   text(edit.type, "edge.type");
-  const visual = edge.getVisual();
+  const visual = structuredClone(edit.visual ?? edge.getVisual());
   visual.style ??= {};
   if (edit.curve === null) delete visual.style.curve;
   else visual.style.curve = edit.curve;
   const validated = validateVisualOverride<EdgeStyle>(visual, "edge");
+  const from = edit.from === undefined ? edge.from : context?.graph.findNode(edit.from);
+  const to = edit.to === undefined ? edge.to : context?.graph.findNode(edit.to);
+  if (!from || !to) throw new Error("Choose endpoints from the complete graph");
+  if (context && !context.graph.contains(edge)) throw new Error("Relation must belong to the graph");
+  const candidate = new FreshEdge(from, to, {id: edge.getID() ?? undefined, label: edit.label, type: edit.type, visual: validated,
+    weight: edit.weight ?? edge.getWeight(), length: edit.length ?? edge.getLength(), data: edit.data ?? edge.getData(), extensions: edit.extensions ?? edge.getExtensions()});
+  if (from !== edge.from || to !== edge.to) {
+    if (!context) throw new Error("Endpoint changes require a graph context");
+    const visible = context.locality?.contains(edge);
+    if (visible) context.locality!.removeEdge(edge);
+    context.graph.reconnectEdge(edge, from, to);
+    if (visible && context.locality!.contains(from) && context.locality!.contains(to)) context.locality!.addEdge(edge);
+  }
+  edge.setWeight(candidate.getWeight()); edge.setLength(candidate.getLength()); edge.setData(candidate.getData()); edge.setExtensions(candidate.getExtensions());
   edge.setVisual(validated); edge.setSemanticType(edit.type); edge.setLabel(edit.label);
 }

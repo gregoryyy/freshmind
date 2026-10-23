@@ -21,6 +21,23 @@ select:focus-visible, textarea:focus-visible { outline: 3px solid #6cb08b; outli
 .editor-actions button { border: 1px solid #dce1d7; border-radius: 5px; padding: 9px; font-size: 11px; }
 .editor-actions .primary-button { flex: 1; }
 #editor-fields { padding: 0; margin: 0; border: 0; min-width: 0; }
+.metadata-fields { padding: 0; margin: 0; border: 0; min-width: 0; }
+.document-tools { display: flex; gap: 7px; }
+.document-tools button, #keymap-help { padding: 7px 10px; border: 1px solid #c4cdbf; border-radius: 5px; background: #fafbf7; color: inherit; font-size: 11px; }
+#file-status[data-error=true], .inline-status[data-error=true] { color: #a32b25; }
+.annotation { white-space: pre-wrap; overflow-wrap: anywhere; }
+.annotation pre { white-space: pre-wrap; }
+.inline-editor { position: absolute; transform: translate(-50%, -50%); z-index: 5; background: #fff; border: 2px solid #42674a; border-radius: 5px; padding: 5px; box-shadow: 0 3px 12px #263e3326; }
+.inline-editor textarea, .inline-editor input { width: 100%; font-size: 14px; padding: 5px; }
+.inline-editor textarea { min-height: 65px; }
+.inline-status { font-size: 10px; margin-top: 4px; }
+.keymap-dialog, .save-dialog { max-width: min(850px, 94vw); max-height: 85dvh; border: 1px solid #c4cdbf; border-radius: 8px; padding: 24px; color: #263e33; }
+.keymap-dialog::backdrop, .save-dialog::backdrop { background: #14291f66; }
+.keymap-dialog table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.keymap-dialog th, .keymap-dialog td { text-align: left; vertical-align: top; padding: 8px; border-bottom: 1px solid #dce1d7; }
+.keymap-dialog th { width: 34%; }
+.keymap-dialog p { font-size: 12px; line-height: 1.6; }
+.save-dialog button { margin: 12px 8px 0 0; }
 #editor-status[data-error=true] { color: #a32b25; }
 .topbar { height: 78px; display: flex; align-items: center; justify-content: space-between; padding: 0 34px; border-bottom: 1px solid #dce1d7; background: #fafbf7; gap: 24px; }
 .brand { text-decoration: none; font-family: "Manrope", sans-serif; font-weight: 800; font-size: 24px; display: flex; align-items: center; gap: 10px; letter-spacing: -1px; }
@@ -63,7 +80,8 @@ h2 { font-family: "Manrope", sans-serif; font-size: 21px; letter-spacing: -.7px;
 .tg-label { letter-spacing: -.2px; }
 .tg-node:hover .tg-shape, .tg-node:hover .tg-round-shape { stroke: #42674a; stroke-width: 2px; }
 .canvas-tools { position: absolute; right: 26px; top: 74px; display: flex; flex-direction: column; box-shadow: 0 2px 7px #263e3309; border: 1px solid #dce1d7; border-radius: 6px; overflow: hidden; }
-.canvas-tools button { width: 34px; height: 34px; font-size: 18px; border: 0; border-bottom: 1px solid #e4e7dc; background: #fafbf7; color: #74816d; }
+.canvas-tools button { width: 48px; height: 34px; font-size: 18px; border: 0; border-bottom: 1px solid #e4e7dc; background: #fafbf7; color: #74816d; }
+.canvas-tools #zoom-reset { font-size: 11px; font-variant-numeric: tabular-nums; }
 .canvas-tools button:last-child { border-bottom: 0; }
 .canvas-tools button:hover { background: #e8eddf; }
 .canvas-footer { position: absolute; bottom: 20px; left: 30px; right: 26px; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: #8c9683; gap: 20px; }

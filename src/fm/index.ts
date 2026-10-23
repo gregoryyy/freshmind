@@ -11,3 +11,6 @@ export { FreshmindPanel } from "./panel.js";
 export type { FreshmindPanelOptions, FreshmindSelection, SelectionListener } from "./panel.js";
 export { FreshmindPresentation } from "./rendering/presentation.js";
 export { parseTypeConfiguration } from "./config/yaml.js";
+export { parseDocument, readDocument, serializeDocument, documentToRecord } from "./io/codec.js";
+export { captureDocument, installDocument } from "./io/panel.js";
+export { resourceURL, renderAnnotation } from "./editing/details.js";

@@ -1,8 +1,8 @@
 # Freshmind feature design
 
-Design drafted **2026-10-22**, updated **2026-10-23**. This specifies milestones **2.2–2.5** in [TODO.md](TODO.md). Milestones **2.2 and 2.3 are implemented**, with basic sidebar editors; full metadata/inline editors, native graph persistence and the batch converter remain planned. The YAML type configuration is supported; the graph YAML example is a proposed contract for 2.5. The [Java reference analysis](fm2014_analysis.md) supplies the feature inventory and development context.
+Design drafted **2026-10-22**, updated **2026-10-23**. This specifies milestones **2.2–2.5** in [TODO.md](TODO.md). Milestones **2.2–2.5 are implemented**: types, navigation, metadata/inline editors, native YAML persistence and approved example conversion. The YAML examples are supported contracts. See [DONE.md](DONE.md) for implementation notes and [KEYMAP.md](KEYMAP.md) for user controls. The [Java reference analysis](fm2014_analysis.md) supplies the feature inventory and development context.
 
-Freshmind 4 will restore typed and visually distinct nodes, labeled curved relations, keyboard browsing with preselection, and label/annotation editing. Its native persistence will be a versioned YAML graph format. Existing Java example files will be migrated in a batch conversion step.
+Freshmind 4 provides typed and visually distinct nodes, labeled curved relations, keyboard browsing with preselection, and label/annotation editing. Its native persistence is a versioned YAML graph format. Only the approved `berry` and `nips-fm` Java examples are migrated; the remaining datasets are proprietary.
 
 The Java code captures the intended features of an experimental application developed under time pressure. Use it to recover those features and distinctive interactions. **Keep the TouchGraph design in place and add Freshmind features as clean extensions to it.** Its model, graph/locality structure, panel, layout and lens pipeline remain the foundation. RFC will be rebuilt separately in milestone 3; retrieval algorithms are milestone 4, with query integration points established here.
 
@@ -178,7 +178,7 @@ Provide focused node and relation editors backed by commands. Node editing expos
 
 Inline label editing uses a multiline control for nodes and a text control for relation labels; a details inspector handles the remaining fields. F2 opens the appropriate editor. Ctrl/Cmd+Enter commits a multiline edit, Enter commits a single-line edit, and Escape cancels. Clicking away must not silently apply an invalid edit; retain the draft with a clear field error. Pause directional navigation while editing. Apply a valid edit atomically, notify subscribers and restore keyboard focus to the graph.
 
-Place inline relation editors using the shared curve label anchor and reposition them when the view changes. Keep long annotation editing in the details inspector rather than moving it with the graph. Display plain annotations as text and render HTML through a sanitizer while preserving its original source for export. Internal node links use IDs; imported file paths and URLs remain data until the user opens them. Preserve unavailable legacy targets and report them during conversion.
+Place inline relation editors using the shared curve label anchor, map that anchor through the canvas transform and reposition on graph/view/resize changes. Node inline editors use the transformed body center. The inspector retains per-item drafts when selection changes; clicking away does not commit a draft. Keep long annotation editing in the details inspector rather than moving it with the graph. Display plain annotations as text and render HTML through an inert-template formatting/link allowlist while preserving its original source for export. No source attributes, active elements, styles or resource-loading elements are copied. Supported web/mail links open only on user action; old file paths remain editable data. Internal node links use IDs; imported file paths and URLs remain data until the user opens them. Preserve unavailable legacy targets and report them during conversion.
 
 The command boundary should support a later undo history without coupling editors directly to SVG or graph adjacency. Search adapters will subscribe to semantic changes and issue graph commands through the same boundary in milestone 4; editing a query node in milestone 2 must preserve its query data even before a search service is installed.
 
@@ -196,7 +196,7 @@ A graph can either embed the complete type configuration under `types` or refer 
 | Unknown data | Preserve unknown semantic type IDs and namespaced extension data with warnings. Reject unknown ordinary fields to catch misspellings; future additions live under `extensions` until versioned into the schema. |
 | Numbers | Finite coordinates; finite nonnegative weights; positive integer edge length. Reject malformed values instead of coercing them. |
 | Graph contents | Save all nodes and relations, including isolated nodes, hidden items, parallel edges and self-loops. Empty labels/annotations remain valid values. |
-| View | Optional focus node, radius, backlinks, degree limits, lens/canvas settings and `moveToCenter`. Physical node positions are optional; saving a layout includes them. |
+| View | Optional focus node, radius, backlinks, degree limits, `wholeGraph`, graph zoom/hyperbolic strength/rotation/lens pan, canvas zoom/pan and `moveToCenter`. Physical positions are optional; fixed-node positions are always retained. The old draft horizontal-stretch setting is not part of version 1: the port has no such lens. |
 | Transient state | Do not save velocity, damping, hover, selection, preselection, locality animation flags, derived geometry or RFC constraints. |
 | Atomicity | Parse and validate into temporary records, then construct/swap the complete document. Saving serializes a consistent snapshot; a failed load leaves the active document intact. |
 | Round trips | Preserve document semantics and supported extension data. Whitespace, YAML comments and the exact scalar style are not part of the round-trip contract. Emit stable field and record ordering. |
@@ -205,17 +205,15 @@ These are native graph files. Browser support does not require Java XML/text/FMG
 
 ### Batch migration of the existing examples
 
-The initial migration input is the **seven top-level XML example graphs** in the Java reference: `berry`, `roadmap`, `sb`, `sb_design`, `sddc`, `stonebranch` and `nips-fm`. Convert them into `examples/fm2014/*.fm.yaml`, with a shared `fm2014.types.yaml`, provenance and a machine-readable conversion report. The files under `docs/design/examples/` illustrate the draft format; they are not claims that this batch migration has run.
+The migration input is restricted to **`berry.xml` and `nips-fm.xml`**. Other reference datasets are proprietary and must not be converted, copied into fixtures, offered in the demo or distributed. The batch driver uses an explicit allowlist rather than directory scanning; the Python reader also rejects unapproved filenames. Converted files are in `examples/fm2014/`, with a shared `fm2014.types.yaml`, source hashes and a machine-readable conversion report. The small `docs/design/examples/` files remain hand-authored format examples.
 
-A standalone converter can be written in Python and run in batch. It is a development/migration tool, with no requirement to share the browser's implementation language or runtime. Proposed invocation:
+The standalone converter uses Python standard-library XML parsing and a Node driver that validates and writes through the native TypeScript codec. It does not run Java, rebuild indexes, open linked resources or modify inputs. Invocation:
 
 ```sh
-# Proposed command; implemented under milestone 2.5.
-python3 scripts/convert_fm2014.py \
-  --input-dir ../knowceans/knowceans-freshmind-2014 \
-  --output-dir examples/fm2014 \
-  --recover-type-weights \
-  --report examples/fm2014/conversion-report.json
+just convert-fm2014
+# Rerun intentionally: just convert-fm2014 --overwrite
+just validate-examples
+just validate-examples --source-dir ../knowceans/knowceans-freshmind-2014
 ```
 
 Conversion proceeds as follows:
@@ -228,13 +226,13 @@ Conversion proceeds as follows:
 6. Record input filename/hash, record counts, output graph counts, generated placeholders, mappings, warnings and recoveries. Write outputs to a new destination and require an explicit overwrite option for reruns. Leave source files unchanged; processing continues for other files, with a failing exit status if any file fails.
 7. Validate every YAML document against the native schema. Compare full normalized node/relation records and mapped source fields, not just counts. Parse → write → parse must preserve IDs, endpoints, labels, annotations, metadata and extensions. Explicit record counts can differ from final node counts because of placeholders.
 
-Use all seven migrated graphs in the demo's example selector. Small files cover editing and rendering; `nips-fm` exercises neighborhood browsing over a larger complete graph. Backups, search indexes and external resource corpora are outside this first batch. Add `just` recipes for conversion and validation when the converter is implemented.
+The demo example selector contains only `berry` and `nips-fm`. Berry covers small editing/rendering flows; NIPS opens a bounded neighborhood over its complete graph. Backups, search indexes, external resource corpora and all proprietary datasets are excluded. `just convert-fm2014` and `just validate-examples` provide migration and validation recipes. The optional source audit independently compares every original ID, label, hint, URL, type, endpoint and stroke in these two datasets; ordinary validation requires only the committed YAML.
 
 ## Implementation sequence and completion evidence
 
 1. Add `FreshNode` / `FreshEdge` subclasses, type-registry validation and style resolution. Add narrow creation hooks to `TGPanel` where required and validate the two draft YAML examples as the contracts settle.
 2. Add `FreshmindPanel` and its presentation extension for named shapes, multiline measurements, labeled quadratic relations and shared hit/editor geometry, retaining the existing panel lifecycle.
 3. Extend selection with edge/preselection state and its controller, then integrate mouse/keyboard behavior and editors through commands that delegate to TouchGraph APIs.
-4. Implement the YAML codec and browser open/save flow. The batch converter can proceed independently once the schema is fixed; migrate all seven graphs and wire them into the demo.
+4. Implement the YAML codec and browser open/save flow. The batch converter can proceed independently once the schema is fixed; migrate only `berry` and `nips-fm` and wire them into the demo.
 
 Milestone 2 is complete when typed/styled nodes and labeled curves work together, keyboard preselection behaves deterministically, edits retain identity/metadata, and native YAML round trips preserve the complete graph. The existing plain TouchGraph API, defaults and physics must continue to pass their compatibility checks with no Freshmind extensions installed. Verify extension contracts with focused model/geometry tests and browser flows covering ambiguous navigation, edge editing, lens changes and annotations. Re-run the existing TouchGraph physics comparisons when shared model/layout code changes. Use the converted examples to verify import semantics and the distinctive curve appearance; large-graph performance claims require a separate measurement.
