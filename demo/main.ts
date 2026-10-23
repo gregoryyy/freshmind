@@ -9,10 +9,10 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel, TypeRegistry } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls, bindKeymap } from "../src/fm/ui/index.js";
+import { bindZoomControls, bindKeymap, bindNodeDetails } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
-import { renderAnnotation, resourceURL } from "../src/fm/editing/details.js";
+import { resourceURL } from "../src/fm/editing/details.js";
 import "./style.css";
 
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -77,6 +77,7 @@ panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
 const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); });
 const navigation = panel.getNavigation();
+const disposeDetails = bindNodeDetails(panel, {graph: get("graph"), onNodeLink: focusOn, onEdit: () => editor.focusDetails()});
 navigation.setActions({edit: () => editor.openInline(), editDetails: () => editor.focusDetails(), openResource, reverseRelation: () => editor.reverseRelation()});
 navigation.addListener(state => {
   allVisible = state.wholeGraph;
@@ -129,10 +130,7 @@ function updateDetails(): void {
   const item = panel.getSelection(), visible = navigation.getState().detailsVisible;
   get<HTMLButtonElement>("toggle-details").disabled = !item;
   get("toggle-details").textContent = visible ? "Hide details (Space)" : "Show details (Space)";
-  get("selection-details").hidden = !item || !visible;
-  if (visible && item instanceof FreshNode) renderAnnotation(get("annotation-detail"), item.getAnnotation(), id => {
-    const node = panel.findNode(id); if (node) void focusOn(node as FreshNode); else get("file-status").textContent = "Unknown linked node: " + id;
-  }); else get("annotation-detail").replaceChildren();
+  get("selection-details").hidden = !visible || !(item instanceof FreshEdge);
   get("item-detail").textContent = item instanceof FreshNode
     ? `ID: ${item.getID()} · Type: ${item.getSemanticType()} · Weight: ${item.getWeight()}${item.getURL() ? ` · URL: ${item.getURL()}` : ""}`
     : item instanceof FreshEdge ? `${item.from.getLabel()} → ${item.to.getLabel()} · Type: ${item.getSemanticType()} · Length: ${item.getLength()} · Weight: ${item.getWeight()}` : "";
@@ -146,10 +144,13 @@ async function focusOn(node: FreshNode): Promise<void> {
   if (panel.getSelect() !== node || panel.getSelectEdge()) panel.setSelect(node);
   await navigation.centerSelection(); updateCounts();
 }
-get("focus").addEventListener("click", () => { void navigation.centerSelection(); });
-get("expand").addEventListener("click", () => { void navigation.expand(); });
-get("collapse").addEventListener("click", () => { void navigation.collapse(); });
-get("hide").addEventListener("click", () => { void navigation.hide(); });
+for (const [id, action] of [["focus", () => navigation.centerSelection()], ["expand", () => navigation.expand()],
+  ["collapse", () => navigation.collapse()], ["hide", () => navigation.hide()]] as const) {
+  get(id).addEventListener("click", async () => {
+    await action();
+    if (document.activeElement === get(id)) panel.focusGraph();
+  });
+}
 get("toggle-details").addEventListener("click", () => navigation.toggleDetails());
 /** Opens resources only on an explicit button/key action; unsupported legacy paths stay editable data. */
 function openResource(): void {
@@ -184,6 +185,7 @@ get<HTMLInputElement>("hyper").addEventListener("input", event => {
 get("show-all").addEventListener("click", async () => {
   allVisible = true; get("view-status").textContent = "WHOLE GRAPH";
   await panel.setLocaleAll(); updateCounts();
+  if (document.activeElement === get("show-all")) panel.focusGraph();
 });
 get("edit-mode").addEventListener("click", () => {
   const editing = panel.getInteractionMode() !== "edit";
@@ -208,14 +210,15 @@ get<HTMLSelectElement>("curve").addEventListener("change", event => {
     : mode === "straight" ? "Straight connects endpoints directly."
     : "Spider bends relations into branching curves. Drag nodes diagonally to see the bend.";
 });
-get("center").addEventListener("click", () => panel.centerView());
+get("center").addEventListener("click", () => { panel.centerView(); panel.focusGraph(); });
 get("motion").addEventListener("click", () => {
   paused = !paused;
   if (paused) panel.tgLayout.stop(); else panel.tgLayout.start();
   get("motion").textContent = paused ? "Resume motion" : "Pause motion";
+  panel.focusGraph();
 });
 // Useful for experimenting with the library from the browser console.
 Object.assign(window, { graphBrowser: panel });
 void focusOn(root);
-window.addEventListener("pagehide", () => { disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeDetails(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

@@ -35,6 +35,29 @@ async function measure(page) {
 }
 
 for (const path of ["/", "/freshmind.html"]) {
+  test(`Ctrl Shift Alt left/right rotates the rendered view on ${path}`, async ({page}) => {
+    const errors=await ready(page,path);
+    const view=()=>page.evaluate(()=>{
+      const p=window.graphBrowser||window.freshmindBrowser,a=p.findNode("anchor"),b=p.findNode("right");
+      const matrix=document.querySelector('[data-node-id="right"] .tg-label').getScreenCTM();
+      return {angle:Math.atan2(b.drawy-a.drawy,b.drawx-a.drawx),rotation:p.getRotation(),labelAngle:Math.atan2(matrix.b,matrix.a),
+        zoom:p.getZoom(),canvas:p.getCanvasZoom(),hyper:p.getHyperbolic(),selection:p.getSelection()?.getID(),
+        positions:[...p.getAllNodes()].map(n=>[n.getID(),n.x,n.y])};
+    });
+    await page.locator('[data-node-id="anchor"]').focus();const before=await view();
+    await page.keyboard.press("Control+Shift+Alt+ArrowRight");const rotated=await view();
+    expect(rotated.rotation).toBeCloseTo(Math.PI/36,10);expect(rotated.angle-before.angle).toBeCloseTo(Math.PI/36,10);
+    expect(rotated.labelAngle).toBeCloseTo(0,10);expect(rotated.positions).toEqual(before.positions);
+    for(const property of ["zoom","canvas","hyper","selection"])expect(rotated[property]).toEqual(before[property]);
+    await page.keyboard.press("Control+Shift+Alt+ArrowLeft");expect((await view()).rotation).toBeCloseTo(0,10);
+    await page.locator("#motion").click();await expect(page.locator("#graph svg")).toBeFocused();
+    await page.keyboard.press("Control+Shift+Alt+ArrowRight");expect((await view()).rotation).toBeCloseTo(Math.PI/36,10);
+    await page.getByRole("button",{name:"Canvas zoom in",exact:true}).click();await expect(page.locator("#graph svg")).toBeFocused();
+    await page.keyboard.press("Control+Shift+Alt+ArrowLeft");expect((await view()).rotation).toBeCloseTo(0,10);
+    await page.getByRole("button",{name:"Key map",exact:true}).click();
+    await expect(page.getByRole("dialog",{name:"Freshmind key map"})).toContainText("Rotate the view counterclockwise/clockwise by 5°");
+    expect(errors).toEqual([]);
+  });
   test(`graph spacing and canvas scale remain independent on ${path}`, async ({ page }, testInfo) => {
     const errors = await ready(page, path), before = await measure(page);
     await page.getByLabel("Graph spacing").fill("150");
@@ -63,7 +86,7 @@ for (const path of ["/", "/freshmind.html"]) {
     expect((await measure(page)).canvas).toBe(1); expect((await measure(page)).graph).toBeCloseTo(1.8, 8);
     expect(errors).toEqual([]);
   });
-  test(`horizontal two-finger scroll adjusts focus/context and vertical scroll zooms canvas on ${path}`, async ({ page }) => {
+  test(`scrolling changes focus/context and graph spacing while pinch scales canvas on ${path}`, async ({ page }) => {
     const errors = await ready(page, path), before = await measure(page), svg = page.locator("#graph svg"), box = await svg.boundingBox();
     await page.evaluate(() => (window.graphBrowser || window.freshmindBrowser).setHyperbolic(40));
     const view = () => page.evaluate(() => {
@@ -75,8 +98,13 @@ for (const path of ["/", "/freshmind.html"]) {
     expect(await view()).toEqual({ hyper: 45, canvas: 1, graph: 1, selection: "anchor" });
     await expect(page.locator("#hyper")).toHaveValue("45");
     await page.mouse.wheel(-40, -5); await expect.poll(async () => (await view()).hyper).toBeCloseTo(43, 8);
-    await page.mouse.wheel(10, -100); await expect.poll(async () => (await view()).canvas).toBeGreaterThan(1);
-    expect((await view()).hyper).toBe(43); expect((await view()).graph).toBe(1);
+    const unscaled=await measure(page);
+    await page.mouse.wheel(10, -100); await expect.poll(async () => (await view()).graph).toBeGreaterThan(1);
+    const spaced=await measure(page);
+    expect((await view()).hyper).toBe(43); expect((await view()).canvas).toBe(1);
+    for(const field of ["width","height","label"])expect(spaced[field]).toBeCloseTo(unscaled[field],5);
+    await expect(page.locator("#graph-zoom-value")).toHaveText(`${Math.round(spaced.graph*100)}%`);
+    await page.mouse.wheel(-10,100);await expect.poll(async()=>(await view()).graph).toBeCloseTo(1,8);
     expect((await measure(page)).positions).toEqual(before.positions);
     // Trackpad pinch is sent as Ctrl+wheel and must reach canvas zoom even with horizontal jitter.
     const pinch = await svg.evaluate(svg => {
@@ -97,22 +125,32 @@ for (const path of ["/", "/freshmind.html"]) {
     expect(normalized.values[0]).toEqual({ hyper: 47, prevented: true });
     expect(normalized.values[1].hyper).toBeCloseTo(47 + .1 * normalized.width / 20, 6);
     expect(normalized.values[2]).toEqual({ hyper: 100, prevented: true }); expect(normalized.values[3]).toEqual({ hyper: 0, prevented: true });
+    const vertical=await svg.evaluate(svg=>{
+      const p=window.graphBrowser||window.freshmindBrowser,values=[];
+      for(const [deltaY,deltaMode] of [[-100,0],[-4,1],[-.2,2],[-1e9,0],[1e9,0]]){
+        p.setZoom(1);const e=new WheelEvent("wheel",{deltaY,deltaMode,bubbles:true,cancelable:true});svg.dispatchEvent(e);
+        values.push({graph:p.getZoom(),canvas:p.getCanvasZoom(),prevented:e.defaultPrevented});
+      }
+      return values;
+    });
+    for(const item of vertical.slice(0,3)){expect(item.graph).toBeCloseTo(2**.2,8);expect(item.prevented).toBe(true);expect(item.canvas).toBe(vertical[0].canvas);}
+    expect(vertical[3].graph).toBe(5);expect(vertical[4].graph).toBe(.15);
     const editor = await page.locator('[data-node-id="anchor"]').evaluate(node => {
       const p = window.graphBrowser || window.freshmindBrowser;
       const foreign = document.createElementNS("http://www.w3.org/2000/svg", "foreignObject"), input = document.createElement("textarea");
       foreign.append(input); node.append(foreign); input.focus();
-      const before = [p.getZoom(), p.getCanvasZoom(), p.getHyperbolic()];
+      const before = [p.getZoom(), p.getCanvasZoom(), p.getHyperbolic(), p.getRotation()];
       const wheel = new WheelEvent("wheel", { deltaX: 100, deltaY: 20, bubbles: true, cancelable: true }); input.dispatchEvent(wheel);
       for (const altKey of [false, true]) for (const key of ["ArrowRight", "ArrowUp", "ArrowDown", "!"])
         input.dispatchEvent(new KeyboardEvent("keydown", { key, ctrlKey: true, shiftKey: true, altKey, bubbles: true, cancelable: true }));
-      const after = [p.getZoom(), p.getCanvasZoom(), p.getHyperbolic()]; foreign.remove();
+      const after = [p.getZoom(), p.getCanvasZoom(), p.getHyperbolic(), p.getRotation()]; foreign.remove();
       return { before, after, prevented: wheel.defaultPrevented };
     });
     expect(editor.after).toEqual(editor.before); expect(editor.prevented).toBe(false); expect(errors).toEqual([]);
   });
 }
 
-test("wheel zoom anchors the pointer; canvas pan and center retain both scales through resize", async ({ page }) => {
+test("pinch zoom anchors the pointer; canvas pan and center retain both scales through resize", async ({ page }) => {
   const errors = await ready(page);
   const svg = page.locator("#graph svg"), box = await svg.boundingBox();
   const point = { x: box.width / 2 + 75, y: box.height / 2 + 65 };
@@ -120,7 +158,10 @@ test("wheel zoom anchors the pointer; canvas pan and center retain both scales t
     const p = window.graphBrowser; return p.getLensSet().convDrawToReal(p.screenToDraw(point));
   }, point);
   const before = await worldAt(point), initial = await measure(page);
-  await page.mouse.move(box.x + point.x, box.y + point.y); await page.mouse.wheel(0, -200);
+  await svg.evaluate((svg,point)=>{
+    const box=svg.getBoundingClientRect();svg.dispatchEvent(new WheelEvent("wheel",{deltaY:-20,ctrlKey:true,
+      clientX:box.x+point.x,clientY:box.y+point.y,bubbles:true,cancelable:true}));
+  },point);
   await expect.poll(async () => (await measure(page)).canvas).toBeGreaterThan(1);
   const after = await worldAt(point);
   expect(after.x).toBeCloseTo(before.x, 5); expect(after.y).toBeCloseTo(before.y, 5);

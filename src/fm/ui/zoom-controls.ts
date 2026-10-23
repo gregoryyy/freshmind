@@ -28,9 +28,9 @@ export function bindZoomControls(panel: FreshmindPanel, elements: ZoomControlEle
     canvasReset.textContent = `${Math.round(panel.getCanvasZoom() * 100)}%`;
   };
   const changeSpacing = () => navigation.zoomBy(Number(spacing.value) / 100 / panel.getZoom());
-  const zoomIn = () => navigation.canvasZoomBy(1.2);
-  const zoomOut = () => navigation.canvasZoomBy(1 / 1.2);
-  const reset = () => navigation.setCanvasZoom(1);
+  const zoomIn = () => { navigation.canvasZoomBy(1.2); panel.focusGraph(); };
+  const zoomOut = () => { navigation.canvasZoomBy(1 / 1.2); panel.focusGraph(); };
+  const reset = () => { navigation.setCanvasZoom(1); panel.focusGraph(); };
   spacing.addEventListener("input", changeSpacing);
   canvasIn.addEventListener("click", zoomIn);
   canvasOut.addEventListener("click", zoomOut);

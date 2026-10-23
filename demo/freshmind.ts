@@ -46,8 +46,8 @@ get<HTMLSelectElement>("curve").addEventListener("change",event=>{
 });
 get<HTMLInputElement>("hyper").addEventListener("input",event=>panel.setHyperbolic(Number((event.target as HTMLInputElement).value)));
 let running=false;
-get("motion").addEventListener("click",()=>{running=!running;if(running){panel.resetDamper();panel.tgLayout.start();}else panel.tgLayout.stop();get("motion").textContent=running?"Pause layout":"Run layout";});
-get("show-all").addEventListener("click",()=>{panel.getGES().addAll();panel.repaint();});
+get("motion").addEventListener("click",()=>{running=!running;if(running){panel.resetDamper();panel.tgLayout.start();}else panel.tgLayout.stop();get("motion").textContent=running?"Pause layout":"Run layout";panel.focusGraph();});
+get("show-all").addEventListener("click",()=>{panel.getGES().addAll();panel.repaint();panel.focusGraph();});
 declare global { interface Window { freshmindBrowser: FreshmindPanel; } }
 window.freshmindBrowser=panel;
 window.addEventListener("pagehide",()=>{disposeKeymap();disposeZoom();panel.destroy();});

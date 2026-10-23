@@ -12,6 +12,14 @@ import { captureDocument, installDocument } from "../src/fm/io/panel.js";
 import berryURL from "../examples/fm2014/berry.fm.yaml?url";
 import nipsURL from "../examples/fm2014/nips-fm.fm.yaml?url";
 import typesURL from "../examples/fm2014/fm2014.types.yaml?url";
+import florentineURL from "../examples/public/florentine.fm.yaml?url";
+import karateURL from "../examples/public/karate.fm.yaml?url";
+import lesMiserablesURL from "../examples/public/les-miserables.fm.yaml?url";
+
+const examples: Record<string, {url: string; companion?: string}> = {
+  berry: {url: berryURL, companion: typesURL}, "nips-fm": {url: nipsURL, companion: typesURL},
+  florentine: {url: florentineURL}, karate: {url: karateURL}, "les-miserables": {url: lesMiserablesURL}
+};
 
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -20,15 +28,23 @@ export function bindFileControls(panel: FreshmindPanel): void {
   let current: FreshmindDocument | undefined, filename = "freshmind.fm.yaml", revision = 0;
   const input = get<HTMLInputElement>("open-graph-files"), status = get("file-status");
   const message = (value: string, error = false) => {status.textContent = value; status.dataset.error = String(error);};
-  const load = async (source: string, name: string, resolver: (path: string) => string, request: number) => {
-    const document = parseDocument(source, {resolveTypes: resolver});
+  const load = async (source: string, name: string, resolver: (path: string) => string, request: number, example = "") => {
+    const loaded = parseDocument(source, {resolveTypes: resolver});
     if (request !== revision) return;
-    await installDocument(panel, document);
+    const focusBeforeInstall = document.activeElement;
+    await installDocument(panel, loaded);
     if (request !== revision) return;
-    current = document; filename = name; get<HTMLInputElement>("save-name").value = filename;
-    const warnings = document.types.getDiagnostics();
-    message(name + ": " + document.graph.nodeCount() + " nodes, " + document.graph.edgeCount() + " relations"
+    current = loaded; filename = name; get<HTMLInputElement>("save-name").value = filename;
+    get<HTMLSelectElement>("example-graph").value = example;
+    const warnings = loaded.types.getDiagnostics();
+    message(name + ": " + loaded.graph.nodeCount() + " nodes, " + loaded.graph.edgeCount() + " relations"
       + (warnings.length ? " · " + warnings.length + " type warnings: " + warnings.slice(0, 3).join("; ") : ""));
+    // Loading is a graph action. Preserve any editor/control the user entered while it was pending.
+    // Graph replacement temporarily disables the inspector, which can move its focus to body.
+    if (document.activeElement === document.body && focusBeforeInstall instanceof HTMLElement && focusBeforeInstall.isConnected
+      && focusBeforeInstall.matches("input,textarea,select,[contenteditable]") && !focusBeforeInstall.matches(":disabled"))
+      focusBeforeInstall.focus({preventScroll: true});
+    if ([input, get("open-graph"), get("example-graph"), document.body].includes(document.activeElement as HTMLElement)) panel.focusGraph();
   };
   input.addEventListener("change", async () => {
     const files = [...input.files ?? []], request = ++revision;
@@ -46,13 +62,15 @@ export function bindFileControls(panel: FreshmindPanel): void {
   get("open-graph").addEventListener("click", () => input.click());
   get<HTMLSelectElement>("example-graph").addEventListener("change", async event => {
     const selected = (event.target as HTMLSelectElement).value, request = ++revision;
-    const url = selected === "berry" ? berryURL : selected === "nips-fm" ? nipsURL : null;
-    if (!url) return; message("Loading " + selected + "…");
+    const example = examples[selected];
+    if (!example) return; message("Loading " + selected + "…");
     try {
-      const [graph, types] = await Promise.all([fetch(url), fetch(typesURL)]);
-      if (!graph.ok || !types.ok) throw new Error("Could not load example files");
-      const [source, config] = await Promise.all([graph.text(), types.text()]);
-      await load(source, selected + ".fm.yaml", path => {if (path !== "fm2014.types.yaml") throw new Error("Unknown example companion"); return config;}, request);
+      const [graph, types] = await Promise.all([fetch(example.url), example.companion ? fetch(example.companion) : undefined]);
+      if (!graph.ok || (types && !types.ok)) throw new Error("Could not load example files");
+      const [source, config] = await Promise.all([graph.text(), types?.text()]);
+      await load(source, selected + ".fm.yaml", path => {
+        if (path !== "fm2014.types.yaml" || config === undefined) throw new Error("Unknown example companion"); return config;
+      }, request, selected);
     } catch (error) {if (request === revision) message((error as Error).message, true);}
   });
   const dialog = document.createElement("dialog"); dialog.className = "save-dialog"; dialog.setAttribute("aria-label", "Save graph as");

@@ -57,7 +57,7 @@ just --list      # All recipes, including Java and browser tests
 
 PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mermaid support as Kibitz. Build assets live in `scripts/pdf/`, alongside the other development tools. Install Pandoc with `brew install pandoc`; set `CHROME` to use another Chrome executable. Outputs use the source's full name (`file.md.pdf`) and unchanged PDFs are skipped. Mermaid diagrams require network access during PDF generation. Delete the PDF to rebuild after changing only an embedded image.
 
-Open the localhost address printed by Vite. Double-click a node to select and center it, or select it and choose **Focus here**. Adjust neighborhood depth and the focus + context slider. Press **E** with the graph focused, or use **Expand**, to reveal neighbors. Drag nodes to rearrange them and drag the background to pan. **Graph spacing** changes distances between node centers while keeping shapes and labels the same size. Vertical scrolling scales the **whole canvas**, including shapes, labels and strokes, around the pointer. Horizontal two-finger scrolling decreases/increases **focus + context** strength to the left/right; the dominant scroll axis chooses one operation for each event. Trackpad pinch controls canvas zoom. The canvas toolbar also zooms in/out; its percentage button resets canvas scale to 100%. Centering retains both zoom levels. Pinning holds a node in physical coordinates. Double-click follows the same centering/neighborhood option as Enter; plain `TGPanel` retains double-click expansion and canvas-only wheel handling.
+Open the localhost address printed by Vite. Double-click a node to select and center it, or select it and choose **Focus here**. Adjust neighborhood depth and the focus + context slider. Press **E** with the graph focused, or use **Expand**, to reveal neighbors. Drag nodes to rearrange them and drag the background to pan. **Graph spacing** changes distances between node centers while keeping shapes and labels the same size. Vertical scrolling changes **graph spacing**, keeping shapes and labels the same size. Horizontal two-finger scrolling decreases/increases **focus + context** strength to the left/right; the dominant scroll axis chooses one operation for each event. Trackpad pinch (Ctrl+wheel) controls canvas zoom around the pointer. The canvas toolbar also zooms in/out; its percentage button resets canvas scale to 100%. Centering retains both zoom levels. Pinning holds a node in physical coordinates. Double-click follows the same centering/neighborhood option as Enter; plain `TGPanel` retains double-click expansion and canvas-only wheel handling.
 
 With the graph focused, **arrows** navigate adjacent nodes and **Shift+arrows** navigate relations. One candidate selects immediately; several highlight temporary choices. Press a perpendicular arrow to cycle, the original arrow or **Enter/Space** to confirm, or the opposite arrow/**Escape** to cancel. Candidate order stays fixed while the layout moves. The default inactivity timeout is 2.5 seconds; **Navigation options** can change it or disable it with zero.
 
@@ -70,10 +70,11 @@ The view shortcuts are:
 | **Ctrl+Shift+↑/↓** (also **Ctrl+↑/↓**) | Increase/decrease graph spacing by a factor of 1.2. |
 | **Ctrl+Shift+←/→** | Decrease/increase focus + context strength by five percentage points. |
 | **Ctrl+Shift+Option/Alt+↑/↓** | Increase/decrease canvas scale by a factor of 1.2, around the viewport center. |
+| **Ctrl+Shift+Option/Alt+←/→** | Rotate the view counterclockwise/clockwise by 5°, keeping labels upright. |
 | **Ctrl+Shift+1** | Reset canvas scale to exactly 100%, retaining the viewport center. |
 | **+ / −** (also **=**) | Additional canvas zoom shortcuts. |
 
-Graph spacing uses Ctrl+Shift+↑/↓, with Ctrl+↑/↓ retained as an alias. Canvas zoom uses Ctrl+Shift+Option/Alt+↑/↓; Option is the Alt modifier on macOS. Horizontal Ctrl+Shift arrows adjust focus/context. The Java snapshot used Alt+↑/↓ and Alt+←/→ for graph spacing and fisheye strength, Ctrl+Shift+↑/↓ for canvas zoom, and +/− for graph spacing. Canvas reset retains its Ctrl+Shift+1 binding. Both zoom levels are independent and limited to 15–500%; focus/context ranges from 0–100. Keyboard shortcuts require graph focus; scrolling applies while the pointer is over the graph. Both work without a selected node and preserve selection, the neighborhood and candidate order. Holding a key repeats the adjustment; the sliders and canvas percentage follow view changes. Horizontal scrolling is continuous (20 pixel-equivalent units per percentage point, with line/page deltas normalized). Editor input and unregistered modifier chords retain their normal behavior.
+Graph spacing uses Ctrl+Shift+↑/↓, with Ctrl+↑/↓ retained as an alias. Canvas zoom uses Ctrl+Shift+Option/Alt+↑/↓; Option is the Alt modifier on macOS. Horizontal Ctrl+Shift arrows adjust focus/context. The Java snapshot used Alt+↑/↓ and Alt+←/→ for graph spacing and fisheye strength, Ctrl+Shift+↑/↓ for canvas zoom, and +/− for graph spacing. Canvas reset retains its Ctrl+Shift+1 binding. Both zoom levels are independent and limited to 15–500%; focus/context ranges from 0–100. Keyboard shortcuts require graph focus; loading a graph and completing navigation, motion or canvas-toolbar actions returns focus to it. Text fields and sliders retain their own input. Scrolling applies while the pointer is over the graph. Both work without a selected node and preserve selection, the neighborhood and candidate order. Holding a key repeats the adjustment; the sliders and canvas percentage follow view changes. Horizontal scrolling is continuous (20 pixel-equivalent units per percentage point, with line/page deltas normalized). Editor input and unregistered modifier chords retain their normal behavior.
 
 The example's `window.graphBrowser` exposes its `FreshmindPanel` for experimentation, including the inherited TouchGraph API.
 
@@ -87,7 +88,29 @@ Select a node or relation and press **F2** or **Ctrl+Enter** to edit its label i
 
 The inspector edits labels, semantic types, shape/curve overrides, weights, node URLs and text/HTML annotations. Relation fields include endpoint IDs, spring length and **Reverse relation** (**R**). **Visual settings and metadata** exposes named visual overrides, supported style fields, application data and extensions as YAML mappings. **Save changes** validates the complete draft before mutation; **Cancel** discards it and restores graph focus. Drafts remain associated with their items when selection changes. Labels may repeat and IDs remain stable. Clearing a shape/curve override restores the type/view style.
 
-**Space** shows details. HTML annotation source is preserved for export and displayed through a formatting/link allowlist, with no scripts, event handlers or embedded resource loading. Annotation links of the form `#node=ID` navigate to stored nodes. **L** or **Open linked resource** explicitly opens supported web/mail URLs; unavailable legacy local paths remain editable data. **Edit graph** exposes node creation/deletion and Shift-click connection gestures.
+**Space** opens a modeless, resizable popup for the selected node’s content; relation details remain in the inspector. The popup follows selection while open. **Escape** or **Space** in its content closes it and returns focus to the graph. **Edit content** or **Ctrl+Space** delegates to the existing annotation inspector, preserving its drafts. HTML annotation source is preserved for export and displayed through a formatting/link allowlist, with no scripts, event handlers or embedded resource loading. Annotation links of the form `#node=ID` navigate to stored nodes. **L** or **Open linked resource** explicitly opens supported web/mail URLs; unavailable legacy local paths remain editable data. **Edit graph** exposes node creation/deletion and Shift-click connection gestures.
+
+Applications can bind the same popup through the library:
+
+```ts
+import { bindNodeDetails } from "fm4/fm/ui";
+import "fm4/fm/ui/style.css";
+
+const disposeDetails = bindNodeDetails(panel, {
+  graph: graphElement,
+  onNodeLink: async node => {
+    const navigation = panel.getNavigation();
+    const s = navigation.getState().settings;
+    await panel.setLocale(node, s.radius, s.maxAddEdgeCount, s.maxExpandEdgeCount, !s.backlinks);
+    panel.setSelect(node);
+    await navigation.centerSelection();
+  },
+  onEdit: node => openAnnotationEditor(node),
+});
+// Call disposeDetails() before removing the graph or destroying the panel.
+```
+
+The popup reads committed node annotations and URL metadata. The application supplies editing and navigation callbacks; without a navigation callback, links select visible nodes and report hidden targets. It never owns a second editor draft or layout timer.
 
 ## Graph files and examples
 
@@ -95,7 +118,9 @@ Use **Open YAML** or **Ctrl/Cmd+O** to select one `.fm.yaml` graph and, when req
 
 **Export options** selects layout positions, view settings and embedded/companion type configuration. Fixed-node positions are always retained. Saved views include neighborhood filters, graph zoom, focus/context, rotation, lens pan, canvas zoom and canvas pan. Velocities, hover, selection, preselection and derived geometry are transient. The codec uses strict YAML 1.2, validates IDs/references/types, rejects aliases/merge keys/custom tags/duplicate keys and preserves metadata/extensions and unknown semantic type IDs with diagnostics.
 
-**Load example** offers only [berry](examples/fm2014/berry.fm.yaml) (21 nodes, 22 relations) and [nips-fm](examples/fm2014/nips-fm.fm.yaml) (3,777 nodes, 5,257 relations). NIPS opens a bounded neighborhood over the complete graph. Other reference datasets are proprietary and are excluded from migration, tests and distribution. The [migration report](examples/fm2014/conversion-report.json) records source hashes, counts and unavailable resource targets.
+**Load example → Freshmind 2014** offers the approved [berry](examples/fm2014/berry.fm.yaml) (21 nodes, 22 relations) and [nips-fm](examples/fm2014/nips-fm.fm.yaml) (3,777 nodes, 5,257 relations). NIPS opens a bounded neighborhood over the complete graph. Other reference datasets are proprietary and are excluded from migration, tests and distribution. The [migration report](examples/fm2014/conversion-report.json) records source hashes, counts and unavailable resource targets.
+
+**Public networks** adds [Florentine families](examples/public/florentine.fm.yaml) (15 nodes, 20 relations), [Zachary's karate club](examples/public/karate.fm.yaml) (34 / 78) and [Les Misérables](examples/public/les-miserables.fm.yaml) (77 / 254). Their node content includes graph-derived summaries and connected-node links. The pinned NetworkX sources, BSD license, original references and conversion notes are in [examples/public/README.md](examples/public/README.md). Regenerate them offline with `just public-examples`.
 
 ```sh
 just convert-fm2014                 # Only berry.xml and nips-fm.xml; never scans other datasets
@@ -178,7 +203,7 @@ world → focus translation → graph zoom → lens pan → nonlinear lens → r
 
 `focusNode(node, radius)` combines neighborhood browsing with centering the lens on that node. `setLocale()` changes the visible neighborhood alone. `setHyperbolic()` changes the view alone. Lens adjustments never change the physical coordinates or the spring forces. Dragging converts screen coordinates back through the reversed lens pipeline, including when dragging the focus node itself.
 
-`getZoom()` / `setZoom(scale)` / `zoomBy(factor)` retain TouchGraph's graph-distance semantics. `getCanvasZoom()` / `setCanvasZoom(scale)` / `canvasZoomBy(factor)` control the complete rendering independently. Programmatic canvas zoom preserves the world point beneath the viewport center; wheel/pinch zoom anchors at the gesture position. `drawToScreen(point)` and `screenToDraw(point)` convert between renderer coordinates and viewport pixels relative to the SVG. Node draw positions, geometry, hit tests, `getMousePos()` and `multiSelect()` use renderer coordinates before the canvas transform. `getCenter()` returns the physical point beneath the viewport center, including canvas pan and zoom.
+`getZoom()` / `setZoom(scale)` / `zoomBy(factor)` retain TouchGraph's graph-distance semantics. `getCanvasZoom()` / `setCanvasZoom(scale)` / `canvasZoomBy(factor)` control the complete rendering independently. Programmatic canvas zoom preserves the world point beneath the viewport center; pinch/Ctrl+wheel zoom anchors at the gesture position. Ordinary vertical scrolling in Freshmind adjusts graph spacing. `drawToScreen(point)` and `screenToDraw(point)` convert between renderer coordinates and viewport pixels relative to the SVG. Node draw positions, geometry, hit tests, `getMousePos()` and `multiSelect()` use renderer coordinates before the canvas transform. `getCenter()` returns the physical point beneath the viewport center, including canvas pan and zoom.
 
 Custom lenses can extend `TGAbstractLens`, implement `applyLens(point)` and `undoLens(point)`, and be composed in a `TGLensSet`. `panel.setLensSet(lenses)` replaces the default lens pipeline; callers own that chain's viewport origin and inverse behavior. The independent canvas transform still applies outside it.
 
@@ -298,7 +323,7 @@ Use `start()` / `stop()` for timed layout, or `tick()` for deterministic steppin
 | `TGPoint2D`, `TGAbstractLens`, `TGLensSet` | Mutable points, composable forward transforms and reverse-order inverse transforms. |
 | `HyperScroll` | `HyperLens`, plus `panel.setHyperbolic(0…100)`; the demo slider replaces Swing's scrollbar. |
 
-Freshmind 4 provides the core graph browsing library and browser equivalents for navigation, editing, rectangle selection and native YAML file I/O. The [compatibility audit](docs/DONE.md#compatibility-audit) describes the supported APIs. Swing controls, AWT painting hooks, and the `GLPanel`/applet wrappers are replaced by SVG, DOM events, and browser controls. Runtime legacy XML/FMG/OWL and database adapters remain outside the native file format; approved XML examples use the batch converter. Rotation is available through `setRotation(radians)`. Plain TouchGraph edges retain straight segments and endpoint arrow markers; Freshmind adds labeled spider/lens curves and midpoint arrows.
+Freshmind 4 provides the core graph browsing library and browser equivalents for navigation, editing, rectangle selection and native YAML file I/O. The [compatibility audit](docs/DONE.md#compatibility-audit) describes the supported APIs. Swing controls, AWT painting hooks, and the `GLPanel`/applet wrappers are replaced by SVG, DOM events, and browser controls. Runtime legacy XML/FMG/OWL and database adapters remain outside the native file format; approved XML examples use the batch converter. Rotation is available through `setRotation(radians)` and Ctrl+Shift+Option/Alt+←/→; `getRotation()` returns the current angle. Plain TouchGraph edges retain straight segments and endpoint arrow markers; Freshmind adds labeled spider/lens curves and midpoint arrows.
 
 Known differences and limits:
 

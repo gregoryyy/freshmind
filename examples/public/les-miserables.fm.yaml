@@ -1,0 +1,5127 @@
+format: freshmind
+version: 1
+title: Les Misérables
+types:
+  format: freshmind-types
+  version: 1
+  id: public-networks
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+    marriage:
+      label: marriage
+      visual: default
+    club-tie:
+      label: club-tie
+      visual: default
+    coappearance:
+      label: coappearance
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#708274"
+        width: 1
+        dash: solid
+      arrow:
+        placement: none
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: Napoleon
+    label: Napoleon
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Napoleon</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 160
+      "y": 0
+    data:
+      dataset: les-miserables
+      sourceNode: Napoleon
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Myriel
+    label: Myriel
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Myriel</strong> has 10 recorded neighbors; the sum of incident weights is 31.</p><h3>Connected nodes</h3><ul><li><a href="#node=Napoleon">Napoleon</a> — weight 1</li><li><a href="#node=MlleBaptistine">MlleBaptistine</a> — weight 8</li><li><a href="#node=MmeMagloire">MmeMagloire</a> — weight 10</li><li><a href="#node=CountessDeLo">CountessDeLo</a> — weight 1</li><li><a href="#node=Geborand">Geborand</a> — weight 1</li><li><a href="#node=Champtercier">Champtercier</a> — weight 1</li><li><a href="#node=Cravatte">Cravatte</a> — weight 1</li><li><a href="#node=Count">Count</a> — weight 2</li><li><a href="#node=OldMan">OldMan</a> — weight 1</li><li><a href="#node=Valjean">Valjean</a> — weight 5</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": 0
+    data:
+      dataset: les-miserables
+      sourceNode: Myriel
+      degree: 10
+      weightedDegree: 31
+    extensions: {}
+  - id: MlleBaptistine
+    label: MlleBaptistine
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MlleBaptistine</strong> has 3 recorded neighbors; the sum of incident weights is 17.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 8</li><li><a href="#node=MmeMagloire">MmeMagloire</a> — weight 6</li><li><a href="#node=Valjean">Valjean</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 194.3339761363006
+      "y": 16.102972367104805
+    data:
+      dataset: les-miserables
+      sourceNode: MlleBaptistine
+      degree: 3
+      weightedDegree: 17
+    extensions: {}
+  - id: MmeMagloire
+    label: MmeMagloire
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MmeMagloire</strong> has 3 recorded neighbors; the sum of incident weights is 19.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 10</li><li><a href="#node=MlleBaptistine">MlleBaptistine</a> — weight 6</li><li><a href="#node=Valjean">Valjean</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 226.86309978262614
+      "y": 37.856755764568796
+    data:
+      dataset: les-miserables
+      sourceNode: MmeMagloire
+      degree: 3
+      weightedDegree: 19
+    extensions: {}
+  - id: CountessDeLo
+    label: CountessDeLo
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>CountessDeLo</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 155.10404255029286
+      "y": 39.277677942527866
+    data:
+      dataset: les-miserables
+      sourceNode: CountessDeLo
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Geborand
+    label: Geborand
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Geborand</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 184.43436213162374
+      "y": 63.31639649491327
+    data:
+      dataset: les-miserables
+      sourceNode: Geborand
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Champtercier
+    label: Champtercier
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Champtercier</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 210.6278651306632
+      "y": 92.38994767018296
+    data:
+      dataset: les-miserables
+      sourceNode: Champtercier
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Cravatte
+    label: Cravatte
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Cravatte</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 140.71580019303826
+      "y": 76.15158288593177
+    data:
+      dataset: les-miserables
+      sourceNode: Cravatte
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Count
+    label: Count
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Count</strong> has 1 recorded neighbors; the sum of incident weights is 2.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 163.24746326119308
+      "y": 106.65489083387322
+    data:
+      dataset: les-miserables
+      sourceNode: Count
+      degree: 1
+      weightedDegree: 2
+    extensions: {}
+  - id: OldMan
+    label: OldMan
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>OldMan</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Myriel">Myriel</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 181.5023171611705
+      "y": 141.26892391862359
+    data:
+      dataset: les-miserables
+      sourceNode: OldMan
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Valjean
+    label: Valjean
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Valjean</strong> has 36 recorded neighbors; the sum of incident weights is 158.</p><h3>Connected nodes</h3><ul><li><a href="#node=Labarre">Labarre</a> — weight 1</li><li><a href="#node=MmeMagloire">MmeMagloire</a> — weight 3</li><li><a href="#node=MlleBaptistine">MlleBaptistine</a> — weight 3</li><li><a href="#node=Myriel">Myriel</a> — weight 5</li><li><a href="#node=Marguerite">Marguerite</a> — weight 1</li><li><a href="#node=MmeDeR">MmeDeR</a> — weight 1</li><li><a href="#node=Isabeau">Isabeau</a> — weight 1</li><li><a href="#node=Gervais">Gervais</a> — weight 1</li><li><a href="#node=Fantine">Fantine</a> — weight 9</li><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 7</li><li><a href="#node=Thenardier">Thenardier</a> — weight 12</li><li><a href="#node=Cosette">Cosette</a> — weight 31</li><li><a href="#node=Javert">Javert</a> — weight 17</li><li><a href="#node=Fauchelevent">Fauchelevent</a> — weight 8</li><li><a href="#node=Bamatabois">Bamatabois</a> — weight 2</li><li><a href="#node=Simplice">Simplice</a> — weight 3</li><li><a href="#node=Scaufflaire">Scaufflaire</a> — weight 1</li><li><a href="#node=Woman1">Woman1</a> — weight 2</li><li><a href="#node=Judge">Judge</a> — weight 3</li><li><a href="#node=Champmathieu">Champmathieu</a> — weight 3</li><li><a href="#node=Brevet">Brevet</a> — weight 2</li><li><a href="#node=Chenildieu">Chenildieu</a> — weight 2</li><li><a href="#node=Cochepaille">Cochepaille</a> — weight 2</li><li><a href="#node=Woman2">Woman2</a> — weight 3</li><li><a href="#node=MotherInnocent">MotherInnocent</a> — weight 1</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Gillenormand">Gillenormand</a> — weight 2</li><li><a href="#node=MlleGillenormand">MlleGillenormand</a> — weight 2</li><li><a href="#node=Marius">Marius</a> — weight 19</li><li><a href="#node=Enjolras">Enjolras</a> — weight 4</li><li><a href="#node=Bossuet">Bossuet</a> — weight 1</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 1</li><li><a href="#node=Babet">Babet</a> — weight 1</li><li><a href="#node=Claquesous">Claquesous</a> — weight 1</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 1</li><li><a href="#node=Toussaint">Toussaint</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 117.71582570770106
+      "y": 108.36505146011856
+    data:
+      dataset: les-miserables
+      sourceNode: Valjean
+      degree: 36
+      weightedDegree: 158
+    extensions: {}
+  - id: Labarre
+    label: Labarre
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Labarre</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 132.0699064670195
+      "y": 143.46616258126065
+    data:
+      dataset: les-miserables
+      sourceNode: Labarre
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Marguerite
+    label: Marguerite
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Marguerite</strong> has 2 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 1</li><li><a href="#node=Fantine">Fantine</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 141.2689239186236
+      "y": 181.5023171611705
+    data:
+      dataset: les-miserables
+      sourceNode: Marguerite
+      degree: 2
+      weightedDegree: 3
+    extensions: {}
+  - id: MmeDeR
+    label: MmeDeR
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MmeDeR</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 87.5117052995883
+      "y": 133.94663652200455
+    data:
+      dataset: les-miserables
+      sourceNode: MmeDeR
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Isabeau
+    label: Isabeau
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Isabeau</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 92.80974164222933
+      "y": 171.49738148526538
+    data:
+      dataset: les-miserables
+      sourceNode: Isabeau
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Gervais
+    label: Gervais
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Gervais</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 92.38994767018299
+      "y": 210.6278651306632
+    data:
+      dataset: les-miserables
+      sourceNode: Gervais
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Listolier
+    label: Listolier
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Listolier</strong> has 7 recorded neighbors; the sum of incident weights is 24.</p><h3>Connected nodes</h3><ul><li><a href="#node=Tholomyes">Tholomyes</a> — weight 4</li><li><a href="#node=Fameuil">Fameuil</a> — weight 4</li><li><a href="#node=Blacheville">Blacheville</a> — weight 4</li><li><a href="#node=Favourite">Favourite</a> — weight 3</li><li><a href="#node=Dahlia">Dahlia</a> — weight 3</li><li><a href="#node=Zephine">Zephine</a> — weight 3</li><li><a href="#node=Fantine">Fantine</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 51.95191507274937
+      "y": 151.33075867210155
+    data:
+      dataset: les-miserables
+      sourceNode: Listolier
+      degree: 7
+      weightedDegree: 24
+    extensions: {}
+  - id: Tholomyes
+    label: Tholomyes
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Tholomyes</strong> has 9 recorded neighbors; the sum of incident weights is 26.</p><h3>Connected nodes</h3><ul><li><a href="#node=Listolier">Listolier</a> — weight 4</li><li><a href="#node=Fameuil">Fameuil</a> — weight 4</li><li><a href="#node=Blacheville">Blacheville</a> — weight 4</li><li><a href="#node=Favourite">Favourite</a> — weight 3</li><li><a href="#node=Dahlia">Dahlia</a> — weight 3</li><li><a href="#node=Zephine">Zephine</a> — weight 3</li><li><a href="#node=Fantine">Fantine</a> — weight 3</li><li><a href="#node=Cosette">Cosette</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 47.869669992455854
+      "y": 189.03305185816942
+    data:
+      dataset: les-miserables
+      sourceNode: Tholomyes
+      degree: 9
+      weightedDegree: 26
+    extensions: {}
+  - id: Fameuil
+    label: Fameuil
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Fameuil</strong> has 7 recorded neighbors; the sum of incident weights is 24.</p><h3>Connected nodes</h3><ul><li><a href="#node=Tholomyes">Tholomyes</a> — weight 4</li><li><a href="#node=Listolier">Listolier</a> — weight 4</li><li><a href="#node=Blacheville">Blacheville</a> — weight 4</li><li><a href="#node=Favourite">Favourite</a> — weight 3</li><li><a href="#node=Dahlia">Dahlia</a> — weight 3</li><li><a href="#node=Zephine">Zephine</a> — weight 3</li><li><a href="#node=Fantine">Fantine</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 37.85675576456876
+      "y": 226.86309978262616
+    data:
+      dataset: les-miserables
+      sourceNode: Fameuil
+      degree: 7
+      weightedDegree: 24
+    extensions: {}
+  - id: Blacheville
+    label: Blacheville
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Blacheville</strong> has 7 recorded neighbors; the sum of incident weights is 25.</p><h3>Connected nodes</h3><ul><li><a href="#node=Tholomyes">Tholomyes</a> — weight 4</li><li><a href="#node=Listolier">Listolier</a> — weight 4</li><li><a href="#node=Fameuil">Fameuil</a> — weight 4</li><li><a href="#node=Favourite">Favourite</a> — weight 4</li><li><a href="#node=Dahlia">Dahlia</a> — weight 3</li><li><a href="#node=Zephine">Zephine</a> — weight 3</li><li><a href="#node=Fantine">Fantine</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 13.212695275573182
+      "y": 159.45351888106717
+    data:
+      dataset: les-miserables
+      sourceNode: Blacheville
+      degree: 7
+      weightedDegree: 25
+    extensions: {}
+  - id: Favourite
+    label: Favourite
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Favourite</strong> has 7 recorded neighbors; the sum of incident weights is 26.</p><h3>Connected nodes</h3><ul><li><a href="#node=Tholomyes">Tholomyes</a> — weight 3</li><li><a href="#node=Listolier">Listolier</a> — weight 3</li><li><a href="#node=Fameuil">Fameuil</a> — weight 3</li><li><a href="#node=Blacheville">Blacheville</a> — weight 4</li><li><a href="#node=Dahlia">Dahlia</a> — weight 5</li><li><a href="#node=Zephine">Zephine</a> — weight 4</li><li><a href="#node=Fantine">Fantine</a> — weight 4</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 1.1940306291686694e-14
+      "y": 195
+    data:
+      dataset: les-miserables
+      sourceNode: Favourite
+      degree: 7
+      weightedDegree: 26
+    extensions: {}
+  - id: Dahlia
+    label: Dahlia
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Dahlia</strong> has 7 recorded neighbors; the sum of incident weights is 25.</p><h3>Connected nodes</h3><ul><li><a href="#node=Tholomyes">Tholomyes</a> — weight 3</li><li><a href="#node=Listolier">Listolier</a> — weight 3</li><li><a href="#node=Fameuil">Fameuil</a> — weight 3</li><li><a href="#node=Blacheville">Blacheville</a> — weight 3</li><li><a href="#node=Favourite">Favourite</a> — weight 5</li><li><a href="#node=Zephine">Zephine</a> — weight 4</li><li><a href="#node=Fantine">Fantine</a> — weight 4</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -18.993249458636424
+      "y": 229.21443339153407
+    data:
+      dataset: les-miserables
+      sourceNode: Dahlia
+      degree: 7
+      weightedDegree: 25
+    extensions: {}
+  - id: Zephine
+    label: Zephine
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Zephine</strong> has 7 recorded neighbors; the sum of incident weights is 24.</p><h3>Connected nodes</h3><ul><li><a href="#node=Tholomyes">Tholomyes</a> — weight 3</li><li><a href="#node=Listolier">Listolier</a> — weight 3</li><li><a href="#node=Fameuil">Fameuil</a> — weight 3</li><li><a href="#node=Blacheville">Blacheville</a> — weight 3</li><li><a href="#node=Favourite">Favourite</a> — weight 4</li><li><a href="#node=Dahlia">Dahlia</a> — weight 4</li><li><a href="#node=Fantine">Fantine</a> — weight 4</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -26.335134444917415
+      "y": 157.8178085444356
+    data:
+      dataset: les-miserables
+      sourceNode: Zephine
+      degree: 7
+      weightedDegree: 24
+    extensions: {}
+  - id: Fantine
+    label: Fantine
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Fantine</strong> has 15 recorded neighbors; the sum of incident weights is 47.</p><h3>Connected nodes</h3><ul><li><a href="#node=Tholomyes">Tholomyes</a> — weight 3</li><li><a href="#node=Listolier">Listolier</a> — weight 3</li><li><a href="#node=Fameuil">Fameuil</a> — weight 3</li><li><a href="#node=Blacheville">Blacheville</a> — weight 3</li><li><a href="#node=Favourite">Favourite</a> — weight 4</li><li><a href="#node=Dahlia">Dahlia</a> — weight 4</li><li><a href="#node=Zephine">Zephine</a> — weight 4</li><li><a href="#node=Marguerite">Marguerite</a> — weight 2</li><li><a href="#node=Valjean">Valjean</a> — weight 9</li><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 2</li><li><a href="#node=Thenardier">Thenardier</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 5</li><li><a href="#node=Bamatabois">Bamatabois</a> — weight 1</li><li><a href="#node=Perpetue">Perpetue</a> — weight 1</li><li><a href="#node=Simplice">Simplice</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -47.86966999245578
+      "y": 189.03305185816944
+    data:
+      dataset: les-miserables
+      sourceNode: Fantine
+      degree: 15
+      weightedDegree: 47
+    extensions: {}
+  - id: MmeThenardier
+    label: MmeThenardier
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MmeThenardier</strong> has 11 recorded neighbors; the sum of incident weights is 34.</p><h3>Connected nodes</h3><ul><li><a href="#node=Fantine">Fantine</a> — weight 2</li><li><a href="#node=Valjean">Valjean</a> — weight 7</li><li><a href="#node=Thenardier">Thenardier</a> — weight 13</li><li><a href="#node=Cosette">Cosette</a> — weight 4</li><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=Eponine">Eponine</a> — weight 2</li><li><a href="#node=Anzelma">Anzelma</a> — weight 1</li><li><a href="#node=Magnon">Magnon</a> — weight 1</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 1</li><li><a href="#node=Babet">Babet</a> — weight 1</li><li><a href="#node=Claquesous">Claquesous</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -74.68087791707714
+      "y": 217.537965591146
+    data:
+      dataset: les-miserables
+      sourceNode: MmeThenardier
+      degree: 11
+      weightedDegree: 34
+    extensions: {}
+  - id: Thenardier
+    label: Thenardier
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Thenardier</strong> has 16 recorded neighbors; the sum of incident weights is 61.</p><h3>Connected nodes</h3><ul><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 13</li><li><a href="#node=Fantine">Fantine</a> — weight 1</li><li><a href="#node=Valjean">Valjean</a> — weight 12</li><li><a href="#node=Cosette">Cosette</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 5</li><li><a href="#node=Pontmercy">Pontmercy</a> — weight 1</li><li><a href="#node=Boulatruelle">Boulatruelle</a> — weight 1</li><li><a href="#node=Eponine">Eponine</a> — weight 3</li><li><a href="#node=Anzelma">Anzelma</a> — weight 2</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 2</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 5</li><li><a href="#node=Babet">Babet</a> — weight 6</li><li><a href="#node=Claquesous">Claquesous</a> — weight 4</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 1</li><li><a href="#node=Brujon">Brujon</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -64.27126794447511
+      "y": 146.52373226480918
+    data:
+      dataset: les-miserables
+      sourceNode: Thenardier
+      degree: 16
+      weightedDegree: 61
+    extensions: {}
+  - id: Cosette
+    label: Cosette
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Cosette</strong> has 11 recorded neighbors; the sum of incident weights is 68.</p><h3>Connected nodes</h3><ul><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 4</li><li><a href="#node=Valjean">Valjean</a> — weight 31</li><li><a href="#node=Tholomyes">Tholomyes</a> — weight 1</li><li><a href="#node=Thenardier">Thenardier</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=Woman2">Woman2</a> — weight 1</li><li><a href="#node=Gillenormand">Gillenormand</a> — weight 3</li><li><a href="#node=MlleGillenormand">MlleGillenormand</a> — weight 2</li><li><a href="#node=LtGillenormand">LtGillenormand</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 21</li><li><a href="#node=Toussaint">Toussaint</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -92.80974164222934
+      "y": 171.49738148526538
+    data:
+      dataset: les-miserables
+      sourceNode: Cosette
+      degree: 11
+      weightedDegree: 68
+    extensions: {}
+  - id: Javert
+    label: Javert
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Javert</strong> has 17 recorded neighbors; the sum of incident weights is 47.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 17</li><li><a href="#node=Fantine">Fantine</a> — weight 5</li><li><a href="#node=Thenardier">Thenardier</a> — weight 5</li><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 1</li><li><a href="#node=Cosette">Cosette</a> — weight 1</li><li><a href="#node=Fauchelevent">Fauchelevent</a> — weight 1</li><li><a href="#node=Bamatabois">Bamatabois</a> — weight 1</li><li><a href="#node=Simplice">Simplice</a> — weight 1</li><li><a href="#node=Woman1">Woman1</a> — weight 1</li><li><a href="#node=Woman2">Woman2</a> — weight 1</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Enjolras">Enjolras</a> — weight 6</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 1</li><li><a href="#node=Babet">Babet</a> — weight 2</li><li><a href="#node=Claquesous">Claquesous</a> — weight 1</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 1</li><li><a href="#node=Toussaint">Toussaint</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -125.79807636815822
+      "y": 192.54829000038154
+    data:
+      dataset: les-miserables
+      sourceNode: Javert
+      degree: 17
+      weightedDegree: 47
+    extensions: {}
+  - id: Fauchelevent
+    label: Fauchelevent
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Fauchelevent</strong> has 4 recorded neighbors; the sum of incident weights is 14.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 8</li><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=MotherInnocent">MotherInnocent</a> — weight 3</li><li><a href="#node=Gribier">Gribier</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -98.27403403034685
+      "y": 126.26248150342298
+    data:
+      dataset: les-miserables
+      sourceNode: Fauchelevent
+      degree: 4
+      weightedDegree: 14
+    extensions: {}
+  - id: Bamatabois
+    label: Bamatabois
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Bamatabois</strong> has 8 recorded neighbors; the sum of incident weights is 11.</p><h3>Connected nodes</h3><ul><li><a href="#node=Fantine">Fantine</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=Valjean">Valjean</a> — weight 2</li><li><a href="#node=Judge">Judge</a> — weight 2</li><li><a href="#node=Champmathieu">Champmathieu</a> — weight 2</li><li><a href="#node=Brevet">Brevet</a> — weight 1</li><li><a href="#node=Chenildieu">Chenildieu</a> — weight 1</li><li><a href="#node=Cochepaille">Cochepaille</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -132.06990646701948
+      "y": 143.46616258126068
+    data:
+      dataset: les-miserables
+      sourceNode: Bamatabois
+      degree: 8
+      weightedDegree: 11
+    extensions: {}
+  - id: Perpetue
+    label: Perpetue
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Perpetue</strong> has 2 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=Fantine">Fantine</a> — weight 1</li><li><a href="#node=Simplice">Simplice</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -169.21649945482025
+      "y": 155.77476147392042
+    data:
+      dataset: les-miserables
+      sourceNode: Perpetue
+      degree: 2
+      weightedDegree: 3
+    extensions: {}
+  - id: Simplice
+    label: Simplice
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Simplice</strong> has 4 recorded neighbors; the sum of incident weights is 8.</p><h3>Connected nodes</h3><ul><li><a href="#node=Perpetue">Perpetue</a> — weight 2</li><li><a href="#node=Valjean">Valjean</a> — weight 3</li><li><a href="#node=Fantine">Fantine</a> — weight 2</li><li><a href="#node=Javert">Javert</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -126.26248150342295
+      "y": 98.27403403034687
+    data:
+      dataset: les-miserables
+      sourceNode: Simplice
+      degree: 4
+      weightedDegree: 8
+    extensions: {}
+  - id: Scaufflaire
+    label: Scaufflaire
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Scaufflaire</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -163.24746326119302
+      "y": 106.65489083387331
+    data:
+      dataset: les-miserables
+      sourceNode: Scaufflaire
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Woman1
+    label: Woman1
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Woman1</strong> has 2 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 2</li><li><a href="#node=Javert">Javert</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -202.27896277749247
+      "y": 109.46790039852695
+    data:
+      dataset: les-miserables
+      sourceNode: Woman1
+      degree: 2
+      weightedDegree: 3
+    extensions: {}
+  - id: Judge
+    label: Judge
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Judge</strong> has 6 recorded neighbors; the sum of incident weights is 14.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 3</li><li><a href="#node=Bamatabois">Bamatabois</a> — weight 2</li><li><a href="#node=Champmathieu">Champmathieu</a> — weight 3</li><li><a href="#node=Brevet">Brevet</a> — weight 2</li><li><a href="#node=Chenildieu">Chenildieu</a> — weight 2</li><li><a href="#node=Cochepaille">Cochepaille</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -146.5237322648092
+      "y": 64.27126794447511
+    data:
+      dataset: les-miserables
+      sourceNode: Judge
+      degree: 6
+      weightedDegree: 14
+    extensions: {}
+  - id: Champmathieu
+    label: Champmathieu
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Champmathieu</strong> has 6 recorded neighbors; the sum of incident weights is 14.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 3</li><li><a href="#node=Judge">Judge</a> — weight 3</li><li><a href="#node=Bamatabois">Bamatabois</a> — weight 2</li><li><a href="#node=Brevet">Brevet</a> — weight 2</li><li><a href="#node=Chenildieu">Chenildieu</a> — weight 2</li><li><a href="#node=Cochepaille">Cochepaille</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -184.43436213162377
+      "y": 63.31639649491323
+    data:
+      dataset: les-miserables
+      sourceNode: Champmathieu
+      degree: 6
+      weightedDegree: 14
+    extensions: {}
+  - id: Brevet
+    label: Brevet
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Brevet</strong> has 6 recorded neighbors; the sum of incident weights is 11.</p><h3>Connected nodes</h3><ul><li><a href="#node=Judge">Judge</a> — weight 2</li><li><a href="#node=Champmathieu">Champmathieu</a> — weight 2</li><li><a href="#node=Valjean">Valjean</a> — weight 2</li><li><a href="#node=Bamatabois">Bamatabois</a> — weight 1</li><li><a href="#node=Chenildieu">Chenildieu</a> — weight 2</li><li><a href="#node=Cochepaille">Cochepaille</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -222.962061166046
+      "y": 56.461662042383885
+    data:
+      dataset: les-miserables
+      sourceNode: Brevet
+      degree: 6
+      weightedDegree: 11
+    extensions: {}
+  - id: Chenildieu
+    label: Chenildieu
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Chenildieu</strong> has 6 recorded neighbors; the sum of incident weights is 11.</p><h3>Connected nodes</h3><ul><li><a href="#node=Judge">Judge</a> — weight 2</li><li><a href="#node=Champmathieu">Champmathieu</a> — weight 2</li><li><a href="#node=Brevet">Brevet</a> — weight 2</li><li><a href="#node=Valjean">Valjean</a> — weight 2</li><li><a href="#node=Bamatabois">Bamatabois</a> — weight 1</li><li><a href="#node=Cochepaille">Cochepaille</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -157.81780854443556
+      "y": 26.335134444917443
+    data:
+      dataset: les-miserables
+      sourceNode: Chenildieu
+      degree: 6
+      weightedDegree: 11
+    extensions: {}
+  - id: Cochepaille
+    label: Cochepaille
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Cochepaille</strong> has 6 recorded neighbors; the sum of incident weights is 11.</p><h3>Connected nodes</h3><ul><li><a href="#node=Judge">Judge</a> — weight 2</li><li><a href="#node=Champmathieu">Champmathieu</a> — weight 2</li><li><a href="#node=Brevet">Brevet</a> — weight 2</li><li><a href="#node=Chenildieu">Chenildieu</a> — weight 2</li><li><a href="#node=Valjean">Valjean</a> — weight 2</li><li><a href="#node=Bamatabois">Bamatabois</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -194.3339761363006
+      "y": 16.102972367104783
+    data:
+      dataset: les-miserables
+      sourceNode: Cochepaille
+      degree: 6
+      weightedDegree: 11
+    extensions: {}
+  - id: Pontmercy
+    label: Pontmercy
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Pontmercy</strong> has 3 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=Thenardier">Thenardier</a> — weight 1</li><li><a href="#node=MmePontmercy">MmePontmercy</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -230
+      "y": 2.8166876380389125e-14
+    data:
+      dataset: les-miserables
+      sourceNode: Pontmercy
+      degree: 3
+      weightedDegree: 3
+    extensions: {}
+  - id: Boulatruelle
+    label: Boulatruelle
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Boulatruelle</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=Thenardier">Thenardier</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -159.45351888106717
+      "y": -13.212695275573118
+    data:
+      dataset: les-miserables
+      sourceNode: Boulatruelle
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Eponine
+    label: Eponine
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Eponine</strong> has 11 recorded neighbors; the sum of incident weights is 19.</p><h3>Connected nodes</h3><ul><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 2</li><li><a href="#node=Thenardier">Thenardier</a> — weight 3</li><li><a href="#node=Anzelma">Anzelma</a> — weight 2</li><li><a href="#node=Marius">Marius</a> — weight 5</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 1</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 1</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 1</li><li><a href="#node=Babet">Babet</a> — weight 1</li><li><a href="#node=Claquesous">Claquesous</a> — weight 1</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 1</li><li><a href="#node=Brujon">Brujon</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -192.34045416353086
+      "y": -32.09594510474309
+    data:
+      dataset: les-miserables
+      sourceNode: Eponine
+      degree: 11
+      weightedDegree: 19
+    extensions: {}
+  - id: Anzelma
+    label: Anzelma
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Anzelma</strong> has 3 recorded neighbors; the sum of incident weights is 5.</p><h3>Connected nodes</h3><ul><li><a href="#node=Eponine">Eponine</a> — weight 2</li><li><a href="#node=Thenardier">Thenardier</a> — weight 2</li><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -222.962061166046
+      "y": -56.461662042383736
+    data:
+      dataset: les-miserables
+      sourceNode: Anzelma
+      degree: 3
+      weightedDegree: 5
+    extensions: {}
+  - id: Woman2
+    label: Woman2
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Woman2</strong> has 3 recorded neighbors; the sum of incident weights is 5.</p><h3>Connected nodes</h3><ul><li><a href="#node=Valjean">Valjean</a> — weight 3</li><li><a href="#node=Cosette">Cosette</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -151.33075867210155
+      "y": -51.951915072749344
+    data:
+      dataset: les-miserables
+      sourceNode: Woman2
+      degree: 3
+      weightedDegree: 5
+    extensions: {}
+  - id: MotherInnocent
+    label: MotherInnocent
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MotherInnocent</strong> has 2 recorded neighbors; the sum of incident weights is 4.</p><h3>Connected nodes</h3><ul><li><a href="#node=Fauchelevent">Fauchelevent</a> — weight 3</li><li><a href="#node=Valjean">Valjean</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -178.57579869773622
+      "y": -78.33060780732899
+    data:
+      dataset: les-miserables
+      sourceNode: MotherInnocent
+      degree: 2
+      weightedDegree: 4
+    extensions: {}
+  - id: Gribier
+    label: Gribier
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Gribier</strong> has 1 recorded neighbors; the sum of incident weights is 2.</p><h3>Connected nodes</h3><ul><li><a href="#node=Fauchelevent">Fauchelevent</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -202.27896277749255
+      "y": -109.46790039852682
+    data:
+      dataset: les-miserables
+      sourceNode: Gribier
+      degree: 1
+      weightedDegree: 2
+    extensions: {}
+  - id: MmeBurgon
+    label: MmeBurgon
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MmeBurgon</strong> has 2 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=Jondrette">Jondrette</a> — weight 1</li><li><a href="#node=Gavroche">Gavroche</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -133.94663652200455
+      "y": -87.51170529958833
+    data:
+      dataset: les-miserables
+      sourceNode: MmeBurgon
+      degree: 2
+      weightedDegree: 3
+    extensions: {}
+  - id: Jondrette
+    label: Jondrette
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Jondrette</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=MmeBurgon">MmeBurgon</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -153.8823993322968
+      "y": -119.77147897448516
+    data:
+      dataset: les-miserables
+      sourceNode: Jondrette
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: Gavroche
+    label: Gavroche
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Gavroche</strong> has 22 recorded neighbors; the sum of incident weights is 56.</p><h3>Connected nodes</h3><ul><li><a href="#node=MmeBurgon">MmeBurgon</a> — weight 2</li><li><a href="#node=Thenardier">Thenardier</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=Valjean">Valjean</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 4</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 1</li><li><a href="#node=Enjolras">Enjolras</a> — weight 7</li><li><a href="#node=Combeferre">Combeferre</a> — weight 6</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 1</li><li><a href="#node=Feuilly">Feuilly</a> — weight 2</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 7</li><li><a href="#node=Bahorel">Bahorel</a> — weight 5</li><li><a href="#node=Bossuet">Bossuet</a> — weight 5</li><li><a href="#node=Joly">Joly</a> — weight 3</li><li><a href="#node=Grantaire">Grantaire</a> — weight 1</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 1</li><li><a href="#node=Babet">Babet</a> — weight 1</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 1</li><li><a href="#node=Child1">Child1</a> — weight 2</li><li><a href="#node=Child2">Child2</a> — weight 2</li><li><a href="#node=Brujon">Brujon</a> — weight 1</li><li><a href="#node=MmeHucheloup">MmeHucheloup</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -169.21649945482025
+      "y": -155.77476147392048
+    data:
+      dataset: les-miserables
+      sourceNode: Gavroche
+      degree: 22
+      weightedDegree: 56
+    extensions: {}
+  - id: Gillenormand
+    label: Gillenormand
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Gillenormand</strong> has 7 recorded neighbors; the sum of incident weights is 29.</p><h3>Connected nodes</h3><ul><li><a href="#node=Cosette">Cosette</a> — weight 3</li><li><a href="#node=Valjean">Valjean</a> — weight 2</li><li><a href="#node=Magnon">Magnon</a> — weight 1</li><li><a href="#node=MlleGillenormand">MlleGillenormand</a> — weight 9</li><li><a href="#node=LtGillenormand">LtGillenormand</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 12</li><li><a href="#node=BaronessT">BaronessT</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -108.36505146011858
+      "y": -117.71582570770106
+    data:
+      dataset: les-miserables
+      sourceNode: Gillenormand
+      degree: 7
+      weightedDegree: 29
+    extensions: {}
+  - id: Magnon
+    label: Magnon
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Magnon</strong> has 2 recorded neighbors; the sum of incident weights is 2.</p><h3>Connected nodes</h3><ul><li><a href="#node=Gillenormand">Gillenormand</a> — weight 1</li><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -119.77147897448526
+      "y": -153.88239933229673
+    data:
+      dataset: les-miserables
+      sourceNode: Magnon
+      degree: 2
+      weightedDegree: 2
+    extensions: {}
+  - id: MlleGillenormand
+    label: MlleGillenormand
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MlleGillenormand</strong> has 7 recorded neighbors; the sum of incident weights is 23.</p><h3>Connected nodes</h3><ul><li><a href="#node=Gillenormand">Gillenormand</a> — weight 9</li><li><a href="#node=Cosette">Cosette</a> — weight 2</li><li><a href="#node=Valjean">Valjean</a> — weight 2</li><li><a href="#node=MmePontmercy">MmePontmercy</a> — weight 1</li><li><a href="#node=MlleVaubois">MlleVaubois</a> — weight 1</li><li><a href="#node=LtGillenormand">LtGillenormand</a> — weight 2</li><li><a href="#node=Marius">Marius</a> — weight 6</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -125.79807636815819
+      "y": -192.54829000038157
+    data:
+      dataset: les-miserables
+      sourceNode: MlleGillenormand
+      degree: 7
+      weightedDegree: 23
+    extensions: {}
+  - id: MmePontmercy
+    label: MmePontmercy
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MmePontmercy</strong> has 2 recorded neighbors; the sum of incident weights is 2.</p><h3>Connected nodes</h3><ul><li><a href="#node=MlleGillenormand">MlleGillenormand</a> — weight 1</li><li><a href="#node=Pontmercy">Pontmercy</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -76.15158288593186
+      "y": -140.7158001930382
+    data:
+      dataset: les-miserables
+      sourceNode: MmePontmercy
+      degree: 2
+      weightedDegree: 2
+    extensions: {}
+  - id: MlleVaubois
+    label: MlleVaubois
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MlleVaubois</strong> has 1 recorded neighbors; the sum of incident weights is 1.</p><h3>Connected nodes</h3><ul><li><a href="#node=MlleGillenormand">MlleGillenormand</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -78.33060780732896
+      "y": -178.57579869773625
+    data:
+      dataset: les-miserables
+      sourceNode: MlleVaubois
+      degree: 1
+      weightedDegree: 1
+    extensions: {}
+  - id: LtGillenormand
+    label: LtGillenormand
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>LtGillenormand</strong> has 4 recorded neighbors; the sum of incident weights is 5.</p><h3>Connected nodes</h3><ul><li><a href="#node=MlleGillenormand">MlleGillenormand</a> — weight 2</li><li><a href="#node=Gillenormand">Gillenormand</a> — weight 1</li><li><a href="#node=Cosette">Cosette</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -74.68087791707724
+      "y": -217.53796559114596
+    data:
+      dataset: les-miserables
+      sourceNode: LtGillenormand
+      degree: 4
+      weightedDegree: 5
+    extensions: {}
+  - id: Marius
+    label: Marius
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Marius</strong> has 19 recorded neighbors; the sum of incident weights is 104.</p><h3>Connected nodes</h3><ul><li><a href="#node=MlleGillenormand">MlleGillenormand</a> — weight 6</li><li><a href="#node=Gillenormand">Gillenormand</a> — weight 12</li><li><a href="#node=Pontmercy">Pontmercy</a> — weight 1</li><li><a href="#node=LtGillenormand">LtGillenormand</a> — weight 1</li><li><a href="#node=Cosette">Cosette</a> — weight 21</li><li><a href="#node=Valjean">Valjean</a> — weight 19</li><li><a href="#node=Tholomyes">Tholomyes</a> — weight 1</li><li><a href="#node=Thenardier">Thenardier</a> — weight 2</li><li><a href="#node=Eponine">Eponine</a> — weight 5</li><li><a href="#node=Gavroche">Gavroche</a> — weight 4</li><li><a href="#node=BaronessT">BaronessT</a> — weight 1</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 1</li><li><a href="#node=Enjolras">Enjolras</a> — weight 7</li><li><a href="#node=Combeferre">Combeferre</a> — weight 5</li><li><a href="#node=Feuilly">Feuilly</a> — weight 1</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 9</li><li><a href="#node=Bahorel">Bahorel</a> — weight 1</li><li><a href="#node=Bossuet">Bossuet</a> — weight 5</li><li><a href="#node=Joly">Joly</a> — weight 2</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -39.27767794252786
+      "y": -155.10404255029286
+    data:
+      dataset: les-miserables
+      sourceNode: Marius
+      degree: 19
+      weightedDegree: 104
+    extensions: {}
+  - id: BaronessT
+    label: BaronessT
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>BaronessT</strong> has 2 recorded neighbors; the sum of incident weights is 2.</p><h3>Connected nodes</h3><ul><li><a href="#node=Gillenormand">Gillenormand</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -32.09594510474306
+      "y": -192.34045416353086
+    data:
+      dataset: les-miserables
+      sourceNode: BaronessT
+      degree: 2
+      weightedDegree: 2
+    extensions: {}
+  - id: Mabeuf
+    label: Mabeuf
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Mabeuf</strong> has 11 recorded neighbors; the sum of incident weights is 16.</p><h3>Connected nodes</h3><ul><li><a href="#node=Marius">Marius</a> — weight 1</li><li><a href="#node=Eponine">Eponine</a> — weight 1</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Enjolras">Enjolras</a> — weight 1</li><li><a href="#node=Combeferre">Combeferre</a> — weight 2</li><li><a href="#node=Feuilly">Feuilly</a> — weight 1</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 2</li><li><a href="#node=Bahorel">Bahorel</a> — weight 2</li><li><a href="#node=Bossuet">Bossuet</a> — weight 1</li><li><a href="#node=Joly">Joly</a> — weight 1</li><li><a href="#node=MotherPlutarch">MotherPlutarch</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -18.99324945863653
+      "y": -229.21443339153407
+    data:
+      dataset: les-miserables
+      sourceNode: Mabeuf
+      degree: 11
+      weightedDegree: 16
+    extensions: {}
+  - id: Enjolras
+    label: Enjolras
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Enjolras</strong> has 15 recorded neighbors; the sum of incident weights is 91.</p><h3>Connected nodes</h3><ul><li><a href="#node=Marius">Marius</a> — weight 7</li><li><a href="#node=Gavroche">Gavroche</a> — weight 7</li><li><a href="#node=Javert">Javert</a> — weight 6</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 1</li><li><a href="#node=Valjean">Valjean</a> — weight 4</li><li><a href="#node=Combeferre">Combeferre</a> — weight 15</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 4</li><li><a href="#node=Feuilly">Feuilly</a> — weight 6</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 17</li><li><a href="#node=Bahorel">Bahorel</a> — weight 4</li><li><a href="#node=Bossuet">Bossuet</a> — weight 10</li><li><a href="#node=Joly">Joly</a> — weight 5</li><li><a href="#node=Grantaire">Grantaire</a> — weight 3</li><li><a href="#node=Claquesous">Claquesous</a> — weight 1</li><li><a href="#node=MmeHucheloup">MmeHucheloup</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: -2.9391523179536473e-14
+      "y": -160
+    data:
+      dataset: les-miserables
+      sourceNode: Enjolras
+      degree: 15
+      weightedDegree: 91
+    extensions: {}
+  - id: Combeferre
+    label: Combeferre
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Combeferre</strong> has 11 recorded neighbors; the sum of incident weights is 68.</p><h3>Connected nodes</h3><ul><li><a href="#node=Enjolras">Enjolras</a> — weight 15</li><li><a href="#node=Marius">Marius</a> — weight 5</li><li><a href="#node=Gavroche">Gavroche</a> — weight 6</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 2</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 2</li><li><a href="#node=Feuilly">Feuilly</a> — weight 5</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 13</li><li><a href="#node=Bahorel">Bahorel</a> — weight 5</li><li><a href="#node=Bossuet">Bossuet</a> — weight 9</li><li><a href="#node=Joly">Joly</a> — weight 5</li><li><a href="#node=Grantaire">Grantaire</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 16.10297236710481
+      "y": -194.3339761363006
+    data:
+      dataset: les-miserables
+      sourceNode: Combeferre
+      degree: 11
+      weightedDegree: 68
+    extensions: {}
+  - id: Prouvaire
+    label: Prouvaire
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Prouvaire</strong> has 9 recorded neighbors; the sum of incident weights is 19.</p><h3>Connected nodes</h3><ul><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Enjolras">Enjolras</a> — weight 4</li><li><a href="#node=Combeferre">Combeferre</a> — weight 2</li><li><a href="#node=Feuilly">Feuilly</a> — weight 2</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 3</li><li><a href="#node=Bahorel">Bahorel</a> — weight 2</li><li><a href="#node=Bossuet">Bossuet</a> — weight 2</li><li><a href="#node=Joly">Joly</a> — weight 2</li><li><a href="#node=Grantaire">Grantaire</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 37.85675576456865
+      "y": -226.86309978262616
+    data:
+      dataset: les-miserables
+      sourceNode: Prouvaire
+      degree: 9
+      weightedDegree: 19
+    extensions: {}
+  - id: Feuilly
+    label: Feuilly
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Feuilly</strong> has 11 recorded neighbors; the sum of incident weights is 38.</p><h3>Connected nodes</h3><ul><li><a href="#node=Gavroche">Gavroche</a> — weight 2</li><li><a href="#node=Enjolras">Enjolras</a> — weight 6</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 2</li><li><a href="#node=Combeferre">Combeferre</a> — weight 5</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 1</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 6</li><li><a href="#node=Bahorel">Bahorel</a> — weight 3</li><li><a href="#node=Bossuet">Bossuet</a> — weight 6</li><li><a href="#node=Joly">Joly</a> — weight 5</li><li><a href="#node=Grantaire">Grantaire</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 39.27767794252781
+      "y": -155.1040425502929
+    data:
+      dataset: les-miserables
+      sourceNode: Feuilly
+      degree: 11
+      weightedDegree: 38
+    extensions: {}
+  - id: Courfeyrac
+    label: Courfeyrac
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Courfeyrac</strong> has 13 recorded neighbors; the sum of incident weights is 84.</p><h3>Connected nodes</h3><ul><li><a href="#node=Marius">Marius</a> — weight 9</li><li><a href="#node=Enjolras">Enjolras</a> — weight 17</li><li><a href="#node=Combeferre">Combeferre</a> — weight 13</li><li><a href="#node=Gavroche">Gavroche</a> — weight 7</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 2</li><li><a href="#node=Eponine">Eponine</a> — weight 1</li><li><a href="#node=Feuilly">Feuilly</a> — weight 6</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 3</li><li><a href="#node=Bahorel">Bahorel</a> — weight 6</li><li><a href="#node=Bossuet">Bossuet</a> — weight 12</li><li><a href="#node=Joly">Joly</a> — weight 5</li><li><a href="#node=Grantaire">Grantaire</a> — weight 2</li><li><a href="#node=MmeHucheloup">MmeHucheloup</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 63.31639649491325
+      "y": -184.43436213162377
+    data:
+      dataset: les-miserables
+      sourceNode: Courfeyrac
+      degree: 13
+      weightedDegree: 84
+    extensions: {}
+  - id: Bahorel
+    label: Bahorel
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Bahorel</strong> has 12 recorded neighbors; the sum of incident weights is 39.</p><h3>Connected nodes</h3><ul><li><a href="#node=Combeferre">Combeferre</a> — weight 5</li><li><a href="#node=Gavroche">Gavroche</a> — weight 5</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 6</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 2</li><li><a href="#node=Enjolras">Enjolras</a> — weight 4</li><li><a href="#node=Feuilly">Feuilly</a> — weight 3</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 2</li><li><a href="#node=Marius">Marius</a> — weight 1</li><li><a href="#node=Bossuet">Bossuet</a> — weight 4</li><li><a href="#node=Joly">Joly</a> — weight 5</li><li><a href="#node=Grantaire">Grantaire</a> — weight 1</li><li><a href="#node=MmeHucheloup">MmeHucheloup</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 92.3899476701828
+      "y": -210.62786513066328
+    data:
+      dataset: les-miserables
+      sourceNode: Bahorel
+      degree: 12
+      weightedDegree: 39
+    extensions: {}
+  - id: Bossuet
+    label: Bossuet
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Bossuet</strong> has 13 recorded neighbors; the sum of incident weights is 66.</p><h3>Connected nodes</h3><ul><li><a href="#node=Marius">Marius</a> — weight 5</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 12</li><li><a href="#node=Gavroche">Gavroche</a> — weight 5</li><li><a href="#node=Bahorel">Bahorel</a> — weight 4</li><li><a href="#node=Enjolras">Enjolras</a> — weight 10</li><li><a href="#node=Feuilly">Feuilly</a> — weight 6</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 2</li><li><a href="#node=Combeferre">Combeferre</a> — weight 9</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 1</li><li><a href="#node=Valjean">Valjean</a> — weight 1</li><li><a href="#node=Joly">Joly</a> — weight 7</li><li><a href="#node=Grantaire">Grantaire</a> — weight 3</li><li><a href="#node=MmeHucheloup">MmeHucheloup</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 76.15158288593182
+      "y": -140.71580019303823
+    data:
+      dataset: les-miserables
+      sourceNode: Bossuet
+      degree: 13
+      weightedDegree: 66
+    extensions: {}
+  - id: Joly
+    label: Joly
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Joly</strong> has 12 recorded neighbors; the sum of incident weights is 43.</p><h3>Connected nodes</h3><ul><li><a href="#node=Bahorel">Bahorel</a> — weight 5</li><li><a href="#node=Bossuet">Bossuet</a> — weight 7</li><li><a href="#node=Gavroche">Gavroche</a> — weight 3</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 5</li><li><a href="#node=Enjolras">Enjolras</a> — weight 5</li><li><a href="#node=Feuilly">Feuilly</a> — weight 5</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 2</li><li><a href="#node=Combeferre">Combeferre</a> — weight 5</li><li><a href="#node=Mabeuf">Mabeuf</a> — weight 1</li><li><a href="#node=Marius">Marius</a> — weight 2</li><li><a href="#node=Grantaire">Grantaire</a> — weight 2</li><li><a href="#node=MmeHucheloup">MmeHucheloup</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 106.65489083387318
+      "y": -163.2474632611931
+    data:
+      dataset: les-miserables
+      sourceNode: Joly
+      degree: 12
+      weightedDegree: 43
+    extensions: {}
+  - id: Grantaire
+    label: Grantaire
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Grantaire</strong> has 10 recorded neighbors; the sum of incident weights is 16.</p><h3>Connected nodes</h3><ul><li><a href="#node=Bossuet">Bossuet</a> — weight 3</li><li><a href="#node=Enjolras">Enjolras</a> — weight 3</li><li><a href="#node=Combeferre">Combeferre</a> — weight 1</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 2</li><li><a href="#node=Joly">Joly</a> — weight 2</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Bahorel">Bahorel</a> — weight 1</li><li><a href="#node=Feuilly">Feuilly</a> — weight 1</li><li><a href="#node=Prouvaire">Prouvaire</a> — weight 1</li><li><a href="#node=MmeHucheloup">MmeHucheloup</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 141.26892391862359
+      "y": -181.50231716117054
+    data:
+      dataset: les-miserables
+      sourceNode: Grantaire
+      degree: 10
+      weightedDegree: 16
+    extensions: {}
+  - id: MotherPlutarch
+    label: MotherPlutarch
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MotherPlutarch</strong> has 1 recorded neighbors; the sum of incident weights is 3.</p><h3>Connected nodes</h3><ul><li><a href="#node=Mabeuf">Mabeuf</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 108.3650514601186
+      "y": -117.71582570770106
+    data:
+      dataset: les-miserables
+      sourceNode: MotherPlutarch
+      degree: 1
+      weightedDegree: 3
+    extensions: {}
+  - id: Gueulemer
+    label: Gueulemer
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Gueulemer</strong> has 10 recorded neighbors; the sum of incident weights is 25.</p><h3>Connected nodes</h3><ul><li><a href="#node=Thenardier">Thenardier</a> — weight 5</li><li><a href="#node=Valjean">Valjean</a> — weight 1</li><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Eponine">Eponine</a> — weight 1</li><li><a href="#node=Babet">Babet</a> — weight 6</li><li><a href="#node=Claquesous">Claquesous</a> — weight 4</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 2</li><li><a href="#node=Brujon">Brujon</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 143.4661625812606
+      "y": -132.0699064670196
+    data:
+      dataset: les-miserables
+      sourceNode: Gueulemer
+      degree: 10
+      weightedDegree: 25
+    extensions: {}
+  - id: Babet
+    label: Babet
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Babet</strong> has 10 recorded neighbors; the sum of incident weights is 27.</p><h3>Connected nodes</h3><ul><li><a href="#node=Thenardier">Thenardier</a> — weight 6</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 6</li><li><a href="#node=Valjean">Valjean</a> — weight 1</li><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 2</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Eponine">Eponine</a> — weight 1</li><li><a href="#node=Claquesous">Claquesous</a> — weight 4</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 2</li><li><a href="#node=Brujon">Brujon</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 181.5023171611706
+      "y": -141.2689239186235
+    data:
+      dataset: les-miserables
+      sourceNode: Babet
+      degree: 10
+      weightedDegree: 27
+    extensions: {}
+  - id: Claquesous
+    label: Claquesous
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Claquesous</strong> has 10 recorded neighbors; the sum of incident weights is 20.</p><h3>Connected nodes</h3><ul><li><a href="#node=Thenardier">Thenardier</a> — weight 4</li><li><a href="#node=Babet">Babet</a> — weight 4</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 4</li><li><a href="#node=Valjean">Valjean</a> — weight 1</li><li><a href="#node=MmeThenardier">MmeThenardier</a> — weight 1</li><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=Eponine">Eponine</a> — weight 1</li><li><a href="#node=Enjolras">Enjolras</a> — weight 1</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 2</li><li><a href="#node=Brujon">Brujon</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 133.94663652200455
+      "y": -87.5117052995883
+    data:
+      dataset: les-miserables
+      sourceNode: Claquesous
+      degree: 10
+      weightedDegree: 20
+    extensions: {}
+  - id: Montparnasse
+    label: Montparnasse
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Montparnasse</strong> has 9 recorded neighbors; the sum of incident weights is 12.</p><h3>Connected nodes</h3><ul><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=Babet">Babet</a> — weight 2</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 2</li><li><a href="#node=Claquesous">Claquesous</a> — weight 2</li><li><a href="#node=Valjean">Valjean</a> — weight 1</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Eponine">Eponine</a> — weight 1</li><li><a href="#node=Thenardier">Thenardier</a> — weight 1</li><li><a href="#node=Brujon">Brujon</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 171.4973814852653
+      "y": -92.80974164222947
+    data:
+      dataset: les-miserables
+      sourceNode: Montparnasse
+      degree: 9
+      weightedDegree: 12
+    extensions: {}
+  - id: Toussaint
+    label: Toussaint
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Toussaint</strong> has 3 recorded neighbors; the sum of incident weights is 4.</p><h3>Connected nodes</h3><ul><li><a href="#node=Cosette">Cosette</a> — weight 2</li><li><a href="#node=Javert">Javert</a> — weight 1</li><li><a href="#node=Valjean">Valjean</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 210.62786513066325
+      "y": -92.38994767018289
+    data:
+      dataset: les-miserables
+      sourceNode: Toussaint
+      degree: 3
+      weightedDegree: 4
+    extensions: {}
+  - id: Child1
+    label: Child1
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Child1</strong> has 2 recorded neighbors; the sum of incident weights is 5.</p><h3>Connected nodes</h3><ul><li><a href="#node=Gavroche">Gavroche</a> — weight 2</li><li><a href="#node=Child2">Child2</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 151.33075867210155
+      "y": -51.9519150727494
+    data:
+      dataset: les-miserables
+      sourceNode: Child1
+      degree: 2
+      weightedDegree: 5
+    extensions: {}
+  - id: Child2
+    label: Child2
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Child2</strong> has 2 recorded neighbors; the sum of incident weights is 5.</p><h3>Connected nodes</h3><ul><li><a href="#node=Gavroche">Gavroche</a> — weight 2</li><li><a href="#node=Child1">Child1</a> — weight 3</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 189.0330518581694
+      "y": -47.86966999245601
+    data:
+      dataset: les-miserables
+      sourceNode: Child2
+      degree: 2
+      weightedDegree: 5
+    extensions: {}
+  - id: Brujon
+    label: Brujon
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>Brujon</strong> has 7 recorded neighbors; the sum of incident weights is 13.</p><h3>Connected nodes</h3><ul><li><a href="#node=Babet">Babet</a> — weight 3</li><li><a href="#node=Gueulemer">Gueulemer</a> — weight 3</li><li><a href="#node=Thenardier">Thenardier</a> — weight 3</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Eponine">Eponine</a> — weight 1</li><li><a href="#node=Claquesous">Claquesous</a> — weight 1</li><li><a href="#node=Montparnasse">Montparnasse</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 226.86309978262616
+      "y": -37.85675576456876
+    data:
+      dataset: les-miserables
+      sourceNode: Brujon
+      degree: 7
+      weightedDegree: 13
+    extensions: {}
+  - id: MmeHucheloup
+    label: MmeHucheloup
+    type: person
+    visual:
+      style:
+        fill: "#e0ebf4"
+        text:
+          color: "#23313d"
+    annotation:
+      format: html
+      text: <p>Weighted coappearance links between characters in Victor Hugo&#39;s Les Misérables, represented by NetworkX from Knuth&#39;s Stanford GraphBase. A link records coappearance, not friendship or narrative causation.</p><p><strong>MmeHucheloup</strong> has 7 recorded neighbors; the sum of incident weights is 7.</p><h3>Connected nodes</h3><ul><li><a href="#node=Bossuet">Bossuet</a> — weight 1</li><li><a href="#node=Joly">Joly</a> — weight 1</li><li><a href="#node=Grantaire">Grantaire</a> — weight 1</li><li><a href="#node=Bahorel">Bahorel</a> — weight 1</li><li><a href="#node=Courfeyrac">Courfeyrac</a> — weight 1</li><li><a href="#node=Gavroche">Gavroche</a> — weight 1</li><li><a href="#node=Enjolras">Enjolras</a> — weight 1</li></ul><p><a href="https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html">NetworkX dataset reference</a></p>
+    url: https://networkx.org/documentation/stable/reference/generated/networkx.generators.social.les_miserables_graph.html
+    weight: 1
+    fixed: false
+    position:
+      x: 159.45351888106717
+      "y": -13.212695275573248
+    data:
+      dataset: les-miserables
+      sourceNode: MmeHucheloup
+      degree: 7
+      weightedDegree: 7
+    extensions: {}
+edges:
+  - id: les-miserables-e1
+    from: Napoleon
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e2
+    from: MlleBaptistine
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 8
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 8
+    extensions: {}
+  - id: les-miserables-e3
+    from: MmeMagloire
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 10
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 10
+    extensions: {}
+  - id: les-miserables-e4
+    from: MmeMagloire
+    to: MlleBaptistine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e5
+    from: CountessDeLo
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e6
+    from: Geborand
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e7
+    from: Champtercier
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e8
+    from: Cravatte
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e9
+    from: Count
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e10
+    from: OldMan
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e11
+    from: Valjean
+    to: Labarre
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e12
+    from: Valjean
+    to: MmeMagloire
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e13
+    from: Valjean
+    to: MlleBaptistine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e14
+    from: Valjean
+    to: Myriel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e15
+    from: Marguerite
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e16
+    from: MmeDeR
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e17
+    from: Isabeau
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e18
+    from: Gervais
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e19
+    from: Listolier
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e20
+    from: Fameuil
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e21
+    from: Fameuil
+    to: Listolier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e22
+    from: Blacheville
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e23
+    from: Blacheville
+    to: Listolier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e24
+    from: Blacheville
+    to: Fameuil
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e25
+    from: Favourite
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e26
+    from: Favourite
+    to: Listolier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e27
+    from: Favourite
+    to: Fameuil
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e28
+    from: Favourite
+    to: Blacheville
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e29
+    from: Dahlia
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e30
+    from: Dahlia
+    to: Listolier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e31
+    from: Dahlia
+    to: Fameuil
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e32
+    from: Dahlia
+    to: Blacheville
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e33
+    from: Dahlia
+    to: Favourite
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e34
+    from: Zephine
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e35
+    from: Zephine
+    to: Listolier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e36
+    from: Zephine
+    to: Fameuil
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e37
+    from: Zephine
+    to: Blacheville
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e38
+    from: Zephine
+    to: Favourite
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e39
+    from: Zephine
+    to: Dahlia
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e40
+    from: Fantine
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e41
+    from: Fantine
+    to: Listolier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e42
+    from: Fantine
+    to: Fameuil
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e43
+    from: Fantine
+    to: Blacheville
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e44
+    from: Fantine
+    to: Favourite
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e45
+    from: Fantine
+    to: Dahlia
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e46
+    from: Fantine
+    to: Zephine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e47
+    from: Fantine
+    to: Marguerite
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e48
+    from: Fantine
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 9
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 9
+    extensions: {}
+  - id: les-miserables-e49
+    from: MmeThenardier
+    to: Fantine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e50
+    from: MmeThenardier
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 7
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 7
+    extensions: {}
+  - id: les-miserables-e51
+    from: Thenardier
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 13
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 13
+    extensions: {}
+  - id: les-miserables-e52
+    from: Thenardier
+    to: Fantine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e53
+    from: Thenardier
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 12
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 12
+    extensions: {}
+  - id: les-miserables-e54
+    from: Cosette
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e55
+    from: Cosette
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 31
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 31
+    extensions: {}
+  - id: les-miserables-e56
+    from: Cosette
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e57
+    from: Cosette
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e58
+    from: Javert
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 17
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 17
+    extensions: {}
+  - id: les-miserables-e59
+    from: Javert
+    to: Fantine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e60
+    from: Javert
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e61
+    from: Javert
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e62
+    from: Javert
+    to: Cosette
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e63
+    from: Fauchelevent
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 8
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 8
+    extensions: {}
+  - id: les-miserables-e64
+    from: Fauchelevent
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e65
+    from: Bamatabois
+    to: Fantine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e66
+    from: Bamatabois
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e67
+    from: Bamatabois
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e68
+    from: Perpetue
+    to: Fantine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e69
+    from: Simplice
+    to: Perpetue
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e70
+    from: Simplice
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e71
+    from: Simplice
+    to: Fantine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e72
+    from: Simplice
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e73
+    from: Scaufflaire
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e74
+    from: Woman1
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e75
+    from: Woman1
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e76
+    from: Judge
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e77
+    from: Judge
+    to: Bamatabois
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e78
+    from: Champmathieu
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e79
+    from: Champmathieu
+    to: Judge
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e80
+    from: Champmathieu
+    to: Bamatabois
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e81
+    from: Brevet
+    to: Judge
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e82
+    from: Brevet
+    to: Champmathieu
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e83
+    from: Brevet
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e84
+    from: Brevet
+    to: Bamatabois
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e85
+    from: Chenildieu
+    to: Judge
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e86
+    from: Chenildieu
+    to: Champmathieu
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e87
+    from: Chenildieu
+    to: Brevet
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e88
+    from: Chenildieu
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e89
+    from: Chenildieu
+    to: Bamatabois
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e90
+    from: Cochepaille
+    to: Judge
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e91
+    from: Cochepaille
+    to: Champmathieu
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e92
+    from: Cochepaille
+    to: Brevet
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e93
+    from: Cochepaille
+    to: Chenildieu
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e94
+    from: Cochepaille
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e95
+    from: Cochepaille
+    to: Bamatabois
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e96
+    from: Pontmercy
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e97
+    from: Boulatruelle
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e98
+    from: Eponine
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e99
+    from: Eponine
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e100
+    from: Anzelma
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e101
+    from: Anzelma
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e102
+    from: Anzelma
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e103
+    from: Woman2
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e104
+    from: Woman2
+    to: Cosette
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e105
+    from: Woman2
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e106
+    from: MotherInnocent
+    to: Fauchelevent
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e107
+    from: MotherInnocent
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e108
+    from: Gribier
+    to: Fauchelevent
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e109
+    from: MmeBurgon
+    to: Jondrette
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e110
+    from: Gavroche
+    to: MmeBurgon
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e111
+    from: Gavroche
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e112
+    from: Gavroche
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e113
+    from: Gavroche
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e114
+    from: Gillenormand
+    to: Cosette
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e115
+    from: Gillenormand
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e116
+    from: Magnon
+    to: Gillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e117
+    from: Magnon
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e118
+    from: MlleGillenormand
+    to: Gillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 9
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 9
+    extensions: {}
+  - id: les-miserables-e119
+    from: MlleGillenormand
+    to: Cosette
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e120
+    from: MlleGillenormand
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e121
+    from: MmePontmercy
+    to: MlleGillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e122
+    from: MmePontmercy
+    to: Pontmercy
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e123
+    from: MlleVaubois
+    to: MlleGillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e124
+    from: LtGillenormand
+    to: MlleGillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e125
+    from: LtGillenormand
+    to: Gillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e126
+    from: LtGillenormand
+    to: Cosette
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e127
+    from: Marius
+    to: MlleGillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e128
+    from: Marius
+    to: Gillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 12
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 12
+    extensions: {}
+  - id: les-miserables-e129
+    from: Marius
+    to: Pontmercy
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e130
+    from: Marius
+    to: LtGillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e131
+    from: Marius
+    to: Cosette
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 21
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 21
+    extensions: {}
+  - id: les-miserables-e132
+    from: Marius
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 19
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 19
+    extensions: {}
+  - id: les-miserables-e133
+    from: Marius
+    to: Tholomyes
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e134
+    from: Marius
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e135
+    from: Marius
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e136
+    from: Marius
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e137
+    from: BaronessT
+    to: Gillenormand
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e138
+    from: BaronessT
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e139
+    from: Mabeuf
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e140
+    from: Mabeuf
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e141
+    from: Mabeuf
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e142
+    from: Enjolras
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 7
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 7
+    extensions: {}
+  - id: les-miserables-e143
+    from: Enjolras
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 7
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 7
+    extensions: {}
+  - id: les-miserables-e144
+    from: Enjolras
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e145
+    from: Enjolras
+    to: Mabeuf
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e146
+    from: Enjolras
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e147
+    from: Combeferre
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 15
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 15
+    extensions: {}
+  - id: les-miserables-e148
+    from: Combeferre
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e149
+    from: Combeferre
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e150
+    from: Combeferre
+    to: Mabeuf
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e151
+    from: Prouvaire
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e152
+    from: Prouvaire
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e153
+    from: Prouvaire
+    to: Combeferre
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e154
+    from: Feuilly
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e155
+    from: Feuilly
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e156
+    from: Feuilly
+    to: Prouvaire
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e157
+    from: Feuilly
+    to: Combeferre
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e158
+    from: Feuilly
+    to: Mabeuf
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e159
+    from: Feuilly
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e160
+    from: Courfeyrac
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 9
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 9
+    extensions: {}
+  - id: les-miserables-e161
+    from: Courfeyrac
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 17
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 17
+    extensions: {}
+  - id: les-miserables-e162
+    from: Courfeyrac
+    to: Combeferre
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 13
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 13
+    extensions: {}
+  - id: les-miserables-e163
+    from: Courfeyrac
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 7
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 7
+    extensions: {}
+  - id: les-miserables-e164
+    from: Courfeyrac
+    to: Mabeuf
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e165
+    from: Courfeyrac
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e166
+    from: Courfeyrac
+    to: Feuilly
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e167
+    from: Courfeyrac
+    to: Prouvaire
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e168
+    from: Bahorel
+    to: Combeferre
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e169
+    from: Bahorel
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e170
+    from: Bahorel
+    to: Courfeyrac
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e171
+    from: Bahorel
+    to: Mabeuf
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e172
+    from: Bahorel
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e173
+    from: Bahorel
+    to: Feuilly
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e174
+    from: Bahorel
+    to: Prouvaire
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e175
+    from: Bahorel
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e176
+    from: Bossuet
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e177
+    from: Bossuet
+    to: Courfeyrac
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 12
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 12
+    extensions: {}
+  - id: les-miserables-e178
+    from: Bossuet
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e179
+    from: Bossuet
+    to: Bahorel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e180
+    from: Bossuet
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 10
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 10
+    extensions: {}
+  - id: les-miserables-e181
+    from: Bossuet
+    to: Feuilly
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e182
+    from: Bossuet
+    to: Prouvaire
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e183
+    from: Bossuet
+    to: Combeferre
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 9
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 9
+    extensions: {}
+  - id: les-miserables-e184
+    from: Bossuet
+    to: Mabeuf
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e185
+    from: Bossuet
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e186
+    from: Joly
+    to: Bahorel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e187
+    from: Joly
+    to: Bossuet
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 7
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 7
+    extensions: {}
+  - id: les-miserables-e188
+    from: Joly
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e189
+    from: Joly
+    to: Courfeyrac
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e190
+    from: Joly
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e191
+    from: Joly
+    to: Feuilly
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e192
+    from: Joly
+    to: Prouvaire
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e193
+    from: Joly
+    to: Combeferre
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e194
+    from: Joly
+    to: Mabeuf
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e195
+    from: Joly
+    to: Marius
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e196
+    from: Grantaire
+    to: Bossuet
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e197
+    from: Grantaire
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e198
+    from: Grantaire
+    to: Combeferre
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e199
+    from: Grantaire
+    to: Courfeyrac
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e200
+    from: Grantaire
+    to: Joly
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e201
+    from: Grantaire
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e202
+    from: Grantaire
+    to: Bahorel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e203
+    from: Grantaire
+    to: Feuilly
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e204
+    from: Grantaire
+    to: Prouvaire
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e205
+    from: MotherPlutarch
+    to: Mabeuf
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e206
+    from: Gueulemer
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 5
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 5
+    extensions: {}
+  - id: les-miserables-e207
+    from: Gueulemer
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e208
+    from: Gueulemer
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e209
+    from: Gueulemer
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e210
+    from: Gueulemer
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e211
+    from: Gueulemer
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e212
+    from: Babet
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e213
+    from: Babet
+    to: Gueulemer
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 6
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 6
+    extensions: {}
+  - id: les-miserables-e214
+    from: Babet
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e215
+    from: Babet
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e216
+    from: Babet
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e217
+    from: Babet
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e218
+    from: Babet
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e219
+    from: Claquesous
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e220
+    from: Claquesous
+    to: Babet
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e221
+    from: Claquesous
+    to: Gueulemer
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 4
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 4
+    extensions: {}
+  - id: les-miserables-e222
+    from: Claquesous
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e223
+    from: Claquesous
+    to: MmeThenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e224
+    from: Claquesous
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e225
+    from: Claquesous
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e226
+    from: Claquesous
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e227
+    from: Montparnasse
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e228
+    from: Montparnasse
+    to: Babet
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e229
+    from: Montparnasse
+    to: Gueulemer
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e230
+    from: Montparnasse
+    to: Claquesous
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e231
+    from: Montparnasse
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e232
+    from: Montparnasse
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e233
+    from: Montparnasse
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e234
+    from: Montparnasse
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e235
+    from: Toussaint
+    to: Cosette
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e236
+    from: Toussaint
+    to: Javert
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e237
+    from: Toussaint
+    to: Valjean
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e238
+    from: Child1
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e239
+    from: Child2
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 2
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 2
+    extensions: {}
+  - id: les-miserables-e240
+    from: Child2
+    to: Child1
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e241
+    from: Brujon
+    to: Babet
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e242
+    from: Brujon
+    to: Gueulemer
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e243
+    from: Brujon
+    to: Thenardier
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 3
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 3
+    extensions: {}
+  - id: les-miserables-e244
+    from: Brujon
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e245
+    from: Brujon
+    to: Eponine
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e246
+    from: Brujon
+    to: Claquesous
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e247
+    from: Brujon
+    to: Montparnasse
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e248
+    from: MmeHucheloup
+    to: Bossuet
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e249
+    from: MmeHucheloup
+    to: Joly
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e250
+    from: MmeHucheloup
+    to: Grantaire
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e251
+    from: MmeHucheloup
+    to: Bahorel
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e252
+    from: MmeHucheloup
+    to: Courfeyrac
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e253
+    from: MmeHucheloup
+    to: Gavroche
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+  - id: les-miserables-e254
+    from: MmeHucheloup
+    to: Enjolras
+    label: ""
+    type: coappearance
+    visual: {}
+    weight: 1
+    length: 70
+    data:
+      directed: false
+      sourceWeight: 1
+    extensions: {}
+data:
+  description: Weighted coappearance links between characters in Victor Hugo's Les Misérables, represented by NetworkX from Knuth's Stanford GraphBase. A link records coappearance, not friendship or narrative causation.
+  source:
+    release: networkx-3.4.2
+    sha256: 2145605953149916941b6f14d0acc1fbed03b4a2dd0850f3e78b6427af56e26b
+    url: https://raw.githubusercontent.com/networkx/networkx/networkx-3.4.2/networkx/generators/social.py
+    function: les_miserables_graph
+    license: BSD-3-Clause
+  reference: "D. E. Knuth, The Stanford GraphBase: A Platform for Combinatorial Computing, 1993, pp. 74–87."
+  directed: false
+  annotations: Freshmind graph-derived summaries and internal navigation links; no character biographies or historical descriptions are imported.
+extensions: {}
+view:
+  focus: Myriel
+  radius: 1
+  wholeGraph: false
+  backlinks: true
+  lenses:
+    zoom: 1.5
+    hyperbolic: 0
+    rotation: 0
+  canvas:
+    zoom: 1

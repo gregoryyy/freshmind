@@ -80,6 +80,8 @@ export interface NavigationHost {
   zoomBy(factor: number): void;
   getCanvasZoom(): number;
   setCanvasZoom(scale: number): void;
+  getRotation(): number;
+  setRotation(radians: number): void;
   getHyperbolic(): number;
   setHyperbolic(value: number): void;
   setLocale(node: Node | null, radius: number, maxAdd?: number, maxExpand?: number, outgoingOnly?: boolean): Promise<void>;

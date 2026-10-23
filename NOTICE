@@ -61,3 +61,13 @@ The demo build includes their full notices in LICENSES-D3.txt.
 The yaml package is distributed under its ISC license. It parses Freshmind
 type configuration and is excluded from the headless core entry points.
 The demo build includes its full notice in LICENSE-YAML.txt.
+
+Public example graph representations from NetworkX 3.4.2
+
+Copyright (C) 2004-2024, NetworkX Developers. All rights reserved.
+Distributed under the 3-clause BSD license; the original source and full
+license are retained under examples/public/sources/. The production demo
+includes LICENSE-NETWORKX.txt. Original dataset references and source hashes
+are recorded in examples/public/README.md and provenance.json.
+Freshmind's graph-derived annotations and native YAML conversion are additions;
+they do not replace the original NetworkX attribution.

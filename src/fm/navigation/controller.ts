@@ -106,6 +106,7 @@ export class FreshmindNavigation {
     if (this.disposed) return;
     this.cancel(undefined, false);
     const item = this.host.getSelection();
+    if (!item) this.detailsVisible = false;
     this.message = item ? `Selected ${item instanceof FreshNode ? "node" : "relation"}: ${item.getLabel() || item.getSemanticType()}.` : "Selection cleared. Use an arrow key to choose a starting node.";
     this.publish();
   }
@@ -216,8 +217,12 @@ export class FreshmindNavigation {
     if (anchor) await this.host[method](anchor);
   }
   toggleDetails(): void {
-    if (!this.host.getSelection() || this.disposed) return;
-    this.detailsVisible = !this.detailsVisible;
+    this.setDetailsVisible(!this.detailsVisible);
+  }
+  /** Sets detail visibility explicitly so popup dismissal cannot accidentally reopen it. */
+  setDetailsVisible(visible: boolean): void {
+    if (this.disposed || (visible && !this.host.getSelection()) || visible === this.detailsVisible) return;
+    this.detailsVisible = visible;
     this.message = `Details ${this.detailsVisible ? "shown" : "hidden"}.`; this.publish();
   }
   /** Changes graph spacing through the panel's limits, retaining selection/locality and frozen candidates. */
@@ -237,6 +242,13 @@ export class FreshmindNavigation {
     this.host.setCanvasZoom(scale); this.armTimer();
     this.message = `Canvas zoom ${Math.round(this.host.getCanvasZoom() * 100)}%.`; this.publish();
   }
+  /** Adjusts viewing rotation in radians, retaining physical positions and frozen candidates. */
+  rotateBy(radians: number): void {
+    if (this.disposed) return;
+    if (!Number.isFinite(radians)) throw new RangeError("Rotation adjustment must be finite");
+    this.host.setRotation(this.host.getRotation() + radians); this.armTimer();
+    this.message = `Rotation ${Math.round(this.host.getRotation() * 180 / Math.PI)}°.`; this.publish();
+  }
   /** Adjusts the existing focus/context lens in percentage points, clamped to 0–100. */
   adjustFocusContext(delta: number): void {
     if (this.disposed) return;
@@ -251,8 +263,10 @@ export class FreshmindNavigation {
   handleKey(event: NavigationKey): boolean {
     if (this.disposed || event.metaKey || event.isComposing) return false;
     if (event.altKey) {
-      if (!event.ctrlKey || !event.shiftKey || (event.key !== "ArrowUp" && event.key !== "ArrowDown")) return false;
-      this.canvasZoomBy(1.2 ** (event.key === "ArrowUp" ? 1 : -1));
+      if (!event.ctrlKey || !event.shiftKey) return false;
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") this.rotateBy((event.key === "ArrowRight" ? 1 : -1) * Math.PI / 36);
+      else if (event.key === "ArrowUp" || event.key === "ArrowDown") this.canvasZoomBy(1.2 ** (event.key === "ArrowUp" ? 1 : -1));
+      else return false;
       return true;
     }
     if (event.ctrlKey) {

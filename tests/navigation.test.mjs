@@ -28,6 +28,16 @@ function fixture(t, options = {}) {
 const active = n => { const s = n.getState().preselection; return s?.candidateIds[s.activeIndex]; };
 const visible = p => [...p.getGES().getNodes()].map(n => n.getID()).sort();
 
+test("detail visibility can be dismissed explicitly and clears when selection disappears", t => {
+  const {p,n,a} = fixture(t);
+  n.setDetailsVisible(true); assert.equal(n.getState().detailsVisible, true);
+  n.setDetailsVisible(false); n.setDetailsVisible(false); assert.equal(n.getState().detailsVisible, false);
+  n.toggleDetails(); assert.equal(n.getState().detailsVisible, true);
+  p.setSelect(null); assert.equal(n.getState().detailsVisible, false);
+  n.setDetailsVisible(true); assert.equal(n.getState().detailsVisible, false);
+  p.setSelect(a); assert.equal(n.getState().detailsVisible, false);
+});
+
 test("action disposers remove owned callbacks without clearing later registrations", t => {
   const {n, a} = fixture(t);
   let help = 0, edits = 0;
@@ -218,6 +228,8 @@ test("view shortcuts preserve frozen preselection and rearm its inactivity timer
   assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
   n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true,altKey:true});clock.advance(2400);
   assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
+  n.handleKey({key:"ArrowRight",ctrlKey:true,shiftKey:true,altKey:true});clock.advance(2400);
+  assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
   n.handleKey({key:"ArrowRight",ctrlKey:true,shiftKey:true});clock.advance(2400);
   assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
   n.handleKey({key:"+",shiftKey:true});clock.advance(2400);
@@ -247,11 +259,25 @@ test("Ctrl Shift Option up/down and Ctrl Shift 1 control canvas scale independen
   p.setCanvasZoom(.15);n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true,altKey:true});assert.equal(p.getCanvasZoom(),.15);
   for (const extra of [{ctrlKey:false},{shiftKey:false},{metaKey:true},{isComposing:true}])
     assert.equal(n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true,altKey:true,...extra}),false);
-  assert.equal(n.handleKey({key:"ArrowRight",ctrlKey:true,shiftKey:true,altKey:true}),false);
+  assert.equal(n.handleKey({key:"Home",ctrlKey:true,shiftKey:true,altKey:true}),false);
   for (const key of [{key:"!",code:"Digit1"},{key:"1"},{key:"!"},{key:"&",code:"Digit1"}]) {
     p.setCanvasZoom(2.1);assert.equal(n.handleKey({...key,ctrlKey:true,shiftKey:true}),true);assert.equal(p.getCanvasZoom(),1);
   }
   assert.equal(n.handleKey({key:"1",ctrlKey:true}),false);
   assert.equal(p.getZoom(),1.8);assert.equal(p.getHyperbolic(),37);assert.equal(p.getSelection(),a);
   assert.deepEqual([...p.getAllNodes()].map(node=>[node.x,node.y]),positions);
+});
+
+test("Ctrl Shift Option left/right rotates the view and retains graph and navigation state", t => {
+  const {p,n,edges}=fixture(t);p.setRotation(.4);p.setZoom(1.7);p.setCanvasZoom(1.4);p.setHyperbolic(35);p.setSelectEdge(edges[0]);
+  const positions=[...p.getAllNodes()].map(node=>[node.x,node.y]),members=visible(p),key={ctrlKey:true,shiftKey:true,altKey:true};
+  assert.equal(n.handleKey({...key,key:"ArrowRight"}),true);assert.ok(Math.abs(p.getRotation()-(.4+Math.PI/36))<1e-12);
+  n.handleKey({...key,key:"ArrowLeft"});assert.ok(Math.abs(p.getRotation()-.4)<1e-12);
+  n.handleKey({...key,key:"ArrowLeft",repeat:true});assert.ok(Math.abs(p.getRotation()-(.4-Math.PI/36))<1e-12);
+  for(const extra of [{ctrlKey:false},{shiftKey:false},{metaKey:true},{isComposing:true}])
+    assert.equal(n.handleKey({...key,key:"ArrowRight",...extra}),false);
+  assert.throws(()=>n.rotateBy(Infinity),RangeError);
+  assert.equal(p.getSelection(),edges[0]);assert.equal(p.getZoom(),1.7);assert.equal(p.getCanvasZoom(),1.4);assert.equal(p.getHyperbolic(),35);
+  assert.deepEqual(visible(p),members);assert.deepEqual([...p.getAllNodes()].map(node=>[node.x,node.y]),positions);
+  p.setSelect(null);n.handleKey({...key,key:"ArrowRight"});assert.ok(Math.abs(p.getRotation()-.4)<1e-12);
 });
