@@ -2,6 +2,12 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Browser copy cleanup — 2026-10-23
+
+- Removed decorative slogans, the atlas heading, static status dots and the Java reference link from the main browser. Removed the equivalent promotional heading/copy from the palette page and generic filler annotations from the sample graph.
+- Retained functional control labels, graph counts, shortcuts, page navigation and attribution; removed unused decoration styles. Work continues on `freshmind4/browser-fixes` with the existing navigation/highlight changes preserved.
+- Type checking, the production demo build and four targeted Chrome flows pass, covering palette rendering, keyboard navigation, editing and mobile layout.
+
 ## Navigation follow-up: node highlighting and double-click centering — 2026-10-23
 
 **Completed**

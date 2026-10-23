@@ -19,7 +19,7 @@ function makeNode(id: string, label: string, description: string, x: number, y: 
   graph.addNode(node);
   return node;
 }
-const root = makeNode("root", "Graph browsers", "The meeting point of a graph model, a living layout, and a way to explore.", 0, 0, "project");
+const root = makeNode("root", "Graph browsers", "Graph model, spring layout, rendering and navigation.", 0, 0, "project");
 const topics = [
   { name: "Layout", items: ["Spring embedding", "Repulsion", "Momentum", "Adaptive damping", "Rigidity", "Equilibrium"] },
   { name: "Navigation", items: ["Focus + context", "Neighborhoods", "Expand", "Collapse", "Graph distance", "Mental map"] },
@@ -32,11 +32,11 @@ topics.forEach((topic, i) => {
   const angle = i / topics.length * Math.PI * 2 - Math.PI / 2;
   const x = Math.cos(angle) * 175;
   const y = Math.sin(angle) * 175;
-  const hub = makeNode(`topic-${i}`, topic.name, `Explore the ideas behind ${topic.name.toLowerCase()} in an interactive graph browser.`, x, y, "topic");
+  const hub = makeNode(`topic-${i}`, topic.name, "", x, y, "topic");
   graph.addEdge(new FreshEdge(root, hub, { length: 70, label: "includes" }));
   topic.items.forEach((label, j) => {
     const leafAngle = angle + (j - 2.5) * .5;
-    const leaf = makeNode(`node-${i}-${j}`, label, `An idea in ${topic.name.toLowerCase()}. Follow its connections to see how it fits into the larger picture.`,
+    const leaf = makeNode(`node-${i}-${j}`, label, "",
       x + Math.cos(leafAngle) * 110, y + Math.sin(leafAngle) * 110);
     leaves.set(label, leaf);
     graph.addEdge(new FreshEdge(hub, leaf, { length: 55, label: "covers" }));
@@ -53,7 +53,7 @@ const details = [
 details.forEach(([parent, label], i) => {
   const node = leaves.get(parent)!;
   const angle = Math.atan2(node.y, node.x) + (i % 2 === 0 ? .2 : -.2);
-  const child = makeNode(`detail-${i}`, label, `A closer look at ${parent.toLowerCase()}.`, node.x + Math.cos(angle) * 65, node.y + Math.sin(angle) * 65, "concept");
+  const child = makeNode(`detail-${i}`, label, "", node.x + Math.cos(angle) * 65, node.y + Math.sin(angle) * 65, "concept");
   graph.addEdge(new FreshEdge(node, child, { length: 45, label: "detail" }));
 });
 for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Coordinates"], ["Neighborhoods", "Visible locality"], ["Mental map", "Momentum"], ["Selection", "Nodes"]]) {
