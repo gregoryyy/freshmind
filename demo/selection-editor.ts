@@ -75,11 +75,18 @@ export class SelectionEditor {
   /** Opens the inspector's label control, used by Add node and Edit graph. */
   focusLabel(): void {
     const control = this.selection instanceof FreshEdge ? this.edgeLabel : this.nodeLabel;
+    this.revealInspector();
     this.form.scrollIntoView({block: "nearest"}); control.focus({preventScroll: true}); control.select();
   }
   focusDetails(): void {
     if (!(this.selection instanceof FreshNode)) {this.focusLabel(); return;}
+    this.revealInspector();
     const control = get<HTMLTextAreaElement>("node-annotation"); control.scrollIntoView({block: "nearest"}); control.focus();
+  }
+  /** Keyboard editing opens any collapsed inspector ancestors before moving focus into them. */
+  private revealInspector(): void {
+    for(let ancestor=this.form.parentElement;ancestor;ancestor=ancestor.parentElement)
+      if(ancestor instanceof HTMLDetailsElement)ancestor.open=true;
   }
   /** Opens a multiline node or single-line relation editor at the shared renderer anchor. */
   openInline(): void {

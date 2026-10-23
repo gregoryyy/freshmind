@@ -54,6 +54,7 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.3.9 Add Ctrl+Shift+Option/Alt+←/→ view rotation, retaining physical positions, upright labels and navigation state.
   - [x] 2.3.10 Restore C to cycle default edge forms, with W as an alias; synchronize the browser selector and key map while preserving explicit relation overrides and text-editor input.
   - [x] 2.3.11 Highlight selected relations on their rendered line, matching the Java selection color; replace browser bounding-box focus frames with stroke emphasis, including curves, parallel relations and self-loops on both pages.
+  - [x] 2.3.12 Group left-pane controls into collapsible sections with larger headings, retaining values and keyboard access to a collapsed inspector.
 - [x] 2.4 Port labeling and the associated editors.
   - [x] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
   - [x] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.
@@ -68,6 +69,7 @@ The main browser supports inline labels and full inspector edits, including anno
   - [x] 2.5.4 Convert only the approved `berry` and `nips-fm` Java datasets into `examples/fm2014/`, with conversion reports and explicit recovery of known legacy defects. All other reference datasets are proprietary and excluded from migration, fixtures and distribution.
   - [x] 2.5.5 Verify source-to-YAML migration and YAML round trips preserve IDs, labels, annotations, metadata, isolated nodes, parallel relations and self-loops.
   - [x] 2.5.6 Load the converted examples in the demo and add `just` conversion/validation recipes.
+  - [x] 2.5.7 Move export settings into a dedicated Options menu with keyboard/outside dismissal and narrow-screen support.
 
 ## 3. Add Reinforcement Focus + Context
 
@@ -88,6 +90,7 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
   - [x] 3.2.11 Add independent RFC centers via Shift+Enter/Shift+double-click; deduplicate shared constraints, halos and experimental damping.
   - [x] 3.2.12 Add Louvain/component clustering with scope/weight controls, proposal inspection and conversion of selected clusters into stored RFC trees.
   - [x] 3.2.13 Make ordinary RFC activation replace all centers, and Shift+Enter/Shift+double-click toggle one center, including removing the primary or last center. Preserve explicit additive APIs and stored memberships.
+  - [x] 3.2.14 Enable RFC by default in the main browser, show its state in the collapsed section heading, and carry the current on/off choice across graph loads. Keep library/experiment activation explicit and handle empty graphs.
 - [ ] 3.3 Assemble representative test data and document how to load it.
   - [ ] 3.3.1 Recreate the single-focus, two-focus, and hybrid examples in Figures 1–3 of the 2005 paper. Current synthetic fixtures test the mechanisms; they do not reconstruct those figures or the hybrid filtering example.
   - [x] 3.3.2 Add synthetic single-focus competing-context fixtures, including unequal branch radii and horizontally extended labels, with loadable native YAML graphs.

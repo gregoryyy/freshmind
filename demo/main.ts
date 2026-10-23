@@ -75,7 +75,7 @@ const disposeKeymap = bindKeymap(panel, {button: get("keymap-help"), includeBrow
 const disposeRfc = bindRfcControls(panel, {
   activate: get<HTMLButtonElement>("rfc-activate"), clear: get<HTMLButtonElement>("rfc-clear"),
   springMultiplier: get<HTMLInputElement>("rfc-springs"), angularStiffness: get<HTMLInputElement>("rfc-angular"), status: get("rfc-status"),
-  radialStiffness: get<HTMLInputElement>("rfc-radial"), radialLength: get<HTMLInputElement>("rfc-length"),
+  radialStiffness: get<HTMLInputElement>("rfc-radial"), radialLength: get<HTMLInputElement>("rfc-length"), indicator: get("rfc-indicator"),
   treePreset: get<HTMLButtonElement>("rfc-tree"), attractionPreset: get<HTMLButtonElement>("rfc-attraction"),
   adaptiveDamping: get<HTMLInputElement>("rfc-adaptive-damping"),
   addCenter:get<HTMLButtonElement>("rfc-add-center"),centers:get<HTMLSelectElement>("rfc-centers"),removeCenter:get<HTMLButtonElement>("rfc-remove-center"),
@@ -237,6 +237,8 @@ get("motion").addEventListener("click", () => {
 });
 // Useful for experimenting with the library from the browser console.
 Object.assign(window, { graphBrowser: panel });
-void focusOn(root);
+void focusOn(root).then(() => {
+  if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
+});
 window.addEventListener("pagehide", () => { disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

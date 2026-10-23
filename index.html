@@ -10,17 +10,27 @@
     <div class="app">
       <header class="topbar">
         <a class="brand" href="/" aria-label="fm4 home"><span class="brand-mark">f</span> fm4 <span class="tag">GRAPH BROWSER</span></a>
-        <div class="document-tools"><button id="open-graph">Open YAML</button><button id="save-graph">Save YAML</button><button id="keymap-help">Key map</button></div>
+        <div class="document-tools"><button id="open-graph">Open YAML</button><button id="save-graph">Save YAML</button><button id="keymap-help">Key map</button><button id="options-toggle" popovertarget="browser-options">Options</button></div>
       </header>
+      <div id="browser-options" class="options-menu" popover role="dialog" aria-labelledby="options-title">
+        <div class="options-heading"><h2 id="options-title">Options</h2><button type="button" popovertarget="browser-options" popovertargetaction="hide" aria-label="Close options">×</button></div>
+        <fieldset><legend>Export options</legend>
+          <label class="pin-control"><input id="save-layout" type="checkbox" checked /> Include layout positions</label>
+          <label class="pin-control"><input id="save-view" type="checkbox" checked /> Include view settings</label>
+          <label class="pin-control"><input id="save-companion" type="checkbox" /> Save types as a companion file</label>
+        </fieldset>
+      </div>
       <main>
         <aside class="sidebar">
+          <details class="sidebar-section" id="files-section" open><summary>Graph files</summary>
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <label class="control-label" for="example-graph">Load example</label>
           <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="substructures">Trees and DAG</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
           <input type="file" id="open-graph-files" accept=".yaml,.yml" multiple hidden />
           <p id="file-status" class="control-help" role="status"></p>
-          <details><summary>Export options</summary><label class="pin-control"><input id="save-layout" type="checkbox" checked /> Include layout positions</label><label class="pin-control"><input id="save-view" type="checkbox" checked /> Include view settings</label><label class="pin-control"><input id="save-companion" type="checkbox" /> Save types as a companion file</label></details>
-          <div class="section-label">YOUR VIEW <span id="view-status">LOCAL NEIGHBORHOOD</span></div>
+          </details>
+          <details class="sidebar-section" id="view-section" open><summary>View</summary>
+          <p id="view-status" class="section-label">LOCAL NEIGHBORHOOD</p>
           <label class="control-label" for="depth">Neighborhood depth <output id="depth-value">2 hops</output></label>
           <input type="range" id="depth" min="0" max="6" value="2" step="1" />
           <div class="range-labels"><span>Immediate</span><span>Further out</span></div>
@@ -30,13 +40,19 @@
           <label class="control-label lens-label" for="hyper">Focus + context <output id="hyper-value">60%</output></label>
           <input type="range" id="hyper" min="0" max="100" value="60" step="1" />
           <div class="range-labels"><span>Undistorted</span><span>Strong lens</span></div>
-          <details class="navigation-options"><summary>Reinforcement Focus + Context</summary>
+          <label class="control-label" for="curve">Edge curves</label>
+          <select id="curve" aria-describedby="curve-help"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
+          <p id="curve-help" class="control-help">Spider bends relations into branching curves. Drag nodes diagonally to see the bend.</p>
+          <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
+          </details>
+          <details class="sidebar-section" id="rfc-section"><summary><span>Reinforcement Focus + Context</span> <output id="rfc-indicator">On</output></summary>
             <p class="control-help">Reinforces the selected node's visible branches in the physical layout.</p>
             <div class="editor-actions"><button type="button" id="rfc-activate">Reinforce selected node</button><button type="button" id="rfc-clear" disabled>Remove RFC</button></div>
             <div class="editor-actions"><button type="button" id="rfc-add-center">Add RFC center</button></div>
             <label class="control-label" for="rfc-centers">RFC centers</label><select id="rfc-centers"></select>
             <button type="button" id="rfc-remove-center">Remove selected RFC center</button>
             <p class="control-help">Shift+Enter or Shift+double-click toggles a center and keeps the others. Ordinary RFC activation replaces all centers.</p>
+            <details class="control-subsection" open><summary>Force settings</summary>
             <div class="editor-actions"><button type="button" id="rfc-tree" aria-pressed="true">Tree structure</button><button type="button" id="rfc-attraction" aria-pressed="false">Attraction only</button></div>
             <label class="control-label" for="rfc-length">Target focal length</label><input id="rfc-length" type="number" min="10" max="1000" step="any" value="120" required />
             <label class="control-label" for="rfc-radial">Radial stiffness</label><input id="rfc-radial" type="number" min="0" max="2" step="0.1" value="1" required />
@@ -50,6 +66,7 @@
             <p class="control-help">When RFC is on, press Return or double-click the current center again to reinforce it. Yellow halos mark the reinforced nodes and relations.</p>
             <label class="pin-control"><input id="rfc-adaptive-damping" type="checkbox" /> Experimental adaptive damping</label>
             <p class="control-help">Detect repeated reversals and damp focal motion. After 0.5 seconds of quiet movement, ease damping off over 3 seconds.</p>
+            </details>
             <details class="navigation-options"><summary>Substructures</summary>
               <label class="control-label" for="rfc-structure">Substructure</label><select id="rfc-structure"></select>
               <label class="control-label" for="rfc-structure-name">Substructure name</label><input id="rfc-structure-name" type="text" />
@@ -72,10 +89,7 @@
             </details>
             <p id="rfc-structure-status" class="control-help" role="status" aria-live="polite"></p>
           </details>
-          <label class="control-label" for="curve">Edge curves</label>
-          <select id="curve" aria-describedby="curve-help"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
-          <p id="curve-help" class="control-help">Spider bends relations into branching curves. Drag nodes diagonally to see the bend.</p>
-          <details class="navigation-options"><summary>Navigation options</summary>
+          <details class="sidebar-section" id="navigation-section"><summary>Navigation options</summary>
             <label class="pin-control"><input id="backlinks" type="checkbox" checked /> Include backlinks (B)</label>
             <label class="pin-control"><input id="move-to-center" type="checkbox" checked /> Centering changes neighborhood (N)</label>
             <label class="control-label" for="max-add-degree">Maximum neighbor degree</label>
@@ -84,17 +98,17 @@
             <input id="max-expand-degree" type="number" required min="0" max="9007199254740991" step="1" value="1000" />
             <label class="control-label" for="candidate-timeout">Candidate timeout (ms; 0 disables)</label>
             <input id="candidate-timeout" type="number" required min="0" max="9007199254740991" step="1" value="2500" />
-          </details>
-          <p id="navigation-status" class="control-help" role="status" aria-live="polite" aria-atomic="true"></p>
           <p class="control-help">Arrows: nodes · Shift+arrows: relations · Enter: confirm/center · Esc: cancel · E/K/H: expand/collapse/hide</p>
           <p class="control-help">Ctrl+Shift+↑/↓: graph spacing · Ctrl+Shift+←/→: focus + context</p>
           <p class="control-help">Ctrl+Shift+Option/Alt+↑/↓ or +/−: canvas zoom · Ctrl+Shift+1: reset canvas zoom</p>
           <p class="control-help">Ctrl+Shift+Option/Alt+←/→: graph rotation</p>
-          <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
+          </details>
+          <p id="navigation-status" class="control-help" role="status" aria-live="polite" aria-atomic="true"></p>
+          <details class="sidebar-section inspector" id="selection-section" open><summary>Selected item</summary>
           <button id="edit-mode" class="quiet-button" aria-pressed="false">Edit graph <span aria-hidden="true">✎</span></button>
           <p id="edit-help" class="intro" hidden>Edit labels, types and shapes below. Add a node here or double-click the background. Select a source, then Shift-click a target to connect them.</p>
           <button id="add-node" class="quiet-button" hidden>Add node</button>
-          <section class="inspector" aria-live="polite">
+          <div aria-live="polite">
             <div class="section-label"><span id="selection-kind">SELECTED NODE</span></div>
             <h2 id="selected-name">Graph browsers</h2>
             <p id="selected-detail"></p>
@@ -139,9 +153,11 @@
                 <button type="button" id="delete-item" class="quiet-button" hidden>Delete selected item</button>
               </fieldset>
             </form>
-            <div class="section-label connection-label">CONNECTIONS</div>
-            <div id="connections" class="connections"></div>
-          </section>
+            <details class="control-subsection connection-section" open><summary>Connections</summary>
+              <div id="connections" class="connections"></div>
+            </details>
+          </div>
+          </details>
           <p class="attribution">This product includes software developed by <a href="https://www.touchgraph.com/">TouchGraph LLC</a>.<br />This product includes software developed by TouchGraph (http://www.touchgraph.com/).</p>
         </aside>
         <section class="workspace" aria-label="Graph workspace">

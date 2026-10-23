@@ -10,6 +10,8 @@ async function ready(page) {
   await page.evaluate(async () => { const p = window.graphBrowser; p.fastFinishAnimation(); await p.getLocalityUtils().whenIdle(); p.tgLayout.stop(); });
   await page.locator("#open-graph-files").setInputFiles(example);
   await expect(page.locator("#file-status")).toContainText("9 nodes, 12 relations");
+  // Force comparisons explicitly start with RFC off; the browser now opens with it enabled.
+  await page.evaluate(()=>window.graphBrowser.getRfc().setFocus(null));
   await page.getByText("Reinforcement Focus + Context", {exact: true}).click();
   return errors;
 }
@@ -63,7 +65,8 @@ test("hidden RFC centers suspend and resume; choosing another center and opening
   await page.getByRole("button", {name: "Reinforce selected node", exact: true}).click();
   expect((await state(page)).focusId).toBe("context-0"); expect((await state(page)).branchIds).toHaveLength(3);
   await page.locator("#open-graph-files").setInputFiles(example);
-  await expect(page.locator("#rfc-status")).toHaveText("RFC off."); expect((await state(page)).enabled).toBe(false);
+  expect(await state(page)).toMatchObject({enabled:true,focusId:"center"});
+  expect((await state(page)).centers).toHaveLength(1);
   expect(errors).toEqual([]);
 });
 

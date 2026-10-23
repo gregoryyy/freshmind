@@ -10,8 +10,16 @@ button:disabled { cursor: default; opacity: .4; }
 [hidden] { display: none !important; }
 select, textarea, input[type=text], input[type=number] { font: inherit; width: 100%; max-width: 100%; border: 1px solid #c4cdbf; border-radius: 6px; padding: 8px; background: #fff; color: inherit; }
 select, textarea, input[type=text], input[type=number] { font-size: 12px; }
-.navigation-options { font-size: 11px; margin-top: 16px; }
-.navigation-options summary { cursor: pointer; }
+.navigation-options, .control-subsection { margin-top: 16px; }
+summary { cursor: pointer; }
+summary:focus-visible { outline: 3px solid #6cb08b; outline-offset: 4px; border-radius: 3px; }
+.sidebar-section { padding: 18px 0; border-bottom: 1px solid #dce1d7; }
+.sidebar-section > summary { font-family: "Manrope", system-ui, sans-serif; font-size: 16px; font-weight: 650; line-height: 1.4; }
+.sidebar-section > summary output { margin-left: 5px; vertical-align: middle; }
+.sidebar-section[open] > summary { margin-bottom: 16px; }
+.navigation-options > summary, .control-subsection > summary { font-size: 14px; font-weight: 600; line-height: 1.5; }
+.navigation-options[open] > summary, .control-subsection[open] > summary { margin-bottom: 12px; }
+.sidebar-section .quiet-button { margin-top: 12px; }
 #navigation-status { min-height: 36px; }
 #item-detail { overflow-wrap: anywhere; }
 textarea { resize: vertical; }
@@ -24,6 +32,13 @@ select:focus-visible, textarea:focus-visible { outline: 3px solid #6cb08b; outli
 .metadata-fields { padding: 0; margin: 0; border: 0; min-width: 0; }
 .document-tools { display: flex; gap: 7px; }
 .document-tools button, #keymap-help { padding: 7px 10px; border: 1px solid #c4cdbf; border-radius: 5px; background: #fafbf7; color: inherit; font-size: 11px; }
+.options-menu { inset: 66px 24px auto auto; margin: 0; width: min(330px, calc(100vw - 24px)); max-height: calc(100dvh - 90px); overflow: auto; border: 1px solid #c4cdbf; border-radius: 8px; padding: 18px; color: #263e33; background: #fafbf7; box-shadow: 0 8px 28px #263e3326; }
+.options-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.options-heading h2 { font-size: 18px; margin: 0; }
+.options-heading button { border: 0; background: transparent; font-size: 22px; color: inherit; padding: 0 6px; }
+.options-menu fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.options-menu legend { font-size: 16px; font-weight: 650; margin-bottom: 8px; }
+.options-menu .pin-control { color: #425540; font-size: 12px; line-height: 1.5; margin: 14px 0; }
 #file-status[data-error=true], .inline-status[data-error=true] { color: #a32b25; }
 .annotation { white-space: pre-wrap; overflow-wrap: anywhere; }
 .annotation pre { white-space: pre-wrap; }
@@ -41,7 +56,7 @@ select:focus-visible, textarea:focus-visible { outline: 3px solid #6cb08b; outli
 .tag { font-family: "DM Sans", sans-serif; margin-left: 10px; border-left: 1px solid #dce1d7; padding-left: 20px; font-size: 9px; letter-spacing: 1.8px; color: #748074; font-weight: 600; }
 .project-name { font-size: 12px; color: #798177; }
 main { display: grid; grid-template-columns: 310px minmax(0, 1fr); height: calc(100dvh - 78px); min-height: calc(100dvh - 78px); }
-.sidebar { padding: 35px 27px 22px; background: #fafbf7; border-right: 1px solid #dce1d7; overflow-y: auto; }
+.sidebar { padding: 12px 27px 22px; background: #fafbf7; border-right: 1px solid #dce1d7; overflow-y: auto; }
 .intro { color: #7b8378; font-size: 12px; line-height: 1.8; margin: 0 0 29px; max-width: 235px; }
 .section-label { font-size: 9px; letter-spacing: 1.1px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; color: #788476; }
 .section-label span { font-size: 7px; letter-spacing: .3px; }
@@ -53,6 +68,7 @@ input[type=range] { accent-color: #42674a; width: 100%; height: 5px; margin: 3px
 .quiet-button { width: 100%; background: transparent; border: 1px solid #dce1d7; padding: 10px 13px; border-radius: 6px; margin-top: 23px; display: flex; justify-content: space-between; color: #647460; font-size: 11px; }
 .quiet-button:hover { background: #f0f3e9; }
 .inspector { border-top: 1px solid #dce1d7; margin-top: 27px; padding-top: 24px; }
+.inspector.sidebar-section { border-top: 0; margin-top: 0; padding-top: 18px; }
 h2 { font-family: "Manrope", sans-serif; font-size: 21px; letter-spacing: -.7px; margin: 16px 0 7px; font-weight: 650; }
 #selected-detail { font-size: 11px; color: #8b9285; line-height: 1.7; margin: 0; min-height: 36px; }
 .node-meta { font-size: 9px; color: #7b8874; margin: 9px 0 18px; }
@@ -84,4 +100,6 @@ h2 { font-family: "Manrope", sans-serif; font-size: 21px; letter-spacing: -.7px;
 .canvas-footer button { border: 1px solid #d7dfce; border-radius: 5px; background: transparent; color: #6b7f5b; padding: 7px 10px; font-size: 9px; }
 @media (min-width: 1500px) { main { grid-template-columns: 330px minmax(0,1fr); } .sidebar { padding-left: 34px; padding-right: 34px; } }
 @media (max-width: 850px) { .project-name, .tag { display: none; } .topbar { padding: 0 20px; height: 65px; } main { grid-template-columns: 260px minmax(0,1fr); height: calc(100dvh - 65px); min-height: calc(100dvh - 65px); } .sidebar { padding: 25px 20px; } .canvas-heading { left: 18px; right: 18px; } .canvas-footer span { max-width: 150px; line-height: 1.8; } }
-@media (max-width: 600px) { main { display: flex; flex-direction: column; height: auto; } .sidebar { border-right: 0; border-bottom: 1px solid #dce1d7; overflow-y: visible; } .intro { max-width: none; margin-bottom: 22px; } .inspector { margin-top: 20px; } .connections, .attribution, .connection-label { display: none; } .workspace { height: 68dvh; min-height: 500px; order: -1; } .canvas-footer { left: 18px; right: 18px; } #graph { inset: 60px 0 100px; } }
+@media (max-width: 600px) { main { display: flex; flex-direction: column; height: auto; } .sidebar { border-right: 0; border-bottom: 1px solid #dce1d7; overflow-y: visible; } .intro { max-width: none; margin-bottom: 22px; } .inspector { margin-top: 20px; } .connection-section, .connections, .attribution, .connection-label { display: none; } .workspace { height: 68dvh; min-height: 500px; order: -1; } .canvas-footer { left: 18px; right: 18px; } #graph { inset: 60px 0 100px; } }
+
+@media (max-width: 600px) { .topbar { padding: 0 12px; gap: 10px; } .document-tools { gap: 4px; } .document-tools button { font-size: 10px; padding: 6px; } .options-menu { right: 12px; } }

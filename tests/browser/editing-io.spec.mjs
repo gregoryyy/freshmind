@@ -133,7 +133,7 @@ test("local companions are required before replacement and companion exports con
   const types=(await readFile(new URL("../../config/fm2014.types.yaml",import.meta.url),"utf8")).replace("id: freshmind-2014","id: custom-profile");
   await page.locator("#open-graph-files").setInputFiles([graph,{name:"custom.types.yaml",mimeType:"application/yaml",buffer:Buffer.from(types)}]);
   await expect(page.locator("#file-status")).toContainText("companion.fm.yaml: 3 nodes");expect(await page.evaluate(()=>window.graphBrowser.getTypeRegistry().getConfiguration().id)).toBe("custom-profile");
-  await page.getByText("Export options",{exact:true}).click();await page.getByLabel("Save types as a companion file",{exact:true}).check();
+  await page.getByRole("button",{name:"Options",exact:true}).click();await page.getByLabel("Save types as a companion file",{exact:true}).check();
   await page.getByLabel("Include layout positions",{exact:true}).uncheck();await page.getByLabel("Include view settings",{exact:true}).uncheck();
   const downloads=[];page.on("download",download=>downloads.push(download));await page.getByRole("button",{name:"Save YAML",exact:true}).click();await expect.poll(()=>downloads.length).toBe(2);
   const savedGraph=downloads.find(d=>d.suggestedFilename()==="companion.fm.yaml"),savedTypes=downloads.find(d=>d.suggestedFilename()==="fm2014.types.yaml");

@@ -37,7 +37,7 @@ export function bindFileControls(panel: FreshmindPanel): void {
     const loaded = parseDocument(source, {resolveTypes: resolver});
     if (request !== revision) return;
     const focusBeforeInstall = document.activeElement;
-    await installDocument(panel, loaded);
+    await installDocument(panel, loaded, {reinforceFocus: panel.getRfc().getState().enabled});
     if (request !== revision) return;
     current = loaded; filename = name; get<HTMLInputElement>("save-name").value = filename;
     get<HTMLSelectElement>("example-graph").value = example;

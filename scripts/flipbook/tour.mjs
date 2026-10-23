@@ -102,6 +102,7 @@ export const tour = [
       ]);
       if (download.suggestedFilename() !== "freshmind-flipbook.fm.yaml") throw new Error("Unexpected YAML download name");
       await openRfc(page);
+      await page.evaluate(()=>window.graphBrowser.getRfc().setFocus(null));
       await advance(250);
       await page.locator(".sidebar").evaluate(sidebar => { sidebar.scrollTop = 0; });
       await page.getByText("Reinforcement Focus + Context", {exact: true}).click();

@@ -27,6 +27,7 @@ export interface RfcControlElements {
   xWeight?: HTMLInputElement;
   yWeight?: HTMLInputElement;
   status: HTMLElement;
+  indicator?: HTMLElement;
 }
 
 /** Binds application-owned controls to transient reinforcement; dispose before removing the panel. */
@@ -36,6 +37,8 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
   let centerSignature="";
   const update = () => {
     const state = rfc.getState(), selected = panel.getSelection();
+    const indicator=state.active?"On":state.enabled?"Paused":"Off";
+    if(elements.indicator&&elements.indicator.textContent!==indicator)elements.indicator.textContent=indicator;
     elements.activate.disabled = !(selected instanceof FreshNode) || !panel.getGES().contains(selected);
     elements.clear.disabled = !state.enabled;
     if(elements.addCenter)elements.addCenter.disabled=elements.activate.disabled;

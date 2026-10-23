@@ -9,7 +9,7 @@ async function ready(page,example="substructures") {
   const counts={substructures:"12 nodes, 13 relations",karate:"34 nodes, 78 relations","joined-trees":"14 nodes, 13 relations",
     "leaf-connected-trees":"14 nodes, 17 relations","shared-subtree":"11 nodes, 10 relations"};
   await expect(page.locator("#file-status")).toContainText(counts[example]);
-  await page.evaluate(async()=>{const p=window.graphBrowser;p.fastFinishAnimation();await p.getLocalityUtils().whenIdle();p.tgLayout.stop();});
+  await page.evaluate(async()=>{const p=window.graphBrowser;p.fastFinishAnimation();await p.getLocalityUtils().whenIdle();p.tgLayout.stop();p.getRfc().setFocus(null);});
   await page.getByText("Reinforcement Focus + Context",{exact:true}).click();return errors;
 }
 const state=page=>page.evaluate(()=>window.graphBrowser.getRfc().getState());
@@ -131,7 +131,9 @@ test("manual tree membership editing persists through YAML without saving active
   expect(document.graph.getSubstructures()).toHaveLength(3);expect(document.graph.getSubstructure("s1").label).toBe("Combined tree");
   await page.locator("#open-graph-files").setInputFiles({name:"structures.fm.yaml",mimeType:"application/yaml",buffer:Buffer.from(yaml)});
   await expect(page.locator("#file-status")).toContainText("13 nodes, 14 relations");
-  expect((await state(page)).enabled).toBe(false);expect(await page.evaluate(()=>window.graphBrowser.getCompleteEltSet().getSubstructures().length)).toBe(3);
+  const reloaded=await state(page);expect(reloaded.enabled).toBe(true);expect(reloaded.centers).toHaveLength(1);
+  expect(reloaded.centers[0].structureId).toBeNull(); // Fresh browser focus, not restored RFC activation from YAML.
+  expect(await page.evaluate(()=>window.graphBrowser.getCompleteEltSet().getSubstructures().length)).toBe(3);
   expect(errors).toEqual([]);
 });
 

@@ -18,6 +18,17 @@ function fixture() {
   document.view={focus:"001",radius:2,backlinks:false,moveToCenter:false,maxAddEdgeCount:11,maxExpandEdgeCount:13,lenses:{zoom:1.8,hyperbolic:44,rotation:.7},canvas:{zoom:1.5,pan:{x:31,y:-20}}};
   return {document,a,b,isolated};
 }
+test("document installation reinforces its initial focus only when explicitly requested",async t=>{
+  const p=new FreshmindPanel(undefined,{autoStart:false,animateLocality:false});t.after(()=>p.destroy());
+  const {document}=fixture();
+  await installDocument(p,document);assert.equal(p.getRfc().getState().enabled,false);
+  await installDocument(p,document,{reinforceFocus:true});
+  assert.equal(p.getRfc().getState().focusId,"001");assert.equal(p.getRfc().getState().centers.length,1);
+  assert.deepEqual(documentToRecord(document),documentToRecord(parseDocument(serializeDocument(document))));
+  await installDocument(p,document);assert.equal(p.getRfc().getState().enabled,false);
+  const empty=new FreshmindDocument(new TypeRegistry(freshmind2014Configuration));
+  await installDocument(p,empty,{reinforceFocus:true});assert.equal(p.getRfc().getState().enabled,false);
+});
 test("native YAML preserves all graph records, ambiguous strings, metadata, loops, parallels and view",()=>{
   const {document,a}=fixture();a.dx=50;a.markedForRemoval=true;a.setPreselected(true);a.setVisible(true);
   const source=serializeDocument(document),loaded=parseDocument(source);
