@@ -14,3 +14,4 @@ export { parseTypeConfiguration } from "./config/yaml.js";
 export { parseDocument, readDocument, serializeDocument, documentToRecord } from "./io/codec.js";
 export { captureDocument, installDocument } from "./io/panel.js";
 export { resourceURL, renderAnnotation } from "./editing/details.js";
+export * from "./ui/index.js";

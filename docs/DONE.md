@@ -2,6 +2,21 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Graph-spacing and canvas keyboard mapping — 2026-10-23
+
+- Assigned Ctrl+Shift+↑/↓ to graph spacing and Ctrl+Shift+Option/Alt+↑/↓ to canvas zoom. Ctrl+↑/↓ remains a graph-spacing alias; Ctrl+Shift+←/→ still adjusts focus/context and Ctrl+Shift+1 resets canvas scale. The triple-modifier arrow chord is the explicit exception to ignoring Alt input; other Alt chords retain normal behavior.
+- Updated both pages' help/tooltips, shared key-map rows, generated user guide, README and current design. Earlier DONE entries record the mappings at their implementation dates; this entry supersedes their canvas-arrow bindings.
+- Regression checks cover independent zoom levels, limits/repeat, unchanged physical coordinates and selection, candidate timeout rearming and editor isolation.
+- Verification: type checking, library/demo builds, **83 Node tests** and **15 targeted Chrome navigation/zoom tests** pass.
+
+## Reusable browser controls and original artwork — 2026-10-23
+
+- Moved key-map help and graph/canvas zoom bindings from `demo/` into `src/fm/ui/`, exported through `fm4/fm/ui` and `fm4/fm`. Applications supply elements and receive explicit disposers. Optional help CSS ships separately; core entry points remain independent of DOM modules. Demo pages retain only element lookup and lifecycle wiring.
+- Help dialogs use unique label IDs, an optional F1 scope and configurable editing/file rows. Binding cleanup removes owned navigation actions without clearing another registration's replacement. Zoom cleanup removes both DOM listeners and panel subscriptions.
+- Restored nine original artwork files from the Java reference: Freshmind GIF/PNG, splash GIF, Arbylon GIF and background JPEG, plus all four original PSD documents. Copies are unchanged and verified by SHA-256, with provenance, roles and dimensions in `assets/artwork/fm2014/`. The local reference has no Git metadata; no source revision is invented. The archive does not change browser branding or enter the npm package.
+- The original split treated page-specific element lookup as demo code, but also stranded reusable bindings there. Explicit element contracts keep application layout outside the library while making controls available to consumers.
+- Verification: type checking, library/demo builds and **82 Node tests** pass. **15 targeted Chrome tests** cover existing help/zoom/editor flows and an independent two-browser consumer with cleanup. Public UI imports resolve and the npm package includes declarations/CSS. All nine artwork copies and manifest hashes match the reference.
+
 ## Milestones 2.4–2.5: editors, native files and approved examples — 2026-10-23
 
 **Completed**

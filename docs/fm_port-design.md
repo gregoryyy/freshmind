@@ -152,8 +152,10 @@ Freeze this ordering when preselection begins so spring motion cannot reshuffle 
 | Escape | First cancel preselection; otherwise clear an edge selection and restore its anchor node selection, or clear a node selection. |
 | `E`, `K`, `H`; `0`–`6`; `B` | Expand, collapse, hide; set neighborhood radius; toggle backlinks. |
 | `N` | Toggle `moveToCenter`. |
-| Ctrl+↑ / Ctrl+↓ | Zoom in/out by a factor of 1.2 through the existing panel scale limits (0.15–5). |
-| Ctrl+Shift+↑ / Ctrl+Shift+↓ | Increase/decrease focus + context strength by five percentage points, clamped to 0–100. |
+| Ctrl+Shift+↑ / Ctrl+Shift+↓ (also Ctrl+↑ / Ctrl+↓) | Increase/decrease graph spacing by a factor of 1.2 through the panel limits (0.15–5). |
+| Ctrl+Shift+← / Ctrl+Shift+→ | Decrease/increase focus + context strength by five percentage points, clamped to 0–100. |
+| Ctrl+Shift+Option/Alt+↑ / Ctrl+Shift+Option/Alt+↓ | Increase/decrease whole-canvas scale by a factor of 1.2, independently of graph spacing. |
+| Ctrl+Shift+1 | Reset canvas scale to 100%, retaining the viewport center. |
 | F2 | Edit the selected label. |
 
 Changing between node and edge navigation clears the previous preselection and builds the requested kind from the anchor. Repeated arrow commands within that kind use the relative directions above. Keep the Java default **2,500 ms inactivity timeout**, which cancels candidates; make it configurable and allow disabling it. No automatic confirmation on timeout in the initial profile.

@@ -2,7 +2,7 @@
 
 Adapted from the Java reference's `keys.txt` (2003–2012) and checked against the implemented port. Open **Key map**, press **?** with the graph focused, or press **F1** for the same reference in the browser.
 
-Graph commands require graph focus. Text editors keep normal typing, caret movement and clipboard shortcuts. Ctrl means Control, including on macOS; file and editor commit shortcuts also accept Command. Editing and file controls below apply to the main graph browser; the palette page supplies navigation/view/help.
+Graph commands require graph focus. Text editors keep normal typing, caret movement and clipboard shortcuts. Ctrl means Control, including on macOS; Option is the Alt modifier. File and editor commit shortcuts also accept Command. Editing and file controls below apply to the main graph browser; the palette page supplies navigation/view/help.
 
 ## Navigation
 
@@ -22,9 +22,9 @@ Graph commands require graph focus. Text editors keep normal typing, caret movem
 
 | Key or gesture | Action |
 | --- | --- |
-| Ctrl + ↑ / ↓ | Increase/decrease graph spacing; object sizes remain fixed. |
+| Ctrl + Shift + ↑ / ↓ (also Ctrl + ↑ / ↓) | Increase/decrease graph spacing; object sizes remain fixed. |
 | Ctrl + Shift + ← / → | Decrease/increase focus + context strength. |
-| Ctrl + Shift + ↑ / ↓ | Increase/decrease canvas zoom (FM2014 canvas binding). |
+| Ctrl + Shift + Option/Alt + ↑ / ↓ | Increase/decrease canvas zoom around the viewport center. |
 | Ctrl + Shift + 1 | Reset canvas zoom to 100%, keeping the viewport center. |
 | + / − (also =) | Additional canvas zoom controls. |
 
@@ -66,7 +66,7 @@ Graph commands require graph focus. Text editors keep normal typing, caret movem
 
 ## Differences from the Java key map
 
-The canvas arrow/reset chords follow FM2014. Graph zoom uses Ctrl+↑/↓ and focus/context uses Ctrl+Shift+←/→; the old map used Alt arrows and Ctrl arrows for panning. +/− now scales the canvas, whereas Java used it for graph spacing. Drag the background to pan. Ordinary selection keeps the neighborhood; Enter/double-click and N control centering.
+Graph spacing uses Ctrl+Shift+↑/↓ (also Ctrl+↑/↓), canvas zoom uses Ctrl+Shift+Option/Alt+↑/↓, and focus/context uses Ctrl+Shift+←/→. Canvas reset retains Ctrl+Shift+1. FM2014 used Ctrl+Shift+↑/↓ for canvas zoom; the old map also used Alt arrows and Ctrl arrows for panning. +/− now scales the canvas, whereas Java used it for graph spacing. Drag the background to pan. Ordinary selection keeps the neighborhood; Enter/double-click and N control centering.
 
 Historical search/index commands (/, Ctrl+F, Ctrl+Shift+F, Ctrl+I and similarity search), clipboard graph operations, parent/child/sibling creation shortcuts, rotation chords, 3D controls, control-panel toggles and SVG export are not implemented shortcuts. Search belongs to milestone 4. File saving downloads YAML rather than overwriting a selected local file; Ctrl/Cmd+Shift+S opens the filename field. Legacy type/style label suffixes are replaced by explicit fields and YAML visual settings.
 

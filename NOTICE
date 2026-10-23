@@ -9,6 +9,11 @@ Copyright (c) 2002-2014 Gregor Heinrich.
 Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
 Licensed under the Apache License, Version 2.0; see LICENSE-APACHE-2.0.
 
+Original Freshmind artwork in assets/artwork/fm2014/:
+Copyright (c) 2002-2014 Gregor Heinrich. Apache-2.0.
+Original exports and editable PSD sources are preserved unchanged;
+see that directory's README and SHA-256 manifest for provenance.
+
 TouchGraph-derived graph browser components
 
 The full original license texts are centralized in LICENSE. Short headers
