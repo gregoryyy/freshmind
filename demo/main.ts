@@ -62,11 +62,24 @@ for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Co
 
 let allVisible = false;
 let paused = false;
-let currentFocus = root;
-const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60 });
+const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status") });
 panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: updateCounts });
 const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); });
+const navigation = panel.getNavigation();
+navigation.setActions({ edit: () => editor.focusLabel() });
+navigation.addListener(state => {
+  allVisible = state.wholeGraph;
+  get("view-status").textContent = allVisible ? "WHOLE GRAPH" : "LOCAL NEIGHBORHOOD";
+  const settings = state.settings;
+  get<HTMLInputElement>("depth").value = String(Math.min(6, settings.radius));
+  get("depth-value").textContent = `${settings.radius} ${settings.radius === 1 ? "hop" : "hops"}`;
+  get<HTMLInputElement>("backlinks").checked = settings.backlinks;
+  get<HTMLInputElement>("move-to-center").checked = settings.moveToCenter;
+  for (const [id, value] of [["max-add-degree", settings.maxAddEdgeCount], ["max-expand-degree", settings.maxExpandEdgeCount], ["candidate-timeout", settings.preselectionTimeoutMs]] as const)
+    if (document.activeElement !== get(id)) get<HTMLInputElement>(id).value = String(value);
+  updateDetails(); updateCounts();
+});
 panel.addSelectionListener(selection => { updateInspector(selection); editor.show(selection); });
 
 function updateCounts(): void {
@@ -81,8 +94,10 @@ function updateInspector(selection: FreshmindSelection): void {
   get("selected-name").textContent = selection?.getLabel() || (edge ? "Unlabeled relation" : node ? "(empty label)" : "Choose an idea");
   get("selected-detail").textContent = node ? node.getHint() : edge ? `${edge.from.getLabel()} → ${edge.to.getLabel()}` : "Select a node or relation to edit its label and appearance.";
   get("node-meta").textContent = node ? `${node.edgeCount()} connections · ${node.visibleEdgeCount()} in view` : edge ? edge.getSemanticType() : "";
-  for (const id of ["focus", "expand", "collapse", "hide", "pin"]) get<HTMLButtonElement | HTMLInputElement>(id).disabled = !node;
+  for (const id of ["focus", "expand", "collapse", "hide"]) get<HTMLButtonElement>(id).disabled = !panel.getSelect();
+  get<HTMLInputElement>("pin").disabled = !node;
   get<HTMLInputElement>("pin").checked = node?.isFixed() ?? false;
+  updateDetails();
   get("connections").replaceChildren();
   if (node) for (const edge of node.getEdges()) {
     const neighbor = edge.getOtherEndpt(node);
@@ -92,25 +107,48 @@ function updateInspector(selection: FreshmindSelection): void {
     get("connections").append(button);
   }
 }
-async function focusOn(node: FreshNode): Promise<void> {
-  currentFocus = node; allVisible = false;
-  get("view-status").textContent = "LOCAL NEIGHBORHOOD";
-  await panel.focusNode(node, Number(get<HTMLInputElement>("depth").value));
-  updateCounts();
+function updateDetails(): void {
+  const item = panel.getSelection(), visible = navigation.getState().detailsVisible;
+  get<HTMLButtonElement>("toggle-details").disabled = !item;
+  get("toggle-details").textContent = visible ? "Hide details (Space)" : "Show details (Space)";
+  get("selection-details").hidden = !item || !visible;
+  get("annotation-detail").textContent = item instanceof FreshNode ? item.getAnnotation().text : "";
+  get("item-detail").textContent = item instanceof FreshNode
+    ? `ID: ${item.getID()} · Type: ${item.getSemanticType()} · Weight: ${item.getWeight()}${item.getURL() ? ` · URL: ${item.getURL()}` : ""}`
+    : item instanceof FreshEdge ? `${item.from.getLabel()} → ${item.to.getLabel()} · Type: ${item.getSemanticType()} · Length: ${item.getLength()} · Weight: ${item.getWeight()}` : "";
 }
-get("focus").addEventListener("click", () => { const node = panel.getSelect(); if (node) void focusOn(node as FreshNode); });
-get("expand").addEventListener("click", async () => { const node = panel.getSelect(); if (node) await panel.expandNode(node); updateCounts(); });
-get("collapse").addEventListener("click", async () => { const node = panel.getSelect(); if (node) await panel.collapseNode(node); updateCounts(); });
-get("hide").addEventListener("click", async () => { const node = panel.getSelect(); if (node) await panel.hideNode(node); updateCounts(); });
+async function focusOn(node: FreshNode): Promise<void> {
+  // A connection link can explicitly open a hidden neighborhood; keyboard centering only pans when N is off.
+  if (!panel.getGES().contains(node) && !navigation.getState().settings.moveToCenter) {
+    const s = navigation.getState().settings;
+    await panel.setLocale(node, s.radius, s.maxAddEdgeCount, s.maxExpandEdgeCount, !s.backlinks);
+  }
+  if (panel.getSelect() !== node || panel.getSelectEdge()) panel.setSelect(node);
+  await navigation.centerSelection(); updateCounts();
+}
+get("focus").addEventListener("click", () => { void navigation.centerSelection(); });
+get("expand").addEventListener("click", () => { void navigation.expand(); });
+get("collapse").addEventListener("click", () => { void navigation.collapse(); });
+get("hide").addEventListener("click", () => { void navigation.hide(); });
+get("toggle-details").addEventListener("click", () => navigation.toggleDetails());
 get<HTMLInputElement>("pin").addEventListener("change", event => {
   panel.getSelect()?.setFixed((event.target as HTMLInputElement).checked); panel.resetDamper(); panel.repaint();
 });
 get<HTMLInputElement>("depth").addEventListener("input", event => {
-  const depth = Number((event.target as HTMLInputElement).value);
-  get("depth-value").textContent = `${depth} ${depth === 1 ? "hop" : "hops"}`;
-  const focus = graph.contains(currentFocus) ? currentFocus : panel.getSelect() ?? graph.getFirstNode();
-  if (focus) void focusOn(focus as FreshNode);
+  void navigation.configure({ radius: Number((event.target as HTMLInputElement).value) });
 });
+get<HTMLInputElement>("backlinks").addEventListener("change", event => {
+  void navigation.configure({ backlinks: (event.target as HTMLInputElement).checked });
+});
+get<HTMLInputElement>("move-to-center").addEventListener("change", event => {
+  void navigation.configure({ moveToCenter: (event.target as HTMLInputElement).checked });
+});
+for (const [id, key] of [["max-add-degree", "maxAddEdgeCount"], ["max-expand-degree", "maxExpandEdgeCount"], ["candidate-timeout", "preselectionTimeoutMs"]] as const) {
+  get<HTMLInputElement>(id).addEventListener("change", event => {
+    const input = event.target as HTMLInputElement;
+    if (input.reportValidity()) void navigation.configure({ [key]: input.valueAsNumber });
+  });
+}
 get<HTMLInputElement>("hyper").addEventListener("input", event => {
   const strength = Number((event.target as HTMLInputElement).value);
   get("hyper-value").textContent = `${strength}%`; panel.setHyperbolic(strength);

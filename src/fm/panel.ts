@@ -18,8 +18,15 @@ import type { EdgeStyle, InteractionState, NodeStyle } from "./config/types.js";
 import { FreshmindPresentation } from "./rendering/presentation.js";
 import { routeEdges } from "./rendering/geometry.js";
 import type { EdgeGeometry } from "./rendering/geometry.js";
+import { FreshmindNavigation } from "./navigation/controller.js";
+import { bindNavigation } from "./navigation/keyboard.js";
+import type { NavigationOptions } from "./navigation/types.js";
 
-export interface FreshmindPanelOptions extends TGPanelOptions { types?: TypeRegistry; }
+export interface FreshmindPanelOptions extends TGPanelOptions {
+  types?: TypeRegistry;
+  navigation?: NavigationOptions;
+  navigationStatus?: HTMLElement;
+}
 export type FreshmindSelection = FreshNode | FreshEdge | null;
 export type SelectionListener = (selection: FreshmindSelection) => void;
 /** Freshmind extends the TouchGraph panel; graph/locality/layout/lenses remain owned by TGPanel. */
@@ -28,6 +35,12 @@ export class FreshmindPanel extends TGPanel {
   private readonly presentation=new FreshmindPresentation();
   private selectedEdge: FreshEdge|null=null;
   private readonly selectionListeners = new Set<SelectionListener>();
+  private navigation?: FreshmindNavigation;
+  private neighborhoodFocus: FreshNode | null = null;
+  private neighborhoodRevision = 0;
+  private changingNeighborhood = false;
+  private unbindNavigation?: () => void;
+  private readonly navigationStatus?: HTMLElement;
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -38,9 +51,35 @@ export class FreshmindPanel extends TGPanel {
     super(undefined,{...options,animateLocality:options.animateLocality??Boolean(container)});
     this.types=options.types??new TypeRegistry(freshmind2014Configuration);
     this.setGraphEltSet(new FreshGraph());
+    this.navigation = new FreshmindNavigation(this, options.navigation);
+    this.navigationStatus = options.navigationStatus;
     if(container){this.mount(container);if(options.autoStart!==false)this.tgLayout.start();}
   }
   getTypeRegistry():TypeRegistry{return this.types;}
+  /** Returns the composed navigation controller used by both DOM input and application controls. */
+  getNavigation(): FreshmindNavigation { return this.navigation!; }
+  /** Neighborhood origin can differ from both committed selection and the viewing-lens focus. */
+  getNeighborhoodFocus(): FreshNode | null { return this.neighborhoodFocus; }
+  protected override mount(container: HTMLElement): void {
+    super.mount(container);
+    const svg = [...container.querySelectorAll<SVGSVGElement>(":scope > svg.tg-panel")].at(-1)!;
+    this.unbindNavigation = bindNavigation(svg, this, this.navigation!, this.navigationStatus);
+  }
+  override repaint(): void { this.navigation?.reconcile(false); super.repaint(); }
+  /** Records the requested neighborhood separately from selection; superseded async requests cannot reset it. */
+  override setLocale(node: Node | null, radius: number, maxAdd = 1000, maxExpand = 1000, outgoingOnly = false): Promise<void> {
+    if (!(node instanceof FreshNode) || radius < 0 || !this.getCompleteEltSet().contains(node))
+      return super.setLocale(node, radius, maxAdd, maxExpand, outgoingOnly);
+    const revision = ++this.neighborhoodRevision;
+    this.changingNeighborhood = true; this.neighborhoodFocus = node;
+    this.navigation?.neighborhoodChanged(radius, maxAdd, maxExpand, outgoingOnly);
+    return super.setLocale(node, radius, maxAdd, maxExpand, outgoingOnly).finally(() => {
+      if (revision !== this.neighborhoodRevision) return;
+      this.changingNeighborhood = false;
+      this.neighborhoodFocus = this.getGES().contains(node) ? node : null;
+      this.navigation?.localityChanged();
+    });
+  }
   /** Replaces a validated registry and repaints while preserving graph objects and physical positions. */
   setTypeRegistry(types:TypeRegistry):void{
     if(!(types instanceof TypeRegistry))throw new TypeError("Expected a TypeRegistry");
@@ -59,6 +98,8 @@ export class FreshmindPanel extends TGPanel {
    */
   override setGraphEltSet(graph:GraphEltSet):void {
     if(!(graph instanceof FreshGraph))throw new TypeError("FreshmindPanel requires a FreshGraph");
+    this.navigation?.graphChanged(); this.neighborhoodFocus = null;
+    this.neighborhoodRevision++; this.changingNeighborhood = false;
     for(const edge of this.getCompleteEltSet().getEdges())if(edge instanceof FreshEdge)edge.setGeometry(null);
     super.setGraphEltSet(graph);
   }
@@ -94,6 +135,7 @@ export class FreshmindPanel extends TGPanel {
   }
   private selectionChanged(): void {
     for (const listener of this.selectionListeners) listener(this.getSelection());
+    this.navigation?.selectionChanged();
   }
   /**
    * Selects a visible relation, retaining an incident selected node as the navigation anchor.
@@ -103,11 +145,12 @@ export class FreshmindPanel extends TGPanel {
    */
   setSelectEdge(edge:FreshEdge|null):void {
     if(edge&&!this.getGES().contains(edge))throw new Error("Selected edge must be visible");
+    this.navigation?.cancel(undefined, false);
     if(edge&&this.getSelect()!==edge.from&&this.getSelect()!==edge.to)super.setSelect(edge.from);
     this.selectedEdge=edge;this.repaint();this.selectionChanged();
   }
   /** Explicit node selection also clears edge selection and delegates callbacks to TGPanel. */
-  override setSelect(node:Node|null):void{this.selectedEdge=null;super.setSelect(node);this.selectionChanged();}
+  override setSelect(node:Node|null):void{this.navigation?.cancel(undefined,false);this.selectedEdge=null;super.setSelect(node);this.selectionChanged();}
   /** Clears hidden edge selection/geometry after the base panel reconciles its references. */
   override localityChanged():void {
     super.localityChanged();
@@ -115,6 +158,8 @@ export class FreshmindPanel extends TGPanel {
       this.selectedEdge=null;this.selectionChanged();
     }
     for(const edge of this.getCompleteEltSet().getEdges())if(edge instanceof FreshEdge&&!this.getGES().contains(edge))edge.setGeometry(null);
+    if (!this.changingNeighborhood && this.neighborhoodFocus && !this.getGES().contains(this.neighborhoodFocus)) this.neighborhoodFocus = null;
+    this.navigation?.localityChanged();
   }
   /** Resolves current node interaction styles; an edge anchor is not highlighted as node selection. */
   getNodeStyle(node:FreshNode):NodeStyle {
@@ -157,5 +202,19 @@ export class FreshmindPanel extends TGPanel {
   protected override paintDecorations(layer:SVGGElement):void {
     this.presentation.paintDecorations(layer,[...this.getGES().getNodes()] as FreshNode[],n=>this.getNodeStyle(n),this.getFocus() as FreshNode|null);
   }
-  override destroy(): void { this.selectionListeners.clear(); super.destroy(); }
+  /** Freshmind double-click selects and centers through the same command/settings as Enter. */
+  protected override handleNodeDoubleClick(event: MouseEvent, node: Node): void {
+    event.stopPropagation();
+    if (this.getInteractionMode() !== "navigate") return;
+    event.preventDefault(); this.setSelect(node);
+    void this.getNavigation().centerSelection();
+  }
+  protected override getNodeTitle(node: Node): string {
+    return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}\nDouble-click or press Enter to center; E to expand; Space for details`;
+  }
+  override clearAll(): void {
+    this.navigation?.graphChanged(); this.neighborhoodFocus = null;
+    this.neighborhoodRevision++; this.changingNeighborhood = false; super.clearAll();
+  }
+  override destroy(): void { this.unbindNavigation?.(); this.navigation?.destroy(); this.selectionListeners.clear(); super.destroy(); }
 }

@@ -84,11 +84,23 @@ test("visual inheritance, item overrides and interaction precedence compose fiel
   const r=registry(),n=new FreshNode("n","",{type:"person",visual:{style:{fill:"pink",stroke:{width:2}}}});
   const normal=r.resolveNode(n);assert.equal(normal.shape,"rounded-rectangle");assert.equal(normal.fill,"pink");assert.equal(normal.stroke.width,2);
   const active=r.resolveNode(n,["activeCandidate","selected","preselected","fixed"]);
-  assert.equal(active.fill,"#ff9000");assert.equal(active.text.color,"#ff0000");assert.equal(active.stroke.width,3);
+  assert.equal(active.fill,"#ff9000");assert.equal(active.text.color,"#171717");assert.equal(active.stroke.width,3);
   assert.equal(r.resolveNode(new FreshNode("q","",{type:"ldaquery"})).stroke.dash,"dash-dotted");
   normal.text.color="bad";assert.notEqual(r.resolveNode(n).text.color,"bad");
   const config=r.getConfiguration();config.nodeVisuals.person.extends="person";
   assert.throws(()=>new TypeRegistry(config),/cycle/);assert.equal(r.resolveNode(n).fill,"pink");
+});
+test("FM palette labels retain at least 4.5:1 contrast across all interaction-state combinations",()=>{
+  const r=registry(),states=["fixed","hover","selected","preselected","activeCandidate"];
+  const luminance=hex=>{
+    const channels=hex.slice(1).match(/../g).map(c=>parseInt(c,16)/255).map(c=>c<=.04045?c/12.92:((c+.055)/1.055)**2.4);
+    return channels[0]*.2126+channels[1]*.7152+channels[2]*.0722;
+  };
+  for(const type of Object.keys(freshmind2014Configuration.nodeTypes)) for(let mask=0;mask<2**states.length;mask++) {
+    const active=states.filter((_,i)=>mask&(1<<i)),style=r.resolveNode(new FreshNode("n","Label",{type}),active);
+    const a=luminance(style.fill),b=luminance(style.text.color),ratio=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+    assert.ok(ratio>=4.5,`${type} [${active}]: ${style.text.color} on ${style.fill} has contrast ${ratio}`);
+  }
 });
 test("unknown type IDs survive fallback and invalid definitions fail before registry replacement",()=>{
   const r=registry(),node=new FreshNode("n","",{type:"future",visual:{type:"future-visual"}});

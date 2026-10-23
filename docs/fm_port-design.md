@@ -1,6 +1,6 @@
 # Freshmind feature design
 
-Design drafted **2026-10-22**, updated **2026-10-23**. This specifies milestones **2.2–2.5** in [TODO.md](TODO.md). Milestone **2.2 is implemented**; navigation, editors, native graph persistence and the batch converter remain planned. The YAML type configuration is supported; the graph YAML example is a proposed contract for 2.5. The [Java reference analysis](fm2014_analysis.md) supplies the feature inventory and development context.
+Design drafted **2026-10-22**, updated **2026-10-23**. This specifies milestones **2.2–2.5** in [TODO.md](TODO.md). Milestones **2.2 and 2.3 are implemented**, with basic sidebar editors; full metadata/inline editors, native graph persistence and the batch converter remain planned. The YAML type configuration is supported; the graph YAML example is a proposed contract for 2.5. The [Java reference analysis](fm2014_analysis.md) supplies the feature inventory and development context.
 
 Freshmind 4 will restore typed and visually distinct nodes, labeled curved relations, keyboard browsing with preselection, and label/annotation editing. Its native persistence will be a versioned YAML graph format. Existing Java example files will be migrated in a batch conversion step.
 
@@ -115,6 +115,8 @@ Source: Java `tg/Edge.setMiddle`, `getDoubleBisection`, `paintArrow`, and `Fresh
 
 ## 2.3 Navigation, keyboard preselection and selection
 
+Implemented in `src/fm/navigation/`: headless candidate geometry and controller, plus a graph-scoped DOM adapter. `FreshmindPanel.getNavigation()` exposes shared commands/settings and state subscriptions; `getNeighborhoodFocus()` records the locality origin separately from the inherited viewing-lens focus. Main-browser controls and keyboard input use the same controller. See the [completion record](DONE.md#milestone-23-freshmind-navigation--2026-10-23).
+
 ### State and commands
 
 Extend the existing panel state for:
@@ -146,7 +148,7 @@ Freeze this ordering when preselection begins so spring motion cannot reshuffle 
 | Opposite directional key | Cancel preselection; retain committed selection. |
 | Enter or Space during preselection | Confirm the active candidate only. A second action can then center it or open details. |
 | Enter without preselection | Run `centerSelection`, following `moveToCenter` as described above. |
-| Space without preselection | Toggle details/annotation for the selected item. Expansion remains available through `E`, double-click and the UI. This is the Freshmind profile; the plain panel retains its existing Space behavior. |
+| Space without preselection | Toggle details/annotation for the selected item. Expansion remains available through `E` and the UI. This is the Freshmind profile; the plain panel retains its existing Space behavior. |
 | Escape | First cancel preselection; otherwise clear an edge selection and restore its anchor node selection, or clear a node selection. |
 | `E`, `K`, `H`; `0`–`6`; `B` | Expand, collapse, hide; set neighborhood radius; toggle backlinks. |
 | `N` | Toggle `moveToCenter`. |
@@ -156,7 +158,13 @@ Changing between node and edge navigation clears the previous preselection and b
 
 Mouse selection cancels preselection. Clicking a node selects it; clicking the selected node clears selection and anchor. Clicking an edge selects it, retaining an existing incident anchor or choosing its source as anchor; clicking it again restores the anchor node selection. Background click clears selection, anchor and candidates. Changes to view geometry refresh highlights while preserving candidate order.
 
+Double-clicking a node in Freshmind navigation mode selects and centers it through `centerSelection`, following `moveToCenter`. It does not perform the plain panel's expansion gesture. Keyboard and viewing-focus frames reuse the resolved node outline; keyboard frames live outside the focusable group so hidden-link counts do not affect their bounds. Highlight colors belong to YAML; the bundled profile supplies dark labels on bright fills and checks at least 4.5:1 text contrast across state combinations.
+
 Register graph shortcuts only while the graph has keyboard focus; leave browser shortcuts and text entry available elsewhere. Do not bind Tab to candidate cycling: it must reach other controls. Announce candidate position and label through an accessible status region, while node/edge accessible names expose type, label and direction. The candidate set is temporary navigation state, not a persistent multiple selection.
+
+Browser adaptation: Tab can focus a node/relation without selecting it. Enter on a different DOM-focused item first activates that item, preserving accessible item activation; subsequent Enter centers its anchor. Space continues to act on committed selection. Leaving the SVG cancels temporary candidates. Sidebar connection links can explicitly reveal a hidden neighbor even when pan-only centering is enabled; ordinary selection and Enter retain the neighborhood in that mode.
+
+The new TouchGraph API `centerOn(node, updateFocus = false)` centers a stored node through the existing default lenses without selecting it or changing locality. Narrow protected double-click and tooltip hooks let Freshmind describe and override its interaction profile while plain-panel defaults remain unchanged. Custom lens chains retain ownership of their viewport transforms. Candidate sectors use draw coordinates after the complete lens chain; exact diagonals belong clockwise to the next sector (NE → right, SE → down, SW → left, NW → up). Symmetric axis scores use absolute vector components so floating-point modulo rounding cannot defeat distance/ID tie-breaking. Superseded asynchronous locality operations cannot clear the latest requested neighborhood origin.
 
 ## 2.4 Labels, details and editors
 

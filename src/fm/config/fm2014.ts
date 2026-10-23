@@ -150,18 +150,24 @@ export const freshmind2014Configuration = {
         "selected": {
           "fill": "#ffff00",
           "text": {
-            "color": "#ff0000"
+            "color": "#171717"
           }
         },
         "hover": {
-          "fill": "#ffff00"
+          "fill": "#ffff00",
+          "text": {
+            "color": "#171717"
+          }
         },
         "preselected": {
-          "fill": "#ff9000"
+          "fill": "#ff9000",
+          "text": {
+            "color": "#171717"
+          }
         },
         "activeCandidate": {
           "stroke": {
-            "color": "#f0f0ff",
+            "color": "#183b2b",
             "width": 3
           }
         }
@@ -172,7 +178,10 @@ export const freshmind2014Configuration = {
       "shape": "double-trapezoid-vertical",
       "states": {
         "fixed": {
-          "fill": "#00ffff"
+          "fill": "#00ffff",
+          "text": {
+            "color": "#171717"
+          }
         }
       }
     },
@@ -180,9 +189,15 @@ export const freshmind2014Configuration = {
       "extends": "default",
       "shape": "rounded-rectangle",
       "fill": "#30a000",
+      "text": {
+        "color": "#171717"
+      },
       "states": {
         "fixed": {
-          "fill": "#00ffff"
+          "fill": "#00ffff",
+          "text": {
+            "color": "#171717"
+          }
         }
       }
     },
@@ -192,7 +207,10 @@ export const freshmind2014Configuration = {
       "fill": "#0030a0",
       "states": {
         "fixed": {
-          "fill": "#ff00ff"
+          "fill": "#ff00ff",
+          "text": {
+            "color": "#171717"
+          }
         }
       }
     },
@@ -202,7 +220,10 @@ export const freshmind2014Configuration = {
       "fill": "#303000",
       "states": {
         "fixed": {
-          "fill": "#00ff00"
+          "fill": "#00ff00",
+          "text": {
+            "color": "#171717"
+          }
         }
       }
     },
@@ -211,7 +232,10 @@ export const freshmind2014Configuration = {
       "shape": "rounded-rectangle",
       "states": {
         "fixed": {
-          "fill": "#888888"
+          "fill": "#888888",
+          "text": {
+            "color": "#171717"
+          }
         }
       }
     },
@@ -224,7 +248,10 @@ export const freshmind2014Configuration = {
       "shape": "parallelogram-right",
       "states": {
         "fixed": {
-          "fill": "#00ffff"
+          "fill": "#00ffff",
+          "text": {
+            "color": "#171717"
+          }
         }
       }
     },

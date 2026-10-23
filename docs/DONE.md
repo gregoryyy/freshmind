@@ -2,6 +2,58 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Navigation follow-up: node highlighting and double-click centering — 2026-10-23
+
+**Completed**
+
+- Replaced native rectangular SVG keyboard outlines on Freshmind nodes with a sibling SVG path generated from the resolved node shape. Keyboard and viewing-focus frames follow all twelve supported shapes and remain outside the focusable node group; hidden-link badges retain separate bounds and clear the frame's stroke.
+- Corrected the bundled YAML palette's highlight text colors: yellow selection/hover and orange preselection use dark labels. Light pinned fills and the normal person style also receive readable labels; active candidate borders use a dark stroke. Regenerated the headless preset and documentation mirror. A contrast regression covers all 21 node types and all 32 combinations of interaction states, with a minimum label contrast ratio of 4.5:1.
+- Changed Freshmind node double-click from expansion to selecting and centering through the same controller/settings as Enter. Pan-only mode keeps the neighborhood; normal centering replaces it. Expansion remains available through E and the sidebar. Added protected double-click/tooltip hooks to TouchGraph while preserving its original defaults and edit gestures; Freshmind tooltips now describe its own shortcuts.
+
+**Implementation notes and insights**
+
+- The incorrect frame came from the browser's native SVG bounding-box outline. The viewing-focus decoration already used the node shape. Suppressing the native outline requires an explicit replacement for keyboard focus, including immediate refresh when motion is stopped and cleanup when focus leaves.
+- Blur can fire while D3 removes a focused graph item. Focus updates coalesce into a microtask, avoiding reentrant DOM joins; disposal invalidates queued redraws. Hidden-count clearance is checked against the actual SVG stroke, since the browser's path bounding rectangle can conservatively inflate joins.
+- Contrast is a profile setting rather than a renderer heuristic. The supplied palette keeps its legacy fills and type identities while changing foregrounds and the candidate border. Custom YAML remains authoritative for its own styles and contrast.
+
+**Verification**
+
+- **67 Node tests** and **24 Chrome browser tests** pass, along with type checking and library/production-demo builds. New browser regressions exercise every shape's focus paths, badge clearance, centering in both modes and unchanged edit-mode behavior; existing deletion/hiding tests cover focused-item cleanup.
+
+## Milestone 2.3: Freshmind navigation — 2026-10-23
+
+Completed TODO items **2.3.1–2.3.4**.
+
+**Completed**
+
+- Added `src/fm/navigation/` with a headless directional-candidate helper and navigation controller, plus a separate SVG keyboard/status adapter. `FreshmindPanel.getNavigation()` exposes shared commands, validated settings, detached state snapshots and subscription cleanup. The controller reads live selection/membership from its host instead of maintaining another committed selection model.
+- Added node and relation navigation using four screen-space sectors, incoming/outgoing visible links, axis/distance/ID tie-breaking and frozen clockwise candidate order. Node choices deduplicate parallel links; relation choices retain them. One candidate commits immediately; multiple candidates highlight independently of committed selection, cycle in either direction, confirm or cancel. Directional auto-repeat cannot accidentally confirm a candidate.
+- Added inactivity expiry (2,500 ms default; zero disables it), injectable clocks, membership pruning without automatic confirmation, restoration of previously owned highlight flags, and cleanup on selection, locality/graph replacement, focus leaving the graph and destruction.
+- Kept neighborhood origin, selected-node anchor, committed node/relation, transient candidates, viewing-lens focus and DOM focus distinct. `getNeighborhoodFocus()` tracks the requested locality origin; queued operations cannot reset the latest request. A relation retains an incident anchor, and Escape returns to it before clearing node selection.
+- Added shared centering, radius/backlink/degree filtering, expand/collapse/hide and details commands. Enter centers the anchor, optionally updating neighborhood and lens focus; N toggles that option. Space opens details, E/K/H control locality, 0–6 set radius, B toggles backlinks and F2 invokes the editor action. Sidebar controls use the same state, including degree limits, pan-only centering and timeout configuration.
+- Added selected-node annotation and node/relation detail views in the main browser. A live status region announces candidate position and label; relation accessible names include endpoints/direction, label and type. Graph input excludes text fields, composition and browser modifier chords; Tab retains ordinary DOM focus movement. Existing editing/dragging, mouse selection, pinning and curve controls remain available.
+- Updated README usage, source boundaries, feature design and milestone status.
+
+**Implementation notes and deviations**
+
+- TouchGraph retains its graph/locality, layout and lens ownership. The only added base API is `TGPanel.centerOn(node, updateFocus = false)`: pan a stored node to the origin through the default lens chain without changing selection, visibility or physical coordinates. Callers replacing the complete lens chain still own viewport transforms. Plain-panel keyboard defaults, including Space expansion, are unchanged.
+- The Java `<45°` diagonal gaps are corrected with half-open sectors: NE → right, SE → down, SW → left, NW → up. Symmetric axis scores use absolute vector components, avoiding modulo-rounding bias in distance/ID tie-breaking. The order captured at preselection start survives spring/lens movement; invalid members are removed without reordering or committing survivors.
+- For accessible item activation, Enter on a different DOM-focused node/relation selects that item first; a subsequent Enter centers its anchor. Ordinary committed selection does not replace the neighborhood. Sidebar connection links can explicitly reveal a hidden neighbor even with pan-only centering enabled.
+- Degree limits govern neighborhood discovery/traversal through the existing locality API. Explicit expansion retains TouchGraph's immediate-neighbor behavior; collapse/hide prune the view while preserving complete graph data. Deletion continues to edit the complete graph.
+- Details render annotation source as text. Full metadata/annotation editing, HTML presentation and inline editor positioning remain milestone 2.4; this step completes their navigation entry points.
+
+**Insights**
+
+- Frozen candidate IDs alone are insufficient: candidate membership, active index, temporary style ownership and timer lifetime must be reconciled together. Removing all but one candidate must never act as confirmation.
+- Keeping locality origin separate from lens focus supports both pan-only browsing and explicit neighborhood replacement. Async locality callbacks need request generations so completion of an earlier operation cannot invalidate a later hidden focus.
+- SVG capture handlers must also bypass inherited node activation/deletion when input comes from an embedded editor or a modifier chord. Merely declining the Freshmind command still permits a bubbling TouchGraph handler to run.
+
+**Verification**
+
+- Type checking, **66 Node tests**, and library/production-demo builds pass. Fifteen new Node tests cover sectors, ties, parallel/incoming links, frozen order, pruning, confirmation/cancellation, timer ownership, selection/filter/centering contracts and queued locality replacement.
+- **22 Chrome browser tests** pass, including four new navigation flows covering cycling/repeat, relation anchors, details, pan-only centering, filters, timeout, mouse/focus cancellation, editor handoff and input/modifier isolation.
+- Running unmodified Java reference comparison still passes: **9 scenarios, 276 layout batches and 35 lens cases**. This verifies the preserved TouchGraph physics/lenses, not full Java UI equivalence.
+
 ## Main-browser Freshmind integration and basic editing — 2026-10-23
 
 **Completed**
