@@ -26,19 +26,19 @@ Use the thesis excerpt as a reference for browser behavior and presentation.
 
 Reference project: `../knowceans/knowceans-freshmind-2014/`. The [source analysis](fm2014_analysis.md) records active features, incomplete paths, dependencies, defects and the proposed port order.
 
-The [Freshmind feature design](fm_port-design.md) specifies milestones 2.2–2.5, with draft YAML type configuration and graph examples. It preserves the Java feature intent while introducing a native YAML format and batch migration of the existing examples.
+The [Freshmind feature design](fm_port-design.md) specifies milestones 2.2–2.5, with supported YAML type configuration and a draft graph example. It preserves the Java feature intent while introducing a native YAML format and batch migration of the existing examples.
 
 Keep the existing TouchGraph design as the foundation. Add Freshmind through model/panel subclasses, composed helpers and narrow default-compatible hooks; retain the graph/locality structure, layout, lenses and existing API behavior.
 
 - [x] 2.1 Review the FM 2014 source and identify the components and dependencies to port.
-- [ ] 2.2 Add model types, visual types and labeled curved relations.
-  - [ ] 2.2.1 Extend `Node`/`Edge` with Freshmind subclasses for semantic types and metadata, retaining graph identity and keeping semantic types separate from TouchGraph shape types.
-  - [ ] 2.2.2 Add visual types and style resolution for shapes, colors, fonts, strokes and interaction states.
-  - [ ] 2.2.3 Load type definitions and visual styles from YAML; use the existing Freshmind types/palette as the first configuration.
-  - [ ] 2.2.4 Support independently editable relation labels and semantic types, including authoring and citation relations.
-  - [ ] 2.2.5 Restore the distinctive Java curved-edge rendering, including spider/lens modes, midpoint arrows and relation-label placement.
-  - [ ] 2.2.6 Share curve geometry across rendering, hit testing, selection and editor positioning; cover parallel edges and self-loops.
-  - [ ] 2.2.7 Add `FreshmindPanel` and the required creation/presentation hooks while preserving ordinary `TGPanel` defaults and compatibility checks.
+- [x] 2.2 Add model types, visual types and labeled curved relations.
+  - [x] 2.2.1 Extend `Node`/`Edge` with Freshmind subclasses for semantic types and metadata, retaining graph identity and keeping semantic types separate from TouchGraph shape types.
+  - [x] 2.2.2 Add visual types and style resolution for shapes, colors, fonts, strokes and interaction states.
+  - [x] 2.2.3 Load type definitions and visual styles from YAML; use the existing Freshmind types/palette as the first configuration.
+  - [x] 2.2.4 Support independently editable relation labels and semantic types, including authoring and citation relations.
+  - [x] 2.2.5 Restore the distinctive Java curved-edge rendering, including spider/lens modes, midpoint arrows and relation-label placement.
+  - [x] 2.2.6 Share curve geometry across rendering, hit testing, selection and editor positioning; cover parallel edges and self-loops.
+  - [x] 2.2.7 Add `FreshmindPanel` and the required creation/presentation hooks while preserving ordinary `TGPanel` defaults and compatibility checks.
 - [ ] 2.3 Port Freshmind navigation behavior and integrate it with the browser interactions.
   - [ ] 2.3.1 Extend existing panel selection/focus with edge selection and temporary keyboard preselection, using its selected node as the navigation anchor.
   - [ ] 2.3.2 Restore directional neighbor/edge navigation, candidate highlighting/cycling, confirmation, cancellation and timeout behavior.

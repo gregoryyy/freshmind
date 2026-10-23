@@ -2,6 +2,46 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Milestone 2.2: Freshmind types and labeled curves — 2026-10-23
+
+Completed TODO items **2.2.1–2.2.7**.
+
+**Completed**
+
+- Separated TouchGraph implementation into `src/tg/` and Freshmind extensions into `src/fm/`, with configuration and rendering subfolders. Existing root modules re-export the same TouchGraph constructors. Added explicit `fm4/tg`, `fm4/tg/core`, `fm4/fm`, `fm4/fm/core` and `fm4/fm/config` package entry points.
+- Added `FreshNode`, `FreshEdge`, `FreshGraph` and a small document aggregate. Semantic type IDs, independent relation labels, visual overrides, annotations, URLs, weights, metadata and extension fields remain separate from spring state. Graph identity and adjacency continue to use the TouchGraph implementation; Freshmind enforces stable IDs and permits duplicate labels, parallel relations and self-loops.
+- Added validated semantic/visual type configuration, visual inheritance, per-item overrides and fieldwise interaction styles. The initial YAML profile includes all 21 legacy node types, twelve shapes, authoring/citation relation types, strokes, fonts, halos and selected/preselected/candidate states. Unknown type IDs survive with fallback presentation and registry diagnostics.
+- Added strict YAML 1.2 type loading and atomic registry replacement. `config/fm2014.types.yaml` is authoritative; `just sync-fm-config` generates `src/fm/config/fm2014.ts` and the documentation mirror. The static preset allows headless use without a YAML parser dependency.
+- Added `FreshmindPanel` through protected creation, node/edge painting and decoration hooks. It retains the original panel's mounting, gestures, locality, layout, lens pipeline and lifecycle. Plain-panel defaults and existing imports remain supported.
+- Restored labeled quadratic spider/lens/straight relations, midpoint arrows, multiline node labels and deterministic routing for parallel/reciprocal relations. Self-loops and coincident endpoints use finite cubic routes. Rendering, pointer hit paths, programmatic picking and future editor anchors share curve geometry.
+- Added `/freshmind.html` with the legacy palette, curve controls and live YAML configuration, alongside the existing plain TouchGraph demo. Focus bounds exclude hidden-link counts, halos and pin indicators.
+- Documented key TouchGraph and Freshmind APIs with JSDoc, including coordinate spaces, ownership, extension hooks, validation and geometry approximations. Comments are retained in generated declarations.
+- Added short Apache 2.0 notices to Freshmind-specific sources and preserved them during profile generation. Package/demo outputs include the full license text alongside the inherited TouchGraph licenses. Updated the README's development period to 2002–2014 and described the port's purpose as demonstrating enduring concepts in a modern environment.
+- Centralized the full TouchGraph terms in the root `LICENSE`, with attribution in `NOTICE`. Adapted TypeScript files retain short copyright headers requiring both files to accompany source redistribution. The Java reference headers remain intact.
+
+**Implementation notes and deviations**
+
+- Semantic type uses `getSemanticType()`; TouchGraph's numeric `getType()` shape contract is preserved. The renderer resolves Freshmind shapes through its registry. Relation label editing and type changes are independent model operations; the full editors remain in 2.4.
+- For transformed endpoints `A`, `Z` and chord midpoint `M`, spider control is the transformed world point `((x0+x1)/2, y0)`. Lens control is `2B-M`, where `B` is the transformed world midpoint. The quadratic midpoint is `(M+Q)/2`, with the legacy label offset `(2,12)`. This retains the Java construction through composed nonlinear and rotation lenses.
+- Visible curves are clipped against node shapes using sampled boundary search and binary refinement, then emitted as exact subcurves. Distance picking flattens the visible curve into 128 segments; this is an approximation rather than an analytic nearest-point solution. Convex/concave side outlines use sampled containment as well.
+- Parallel routes are ordered by stable edge IDs without changing adjacency or physics iteration order. Cubic loop routing, clipping, SVG text metrics and fractional stroke widths are deliberate browser adaptations, rather than claims of pixel-identical Java painting.
+- Node weights scale halos and relation weights scale strokes, as specified in the design. They do not change repulsion or spring force. Basic edge pointer/Enter selection and presentation flags are available; the directional preselection controller remains in 2.3.
+- `getMiddle()` returns the curve midpoint; `getLabelAnchor()` includes the label offset for future editors. Rendered geometry is transient, recalculated by repaint or `getEdgeGeometry()`, and cleared when an edge is hidden, deleted or reversed. Headless consumers can call the pure geometry functions with their own text dimensions and transforms.
+- YAML graph I/O, batch example conversion, details/editing interfaces, RFC and search remain in their respective milestones. The type loader does not load the proposed graph YAML format.
+
+**Verification**
+
+- Type checking, library build, production demo build and npm package dry run pass.
+- **48 Node tests** cover the existing TouchGraph behavior, model invariants, YAML validation, profile synchronization, inheritance/states, class identity and package exports, dependency boundaries, Java curve equations under lenses, clipping/picking and difficult edge routes.
+- **12 Chrome browser tests** cover both demos, including live configuration rollback, relation edits, lens changes, curved-edge selection, dragging, creation/deletion and focus bounds around nodes with hidden links.
+- The original Java layout/lens comparison still passes: **9 scenarios, 276 layout batches and 35 lens cases**. The Freshmind curve tests verify the Java equations separately; they do not constitute Java raster-image parity.
+
+**Insights**
+
+- Transforming the world midpoint and averaging transformed endpoints differ under a nonlinear lens. Keeping these constructions explicit is necessary to recover the distinctive Freshmind curve appearance.
+- Rendering hooks can add Freshmind presentation while preserving the tested TouchGraph ownership model. Type-only references from metadata objects to presentation contracts avoid pulling renderer or parser code into the headless dependency closure.
+- Labels, semantic types, stable IDs, physics and visual weights need separate contracts. The Java prototype's overloaded type API and implicit coupling should not become requirements for the new extension layer.
+
 ## Initial foundation — retrospective, 2026-10-22
 
 Recorded in commit `818030e`.

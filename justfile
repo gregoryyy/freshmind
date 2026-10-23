@@ -20,6 +20,10 @@ build:
 build-demo:
     npm run build:demo
 
+# Regenerate the headless preset and documentation from the Freshmind type YAML.
+sync-fm-config:
+    npm run sync:fm-config
+
 # Build and serve the production demo; accepts Vite preview arguments.
 preview *args: build-demo
     npx --no-install vite preview --host 127.0.0.1 "$@"

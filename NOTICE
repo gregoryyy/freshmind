@@ -1,10 +1,21 @@
 Freshmind 4 (fm4)
 
 Freshmind project author and Freshmind 4 maintainer: Gregor Heinrich.
-Original Java-based Freshmind: developed in several waves, 2002-2011.
+Original Java-based Freshmind: developed in several waves, 2002-2014.
 Freshmind 4 project direction and maintenance: Gregor Heinrich, 2026.
 
+Freshmind-specific sources marked Apache-2.0:
+Copyright (c) 2002-2014 Gregor Heinrich.
+Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
+Licensed under the Apache License, Version 2.0; see LICENSE-APACHE-2.0.
+
 TouchGraph-derived graph browser components
+
+The full original license texts are centralized in LICENSE. Short headers
+in src/tg/ retain copyright notices and refer to LICENSE and this NOTICE;
+both files must accompany redistribution of those sources. The lens
+module includes both HyperScroll-derived and other TouchGraph lens code,
+so both original license variants apply to their respective components.
 
 This product includes software developed by TouchGraph LLC
 (http://www.touchgraph.com/).
@@ -41,3 +52,7 @@ are distributed under their respective ISC licenses. See the installed
 packages' LICENSE files. They supply browser interaction and rendering,
 and do not replace the original spring layout engine.
 The demo build includes their full notices in LICENSES-D3.txt.
+
+The yaml package is distributed under its ISC license. It parses Freshmind
+type configuration and is excluded from the headless core entry points.
+The demo build includes its full notice in LICENSE-YAML.txt.

@@ -1,0 +1,45 @@
+<!doctype html>
+<!--
+Freshmind. Licensed under the Apache License, Version 2.0.
+SPDX-License-Identifier: Apache-2.0
+Copyright (c) 2002-2014 Gregor Heinrich.
+Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
+See LICENSE-APACHE-2.0 for the license text.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Freshmind 4 — Types and relations</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar"><a class="brand" href="/">fm4</a><span class="project-name">Freshmind types and relations</span><a href="/">TouchGraph example</a></header>
+      <main>
+        <aside class="sidebar">
+          <div class="eyebrow">FRESHMIND 4</div><h1>Types with<br />a point of view.</h1>
+          <p class="intro">The original node palette and distinctive labeled curves, on the TouchGraph foundation.</p>
+          <label class="control-label" for="curve">Relation curves</label>
+          <select id="curve"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
+          <label class="control-label lens-label" for="hyper">Focus + context</label>
+          <input type="range" id="hyper" min="0" max="100" value="0" />
+          <button class="quiet-button" id="motion">Run layout</button>
+          <button class="quiet-button" id="show-all">Show all types</button>
+          <section class="inspector"><h2>YAML type configuration</h2>
+            <p class="intro">Change the palette, shapes, fonts or curve settings and apply them to this graph.</p>
+            <textarea id="types" aria-label="YAML type configuration" rows="12" spellcheck="false"></textarea>
+            <button class="primary-button" id="apply-types">Apply configuration</button>
+            <p id="config-status" role="status">Freshmind 2014 configuration</p>
+          </section>
+          <p class="attribution">This product includes software developed by TouchGraph LLC (http://www.touchgraph.com/).<br />This product includes software developed by TouchGraph (http://www.touchgraph.com/).</p>
+        </aside>
+        <section class="workspace" aria-label="Freshmind graph workspace">
+          <div class="canvas-heading">TYPES &amp; RELATIONS</div><div id="graph"></div>
+          <div class="canvas-tools"><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button></div>
+          <div class="canvas-footer"><span>Drag nodes · Select a relation · Scroll to zoom</span></div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/demo/freshmind.ts"></script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 # Freshmind feature design
 
-Draft, **2026-10-22**, on `freshmind4/reference-analysis`. This specifies milestones **2.2–2.5** in [TODO.md](TODO.md). The [Java reference analysis](fm2014_analysis.md) supplies the feature inventory and development context. The YAML examples below are proposed contracts; application support and the batch converter remain implementation work.
+Design drafted **2026-10-22**, updated **2026-10-23**. This specifies milestones **2.2–2.5** in [TODO.md](TODO.md). Milestone **2.2 is implemented**; navigation, editors, native graph persistence and the batch converter remain planned. The YAML type configuration is supported; the graph YAML example is a proposed contract for 2.5. The [Java reference analysis](fm2014_analysis.md) supplies the feature inventory and development context.
 
 Freshmind 4 will restore typed and visually distinct nodes, labeled curved relations, keyboard browsing with preselection, and label/annotation editing. Its native persistence will be a versioned YAML graph format. Existing Java example files will be migrated in a batch conversion step.
 
@@ -53,6 +53,8 @@ New features should first use existing methods and subclassing/composition. Add 
 
 ## 2.2 Model types, visual types and labeled relations
 
+Implemented under `src/fm/`, extending `src/tg/`. See the [source boundaries](../src/README.md), [canonical type configuration](../config/fm2014.types.yaml), and [implementation record](DONE.md#milestone-22-freshmind-types-and-labeled-curves--2026-10-23). The standalone `/freshmind.html` demo exercises the palette and live configuration without changing the plain TouchGraph demo.
+
 ### Data contract
 
 Use **string IDs** for semantic types and visual types. Node identity remains independent of its label. Every node and edge has a unique, nonempty ID within its respective collection; labels may repeat. Endpoints reference node IDs. Parallel relations and self-loops are valid model data.
@@ -74,7 +76,7 @@ For the initial profile, a relation's stroke width is its configured base width 
 
 ### YAML type configuration
 
-The first configuration is [freshmind-2014.types.yaml](design/examples/freshmind-2014.types.yaml). It records all **21 canonical Java node type names**, their palette and intended shapes. It also demonstrates `authored` and `cites` as new relation type definitions; the Java application primarily used free-text relation labels.
+The first configuration is [fm2014.types.yaml](design/examples/fm2014.types.yaml). It records all **21 canonical Java node type names**, their palette and intended shapes. It also demonstrates `authored` and `cites` as new relation type definitions; the Java application primarily used free-text relation labels.
 
 The configuration has `format: freshmind-types`, `version: 1`, a stable `id`, defaults, `nodeTypes`, `relationTypes`, `nodeVisuals` and `edgeVisuals`:
 
@@ -191,7 +193,7 @@ These are native graph files. Browser support does not require Java XML/text/FMG
 
 ### Batch migration of the existing examples
 
-The initial migration input is the **seven top-level XML example graphs** in the Java reference: `berry`, `roadmap`, `sb`, `sb_design`, `sddc`, `stonebranch` and `nips-fm`. Convert them into `examples/fm2014/*.fm.yaml`, with a shared `freshmind-2014.types.yaml`, provenance and a machine-readable conversion report. The files under `docs/design/examples/` illustrate the draft format; they are not claims that this batch migration has run.
+The initial migration input is the **seven top-level XML example graphs** in the Java reference: `berry`, `roadmap`, `sb`, `sb_design`, `sddc`, `stonebranch` and `nips-fm`. Convert them into `examples/fm2014/*.fm.yaml`, with a shared `fm2014.types.yaml`, provenance and a machine-readable conversion report. The files under `docs/design/examples/` illustrate the draft format; they are not claims that this batch migration has run.
 
 A standalone converter can be written in Python and run in batch. It is a development/migration tool, with no requirement to share the browser's implementation language or runtime. Proposed invocation:
 
