@@ -9,6 +9,10 @@ demo-dist/
 *.class
 *.tgz
 
+# Generated Markdown PDFs; keep source papers tracked.
+*.md.pdf
+.pdfstamps/
+
 # Test output
 test-results/
 playwright-report/

@@ -45,3 +45,99 @@ check: typecheck test build-demo
 
 # Also run Java parity and browser tests; requires a JDK and Playwright browser.
 check-all: check test-java test-browser
+
+# Markdown → A4 PDF, following the Kibitz workflow: Pandoc + headless Chrome.
+# Needs Pandoc and Google Chrome; CHROME can select a different executable.
+chrome := env_var_or_default("CHROME", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+pdf_css := justfile_directory() / "docs/pdf/style.css"
+pdf_mermaid := justfile_directory() / "docs/pdf/mermaid.html"
+pdf_stamps := justfile_directory() / ".pdfstamps"
+
+# Render one Markdown file next to its source, e.g. docs/TODO.md → docs/TODO.md.pdf.
+pdf file:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    src="$1"
+    case "$src" in *.md) ;; *) echo "ERROR: not a .md file: $src" >&2; exit 2 ;; esac
+    if [ ! -f "$src" ]; then echo "ERROR: file not found: $src" >&2; exit 2; fi
+    css_file={{quote(pdf_css)}}
+    mermaid_file={{quote(pdf_mermaid)}}
+    stampdir={{quote(pdf_stamps)}}
+    chrome_bin={{quote(chrome)}}
+    recipe_file={{quote(justfile())}}
+    dir="$(cd "$(dirname "$src")" && pwd)"
+    base="$(basename "$src")"
+    out="$dir/$base.pdf"
+    mkdir -p "$stampdir"
+    # Hash both inputs and output, surviving checkout timestamp changes.
+    # Images are not hashed: delete the PDF to rebuild after image-only changes.
+    hash="$(cat "$src" "$css_file" "$mermaid_file" "$recipe_file" | shasum -a 256 | cut -d' ' -f1)"
+    stamp="$stampdir/$(printf '%s' "$out" | shasum -a 256 | cut -c1-16).sha"
+    if [ -f "$out" ]; then
+        outhash="$(shasum -a 256 "$out" | cut -d' ' -f1)"
+        if [ -f "$stamp" ] && [ "$(cat "$stamp")" = "$hash $outhash" ]; then
+            echo "up to date: $out"; exit 0
+        fi
+        if [ ! -f "$stamp" ] && [ "$out" -nt "$src" ] && [ "$out" -nt "$css_file" ] && [ "$out" -nt "$mermaid_file" ] && [ "$out" -nt "$recipe_file" ]; then
+            printf '%s %s\n' "$hash" "$outhash" > "$stamp"
+            echo "up to date: $out"; exit 0
+        fi
+    fi
+    if ! command -v pandoc >/dev/null; then echo "ERROR: install Pandoc to render PDFs (brew install pandoc)." >&2; exit 1; fi
+    if [ ! -x "$chrome_bin" ]; then echo "ERROR: Chrome not found: $chrome_bin (set CHROME to its executable)." >&2; exit 1; fi
+    tmp="$(mktemp -d)"
+    chrome_pid=""
+    cleanup() {
+        if [ -n "$chrome_pid" ]; then
+            kill "$chrome_pid" 2>/dev/null || true
+            wait "$chrome_pid" 2>/dev/null || true
+        fi
+        rm -rf "$tmp"
+    }
+    trap cleanup EXIT
+    extra=()
+    if grep -q '^```mermaid' "$src"; then extra=(--include-in-header "$mermaid_file"); fi
+    # Embed images/CSS and, when needed, Mermaid. Mermaid requires network at build time.
+    pandoc "$src" -f gfm+tex_math_dollars -o "$tmp/doc.html" --standalone --embed-resources --mathml \
+        --resource-path "$dir" --css "$css_file" --metadata pagetitle="$base" ${extra[@]+"${extra[@]}"}
+    "$chrome_bin" --headless --disable-gpu --no-first-run --no-default-browser-check --disable-extensions \
+        --virtual-time-budget=15000 --timeout=20000 --user-data-dir="$tmp/chrome-profile" \
+        --no-pdf-header-footer --print-to-pdf="$tmp/out.pdf" "$tmp/doc.html" >"$tmp/chrome.log" 2>&1 &
+    chrome_pid=$!
+    finished=""
+    deadline=$((SECONDS + 60))
+    while [ "$SECONDS" -lt "$deadline" ]; do
+        if ! kill -0 "$chrome_pid" 2>/dev/null; then finished=1; break; fi
+        if [ -s "$tmp/out.pdf" ]; then
+            s1=$(wc -c < "$tmp/out.pdf"); sleep 0.5; s2=$(wc -c < "$tmp/out.pdf" 2>/dev/null || echo 0)
+            if [ "$s1" = "$s2" ]; then finished=1; break; fi
+        fi
+        sleep 0.5
+    done
+    if [ -z "$finished" ]; then
+        kill -9 "$chrome_pid" 2>/dev/null || true
+        echo "ERROR: Chrome timed out after 60 s" >&2; cat "$tmp/chrome.log" >&2; exit 1
+    fi
+    if [ ! -s "$tmp/out.pdf" ]; then
+        echo "ERROR: Chrome produced no PDF" >&2; cat "$tmp/chrome.log" >&2; exit 1
+    fi
+    mv "$tmp/out.pdf" "$out"
+    printf '%s %s\n' "$hash" "$(shasum -a 256 "$out" | cut -d' ' -f1)" > "$stamp"
+    echo "wrote $out"
+
+# Render all tracked/new, non-ignored Markdown files, optionally restricted to paths.
+pdfs *paths:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd {{quote(justfile_directory())}}
+    list="$(mktemp)"
+    trap 'rm -f "$list"' EXIT
+    git ls-files -z --cached --others --exclude-standard -- "$@" > "$list"
+    fail=0
+    while IFS= read -r -d '' f; do
+        case "$f" in CLAUDE.md|*/CLAUDE.md|.github/*) continue ;; *.md) ;; *) continue ;; esac
+        [ -f "$f" ] || continue
+        echo "── $f"
+        just pdf "$f" || { echo "FAILED: $f" >&2; fail=1; }
+    done < "$list"
+    exit "$fail"

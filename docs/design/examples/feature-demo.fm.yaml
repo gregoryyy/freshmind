@@ -1,0 +1,58 @@
+# Hand-authored design example; legacy example conversion is milestone 2.5.
+format: freshmind
+version: 1
+title: Freshmind feature example
+typesFile: freshmind-2014.types.yaml
+
+nodes:
+  - id: gregor
+    label: Gregor Heinrich
+    type: person
+    position: {x: -100, y: 0}
+    fixed: true
+  - id: rfc-2005
+    label: |-
+      Reinforcement
+      Focus + Context
+    type: paper
+    position: {x: 60, y: -60}
+    annotation:
+      format: text
+      text: |-
+        The 2005 paper supplies the RFC mechanism for milestone 3.
+        Its graph relation remains independent of the reinforcement forces.
+  - id: freshmind
+    label: Freshmind
+    type: software
+    position: {x: 60, y: 70}
+    annotation: {format: text, text: "Labels, editing, navigation and graph search."}
+  - id: isolated-note
+    label: "001"
+    type: annot
+    # This isolated node must survive complete-graph export.
+
+edges:
+  - id: authored-rfc
+    from: gregor
+    to: rfc-2005
+    type: authored
+    label: authored
+  - id: developed-freshmind
+    from: gregor
+    to: freshmind
+    label: developed
+  - id: freshmind-cites-rfc
+    from: freshmind
+    to: rfc-2005
+    type: cites
+    label: uses RFC
+    visual:
+      style:
+        stroke: {dash: dashed}
+
+view:
+  focus: gregor
+  radius: 1
+  backlinks: true
+  moveToCenter: true
+  lenses: {hyperbolic: 40, rotation: 0, zoom: 1, horizontalStretch: 1.5}
