@@ -1,0 +1,116 @@
+{
+  "format": "freshmind-flipbook",
+  "version": 1,
+  "build": "demo-dist",
+  "source": "scripts/flipbook/tour.mjs",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "browser": "155.0.8059.85",
+  "files": [
+    "01-browser.png",
+    "02-neighborhood.png",
+    "03-view-controls.png",
+    "04-key-map.png",
+    "05-types.png",
+    "06-berry.png",
+    "07-public-network.png",
+    "08-inline-edit.png",
+    "09-annotation.png",
+    "10-save-yaml.png",
+    "11-rfc-baseline.png",
+    "12-rfc.png",
+    "13-rfc-weighted.png",
+    "14-nips.png",
+    "README.md",
+    "index.html",
+    "manifest.json"
+  ],
+  "steps": [
+    {
+      "id": "browser",
+      "title": "Graph browser",
+      "caption": "The main browser opens a local neighborhood. Select nodes to inspect their connections; dragging, pinning and neighborhood controls use the same graph model.",
+      "file": "01-browser.png"
+    },
+    {
+      "id": "neighborhood",
+      "title": "Reveal the complete graph",
+      "caption": "Show whole graph reveals stored nodes beyond the current neighborhood. Expansion, collapse and hiding change the visible graph while retaining the complete graph for editing and export.",
+      "file": "02-neighborhood.png"
+    },
+    {
+      "id": "view-controls",
+      "title": "Graph spacing, canvas zoom and viewing lens",
+      "caption": "Graph spacing changes node distances. Canvas zoom scales shapes, labels and strokes together. The focus + context slider applies the independent nonlinear viewing lens.",
+      "file": "03-view-controls.png"
+    },
+    {
+      "id": "key-map",
+      "title": "User key map",
+      "caption": "The help dialog and docs/KEYMAP.md share the same implemented command definitions, including graph spacing, canvas zoom, navigation, editing and file shortcuts.",
+      "file": "04-key-map.png"
+    },
+    {
+      "id": "types",
+      "title": "Node types and curved relations",
+      "caption": "The palette page shows all 21 configured Freshmind node types, labeled curved relations, parallel edges and a self-loop. Its YAML editor applies semantic and visual configuration to the existing graph.",
+      "file": "05-types.png"
+    },
+    {
+      "id": "berry",
+      "title": "Open the approved Berry example",
+      "caption": "Berry is one of the two approved migrated datasets. The native YAML graph retains 21 nodes and 22 relations, annotations and original linked-resource paths.",
+      "file": "06-berry.png"
+    },
+    {
+      "id": "public-network",
+      "title": "Florentine families",
+      "caption": "This public example has 15 families and 20 undirected marriage links. Node content contains graph-derived summaries and links to the connected families, with source attribution retained in the document.",
+      "file": "07-public-network.png"
+    },
+    {
+      "id": "inline-edit",
+      "title": "Edit a multiline node label",
+      "caption": "F2 opens an inline label editor on the selected node. A draft stays separate from the model until committed; node identity, relations and annotations are retained.",
+      "file": "08-inline-edit.png"
+    },
+    {
+      "id": "annotation",
+      "title": "Annotations and item details",
+      "caption": "Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content delegates to the annotation inspector.",
+      "file": "09-annotation.png"
+    },
+    {
+      "id": "save-yaml",
+      "title": "Save the complete graph as YAML",
+      "caption": "Ctrl+Shift+S opens the filename dialog. Saving downloads the complete stored graph, including hidden nodes, with optional layout/view state and embedded or companion type configuration.",
+      "file": "10-save-yaml.png"
+    },
+    {
+      "id": "rfc-baseline",
+      "title": "Single-focus comparison: ordinary layout",
+      "caption": "The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.",
+      "file": "11-rfc-baseline.png"
+    },
+    {
+      "id": "rfc",
+      "title": "Single-focus comparison: reinforcement enabled",
+      "caption": "Reload the identical initial graph, activate RFC and run the same 250 batches. Strengthened focal springs and angular forces spread the branches more evenly; the 9 semantic nodes and 12 relations are unchanged. This comparison uses ordinary coordinate weights (1, 1). Focal-region exclusion remains later work.",
+      "file": "12-rfc.png"
+    },
+    {
+      "id": "rfc-weighted",
+      "title": "Weighted RFC for horizontally extended labels",
+      "caption": "The wide-label fixture uses horizontal coordinate weight 0.25 and vertical weight 1. Equal angles are measured in weighted physical coordinates, permitting a wider focal layout while the viewing lens and both zooms stay independent. Ordinary context springs still compete with reinforcement; the metric alone does not guarantee clear space or eliminate label overlaps.",
+      "file": "13-rfc-weighted.png"
+    },
+    {
+      "id": "nips",
+      "title": "Browse the approved NIPS dataset",
+      "caption": "NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.",
+      "file": "14-nips.png"
+    }
+  ]
+}

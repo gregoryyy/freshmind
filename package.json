@@ -40,6 +40,10 @@
       "types": "./dist/fm/io/codec.d.ts",
       "import": "./dist/fm/io/codec.js"
     },
+    "./fm/rfc": {
+      "types": "./dist/fm/rfc/index.d.ts",
+      "import": "./dist/fm/rfc/index.js"
+    },
     "./fm/ui": {
       "types": "./dist/fm/ui/index.d.ts",
       "import": "./dist/fm/ui/index.js"

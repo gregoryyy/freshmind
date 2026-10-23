@@ -71,16 +71,23 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
 
 - [x] 3.1 Add the paper reference and extract the mechanism's implementation requirements into the tasks below.
 - [ ] 3.2 Rebuild the Reinforcement Focus + Context mechanism.
-  - [ ] 3.2.1 Identify the focal tree around each center node and strengthen its edge springs.
-  - [ ] 3.2.2 Reinforce even branch spacing using the angular constraint or its pairwise-force approximation in equations (1)–(2).
-  - [ ] 3.2.3 Support weighted coordinate distances to accommodate horizontally extended labels.
+  - [x] 3.2.1 Identify the one-hop focal tree around a selected center and strengthen its edge springs, keeping constraints outside semantic graph data.
+  - [x] 3.2.2 Reinforce even branch spacing using the angular constraint in equation (1), with deterministic multigraph handling and reversible activation.
+  - [x] 3.2.3 Support weighted coordinate distances to accommodate horizontally extended labels.
   - [ ] 3.2.4 Repel non-focal nodes from the elliptical focal region.
   - [ ] 3.2.5 Handle multiple foci, shared branches, and overlapping focal regions.
   - [ ] 3.2.6 Combine RFC with the viewing lens and type-based structural aggregation/filtering.
+  - [ ] 3.2.7 Support node and link weights in RFC physics, separately from coordinate weights and visual styling. Define force semantics, normalization/defaults, zero-weight behavior and multigraph handling; verify weight changes affect reinforcement while preserving plain TouchGraph behavior.
 - [ ] 3.3 Assemble representative test data and document how to load it.
   - [ ] 3.3.1 Recreate the single-focus, two-focus, and hybrid examples in Figures 1–3.
+  - [x] 3.3.2 Add synthetic single-focus competing-context fixtures, including unequal branch radii and horizontally extended labels, with loadable native YAML graphs.
 - [ ] 3.4 Create reproducible experiments comparing the mechanism with the plain TouchGraph baseline.
+  - [x] 3.4.1 Compare the single-focus implementation from identical starting states with seeded randomness and recorded settings/coordinates/metrics.
+  - [ ] 3.4.2 Extend comparisons to weighted geometry, exclusion, multiple foci and hybrid filtering as those features are implemented.
 - [ ] 3.5 Record experiment settings, results, and observations.
+  - [x] 3.5.1 Document the initial force design, deviations from the paper's underspecified details, and single-focus comparison results.
+
+The [RFC design](rfc-design.md) and [initial experiment report](experiments/rfc-single-focus/README.md) cover this first implementation. The main browser exposes activation/removal and strength controls under **Reinforcement Focus + Context**. Coordinate weights now support anisotropic focal geometry. Node/link weights are currently stored, edited and serialized but do not influence RFC forces. Implement 3.2.7 before focal-region exclusion (3.2.4). Focal-region exclusion, multiple centers and structural aggregation remain open.
 
 ## 4. Add graph visual search with LDA
 

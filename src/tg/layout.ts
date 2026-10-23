@@ -17,6 +17,9 @@ export interface LayoutHost {
   repaintAfterMove(): void;
 }
 
+/** Accumulates extra dx/dy impulses before integration; must not change graph membership or positions. */
+export type LayoutForce = (graph: ImmutableGraphEltSet, rigidity: number) => void;
+
 /** Direct port of TGLayout 1.21, including Java integer repulsion arithmetic. */
 export class TGLayout {
   private damper = 0;
@@ -30,6 +33,7 @@ export class TGLayout {
   private timer: ReturnType<typeof setTimeout> | undefined;
   private running = false;
   private generation = 0;
+  private readonly forces = new Map<symbol, LayoutForce>();
 
   /**
    * Creates a stopped layout with a zero damper.
@@ -37,6 +41,12 @@ export class TGLayout {
    * @param random Random source used only to separate coincident nodes.
    */
   constructor(private readonly panel: LayoutHost, private readonly random: () => number = Math.random) {}
+  /** Registers an optional force without replacing baseline physics. The returned disposer removes this registration. */
+  addForce(force: LayoutForce): () => void {
+    const registration = Symbol();
+    this.forces.set(registration, force);
+    return () => { this.forces.delete(registration); };
+  }
   /** Queues a rigidity change for the end of the next ten-step relax batch. */
   setRigidity(value: number): void { this.newRigidity = value; }
   /** Excludes this node from position integration while still accumulating forces. */
@@ -128,7 +138,11 @@ export class TGLayout {
    * Repaints once after the batch, even when all motion is damped to zero.
    */
   relax(): void {
-    for (let i = 0; i < 10; i++) { this.relaxEdges(); this.avoidLabels(); this.moveNodes(); }
+    for (let i = 0; i < 10; i++) {
+      this.relaxEdges(); this.avoidLabels();
+      for (const force of this.forces.values()) force(this.panel.getGES(), this.rigidity);
+      this.moveNodes();
+    }
     this.rigidity = this.newRigidity;
     this.panel.repaintAfterMove();
   }

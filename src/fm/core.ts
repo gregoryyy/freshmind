@@ -20,6 +20,7 @@ export type { RelationEditContext } from "./editing/commands.js";
 export type { DocumentRecord, DocumentView, NodeRecord, EdgeRecord, LoadOptions, SaveOptions } from "./io/types.js";
 export { FreshmindNavigation } from "./navigation/controller.js";
 export { keymap } from "./navigation/keymap.js";
+export * from "./rfc/index.js";
 export { collectCandidates, bestCandidateIndex, screenDirection } from "./navigation/candidates.js";
 export type { Direction, CandidateKind, Candidate, Preselection, NavigationItem, NavigationState, NavigationOptions,
   NavigationSettings, NavigationHost, NavigationKey, NavigationActions, NavigationClock } from "./navigation/types.js";

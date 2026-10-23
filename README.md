@@ -23,14 +23,43 @@ The current implementation concentrates on the graph browsing foundation: spring
 - Graph editing with node creation/deletion and directed connections, plus Shift-drag rectangle selection.
 - Freshmind semantic types and metadata, YAML-configured visual types, multiline labels and twelve node shapes.
 - Labeled spider/lens curves with midpoint arrows, parallel relations, self-loops and shared picking geometry.
+- Keyboard navigation with neighbor/relation preselection, independent graph spacing and canvas zoom, rotation and scroll controls.
+- Inline label and metadata editors, plus resizable node-content popups for plain text and sanitized HTML.
+- Native YAML loading/saving, the approved Java examples and three attributed public example networks.
+- Optional single-focus RFC with reinforced focal springs, even-angle branch forces and weighted coordinate geometry derived from the 2005 paper.
 - An ESM library for JavaScript and TypeScript, plus a DOM-independent core for headless use.
 - A runnable example and compatibility checks against the Java layout and lens implementations.
 
-Milestone 1 and Freshmind milestones 2.1–2.5 are complete. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
+**Progress:** Milestone 1 (plain TouchGraph) and Freshmind milestones 2.1–2.5 (types, rendering, navigation, editing and native YAML persistence) are complete. RFC is partially implemented: tasks 3.2.1–3.2.3 provide single-focus reinforcement, angular constraints and weighted x/y distances, with reproducible experiments and a generated browser walkthrough.
 
-The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC will be rebuilt from the 2005 paper.
+Node and link weights are retained by the model, editors and file format, but their effect on RFC forces is still pending. They are separate from the implemented coordinate weights. Next is node/link force weighting, followed by elliptical focal-region exclusion, multiple foci and structural aggregation. LDA-based graph visual search remains planned. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
+
+Porting and re-implementation based on the existing concepts have required only a few hours so far, including code archaeology in the original Java sources.
+
+The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC is being rebuilt from the 2005 paper.
 
 The [Freshmind feature design](docs/fm_port-design.md) describes the implemented typed/visual models, labeled curves, keyboard navigation, metadata/inline editors and native YAML persistence. The approved `berry` and `nips-fm` examples are converted from the Java reference; other datasets are proprietary and excluded.
+
+## Reinforcement Focus + Context
+
+In the main browser, select a node, expand **Reinforcement Focus + Context**, then choose **Reinforce selected node**. RFC strengthens its visible focal springs and applies angular forces that encourage evenly spaced branches. The spring multiplier and angular stiffness are adjustable; **Remove RFC** stops the additional forces while retaining the current layout. Pause/resume motion still controls the ordinary layout runner.
+
+The RFC center is independent of selection, neighborhood origin and the viewing lens. Hidden centers suspend reinforcement and resume when shown; replacing the graph clears activation. Semantic nodes/relations and YAML records remain unchanged, while exported positions can retain the resulting layout. Horizontal/vertical coordinate weights control physical RFC geometry: (0.25, 1) permits a focal layout twice as wide in the ideal case, while (1, 1) retains ordinary distances. The viewing lenses are independent. Node/link force weighting, elliptical exclusion, multiple foci and aggregation remain later tasks.
+
+```ts
+const rfc = panel.getRfc();
+rfc.configure({springMultiplier: 3, angularStiffness: 300, coordinateWeights: {x: 0.25, y: 1}});
+rfc.setFocus(node); // node must belong to the visible graph
+console.log(rfc.getState());
+rfc.setFocus(null);
+```
+
+`fm4/fm/rfc` exports the headless controller/force helpers; `bindRfcControls()` from `fm4/fm/ui` binds application-owned controls and returns a disposer. A standalone layout can register `rfc.apply` through `layout.addForce()` and remove it through the returned disposer. The [design](docs/rfc-design.md) explains the force law, defaults and lifecycle. The [experiment report](docs/experiments/rfc-single-focus/README.md) contains three synthetic native YAML graphs to open in the browser and the recorded baseline/RFC results.
+
+```sh
+just rfc-experiment  # Regenerate deterministic synthetic comparisons and initial graphs
+just rfc-plot        # Render the report with Python/matplotlib
+```
 
 ## Run the example
 
@@ -49,6 +78,7 @@ just dev
 just build       # Library and TypeScript declarations
 just build-demo  # Production demo
 just preview     # Build and serve the production demo
+just flipbook    # Production walkthrough: screenshots, Markdown and HTML
 just check       # Type checking, core tests, and demo build
 just pdf README.md  # PDF beside one Markdown source
 just pdfs docs      # PDFs for Markdown files under docs (omit docs for all)
@@ -56,6 +86,10 @@ just --list      # All recipes, including Java and browser tests
 ```
 
 PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mermaid support as Kibitz. Build assets live in `scripts/pdf/`, alongside the other development tools. Install Pandoc with `brew install pandoc`; set `CHROME` to use another Chrome executable. Outputs use the source's full name (`file.md.pdf`) and unchanged PDFs are skipped. Mermaid diagrams require network access during PDF generation. Delete the PDF to rebuild after changing only an embedded image.
+
+`just flipbook` builds and serves the production demo on an available loopback port, drives it with headless Chrome, and writes the [walkthrough](docs/flipbook/README.md), numbered screenshots, an [HTML viewer](docs/flipbook/index.html) and a manifest under `docs/flipbook/`. The viewer works from disk with Previous/Next buttons, arrow keys and Home/End. Edit [scripts/flipbook/tour.mjs](scripts/flipbook/tour.mjs) to change the acts and captions, then regenerate. The tour covers browsing, both zooms, key-map help, types, editing, the node-content popup, YAML saving, RFC comparison, Florentine families and the approved Berry/NIPS-FM examples. It uses the existing Playwright dependency and Google Chrome; no separate service needs to be running.
+
+Use `just flipbook --output /tmp/fm4-flipbook --port 4176` to choose an output directory and port, or `--channel chromium` / `PLAYWRIGHT_CHANNEL` to select another installed Playwright browser channel. A requested busy port fails without reusing its server. Generation captures all steps before publishing; regeneration replaces its own manifest-listed files and preserves unrelated files. The command stops its local server and browser on completion or failure. Layout inputs are seeded and paused for capture; screenshots may still vary with browser/font versions.
 
 Open the localhost address printed by Vite. Double-click a node to select and center it, or select it and choose **Focus here**. Adjust neighborhood depth and the focus + context slider. Press **E** with the graph focused, or use **Expand**, to reveal neighbors. Drag nodes to rearrange them and drag the background to pan. **Graph spacing** changes distances between node centers while keeping shapes and labels the same size. Vertical scrolling changes **graph spacing**, keeping shapes and labels the same size. Horizontal two-finger scrolling decreases/increases **focus + context** strength to the left/right; the dominant scroll axis chooses one operation for each event. Trackpad pinch (Ctrl+wheel) controls canvas zoom around the pointer. The canvas toolbar also zooms in/out; its percentage button resets canvas scale to 100%. Centering retains both zoom levels. Pinning holds a node in physical coordinates. Double-click follows the same centering/neighborhood option as Enter; plain `TGPanel` retains double-click expansion and canvas-only wheel handling.
 
@@ -274,6 +308,7 @@ Freshmind keyboard-focus frames follow the configured node shape and stay outsid
 | `fm4/fm/core` | Freshmind model, registry, preset and pure geometry without D3 or YAML. |
 | `fm4/fm/config` | YAML type loader for applications supplying their own configuration. |
 | `fm4/fm/ui` | Reusable key-map dialog and graph/canvas zoom bindings; optional `fm4/fm/ui/style.css`. |
+| `fm4/fm/rfc` | Headless single-focus reinforcement controller, focal-star and force helpers. |
 
 ## Library support
 

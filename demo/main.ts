@@ -9,7 +9,7 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel, TypeRegistry } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls, bindKeymap, bindNodeDetails } from "../src/fm/ui/index.js";
+import { bindZoomControls, bindKeymap, bindRfcControls, bindNodeDetails } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
 import { resourceURL } from "../src/fm/editing/details.js";
@@ -72,6 +72,11 @@ const disposeZoom = bindZoomControls(panel, {
   canvasIn: get("zoom-in"), canvasOut: get("zoom-out"), canvasReset: get("zoom-reset")
 });
 const disposeKeymap = bindKeymap(panel, {button: get("keymap-help"), includeBrowserCommands: true});
+const disposeRfc = bindRfcControls(panel, {
+  activate: get<HTMLButtonElement>("rfc-activate"), clear: get<HTMLButtonElement>("rfc-clear"),
+  springMultiplier: get<HTMLInputElement>("rfc-springs"), angularStiffness: get<HTMLInputElement>("rfc-angular"), status: get("rfc-status"),
+  xWeight: get<HTMLInputElement>("rfc-x-weight"), yWeight: get<HTMLInputElement>("rfc-y-weight")
+});
 bindFileControls(panel);
 panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
@@ -220,5 +225,5 @@ get("motion").addEventListener("click", () => {
 // Useful for experimenting with the library from the browser console.
 Object.assign(window, { graphBrowser: panel });
 void focusOn(root);
-window.addEventListener("pagehide", () => { disposeDetails(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeDetails(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

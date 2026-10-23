@@ -20,6 +20,10 @@ build:
 build-demo:
     npm run build:demo
 
+# Capture a production-build walkthrough into docs/flipbook/ (PNGs, Markdown and HTML).
+flipbook *args: build-demo
+    node scripts/flipbook.mjs "$@"
+
 # Regenerate the headless preset and documentation from the Freshmind type YAML.
 sync-fm-config:
     npm run sync:fm-config
@@ -39,6 +43,14 @@ validate-examples *args: build
 # Regenerate attributed public networks from the pinned source; requires Python 3, no NetworkX installation.
 public-examples: build
     node scripts/convert-public-examples.mjs
+
+# Compare plain TouchGraph and single-focus RFC on synthetic fixed-coordinate graphs.
+rfc-experiment output="docs/experiments/rfc-single-focus": build
+    node scripts/rfc-experiment.mjs {{quote(output)}}
+
+# Plot an existing RFC report; requires Python 3 with matplotlib.
+rfc-plot output="docs/experiments/rfc-single-focus":
+    python3 scripts/plot-rfc.py {{quote(output)}}
 
 # Build and serve the production demo; accepts Vite preview arguments.
 preview *args: build-demo

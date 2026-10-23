@@ -1,0 +1,1930 @@
+{
+  "description": "Synthetic single-focus RFC; equation (1). No proprietary data or paper-figure reconstruction.",
+  "seed": "0x1234abcd",
+  "batches": 250,
+  "stepsPerBatch": 10,
+  "fixedCenter": true,
+  "fixedContextAnchors": true,
+  "results": [
+    {
+      "name": "crowded-star",
+      "reinforced": false,
+      "batches": 250,
+      "settings": {
+        "springMultiplier": 3,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "initial": {
+        "angularGapRms": 0.8579417410977879,
+        "physicalAngularGapRms": 0.8579417410977879,
+        "meanRadius": 100
+      },
+      "final": {
+        "angularGapRms": 1.130775819424113,
+        "physicalAngularGapRms": 1.130775819424113,
+        "meanRadius": 134.9153837220065
+      },
+      "trace": [
+        {
+          "batch": 0,
+          "angularGapRms": 0.8579417410977879,
+          "physicalAngularGapRms": 0.8579417410977879,
+          "meanRadius": 100
+        },
+        {
+          "batch": 10,
+          "angularGapRms": 1.132866305684832,
+          "physicalAngularGapRms": 1.132866305684832,
+          "meanRadius": 134.93010321109674
+        },
+        {
+          "batch": 20,
+          "angularGapRms": 1.1306600157729767,
+          "physicalAngularGapRms": 1.1306600157729767,
+          "meanRadius": 134.916871909377
+        },
+        {
+          "batch": 30,
+          "angularGapRms": 1.1307631660603872,
+          "physicalAngularGapRms": 1.1307631660603872,
+          "meanRadius": 134.915606681384
+        },
+        {
+          "batch": 40,
+          "angularGapRms": 1.1307745755666025,
+          "physicalAngularGapRms": 1.1307745755666025,
+          "meanRadius": 134.91540809738459
+        },
+        {
+          "batch": 50,
+          "angularGapRms": 1.1307756956652664,
+          "physicalAngularGapRms": 1.1307756956652664,
+          "meanRadius": 134.91538624430584
+        },
+        {
+          "batch": 60,
+          "angularGapRms": 1.1307758066673668,
+          "physicalAngularGapRms": 1.1307758066673668,
+          "meanRadius": 134.91538398613042
+        },
+        {
+          "batch": 70,
+          "angularGapRms": 1.1307758180522556,
+          "physicalAngularGapRms": 1.1307758180522556,
+          "meanRadius": 134.91538375059963
+        },
+        {
+          "batch": 80,
+          "angularGapRms": 1.1307758192698936,
+          "physicalAngularGapRms": 1.1307758192698936,
+          "meanRadius": 134.91538372523
+        },
+        {
+          "batch": 90,
+          "angularGapRms": 1.1307758194060047,
+          "physicalAngularGapRms": 1.1307758194060047,
+          "meanRadius": 134.91538372238531
+        },
+        {
+          "batch": 100,
+          "angularGapRms": 1.1307758194219129,
+          "physicalAngularGapRms": 1.1307758194219129,
+          "meanRadius": 134.91538372205235
+        },
+        {
+          "batch": 110,
+          "angularGapRms": 1.1307758194237372,
+          "physicalAngularGapRms": 1.1307758194237372,
+          "meanRadius": 134.91538372201418
+        },
+        {
+          "batch": 120,
+          "angularGapRms": 1.1307758194239879,
+          "physicalAngularGapRms": 1.1307758194239879,
+          "meanRadius": 134.91538372200893
+        },
+        {
+          "batch": 130,
+          "angularGapRms": 1.130775819424039,
+          "physicalAngularGapRms": 1.130775819424039,
+          "meanRadius": 134.91538372200785
+        },
+        {
+          "batch": 140,
+          "angularGapRms": 1.1307758194240534,
+          "physicalAngularGapRms": 1.1307758194240534,
+          "meanRadius": 134.91538372200753
+        },
+        {
+          "batch": 150,
+          "angularGapRms": 1.130775819424065,
+          "physicalAngularGapRms": 1.130775819424065,
+          "meanRadius": 134.91538372200722
+        },
+        {
+          "batch": 160,
+          "angularGapRms": 1.130775819424074,
+          "physicalAngularGapRms": 1.130775819424074,
+          "meanRadius": 134.91538372200708
+        },
+        {
+          "batch": 170,
+          "angularGapRms": 1.1307758194240818,
+          "physicalAngularGapRms": 1.1307758194240818,
+          "meanRadius": 134.91538372200694
+        },
+        {
+          "batch": 180,
+          "angularGapRms": 1.1307758194240882,
+          "physicalAngularGapRms": 1.1307758194240882,
+          "meanRadius": 134.91538372200688
+        },
+        {
+          "batch": 190,
+          "angularGapRms": 1.1307758194240938,
+          "physicalAngularGapRms": 1.1307758194240938,
+          "meanRadius": 134.91538372200674
+        },
+        {
+          "batch": 200,
+          "angularGapRms": 1.1307758194240984,
+          "physicalAngularGapRms": 1.1307758194240984,
+          "meanRadius": 134.91538372200668
+        },
+        {
+          "batch": 210,
+          "angularGapRms": 1.1307758194241022,
+          "physicalAngularGapRms": 1.1307758194241022,
+          "meanRadius": 134.9153837220066
+        },
+        {
+          "batch": 220,
+          "angularGapRms": 1.1307758194241058,
+          "physicalAngularGapRms": 1.1307758194241058,
+          "meanRadius": 134.91538372200665
+        },
+        {
+          "batch": 230,
+          "angularGapRms": 1.1307758194241082,
+          "physicalAngularGapRms": 1.1307758194241082,
+          "meanRadius": 134.9153837220065
+        },
+        {
+          "batch": 240,
+          "angularGapRms": 1.130775819424111,
+          "physicalAngularGapRms": 1.130775819424111,
+          "meanRadius": 134.91538372200648
+        },
+        {
+          "batch": 250,
+          "angularGapRms": 1.130775819424113,
+          "physicalAngularGapRms": 1.130775819424113,
+          "meanRadius": 134.9153837220065
+        }
+      ],
+      "nodes": [
+        {
+          "id": "center",
+          "label": "Focal project",
+          "x": 0,
+          "y": 0,
+          "fixed": true
+        },
+        {
+          "id": "branch-0",
+          "label": "Branch 1",
+          "x": 28.324174655882217,
+          "y": -110.0457915793185,
+          "fixed": false
+        },
+        {
+          "id": "branch-1",
+          "label": "Branch 2",
+          "x": 116.13785665719826,
+          "y": 66.42682562710489,
+          "fixed": false
+        },
+        {
+          "id": "branch-2",
+          "label": "Branch 3",
+          "x": 95.69187873451706,
+          "y": -122.99098959028039,
+          "fixed": false
+        },
+        {
+          "id": "branch-3",
+          "label": "Branch 4",
+          "x": 82.75248479384382,
+          "y": 136.0173002629477,
+          "fixed": false
+        },
+        {
+          "id": "branch-4",
+          "label": "Branch 5",
+          "x": 110.7676872474094,
+          "y": -43.94223158044211,
+          "fixed": false
+        },
+        {
+          "id": "branch-5",
+          "label": "Branch 6",
+          "x": 19.663566233383747,
+          "y": 126.33542284003454,
+          "fixed": false
+        },
+        {
+          "id": "context-0",
+          "label": "Context 1",
+          "x": 230,
+          "y": -70,
+          "fixed": true
+        },
+        {
+          "id": "context-1",
+          "label": "Context 2",
+          "x": 230,
+          "y": 140,
+          "fixed": true
+        }
+      ],
+      "edges": [
+        {
+          "id": "focal-0",
+          "from": "center",
+          "to": "branch-0",
+          "length": 60
+        },
+        {
+          "id": "focal-1",
+          "from": "center",
+          "to": "branch-1",
+          "length": 60
+        },
+        {
+          "id": "focal-2",
+          "from": "center",
+          "to": "branch-2",
+          "length": 60
+        },
+        {
+          "id": "focal-3",
+          "from": "center",
+          "to": "branch-3",
+          "length": 60
+        },
+        {
+          "id": "focal-4",
+          "from": "center",
+          "to": "branch-4",
+          "length": 60
+        },
+        {
+          "id": "focal-5",
+          "from": "center",
+          "to": "branch-5",
+          "length": 60
+        },
+        {
+          "id": "context-link-0",
+          "from": "branch-0",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-2",
+          "from": "branch-2",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-4",
+          "from": "branch-4",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-1",
+          "from": "branch-1",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-3",
+          "from": "branch-3",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-5",
+          "from": "branch-5",
+          "to": "context-1",
+          "length": 120
+        }
+      ]
+    },
+    {
+      "name": "crowded-star",
+      "reinforced": true,
+      "batches": 250,
+      "settings": {
+        "springMultiplier": 3,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "initial": {
+        "angularGapRms": 0.8579417410977879,
+        "physicalAngularGapRms": 0.8579417410977879,
+        "meanRadius": 100
+      },
+      "final": {
+        "angularGapRms": 0.27928968545854294,
+        "physicalAngularGapRms": 0.27928968545854294,
+        "meanRadius": 78.00959654287418
+      },
+      "trace": [
+        {
+          "batch": 0,
+          "angularGapRms": 0.8579417410977879,
+          "physicalAngularGapRms": 0.8579417410977879,
+          "meanRadius": 100
+        },
+        {
+          "batch": 10,
+          "angularGapRms": 0.27924320564975175,
+          "physicalAngularGapRms": 0.27924320564975175,
+          "meanRadius": 78.01976601739744
+        },
+        {
+          "batch": 20,
+          "angularGapRms": 0.2792823893716596,
+          "physicalAngularGapRms": 0.2792823893716596,
+          "meanRadius": 78.01003832763125
+        },
+        {
+          "batch": 30,
+          "angularGapRms": 0.2792892989006151,
+          "physicalAngularGapRms": 0.2792892989006151,
+          "meanRadius": 78.0096190817441
+        },
+        {
+          "batch": 40,
+          "angularGapRms": 0.27928966430561786,
+          "physicalAngularGapRms": 0.27928966430561786,
+          "meanRadius": 78.00959777388515
+        },
+        {
+          "batch": 50,
+          "angularGapRms": 0.27928968422908623,
+          "physicalAngularGapRms": 0.27928968422908623,
+          "meanRadius": 78.00959661441597
+        },
+        {
+          "batch": 60,
+          "angularGapRms": 0.27928968538263965,
+          "physicalAngularGapRms": 0.27928968538263965,
+          "meanRadius": 78.00959654729094
+        },
+        {
+          "batch": 70,
+          "angularGapRms": 0.27928968545357197,
+          "physicalAngularGapRms": 0.27928968545357197,
+          "meanRadius": 78.00959654316344
+        },
+        {
+          "batch": 80,
+          "angularGapRms": 0.27928968545819816,
+          "physicalAngularGapRms": 0.27928968545819816,
+          "meanRadius": 78.00959654289424
+        },
+        {
+          "batch": 90,
+          "angularGapRms": 0.2792896854585178,
+          "physicalAngularGapRms": 0.2792896854585178,
+          "meanRadius": 78.00959654287564
+        },
+        {
+          "batch": 100,
+          "angularGapRms": 0.27928968545854116,
+          "physicalAngularGapRms": 0.27928968545854116,
+          "meanRadius": 78.00959654287428
+        },
+        {
+          "batch": 110,
+          "angularGapRms": 0.2792896854585429,
+          "physicalAngularGapRms": 0.2792896854585429,
+          "meanRadius": 78.00959654287419
+        },
+        {
+          "batch": 120,
+          "angularGapRms": 0.279289685458543,
+          "physicalAngularGapRms": 0.279289685458543,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 130,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 140,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 150,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 160,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 170,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 180,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 190,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 200,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 210,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 220,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 230,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 240,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        },
+        {
+          "batch": 250,
+          "angularGapRms": 0.27928968545854294,
+          "physicalAngularGapRms": 0.27928968545854294,
+          "meanRadius": 78.00959654287418
+        }
+      ],
+      "nodes": [
+        {
+          "id": "center",
+          "label": "Focal project",
+          "x": 0,
+          "y": 0,
+          "fixed": true
+        },
+        {
+          "id": "branch-0",
+          "label": "Branch 1",
+          "x": -31.947607375090243,
+          "y": 22.558634868393483,
+          "fixed": false
+        },
+        {
+          "id": "branch-1",
+          "label": "Branch 2",
+          "x": -18.90377524118164,
+          "y": -18.532405679434156,
+          "fixed": false
+        },
+        {
+          "id": "branch-2",
+          "label": "Branch 3",
+          "x": 43.95394966140604,
+          "y": -91.45534213276026,
+          "fixed": false
+        },
+        {
+          "id": "branch-3",
+          "label": "Branch 4",
+          "x": 100.55521421595088,
+          "y": -12.857088580728712,
+          "fixed": false
+        },
+        {
+          "id": "branch-4",
+          "label": "Branch 5",
+          "x": 84.07358069648757,
+          "y": 38.67091141592535,
+          "fixed": false
+        },
+        {
+          "id": "branch-5",
+          "label": "Branch 6",
+          "x": 29.503876030378862,
+          "y": 102.94714128936121,
+          "fixed": false
+        },
+        {
+          "id": "context-0",
+          "label": "Context 1",
+          "x": 230,
+          "y": -70,
+          "fixed": true
+        },
+        {
+          "id": "context-1",
+          "label": "Context 2",
+          "x": 230,
+          "y": 140,
+          "fixed": true
+        }
+      ],
+      "edges": [
+        {
+          "id": "focal-0",
+          "from": "center",
+          "to": "branch-0",
+          "length": 60
+        },
+        {
+          "id": "focal-1",
+          "from": "center",
+          "to": "branch-1",
+          "length": 60
+        },
+        {
+          "id": "focal-2",
+          "from": "center",
+          "to": "branch-2",
+          "length": 60
+        },
+        {
+          "id": "focal-3",
+          "from": "center",
+          "to": "branch-3",
+          "length": 60
+        },
+        {
+          "id": "focal-4",
+          "from": "center",
+          "to": "branch-4",
+          "length": 60
+        },
+        {
+          "id": "focal-5",
+          "from": "center",
+          "to": "branch-5",
+          "length": 60
+        },
+        {
+          "id": "context-link-0",
+          "from": "branch-0",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-2",
+          "from": "branch-2",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-4",
+          "from": "branch-4",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-1",
+          "from": "branch-1",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-3",
+          "from": "branch-3",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-5",
+          "from": "branch-5",
+          "to": "context-1",
+          "length": 120
+        }
+      ]
+    },
+    {
+      "name": "unequal-radii",
+      "reinforced": false,
+      "batches": 250,
+      "settings": {
+        "springMultiplier": 3,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "initial": {
+        "angularGapRms": 0.8579417410977879,
+        "physicalAngularGapRms": 0.8579417410977879,
+        "meanRadius": 130
+      },
+      "final": {
+        "angularGapRms": 1.2773875032562345,
+        "physicalAngularGapRms": 1.2773875032562345,
+        "meanRadius": 138.34972693313648
+      },
+      "trace": [
+        {
+          "batch": 0,
+          "angularGapRms": 0.8579417410977879,
+          "physicalAngularGapRms": 0.8579417410977879,
+          "meanRadius": 130
+        },
+        {
+          "batch": 10,
+          "angularGapRms": 1.3293492088280239,
+          "physicalAngularGapRms": 1.3293492088280239,
+          "meanRadius": 136.84825373028517
+        },
+        {
+          "batch": 20,
+          "angularGapRms": 1.2790315961649952,
+          "physicalAngularGapRms": 1.2790315961649952,
+          "meanRadius": 138.34379599345337
+        },
+        {
+          "batch": 30,
+          "angularGapRms": 1.2774157705594178,
+          "physicalAngularGapRms": 1.2774157705594178,
+          "meanRadius": 138.3496187322221
+        },
+        {
+          "batch": 40,
+          "angularGapRms": 1.2773881869307417,
+          "physicalAngularGapRms": 1.2773881869307417,
+          "meanRadius": 138.3497242237076
+        },
+        {
+          "batch": 50,
+          "angularGapRms": 1.2773875213721917,
+          "physicalAngularGapRms": 1.2773875213721917,
+          "meanRadius": 138.34972686127148
+        },
+        {
+          "batch": 60,
+          "angularGapRms": 1.2773875037755567,
+          "physicalAngularGapRms": 1.2773875037755567,
+          "meanRadius": 138.34972693107716
+        },
+        {
+          "batch": 70,
+          "angularGapRms": 1.277387503272307,
+          "physicalAngularGapRms": 1.277387503272307,
+          "meanRadius": 138.3497269330728
+        },
+        {
+          "batch": 80,
+          "angularGapRms": 1.2773875032567699,
+          "physicalAngularGapRms": 1.2773875032567699,
+          "meanRadius": 138.34972693313438
+        },
+        {
+          "batch": 90,
+          "angularGapRms": 1.277387503256253,
+          "physicalAngularGapRms": 1.277387503256253,
+          "meanRadius": 138.34972693313645
+        },
+        {
+          "batch": 100,
+          "angularGapRms": 1.277387503256235,
+          "physicalAngularGapRms": 1.277387503256235,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 110,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 120,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 130,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 140,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 150,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 160,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 170,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 180,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 190,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 200,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 210,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 220,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 230,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 240,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        },
+        {
+          "batch": 250,
+          "angularGapRms": 1.2773875032562345,
+          "physicalAngularGapRms": 1.2773875032562345,
+          "meanRadius": 138.34972693313648
+        }
+      ],
+      "nodes": [
+        {
+          "id": "center",
+          "label": "Focal project",
+          "x": 0,
+          "y": 0,
+          "fixed": true
+        },
+        {
+          "id": "branch-0",
+          "label": "Branch 1",
+          "x": 63.595770045903286,
+          "y": -35.60645480585434,
+          "fixed": false
+        },
+        {
+          "id": "branch-1",
+          "label": "Branch 2",
+          "x": 32.99768573131579,
+          "y": 95.91708142649259,
+          "fixed": false
+        },
+        {
+          "id": "branch-2",
+          "label": "Branch 3",
+          "x": 42.25357209332518,
+          "y": -114.81258139364597,
+          "fixed": false
+        },
+        {
+          "id": "branch-3",
+          "label": "Branch 4",
+          "x": 123.35829147616425,
+          "y": 76.98222404185942,
+          "fixed": false
+        },
+        {
+          "id": "branch-4",
+          "label": "Branch 5",
+          "x": 124.8028870940754,
+          "y": -135.61810187706777,
+          "fixed": false
+        },
+        {
+          "id": "branch-5",
+          "label": "Branch 6",
+          "x": 86.67758667121582,
+          "y": 184.36683459735144,
+          "fixed": false
+        },
+        {
+          "id": "context-0",
+          "label": "Context 1",
+          "x": 230,
+          "y": -70,
+          "fixed": true
+        },
+        {
+          "id": "context-1",
+          "label": "Context 2",
+          "x": 230,
+          "y": 140,
+          "fixed": true
+        }
+      ],
+      "edges": [
+        {
+          "id": "focal-0",
+          "from": "center",
+          "to": "branch-0",
+          "length": 20
+        },
+        {
+          "id": "focal-1",
+          "from": "center",
+          "to": "branch-1",
+          "length": 35
+        },
+        {
+          "id": "focal-2",
+          "from": "center",
+          "to": "branch-2",
+          "length": 55
+        },
+        {
+          "id": "focal-3",
+          "from": "center",
+          "to": "branch-3",
+          "length": 70
+        },
+        {
+          "id": "focal-4",
+          "from": "center",
+          "to": "branch-4",
+          "length": 95
+        },
+        {
+          "id": "focal-5",
+          "from": "center",
+          "to": "branch-5",
+          "length": 120
+        },
+        {
+          "id": "context-link-0",
+          "from": "branch-0",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-2",
+          "from": "branch-2",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-4",
+          "from": "branch-4",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-1",
+          "from": "branch-1",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-3",
+          "from": "branch-3",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-5",
+          "from": "branch-5",
+          "to": "context-1",
+          "length": 120
+        }
+      ]
+    },
+    {
+      "name": "unequal-radii",
+      "reinforced": true,
+      "batches": 250,
+      "settings": {
+        "springMultiplier": 3,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 1,
+          "y": 1
+        }
+      },
+      "initial": {
+        "angularGapRms": 0.8579417410977879,
+        "physicalAngularGapRms": 0.8579417410977879,
+        "meanRadius": 130
+      },
+      "final": {
+        "angularGapRms": 0.29029890307857903,
+        "physicalAngularGapRms": 0.29029890307857903,
+        "meanRadius": 84.34416981325559
+      },
+      "trace": [
+        {
+          "batch": 0,
+          "angularGapRms": 0.8579417410977879,
+          "physicalAngularGapRms": 0.8579417410977879,
+          "meanRadius": 130
+        },
+        {
+          "batch": 10,
+          "angularGapRms": 0.29098255333588013,
+          "physicalAngularGapRms": 0.29098255333588013,
+          "meanRadius": 84.34999618996876
+        },
+        {
+          "batch": 20,
+          "angularGapRms": 0.29031149473063517,
+          "physicalAngularGapRms": 0.29031149473063517,
+          "meanRadius": 84.34429442236873
+        },
+        {
+          "batch": 30,
+          "angularGapRms": 0.290299173975442,
+          "physicalAngularGapRms": 0.290299173975442,
+          "meanRadius": 84.3441725021029
+        },
+        {
+          "batch": 40,
+          "angularGapRms": 0.2902989094245467,
+          "physicalAngularGapRms": 0.2902989094245467,
+          "meanRadius": 84.34416987624797
+        },
+        {
+          "batch": 50,
+          "angularGapRms": 0.29029890323988455,
+          "physicalAngularGapRms": 0.29029890323988455,
+          "meanRadius": 84.34416981485677
+        },
+        {
+          "batch": 60,
+          "angularGapRms": 0.2902989030830189,
+          "physicalAngularGapRms": 0.2902989030830189,
+          "meanRadius": 84.34416981329967
+        },
+        {
+          "batch": 70,
+          "angularGapRms": 0.290298903078711,
+          "physicalAngularGapRms": 0.290298903078711,
+          "meanRadius": 84.3441698132569
+        },
+        {
+          "batch": 80,
+          "angularGapRms": 0.29029890307858314,
+          "physicalAngularGapRms": 0.29029890307858314,
+          "meanRadius": 84.34416981325563
+        },
+        {
+          "batch": 90,
+          "angularGapRms": 0.2902989030785792,
+          "physicalAngularGapRms": 0.2902989030785792,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 100,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 110,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 120,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 130,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 140,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 150,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 160,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 170,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 180,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 190,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 200,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 210,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 220,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 230,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 240,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        },
+        {
+          "batch": 250,
+          "angularGapRms": 0.29029890307857903,
+          "physicalAngularGapRms": 0.29029890307857903,
+          "meanRadius": 84.34416981325559
+        }
+      ],
+      "nodes": [
+        {
+          "id": "center",
+          "label": "Focal project",
+          "x": 0,
+          "y": 0,
+          "fixed": true
+        },
+        {
+          "id": "branch-0",
+          "label": "Branch 1",
+          "x": -24.157129785578665,
+          "y": 22.53256772712497,
+          "fixed": false
+        },
+        {
+          "id": "branch-1",
+          "label": "Branch 2",
+          "x": -20.416609770890883,
+          "y": -15.68679179775049,
+          "fixed": false
+        },
+        {
+          "id": "branch-2",
+          "label": "Branch 3",
+          "x": 36.96129375447685,
+          "y": -89.17849930955316,
+          "fixed": false
+        },
+        {
+          "id": "branch-3",
+          "label": "Branch 4",
+          "x": 99.45116213216997,
+          "y": -16.95702952128643,
+          "fixed": false
+        },
+        {
+          "id": "branch-4",
+          "label": "Branch 5",
+          "x": 105.19983283719952,
+          "y": 41.226736604988986,
+          "fixed": false
+        },
+        {
+          "id": "branch-5",
+          "label": "Branch 6",
+          "x": 46.403801949991646,
+          "y": 128.76646814905433,
+          "fixed": false
+        },
+        {
+          "id": "context-0",
+          "label": "Context 1",
+          "x": 230,
+          "y": -70,
+          "fixed": true
+        },
+        {
+          "id": "context-1",
+          "label": "Context 2",
+          "x": 230,
+          "y": 140,
+          "fixed": true
+        }
+      ],
+      "edges": [
+        {
+          "id": "focal-0",
+          "from": "center",
+          "to": "branch-0",
+          "length": 20
+        },
+        {
+          "id": "focal-1",
+          "from": "center",
+          "to": "branch-1",
+          "length": 35
+        },
+        {
+          "id": "focal-2",
+          "from": "center",
+          "to": "branch-2",
+          "length": 55
+        },
+        {
+          "id": "focal-3",
+          "from": "center",
+          "to": "branch-3",
+          "length": 70
+        },
+        {
+          "id": "focal-4",
+          "from": "center",
+          "to": "branch-4",
+          "length": 95
+        },
+        {
+          "id": "focal-5",
+          "from": "center",
+          "to": "branch-5",
+          "length": 120
+        },
+        {
+          "id": "context-link-0",
+          "from": "branch-0",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-2",
+          "from": "branch-2",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-4",
+          "from": "branch-4",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-1",
+          "from": "branch-1",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-3",
+          "from": "branch-3",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-5",
+          "from": "branch-5",
+          "to": "context-1",
+          "length": 120
+        }
+      ]
+    },
+    {
+      "name": "wide-labels",
+      "reinforced": false,
+      "batches": 250,
+      "settings": {
+        "springMultiplier": 3,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "initial": {
+        "angularGapRms": 0.8579417410977879,
+        "physicalAngularGapRms": 1.0374418443900122,
+        "meanRadius": 166.78118700666806
+      },
+      "final": {
+        "angularGapRms": 1.518229875165371,
+        "physicalAngularGapRms": 1.8055726390250826,
+        "meanRadius": 203.9663800729264
+      },
+      "trace": [
+        {
+          "batch": 0,
+          "angularGapRms": 0.8579417410977879,
+          "physicalAngularGapRms": 1.0374418443900122,
+          "meanRadius": 166.78118700666806
+        },
+        {
+          "batch": 10,
+          "angularGapRms": 1.519159399192678,
+          "physicalAngularGapRms": 1.806601759627748,
+          "meanRadius": 203.97526972453144
+        },
+        {
+          "batch": 20,
+          "angularGapRms": 1.5182681981249417,
+          "physicalAngularGapRms": 1.805616682769817,
+          "meanRadius": 203.96709928813937
+        },
+        {
+          "batch": 30,
+          "angularGapRms": 1.5182326946833657,
+          "physicalAngularGapRms": 1.805575879032114,
+          "meanRadius": 203.9664375198995
+        },
+        {
+          "batch": 40,
+          "angularGapRms": 1.5182301164749425,
+          "physicalAngularGapRms": 1.8055729161784078,
+          "meanRadius": 203.96638505671356
+        },
+        {
+          "batch": 50,
+          "angularGapRms": 1.5182298972841604,
+          "physicalAngularGapRms": 1.8055726644259273,
+          "meanRadius": 203.9663805308338
+        },
+        {
+          "batch": 60,
+          "angularGapRms": 1.5182298773035792,
+          "physicalAngularGapRms": 1.805572641480493,
+          "meanRadius": 203.96638011721174
+        },
+        {
+          "batch": 70,
+          "angularGapRms": 1.5182298753825638,
+          "physicalAngularGapRms": 1.805572639274495,
+          "meanRadius": 203.96638007742538
+        },
+        {
+          "batch": 80,
+          "angularGapRms": 1.5182298751885073,
+          "physicalAngularGapRms": 1.8055726390516513,
+          "meanRadius": 203.96638007340584
+        },
+        {
+          "batch": 90,
+          "angularGapRms": 1.5182298751679424,
+          "physicalAngularGapRms": 1.8055726390280356,
+          "meanRadius": 203.96638007297994
+        },
+        {
+          "batch": 100,
+          "angularGapRms": 1.518229875165659,
+          "physicalAngularGapRms": 1.8055726390254137,
+          "meanRadius": 203.9663800729326
+        },
+        {
+          "batch": 110,
+          "angularGapRms": 1.5182298751654104,
+          "physicalAngularGapRms": 1.8055726390251285,
+          "meanRadius": 203.96638007292745
+        },
+        {
+          "batch": 120,
+          "angularGapRms": 1.5182298751653778,
+          "physicalAngularGapRms": 1.8055726390250904,
+          "meanRadius": 203.96638007292674
+        },
+        {
+          "batch": 130,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250828,
+          "meanRadius": 203.96638007292646
+        },
+        {
+          "batch": 140,
+          "angularGapRms": 1.5182298751653707,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 150,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 160,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 170,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 180,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 190,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 200,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 210,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 220,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 230,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 240,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        },
+        {
+          "batch": 250,
+          "angularGapRms": 1.518229875165371,
+          "physicalAngularGapRms": 1.8055726390250826,
+          "meanRadius": 203.9663800729264
+        }
+      ],
+      "nodes": [
+        {
+          "id": "center",
+          "label": "Focal project",
+          "x": 0,
+          "y": 0,
+          "fixed": true
+        },
+        {
+          "id": "branch-0",
+          "label": "Branch 1 — a horizontally extended label",
+          "x": 162.76978352131297,
+          "y": -57.77938947245125,
+          "fixed": false
+        },
+        {
+          "id": "branch-1",
+          "label": "Branch 2 — a horizontally extended label",
+          "x": 162.54316423988797,
+          "y": 83.33967073669857,
+          "fixed": false
+        },
+        {
+          "id": "branch-2",
+          "label": "Branch 3 — a horizontally extended label",
+          "x": 182.75730086009017,
+          "y": -109.49061711562022,
+          "fixed": false
+        },
+        {
+          "id": "branch-3",
+          "label": "Branch 4 — a horizontally extended label",
+          "x": 212.1104832530986,
+          "y": 63.65165919913331,
+          "fixed": false
+        },
+        {
+          "id": "branch-4",
+          "label": "Branch 5 — a horizontally extended label",
+          "x": 211.51671294412773,
+          "y": -35.480210344747,
+          "fixed": false
+        },
+        {
+          "id": "branch-5",
+          "label": "Branch 6 — a horizontally extended label",
+          "x": 172.68997162478726,
+          "y": 135.39912610626646,
+          "fixed": false
+        },
+        {
+          "id": "context-0",
+          "label": "Context 1",
+          "x": 460,
+          "y": -70,
+          "fixed": true
+        },
+        {
+          "id": "context-1",
+          "label": "Context 2",
+          "x": 460,
+          "y": 140,
+          "fixed": true
+        }
+      ],
+      "edges": [
+        {
+          "id": "focal-0",
+          "from": "center",
+          "to": "branch-0",
+          "length": 60
+        },
+        {
+          "id": "focal-1",
+          "from": "center",
+          "to": "branch-1",
+          "length": 60
+        },
+        {
+          "id": "focal-2",
+          "from": "center",
+          "to": "branch-2",
+          "length": 60
+        },
+        {
+          "id": "focal-3",
+          "from": "center",
+          "to": "branch-3",
+          "length": 60
+        },
+        {
+          "id": "focal-4",
+          "from": "center",
+          "to": "branch-4",
+          "length": 60
+        },
+        {
+          "id": "focal-5",
+          "from": "center",
+          "to": "branch-5",
+          "length": 60
+        },
+        {
+          "id": "context-link-0",
+          "from": "branch-0",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-2",
+          "from": "branch-2",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-4",
+          "from": "branch-4",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-1",
+          "from": "branch-1",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-3",
+          "from": "branch-3",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-5",
+          "from": "branch-5",
+          "to": "context-1",
+          "length": 120
+        }
+      ]
+    },
+    {
+      "name": "wide-labels",
+      "reinforced": true,
+      "batches": 250,
+      "settings": {
+        "springMultiplier": 3,
+        "angularStiffness": 300,
+        "coordinateWeights": {
+          "x": 0.25,
+          "y": 1
+        }
+      },
+      "initial": {
+        "angularGapRms": 0.8579417410977879,
+        "physicalAngularGapRms": 1.0374418443900122,
+        "meanRadius": 166.78118700666806
+      },
+      "final": {
+        "angularGapRms": 1.3570747545523794,
+        "physicalAngularGapRms": 1.644798481379835,
+        "meanRadius": 179.72831681671278
+      },
+      "trace": [
+        {
+          "batch": 0,
+          "angularGapRms": 0.8579417410977879,
+          "physicalAngularGapRms": 1.0374418443900122,
+          "meanRadius": 166.78118700666806
+        },
+        {
+          "batch": 10,
+          "angularGapRms": 1.3570812696731431,
+          "physicalAngularGapRms": 1.6447975011592795,
+          "meanRadius": 179.7278099463994
+        },
+        {
+          "batch": 20,
+          "angularGapRms": 1.3570751603615951,
+          "physicalAngularGapRms": 1.6447984143033325,
+          "meanRadius": 179.7282864773367
+        },
+        {
+          "batch": 30,
+          "angularGapRms": 1.3570747815518789,
+          "physicalAngularGapRms": 1.6447984766750063,
+          "meanRadius": 179.7283147887152
+        },
+        {
+          "batch": 40,
+          "angularGapRms": 1.3570747564680856,
+          "physicalAngularGapRms": 1.6447984810448555,
+          "meanRadius": 179.7283166727743
+        },
+        {
+          "batch": 50,
+          "angularGapRms": 1.3570747546961894,
+          "physicalAngularGapRms": 1.6447984813546823,
+          "meanRadius": 179.72831680590718
+        },
+        {
+          "batch": 60,
+          "angularGapRms": 1.357074754563782,
+          "physicalAngularGapRms": 1.6447984813778405,
+          "meanRadius": 179.72831681585603
+        },
+        {
+          "batch": 70,
+          "angularGapRms": 1.3570747545533328,
+          "physicalAngularGapRms": 1.6447984813796679,
+          "meanRadius": 179.72831681664113
+        },
+        {
+          "batch": 80,
+          "angularGapRms": 1.3570747545524635,
+          "physicalAngularGapRms": 1.6447984813798202,
+          "meanRadius": 179.7283168167065
+        },
+        {
+          "batch": 90,
+          "angularGapRms": 1.3570747545523871,
+          "physicalAngularGapRms": 1.6447984813798335,
+          "meanRadius": 179.7283168167122
+        },
+        {
+          "batch": 100,
+          "angularGapRms": 1.35707475455238,
+          "physicalAngularGapRms": 1.6447984813798342,
+          "meanRadius": 179.7283168167127
+        },
+        {
+          "batch": 110,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.6447984813798349,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 120,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 130,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 140,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 150,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 160,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 170,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 180,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 190,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 200,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 210,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 220,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 230,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 240,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        },
+        {
+          "batch": 250,
+          "angularGapRms": 1.3570747545523794,
+          "physicalAngularGapRms": 1.644798481379835,
+          "meanRadius": 179.72831681671278
+        }
+      ],
+      "nodes": [
+        {
+          "id": "center",
+          "label": "Focal project",
+          "x": 0,
+          "y": 0,
+          "fixed": true
+        },
+        {
+          "id": "branch-0",
+          "label": "Branch 1 — a horizontally extended label",
+          "x": 112.0533627398361,
+          "y": -104.42641862104298,
+          "fixed": false
+        },
+        {
+          "id": "branch-1",
+          "label": "Branch 2 — a horizontally extended label",
+          "x": 167.18429408739635,
+          "y": 73.1901015961215,
+          "fixed": false
+        },
+        {
+          "id": "branch-2",
+          "label": "Branch 3 — a horizontally extended label",
+          "x": 172.19594423530984,
+          "y": -60.5484622170195,
+          "fixed": false
+        },
+        {
+          "id": "branch-3",
+          "label": "Branch 4 — a horizontally extended label",
+          "x": 202.67949063400414,
+          "y": 40.400879393069786,
+          "fixed": false
+        },
+        {
+          "id": "branch-4",
+          "label": "Branch 5 — a horizontally extended label",
+          "x": 194.6900494961156,
+          "y": -20.508015030759623,
+          "fixed": false
+        },
+        {
+          "id": "branch-5",
+          "label": "Branch 6 — a horizontally extended label",
+          "x": 108.56393772083399,
+          "y": 114.42636641314958,
+          "fixed": false
+        },
+        {
+          "id": "context-0",
+          "label": "Context 1",
+          "x": 460,
+          "y": -70,
+          "fixed": true
+        },
+        {
+          "id": "context-1",
+          "label": "Context 2",
+          "x": 460,
+          "y": 140,
+          "fixed": true
+        }
+      ],
+      "edges": [
+        {
+          "id": "focal-0",
+          "from": "center",
+          "to": "branch-0",
+          "length": 60
+        },
+        {
+          "id": "focal-1",
+          "from": "center",
+          "to": "branch-1",
+          "length": 60
+        },
+        {
+          "id": "focal-2",
+          "from": "center",
+          "to": "branch-2",
+          "length": 60
+        },
+        {
+          "id": "focal-3",
+          "from": "center",
+          "to": "branch-3",
+          "length": 60
+        },
+        {
+          "id": "focal-4",
+          "from": "center",
+          "to": "branch-4",
+          "length": 60
+        },
+        {
+          "id": "focal-5",
+          "from": "center",
+          "to": "branch-5",
+          "length": 60
+        },
+        {
+          "id": "context-link-0",
+          "from": "branch-0",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-2",
+          "from": "branch-2",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-4",
+          "from": "branch-4",
+          "to": "context-0",
+          "length": 120
+        },
+        {
+          "id": "context-link-1",
+          "from": "branch-1",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-3",
+          "from": "branch-3",
+          "to": "context-1",
+          "length": 120
+        },
+        {
+          "id": "context-link-5",
+          "from": "branch-5",
+          "to": "context-1",
+          "length": 120
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+# RFC: single-focus reinforcement and weighted geometry
+
+This implements tasks 3.2.1–3.2.3 of [milestone 3](TODO.md#3-add-reinforcement-focus--context), using section 2.2 and equation (1) of [Reinforcement Focus+Context (2005)](literature/rfc@3ia05compact.pdf), page 3. The Java prototype supplies historical context; its synthetic-edge implementation is not reused.
+
+## Scope and ownership
+
+`src/fm/rfc/` owns a single focal center, settings, derived constraints and force calculations. `TGLayout` gains a generic optional force callback between its ordinary attraction/repulsion and its existing momentum integration. It imports no Freshmind code. Fixed nodes, dragging, locality weighting, displacement limits, damping and scheduling remain TouchGraph responsibilities.
+
+`FreshmindPanel.getRfc()` exposes the controller and attaches it to the current layout. Replacing the layout transfers this attachment; replacing/clearing the graph clears RFC. Destroying the panel detaches the callback and controller. The controller also works with a headless host and an explicitly registered force callback.
+
+Focal constraints never enter `GraphEltSet`, adjacency, semantic metadata, rendering or native YAML records. Disabling RFC removes its additional forces; it does not rewind positions or erase momentum accumulated during layout. Graph snapshots can still save the resulting positions normally.
+
+## Focal structure
+
+The first primitive is a depth-one star: the visible center and its distinct visible incident neighbors, ignoring direction, self-loops and hidden relations. Extra relations among these nodes remain ordinary graph edges. Parallel/reciprocal center relations produce one branch; the lexically smallest relation ID supplies its radial spring length. This is an explicit multigraph interpretation of the paper's incident branches; the baseline still simulates every semantic relation.
+
+Branches are sorted by `atan2(√λy · (y - center.y), √λx · (x - center.x))` in weighted physical layout coordinates, with node ID as a deterministic tie breaker. Recompute order from the current geometry each force step so crossings do not leave a stale winding. Viewing lenses, rotation, graph spacing and canvas transforms cannot affect this ordering. Isolated centers are valid and add no forces; one branch has only radial reinforcement. A stored focus outside the visible locality is suspended and resumes when shown. Deleting the center clears it, and a new node with the same ID cannot inherit its activation.
+
+## Force law
+
+Let `v = (x, y)` be a branch displacement, `W = diag(λx, λy)`, and `D² = λx x² + λy y²`, as in the weighted distance following paper equation (2). The weights are positive coefficients, not axis scale factors. Equal metric radius describes an ellipse in physical space; `(λx, λy) = (0.25, 1)` permits a horizontal radius twice the vertical radius. No label measurements or viewing transforms enter this metric.
+
+Radial reinforcement adds `−c D Wv`, with `c = (springMultiplier − 1) · rigidity / (edgeLength · 100)`. This is the physical negative gradient of the radial potential `c D³/3`. Unit weights reproduce the original extra TouchGraph attraction exactly, making the representative spring's total attraction equal to the configured multiplier. For non-unit weights only the added reinforcement uses the weighted gradient; the ordinary TouchGraph springs remain unchanged.
+
+For `N >= 2`, each cyclic consecutive branch pair has weighted angular gap `g` and target `t = 2π/N`. Equation (1) gives moment `M = angularStiffness · rigidity · (g − t)`. Apply `+M` and `−M` to the first and second branch. The physical force from a moment is `M √(λx λy) · (−y, x) / max(1, D²)`, with an equal opposite reaction on the center. The factor `√(λx λy)` comes from differentiating the weighted `atan2`; simply computing weighted angles and applying the old unweighted tangent force would not match the energy gradient.
+
+This follows angular potential `k/2 · Σ(g − t)²` outside a soft core of one weighted layout-unit squared. The soft core bounds coincident/near-center behavior; TouchGraph's original random repulsion separates exactly coincident nodes. Established/newly-local weighting, rigidity, damping, fixed/dragged nodes and integration caps retain their original owners. Degree zero/one has no angular force; both cyclic gaps contribute for degree two.
+
+Defaults are `springMultiplier = 3`, `angularStiffness = 300`, and `coordinateWeights = {x: 1, y: 1}`. These are port tuning choices. The multiplier is finite in 1–100, angular stiffness in 0–100,000, and each coordinate weight in 0.01–100. Configuration validates the complete update before mutation, copies nested weights, wakes the layout and publishes detached snapshots. Metric weights belong to the derived focal star; low-level callers pass them to `collectFocalStar(graph, center, weights)` before applying its forces.
+
+The paper introduces weighted distance with the longitudinal approximation in equation (2). This port retains equation (1)'s direct angular law and applies the same metric to its angles and radial potential, deriving forces in physical coordinates. This is an explicit adaptation rather than a switch to the pairwise approximation. Unit weights retain the first implementation's numerical behavior.
+
+Elliptical exclusion of non-focal nodes, multiple centers/shared branches and structural aggregation remain subsequent tasks. Weighted geometry does not promise an empty focal region or readable arbitrarily high-degree stars. RFC settings/activation remain transient and are not serialized as semantic data or view settings.
+
+## Node and link weights: pending
+
+The implemented coordinate weights describe the x/y distance metric. They are independent of `FreshNode.getWeight()` and `FreshEdge.getWeight()`. Those fields are already retained by the model, editors and YAML codec, but currently control visual halos and strokes; neither the base layout nor RFC uses them as force multipliers. RFC reads each representative relation's physical length and applies global reinforcement strengths.
+
+The FM2014 `TGLayout`/`FMLayout` contains commented-out node-weight repulsion experiments; ordinary `FreshEdge` weights control rendering. There is no active, consistent node/link force-weighting path to copy as a completed Java feature. RFC still requires an explicit design for those semantics, including node repulsion versus inertia/importance, link-strength normalization, default/zero weights and parallel relations. TODO 3.2.7 records this requirement and takes priority over elliptical exclusion. Preserve ordinary TouchGraph behavior and existing visual/serialization contracts while introducing force weighting through the Freshmind extension.
+
+## Browser and verification
+
+Reusable controls in `src/fm/ui/` activate RFC on the selected node, remove it, and configure the two strengths and optional horizontal/vertical coordinate weights. Selection, neighborhood origin, viewing-lens focus and RFC center are independent. Status identifies the activated center and visible branch count, including suspension and isolated centers. The main browser supplies these elements; no new keyboard bindings are introduced in this step.
+
+Synthetic fixed-coordinate fixtures compare ordinary layout and single-focus RFC from identical initial states and seeded randomness. Record settings, iteration counts, RMS angular-gap error and mean radius, with exported coordinates and an SVG side-by-side figure. These illustrate the implemented forces; they are not replicas of the paper's two-focus/hybrid figures or a general layout-quality evaluation. No proprietary datasets are used.
+
+Tests check finite-difference physical energy gradients under anisotropy, the unit-weight identity, elliptical regular stars, extreme weights/singularities, detached/atomic settings, view independence, analytical angular torque/reaction, radial multiplier, multigraph/locality handling, zero/one/two-degree and coincident cases, fixed/dragged nodes, repeat activation, removal, graph/layout replacement, unchanged export/adjacency and deterministic comparison. Run the unmodified Java baseline comparison after adding the generic force hook. Browser checks cover activation, configuration, suspension, file replacement and removal through real controls, including combined zoom/lens state.

@@ -21,11 +21,15 @@ import type { EdgeGeometry } from "./rendering/geometry.js";
 import { FreshmindNavigation } from "./navigation/controller.js";
 import { bindNavigation } from "./navigation/keyboard.js";
 import type { NavigationOptions } from "./navigation/types.js";
+import { RfcController } from "./rfc/controller.js";
+import type { RfcSettings } from "./rfc/types.js";
+import type { TGLayout } from "../tg/layout.js";
 
 export interface FreshmindPanelOptions extends TGPanelOptions {
   types?: TypeRegistry;
   navigation?: NavigationOptions;
   navigationStatus?: HTMLElement;
+  rfc?: Partial<RfcSettings>;
 }
 export type FreshmindSelection = FreshNode | FreshEdge | null;
 export type SelectionListener = (selection: FreshmindSelection) => void;
@@ -41,6 +45,8 @@ export class FreshmindPanel extends TGPanel {
   private changingNeighborhood = false;
   private unbindNavigation?: () => void;
   private readonly navigationStatus?: HTMLElement;
+  private rfc?: RfcController;
+  private removeRfcForce?: () => void;
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -53,11 +59,21 @@ export class FreshmindPanel extends TGPanel {
     this.setGraphEltSet(new FreshGraph());
     this.navigation = new FreshmindNavigation(this, options.navigation);
     this.navigationStatus = options.navigationStatus;
+    this.rfc = new RfcController(this, options.rfc);
+    this.removeRfcForce = this.tgLayout.addForce(this.rfc.apply);
     if(container){this.mount(container);if(options.autoStart!==false)this.tgLayout.start();}
   }
   getTypeRegistry():TypeRegistry{return this.types;}
   /** Returns the composed navigation controller used by both DOM input and application controls. */
   getNavigation(): FreshmindNavigation { return this.navigation!; }
+  /** Returns the optional single-focus reinforcement controller, disabled until a center is chosen. */
+  getRfc(): RfcController { return this.rfc!; }
+  /** Transfers the RFC force registration while retaining TouchGraph layout replacement behavior. */
+  override setTGLayout(layout: TGLayout): void {
+    this.removeRfcForce?.();
+    super.setTGLayout(layout);
+    if (this.rfc) this.removeRfcForce = layout.addForce(this.rfc.apply);
+  }
   /** Neighborhood origin can differ from both committed selection and the viewing-lens focus. */
   getNeighborhoodFocus(): FreshNode | null { return this.neighborhoodFocus; }
   protected override mount(container: HTMLElement): void {
@@ -65,7 +81,7 @@ export class FreshmindPanel extends TGPanel {
     const svg = [...container.querySelectorAll<SVGSVGElement>(":scope > svg.tg-panel")].at(-1)!;
     this.unbindNavigation = bindNavigation(svg, this, this.navigation!, this.navigationStatus);
   }
-  override repaint(): void { this.navigation?.reconcile(false); super.repaint(); }
+  override repaint(): void { this.rfc?.reconcile(); this.navigation?.reconcile(false); super.repaint(); }
   /** Records the requested neighborhood separately from selection; superseded async requests cannot reset it. */
   override setLocale(node: Node | null, radius: number, maxAdd = 1000, maxExpand = 1000, outgoingOnly = false): Promise<void> {
     if (!(node instanceof FreshNode) || radius < 0 || !this.getCompleteEltSet().contains(node))
@@ -98,6 +114,7 @@ export class FreshmindPanel extends TGPanel {
    */
   override setGraphEltSet(graph:GraphEltSet):void {
     if(!(graph instanceof FreshGraph))throw new TypeError("FreshmindPanel requires a FreshGraph");
+    this.rfc?.setFocus(null);
     this.navigation?.graphChanged(); this.neighborhoodFocus = null;
     this.neighborhoodRevision++; this.changingNeighborhood = false;
     for(const edge of this.getCompleteEltSet().getEdges())if(edge instanceof FreshEdge)edge.setGeometry(null);
@@ -214,8 +231,12 @@ export class FreshmindPanel extends TGPanel {
     return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}\nDouble-click or press Enter to center; E to expand; Space for details`;
   }
   override clearAll(): void {
+    this.rfc?.setFocus(null);
     this.navigation?.graphChanged(); this.neighborhoodFocus = null;
     this.neighborhoodRevision++; this.changingNeighborhood = false; super.clearAll();
   }
-  override destroy(): void { this.unbindNavigation?.(); this.navigation?.destroy(); this.selectionListeners.clear(); super.destroy(); }
+  override destroy(): void {
+    this.removeRfcForce?.(); this.rfc?.destroy();
+    this.unbindNavigation?.(); this.navigation?.destroy(); this.selectionListeners.clear(); super.destroy();
+  }
 }
