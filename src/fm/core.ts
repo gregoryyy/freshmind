@@ -14,3 +14,5 @@ export * from "./config/types.js";
 export { createEdgeGeometry, routeEdges } from "./rendering/geometry.js";
 export type { EdgeGeometry, Point, WorldToDraw } from "./rendering/geometry.js";
 export { createNodeOutline, dashArray } from "./rendering/shapes.js";
+export { applyNodeEdit, applyRelationEdit } from "./editing/commands.js";
+export type { NodeEdit, RelationEdit } from "./editing/commands.js";

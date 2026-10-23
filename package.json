@@ -5,16 +5,16 @@
   "license": "SEE LICENSE IN LICENSE",
   "description": "A TypeScript port of the classic Java graph browser API and spring embedder",
   "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/tg/index.js",
+  "types": "./dist/tg/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/tg/index.d.ts",
+      "import": "./dist/tg/index.js"
     },
     "./core": {
-      "types": "./dist/core.d.ts",
-      "import": "./dist/core.js"
+      "types": "./dist/tg/core.d.ts",
+      "import": "./dist/tg/core.js"
     },
     "./tg": {
       "types": "./dist/tg/index.d.ts",
@@ -56,7 +56,8 @@
     "test:java": "npm run build && node scripts/java-reference.mjs",
     "test:browser": "playwright test",
     "prepack": "npm run build",
-    "sync:fm-config": "node scripts/sync-fm-config.mjs"
+    "sync:fm-config": "node scripts/sync-fm-config.mjs",
+    "prebuild": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\""
   },
   "dependencies": {
     "d3-drag": "^3.0.0",

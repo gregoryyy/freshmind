@@ -2,6 +2,28 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Main-browser Freshmind integration and basic editing — 2026-10-23
+
+**Completed**
+
+- Replaced the main demo's plain graph/panel instances with `FreshGraph`, `FreshNode`, `FreshEdge` and `FreshmindPanel`. Its existing atlas now uses semantic types, varied node shapes and labeled relations while retaining neighborhood navigation, pinning, dragging and editing gestures. Added the main-browser integration task **2.2.8**.
+- Added a visible main-browser curve selector for spider, lens-midpoint and straight modes, with guidance about diagonal endpoints and nonlinear lens strength. A relation can override the view default and reset to inherited styling.
+- Added sidebar editors for node labels/types/shapes and relation labels/types/curves, explicit add/delete buttons, F2, keyboard save/cancel and graph focus restoration. Labels remain independent of stable IDs. Per-item drafts survive selection changes, and text entry cannot trigger graph deletion shortcuts.
+- Added headless edit commands that validate before mutating model objects, preserving coordinates and unrelated metadata. Added Freshmind selection subscriptions so relation selection and locality cleanup update inspectors consistently.
+- Cached node text measurements by label, font/loading state, wrapping/padding and shape; view movement no longer needs to remeasure unchanged labels. Tightened the Freshmind keyboard-outline offset to clear hidden-link counts with its measured node bodies.
+- Removed the eight compatibility re-export files from the `src/` root. Package exports now map `fm4` and `fm4/core` directly to the same TouchGraph builds as `fm4/tg` and `fm4/tg/core`. Tests use public package imports; builds clear old output so deleted shims cannot remain in published artifacts.
+
+**Scope and implementation notes**
+
+- The separate `/freshmind.html` palette/configuration explorer remains available. Main-browser integration required explicitly choosing the Freshmind panel; merely exporting the extension classes did not add controls to the existing demo.
+- This is a basic sidebar editor, not completion of milestone 2.4. URL/annotation editing, arbitrary visual overrides, inline positioning and a broader edit notification/undo interface remain planned. The directional keyboard navigation controller remains in 2.3.
+- TouchGraph classes, spring equations and locality/lens ownership are unchanged. The new selection observer belongs to the Freshmind panel; existing `TGPanel.onSelect` behavior remains intact.
+
+**Verification**
+
+- Type checking, **51 Node tests** and production demo build pass. New model tests cover edit validation/atomicity, identity/metadata preservation and selection cleanup.
+- **18 Chrome browser tests** pass, covering main-browser curve modes, label/type/shape save/cancel, retained drafts, relation overrides, explicit add/delete and text-metric invalidation, alongside the existing navigation and palette flows.
+
 ## Milestone 2.2: Freshmind types and labeled curves — 2026-10-23
 
 Completed TODO items **2.2.1–2.2.7**.

@@ -11,6 +11,7 @@ import { FreshNode, FreshEdge } from "../model.js";
 import type { NodeStyle, EdgeStyle } from "../config/types.js";
 import type { EdgeGeometry } from "./geometry.js";
 import { createNodeOutline, dashArray } from "./shapes.js";
+import type { NodeOutline } from "./shapes.js";
 
 export interface EdgeInteraction {
   hover(edge: FreshEdge | null): void;
@@ -18,6 +19,7 @@ export interface EdgeInteraction {
 }
 /** SVG extension only: registry/model/geometry remain usable without DOM or D3. */
 export class FreshmindPresentation {
+  private readonly measurements = new WeakMap<SVGGElement, { key: string; width: number; height: number; outline: NodeOutline }>();
   /**
    * Paints a node inside TGPanel's existing focusable group, retaining its input handlers.
    * Measures/wraps SVG text, updates body dimensions and caches the matching local hit outline.
@@ -32,34 +34,41 @@ export class FreshmindPresentation {
     group.selectAll(".tg-shape, .tg-round-shape").attr("display","none");
     const label=element.querySelector<SVGTextElement>(".tg-label")!;
     label.style.font=style.text.font; label.setAttribute("fill",style.text.color);
-    const measure=(text:string)=>{label.textContent=text;return label.getComputedTextLength();};
-    const lines:string[]=[];
-    for(const paragraph of node.getLabel().split(/\r?\n/)) {
-      let line="";
-      for(const character of Array.from(paragraph)) {
-        if(line && measure(line+character)>style.label.maxWidth) {
-          const split=line.lastIndexOf(" ");
-          if(split>0){lines.push(line.slice(0,split));line=line.slice(split+1)+character;}
-          else {lines.push(line);line=character;}
-        }else line+=character;
+    // Layout animation changes position/colors, not text metrics. Measure only when
+    // label, font loading, wrapping, padding or shape changes to avoid forced reflow each frame.
+    const key=JSON.stringify([node.getLabel(),style.text.font,style.label,style.shape,document.fonts?.status]);
+    let layout=this.measurements.get(element);
+    if(!layout || layout.key!==key) {
+      const measure=(text:string)=>{label.textContent=text;return label.getComputedTextLength();};
+      const lines:string[]=[];
+      for(const paragraph of node.getLabel().split(/\r?\n/)) {
+        let line="";
+        for(const character of Array.from(paragraph)) {
+          if(line && measure(line+character)>style.label.maxWidth) {
+            const split=line.lastIndexOf(" ");
+            if(split>0){lines.push(line.slice(0,split));line=line.slice(split+1)+character;}
+            else {lines.push(line);line=character;}
+          }else line+=character;
+        }
+        lines.push(line);
       }
-      lines.push(line);
+      const textWidth=Math.max(0,...lines.map(measure));
+      measure("Mg");
+      const lineHeight=Math.max(12,label.getBBox().height*1.3);
+      let width=Math.max(30,textWidth+style.label.paddingX*2),height=Math.max(28,lines.length*lineHeight+style.label.paddingY*2);
+      if(!["rectangle","rounded-rectangle"].includes(style.shape))width+=24;
+      if(style.shape==="circle")width=height=Math.max(width,height);
+      label.textContent="";
+      lines.forEach((line,index)=>{
+        const span=document.createElementNS("http://www.w3.org/2000/svg","tspan");
+        span.setAttribute("x","0");span.setAttribute("y",String((index-(lines.length-1)/2)*lineHeight));span.textContent=line;label.append(span);
+      });
+      layout={key,width,height,outline:createNodeOutline(style.shape,width,height)};
+      this.measurements.set(element,layout);
     }
-    const textWidth=Math.max(0,...lines.map(measure));
-    measure("Mg");
-    const lineHeight=Math.max(12,label.getBBox().height*1.3);
-    let width=Math.max(30,textWidth+style.label.paddingX*2),height=Math.max(28,lines.length*lineHeight+style.label.paddingY*2);
-    if(!["rectangle","rounded-rectangle"].includes(style.shape))width+=24;
-    if(style.shape==="circle")width=height=Math.max(width,height);
-    node.setDimensions(width,height);
-    label.textContent="";
-    lines.forEach((line,index)=>{
-      const span=document.createElementNS("http://www.w3.org/2000/svg","tspan");
-      span.setAttribute("x","0");span.setAttribute("y",String((index-(lines.length-1)/2)*lineHeight));span.textContent=line;label.append(span);
-    });
-    const outline=createNodeOutline(style.shape,width,height);node.setOutline(outline);
+    node.setDimensions(layout.width,layout.height);node.setOutline(layout.outline);
     group.selectAll<SVGPathElement,FreshNode>("path.fm-shape").data([node]).join("path").attr("class","fm-shape")
-      .attr("d",outline.path).attr("fill",style.fill).attr("stroke",style.stroke.color)
+      .attr("d",layout.outline.path).attr("fill",style.fill).attr("stroke",style.stroke.color)
       .attr("stroke-width",style.stroke.width).attr("stroke-dasharray",dashArray(style.stroke.dash)).lower();
   }
   /**

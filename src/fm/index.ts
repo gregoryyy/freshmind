@@ -8,6 +8,6 @@
 
 export * from "./core.js";
 export { FreshmindPanel } from "./panel.js";
-export type { FreshmindPanelOptions } from "./panel.js";
+export type { FreshmindPanelOptions, FreshmindSelection, SelectionListener } from "./panel.js";
 export { FreshmindPresentation } from "./rendering/presentation.js";
 export { parseTypeConfiguration } from "./config/yaml.js";

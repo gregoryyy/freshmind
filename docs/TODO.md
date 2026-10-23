@@ -39,6 +39,7 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.2.5 Restore the distinctive Java curved-edge rendering, including spider/lens modes, midpoint arrows and relation-label placement.
   - [x] 2.2.6 Share curve geometry across rendering, hit testing, selection and editor positioning; cover parallel edges and self-loops.
   - [x] 2.2.7 Add `FreshmindPanel` and the required creation/presentation hooks while preserving ordinary `TGPanel` defaults and compatibility checks.
+  - [x] 2.2.8 Integrate Freshmind types, node shapes, labeled relations and curve controls into the main graph browser, alongside the separate palette explorer.
 - [ ] 2.3 Port Freshmind navigation behavior and integrate it with the browser interactions.
   - [ ] 2.3.1 Extend existing panel selection/focus with edge selection and temporary keyboard preselection, using its selected node as the navigation anchor.
   - [ ] 2.3.2 Restore directional neighbor/edge navigation, candidate highlighting/cycling, confirmation, cancellation and timeout behavior.
@@ -48,6 +49,8 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [ ] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
   - [ ] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.
   - [ ] 2.4.3 Implement commit/cancel and field validation through shared commands; preserve focus and position inline editors using renderer geometry.
+
+The main browser now has basic sidebar editors for node/relation labels and semantic types, node shapes and relation curve overrides. Save/cancel, retained drafts, graph focus restoration and shared validated commands are implemented. Full metadata editors, arbitrary visual overrides and inline editor positioning remain open under 2.4.
 - [ ] 2.5 Create native YAML persistence and migrate the legacy examples.
   - [ ] 2.5.1 Define and validate the versioned `.fm.yaml` graph format, with embedded or companion YAML type configuration.
   - [ ] 2.5.2 Implement browser loading/saving and complete-graph serialization, including optional saved view/layout state.
