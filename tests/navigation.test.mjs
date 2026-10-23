@@ -153,3 +153,35 @@ test("queued neighborhood replacements retain the latest hidden focus and graph 
   const pending=p.setLocale(a,1);p.setGraphEltSet(new FreshGraph());await pending;
   assert.equal(p.getNeighborhoodFocus(),null);assert.equal(p.visibleNodeCount(),0);
 });
+
+test("Ctrl up/down zooms within panel limits without needing selection or changing stored positions", t => {
+  const {p,n}=fixture(t);p.setSelect(null);const positions=[...p.getAllNodes()].map(node=>[node.x,node.y]),members=visible(p);
+  assert.equal(n.handleKey({key:"ArrowUp",ctrlKey:true}),true);assert.equal(p.getZoom(),1.2);
+  n.handleKey({key:"ArrowDown",ctrlKey:true});assert.ok(Math.abs(p.getZoom()-1)<1e-12);
+  n.handleKey({key:"ArrowUp",ctrlKey:true,repeat:true});assert.equal(p.getZoom(),1.2);
+  p.setZoom(5);n.handleKey({key:"ArrowUp",ctrlKey:true});assert.equal(p.getZoom(),5);
+  p.setZoom(.15);n.handleKey({key:"ArrowDown",ctrlKey:true});assert.equal(p.getZoom(),.15);
+  assert.equal(p.getSelection(),null);assert.deepEqual(visible(p),members);
+  assert.deepEqual([...p.getAllNodes()].map(node=>[node.x,node.y]),positions);
+  for(const extra of [{metaKey:true},{altKey:true},{isComposing:true}])
+    assert.equal(n.handleKey({key:"ArrowUp",ctrlKey:true,...extra}),false);
+  assert.equal(n.handleKey({key:"ArrowLeft",ctrlKey:true}),false);
+});
+test("Ctrl Shift up/down adjusts the live focus/context lens and clamps to its bounds", t => {
+  const {p,n,a,edges}=fixture(t);p.setSelectEdge(edges[1]);p.setHyperbolic(37);
+  assert.equal(n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true}),true);assert.equal(p.getHyperbolic(),42);
+  n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),37);
+  p.setHyperbolic(97);n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),100);
+  n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true,repeat:true});assert.equal(p.getHyperbolic(),95);
+  p.setHyperbolic(2);n.handleKey({key:"ArrowDown",ctrlKey:true,shiftKey:true});assert.equal(p.getHyperbolic(),0);
+  assert.equal(p.getZoom(),1);assert.equal(p.getSelection(),edges[1]);assert.equal(p.getSelect(),a);
+  assert.throws(()=>n.adjustFocusContext(NaN),RangeError);assert.equal(p.getHyperbolic(),0);
+});
+test("view shortcuts preserve frozen preselection and rearm its inactivity timer", t => {
+  const {p,n,a,clock}=fixture(t);n.navigate("right");const pending=n.getState().preselection;
+  clock.advance(2400);n.handleKey({key:"ArrowUp",ctrlKey:true});clock.advance(2400);
+  assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
+  n.handleKey({key:"ArrowUp",ctrlKey:true,shiftKey:true});clock.advance(2400);
+  assert.deepEqual(n.getState().preselection,pending);assert.equal(p.getSelection(),a);
+  clock.advance(100);assert.equal(n.getState().preselection,null);assert.equal(p.getSelection(),a);
+});

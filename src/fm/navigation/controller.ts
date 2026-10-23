@@ -207,12 +207,32 @@ export class FreshmindNavigation {
     this.detailsVisible = !this.detailsVisible;
     this.message = `Details ${this.detailsVisible ? "shown" : "hidden"}.`; this.publish();
   }
+  /** Changes viewing scale through the panel's limits, retaining selection/locality and frozen candidates. */
+  zoomBy(factor: number): void {
+    if (this.disposed) return;
+    this.host.zoomBy(factor); this.armTimer();
+    this.message = `Zoom ${Math.round(this.host.getZoom() * 100)}%.`; this.publish();
+  }
+  /** Adjusts the existing focus/context lens in percentage points, clamped to 0–100. */
+  adjustFocusContext(delta: number): void {
+    if (this.disposed) return;
+    if (!Number.isFinite(delta)) throw new RangeError("Focus/context adjustment must be finite");
+    this.host.setHyperbolic(Math.max(0, Math.min(100, this.host.getHyperbolic() + delta))); this.armTimer();
+    this.message = `Focus + context ${this.host.getHyperbolic()}%.`; this.publish();
+  }
   private run(operation: Promise<void>): void {
     void operation.catch(error => { if (!this.disposed) { this.message = error instanceof Error ? error.message : String(error); this.publish(); } });
   }
-  /** Handles graph-scoped keys only; the DOM adapter excludes text entry and browser modifier chords. */
+  /** Handles graph-scoped keys, including explicit Ctrl view shortcuts; other modifier chords pass through. */
   handleKey(event: NavigationKey): boolean {
-    if (this.disposed || event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return false;
+    if (this.disposed || event.metaKey || event.altKey || event.isComposing) return false;
+    if (event.ctrlKey) {
+      if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return false;
+      const sign = event.key === "ArrowUp" ? 1 : -1;
+      if (event.shiftKey) this.adjustFocusContext(sign * 5);
+      else this.zoomBy(1.2 ** sign);
+      return true;
+    }
     const arrows: Record<string, Direction> = { ArrowUp: "up", ArrowRight: "right", ArrowDown: "down", ArrowLeft: "left" };
     if (Object.hasOwn(arrows, event.key)) { this.navigate(arrows[event.key], event.shiftKey ? "edge" : "node", event.repeat); return true; }
     if (event.key === "Enter" || event.key === " ") {

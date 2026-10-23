@@ -2,6 +2,14 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Zoom and focus + context keyboard controls — 2026-10-23
+
+- Added graph-scoped Ctrl+↑/↓ zoom (factor 1.2 per step) and Ctrl+Shift+↑/↓ focus + context adjustment (five percentage points). Both permit key repeat, clamp through existing view limits, work without a selection and preserve graph data, locality and frozen candidates. View commands restart candidate inactivity expiry.
+- Routed the registered Ctrl chords through the navigation controller before rejecting other modifiers. Text entry, composition and unregistered browser chords keep their normal behavior. Toolbar zoom buttons share the controller's zoom command.
+- Added `TGPanel.getHyperbolic()` alongside the existing setter. Main-browser and palette sliders read the panel's lens strength after view changes, including keyboard/programmatic changes, without duplicating view state.
+- The 2014 `FreshKeys.java` snapshot used Alt+↑/↓ for zoom and Alt+←/→ for fisheye; this implementation uses the Ctrl and Ctrl+Shift bindings requested for the port. RFC and layout physics are unaffected.
+- Type checking, library/demo builds, **70 Node tests** and **26 Chrome browser tests** pass. New regressions cover limits, repetition, state preservation, timer rearming, editor isolation, measured zoom geometry and slider synchronization on both pages. The production bundle was also checked with actual keyboard input.
+
 ## Browser copy cleanup — 2026-10-23
 
 - Removed decorative slogans, the atlas heading, static status dots and the Java reference link from the main browser. Removed the equivalent promotional heading/copy from the palette page and generic filler annotations from the sample graph.

@@ -152,6 +152,8 @@ Freeze this ordering when preselection begins so spring motion cannot reshuffle 
 | Escape | First cancel preselection; otherwise clear an edge selection and restore its anchor node selection, or clear a node selection. |
 | `E`, `K`, `H`; `0`–`6`; `B` | Expand, collapse, hide; set neighborhood radius; toggle backlinks. |
 | `N` | Toggle `moveToCenter`. |
+| Ctrl+↑ / Ctrl+↓ | Zoom in/out by a factor of 1.2 through the existing panel scale limits (0.15–5). |
+| Ctrl+Shift+↑ / Ctrl+Shift+↓ | Increase/decrease focus + context strength by five percentage points, clamped to 0–100. |
 | F2 | Edit the selected label. |
 
 Changing between node and edge navigation clears the previous preselection and builds the requested kind from the anchor. Repeated arrow commands within that kind use the relative directions above. Keep the Java default **2,500 ms inactivity timeout**, which cancels candidates; make it configurable and allow disabling it. No automatic confirmation on timeout in the initial profile.
@@ -161,6 +163,8 @@ Mouse selection cancels preselection. Clicking a node selects it; clicking the s
 Double-clicking a node in Freshmind navigation mode selects and centers it through `centerSelection`, following `moveToCenter`. It does not perform the plain panel's expansion gesture. Keyboard and viewing-focus frames reuse the resolved node outline; keyboard frames live outside the focusable group so hidden-link counts do not affect their bounds. Highlight colors belong to YAML; the bundled profile supplies dark labels on bright fills and checks at least 4.5:1 text contrast across state combinations.
 
 Register graph shortcuts only while the graph has keyboard focus; leave browser shortcuts and text entry available elsewhere. Do not bind Tab to candidate cycling: it must reach other controls. Announce candidate position and label through an accessible status region, while node/edge accessible names expose type, label and direction. The candidate set is temporary navigation state, not a persistent multiple selection.
+
+The registered Ctrl view chords are the modifier-key exceptions. They work without a selection and permit key repeat, preserving committed selection, locality and frozen candidates while restarting candidate inactivity expiry. Lens values remain owned by the panel; controls read `getHyperbolic()` after view changes rather than storing another strength value. Other modifier chords, including Ctrl+←/→, pass through. The requested Ctrl mappings replace the view shortcut bindings in the 2014 Java snapshot, which used Alt+↑/↓ for zoom and Alt+←/→ for fisheye strength.
 
 Browser adaptation: Tab can focus a node/relation without selecting it. Enter on a different DOM-focused item first activates that item, preserving accessible item activation; subsequent Enter centers its anchor. Space continues to act on committed selection. Leaving the SVG cancels temporary candidates. Sidebar connection links can explicitly reveal a hidden neighbor even when pan-only centering is enabled; ordinary selection and Enter retain the neighborhood in that mode.
 

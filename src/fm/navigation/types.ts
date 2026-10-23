@@ -72,6 +72,10 @@ export interface NavigationHost {
   setSelectEdge(edge: FreshEdge | null): void;
   updateDrawPositions(): void;
   centerOn(node: Node, updateFocus?: boolean): void;
+  getZoom(): number;
+  zoomBy(factor: number): void;
+  getHyperbolic(): number;
+  setHyperbolic(value: number): void;
   setLocale(node: Node | null, radius: number, maxAdd?: number, maxExpand?: number, outgoingOnly?: boolean): Promise<void>;
   expandNode(node: Node): Promise<void>;
   collapseNode(node: Node): Promise<void>;

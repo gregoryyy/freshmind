@@ -40,19 +40,19 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     if (event.defaultPrevented) return;
     // Embedded editors must also bypass inherited node handlers, without suppressing native text input.
     if (editable(event.target) || event.isComposing) { event.stopPropagation(); return; }
-    if (event.ctrlKey || event.metaKey || event.altKey) {
-      // Leave native chords intact while bypassing inherited activation/deletion handlers.
-      if (["Enter", " ", "Escape", "Delete", "Backspace"].includes(event.key)) event.stopPropagation();
-      return;
-    }
+    const modified = event.ctrlKey || event.metaKey || event.altKey;
     const before = host.getSelection(), focused = itemAt(event.target);
     let handled: boolean;
     // Tab changes DOM focus alone. Enter activates a different focused item before centering it.
-    if (event.key === "Enter" && focused && focused !== before && !navigation.getState().preselection) {
+    if (!modified && event.key === "Enter" && focused && focused !== before && !navigation.getState().preselection) {
       if (focused instanceof FreshNode) host.setSelect(focused); else host.setSelectEdge(focused);
       handled = true;
     } else handled = navigation.handleKey(event);
-    if (!handled) return;
+    if (!handled) {
+      // Leave native chords intact while bypassing inherited activation/deletion handlers.
+      if (modified && ["Enter", " ", "Escape", "Delete", "Backspace"].includes(event.key)) event.stopPropagation();
+      return;
+    }
     event.preventDefault(); event.stopImmediatePropagation();
     if (before !== host.getSelection() && svg.contains(document.activeElement)) focusSelection();
   };

@@ -64,7 +64,7 @@ let allVisible = false;
 let paused = false;
 const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status") });
 panel.setGraphEltSet(graph);
-panel.addGraphListener({ graphMoved: updateCounts });
+panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
 const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); });
 const navigation = panel.getNavigation();
 navigation.setActions({ edit: () => editor.focusLabel() });
@@ -82,6 +82,11 @@ navigation.addListener(state => {
 });
 panel.addSelectionListener(selection => { updateInspector(selection); editor.show(selection); });
 
+/** Reflects the panel's current lens value after keyboard, slider or programmatic view changes. */
+function updateViewControls(): void {
+  const strength = panel.getHyperbolic();
+  get<HTMLInputElement>("hyper").value = String(strength); get("hyper-value").textContent = `${strength}%`;
+}
 function updateCounts(): void {
   get("graph-count").textContent = `${panel.visibleNodeCount()} of ${panel.getNodeCount()} nodes`;
   const node = panel.getSelection();
@@ -151,7 +156,7 @@ for (const [id, key] of [["max-add-degree", "maxAddEdgeCount"], ["max-expand-deg
 }
 get<HTMLInputElement>("hyper").addEventListener("input", event => {
   const strength = Number((event.target as HTMLInputElement).value);
-  get("hyper-value").textContent = `${strength}%`; panel.setHyperbolic(strength);
+  panel.setHyperbolic(strength);
 });
 get("show-all").addEventListener("click", async () => {
   allVisible = true; get("view-status").textContent = "WHOLE GRAPH";
@@ -180,8 +185,8 @@ get<HTMLSelectElement>("curve").addEventListener("change", event => {
     : mode === "straight" ? "Straight connects endpoints directly."
     : "Spider bends relations into branching curves. Drag nodes diagonally to see the bend.";
 });
-get("zoom-in").addEventListener("click", () => panel.zoomBy(1.2));
-get("zoom-out").addEventListener("click", () => panel.zoomBy(1 / 1.2));
+get("zoom-in").addEventListener("click", () => navigation.zoomBy(1.2));
+get("zoom-out").addEventListener("click", () => navigation.zoomBy(1 / 1.2));
 get("center").addEventListener("click", () => panel.centerView());
 get("motion").addEventListener("click", () => {
   paused = !paused;
