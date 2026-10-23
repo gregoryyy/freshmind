@@ -17,6 +17,7 @@ Completed TODO items **2.2.1–2.2.7**.
 - Added `/freshmind.html` with the legacy palette, curve controls and live YAML configuration, alongside the existing plain TouchGraph demo. Focus bounds exclude hidden-link counts, halos and pin indicators.
 - Documented key TouchGraph and Freshmind APIs with JSDoc, including coordinate spaces, ownership, extension hooks, validation and geometry approximations. Comments are retained in generated declarations.
 - Added short Apache 2.0 notices to Freshmind-specific sources and preserved them during profile generation. Package/demo outputs include the full license text alongside the inherited TouchGraph licenses. Updated the README's development period to 2002–2014 and described the port's purpose as demonstrating enduring concepts in a modern environment.
+- Centralized the full TouchGraph terms in the root `LICENSE`, with attribution in `NOTICE`. Adapted TypeScript files retain short copyright headers requiring both files to accompany source redistribution. The Java reference headers remain intact.
 
 **Implementation notes and deviations**
 

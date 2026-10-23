@@ -2,6 +2,8 @@
 
 `tg/` owns the TouchGraph API, model, complete/visible graph, locality, spring layout, lens pipeline and browser panel. It must not import `fm/`. The root TypeScript modules re-export these implementations for source compatibility; there is only one set of TouchGraph class constructors.
 
+TouchGraph source headers retain copyright notices and point to the full original terms in the root [LICENSE](../LICENSE) and attribution in [NOTICE](../NOTICE). Both files must accompany redistribution. The Java reference sources keep their original headers; Freshmind-specific files use their separate Apache 2.0 notices.
+
 `fm/` adds Freshmind behavior through subclasses and composed helpers:
 
 - `model.ts` extends TouchGraph nodes, edges and graph invariants. Metadata remains independent of layout forces. Geometry and registry imports here are types only.

@@ -6,6 +6,11 @@ provided in LICENSE-APACHE-2.0. Their copyright notices identify Gregor
 Heinrich's original work and the TypeScript port.
 
 TouchGraph-derived components retain the original licenses reproduced below.
+The short headers in src/tg/ refer to this file and NOTICE. Distribute both
+files with those sources, and reproduce the required notices and license
+terms in binary distribution materials. The HyperScroll-derived transform
+in src/tg/lenses.ts uses the TouchGraph Software License; the other adapted
+TouchGraph components use the TouchGraph LLC. Apache-Style Software License.
 
 ====================================================================
 
