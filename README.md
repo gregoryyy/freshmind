@@ -22,6 +22,10 @@ The current implementation concentrates on the graph browsing foundation: spring
 
 Milestone 1 is complete for the plain TouchGraph browsing core and browser interactions. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
 
+The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC will be rebuilt from the 2005 paper.
+
+The [Freshmind feature design](docs/fm_port-design.md) adds typed/visual models, YAML type configuration, labeled curved edges, keyboard preselection, editors and native YAML persistence through clean extensions to the existing TouchGraph design. It includes batch conversion of the legacy examples.
+
 ## Run the example
 
 ```sh
@@ -38,8 +42,12 @@ just build       # Library and TypeScript declarations
 just build-demo  # Production demo
 just preview     # Build and serve the production demo
 just check       # Type checking, core tests, and demo build
+just pdf README.md  # PDF beside one Markdown source
+just pdfs docs      # PDFs for Markdown files under docs (omit docs for all)
 just --list      # All recipes, including Java and browser tests
 ```
+
+PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mermaid support as Kibitz. Install Pandoc with `brew install pandoc`; set `CHROME` to use another Chrome executable. Outputs use the source's full name (`file.md.pdf`) and unchanged PDFs are skipped. Mermaid diagrams require network access during PDF generation. Delete the PDF to rebuild after changing only an embedded image.
 
 Open the localhost address printed by Vite. Select a node, choose **Focus here**, and adjust neighborhood depth and the focus + context slider. Double-click a node (or press Space on a focused node) to expand it. Drag nodes to rearrange them, drag the background to pan, and scroll to zoom. Pinning holds a node in physical coordinates.
 
