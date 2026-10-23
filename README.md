@@ -53,7 +53,7 @@ just pdfs docs      # PDFs for Markdown files under docs (omit docs for all)
 just --list      # All recipes, including Java and browser tests
 ```
 
-PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mermaid support as Kibitz. Install Pandoc with `brew install pandoc`; set `CHROME` to use another Chrome executable. Outputs use the source's full name (`file.md.pdf`) and unchanged PDFs are skipped. Mermaid diagrams require network access during PDF generation. Delete the PDF to rebuild after changing only an embedded image.
+PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mermaid support as Kibitz. Build assets live in `scripts/pdf/`, alongside the other development tools. Install Pandoc with `brew install pandoc`; set `CHROME` to use another Chrome executable. Outputs use the source's full name (`file.md.pdf`) and unchanged PDFs are skipped. Mermaid diagrams require network access during PDF generation. Delete the PDF to rebuild after changing only an embedded image.
 
 Open the localhost address printed by Vite. Double-click a node to select and center it, or select it and choose **Focus here**. Adjust neighborhood depth and the focus + context slider. Press **E** with the graph focused, or use **Expand**, to reveal neighbors. Drag nodes to rearrange them, drag the background to pan, and scroll to zoom. Pinning holds a node in physical coordinates. Double-click follows the same centering/neighborhood option as Enter; plain `TGPanel` retains double-click expansion.
 
