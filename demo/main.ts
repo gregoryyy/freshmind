@@ -9,8 +9,8 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel, TypeRegistry } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls } from "./zoom-controls.js";
-import { bindKeymap } from "./keymap.js";
+import { bindZoomControls, bindKeymap } from "../src/fm/ui/index.js";
+import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
 import { renderAnnotation, resourceURL } from "../src/fm/editing/details.js";
 import "./style.css";
@@ -67,8 +67,11 @@ for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Co
 let allVisible = false;
 let paused = false;
 const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status") });
-bindZoomControls(panel);
-bindKeymap(panel, true);
+const disposeZoom = bindZoomControls(panel, {
+  spacing: get<HTMLInputElement>("graph-zoom"), spacingValue: get("graph-zoom-value"),
+  canvasIn: get("zoom-in"), canvasOut: get("zoom-out"), canvasReset: get("zoom-reset")
+});
+const disposeKeymap = bindKeymap(panel, {button: get("keymap-help"), includeBrowserCommands: true});
 bindFileControls(panel);
 panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
@@ -214,5 +217,5 @@ get("motion").addEventListener("click", () => {
 // Useful for experimenting with the library from the browser console.
 Object.assign(window, { graphBrowser: panel });
 void focusOn(root);
-window.addEventListener("pagehide", () => panel.destroy(), { once: true });
+window.addEventListener("pagehide", () => { disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

@@ -34,6 +34,7 @@ export class FreshmindNavigation {
   private wholeGraph = false;
   private message = "Arrow keys navigate nodes; Shift+arrows navigate relations.";
   private actions: NavigationActions = {};
+  private readonly actionOwners = new Map<keyof NavigationActions, object>();
   private readonly listeners = new Set<(state: NavigationState) => void>();
   private readonly highlights = new Map<NavigationItem, { preselected: boolean; active: boolean }>();
 
@@ -51,7 +52,19 @@ export class FreshmindNavigation {
   addListener(listener: (state: NavigationState) => void): () => void {
     this.listeners.add(listener); return () => this.listeners.delete(listener);
   }
-  setActions(actions: NavigationActions): void { this.actions = {...this.actions, ...actions}; }
+  /** Replaces supplied actions; the disposer removes only handlers still owned by this registration. */
+  setActions(actions: NavigationActions): () => void {
+    const owned = {...actions};
+    this.actions = {...this.actions, ...owned};
+    const keys = Object.keys(owned) as (keyof NavigationActions)[];
+    for (const key of keys) this.actionOwners.set(key, owned);
+    return () => {
+      for (const key of keys) if (this.actionOwners.get(key) === owned) {
+        delete this.actions[key];
+        this.actionOwners.delete(key);
+      }
+    };
+  }
   private publish(repaint = false): void {
     if (repaint) this.host.repaint();
     const state = this.getState(); for (const listener of this.listeners) listener(state);
@@ -286,5 +299,5 @@ export class FreshmindNavigation {
     return true;
   }
   /** Clears timers, owned highlights and callbacks; later keyboard commands become no-ops. */
-  destroy(): void { this.cancel(undefined, false); this.disposed = true; this.listeners.clear(); this.actions = {}; }
+  destroy(): void { this.cancel(undefined, false); this.disposed = true; this.listeners.clear(); this.actions = {}; this.actionOwners.clear(); }
 }

@@ -8,6 +8,8 @@
 
 The original Freshmind was developed by **Gregor Heinrich** in several waves between **2002 and 2014**.
 
+The [original artwork archive](assets/artwork/fm2014/README.md) preserves Freshmind's icons, splash screen and background, including the editable Photoshop sources and a checksum manifest.
+
 The purpose of this partial port is to demonstrate Freshmind's concepts in a modern browser environment. Some of these concepts have aged well and may still be valuable more than a decade later. Freshmind 4 carries selected functionality forward and adds new capabilities for exploring these ideas.
 
 The current implementation concentrates on the graph browsing foundation: spring embedding, neighborhood exploration, and focus and context views. Its TouchGraph-derived core preserves the **1.21 API and physics**. D3 supplies SVG data joins, dragging, panning, and zooming; the ported spring embedder calculates the layout.
@@ -24,7 +26,7 @@ The current implementation concentrates on the graph browsing foundation: spring
 - An ESM library for JavaScript and TypeScript, plus a DOM-independent core for headless use.
 - A runnable example and compatibility checks against the Java layout and lens implementations.
 
-Milestone 1 and Freshmind milestone 2.2 are complete. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
+Milestone 1 and Freshmind milestones 2.1–2.5 are complete. See the [roadmap](docs/TODO.md) and [completed work, compatibility audit, and implementation notes](docs/DONE.md).
 
 The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC will be rebuilt from the 2005 paper.
 
@@ -209,9 +211,33 @@ panel.focusNode(person, 1);
 
 `panel.getNavigation()` exposes the shared Freshmind commands and detached state snapshots. For example, `await panel.getNavigation().configure({ moveToCenter: false, preselectionTimeoutMs: 0 })` keeps the neighborhood when centering and disables candidate expiry. Subscribe with `addListener()` (returns a disposer); use `setActions({ edit: item => ... })` to connect an application editor. `panel.getNeighborhoodFocus()` is separate from the selected node/edge and the viewing-lens focus. The controller and candidate helpers are also exported by the headless `fm4/fm/core` entry point.
 
+Key-map help and zoom controls are reusable library bindings. Supply your own elements; their names and IDs are application choices:
+
+```ts
+import { bindKeymap, bindZoomControls } from "fm4/fm/ui";
+import "fm4/fm/ui/style.css";
+
+const disposeHelp = bindKeymap(panel, {
+  button: helpButton,
+  keyboardTarget: browserWrapper, // F1 scope; defaults to the document
+  includeBrowserCommands: true   // when the application supplies editing and files
+});
+const disposeZoom = bindZoomControls(panel, {
+  spacing: spacingInput, spacingValue: spacingOutput,
+  canvasIn: zoomInButton, canvasOut: zoomOutButton, canvasReset: zoomResetButton
+});
+
+// When removing this browser:
+disposeHelp();
+disposeZoom();
+panel.destroy();
+```
+
+Configure the graph-spacing range in percent (15–500). The bindings synchronize with keyboard and programmatic view changes. The key map uses the same rows as [the user reference](docs/KEYMAP.md); editing/file rows are optional. Page layout and control styling remain application concerns. `setActions()` also returns a disposer that removes only its own current handlers.
+
 `getSemanticType()` / `setSemanticType()` operate independently of labels and TouchGraph's numeric `getType()` shape API. `FreshGraph` retains the existing adjacency implementation and adds stable node/edge IDs. Node and relation weights affect presentation; physical spring length and repulsion remain separate.
 
-The initial palette is [config/fm2014.types.yaml](config/fm2014.types.yaml). Call `panel.loadTypeConfiguration(yamlText)` to validate and replace the registry atomically, preserving graph objects and coordinates. After editing the canonical file, run `npm run sync:fm-config` to update `src/fm/config/fm2014.ts` and the design example. Graph loading/saving belongs to milestone 2.5.
+The initial palette is [config/fm2014.types.yaml](config/fm2014.types.yaml). Call `panel.loadTypeConfiguration(yamlText)` to validate and replace the registry atomically, preserving graph objects and coordinates. After editing the canonical file, run `npm run sync:fm-config` to update `src/fm/config/fm2014.ts` and the design example. Native graph loading/saving is available through `fm4/fm/io` and the browser controls described above.
 
 Freshmind keyboard-focus frames follow the configured node shape and stay outside the focusable group, keeping hidden-link counts separate. The example palette uses dark labels for yellow/orange highlights and other light fills, with at least 4.5:1 label contrast across its interaction states. These colors remain YAML configuration; custom profiles control their own contrast.
 
@@ -222,6 +248,7 @@ Freshmind keyboard-focus frames follow the configured node shape and stay outsid
 | `fm4/fm` | Freshmind model, registry, geometry, panel and YAML type loader. |
 | `fm4/fm/core` | Freshmind model, registry, preset and pure geometry without D3 or YAML. |
 | `fm4/fm/config` | YAML type loader for applications supplying their own configuration. |
+| `fm4/fm/ui` | Reusable key-map dialog and graph/canvas zoom bindings; optional `fm4/fm/ui/style.css`. |
 
 ## Library support
 

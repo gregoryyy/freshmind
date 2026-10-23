@@ -1,0 +1,10 @@
+/* Freshmind. Apache-2.0. Copyright (c) 2002-2014, 2026 Gregor Heinrich.
+ * TypeScript port by Gregor Heinrich using Codex GPT-6.1. */
+.fm-keymap-dialog { box-sizing: border-box; max-width: min(850px, 94vw); max-height: 85dvh; overflow: auto; border: 1px solid #c4cdbf; border-radius: 8px; padding: 24px; color: #263e33; background: #fff; font: 14px/1.5 system-ui, sans-serif; }
+.fm-keymap-dialog::backdrop { background: #14291f66; }
+.fm-keymap-dialog table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.fm-keymap-dialog th, .fm-keymap-dialog td { text-align: left; vertical-align: top; padding: 8px; border-bottom: 1px solid #dce1d7; }
+.fm-keymap-dialog th { width: 34%; }
+.fm-keymap-dialog p { font-size: 12px; line-height: 1.6; }
+.fm-keymap-dialog button { cursor: pointer; font: inherit; }
+.fm-keymap-dialog button:focus-visible { outline: 3px solid #6cb08b; outline-offset: 4px; }

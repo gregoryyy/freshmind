@@ -28,6 +28,26 @@ function fixture(t, options = {}) {
 const active = n => { const s = n.getState().preselection; return s?.candidateIds[s.activeIndex]; };
 const visible = p => [...p.getGES().getNodes()].map(n => n.getID()).sort();
 
+test("action disposers remove owned callbacks without clearing later registrations", t => {
+  const {n, a} = fixture(t);
+  let help = 0, edits = 0;
+  const disposeOld = n.setActions({help: () => { help++; }});
+  const disposeNew = n.setActions({help: () => { help += 10; }, edit: item => { assert.equal(item, a); edits++; }});
+  disposeOld();
+  n.handleKey({key: "?"}); n.handleKey({key: "F2"});
+  assert.equal(help, 10); assert.equal(edits, 1);
+  disposeNew(); disposeNew();
+  n.handleKey({key: "?"}); n.handleKey({key: "F2"});
+  assert.equal(help, 10); assert.equal(edits, 1);
+  const shared = () => { help++; };
+  const disposeFirst = n.setActions({help: shared});
+  const disposeSecond = n.setActions({help: shared});
+  disposeFirst(); n.handleKey({key: "?"});
+  assert.equal(help, 11);
+  disposeSecond(); n.handleKey({key: "?"});
+  assert.equal(help, 11);
+});
+
 test("screen sectors cover exact diagonals and reject degenerate vectors", () => {
   for (const [x,y,d] of [[1,0,"right"],[1,1,"down"],[0,1,"down"],[-1,1,"left"],[-1,0,"left"],[-1,-1,"up"],[0,-1,"up"],[1,-1,"right"]])
     assert.equal(screenDirection(x,y),d);

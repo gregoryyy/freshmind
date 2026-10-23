@@ -40,6 +40,11 @@
       "types": "./dist/fm/io/codec.d.ts",
       "import": "./dist/fm/io/codec.js"
     },
+    "./fm/ui": {
+      "types": "./dist/fm/ui/index.d.ts",
+      "import": "./dist/fm/ui/index.js"
+    },
+    "./fm/ui/style.css": "./src/fm/ui/style.css",
     "./config/fm2014.types.yaml": "./config/fm2014.types.yaml"
   },
   "files": [

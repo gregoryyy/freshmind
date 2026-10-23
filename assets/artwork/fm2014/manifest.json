@@ -1,0 +1,50 @@
+{
+  "source": "knowceans-freshmind-2014 repository root",
+  "files": [
+    {
+      "file": "freshmind.gif",
+      "bytes": 2447,
+      "sha256": "c7218a6dd065e50d0dea7463f9fd5eeb5d7cc7efba46abfc6eee1ba80e85884e"
+    },
+    {
+      "file": "freshmind.png",
+      "bytes": 3208,
+      "sha256": "8a08b0acd70f0352953fcb3e16ec66509286e0e0ae377d2145e7c26a1a191edb"
+    },
+    {
+      "file": "freshmind.psd",
+      "bytes": 53552,
+      "sha256": "307bdd8d6e5e2325fdbd2ddf9a338059b64c55329475b9d39bd3e427f938b15c"
+    },
+    {
+      "file": "fmsplash.gif",
+      "bytes": 51554,
+      "sha256": "6b4cdcd135bf3a5ce41c592a2f2c9c98b3cdf404984a31596ae27e028c9d2b8f"
+    },
+    {
+      "file": "fmsplash.psd",
+      "bytes": 749076,
+      "sha256": "99f12aa894a5ea14eecb6f1c1a2caac5652c6037e1735465420799f8ca7dd8f7"
+    },
+    {
+      "file": "arbylon.gif",
+      "bytes": 2485,
+      "sha256": "125031c645184c30e4303294e3f7f92c5e8c5bec1bb447644b014dec6be283d8"
+    },
+    {
+      "file": "arbylon.psd",
+      "bytes": 6033,
+      "sha256": "f6cfef073b607253d1b3a4f01b62479829d32a0e824f7918b55cbd7c4d04deab"
+    },
+    {
+      "file": "background.jpg",
+      "bytes": 11119,
+      "sha256": "db37f8073f783b876ca0e9837a5a768583c3fd9c9984b80c3acab51db5b9bf5a"
+    },
+    {
+      "file": "background.psd",
+      "bytes": 328182,
+      "sha256": "6bc541692f2d6aef0656685f7648a08725c3e2fd26f4e530aa25d5013c684653"
+    }
+  ]
+}
