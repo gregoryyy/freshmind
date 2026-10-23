@@ -53,8 +53,8 @@ check-all: check test-java test-browser
 # Markdown → A4 PDF, following the Kibitz workflow: Pandoc + headless Chrome.
 # Needs Pandoc and Google Chrome; CHROME can select a different executable.
 chrome := env_var_or_default("CHROME", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
-pdf_css := justfile_directory() / "docs/pdf/style.css"
-pdf_mermaid := justfile_directory() / "docs/pdf/mermaid.html"
+pdf_css := justfile_directory() / "scripts/pdf/style.css"
+pdf_mermaid := justfile_directory() / "scripts/pdf/mermaid.html"
 pdf_stamps := justfile_directory() / ".pdfstamps"
 
 # Render one Markdown file next to its source, e.g. docs/TODO.md → docs/TODO.md.pdf.

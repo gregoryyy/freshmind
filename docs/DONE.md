@@ -310,6 +310,7 @@ Both YAML examples parse with duplicate-key detection. All 21 node type IDs matc
 **Completed**
 
 - Added `just pdf FILE` and `just pdfs [PATHS...]` following Kibitz's Pandoc/headless Chrome workflow, with its print stylesheet and embedded Mermaid support.
+- Keep the PDF stylesheet and Mermaid header under `scripts/pdf/`, alongside the other development tools; the recipes resolve their paths from the repository root.
 - Write PDFs beside their Markdown sources as `file.md.pdf`; hash the source, rendering inputs, recipe and output to skip unchanged PDFs.
 - Batch tracked/new, non-ignored Markdown files; skip deleted files, `CLAUDE.md` and `.github/` templates, and handle filenames as positional arguments with NUL-delimited discovery.
 - Ignore generated Markdown PDFs and `.pdfstamps/`, preserving the source-paper PDFs. Document prerequisites, `CHROME`, network use for Mermaid and rebuilding after image-only changes.
