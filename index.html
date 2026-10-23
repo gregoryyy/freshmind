@@ -21,7 +21,7 @@
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <div class="section-label">YOUR VIEW <span id="view-status">LOCAL NEIGHBORHOOD</span></div>
           <label class="control-label" for="depth">Neighborhood depth <output id="depth-value">2 hops</output></label>
-          <input type="range" id="depth" min="0" max="4" value="2" step="1" />
+          <input type="range" id="depth" min="0" max="6" value="2" step="1" />
           <div class="range-labels"><span>Immediate</span><span>Further out</span></div>
           <label class="control-label lens-label" for="hyper">Focus + context <output id="hyper-value">60%</output></label>
           <input type="range" id="hyper" min="0" max="100" value="60" step="1" />
@@ -29,6 +29,18 @@
           <label class="control-label" for="curve">Edge curves</label>
           <select id="curve" aria-describedby="curve-help"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
           <p id="curve-help" class="control-help">Spider bends relations into branching curves. Drag nodes diagonally to see the bend.</p>
+          <details class="navigation-options"><summary>Navigation options</summary>
+            <label class="pin-control"><input id="backlinks" type="checkbox" checked /> Include backlinks (B)</label>
+            <label class="pin-control"><input id="move-to-center" type="checkbox" checked /> Centering changes neighborhood (N)</label>
+            <label class="control-label" for="max-add-degree">Maximum neighbor degree</label>
+            <input id="max-add-degree" type="number" required min="0" max="9007199254740991" step="1" value="1000" />
+            <label class="control-label" for="max-expand-degree">Maximum traversal degree</label>
+            <input id="max-expand-degree" type="number" required min="0" max="9007199254740991" step="1" value="1000" />
+            <label class="control-label" for="candidate-timeout">Candidate timeout (ms; 0 disables)</label>
+            <input id="candidate-timeout" type="number" required min="0" max="9007199254740991" step="1" value="2500" />
+          </details>
+          <p id="navigation-status" class="control-help" role="status" aria-live="polite" aria-atomic="true"></p>
+          <p class="control-help">Arrows: nodes · Shift+arrows: relations · Enter: confirm/center · Esc: cancel · E/K/H: expand/collapse/hide</p>
           <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
           <button id="edit-mode" class="quiet-button" aria-pressed="false">Edit graph <span aria-hidden="true">✎</span></button>
           <p id="edit-help" class="intro" hidden>Edit labels, types and shapes below. Add a node here or double-click the background. Select a source, then Shift-click a target to connect them.</p>
@@ -41,6 +53,8 @@
             <button id="focus" class="primary-button">Focus here <span>◎</span></button>
             <div class="actions"><button id="expand">Expand</button><button id="collapse">Collapse</button><button id="hide">Hide</button></div>
             <label class="pin-control"><input id="pin" type="checkbox" /> Pin this node in place</label>
+            <button id="toggle-details" class="quiet-button" disabled>Show details (Space)</button>
+            <div id="selection-details" hidden><p id="annotation-detail" class="control-help"></p><p id="item-detail" class="control-help"></p></div>
             <form id="selection-editor" aria-label="Edit selected item">
               <fieldset id="editor-fields" disabled>
                 <label class="control-label" for="node-label">Node label</label>

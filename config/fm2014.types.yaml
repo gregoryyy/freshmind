@@ -55,40 +55,42 @@ nodeVisuals:
     halo: {enabled: true, opacity: 0.3}
     states:
       fixed: {fill: "#0000ff"}
-      selected: {fill: "#ffff00", text: {color: "#ff0000"}}
-      hover: {fill: "#ffff00"}
-      preselected: {fill: "#ff9000"}
-      activeCandidate: {stroke: {color: "#f0f0ff", width: 3}}
+      # Highlight fills need their own dark text; inheriting white from the body is low contrast.
+      selected: {fill: "#ffff00", text: {color: "#171717"}}
+      hover: {fill: "#ffff00", text: {color: "#171717"}}
+      preselected: {fill: "#ff9000", text: {color: "#171717"}}
+      activeCandidate: {stroke: {color: "#183b2b", width: 3}}
   paper:
     extends: default
     shape: double-trapezoid-vertical
-    states: {fixed: {fill: "#00ffff"}}
+    states: {fixed: {fill: "#00ffff", text: {color: "#171717"}}}
   person:
     extends: default
     shape: rounded-rectangle
     fill: "#30a000"
-    states: {fixed: {fill: "#00ffff"}}
+    text: {color: "#171717"}
+    states: {fixed: {fill: "#00ffff", text: {color: "#171717"}}}
   idea:
     extends: default
     shape: double-trapezoid-horizontal
     fill: "#0030a0"
-    states: {fixed: {fill: "#ff00ff"}}
+    states: {fixed: {fill: "#ff00ff", text: {color: "#171717"}}}
   task:
     extends: default
     shape: inverted-trapezoid
     fill: "#303000"
-    states: {fixed: {fill: "#00ff00"}}
+    states: {fixed: {fill: "#00ff00", text: {color: "#171717"}}}
   topic:
     extends: default
     shape: rounded-rectangle
-    states: {fixed: {fill: "#888888"}}
+    states: {fixed: {fill: "#888888", text: {color: "#171717"}}}
   project:
     extends: default
     shape: rounded-rectangle
   software:
     extends: default
     shape: parallelogram-right
-    states: {fixed: {fill: "#00ffff"}}
+    states: {fixed: {fill: "#00ffff", text: {color: "#171717"}}}
   query:
     extends: default
     shape: ellipse

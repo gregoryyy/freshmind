@@ -28,7 +28,7 @@ Milestone 1 and Freshmind milestone 2.2 are complete. See the [roadmap](docs/TOD
 
 The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC will be rebuilt from the 2005 paper.
 
-The [Freshmind feature design](docs/fm_port-design.md) describes the implemented typed/visual models and labeled curves, followed by planned keyboard preselection, editors, native YAML persistence and batch conversion of the legacy examples.
+The [Freshmind feature design](docs/fm_port-design.md) describes the implemented typed/visual models, labeled curves and keyboard navigation, followed by planned metadata editors, native YAML persistence and batch conversion of the legacy examples.
 
 ## Run the example
 
@@ -55,7 +55,11 @@ just --list      # All recipes, including Java and browser tests
 
 PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mermaid support as Kibitz. Install Pandoc with `brew install pandoc`; set `CHROME` to use another Chrome executable. Outputs use the source's full name (`file.md.pdf`) and unchanged PDFs are skipped. Mermaid diagrams require network access during PDF generation. Delete the PDF to rebuild after changing only an embedded image.
 
-Open the localhost address printed by Vite. Select a node, choose **Focus here**, and adjust neighborhood depth and the focus + context slider. Double-click a node (or press Space on a focused node) to expand it. Drag nodes to rearrange them, drag the background to pan, and scroll to zoom. Pinning holds a node in physical coordinates.
+Open the localhost address printed by Vite. Double-click a node to select and center it, or select it and choose **Focus here**. Adjust neighborhood depth and the focus + context slider. Press **E** with the graph focused, or use **Expand**, to reveal neighbors. Drag nodes to rearrange them, drag the background to pan, and scroll to zoom. Pinning holds a node in physical coordinates. Double-click follows the same centering/neighborhood option as Enter; plain `TGPanel` retains double-click expansion.
+
+With the graph focused, **arrows** navigate adjacent nodes and **Shift+arrows** navigate relations. One candidate selects immediately; several highlight temporary choices. Press a perpendicular arrow to cycle, the original arrow or **Enter/Space** to confirm, or the opposite arrow/**Escape** to cancel. Candidate order stays fixed while the layout moves. The default inactivity timeout is 2.5 seconds; **Navigation options** can change it or disable it with zero.
+
+Selection retains the current neighborhood. **Enter** centers the selected node or a selected relation's anchor; **N** toggles whether this also changes the neighborhood (enabled initially). **Space** toggles selected-item details. **Escape** cancels candidates, then clears a relation back to its anchor, then clears node selection. **E/K/H** expand/collapse/hide, **0–6** set radius, **B** toggles backlinks, and **F2** opens the label editor. Radius, backlinks and degree limits also have sidebar controls. Tab moves keyboard focus normally; graph shortcuts leave editor input and browser modifier chords alone. A live status region announces candidate position and label. Plain `TGPanel` retains its original Space-to-expand behavior.
 
 The example's `window.graphBrowser` exposes its `FreshmindPanel` for experimentation, including the inherited TouchGraph API.
 
@@ -133,6 +137,8 @@ src/tg/                  TouchGraph model, adjacency, locality, layout, lenses a
 src/fm/model.ts          FreshNode, FreshEdge, FreshGraph and document aggregate
 src/fm/config/           Type contracts, validation, registry, YAML loader and fm2014 preset
 src/fm/rendering/        Pure shape/curve geometry and SVG presentation
+src/fm/navigation/       Headless candidate/controller state and graph-scoped DOM keyboard adapter
+src/fm/editing/          Shared validated edit commands
 src/fm/panel.ts          FreshmindPanel extension of TGPanel
 config/                 Authoritative YAML type configuration
 ```
@@ -151,9 +157,13 @@ panel.addEdge(new FreshEdge(person, paper, {
 panel.focusNode(person, 1);
 ```
 
+`panel.getNavigation()` exposes the shared Freshmind commands and detached state snapshots. For example, `await panel.getNavigation().configure({ moveToCenter: false, preselectionTimeoutMs: 0 })` keeps the neighborhood when centering and disables candidate expiry. Subscribe with `addListener()` (returns a disposer); use `setActions({ edit: item => ... })` to connect an application editor. `panel.getNeighborhoodFocus()` is separate from the selected node/edge and the viewing-lens focus. The controller and candidate helpers are also exported by the headless `fm4/fm/core` entry point.
+
 `getSemanticType()` / `setSemanticType()` operate independently of labels and TouchGraph's numeric `getType()` shape API. `FreshGraph` retains the existing adjacency implementation and adds stable node/edge IDs. Node and relation weights affect presentation; physical spring length and repulsion remain separate.
 
 The initial palette is [config/fm2014.types.yaml](config/fm2014.types.yaml). Call `panel.loadTypeConfiguration(yamlText)` to validate and replace the registry atomically, preserving graph objects and coordinates. After editing the canonical file, run `npm run sync:fm-config` to update `src/fm/config/fm2014.ts` and the design example. Graph loading/saving belongs to milestone 2.5.
+
+Freshmind keyboard-focus frames follow the configured node shape and stay outside the focusable group, keeping hidden-link counts separate. The example palette uses dark labels for yellow/orange highlights and other light fills, with at least 4.5:1 label contrast across its interaction states. These colors remain YAML configuration; custom profiles control their own contrast.
 
 | Import | Contents |
 | --- | --- |

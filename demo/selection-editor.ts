@@ -45,9 +45,6 @@ export class SelectionEditor {
         event.preventDefault(); this.save();
       }
     });
-    get("graph").addEventListener("keydown", event => {
-      if (event.key === "F2" && this.selection) { event.preventDefault(); this.focusLabel(); }
-    });
   }
 
   /** Refreshes only when selection changes or an edit completes, so animation cannot reset a draft. */

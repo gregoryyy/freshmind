@@ -28,7 +28,8 @@ export class FreshmindPresentation {
    */
   paintNode(element: SVGGElement, node: FreshNode, style: NodeStyle): void {
     const group=select(element);
-    group.classed("fm-node",true).attr("data-semantic-type",node.getSemanticType());
+    // Native SVG outlines enclose a bounding box rather than this node's actual shape.
+    group.classed("fm-node",true).attr("data-semantic-type",node.getSemanticType()).style("outline","none");
     const hidden=node.edgeCount()-node.visibleEdgeCount();
     group.attr("aria-label",`${node.getLabel()}, ${node.getSemanticType()}, ${node.edgeCount()} connections${hidden?`, ${hidden} hidden`:""}${node.fixed?", pinned":""}`);
     group.selectAll(".tg-shape, .tg-round-shape").attr("display","none");
@@ -89,7 +90,7 @@ export class FreshmindPresentation {
     });
     groups.attr("data-edge-id",edge=>edge.getID()).attr("data-semantic-type",edge=>edge.getSemanticType())
       .attr("aria-pressed",edge=>String(edge===selected))
-      .attr("aria-label",edge=>`${edge.from.getLabel()} → ${edge.to.getLabel()}, ${edge.getLabel()||edge.getSemanticType()}`)
+      .attr("aria-label",edge=>`${edge.from.getLabel()} → ${edge.to.getLabel()}, ${edge.getLabel()||"Unlabeled relation"}, ${edge.getSemanticType()}`)
       .attr("opacity",edge=>(edge.from.markedForRemoval||edge.to.markedForRemoval)?0.15:1)
       .on("mouseenter",(_event,edge)=>interaction.hover(edge)).on("mouseleave",()=>interaction.hover(null))
       .on("click",(event:MouseEvent,edge)=>{event.stopPropagation();interaction.select(edge);})
@@ -109,7 +110,7 @@ export class FreshmindPresentation {
     });
   }
   /**
-   * Paints weighted halos, focus outlines and pin marks in the panel's noninteractive sibling layer.
+   * Paints weighted halos, lens/keyboard focus outlines and pin marks in a noninteractive sibling layer.
    * Keeping decorations outside node groups preserves body-only keyboard focus bounds.
    */
   paintDecorations(layer: SVGGElement, nodes: FreshNode[], styleOf:(node:FreshNode)=>NodeStyle, focus:FreshNode|null):void {
@@ -122,6 +123,13 @@ export class FreshmindPresentation {
     root.selectAll<SVGPathElement,FreshNode>("path.fm-focus").data(focus?[focus]:[]).join("path").attr("class","fm-focus")
       .attr("d",n=>createNodeOutline(styleOf(n).shape,n.getWidth()+6,n.getHeight()+6).path)
       .attr("transform",n=>`translate(${n.drawx},${n.drawy})`).attr("fill","none").attr("stroke","#183b2b").attr("stroke-width",2);
+    const focusedId=layer.ownerSVGElement?.querySelector<SVGGElement>(".fm-node:focus-visible")?.dataset.nodeId;
+    const keyboardFocus=nodes.filter(n=>n.getID()===focusedId);
+    root.selectAll<SVGPathElement,FreshNode>("path.fm-keyboard-focus").data(keyboardFocus,n=>n.getID()!).join("path")
+      .attr("class","fm-keyboard-focus").attr("data-focus-node",n=>n.getID()!)
+      .attr("d",n=>createNodeOutline(styleOf(n).shape,n.getWidth()+8,n.getHeight()+8).path)
+      .attr("transform",n=>`translate(${n.drawx},${n.drawy})`).attr("fill","none").attr("stroke","#24472e")
+      .attr("stroke-width",2).attr("aria-hidden","true");
     root.selectAll<SVGTextElement,FreshNode>("text.fm-pin").data(nodes.filter(n=>n.fixed),n=>n.getID()!).join("text")
       .attr("class","fm-pin").attr("x",n=>n.drawx+n.getWidth()/2+4).attr("y",n=>n.drawy-n.getHeight()/2)
       .attr("font-size",12).text("⌖");

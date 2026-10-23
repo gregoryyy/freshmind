@@ -6,11 +6,14 @@ button, a, input { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
 a { color: inherit; }
 button:focus-visible, a:focus-visible, input:focus-visible, .tg-node:focus-visible { outline: 3px solid #6cb08b; outline-offset: 4px; }
-.fm-node:focus-visible { outline-offset: 2px; }
 button:disabled { cursor: default; opacity: .4; }
 [hidden] { display: none !important; }
-select, textarea, input[type=text] { font: inherit; width: 100%; max-width: 100%; border: 1px solid #c4cdbf; border-radius: 6px; padding: 8px; background: #fff; color: inherit; }
-select, textarea, input[type=text] { font-size: 12px; }
+select, textarea, input[type=text], input[type=number] { font: inherit; width: 100%; max-width: 100%; border: 1px solid #c4cdbf; border-radius: 6px; padding: 8px; background: #fff; color: inherit; }
+select, textarea, input[type=text], input[type=number] { font-size: 12px; }
+.navigation-options { font-size: 11px; margin-top: 16px; }
+.navigation-options summary { cursor: pointer; }
+#navigation-status { min-height: 36px; }
+#item-detail { overflow-wrap: anywhere; }
 textarea { resize: vertical; }
 select:focus-visible, textarea:focus-visible { outline: 3px solid #6cb08b; outline-offset: 2px; }
 .control-help { font-size: 11px; line-height: 1.6; color: #647460; margin: 9px 0; }

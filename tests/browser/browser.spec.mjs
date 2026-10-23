@@ -154,12 +154,18 @@ test("a node focus outline excludes the hidden-edge count", async ({ page }) => 
   await expect(badge).toHaveText("+1");
   const bodyBox = await node.boundingBox();
   const badgeBox = await badge.boundingBox();
-  const outlineExtent = await node.evaluate(element => {
-    const style = getComputedStyle(element);
-    return parseFloat(style.outlineWidth) + parseFloat(style.outlineOffset);
+  const outline = page.locator('.fm-keyboard-focus[data-focus-node="node-1-1"]');
+  await expect(outline).toBeVisible();
+  const outlineBox = await outline.boundingBox();
+  expect(outlineBox.y).toBeLessThan(bodyBox.y);
+  expect(outlineBox.height).toBeGreaterThan(bodyBox.height);
+  // SVG getBoundingClientRect conservatively inflates path joins; measure the actual bottom stroke.
+  const strokeBottom = await outline.evaluate(element => {
+    const box = element.getBBox(), width = parseFloat(getComputedStyle(element).strokeWidth);
+    return new DOMPoint(0, box.y + box.height + width / 2).matrixTransform(element.getScreenCTM()).y;
   });
-  expect(badgeBox.y).toBeGreaterThan(bodyBox.y + bodyBox.height + outlineExtent);
   await page.screenshot({ path: test.info().outputPath("node-focus.png") });
+  expect(badgeBox.y).toBeGreaterThan(strokeBottom);
   await page.evaluate(async () => {
     const panel = window.graphBrowser;
     const expanding = panel.expandNode(panel.findNode("node-1-1"));

@@ -289,6 +289,22 @@ export class TGPanel {
     return this.setLocale(node, radius);
   }
   getFocus(): Node | null { return this.focus; }
+  /**
+   * Centers a stored node in the default lens chain without changing selection or visibility.
+   * @param node Stored node to place at the viewing origin, including a currently hidden node.
+   * @param updateFocus Also makes the node the lens focus; locality remains a separate operation.
+   * @remarks Like centerView, custom lens chains own their viewport/interaction transforms.
+   */
+  centerOn(node: Node, updateFocus = false): void {
+    if (!this.completeEltSet.contains(node)) throw new Error("Centered node must belong to the graph");
+    if (updateFocus) this.focus = node;
+    const focus = this.dragFocusOrigin ?? this.focus;
+    const x = -(node.x - (focus?.x ?? 0)) * this.zoomLens.scale;
+    const y = -(node.y - (focus?.y ?? 0)) * this.zoomLens.scale;
+    if (this.svg && this.zoomBehavior) this.svg.call(this.zoomBehavior.transform,
+      zoomIdentity.translate(this.width / 2 + x, this.height / 2 + y).scale(this.zoomLens.scale));
+    else { this.panLens.x = x; this.panLens.y = y; this.repaintAfterMove(); }
+  }
   showAll(): void { this.localityUtils.fastFinishAnimation(); void this.setLocaleAll(); }
   async setLocaleAll(): Promise<void> {
     const first = this.completeEltSet.getFirstNode();
@@ -441,7 +457,7 @@ export class TGPanel {
       .on("mouseenter", (_event, node) => { this.setMouseOverN(node); this.repaint(); })
       .on("mouseleave", () => { this.setMouseOverN(null); this.repaint(); })
       .on("click", (event: MouseEvent, node) => this.handleNodeClick(event, node))
-      .on("dblclick", (event: MouseEvent, node) => { event.stopPropagation(); if (this.interactionMode === "navigate") void this.expandNode(node); })
+      .on("dblclick", (event: MouseEvent, node) => this.handleNodeDoubleClick(event, node))
       .on("keydown", (event: KeyboardEvent, node) => this.handleNodeKeyDown(event, node));
     nodes.each((node, index, elements) => this.paintNode(elements[index], node));
     // Keep annotations outside the focusable group's SVG bounds. Browser outlines
@@ -456,7 +472,7 @@ export class TGPanel {
       .text(node => `+${node.edgeCount() - node.visibleEdgeCount()}`);
     this.paintEdges(this.edgeLayer.node()!);
     if (this.decorationLayer) this.paintDecorations(this.decorationLayer.node()!);
-    nodes.select("title").text(node => `${node.getLabel()}${node.fixed ? " (pinned)" : ""}\nDouble-click or press Space to expand`);
+    nodes.select("title").text(node => this.getNodeTitle(node));
     const behavior = drag<SVGGElement, Node, DragSubject>().container(this.svg.node()!)
       .subject((_event, node) => ({ x: node.drawx, y: node.drawy, node }))
       .on("start", event => { this.setDragNode(event.subject.node); this.stopDamper(); })
@@ -511,6 +527,15 @@ export class TGPanel {
   }
   /** Optional noninteractive sibling layer for marks that must stay outside node focus bounds. */
   protected paintDecorations(_layer: SVGGElement): void {}
+  /** Supplies node tooltips; extensions can describe their own keyboard/mouse profile. */
+  protected getNodeTitle(node: Node): string {
+    return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}\nDouble-click or press Space to expand`;
+  }
+  /** Default node double-click expands in navigation mode; edit-mode node clicks are left alone. */
+  protected handleNodeDoubleClick(event: MouseEvent, node: Node): void {
+    event.stopPropagation();
+    if (this.interactionMode === "navigate") void this.expandNode(node);
+  }
   /** Default click selection and Shift-click edge creation; reusable by interaction extensions. */
   protected handleNodeClick(event: MouseEvent, node: Node): void {
     event.stopPropagation();
