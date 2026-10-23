@@ -1,18 +1,22 @@
 # FM 2014 reference analysis
 
-Reviewed **2026-10-22** for Freshmind 4 milestone **2.1**. Reference checkout: `../knowceans/knowceans-freshmind-2014/`, relative to the Freshmind 4 root. Freshmind 4 starting point: `fda482a`; analysis branch: `freshmind4/reference-analysis`.
+Reviewed **2026-10-22** for Freshmind 4 milestone **2.1**; wording revised **2026-10-23**. Reference project: `../knowceans/knowceans-freshmind-2014/`, relative to the Freshmind 4 root. Freshmind 4 starting point: `fda482a`; analysis branch: `freshmind4/reference-analysis`.
 
-The Java prototype is the **feature reference** for Freshmind 4: labels and presentation, editing, navigation, search, file I/O and related application behavior. Use its implementation to recover those features and their interactions. Source defects and unfinished paths identify behavior to complete or correct during the port. Rebuilding the Java application is supplementary investigation, not a prerequisite for implementing these features in TypeScript.
+The Java prototype is the **feature reference** for Freshmind 4: labels and presentation, editing, navigation, search, file I/O and their interactions. This analysis identifies how those features were implemented, which paths are active, and where behavior needs to be completed or corrected during the TypeScript port. Rebuilding the Java application provides additional evidence where useful.
 
-**Development context:** the Freshmind code was still in flux, developed experimentally and under time pressure. Design flaws, incomplete refactorings and uneven abstractions are therefore expected. The findings below should be read in that context: they help recover the intended features and inform the design of Freshmind 4, while allowing the port to improve the architecture as those features are restored.
+**Development context:** the 2014 snapshot is the most feature-complete version of Java Freshmind, captured during an unfinished effort to consolidate several earlier versions. Those versions evolved through research experiments and periods of development under time pressure. Design flaws, incomplete refactorings and uneven abstractions are therefore expected consequences of that history. The code records both the intended features and the experiments through which they emerged; the findings below should be interpreted in that context.
 
-The reference contains substantial Freshmind functionality built into a modified TouchGraph fork. The main application uses `TGLayout`; the similarly named `FMLayout` is an unreferenced alternative. The already validated plain TouchGraph port remains the physics baseline while the Freshmind features are restored.
+**Porting approach:** Freshmind 4 uses AI-assisted analysis and implementation with Codex (GPT-6.1 Sol, high reasoning effort) to recover feature intent, trace interactions across the codebase and turn that understanding into a maintainable TypeScript extension. The aim is to make this work systematic and verifiable: ground decisions in the source and research papers, preserve established behavior through compatibility checks, and validate corrections explicitly. The analysis provides a basis for those decisions; the benefits of the approach should be demonstrated by the resulting implementation and its validation.
 
-**Decision:** rebuild Reinforcement Focus + Context from the [2005 paper](literature/rfc@3ia05compact.pdf), as requested. The Java RFC package provides historical implementation evidence, not the implementation specification. Keep the existing plain TouchGraph physics as the comparison baseline.
+Freshmind's features are built on a modified TouchGraph fork. The main application uses `TGLayout`; the similarly named `FMLayout` has no call sites in the reviewed source. Freshmind 4 retains the existing TouchGraph design as its foundation, adding features through clean extensions while preserving the validated plain-layout baseline.
+
+**RFC decision:** rebuild Reinforcement Focus + Context from the [2005 paper](literature/rfc@3ia05compact.pdf). The paper defines the mechanism; the Java RFC package documents an implementation experiment. Use the existing plain TouchGraph physics as the comparison baseline.
+
+The [Freshmind feature design](fm_port-design.md) specifies model and visual types, YAML type configuration, labeled curved relations, navigation and editors as extensions to TouchGraph's graph/locality structure, panel, layout and lenses. Native persistence will use YAML, with batch conversion of the Java examples. The legacy-format findings below inform that migration.
 
 ## Scope and evidence
 
-The review inventories all Java packages, traces application construction and feature entry points, and examines model, layout, lenses, navigation, editors, file handlers, RFC, and search integration. Findings below distinguish source implementation and wiring from runtime verification. A TODO comment alone is not treated as proof that a feature is missing.
+The review inventories all Java packages, traces application construction and feature entry points, and examines the model, layout, lenses, navigation, editors, file handlers, RFC and search integration. Each finding distinguishes what is implemented and connected in source from what was verified at runtime. Historical TODO comments are checked against the current implementation before drawing conclusions about completeness.
 
 The source tree has **178 Java files / 34,694 lines**, including generated parser code, plus a JavaCC grammar. The `tg` subtree contains **43 Java files**. The directory has no Git metadata, so its name is not a version identifier. For identification, the Java source-tree SHA-256 is:
 
@@ -56,11 +60,11 @@ flowchart TD
 
 [FreshmindBrowser] constructs the panel, lenses, active editors, preselection controller and model, initializes the view, then constructs `RfcManager` (lines 208–268). Its active UI is `FreshNavigateUI` (lines 721–726). [TGPanel] creates and starts `TGLayout` (lines 188–212). No other source file references `FMLayout`.
 
-The boundaries are heavily coupled: `FreshGraphItem` includes AWT painting; `FreshNode` constructs a Swing `Hint` and accesses `TGPanel.getInstance()`; search adapters mutate the panel directly. The TypeScript port should preserve the responsibilities and observable behavior while keeping graph data independent of DOM/SVG rendering and application services.
+Several classes combine model, presentation and application responsibilities: `FreshGraphItem` includes AWT painting; `FreshNode` constructs a Swing `Hint` and accesses `TGPanel.getInstance()`; search adapters mutate the panel directly. In the TypeScript port, Freshmind subclasses and helpers can preserve the observable behavior while keeping graph data independent of DOM/SVG rendering and application services.
 
 ## TouchGraph fork: additions and compatibility implications
 
-The fork retains the familiar `Node`/`Edge`, complete/visible graph, locality animation and lens concepts. Its package name does not imply that it is stock TouchGraph.
+The fork retains TouchGraph's `Node`/`Edge` model, complete/visible graph distinction, locality animation and lens pipeline. The table below identifies the Freshmind-specific additions and their implications for the port.
 
 | Area | Reference behavior | Consequence for Freshmind 4 |
 | --- | --- | --- |
@@ -88,14 +92,14 @@ The nonlinear lens also contains two defects to address explicitly. [HyperScroll
 
 Evidence: [FreshNode] lines 88–176, 201–218, 345–358, 850–914; [FreshEdge]; [NodeTypes]; [FreshCommands]; [Preselection] lines 27–41, 90–144; [FreshmindBrowser] lines 243–253, 728–744; [FreshNodeMultilineEditor] lines 64–124; [FreshEdgeEditor] lines 59–96.
 
-**Partial or misleading abstractions:**
+**Incomplete abstractions and porting considerations:**
 
 - `FreshNode.getType()` overrides TouchGraph's shape-type API with a semantic category. Freshmind separately carries `typeShape` and `shape`. A literal override in TypeScript would make the current SVG renderer interpret semantic categories as geometric shapes. Separate semantic type, explicit shape override and resolved style, with compatibility adapters where needed.
 - `EdgeTypes` declares an edge-type registry but has no external source references and initializes only its default entry. Existing relation semantics are primarily free-text `FreshEdge.label` values. Preserve those labels; do not describe the Java code as a completed typed-edge schema.
 - `ModelFilters` contains dataset-specific, destructive graph transformations, not a general reversible aggregation mechanism. Its only call sites are commented out in `TxtFileHandler`. The shared `aggEdges` field is evidence of an experiment, not a completed structural focus/context feature.
 - Alternate editors, linked media objects and `TransformScroll` coexist with the active paths. `TransformScroll` currently performs scalar zoom rather than a general affine transform and is not instantiated by the application. `CanvasTransformer` is a separate singleton used by panel painting and mouse coordinates.
 
-These distinctions matter for milestone 2: preserve the model and browser behavior first, then define explicit contracts for styles, rendering and commands. Avoid reproducing the Swing class hierarchy or singleton dependencies.
+For milestone 2, these findings guide extensions to the existing TouchGraph model and browser behavior. Define explicit contracts for styles, rendering and commands, with browser equivalents for the Swing interactions.
 
 ## Persistence and available fixtures
 
@@ -103,7 +107,7 @@ These distinctions matter for milestone 2: preserve the model and browser behavi
 
 | Input | Source implementation | Export / completeness |
 | --- | --- | --- |
-| `.xml` | `XmlFileHandler`: graph/node records, IDs, labels, hints, URLs, semantic type, shape, weight; relations with destination, label stored as `type`, direction, stroke and weight. | Main round-trip candidate, with confirmed defects below. |
+| `.xml` | `XmlFileHandler`: graph/node records, IDs, labels, hints, URLs, semantic type, shape, weight; relations with destination, label stored as `type`, direction, stroke and weight. | Java read/write support, with confirmed defects below; primary migration input for native YAML. |
 | `.txt` | `TxtFileHandler`: older label-based text syntax, types, hints and relations. | Saves through `FreshmindModel.toString`; not equivalent to XML metadata preservation. |
 | `.fmg` | `FmgFileHandler` invokes `FreshmindParser`; both generated Java and `io/parser/FreshmindParser.jj` are present. | Handler export throws `NotImplementedException`. It assigns the parsed graph to the handler field without updating the model's graph, another incomplete integration. |
 | `.tree` | `TreeTxtFileHandler` constructs nodes/edges from indented text; model changes the destination filename to `.xml`. | Direct handler export throws `NotImplementedException`. |
@@ -138,7 +142,7 @@ Seven top-level example XML files parse as XML. Counts below describe explicit r
 
 ## RFC: rebuild from the paper
 
-The Java prototype is reachable: `FreshKeys` invokes `FreshCommands.doRfc()` / `undoRfc()`, the former constructs `RfcTreeIsomorphism2`, and `RfcManager` adds/removes reinforcement edges. `TGLayout` gives `RfcEdge` a separate attraction multiplier, and `RfcEdge.paint()` is deliberately empty.
+The Java RFC prototype is connected to application commands: `FreshKeys` invokes `FreshCommands.doRfc()` / `undoRfc()`, the former constructs `RfcTreeIsomorphism2`, and `RfcManager` adds/removes reinforcement edges. `TGLayout` gives `RfcEdge` a separate attraction multiplier, and `RfcEdge.paint()` is deliberately empty.
 
 It does not establish the complete mechanism described by the paper:
 
@@ -150,17 +154,17 @@ It does not establish the complete mechanism described by the paper:
 
 A headless fixture with a center and two neighbors confirmed: edge count **2 → 4** during isomorphism construction, **0** tracked reinforcement edges, duplicate `setRfc` accepted, and edge count still **4** after undo. Constructing the active isomorphism around an isolated node throws `IndexOutOfBoundsException`. The added ordinary edges can also conflict with code that assumes every application edge is a `FreshEdge`.
 
-For milestone 3, derive focal-tree selection and force equations from the paper. Represent reinforcement constraints separately from persistent semantic relations; turning RFC on/off must not change user graph data, search indexes or exported relations. Add deterministic single/multiple-focus experiments against the unchanged plain TouchGraph baseline, including isolated nodes, repeated activation, shared branches and disable/re-enable behavior. This is a rebuild decision, not a promise of parity with the defective Java prototype.
+For milestone 3, derive focal-tree selection and force equations from the paper. Represent reinforcement constraints separately from persistent semantic relations; turning RFC on/off must not change user graph data, search indexes or exported relations. Add deterministic single/multiple-focus experiments against the unchanged plain TouchGraph baseline, including isolated nodes, repeated activation, shared branches and disable/re-enable behavior. Evaluate the rebuild against the paper's mechanism and examples, using the Java prototype to understand the earlier experiment.
 
 Evidence: [FreshCommands] lines 631–642; [RfcTreeIsomorphism]; [RfcTreeIsomorphism2] lines 28–46; [RfcManager] lines 35–70; [RfcEdge]; [TreeSearch].
 
 ## Search, topic models and dependencies
 
-Search is more than an empty placeholder. Application construction and commands use **`ir.search`** for simple, Lucene and LDA queries; `FreshmindModel.indexLda()` uses **`ir.index.IndexLdaClient`**. The active indexing/query path imports the bundled **`org.knowceans.dirichlet.lda`** classes. It is not already using `knowceans.lda.simple` or `org.knowceans.topics.lda.simple`.
+The prototype includes integrated simple, Lucene and LDA search. Application construction and commands use **`ir.search`**; `FreshmindModel.indexLda()` uses **`ir.index.IndexLdaClient`**. The active indexing/query path imports the bundled **`org.knowceans.dirichlet.lda`** classes. The available simple-LDA sources described below belong to a later implementation generation.
 
 `NodeQueryAdapter` turns ranked results into graph edges, scales edge weight/stroke width from scores while retaining the default edge length, builds result annotations, and reacts to node changes. Similarity searches use the existing node as a query and add result links; labels such as `vecsim = ...`, `ldasim = ...` and `query context` encode relation roles. These are useful interaction requirements, but explicit query/result metadata would be less fragile than parsing display labels.
 
-The **`ir.semantic`** package is a partly duplicated migration, not wholly dead code: active `ir.search.LdaSimilaritySearch` imports `LdaSimilaritiesFm` from it. `IndexLdaClientFm` explicitly requests migration to `org.knowceans.topics.lda.simple`; no application call site instantiates it. Its parameter-to-Markov-state reconstruction overload prints “Not fully implemented yet” and accesses arrays it does not allocate. Both similarity implementations retain a “wrong indexing” FIXME in query mutual-likelihood ranking. These branches need mathematical verification before reuse, not automatic translation.
+The **`ir.semantic`** package contains overlapping implementations from an incomplete migration. Parts remain in active use: `ir.search.LdaSimilaritySearch` imports `LdaSimilaritiesFm` from it. `IndexLdaClientFm` explicitly requests migration to `org.knowceans.topics.lda.simple`; no application call site instantiates it. Its parameter-to-Markov-state reconstruction overload prints “Not fully implemented yet” and accesses arrays it does not allocate. Both similarity implementations retain a “wrong indexing” FIXME in query mutual-likelihood ranking. Verify the mathematics of these branches before reusing them.
 
 The search classes extend `Thread`; optional spawning calls `start()` on the same instance for subsequent searches, which Java cannot repeat. Normal constructors generally default to synchronous execution, so the defect is conditional. `NodeQueryAdapter.startSearch()` also registers its listener on every invocation without removing it. Port search lifecycle, cancellation, progress and result application as explicit services; keep expensive work off the browser UI thread. Removal of result edges exists, but a persistent relevance-feedback training loop is not established by the inspected integration.
 
@@ -224,7 +228,7 @@ The diagnostic variant removes `lib/batik.jar` from that classpath. The behavior
 
 1. **Milestone 2.2 — model contracts.** Add Freshmind node metadata and labeled relation metadata, explicit semantic types and style resolution. Preserve IDs independently of label edits. Add node/edge factories or equivalent extension points so imports and edit commands create the correct model objects. Keep data headless and serialization independent of view state.
 2. **Milestones 2.3–2.4 — browser behavior.** Add edge selection, directional candidate navigation, typed shapes, multiline labels, relation labels/curves, URL and annotation details, and editors. Reuse existing locality/lenses; add the documented Freshmind lens composition explicitly. Verify hidden-count focus bounds remain correct.
-3. **Milestone 2.5 — codecs and fixtures.** Start with XML and old text import, then XML export/round trips; characterize FMG/tree/OWL separately. Cover duplicate labels with distinct IDs, forward references, isolated nodes, self-loops, direction, metadata, Unicode and relation element ordering. Report legacy corruption rather than silently discarding it. Do not claim unfinished `.db` or `.fmg` export as required historical compatibility.
+3. **Milestone 2.5 — native YAML and converted fixtures.** Define a versioned YAML graph format and YAML type configuration, then build a standalone batch converter for all seven XML examples. Cover duplicate labels with distinct IDs, forward references, isolated nodes, self-loops, direction, metadata, Unicode and relation element ordering. Record legacy corruption and explicit recoveries in conversion reports. Validate native YAML round trips; legacy XML/text/FMG/OWL/database runtime I/O is outside this design.
 4. **Milestone 3 — RFC rebuild.** Implement the paper's focal structures and force mechanism as optional constraints, with no synthetic edges in persistent user data. Validate single/multiple-focus behavior and reversible activation against the plain engine.
 5. **Milestone 4 — retrieval contracts and LDA.** Preserve graph-query interaction, replace string-encoded relation roles with explicit metadata, select the required implementation from the available `knowceans-lda-simple` / `knowceans-ilda` sources, and verify numerical ranking with small matrices before end-to-end experiments. Map the old bundled-library interfaces to that source subset. Keep backend selection and optional resource extraction separate from graph rendering.
 
