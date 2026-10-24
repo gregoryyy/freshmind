@@ -5,27 +5,88 @@ import {fileURLToPath} from "node:url";
 const rfcExample = fileURLToPath(new URL("../../docs/experiments/rfc-single-focus/crowded-star.fm.yaml", import.meta.url));
 const weightedExample = fileURLToPath(new URL("../../docs/experiments/rfc-single-focus/wide-labels.fm.yaml", import.meta.url));
 
+/** Keeps each captured act's controls visible without scrolling the graph itself. */
+async function sidebar(page, ...openIds) {
+  await page.locator(".sidebar > details").evaluateAll((sections, ids) => {
+    for (const section of sections) section.open = ids.includes(section.id);
+  }, openIds);
+  await page.locator(".sidebar").evaluate(element => { element.scrollTop = 0; });
+}
+
+async function example(page, name) {
+  await page.locator("#files-section").evaluate(section => { section.open = true; });
+  const previous = await page.evaluateHandle(() => window.graphBrowser.getCompleteEltSet());
+  try {
+    await page.locator("#example-graph").selectOption(name);
+    await page.waitForFunction(graph => window.graphBrowser.getCompleteEltSet() !== graph, previous);
+    await page.evaluate(async () => {
+      const panel = window.graphBrowser;
+      panel.fastFinishAnimation(); await panel.getLocalityUtils().whenIdle();
+    });
+  } finally { await previous.dispose(); }
+}
+
+async function reinforceStored(page) {
+  return page.evaluate(() => {
+    const panel = window.graphBrowser, structures = panel.getCompleteEltSet().getSubstructures();
+    panel.getRfc().setFocus(null);
+    structures.forEach((structure, index) => panel.getRfc().activateSubstructure(structure.id, index > 0));
+    panel.tgLayout.setRigidity(0.1);
+    return structures[0]?.id;
+  });
+}
+
+/** Frames visible bodies using only graph spacing and canvas transforms. */
+async function frame(page, spacing = 1) {
+  await page.evaluate(scale => {
+    const panel = window.graphBrowser;
+    panel.setZoom(scale); panel.setCanvasZoom(1); panel.repaint();
+    const nodes = [...panel.getGES().getNodes()], center = panel.getDrawCenter(), size = panel.getSize();
+    const left = Math.min(...nodes.map(node => node.drawx - node.getWidth() / 2));
+    const right = Math.max(...nodes.map(node => node.drawx + node.getWidth() / 2));
+    const top = Math.min(...nodes.map(node => node.drawy - node.getHeight() / 2));
+    const bottom = Math.max(...nodes.map(node => node.drawy + node.getHeight() / 2));
+    const zoom = Math.min(1, (size.width - 120) / (right - left), (size.height - 120) / (bottom - top));
+    panel.setCanvasZoom(zoom);
+    panel.setCanvasPan((center.x - (left + right) / 2) * zoom, (center.y - (top + bottom) / 2) * zoom);
+  }, spacing);
+}
+
 /** Waits for the actual replacement, including when reopening a file with the same name and focus ID. */
 async function openRfc(page, example = rfcExample) {
   const previous = await page.evaluateHandle(() => window.graphBrowser.getCompleteEltSet());
   try {
     await page.locator("#open-graph-files").setInputFiles(example);
     await page.waitForFunction(graph => window.graphBrowser.getCompleteEltSet() !== graph && window.graphBrowser.getSelection()?.getID() === "center", previous);
-    await page.getByLabel("Graph spacing").fill("200");
+    await page.evaluate(() => window.graphBrowser.setZoom(2));
   } finally { await previous.dispose(); }
 }
 
 /** Ordered acts and captions are the source of the generated walkthrough. */
 export const tour = [
   {
-    id: "browser", title: "Graph browser",
-    caption: "The main browser opens a local neighborhood. Select nodes to inspect their connections; dragging, pinning and neighborhood controls use the same graph model.",
-    async run({open, advance}) { await open("/"); await advance(60); }
+    id: "browser", title: "Graph browser with RFC on the center node",
+    caption: "The graph-browser example opens with Reinforcement Focus+Context active on its central Graph browsers node. Yellow halos identify the reinforced center and its five immediate branches; the surrounding graph retains its ordinary connections and forces.",
+    async run({page, open, advance}) {
+      await open("/");
+      await page.waitForFunction(() => window.graphBrowser.getRfc().getState().focusId === "root");
+      await advance(60);
+      await page.evaluate(() => {
+        const panel = window.graphBrowser;
+        panel.setSelect(panel.findNode("root")); panel.centerOn(panel.findNode("root"), true);
+      });
+      await sidebar(page, "rfc-section");
+      await page.waitForFunction(() => document.querySelectorAll(".fm-rfc-node-halo").length === 6);
+      await page.evaluate(() => document.activeElement?.blur());
+    }
   },
   {
     id: "neighborhood", title: "Reveal the complete graph",
     caption: "Show whole graph reveals stored nodes beyond the current neighborhood. Expansion, collapse and hiding change the visible graph while retaining the complete graph for editing and export.",
-    async run({page, advance}) { await page.getByRole("button", {name: "Show whole graph"}).click(); await advance(60); }
+    async run({page, advance}) {
+      await sidebar(page, "files-section", "view-section");
+      await page.getByRole("button", {name: "Show whole graph"}).click(); await advance(60);
+    }
   },
   {
     id: "view-controls", title: "Graph spacing, canvas zoom and viewing lens",
@@ -104,8 +165,7 @@ export const tour = [
       await openRfc(page);
       await page.evaluate(()=>window.graphBrowser.getRfc().setFocus(null));
       await advance(250);
-      await page.locator(".sidebar").evaluate(sidebar => { sidebar.scrollTop = 0; });
-      await page.getByText("Reinforcement Focus + Context", {exact: true}).click();
+      await sidebar(page, "rfc-section");
     }
   },
   {
@@ -121,7 +181,7 @@ export const tour = [
   },
   {
     id: "rfc", title: "Single-focus comparison: length-constrained tree",
-    caption: "The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. RFC halos fade away without a rim; focal-region exclusion remains later work.",
+    caption: "The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. Yellow halos show reinforcement; optional focal-region exclusion is demonstrated separately below.",
     async run({page, advance}) {
       await openRfc(page);
       await page.getByRole("button", {name: "Tree structure", exact: true}).click();
@@ -142,10 +202,89 @@ export const tour = [
     }
   },
   {
+    id: "multiple-foci", title: "Reinforce multiple stored trees",
+    caption: "Two saved tree definitions reinforce deeper neighborhoods at the same time. Their context relations remain ordinary graph edges. Stored membership survives YAML export; active RFC centers are temporary view state. Shift+Enter can also add or remove an individual center.",
+    async run({page, open, advance}) {
+      await open("/"); await example(page, "joined-trees"); const structure = await reinforceStored(page);
+      await advance(150);
+      await frame(page);
+      await sidebar(page, "rfc-section");
+      await page.getByText("Force settings", {exact: true}).click();
+      await page.getByText("Substructures", {exact: true}).click();
+      await page.getByLabel("Substructure", {exact: true}).selectOption(structure);
+      await page.waitForFunction(() => window.graphBrowser.getRfc().getState().centers.filter(center => center.active).length === 2);
+    }
+  },
+  {
+    id: "clusters", title: "Overlapping clusters and their boundaries",
+    caption: "RFC can reinforce cyclic clusters as well as trees. These two stored clusters share a member, retain their internal relations and show translucent boundaries. Cluster rigidity controls resistance to deformation; the representative selects the group without becoming a physical anchor.",
+    async run({page, open, advance}) {
+      await open("/"); await example(page, "clusters"); const structure = await reinforceStored(page);
+      await advance(150);
+      await frame(page, 2);
+      await sidebar(page, "rfc-section");
+      await page.getByText("Force settings", {exact: true}).click();
+      await page.getByText("Substructures", {exact: true}).click();
+      await page.getByLabel("Substructure", {exact: true}).selectOption(structure);
+      await page.waitForFunction(() => document.querySelectorAll(".fm-cluster-boundary").length === 2);
+    }
+  },
+  {
+    id: "focal-regions", title: "Optional focal-region exclusion",
+    caption: "Dashed physical regions show the space reserved around two reinforced structures. Optional exclusion pushes context and non-shared focal nodes away from those regions while shared members remain exempt from their own regions. The forces are soft; pinned nodes and labels can still overlap.",
+    async run({page, open, advance}) {
+      await open("/"); await example(page, "exclusion"); await reinforceStored(page);
+      await sidebar(page, "rfc-section");
+      await page.getByText("Force settings", {exact: true}).click();
+      await page.getByText("Focal regions", {exact: true}).click();
+      await page.getByLabel("Keep context outside focal regions", {exact: true}).check();
+      await advance(150);
+      await frame(page, 2);
+      await page.waitForFunction(() => document.querySelectorAll(".fm-exclusion-region").length === 2);
+    }
+  },
+  {
+    id: "importance", title: "Node importance and exact weight values",
+    caption: "Node weight scales body and label size within configured limits. Weight 1 keeps normal size and weight 0 remains visible. Optional values make weights explicit when labels differ in length. Size shows importance; yellow halos independently show RFC participation.",
+    async run({page, open, advance}) {
+      await open("/"); await example(page, "weighted-tree"); await reinforceStored(page);
+      await advance(100);
+      await frame(page, 2);
+      await sidebar(page, "view-section");
+      await page.getByText("Node importance", {exact: true}).click();
+      await page.getByLabel("Show node weight values", {exact: true}).check();
+      await page.waitForFunction(() => document.querySelectorAll(".fm-node-weight").length === 7);
+    }
+  },
+  {
+    id: "structural-view", title: "Combine RFC with structural aggregation",
+    caption: "The structural focus + context example combines a viewing lens, RFC and reversible Person/Paper leaf aggregation. Six of thirteen nodes remain visible, with seven aggregated leaves counted under their parents. The shared collaborator stays visible because it connects two semantic neighbors. The complete graph remains intact.",
+    async run({page, open}) {
+      await open("/"); await example(page, "structural-focus-context");
+      await sidebar(page, "structural-section");
+      await page.getByLabel("Aggregate leaf types", {exact: true}).selectOption(["person", "paper"]);
+      await page.getByLabel("Enable structural view", {exact: true}).check();
+      await page.waitForFunction(() => window.graphBrowser.getStructuralView().getState().aggregatedNodeIds.length === 7);
+      await frame(page);
+    }
+  },
+  {
+    id: "reveal-detail", title: "Reveal aggregated detail without losing context",
+    caption: "Select Group Beta and reveal its leaves to restore detail while retaining the current graph, focal center and lens. Nine nodes are now visible. E also reveals a selected parent's leaves; Reset structural view restores the current neighborhood without deleting semantic data.",
+    async run({page}) {
+      await page.evaluate(() => {
+        const panel = window.graphBrowser; panel.setSelect(panel.findNode("beta"));
+      });
+      await page.getByRole("button", {name: "Reveal selected parent’s leaves", exact: true}).click();
+      await page.waitForFunction(() => window.graphBrowser.visibleNodeCount() === 9);
+    }
+  },
+  {
     id: "nips", title: "Browse the approved NIPS dataset",
     caption: "NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.",
     async run({page, advance}) {
-      await page.locator("#example-graph").selectOption("nips-fm");
+      await sidebar(page, "files-section", "view-section");
+      await example(page, "nips-fm");
       await page.waitForFunction(() => document.querySelector("#file-status").textContent.includes("3777 nodes, 5257 relations"));
       await advance(80);
       await page.locator(".sidebar").evaluate(sidebar => { sidebar.scrollTop = 0; });
