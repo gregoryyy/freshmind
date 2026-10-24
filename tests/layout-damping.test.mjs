@@ -4,8 +4,10 @@ import {execFileSync} from "node:child_process";
 import {mkdtempSync,readFileSync,rmSync} from "node:fs";
 import {join} from "node:path";
 import {tmpdir} from "node:os";
-import {TGLayout,GraphEltSet,Node,Edge,MotionStabilizer} from "fm4/core";
+import {TGLayout,GraphEltSet,Node,Edge,MotionStabilizer,NodeMotionStabilizer} from "fm4/core";
 import {TGPanel} from "fm4";
+import {FreshmindPanel} from "fm4/fm";
+import {installContextClearingProbe} from "./fixtures/context-clearing.mjs";
 
 function star(enabled) {
   const graph=new GraphEltSet();let time=0;
@@ -31,6 +33,57 @@ test("general damping suppresses a native TouchGraph oscillation without RFC or 
   assert.ok(off.large>1000);assert.ok(on.large<10);assert.ok(on.state.detections>0);
   assert.ok(on.nodes.every(n=>Number.isFinite(n.x)&&Number.isFinite(n.y)));
   assert.deepEqual(star(true),on);
+});
+
+test("independent node gains preserve coherent context motion and RFC clearing during persistent focal swings",()=>{
+  for(const rfc of [false,true])for(const legacyCooling of [false,true]){
+    const runs={};
+    for(const mode of ["off","graph","node"]){
+      let time=0;const panel=new FreshmindPanel(undefined,{autoStart:false,adaptiveDamping:{enabled:mode!=="off",scope:mode==="graph"?"graph":"node",now:()=>time}});
+      const probe=installContextClearingProbe(panel,{rfc,legacyCooling,onStep:()=>{time+=2;}}),settings=panel.getRfc().getState().settings;
+      probe.tick();runs[mode]=probe.result();
+      assert.deepEqual(panel.getRfc().getState().settings,settings);
+      assert.deepEqual([probe.root.x,probe.root.y,probe.anchor.x,probe.anchor.y],[0,0,0,100]);
+      assert.ok(runs[mode].minimumContextStep>=0);probe.dispose();panel.destroy();
+    }
+    assert.ok(runs.graph.contextX<30); // Reproduces the old shared-gain stall.
+    assert.ok(runs.node.lateOscillatorStepMax<1e-5);assert.ok(runs.off.lateOscillatorStepMax>3);
+    if(!legacyCooling)assert.equal(runs.off.lateOscillatorStepMax,4);
+    if(rfc)assert.ok(runs.node.clearance>-.001); // Independently specified fixed radius: 100 + 20 padding.
+    else if(!legacyCooling)assert.equal(runs.node.contextX,1020);
+    else assert.ok(runs.node.contextX>100);
+    assert.ok(runs.node.damping.detections>0);
+  }
+});
+
+test("a quiet node recovers independently while another oscillates and a third translates",()=>{
+  let time=0;const detector=new NodeMotionStabilizer({enabled:true,now:()=>time});
+  const quiet=new Node("quiet"),swing=new Node("swing"),drift=new Node("drift");
+  const step=(i,settled=false)=>{
+    time+=50;quiet.x=settled?0:i%2?4:0;quiet.y=0;swing.x=i%2?4:0;swing.y=0;drift.x=i;drift.y=0;
+    for(const n of [quiet,swing,drift]){n.dx=10;n.dy=0;}
+    detector.apply([quiet,swing,drift]);assert.equal(drift.dx,10);
+  };
+  for(let i=0;i<10;i++)step(i);assert.ok(quiet.dx<10&&swing.dx<10);
+  for(let i=10;i<90;i++)step(i,true);
+  assert.equal(quiet.dx,10);assert.ok(swing.dx<1);assert.equal(detector.getState().phase,"damping");
+  detector.setEnabled(false);step(90,true);assert.equal(swing.dx,10);
+});
+
+test("node damping owns options, samples one clock per step and releases removed/fixed/dragged histories",()=>{
+  let calls=0;const options={enabled:true,now:()=>++calls*2},detector=new NodeMotionStabilizer(options);
+  options.enabled=false;options.detectSlowSwings=false;
+  const a=new Node("a"),b=new Node("b");a.y=b.y=0;
+  for(let i=0;i<10;i++){a.x=i%2?4:0;b.x=i;detector.observe([a,b]);}
+  assert.equal(calls,10);assert.ok(detector.getState().gain<1);
+  a.fixed=true;a.dx=7;b.dx=9;detector.apply([a,b],b);assert.equal(a.dx,7);assert.equal(b.dx,9);assert.equal(detector.getState().gain,1);
+  a.fixed=false;a.dx=7;detector.apply([a]);assert.equal(a.dx,7);
+  detector.reset();assert.deepEqual(detector.getState(),new MotionStabilizer({enabled:true}).getState());
+  let time=0;const slowOptions={enabled:true,detectSlowSwings:true,now:()=>time},slowDetector=new NodeMotionStabilizer(slowOptions),slow=new Node("slow");
+  slowOptions.detectSlowSwings=false;slow.y=0;
+  for(let i=0;i<=240;i++){slow.x=.5*Math.cos(i*2*Math.PI/80);time=i*2;slowDetector.observe([slow]);}
+  assert.ok(slowDetector.getState().detections>0); // Caller mutation cannot disable the only detector for sub-threshold steps.
+  assert.throws(()=>new TGLayout({getGES:()=>new GraphEltSet(),repaintAfterMove(){}},()=>.5,{scope:"bad"}),TypeError);
 });
 
 test("general damping runs after all force callbacks and excludes fixed and dragged nodes",()=>{

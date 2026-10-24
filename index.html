@@ -60,8 +60,8 @@
             <label class="pin-control"><input id="adaptive-damping" type="checkbox" checked /> Adaptive damping</label>
             <label class="control-label" for="damping-response">Damping response</label>
             <select id="damping-response"><option value="impulse">Adaptive impulses</option><option value="cooling">Earlier TouchGraph cooling</option></select>
-            <p class="control-help">Suppresses repeated swings across the graph, with or without RFC. After quiet motion, gradually restores normal movement.</p>
-            <p class="control-help">Earlier cooling uses TouchGraph's existing settling behavior as soon as repeated swings are detected.</p>
+            <p class="control-help">Damps swinging nodes while other nodes keep moving, with or without RFC. After quiet motion, each node gradually regains normal movement.</p>
+            <p class="control-help">Earlier cooling starts TouchGraph's existing settling behavior after repeated swings. It slows the whole graph.</p>
             <p id="adaptive-damping-status" class="control-help" role="status">Adaptive damping on · watching graph motion.</p>
           </details>
           <details class="control-subsection" id="readability-section">

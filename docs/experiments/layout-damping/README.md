@@ -1,12 +1,12 @@
 # Experiment K: general adaptive damping
 
-The browser enables adaptive damping for all movable visible nodes, independently of RFC. This experiment separates broader ownership, completed-swing detection and earlier activation of the inherited cooling phase. Earlier RFC-local results and records remain unchanged.
+This historical checkpoint applies one shared adaptive gain to movable visible nodes, independently of RFC. It separates broader ownership, completed-swing detection and earlier activation of inherited cooling. The current browser uses independent node gains; [Experiment L](../damping-context/README.md) evaluates the context-clearing correction. These records and figures retain their original shared-gain behavior.
 
 Regenerate records, report and SVG/PDF/PNG figure with `just layout-damping-experiment`. Plotting needs Python 3, matplotlib and numpy, as for the other experiment recipes. [Generator](../../../scripts/layout-damping-experiment.mjs) · [Figure/report source](../../../scripts/layout-damping-figures.py) · [Recorded results](results.json) · [Paper](../../papers/rfc-revisited-draft2.md#54-general-layout-damping-and-experiment-k).
 
 ## Protocol
 
-Sixteen matched runs cross four fixed synthetic graphs with extra damping off, frozen v2 detection applied to every movable node, current v3 general impulse damping, and v3-triggered earlier TouchGraph cooling. Each receives 400 batches of ten integrations at rigidity 1, with an injected 2 ms clock. The original TG cooling rule remains active in every condition. Starts, edges and RFC parameters are identical within a graph. Fixed nodes are excluded from attenuation; the pinned-star control changes only its root flag.
+Sixteen matched runs cross four fixed synthetic graphs with extra damping off, frozen v2 detection applied to every movable node, historical v3 general impulse damping, and v3-triggered earlier TouchGraph cooling. Each receives 400 batches of ten integrations at rigidity 1, with an injected 2 ms clock. The original TG cooling rule remains active in every condition. Starts, edges and RFC parameters are identical within a graph. Fixed nodes are excluded from attenuation; the pinned-star control changes only its root flag.
 
 The stiff native star has six links of length parameter 1, a movable root at (0,0), and branches at (100 cos i, 100 sin i), i=0…5. This deliberately strong native attraction is a stress input, not a typical dataset. The ordinary control uses link parameter 40. The RFC case uses the existing crowded-star fixture with movable center, radial stiffness 2 and fixed context anchors. No force coefficient is reduced to obtain the damping result.
 

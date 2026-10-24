@@ -28,6 +28,10 @@ test-lda-java:
 test-retrieval-java:
     node scripts/retrieval-java-reference.mjs
 
+# Compare shared and independent damping while context moves out of an RFC region.
+damping-context-experiment output="docs/experiments/damping-context": build
+    node scripts/damping-context-experiment.mjs {{quote(output)}}
+
 # Regenerate the fictional graph-search library without importing legacy corpora.
 search-example: build
     node scripts/search-example.mjs

@@ -28,7 +28,8 @@ function measure(name,mode) {
   const legacy=mode==="v2-general"?new V2({enabled:true,now:()=>calls*2}):null;
   let sample=()=>{};
   const layout=new TGLayout({getGES:()=>graph,repaintAfterMove(){if(!probing)sample();inBatch=0;}},()=>.5,
-    {enabled:mode.startsWith("v3"),response:mode==="v3-early-cooling"?"cooling":"impulse",now:()=>calls*2});
+    // Experiment K records the original shared gain, not the later node-local fix.
+    {enabled:mode.startsWith("v3"),scope:"graph",response:mode==="v3-early-cooling"?"cooling":"impulse",now:()=>calls*2});
   if(source) {
     source.center.fixed=false;source.rfc.configure({radialStiffness:2});layout.addForce(source.rfc.apply);
   } else {
