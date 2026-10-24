@@ -8,3 +8,4 @@
 
 export {applyNodeEdit,applyRelationEdit} from "./commands.js";
 export type {NodeEdit,RelationEdit,RelationEditContext} from "./commands.js";
+export {parseWeightedLabel} from "./label.js";

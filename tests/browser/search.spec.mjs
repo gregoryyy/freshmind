@@ -48,3 +48,27 @@ test('loadable fictional library supports a query engine switch without retainin
   const result=await page.evaluate(()=>{const p=window.graphBrowser,q=p.findNode('query-1'),edges=[...p.getCompleteEltSet().getEdges()].filter(e=>e.from===q&&e.getData().search?.role==='result');return{nodes:p.getNodeCount(),type:q.getSemanticType(),engines:edges.map(e=>e.getData().search.request.engine),context:[...q.getEdges()].some(e=>e.getData().search?.role==='context')};});
   expect(result).toEqual({nodes:25,type:'ldaquery',engines:Array(5).fill('lda'),context:true});expect(errors).toEqual([]);
 });
+
+test('FM2014 literal search shortcuts open collapsed controls, check indexing and link term/similarity results',async({page})=>{
+  const errors=await ready(page);await page.locator('#search-section').evaluate(e=>e.open=false);await page.locator('#graph svg').focus();
+  await page.keyboard.press('Control+i');await expect(page.locator('#search-status')).toContainText('Literal index checked: 4 documents');
+  expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(4);
+  await page.keyboard.press('Control+f');await expect(page.locator('#search-query')).toBeFocused();await expect(page.locator('#search-engine')).toHaveValue('lexical');
+  await page.locator('#search-query').fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText('2 results linked');
+  await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('a')));await page.locator('#graph svg').focus();await page.keyboard.press('Control+r');
+  await expect(page.locator('#search-status')).toContainText('result');expect(await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].some(e=>e.from.getID()==='a'&&e.getData().search?.request?.kind==='similarity'))).toBe(true);
+  await page.locator('#graph svg').focus();await page.keyboard.press('/');await expect(page.locator('#search-query')).toBeFocused();await expect(page.locator('#search-query')).toHaveValue('');
+  await page.locator('#search-query').fill('prior draft');await page.locator('#graph svg').dispatchEvent('keydown',{key:'/',shiftKey:true});await expect(page.locator('#search-query')).toBeFocused();await expect(page.locator('#search-query')).toHaveValue('');
+  const before=await page.evaluate(()=>window.graphBrowser.getNodeCount());
+  await page.locator('#search-query').evaluate(e=>e.dispatchEvent(new KeyboardEvent('keydown',{key:'r',ctrlKey:true,bubbles:true,cancelable:true})));
+  expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(before);await page.locator('#search-query').fill('/ normal typing');await expect(page.locator('#search-query')).toHaveValue('/ normal typing');expect(errors).toEqual([]);
+});
+test('FM2014 semantic search and training shortcuts retain the current model lifecycle',async({page})=>{
+  const errors=await ready(page);await page.locator('#search-section .control-subsection').evaluate(e=>e.open=true);
+  await page.locator('#search-topics').fill('2');await page.locator('#search-iterations').fill('40');await page.locator('#search-section').evaluate(e=>e.open=false);
+  await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+i');await expect(page.locator('#search-status')).toContainText('Topic model ready: 2 topics');
+  await page.keyboard.press('Control+Shift+f');await expect(page.locator('#search-query')).toBeFocused();await expect(page.locator('#search-engine')).toHaveValue('lda');
+  await page.locator('#search-query').fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText('results linked');
+  await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('a')));await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+r');await expect(page.locator('#search-status')).toContainText('results linked');
+  expect(await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].some(e=>e.from.getID()==='a'&&e.getData().search?.request?.engine==='lda'&&e.getData().search.request.kind==='similarity'))).toBe(true);expect(errors).toEqual([]);
+});

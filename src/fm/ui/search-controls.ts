@@ -34,9 +34,21 @@ export function bindGraphSearchControls(panel:FreshmindPanel,e:GraphSearchElemen
     }catch(error){showError(error);}
   };
   listen(e.run,"click",run);listen(e.query,"keydown",event=>{const key=event as KeyboardEvent;if(key.key==="Enter"){key.preventDefault();run();}});
-  listen(e.similar,"click",()=>{try{if(e.limit.reportValidity())void controller.similar(engine(),Number(e.limit.value)).catch(showError);}catch(error){showError(error);}});
-  listen(e.train,"click",()=>{
-    try{if([e.topics,e.iterations,e.seed,e.alpha,e.beta].every(input=>input.reportValidity()))void controller.train({topics:Number(e.topics.value),iterations:Number(e.iterations.value),seed:Number(e.seed.value),alpha:Number(e.alpha.value),beta:Number(e.beta.value)}).catch(showError);}catch(error){showError(error);}
+  const similar=()=>{try{const selected=panel.getSelection();if(!(selected instanceof FreshNode)||isSearchQueryNode(selected))throw new Error("Select a content node for similarity search");if(e.limit.reportValidity())void controller.similar(engine(),Number(e.limit.value)).catch(showError);}catch(error){showError(error);}};
+  const train=()=>{
+    try{const invalid=[e.topics,e.iterations,e.seed,e.alpha,e.beta].find(input=>!input.checkValidity());if(invalid){reveal(invalid);invalid.reportValidity();return;}void controller.train({topics:Number(e.topics.value),iterations:Number(e.iterations.value),seed:Number(e.seed.value),alpha:Number(e.alpha.value),beta:Number(e.beta.value)}).catch(showError);}catch(error){showError(error);}
+  };
+  listen(e.similar,"click",similar);listen(e.train,"click",train);
+  const reveal=(target:HTMLElement=e.query)=>{
+    for(let ancestor=target.parentElement;ancestor;ancestor=ancestor.parentElement)if(ancestor instanceof HTMLDetailsElement)ancestor.open=true;
+    target.scrollIntoView({block:"nearest"});
+  };
+  const choose=(semantic:boolean)=>{e.engine.value=semantic?"lda":"lexical";e.kind.value="terms";};
+  const removeKeys=panel.getNavigation().setActions({
+    quickSearch:()=>{if(controller.getState().busy)return;choose(false);e.query.value="";reveal();e.query.focus();},
+    search:semantic=>{if(controller.getState().busy)return;choose(semantic);reveal();e.query.focus();e.query.select();},
+    similar:semantic=>{if(controller.getState().busy)return;choose(semantic);reveal();similar();},
+    index:semantic=>{if(controller.getState().busy)return;choose(semantic);reveal();if(semantic)train();else void controller.index().catch(showError);}
   });
   listen(e.cancel,"click",()=>controller.cancel());listen(e.reject,"click",()=>{try{controller.reject();}catch(error){showError(error);}});
   const removeState=controller.addListener(()=>{errorMessage="";sync();}),removeSelection=panel.addSelectionListener(selection=>{
@@ -45,5 +57,5 @@ export function bindGraphSearchControls(panel:FreshmindPanel,e:GraphSearchElemen
       if(r&&["lexical","lda"].includes(r.engine)&&["terms","tags"].includes(r.kind)){e.engine.value=r.engine;e.kind.value=r.kind;e.query.value=r.query;}
     }sync();
   });
-  return ()=>{disposed=true;removeState();removeSelection();removers.forEach(remove=>remove());controller.dispose();};
+  return ()=>{disposed=true;removeKeys();removeState();removeSelection();removers.forEach(remove=>remove());controller.dispose();};
 }

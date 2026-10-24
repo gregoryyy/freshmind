@@ -153,7 +153,7 @@ export const tour = [
   },
   {
     id: "annotation", title: "Annotations and item details",
-    caption: "Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content delegates to the annotation inspector.",
+    caption: "Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content opens the annotation overlay.",
     async run({page}) {
       await page.getByLabel("Inline node label", {exact: true}).press("Control+Enter");
       const details = page.locator("#toggle-details");
@@ -347,6 +347,23 @@ export const tour = [
       if(JSON.stringify(after.positions)!==JSON.stringify(relationBefore.positions)||JSON.stringify(after.paths)!==JSON.stringify(relationBefore.paths))throw new Error("Relation-label placement changed nodes or curves");
       console.log(`[flipbook] Relation-label intersections: ${relationBefore.count} -> ${after.count}`);
       await page.evaluate(()=>document.activeElement?.blur());
+    }
+  },
+  {
+    id:"label-weight",title:"Edit labels and weights together",
+    caption:"F2 opens a graph-anchored label overlay with weight controls for either a node or a relation. Ctrl+G/H adjusts the shared draft; a numeric suffix such as Graph browsers =3 also sets absolute weight on Save. The draft leaves the graph unchanged until committed; Escape cancels both label and weight.",
+    async run({page}){
+      await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode("root")));
+      await sidebar(page,"selection-section");await page.locator("#graph svg").focus();await page.keyboard.press("F2");
+      await page.getByLabel("Node weight",{exact:true}).fill("3");
+    }
+  },
+  {
+    id:"details-editor",title:"Edit node details directly in an overlay",
+    caption:"Ctrl+Enter commits the weight. Ctrl+Space or Shift+F2 then opens the full modeless editor at the node annotation, outside the side pane. It also exposes types, visual settings, URLs and metadata. Close retains a per-item draft; Save commits and Escape cancels. The annotation shown here is still a draft.",
+    async run({page}){
+      await page.getByLabel("Inline node label",{exact:true}).press("Control+Enter");await page.keyboard.press("Control+Space");
+      await page.getByLabel("Annotation",{exact:true}).fill("Draft details edited directly in the overlay.");
     }
   }
 ];

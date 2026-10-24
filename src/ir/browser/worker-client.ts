@@ -4,7 +4,7 @@ import type {SearchWorkerJob,SearchWorkerMessage} from "./protocol.js";
 import type {LdaProgress} from "../topics/index.js";
 
 export type SearchWorkerFactory=()=>Pick<Worker,"postMessage"|"terminate"|"onmessage"|"onerror">;
-export type SearchWorkerAnswer=Extract<SearchWorkerMessage,{kind:"trained"|"results"}>;
+export type SearchWorkerAnswer=Extract<SearchWorkerMessage,{kind:"trained"|"results"|"indexed"}>;
 export class SearchCancelledError extends Error {constructor(){super("Search cancelled");this.name="SearchCancelledError";}}
 
 /** Worker URL belongs to search, so both source bundlers and the emitted library resolve it here. */

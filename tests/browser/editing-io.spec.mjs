@@ -39,7 +39,7 @@ test("key-map button, question mark and F1 show the implemented user map with sc
   const dialog=page.getByRole("dialog",{name:"Freshmind key map"});await expect(dialog).toBeVisible();await expect(dialog).toContainText("Ctrl + Shift + 1");
   await expect(dialog).toContainText("Ctrl/Cmd + O");await expect(dialog).toContainText("F2 / Ctrl + Enter");await page.keyboard.press("Escape");await expect(dialog).not.toBeVisible();
   await page.locator("#graph svg").focus();await page.keyboard.press("?");await expect(dialog).toBeVisible();await page.keyboard.press("Escape");
-  await page.getByLabel("Node label",{exact:true}).focus();await page.keyboard.type("?");await expect(dialog).not.toBeVisible();await page.keyboard.press("F1");await expect(dialog).toBeVisible();
+  await page.locator("#edit-item").click();await page.getByLabel("Node label",{exact:true}).focus();await page.keyboard.type("?");await expect(dialog).not.toBeVisible();await page.keyboard.press("F1");await expect(dialog).toBeVisible();
   await page.keyboard.press("Escape");expect(errors).toEqual([]);
 });
 test("inline node and relation labels share drafts, commit/cancel and follow both view transforms",async({page})=>{
@@ -80,22 +80,22 @@ test("metadata and visual edits are atomic, annotation HTML is sanitized, and re
   await page.keyboard.press("Space");await expect(page.locator(".fm-node-content strong")).toHaveText("bold");await expect(page.locator(".fm-node-content script, .fm-node-content img, .fm-node-content [onclick]")).toHaveCount(0);
   await expect(page.locator('.fm-node-content a').filter({hasText:"bad"})).not.toHaveAttribute("href",/./);expect(requests).toEqual([]);expect(await page.evaluate(()=>window.annotationExecuted)).toBeUndefined();
   await page.getByRole("button",{name:"Open linked resource (L)",exact:true}).click();await expect(page.locator("#file-status")).toContainText("stored path cannot be opened");
-  await page.getByLabel("Node label",{exact:true}).fill("Must not apply");await page.getByLabel("Application data (YAML)").fill("not: [valid");
+  await page.locator("#edit-item").click();await page.getByLabel("Node label",{exact:true}).fill("Must not apply");await page.getByLabel("Application data (YAML)").fill("not: [valid");
   await page.getByRole("button",{name:"Save changes",exact:true}).click();await expect(page.locator("#editor-status")).toHaveAttribute("data-error","true");
   expect(await page.evaluate(()=>window.graphBrowser.findNode("a").getLabel())).toBe("Alpha");await page.getByRole("button",{name:"Cancel",exact:true}).click();
-  await page.locator('.fm-node-content a').filter({hasText:"Beta"}).click();expect(await page.evaluate(()=>window.graphBrowser.getSelect().getID())).toBe("b");expect(errors).toEqual([]);
+  await page.keyboard.press("Space");await page.locator('.fm-node-content a').filter({hasText:"Beta"}).click();expect(await page.evaluate(()=>window.graphBrowser.getSelect().getID())).toBe("b");expect(errors).toEqual([]);
 });
 test("relation endpoint edits/reversal retain IDs and adjacency, including loops and hidden endpoints",async({page})=>{
   const errors=await ready(page);
   await page.evaluate(()=>window.graphBrowser.setSelectEdge([...window.graphBrowser.getAllEdges()].find(e=>e.getID()==="e")));
-  await page.getByLabel("From node ID",{exact:true}).fill("missing");await page.getByLabel("Relation label",{exact:true}).fill("rejected");
+  await page.locator("#edit-item").click();await page.getByLabel("From node ID",{exact:true}).fill("missing");await page.getByLabel("Relation label",{exact:true}).fill("rejected");
   await page.getByRole("button",{name:"Save changes",exact:true}).click();await expect(page.locator("#editor-status")).toContainText("Choose endpoints");
   expect(await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].find(e=>e.getID()==="e").getLabel())).toBe("related");
   await page.getByLabel("From node ID",{exact:true}).fill("b");await page.getByLabel("To node ID",{exact:true}).fill("a");await page.getByLabel("Spring length",{exact:true}).fill("88");
   await page.getByRole("button",{name:"Save changes",exact:true}).click();
   const endpoints=()=>page.evaluate(()=>{const e=[...window.graphBrowser.getAllEdges()].find(e=>e.getID()==="e");return [e.from.getID(),e.to.getID(),e.getLength()];});
   expect(await endpoints()).toEqual(["b","a",88]);await page.keyboard.press("r");expect(await endpoints()).toEqual(["a","b",88]);
-  await page.getByLabel("To node ID",{exact:true}).fill("isolated");await page.getByRole("button",{name:"Save changes",exact:true}).click();
+  await page.locator("#edit-item").click();await page.getByLabel("To node ID",{exact:true}).fill("isolated");await page.getByRole("button",{name:"Save changes",exact:true}).click();
   expect(await endpoints()).toEqual(["a","isolated",88]);await expect(page.locator('[data-edge-id="e"]')).toHaveCount(0);
   expect(errors).toEqual([]);
 });
@@ -121,7 +121,7 @@ test("finishing an example load preserves an editor focused while the request wa
   await page.route("**/examples/public/florentine.fm.yaml",async route=>{await gate;await route.continue();});
   const requested=page.waitForRequest(request=>request.url().endsWith("/examples/public/florentine.fm.yaml"));
   await page.locator("#example-graph").focus();await page.locator("#example-graph").selectOption("florentine");await requested;
-  const annotation=page.getByLabel("Annotation",{exact:true});await annotation.focus();release();
+  await page.locator("#edit-details").click();const annotation=page.getByLabel("Annotation",{exact:true});await annotation.focus();release();
   await expect(page.locator("#file-status")).toContainText("15 nodes, 20 relations");await expect(annotation).toBeFocused();
   await page.keyboard.press("Control+Shift+Alt+ArrowRight");expect(await page.evaluate(()=>window.graphBrowser.getRotation())).toBe(0);
   expect(errors).toEqual([]);

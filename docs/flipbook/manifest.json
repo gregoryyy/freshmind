@@ -34,6 +34,8 @@
     "23-labels-separated.png",
     "24-relation-overlap.png",
     "25-relations-separated.png",
+    "26-label-weight.png",
+    "27-details-editor.png",
     "README.md",
     "index.html",
     "manifest.json"
@@ -90,7 +92,7 @@
     {
       "id": "annotation",
       "title": "Annotations and item details",
-      "caption": "Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content delegates to the annotation inspector.",
+      "caption": "Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content opens the annotation overlay.",
       "file": "09-annotation.png"
     },
     {
@@ -188,6 +190,18 @@
       "title": "Place relation labels near clear curve positions",
       "caption": "Avoid relation label overlaps measures SVG text and tries nearby positions along each curve and its normal. The browser enables this bounded presentation pass by default. It reduces label–node and label–label intersections in this view while retaining every label, node position and curve. Dense views can still overlap; toggling off restores original anchors.",
       "file": "25-relations-separated.png"
+    },
+    {
+      "id": "label-weight",
+      "title": "Edit labels and weights together",
+      "caption": "F2 opens a graph-anchored label overlay with weight controls for either a node or a relation. Ctrl+G/H adjusts the shared draft; a numeric suffix such as Graph browsers =3 also sets absolute weight on Save. The draft leaves the graph unchanged until committed; Escape cancels both label and weight.",
+      "file": "26-label-weight.png"
+    },
+    {
+      "id": "details-editor",
+      "title": "Edit node details directly in an overlay",
+      "caption": "Ctrl+Enter commits the weight. Ctrl+Space or Shift+F2 then opens the full modeless editor at the node annotation, outside the side pane. It also exposes types, visual settings, URLs and metadata. Close retains a per-item draft; Save commits and Escape cancels. The annotation shown here is still a draft.",
+      "file": "27-details-editor.png"
     }
   ]
 }

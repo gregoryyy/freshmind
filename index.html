@@ -181,7 +181,7 @@
           <p id="navigation-status" class="control-help" role="status" aria-live="polite" aria-atomic="true"></p>
           <details class="sidebar-section inspector" id="selection-section" open><summary>Selected item</summary>
           <button id="edit-mode" class="quiet-button" aria-pressed="false">Edit graph <span aria-hidden="true">✎</span></button>
-          <p id="edit-help" class="intro" hidden>Edit labels, types and shapes below. Add a node here or double-click the background. Select a source, then Shift-click a target to connect them.</p>
+          <p id="edit-help" class="intro" hidden>Edit labels, types and shapes in the overlay. Add a node here or double-click the background. Select a source, then Shift-click a target to connect them.</p>
           <button id="add-node" class="quiet-button" hidden>Add node</button>
           <div aria-live="polite">
             <div class="section-label"><span id="selection-kind">SELECTED NODE</span></div>
@@ -194,12 +194,33 @@
             <button id="toggle-details" class="quiet-button" disabled>Show details (Space)</button>
             <div id="selection-details" hidden><p id="item-detail" class="control-help"></p></div>
             <button id="open-resource" class="quiet-button" disabled>Open linked resource (L)</button>
+            <button id="edit-label" class="quiet-button" disabled>Edit label (F2)</button>
+            <button id="edit-details" class="quiet-button" disabled>Edit node details (Ctrl+Space)</button>
+            <button id="edit-item" class="quiet-button" disabled>Edit selected item</button>
+            <details class="control-subsection connection-section" open><summary>Connections</summary>
+              <div id="connections" class="connections"></div>
+            </details>
+          </div>
+          </details>
+          <p class="attribution">This product includes software developed by <a href="https://www.touchgraph.com/">TouchGraph LLC</a>.<br />This product includes software developed by TouchGraph (http://www.touchgraph.com/).</p>
+        </aside>
+        <section class="workspace" aria-label="Graph workspace">
+          <div class="canvas-heading"><span id="graph-count"></span></div>
+          <div id="graph"></div>
+          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Ctrl+Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Ctrl+Shift+Option/Alt+↓ or −)">−</button><button id="center" aria-label="Center view" title="Center view">◎</button></div>
+          <div class="canvas-footer"><span>Scroll ↑/↓: graph spacing · Scroll ←/→: focus + context · Pinch: canvas zoom · F2 to edit</span><button id="motion">Pause motion</button></div>
+        </section>
+      </main>
+    </div>
+    <dialog id="item-editor-overlay" class="item-editor-overlay" aria-labelledby="item-editor-title">
+      <header class="options-heading"><h2 id="item-editor-title">Edit selected item</h2><button id="close-item-editor" type="button" aria-label="Close item editor">×</button></header>
             <form id="selection-editor" aria-label="Edit selected item">
               <fieldset id="editor-fields" disabled>
                 <label class="control-label" for="node-label">Node label</label>
                 <textarea id="node-label" rows="2" spellcheck="false"></textarea>
                 <label class="control-label" for="edge-label" hidden>Relation label</label>
                 <input id="edge-label" type="text" hidden />
+                <p class="control-help">Append =number to set weight, e.g. Topic =3. Ctrl+G / Ctrl+H adjusts the draft weight. Save commits both label and weight.</p>
                 <label class="control-label" for="item-type">Semantic type</label>
                 <select id="item-type"></select>
                 <label class="control-label" for="node-shape">Node shape</label>
@@ -229,21 +250,7 @@
                 <button type="button" id="delete-item" class="quiet-button" hidden>Delete selected item</button>
               </fieldset>
             </form>
-            <details class="control-subsection connection-section" open><summary>Connections</summary>
-              <div id="connections" class="connections"></div>
-            </details>
-          </div>
-          </details>
-          <p class="attribution">This product includes software developed by <a href="https://www.touchgraph.com/">TouchGraph LLC</a>.<br />This product includes software developed by TouchGraph (http://www.touchgraph.com/).</p>
-        </aside>
-        <section class="workspace" aria-label="Graph workspace">
-          <div class="canvas-heading"><span id="graph-count"></span></div>
-          <div id="graph"></div>
-          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Ctrl+Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Ctrl+Shift+Option/Alt+↓ or −)">−</button><button id="center" aria-label="Center view" title="Center view">◎</button></div>
-          <div class="canvas-footer"><span>Scroll ↑/↓: graph spacing · Scroll ←/→: focus + context · Pinch: canvas zoom · F2 to edit</span><button id="motion">Pause motion</button></div>
-        </section>
-      </main>
-    </div>
+    </dialog>
     <script type="module" src="/demo/main.ts"></script>
   </body>
 </html>

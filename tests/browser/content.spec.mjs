@@ -61,7 +61,7 @@ for(const structural of [false,true])test(`content follows selection, sanitizes 
   expect(errors).toEqual([]);
 });
 
-test("content editing uses the existing draft and commits through the shared inspector",async({page})=>{
+test("content editing uses the existing draft and commits through the shared overlay",async({page})=>{
   const errors=await ready(page);await page.keyboard.press("Space"); await popup(page).getByRole("button",{name:"Edit content",exact:true}).click();
   const annotation=page.getByLabel("Annotation",{exact:true}); await expect(annotation).toBeFocused();await annotation.fill("Uncommitted content");
   await page.locator('[data-node-id="a"]').focus();await page.keyboard.press("Space");await expect(popup(page)).toContainText("Literal <strong>text</strong>");

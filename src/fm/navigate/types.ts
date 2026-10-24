@@ -64,6 +64,8 @@ export interface NavigationKey {
 export interface NavigationActions {
   edit?(item: NavigationItem): void; editDetails?(item: NavigationItem): void;
   help?(): void; openResource?(): void; reverseRelation?(): void;
+  quickSearch?():void; search?(semantic:boolean):void; similar?(semantic:boolean):void; index?(semantic:boolean):void;
+  adjustWeight?(item:NavigationItem,direction:1|-1):void;
 }
 /** Existing panel owners supply graph, selection, view and locality operations. */
 export interface NavigationHost {

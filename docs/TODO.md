@@ -55,13 +55,16 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.3.10 Restore C to cycle default edge forms, with W as an alias; synchronize the browser selector and key map while preserving explicit relation overrides and text-editor input.
   - [x] 2.3.11 Highlight selected relations on their rendered line, matching the Java selection color; replace browser bounding-box focus frames with stroke emphasis, including curves, parallel relations and self-loops on both pages.
   - [x] 2.3.12 Group left-pane controls into collapsible sections with larger headings, retaining values and keyboard access to a collapsed inspector.
+  - [x] 2.3.13 Restore FM2014 quick/literal/topic query, similarity and index/training shortcuts through optional graph-scoped actions, retaining current search backends and text-input behavior.
 - [x] 2.4 Port labeling and the associated editors.
   - [x] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
   - [x] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.
   - [x] 2.4.3 Implement commit/cancel and field validation through shared commands; preserve focus and position inline editors using renderer geometry.
   - [x] 2.4.4 Restore the FM2014 node-content popup: modeless/resizable text and safe HTML, selection tracking, internal navigation, keyboard close/focus return and editing through the shared inspector.
+  - [x] 2.4.5 Move full item/details editing into a modeless overlay; expose Ctrl+Space and Shift+F2 for direct details editing, retain per-item drafts and preserve focus during graph replacement.
+  - [x] 2.4.6 Add numeric label weight commands, inline weight controls and Ctrl+G/H draft adjustments for nodes and relations, with atomic save/cancel and unchanged imported literal labels on unrelated edits.
 
-The main browser supports inline labels and full inspector edits, including annotations, URLs, visual overrides and metadata. Shared commands validate the entire draft before mutation, preserve stable IDs and restore graph focus. See the [user key map](KEYMAP.md) and [completion record](DONE.md).
+The main browser supports inline labels/weights and full overlay edits, including annotations, URLs, visual overrides and metadata. Shared commands validate the entire draft before mutation, preserve stable IDs and restore graph focus. See the [user key map](KEYMAP.md) and [completion record](DONE.md).
 - [x] 2.5 Create native YAML persistence and migrate the legacy examples.
   - [x] 2.5.1 Define and validate the versioned `.fm.yaml` graph format, with embedded or companion YAML type configuration.
   - [x] 2.5.2 Implement browser loading/saving and complete-graph serialization, including optional saved view/layout state.

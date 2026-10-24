@@ -291,6 +291,11 @@ export class FreshmindNavigation {
       return true;
     }
     if (event.ctrlKey) {
+      const key=event.key.toLowerCase(),action=key==="f"?this.actions.search:key==="r"?this.actions.similar:key==="i"?this.actions.index:undefined;
+      if(action){if(!event.repeat)action(Boolean(event.shiftKey));return true;}
+      if(!event.shiftKey&&(key==="g"||key==="h")&&this.actions.adjustWeight){
+        const item=this.host.getSelection();if(!item)return false;this.actions.adjustWeight(item,key==="g"?1:-1);return true;
+      }
       if (!event.shiftKey && (event.key === "Enter" || event.key === " ")) {
         const item = this.host.getSelection(), action = event.key === "Enter" ? this.actions.edit : this.actions.editDetails;
         if (item && action) { action(item); return true; } return false;
@@ -324,7 +329,8 @@ export class FreshmindNavigation {
       else this.host.setSelect(null);
       return true;
     }
-    if (event.key === "F2") { const item = this.host.getSelection(); if (item && this.actions.edit) { this.actions.edit(item); return true; } return false; }
+    if (event.key === "F2") { const item = this.host.getSelection(),action=event.shiftKey?this.actions.editDetails:this.actions.edit; if (item && action) { action(item); return true; } return false; }
+    if(event.key==="/"&&this.actions.quickSearch){if(!event.repeat)this.actions.quickSearch();return true;}
     if ((event.key === "?" || event.key === "F1") && this.actions.help) { this.actions.help(); return true; }
     if (event.shiftKey || event.repeat) return false;
     const key = event.key.toLowerCase();

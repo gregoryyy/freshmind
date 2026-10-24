@@ -54,3 +54,12 @@ test('editing a generated query during worker execution preserves the edit and e
   pending=controller.query(request,5,q);w=workers.at(-1);q.setLabel('edited query');w.answer({kind:'results',results:[]});await assert.rejects(pending,/Query node changed/);
   assert.equal(q.getLabel(),'edited query');assert.ok(panel.getCompleteEltSet().contains(edges[0]));controller.dispose();panel.destroy();
 });
+
+test('literal indexing checks the current snapshot without adding graph items and rejects text changes',async()=>{
+  const {controller,panel,a,workers}=fixture();panel.setSelect(a);
+  let pending=controller.index(),w=workers.at(-1);w.answer({kind:'indexed',key:w.job.corpus.key,documents:3});await pending;
+  assert.match(controller.getState().message,/3 documents/);assert.equal(panel.getNodeCount(),3);assert.equal(panel.getEdgeCount(),1);assert.equal(panel.getSelect(),a);
+  pending=controller.index();w=workers.at(-1);a.setHint('edited during indexing');w.answer({kind:'indexed',key:w.job.corpus.key,documents:3});await assert.rejects(pending,/changed/);
+  pending=controller.index();const cancelled=assert.rejects(pending,/cancelled/);panel.setGraphEltSet(new FreshGraph());await cancelled;
+  controller.dispose();panel.destroy();
+});

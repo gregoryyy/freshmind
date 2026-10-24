@@ -1,6 +1,6 @@
 import {test,expect} from "@playwright/test";
 
-test("inspector node/relation weights change added RFC forces and zero importance retains ordinary graph context",async({page},info)=>{
+test("overlay node/relation weights change added RFC forces and zero importance retains ordinary graph context",async({page},info)=>{
   const errors=[];page.on("pageerror",error=>errors.push(error.message));await page.goto("/");
   await page.waitForFunction(()=>window.graphBrowser?.getRfc().getState().active);
   await page.evaluate(async()=>{
@@ -16,12 +16,12 @@ test("inspector node/relation weights change added RFC forces and zero importanc
   });
   const baseline=await force();
   await page.locator('[data-edge-id="link"]').press("Enter");
-  await page.getByLabel("Weight",{exact:true}).fill("30");await page.getByRole("button",{name:"Save changes",exact:true}).click();
+  await page.locator("#edit-item").click();await page.getByLabel("Weight",{exact:true}).fill("30");await page.getByRole("button",{name:"Save changes",exact:true}).click();
   const relation=await force();for(let i=0;i<2;i++)expect(relation[i]).toBeCloseTo(baseline[i]*1.5,8);
   await page.locator('[data-node-id="b"]').click();
-  await page.getByLabel("Weight",{exact:true}).fill("9");await page.getByRole("button",{name:"Save changes",exact:true}).click();
+  await page.locator("#edit-item").click();await page.getByLabel("Weight",{exact:true}).fill("9");await page.getByRole("button",{name:"Save changes",exact:true}).click();
   const node=await force();for(let i=0;i<2;i++)expect(node[i]).toBeCloseTo(relation[i]*Math.sqrt(1.8),8);
-  await page.getByLabel("Weight",{exact:true}).fill("0");await page.getByRole("button",{name:"Save changes",exact:true}).click();
+  await page.locator("#edit-item").click();await page.getByLabel("Weight",{exact:true}).fill("0");await page.getByRole("button",{name:"Save changes",exact:true}).click();
   expect(await force()).toEqual([0,0]);
   await expect(page.locator(".fm-edge")).toHaveCount(1);await expect(page.locator(".fm-node")).toHaveCount(2);
   await expect(page.locator(".fm-rfc-edge-halo")).toHaveCount(0);await expect(page.locator('.fm-rfc-node-halo[data-rfc-node-id="b"]')).toHaveCount(0);

@@ -80,3 +80,13 @@ test('IR reset after a worker reply prevents model installation; mismatched trai
   workers.at(-1).answer({kind:'trained',model:trainLda(other,options)});
   await assert.rejects(wrong,/does not match/);assert.equal(session.getState().trained,false);session.dispose();
 });
+
+test('explicit literal index checks validate snapshots and retain cancellation guards',async()=>{
+  const {workers,factory}=transport(),session=new SearchSession(factory);
+  const pending=session.index(corpus),worker=workers.at(-1);assert.equal(worker.job.kind,'index');
+  worker.answer({kind:'indexed',key:corpus.key,documents:2});assert.equal(await pending,2);assert.equal(worker.terminated,true);
+  const wrong=session.index(corpus);workers.at(-1).answer({kind:'indexed',key:'wrong',documents:2});await assert.rejects(wrong,/does not match/);
+  const late=session.index(corpus),rejected=assert.rejects(late,SearchCancelledError);
+  workers.at(-1).answer({kind:'indexed',key:corpus.key,documents:2});session.reset();await rejected;
+  session.dispose();await assert.rejects(session.index(corpus),/disposed/);
+});
