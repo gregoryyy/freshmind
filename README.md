@@ -23,7 +23,7 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 | TouchGraph foundation | Complete: graph/locality APIs, spring layout and lenses, with Java compatibility checks. |
 | Freshmind browser features | Complete: types, labeled curves, navigation, editors, content popups and native YAML persistence. |
 | Reinforcement Focus + Context | Planned milestone complete: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible comparisons including hybrid views. |
-| LDA-based graph visual search | Planned milestone complete: lexical/tag queries, topic training, node similarity, saved rejection feedback and reproducible example comparisons. |
+| Graph visual search | Prototype graph interactions implemented. Integration awaits the user-supplied Lucene-equivalent literal search and semantic retrieval module; LDA is superseded. |
 
 See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes.
 
@@ -40,7 +40,7 @@ Open the localhost address printed by Vite. `/` is the graph browser; `/freshmin
 
 Try **RFC → Research community showcase** to compare a plain graph, viewing lens, one/two RFC foci and hybrid aggregation. See the [showcase guide](docs/rfc-showcase.md) or [six-view flipbook](docs/rfc-showcase/index.html).
 
-Try **Graph search → Fictional topic library** for queries, topic training and similarity. Follow the [search guide](docs/graph-search.md) or [seven-step walkthrough](docs/search-walkthrough/index.html); [recorded comparisons](docs/experiments/search/README.md) give the evaluation limits.
+The search direction is a user-supplied literal engine plus semantic retrieval, potentially based on embeddings. See the [integration plan](docs/search-module-integration.md). The current topic-library demo and its [guide](docs/graph-search.md) describe the superseded LDA prototype.
 
 RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
 
@@ -92,7 +92,7 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 | Trees, DAGs, clustering and cluster forces | [Substructures](docs/rfc-substructures.md), [clusters](docs/rfc-clusters.md) |
 | Importance and focal-region exclusion | [Importance contract](docs/rfc-importance.md), [exclusion contract](docs/rfc-exclusion.md) |
 | Reversible filtering and leaf aggregation | [Structural focus + context](docs/structural-focus-context.md) |
-| Graph visual search and LDA port | [Browser guide](docs/graph-search.md), [source audit and implementation contract](docs/visual-search-design.md) |
+| Graph visual search | [Supplied-module integration plan](docs/search-module-integration.md), [earlier prototype guide](docs/graph-search.md) |
 | Scientific analysis and experiments | [Second draft paper](docs/papers/rfc-revisited-draft2.md), [follow-up reports](docs/experiments/rfc-followup/README.md) |
 | Example data, provenance and conversion | [Public networks](examples/public/README.md), [approved Java examples](examples/fm2014/README.md), [fictional search library](examples/search/README.md) |
 | Java reference and compatibility | [FM 2014 source analysis](docs/fm2014_analysis.md), [compatibility audit](docs/DONE.md#compatibility-audit) |

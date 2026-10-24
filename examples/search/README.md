@@ -1,5 +1,10 @@
 # Fictional topic library
 
+This fixture and its linked LDA comparisons describe the earlier prototype.
+The [current direction](../../docs/search-module-integration.md) is integration of
+Gregor's supplied literal and semantic search module; LDA is superseded. The
+fixture will be reassessed when that module is available.
+
 [topic-library.fm.yaml](topic-library.fm.yaml) is newly authored demonstration data
 for graph visual search. All researchers, papers, annotations and relations are
 fictional; no legacy dataset, paper figure or external resource was imported.

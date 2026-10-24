@@ -1,5 +1,11 @@
 # Graph visual search
 
+**Prototype guide:** the controls below describe the earlier lexical/LDA
+implementation currently in the checkout. The intended search module will be
+provided by Gregor, combining a Lucene-equivalent literal engine and semantic
+retrieval that may use embeddings. LDA is superseded. See the
+[current integration plan](search-module-integration.md); replacement is pending.
+
 Open **Graph search** in the main browser. Search covers the complete stored
 graph, including items outside the current neighborhood. Results join the current
 view, so their ordinary semantic connections remain available for exploration.

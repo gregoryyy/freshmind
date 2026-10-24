@@ -34,6 +34,11 @@ The library is one ESM package with two domains: `tg/` preserves TouchGraph, and
 | `fm/browser/` | FreshmindPanel composition, DOM keyboard adapter, document installation/capture, safe annotations and disposable graph-search worker/model lifecycle. | `fm4/fm/browser` |
 | `fm/ui/` | Reusable caller-owned controls, content popup and key-map/zoom/importance/structure/search bindings. | `fm4/fm/ui` |
 
+The search/topic entries describe the current prototype code. The intended
+literal and semantic search module will be supplied by Gregor; LDA is superseded.
+See the [integration plan](../docs/search-module-integration.md) for pending
+backend and browser adaptation.
+
 `fm4/fm/core` composes the parser-free, DOM-free feature modules; model references to geometry/view types are type-only. `fm4/fm` adds browser, rendering, UI and codecs. `fm4/fm/ui/style.css` remains the optional stylesheet. Pure geometry no longer shares a directory with the DOM renderer, and navigation/editing/I/O modules no longer contain panel or DOM adapters.
 
 The canonical type configuration remains `config/fm2014.types.yaml`; `npm run sync:fm-config` generates `fm/config/fm2014.ts` and the documented example. The demo owns file pickers/downloads and editor drafts. XML migration and reproducible research tools live in `scripts/`; proprietary reference datasets remain excluded.
