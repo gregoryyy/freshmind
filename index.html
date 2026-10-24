@@ -25,9 +25,21 @@
           <details class="sidebar-section" id="files-section" open><summary>Graph files</summary>
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <label class="control-label" for="example-graph">Load example</label>
-          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="structural-focus-context">Structural focus + context</option><option value="substructures">Trees and DAG</option><option value="weighted-tree">Weighted tree</option><option value="clusters">Overlapping clusters</option><option value="exclusion">Focal-region exclusion</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
+          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="rfc-showcase">Research community showcase</option><option value="structural-focus-context">Structural focus + context</option><option value="substructures">Trees and DAG</option><option value="weighted-tree">Weighted tree</option><option value="clusters">Overlapping clusters</option><option value="exclusion">Focal-region exclusion</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
           <input type="file" id="open-graph-files" accept=".yaml,.yml" multiple hidden />
           <p id="file-status" class="control-help" role="status"></p>
+          <div id="rfc-showcase" hidden>
+            <label class="control-label" for="rfc-showcase-view">Apply comparison view</label>
+            <select id="rfc-showcase-view" aria-describedby="rfc-showcase-help">
+              <option value="">Choose a view…</option>
+              <option value="plain">Plain graph</option><option value="lens">Viewing lens</option>
+              <option value="single">One RFC focus</option><option value="two">Two RFC foci</option>
+              <option value="hybrid">Hybrid aggregation</option><option value="hybrid-lens">Hybrid + viewing lens</option>
+            </select>
+            <p id="rfc-showcase-help" class="control-help">Each choice restores the file's starting positions and common initial framing. Motion follows the normal pause/resume control.</p>
+            <p id="rfc-showcase-caption" class="control-help" role="status"></p>
+            <div class="document-tools"><button id="rfc-showcase-fit" type="button">Fit visible graph</button></div>
+          </div>
           </details>
           <details class="sidebar-section" id="view-section" open><summary>View</summary>
           <p id="view-status" class="section-label">LOCAL NEIGHBORHOOD</p>

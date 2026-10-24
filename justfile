@@ -24,6 +24,10 @@ build-demo:
 flipbook *args: build-demo
     node scripts/flipbook.mjs "$@"
 
+# Capture the six-view research-community RFC/hybrid showcase from the production browser.
+rfc-showcase *args: build-demo
+    node scripts/flipbook.mjs --tour rfc-showcase "$@"
+
 # Regenerate the headless preset and documentation from the Freshmind type YAML.
 sync-fm-config:
     npm run sync:fm-config
@@ -101,6 +105,10 @@ substructure-examples: build
 # Regenerate the synthetic typed leaf-aggregation / hybrid-view input.
 structural-example: build
     node scripts/structural-view-example.mjs
+
+# Regenerate the typed research-community showcase for single/multiple RFC and hybrid views.
+rfc-showcase-example: build
+    node scripts/rfc-showcase-example.mjs
 
 # Plot an existing RFC report; requires Python 3 with matplotlib.
 rfc-plot output="docs/experiments/rfc-single-focus":

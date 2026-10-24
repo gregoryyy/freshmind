@@ -12,6 +12,7 @@ import { SelectionEditor } from "./selection-editor.js";
 import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
+import {bindRfcShowcase} from "./rfc-showcase.js";
 import { resourceURL } from "../src/fm/browser/index.js";
 import "./style.css";
 
@@ -94,7 +95,9 @@ const disposeStructures=bindSubstructureControls(panel,{
   weighted:get<HTMLInputElement>("cluster-weighted"),scope:get<HTMLSelectElement>("cluster-scope"),detect:get<HTMLButtonElement>("cluster-detect"),
   cluster:get<HTMLSelectElement>("cluster-select"),members:get("cluster-members"),renderCluster:get<HTMLButtonElement>("cluster-render")
 });
-bindFileControls(panel);
+const showcase=bindRfcShowcase(panel,{container:get("rfc-showcase"),mode:get<HTMLSelectElement>("rfc-showcase-view"),
+  fit:get<HTMLButtonElement>("rfc-showcase-fit"),caption:get("rfc-showcase-caption")});
+bindFileControls(panel,showcase.loaded);
 const disposeStructuralView=bindStructuralViewControls(panel,{
   enabled:get<HTMLInputElement>("structural-enabled"),hiddenNodeTypes:get<HTMLSelectElement>("structural-node-types"),
   hiddenRelationTypes:get<HTMLSelectElement>("structural-relation-types"),aggregateTypes:get<HTMLSelectElement>("structural-aggregate-types"),
@@ -251,5 +254,5 @@ Object.assign(window, { graphBrowser: panel });
 void focusOn(root).then(() => {
   if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
 });
-window.addEventListener("pagehide", () => { disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

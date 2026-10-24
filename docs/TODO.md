@@ -103,6 +103,7 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
   - [x] 3.3.5 Add a loadable stored tree with nonuniform/zero node and relation importance, retaining ordinary context and all saved membership IDs.
   - [x] 3.3.6 Add a loadable overlapping-cluster example retaining clique cycles, shared members, zero importance and ordinary boundary links.
   - [x] 3.3.7 Add four synthetic exclusion fixtures with pinned-pressure controls, shared membership and cluster regions; expose the cross-pressure example in the main browser.
+  - [x] 3.3.8 Build a capability-equivalent current RFC/hybrid showcase: a new typed research community with single/two foci, shared groups, semantic bridges and reversible context aggregation. Add six browser comparison setups, complete YAML preservation and a production walkthrough. Original-figure reproduction remains outside scope.
 - [x] 3.4 Create reproducible experiments comparing the mechanism with the plain TouchGraph baseline.
   - [x] 3.4.1 Compare the single-focus implementation from identical starting states with seeded randomness and recorded settings/coordinates/metrics.
   - [x] 3.4.2 Compare hybrid structural filtering/aggregation with matched TG/RFC/lens controls, accounting for retained constraints and changed visible graph size. Experiment J records 160 runs, identical nominated detail in force controls, common-subset scores, exact physical lens twins and motion/force diagnostics. Focal-region exclusion is covered in 3.4.11, weighted coordinates in 3.4.1 and multiple tree foci in 3.4.5.

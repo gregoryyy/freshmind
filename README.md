@@ -38,6 +38,8 @@ just dev
 
 Open the localhost address printed by Vite. `/` is the graph browser; `/freshmind.html` explores the type palette and live YAML configuration. **Load example** offers synthetic RFC graphs, public networks and the approved Berry/NIPS-FM datasets.
 
+Try **RFC → Research community showcase** to compare a plain graph, viewing lens, one/two RFC foci and hybrid aggregation. See the [showcase guide](docs/rfc-showcase.md) or [six-view flipbook](docs/rfc-showcase/index.html).
+
 RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
 
 The other common recipes are:

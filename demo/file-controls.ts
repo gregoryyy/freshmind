@@ -23,8 +23,10 @@ import leafTreesURL from "../docs/experiments/rfc-multifocus/leaf-connected-tree
 import sharedTreesURL from "../docs/experiments/rfc-multifocus/shared-subtree.fm.yaml?url";
 import exclusionURL from "../docs/experiments/rfc-exclusion/overlap-pressure.fm.yaml?url";
 import structuralURL from "../examples/rfc/structural-focus-context.fm.yaml?url";
+import showcaseURL from "../examples/rfc/research-community.fm.yaml?url";
 
 const examples: Record<string, {url: string; companion?: string}> = {
+  "rfc-showcase":{url:showcaseURL},
   "structural-focus-context":{url:structuralURL},berry: {url: berryURL, companion: typesURL}, "nips-fm": {url: nipsURL, companion: typesURL},
   florentine: {url: florentineURL}, karate: {url: karateURL}, "les-miserables": {url: lesMiserablesURL},substructures:{url:substructuresURL},
   "joined-trees": {url: joinedTreesURL}, "leaf-connected-trees": {url: leafTreesURL}, "shared-subtree": {url: sharedTreesURL}, "weighted-tree": {url: weightedTreeURL}, clusters: {url: clustersURL},exclusion:{url:exclusionURL}
@@ -33,7 +35,7 @@ const examples: Record<string, {url: string; companion?: string}> = {
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
 /** Browser file I/O owns only file selection/downloads; the codec remains independent of DOM and storage. */
-export function bindFileControls(panel: FreshmindPanel): void {
+export function bindFileControls(panel: FreshmindPanel, loadedDocument?:(document:FreshmindDocument,example:string)=>void): void {
   let current: FreshmindDocument | undefined, filename = "freshmind.fm.yaml", revision = 0;
   const input = get<HTMLInputElement>("open-graph-files"), status = get("file-status");
   const message = (value: string, error = false) => {status.textContent = value; status.dataset.error = String(error);};
@@ -45,6 +47,7 @@ export function bindFileControls(panel: FreshmindPanel): void {
     if (request !== revision) return;
     current = loaded; filename = name; get<HTMLInputElement>("save-name").value = filename;
     get<HTMLSelectElement>("example-graph").value = example;
+    loadedDocument?.(loaded,example);
     const warnings = loaded.types.getDiagnostics();
     message(name + ": " + loaded.graph.nodeCount() + " nodes, " + loaded.graph.edgeCount() + " relations"
       + (warnings.length ? " · " + warnings.length + " type warnings: " + warnings.slice(0, 3).join("; ") : ""));
