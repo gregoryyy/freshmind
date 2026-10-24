@@ -19,6 +19,14 @@ export class SearchSession {
   constructor(workerFactory?:SearchWorkerFactory){this.jobs=new SearchWorkerClient(workerFactory);}
   getState():SearchSessionState{return {busy:this.jobs.busy,trained:!!this.model,topics:this.model?.options.topics??null,topicWords:this.topicWords.map(row=>[...row])};}
   private check(generation:number):void {if(this.disposed||generation!==this.generation)throw new SearchCancelledError();}
+  /** Explicit index check for the historical command; ordinary literal queries still index their own current snapshot. */
+  async index(input:SearchCorpus):Promise<number>{
+    if(this.disposed)throw new Error("Search session disposed");
+    const corpus=createSearchCorpus(input.documents),generation=++this.generation;
+    const answer=await this.jobs.run({kind:"index",corpus});this.check(generation);
+    if(answer.kind!=="indexed"||answer.key!==corpus.key||answer.documents!==corpus.documents.length)throw new Error("Indexed snapshot does not match the requested corpus");
+    return answer.documents;
+  }
   async train(input:SearchCorpus,options:Partial<LdaOptions>={},onProgress?:(progress:LdaProgress)=>void):Promise<void>{
     if(this.disposed)throw new Error("Search session disposed");
     const o=validateLdaOptions(options),corpus=createSearchCorpus(input.documents),generation=++this.generation;

@@ -309,3 +309,20 @@ test("Ctrl Shift Option left/right rotates the view and retains graph and naviga
   assert.deepEqual(visible(p),members);assert.deepEqual([...p.getAllNodes()].map(node=>[node.x,node.y]),positions);
   p.setSelect(null);n.handleKey({...key,key:"ArrowRight"});assert.ok(Math.abs(p.getRotation()-.4)<1e-12);
 });
+
+test('FM2014 search/index/similarity shortcuts dispatch optional actions and preserve unsupported chords',t=>{
+  const {p,n}=fixture(t),calls=[];
+  const remove=n.setActions({quickSearch:()=>calls.push('quick'),search:s=>calls.push(['find',s]),similar:s=>calls.push(['similar',s]),index:s=>calls.push(['index',s]),editDetails:()=>calls.push('details'),adjustWeight:(_item,d)=>calls.push(['weight',d])});
+  assert.equal(n.handleKey({key:'/'}),true);
+  assert.equal(n.handleKey({key:'/',shiftKey:true}),true); // Shift+7 on a German keyboard.
+  for(const [key,name] of [['f','find'],['r','similar'],['i','index']])for(const shiftKey of [false,true]){
+    assert.equal(n.handleKey({key,ctrlKey:true,shiftKey}),true);assert.deepEqual(calls.at(-1),[name,shiftKey]);
+    const count=calls.length;n.handleKey({key,ctrlKey:true,shiftKey,repeat:true});assert.equal(calls.length,count);
+  }
+  p.setSelect([...p.getAllNodes()][0]);
+  n.handleKey({key:'F2',shiftKey:true});assert.equal(calls.at(-1),'details');
+  n.handleKey({key:'g',ctrlKey:true});assert.deepEqual(calls.at(-1),['weight',1]);
+  n.handleKey({key:'h',ctrlKey:true});assert.deepEqual(calls.at(-1),['weight',-1]);
+  for(const extra of [{metaKey:true},{altKey:true},{isComposing:true}])assert.equal(n.handleKey({key:'f',ctrlKey:true,...extra}),false);
+  remove();assert.equal(n.handleKey({key:'f',ctrlKey:true}),false);assert.equal(n.handleKey({key:'/'}),false);
+});

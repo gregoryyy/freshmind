@@ -6,7 +6,10 @@ import type {SearchWorkerJob,SearchWorkerMessage} from "./protocol.js";
 const port=globalThis as unknown as {onmessage:((event:MessageEvent<SearchWorkerJob>)=>void)|null;postMessage(message:SearchWorkerMessage):void};
 port.onmessage=({data:job})=>{
   try {
-    if(job.kind==="train"){
+    if(job.kind==="index"){
+      const corpus=new LexicalSearchIndex(job.corpus).getCorpus();
+      port.postMessage({kind:"indexed",key:corpus.key,documents:corpus.documents.length});
+    }else if(job.kind==="train"){
       const steps=trainLdaSteps(job.corpus,job.options);let next=steps.next();
       while(!next.done){const p=next.value;if(p.iteration%Math.max(1,Math.floor(p.iterations/20))===0||p.iteration===p.iterations)port.postMessage({kind:"progress",progress:p});next=steps.next();}
       port.postMessage({kind:"trained",model:next.value});

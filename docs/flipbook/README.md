@@ -56,7 +56,7 @@ F2 opens an inline label editor on the selected node. A draft stays separate fro
 
 ![Annotations and item details](09-annotation.png)
 
-Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content delegates to the annotation inspector.
+Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content opens the annotation overlay.
 
 ## 10. Save the complete graph as YAML
 
@@ -153,3 +153,15 @@ With node bodies already separated and motion paused, turn off Avoid relation la
 ![Place relation labels near clear curve positions](25-relations-separated.png)
 
 Avoid relation label overlaps measures SVG text and tries nearby positions along each curve and its normal. The browser enables this bounded presentation pass by default. It reduces label–node and label–label intersections in this view while retaining every label, node position and curve. Dense views can still overlap; toggling off restores original anchors.
+
+## 26. Edit labels and weights together
+
+![Edit labels and weights together](26-label-weight.png)
+
+F2 opens a graph-anchored label overlay with weight controls for either a node or a relation. Ctrl+G/H adjusts the shared draft; a numeric suffix such as Graph browsers =3 also sets absolute weight on Save. The draft leaves the graph unchanged until committed; Escape cancels both label and weight.
+
+## 27. Edit node details directly in an overlay
+
+![Edit node details directly in an overlay](27-details-editor.png)
+
+Ctrl+Enter commits the weight. Ctrl+Space or Shift+F2 then opens the full modeless editor at the node annotation, outside the side pane. It also exposes types, visual settings, URLs and metadata. Close retains a per-item draft; Save commits and Escape cancels. The annotation shown here is still a draft.

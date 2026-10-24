@@ -208,6 +208,7 @@ test("edge-form keys update the browser selector and geometry while editors keep
   await page.evaluate(() => window.graphBrowser.focusGraph());
   await page.keyboard.press("w"); await expect(selector).toHaveValue("straight");
   const label = page.getByLabel("Node label", {exact:true});
+  await page.locator("#edit-item").click();
   await label.fill(""); await label.press("w"); await label.press("c");
   await expect(label).toHaveValue("wc"); await expect(selector).toHaveValue("straight");
   await page.evaluate(() => window.graphBrowser.setEdgeCurve("spider"));
@@ -215,10 +216,10 @@ test("edge-form keys update the browser selector and geometry while editors keep
   expect(errors).toEqual([]);
 });
 
-test("main inspector saves node labels, types and shapes with stable identity and supports cancel", async ({ page }, testInfo) => {
+test("overlay saves node labels, types and shapes with stable identity and supports cancel", async ({ page }, testInfo) => {
   const errors = await ready(page),root=page.locator('[data-node-id="root"]');
   const before=await page.evaluate(()=>{const n=window.graphBrowser.findNode("root");return [n.x,n.y,n.getHint()];});
-  await root.press("F2");await expect(page.getByLabel("Inline node label",{exact:true})).toBeFocused();
+  await root.press("Shift+F2");await expect(page.getByLabel("Annotation",{exact:true})).toBeFocused();
   await page.getByLabel("Node label",{exact:true}).fill("A new\nlabel");
   await page.getByLabel("Semantic type",{exact:true}).selectOption("person");
   await page.getByLabel("Node shape",{exact:true}).selectOption("ellipse");
@@ -228,7 +229,7 @@ test("main inspector saves node labels, types and shapes with stable identity an
   await expect(root.locator(".fm-shape")).toHaveAttribute("d",/ A /);
   await expect(page.locator("#selected-name")).toHaveText("A new\nlabel");
   expect(await page.evaluate(()=>{const n=window.graphBrowser.findNode("root");return [n.x,n.y,n.getHint()];})).toEqual(before);
-  await root.press("F2");await page.getByLabel("Node label",{exact:true}).fill("Do not save");
+  await root.press("Shift+F2");await page.getByLabel("Node label",{exact:true}).fill("Do not save");
   await page.getByLabel("Node label",{exact:true}).press("Escape");
   expect(await page.evaluate(()=>window.graphBrowser.findNode("root").getLabel())).toBe("A new\nlabel");
   await expect(root).toBeFocused();expect(errors).toEqual([]);
@@ -237,19 +238,20 @@ test("main inspector saves node labels, types and shapes with stable identity an
 
 test("node drafts survive selection changes and text-entry deletion does not delete graph nodes", async ({ page }) => {
   const errors=await ready(page),label=page.getByLabel("Node label",{exact:true});
+  await page.locator("#edit-item").click();
   await label.fill("Keep this draft");await label.press("Backspace");
   expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(48);
-  const draft=await label.inputValue();
+  const draft=await label.inputValue();await page.locator("#close-item-editor").click();
   await page.locator('[data-node-id="topic-0"]').click();
   await page.locator('[data-node-id="root"]').click();
-  await expect(label).toHaveValue(draft);await expect(page.locator("#editor-status")).toContainText("Unsaved changes");
+  await page.locator("#edit-item").click();await expect(label).toHaveValue(draft);await expect(page.locator("#editor-status")).toContainText("Unsaved changes");
   await label.press("Control+Enter");expect(await page.evaluate(()=>window.graphBrowser.findNode("root").getLabel())).toBe(draft);
   expect(errors).toEqual([]);
 });
 
 test("relation selection drives editing and per-relation curve overrides can be reset", async ({ page }) => {
   const errors=await ready(page),edge=page.locator('.fm-edge').first(),id=await edge.getAttribute("data-edge-id");
-  await edge.press("Enter");await expect(page.locator("#selection-kind")).toHaveText("SELECTED RELATION");
+  await edge.press("Enter");await expect(page.locator("#selection-kind")).toHaveText("SELECTED RELATION");await page.locator("#edit-item").click();
   await page.getByLabel("Relation label",{exact:true}).fill("references");
   await page.getByLabel("Semantic type",{exact:true}).selectOption("cites");
   await page.getByLabel("Relation curve",{exact:true}).selectOption("straight");
@@ -257,7 +259,7 @@ test("relation selection drives editing and per-relation curve overrides can be 
   await expect(edge.locator(".fm-edge-label")).toHaveText("references");await expect(edge).toHaveAttribute("data-semantic-type","cites");
   expect(await page.evaluate(id=>{const p=window.graphBrowser,e=[...p.getAllEdges()].find(e=>e.getID()===id);return p.getEdgeStyle(e).curve;},id)).toBe("straight");
   await page.getByLabel("Edge curves",{exact:true}).selectOption("lens");
-  await page.getByLabel("Relation curve",{exact:true}).selectOption("");
+  await page.locator("#edit-item").click();await page.getByLabel("Relation curve",{exact:true}).selectOption("");
   await page.getByRole("button",{name:"Save changes",exact:true}).click();
   expect(await page.evaluate(id=>{const p=window.graphBrowser,e=[...p.getAllEdges()].find(e=>e.getID()===id);return p.getEdgeStyle(e).curve;},id)).toBe("lens");
   expect(errors).toEqual([]);
@@ -270,7 +272,7 @@ test("visible edit controls add, rename and delete a node", async ({ page }) => 
   const label=page.getByLabel("Node label",{exact:true});await expect(label).toBeFocused();await label.fill("My node");
   await label.press("Control+Enter");await expect(page.locator('[data-node-id="New node"] .tg-label')).toHaveText("My node");
   expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(49);
-  await page.getByRole("button",{name:"Delete selected item",exact:true}).click();
+  await page.locator("#edit-item").click();await page.getByRole("button",{name:"Delete selected item",exact:true}).click();
   expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(48);
   await expect(page.locator('[data-node-id="New node"]')).toHaveCount(0);expect(errors).toEqual([]);
 });

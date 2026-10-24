@@ -34,10 +34,10 @@ export class GraphSearchController {
     this.generation++;const busy=this.state.busy;this.session.cancel();
     if(busy)this.publish({busy:false,message:"Search cancelled."});
   }
-  private async run<T>(corpus:SearchCorpus,execute:(progress:(p:LdaProgress)=>void)=>Promise<T>,training=false):Promise<T>{
+  private async run<T>(corpus:SearchCorpus,execute:(progress:(p:LdaProgress)=>void)=>Promise<T>,operation:"search"|"train"|"index"="search"):Promise<T>{
     if(this.disposed)throw new Error("Search controller disposed");this.checkGraph();this.cancel();
     const graph=this.graph,generation=this.generation;
-    this.publish({busy:true,message:training?"Training topic model…":"Searching…"});
+    this.publish({busy:true,message:operation==="train"?"Training topic model…":operation==="index"?"Checking literal search index…":"Searching…"});
     try {
       const answer=await execute(progress=>{
         if(generation===this.generation&&!this.disposed)this.publish({message:`Training topic model: ${progress.iteration}/${progress.iterations} passes.`});
@@ -51,8 +51,15 @@ export class GraphSearchController {
       throw error;
     }
   }
+  async index():Promise<void>{
+    const graph=this.panel.getCompleteEltSet(),corpus=graphSearchCorpus(graph),pending=this.run(corpus,()=>this.session.index(corpus),"index"),generation=this.generation;
+    const count=await pending;
+    if(this.disposed||generation!==this.generation)throw new SearchCancelledError();
+    if(graph!==this.panel.getCompleteEltSet()||graphSearchCorpus(graph).key!==corpus.key)throw new Error("Indexing graph changed");
+    this.publish({message:`Literal index checked: ${count} documents. Queries automatically index the current graph.`});
+  }
   async train(options:Partial<LdaOptions>={}):Promise<void>{
-    const graph=this.panel.getCompleteEltSet(),corpus=graphSearchCorpus(graph),pending=this.run(corpus,p=>this.session.train(corpus,options,p),true),generation=this.generation;
+    const graph=this.panel.getCompleteEltSet(),corpus=graphSearchCorpus(graph),pending=this.run(corpus,p=>this.session.train(corpus,options,p),"train"),generation=this.generation;
     await pending;
     if(this.disposed||generation!==this.generation)throw new SearchCancelledError();
     if(graph!==this.panel.getCompleteEltSet()||graphSearchCorpus(graph).key!==corpus.key)throw new Error("Training graph changed");

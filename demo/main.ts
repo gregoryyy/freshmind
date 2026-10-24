@@ -118,7 +118,7 @@ panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(
 const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); });
 const navigation = panel.getNavigation();
 const disposeDetails = bindNodeDetails(panel, {graph: get("graph"), onNodeLink: focusOn, onEdit: () => editor.focusDetails()});
-navigation.setActions({edit: () => editor.openInline(), editDetails: () => editor.focusDetails(), openResource, reverseRelation: () => editor.reverseRelation()});
+navigation.setActions({edit: () => editor.openInline(), editDetails: () => editor.focusDetails(),adjustWeight:(_item,direction)=>editor.adjustWeight(direction), openResource, reverseRelation: () => editor.reverseRelation()});
 navigation.addListener(state => {
   allVisible = state.wholeGraph;
   get("view-status").textContent = allVisible ? "WHOLE GRAPH" : "LOCAL NEIGHBORHOOD";
@@ -241,7 +241,7 @@ get("edit-mode").addEventListener("click", () => {
   get("edit-help").hidden = !editing;
   get("add-node").hidden = !editing;
   get("delete-item").hidden = !editing;
-  if (editing && panel.getSelection()) editor.focusLabel();
+  panel.focusGraph();
 });
 get("add-node").addEventListener("click", () => {
   const node = new FreshNode(null, "New node", { position: panel.getCenter() });

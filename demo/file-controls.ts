@@ -54,7 +54,7 @@ export function bindFileControls(panel: FreshmindPanel, loadedDocument?:(documen
     message(name + ": " + loaded.graph.nodeCount() + " nodes, " + loaded.graph.edgeCount() + " relations"
       + (warnings.length ? " · " + warnings.length + " type warnings: " + warnings.slice(0, 3).join("; ") : ""));
     // Loading is a graph action. Preserve any editor/control the user entered while it was pending.
-    // Graph replacement temporarily disables the inspector, which can move its focus to body.
+    // Graph replacement temporarily disables editor fields, which can move their focus to body.
     if (document.activeElement === document.body && focusBeforeInstall instanceof HTMLElement && focusBeforeInstall.isConnected
       && focusBeforeInstall.matches("input,textarea,select,[contenteditable]") && !focusBeforeInstall.matches(":disabled"))
       focusBeforeInstall.focus({preventScroll: true});

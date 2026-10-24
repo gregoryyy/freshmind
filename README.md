@@ -6,7 +6,7 @@
 
 ![Freshmind 4 graph example with RFC enabled on its central Graph browsers node](docs/flipbook/01-browser.png)
 
-The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the 25-step flipbook](docs/flipbook/index.html).
+The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the 27-step flipbook](docs/flipbook/index.html).
 
 ## Background and motivation
 
@@ -21,7 +21,7 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 | Area | Current status |
 | --- | --- |
 | TouchGraph foundation | Complete: graph/locality APIs, spring layout and lenses, with Java compatibility checks. |
-| Freshmind browser features | Complete: types, labeled curves, navigation, editors, content popups and native YAML persistence. |
+| Freshmind browser features | Complete: types, labeled curves, navigation, overlay editors with label/weight commands, content popups and native YAML persistence. |
 | Reinforcement Focus + Context | Planned milestone complete: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible comparisons including hybrid views. |
 | Readability | Measured node-label separation with pinned/focus protection and overlap counts; automatic relation-label placement near clear curve positions. |
 | Graph visual search | Current lexical/LDA prototype retained: queries, tags, node similarity and feedback. Backend replacement is deferred. |

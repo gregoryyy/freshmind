@@ -77,7 +77,7 @@ test('controls include unknown semantic IDs, validate atomically, reset on docum
 test('relation editing reconnects to aggregated targets without losing selection or source membership',async({page})=>{
   const errors=await ready(page);await enable(page);
   await page.evaluate(()=>{const p=window.graphBrowser;p.setSelectEdge([...p.getAllEdges()].find(e=>e.getID()==='relation-1'));});
-  await page.locator('#edge-to').fill('bea');await page.locator('#save-item').click();
+  await page.locator('#edit-item').click();await page.locator('#edge-to').fill('bea');await page.locator('#save-item').click();
   await expect(page.locator('#editor-status')).toHaveText('Changes saved.');
   const result=await page.evaluate(()=>{
     const p=window.graphBrowser,e=[...p.getAllEdges()].find(e=>e.getID()==='relation-1');

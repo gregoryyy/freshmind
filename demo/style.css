@@ -45,6 +45,12 @@ select:focus-visible, textarea:focus-visible { outline: 3px solid #6cb08b; outli
 .inline-editor { position: absolute; transform: translate(-50%, -50%); z-index: 5; background: #fff; border: 2px solid #42674a; border-radius: 5px; padding: 5px; box-shadow: 0 3px 12px #263e3326; }
 .inline-editor textarea, .inline-editor input { width: 100%; font-size: 14px; padding: 5px; }
 .inline-editor textarea { min-height: 65px; }
+.inline-weight { display: flex; align-items: center; gap: 5px; margin-top: 5px; font-size: 11px; }
+.inline-weight input { min-width: 0; flex: 1; }
+.inline-weight button { border: 1px solid #c4cdbf; border-radius: 4px; background: #f4f5f0; padding: 4px 8px; }
+.item-editor-overlay { position: fixed; inset: 90px 0 auto; margin: 0 auto; z-index: 30; width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 110px); overflow: auto; padding: 22px; border: 2px solid #42674a; border-radius: 8px; background: #fafbf7; color: #263e33; box-shadow: 0 8px 32px #263e3340; }
+.item-editor-overlay .control-label { margin-top: 14px; }
+.item-editor-overlay > header { position: sticky; top: -22px; z-index: 1; padding: 8px 0; background: #fafbf7; }
 .inline-status { font-size: 10px; margin-top: 4px; }
 .save-dialog { max-width: min(850px, 94vw); max-height: 85dvh; border: 1px solid #c4cdbf; border-radius: 8px; padding: 24px; color: #263e33; }
 .save-dialog::backdrop { background: #14291f66; }

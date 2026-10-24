@@ -12,6 +12,20 @@ view, so their ordinary semantic connections remain available for exploration.
 Explicit structural type filters still apply; remove a filter to inspect a
 result of a hidden type.
 
+With the graph focused, FM2014's shortcuts reveal the controls even when
+collapsed: `/` clears and focuses literal search; **Ctrl+F** focuses literal
+terms and **Ctrl+Shift+F** selects the retained topic-model method. Enter in the
+query field runs it with the selected graph context. **Ctrl+R** and
+**Ctrl+Shift+R** retrieve literal/topic similarities for the selected content
+node. **Ctrl+I** builds and checks a literal index snapshot in a worker, reporting
+the document count without creating graph items. The prototype indexes current
+text automatically for every literal query, so this is an explicit check rather
+than a prerequisite or persistent index. **Ctrl+Shift+I** trains the current
+topic model using the configured settings. Busy work ignores repeated shortcut
+requests; cancellation and graph/text freshness checks remain authoritative.
+These shortcuts apply to the graph, leaving normal text and browser shortcuts
+available in editors. See the [key map](KEYMAP.md).
+
 1. Choose **Lexical**, enter terms such as `graph AND layout`, and press **Run
    query** or Enter. A query node appears beside the selected context node, with
    relevance-labeled links to results. Select an existing query and run again to
@@ -19,7 +33,7 @@ result of a hidden type.
    also updates its node type and replaces its earlier result links.
 2. For exact metadata lookup choose **Tags (exact)**. Enter whole tag values,
    separated by commas; all listed tags are required. Tags live in each node's
-   `data.tags` string array, editable through the metadata inspector. Exact tag
+   `data.tags` string array, editable through the full item overlay. Exact tag
    retrieval works with either search method and does not need a trained model.
 3. For topical retrieval choose **LDA topics**, open **Topic model training** and
    press **Train topic model**. The status reports passes and the resulting topic

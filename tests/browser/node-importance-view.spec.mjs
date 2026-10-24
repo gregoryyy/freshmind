@@ -34,7 +34,7 @@ test('weight scales body and glyphs within bounds, keeps zero visible and expose
 test('importance edits update measured shapes, focus, curved-edge clipping and lenses without changing physical positions',async({page},info)=>{
   const errors=await ready(page);
   const before=await page.evaluate(()=>{const p=window.graphBrowser;p.findNode('n3').setVisual({style:{shape:'ellipse'}});p.setSelect(p.findNode('n3'));p.repaint();return {positions:[...p.getAllNodes()].map(n=>[n.x,n.y]),width:p.findNode('n3').getWidth()};});
-  await page.getByLabel('Weight',{exact:true}).fill('0');await page.getByRole('button',{name:'Save changes',exact:true}).click();
+  await page.locator('#edit-item').click();await page.getByLabel('Weight',{exact:true}).fill('0');await page.getByRole('button',{name:'Save changes',exact:true}).click();
   const edited=await page.evaluate(()=>{
     const p=window.graphBrowser,n=p.findNode('n3'),e=[...p.getAllEdges()].find(e=>e.getID()==='e2'),g=p.getEdgeGeometry(e);
     return {width:n.getWidth(),scale:document.querySelector('[data-node-id="n3"]').dataset.importanceScale,hit:n.containsPoint(n.drawx+n.getWidth()/2+1,n.drawy),path:g.path};
