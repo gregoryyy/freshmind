@@ -54,6 +54,10 @@
       "types": "./dist/fm/structures/model.d.ts",
       "import": "./dist/fm/structures/model.js"
     },
+    "./fm/structure-view": {
+      "types": "./dist/fm/structure-view/index.d.ts",
+      "import": "./dist/fm/structure-view/index.js"
+    },
     "./fm/clustering": {
       "types": "./dist/fm/clustering/index.d.ts",
       "import": "./dist/fm/clustering/index.js"

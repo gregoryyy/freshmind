@@ -89,6 +89,10 @@ rfc-exclusion-figures output="docs/experiments/rfc-exclusion":
 substructure-examples: build
     node scripts/substructure-examples.mjs
 
+# Regenerate the synthetic typed leaf-aggregation / hybrid-view input.
+structural-example: build
+    node scripts/structural-view-example.mjs
+
 # Plot an existing RFC report; requires Python 3 with matplotlib.
 rfc-plot output="docs/experiments/rfc-single-focus":
     python3 scripts/plot-rfc.py {{quote(output)}}

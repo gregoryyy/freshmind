@@ -10,6 +10,7 @@ import { TGPanel } from "../tg/panel.js";
 import type { TGPanelOptions } from "../tg/panel.js";
 import { Node, Edge } from "../tg/model.js";
 import { GraphEltSet } from "../tg/graph.js";
+import type {VisibleLocality,ImmutableGraphEltSet} from "../tg/graph.js";
 import { FreshNode, FreshEdge, FreshGraph } from "./model.js";
 import { TypeRegistry } from "./config/registry.js";
 import { freshmind2014Configuration } from "./config/fm2014.js";
@@ -25,6 +26,8 @@ import { RfcController } from "./rfc/controller.js";
 import type { RfcSettings,RfcExclusionSettings } from "./rfc/types.js";
 import type { RfcStabilizationOptions } from "./rfc/stabilization.js";
 import type { TGLayout } from "../tg/layout.js";
+import {StructuralViewController} from "./structure-view/controller.js";
+import {projectRfcStructure} from "./rfc/structures.js";
 
 export interface FreshmindPanelOptions extends TGPanelOptions {
   types?: TypeRegistry;
@@ -52,6 +55,7 @@ export class FreshmindPanel extends TGPanel {
   private removeRfcForce?: () => void;
   private removeRfcPaint?: () => void;
   private rfcPaintRevision = 0;
+  private structuralView?:StructuralViewController;
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -67,10 +71,14 @@ export class FreshmindPanel extends TGPanel {
     this.rfc = new RfcController(this, options.rfc, options.rfcStabilization,options.rfcExclusion);
     this.removeRfcForce = this.tgLayout.addForce(this.rfc.apply);
     this.removeRfcPaint = this.rfc.addListener(() => {
+      this.refreshStructuralView();
       const revision = ++this.rfcPaintRevision;
       // Render paused/headless updates without reentering an in-progress SVG join.
       queueMicrotask(() => { if (revision === this.rfcPaintRevision) this.repaint(); });
     });
+    this.structuralView=new StructuralViewController({getSource:()=>super.getGES(),getComplete:()=>this.getCompleteEltSet(),
+      getContext:()=>this.structuralContext(),changed:()=>{this.localityChanged();this.resetDamper();this.repaintAfterMove();}});
+    this.structuralView.refresh();
     if(container){this.mount(container);if(options.autoStart!==false)this.tgLayout.start();}
   }
   getTypeRegistry():TypeRegistry{return this.types;}
@@ -95,6 +103,28 @@ export class FreshmindPanel extends TGPanel {
   getNavigation(): FreshmindNavigation { return this.navigation!; }
   /** Returns the reinforcement controller, disabled until a center is chosen. */
   getRfc(): RfcController { return this.rfc!; }
+  /** Reversible type filtering/leaf aggregation, independent of graph ownership and lens geometry. */
+  getStructuralView():StructuralViewController{return this.structuralView!;}
+  /** Current neighborhood before structural rules; this read-only view does not reveal the complete graph. */
+  getUnfilteredLocality():ImmutableGraphEltSet{return super.getGES();}
+  /** Expanding an aggregated parent reveals its retained leaf detail as well as ordinary neighbors. */
+  override expandNode(node:Node):Promise<void>{this.structuralView?.reveal(node.getID()!);return super.expandNode(node);}
+  override getGES():VisibleLocality{return this.structuralView?.getLocality()??super.getGES();}
+  private structuralContext():{centers:string[];protectedIds:Set<string>} {
+    const source=super.getGES(),graph=this.getCompleteEltSet(),protectedIds=new Set<string>(),centers:string[]=[];
+    for(const node of [this.getFocus(),this.getSelect(),this.neighborhoodFocus,this.selectedEdge?.from,this.selectedEdge?.to])
+      if(node&&source.contains(node))protectedIds.add(node.getID()!);
+    if(this.getFocus()&&source.contains(this.getFocus()!))centers.push(this.getFocus()!.getID()!);
+    const state=this.rfc?.getState();
+    for(const activation of state?.centers??[]) {
+      const root=graph.findNode(activation.focusId);if(!root||!source.contains(root))continue;
+      centers.push(activation.focusId);
+      const definition=activation.structureId?graph.getSubstructure(activation.structureId):null;
+      const projection=projectRfcStructure(graph,source,root,definition,state!.settings.coordinateWeights);
+      for(const node of projection.nodes)protectedIds.add(node.getID()!);
+    }
+    return {centers,protectedIds};
+  }
   /** Adds a second or subsequent focal center without replacing locality or existing activation. */
   addRfcCenter(node:FreshNode):void {this.rfc!.addFocus(node);}
   /** Toggles a focal center independently of selection/locality and returns its new activation state. */
@@ -119,7 +149,16 @@ export class FreshmindPanel extends TGPanel {
     const svg = [...container.querySelectorAll<SVGSVGElement>(":scope > svg.tg-panel")].at(-1)!;
     this.unbindNavigation = bindNavigation(svg, this, this.navigation!, this.navigationStatus);
   }
-  override repaint(): void { this.rfc?.reconcile(); this.navigation?.reconcile(false); super.repaint(); }
+  private refreshStructuralView():void {
+    const changed=this.structuralView?.refresh(),selected=this.getSelect();
+    // Navigation can select a complete-graph target before its queued neighborhood arrives.
+    // Retain the original locality queue's cleanup timing for that pending target.
+    if(changed&&!this.changingNeighborhood&&(!selected||super.getGES().contains(selected)))this.localityChanged();
+  }
+  override repaint(): void {
+    this.refreshStructuralView();
+    this.rfc?.reconcile(); this.navigation?.reconcile(false); super.repaint();
+  }
   /** Records the requested neighborhood separately from selection; superseded async requests cannot reset it. */
   override setLocale(node: Node | null, radius: number, maxAdd = 1000, maxExpand = 1000, outgoingOnly = false): Promise<void> {
     if (!(node instanceof FreshNode) || radius < 0 || !this.getCompleteEltSet().contains(node))
@@ -152,6 +191,7 @@ export class FreshmindPanel extends TGPanel {
    */
   override setGraphEltSet(graph:GraphEltSet):void {
     if(!(graph instanceof FreshGraph))throw new TypeError("FreshmindPanel requires a FreshGraph");
+    this.structuralView?.reset();
     this.rfc?.setFocus(null);
     this.navigation?.graphChanged(); this.neighborhoodFocus = null;
     this.neighborhoodRevision++; this.changingNeighborhood = false;
@@ -208,6 +248,7 @@ export class FreshmindPanel extends TGPanel {
   override setSelect(node:Node|null):void{this.navigation?.cancel(undefined,false);this.selectedEdge=null;super.setSelect(node);this.selectionChanged();}
   /** Clears hidden edge selection/geometry after the base panel reconciles its references. */
   override localityChanged():void {
+    this.structuralView?.refresh();
     super.localityChanged();
     if(this.selectedEdge&&!this.getGES().contains(this.selectedEdge)){
       this.selectedEdge=null;this.selectionChanged();
@@ -266,6 +307,7 @@ export class FreshmindPanel extends TGPanel {
   }
   protected override paintDecorations(layer:SVGGElement):void {
     this.presentation.paintDecorations(layer,[...this.getGES().getNodes()] as FreshNode[],n=>this.getNodeStyle(n),this.getFocus() as FreshNode|null);
+    this.presentation.paintAggregation(layer,this.structuralView?.getState().groups??[],id=>this.getCompleteEltSet().findNode(id));
   }
   /** Freshmind double-click selects and centers through the same command/settings as Enter. */
   protected override handleNodeDoubleClick(event: MouseEvent, node: Node): void {
@@ -279,11 +321,13 @@ export class FreshmindPanel extends TGPanel {
     return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}\nDouble-click or press Enter to center; E to expand; Space for details`;
   }
   override clearAll(): void {
+    this.structuralView?.reset();
     this.rfc?.setFocus(null);
     this.navigation?.graphChanged(); this.neighborhoodFocus = null;
     this.neighborhoodRevision++; this.changingNeighborhood = false; super.clearAll();
   }
   override destroy(): void {
+    this.structuralView?.destroy();
     this.rfcPaintRevision++; this.removeRfcPaint?.();
     this.removeRfcForce?.(); this.rfc?.destroy();
     this.unbindNavigation?.(); this.navigation?.destroy(); this.selectionListeners.clear(); super.destroy();

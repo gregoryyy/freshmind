@@ -192,4 +192,12 @@ export class FreshmindPresentation {
       .attr("class","fm-pin").attr("x",n=>n.drawx+n.getWidth()/2+4).attr("y",n=>n.drawy-n.getHeight()/2)
       .attr("font-size",12).text("⌖");
   }
+  /** Counts aggregated nodes by semantic type without modifying labels or node focus bounds. */
+  paintAggregation(layer:SVGGElement,groups:readonly import("../structure-view/projection.js").AggregationGroup[],nodeOf:(id:string)=>FreshNode|null):void {
+    const parents=[...new Set(groups.map(g=>g.parentId))].map(id=>({node:nodeOf(id)!,groups:groups.filter(g=>g.parentId===id)}));
+    select(layer).selectAll<SVGTextElement,typeof parents[number]>("text.fm-aggregation-count").data(parents,p=>p.node.getID()!).join("text")
+      .attr("class","fm-aggregation-count").attr("data-for-node",p=>p.node.getID()).attr("x",p=>p.node.drawx)
+      .attr("y",p=>p.node.drawy+p.node.getHeight()/2+32).attr("text-anchor","middle").attr("font-size",10)
+      .attr("fill","#284e3a").attr("pointer-events","none").text(p=>p.groups.map(g=>`+${g.type}: ${g.nodeIds.length}`).join(" · "));
+  }
 }

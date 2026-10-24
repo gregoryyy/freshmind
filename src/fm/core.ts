@@ -23,6 +23,7 @@ export type { DocumentRecord, DocumentView, NodeRecord, EdgeRecord, LoadOptions,
 export { FreshmindNavigation } from "./navigation/controller.js";
 export { keymap } from "./navigation/keymap.js";
 export * from "./rfc/index.js";
+export * from "./structure-view/index.js";
 export {validateSubstructure, analyzeSubstructure, spanningTree, clusterStructure} from "./structures/model.js";
 export type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "./structures/model.js";
 export {clusterGraph, clusterToSubstructure, clusteringSignature} from "./clustering/index.js";

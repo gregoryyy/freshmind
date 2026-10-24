@@ -1,0 +1,656 @@
+format: freshmind
+version: 1
+title: Structural focus + context
+types:
+  format: freshmind-types
+  version: 1
+  id: freshmind-2014
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#0000b0"
+        width: 1
+        dash: solid
+      arrow:
+        placement: middle
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: project-a
+    label: Project A
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic project for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -160
+      "y": 0
+    data: {}
+    extensions: {}
+  - id: project-b
+    label: Project B
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic project for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 160
+      "y": 0
+    data: {}
+    extensions: {}
+  - id: alpha
+    label: Group Alpha
+    type: group
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic group for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -160
+      "y": 140
+    data: {}
+    extensions: {}
+  - id: beta
+    label: Group Beta
+    type: group
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic group for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 160
+      "y": 140
+    data: {}
+    extensions: {}
+  - id: alice
+    label: Alice
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic person for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -260
+      "y": 200
+    data: {}
+    extensions: {}
+  - id: amir
+    label: Amir
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic person for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -100
+      "y": 250
+    data: {}
+    extensions: {}
+  - id: bea
+    label: Bea
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic person for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 100
+      "y": 250
+    data: {}
+    extensions: {}
+  - id: ben
+    label: Ben
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic person for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 260
+      "y": 200
+    data: {}
+    extensions: {}
+  - id: shared
+    label: Shared collaborator
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic person for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": 130
+    data: {}
+    extensions: {}
+  - id: a-paper
+    label: "A: Research notes"
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic paper for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -240
+      "y": -100
+    data: {}
+    extensions: {}
+  - id: b-paper
+    label: "B: Research notes"
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic paper for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 240
+      "y": -100
+    data: {}
+    extensions: {}
+  - id: alpha-paper
+    label: "Alpha: Working notes"
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic paper for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -280
+      "y": 100
+    data: {}
+    extensions: {}
+  - id: beta-paper
+    label: "Beta: Working notes"
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic paper for the structural focus + context example.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 280
+      "y": 100
+    data: {}
+    extensions: {}
+edges:
+  - id: relation-0
+    from: project-a
+    to: project-b
+    label: collaborates
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-1
+    from: project-a
+    to: alpha
+    label: involves
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-2
+    from: project-b
+    to: beta
+    label: involves
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-3
+    from: alpha
+    to: alice
+    label: member
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-4
+    from: alpha
+    to: amir
+    label: member
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-5
+    from: beta
+    to: bea
+    label: member
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-6
+    from: beta
+    to: ben
+    label: member
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-7
+    from: alpha
+    to: shared
+    label: member
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-8
+    from: beta
+    to: shared
+    label: member
+    type: default
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-9
+    from: project-a
+    to: a-paper
+    label: authored
+    type: authored
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-10
+    from: project-b
+    to: b-paper
+    label: authored
+    type: authored
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-11
+    from: alpha
+    to: alpha-paper
+    label: authored
+    type: authored
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: relation-12
+    from: beta
+    to: beta-paper
+    label: authored
+    type: authored
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+data: {}
+extensions: {}
+substructures:
+  - id: a-detail
+    label: "A: stored detail"
+    kind: tree
+    rootId: project-a
+    nodeIds:
+      - project-a
+      - alpha
+      - alice
+      - amir
+      - a-paper
+      - alpha-paper
+    edgeIds:
+      - relation-9
+      - relation-1
+      - relation-3
+      - relation-11
+      - relation-4
+  - id: b-detail
+    label: "B: stored detail"
+    kind: tree
+    rootId: project-b
+    nodeIds:
+      - project-b
+      - beta
+      - bea
+      - ben
+      - b-paper
+      - beta-paper
+    edgeIds:
+      - relation-10
+      - relation-2
+      - relation-5
+      - relation-6
+      - relation-12
+view:
+  wholeGraph: true
+  focus: project-a
+  radius: 2
+  backlinks: true
+  moveToCenter: true
+  lenses:
+    zoom: 1
+    hyperbolic: 35
+    rotation: 0
+    pan:
+      x: 0
+      "y": 0
+  canvas:
+    zoom: 1
+    pan:
+      x: 0
+      "y": 0
