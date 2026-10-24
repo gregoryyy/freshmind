@@ -17,6 +17,10 @@ See licenses/LICENSE-APACHE-2.0 for the license text.
       <header class="topbar"><a class="brand" href="/">fm4</a><span class="project-name">Freshmind types and relations</span><a href="/">Graph browser</a><button id="keymap-help">Key map</button></header>
       <main>
         <aside class="sidebar">
+          <label class="control-label" for="label-editing-mode">Label editing</label>
+          <select id="label-editing-mode" aria-describedby="label-editing-help"><option value="on-demand">Read-only labels</option><option value="in-place">In place</option></select>
+          <p id="label-editing-help" class="control-help">In place: edit moving node and relation text directly. Leaving saves; Escape cancels. Ctrl/Cmd+Enter saves a node; Enter saves a relation. Drag nodes by their body.</p>
+          <p id="label-editing-status" class="control-help" role="status"></p>
           <label class="control-label" for="curve">Relation curves</label>
           <select id="curve"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
           <label class="control-label" for="graph-zoom">Graph spacing <output id="graph-zoom-value">85%</output></label>
@@ -25,8 +29,8 @@ See licenses/LICENSE-APACHE-2.0 for the license text.
           <label class="control-label lens-label" for="hyper">Focus + context</label>
           <input type="range" id="hyper" min="0" max="100" value="0" />
           <p class="control-help">Ctrl+Shift+↑/↓: graph spacing · Ctrl+Shift+←/→: focus + context</p>
-          <p class="control-help">Ctrl+Shift+Option/Alt+↑/↓ or +/−: canvas zoom · Ctrl+Shift+1: reset canvas zoom</p>
-          <p class="control-help">Ctrl+Shift+Option/Alt+←/→: graph rotation</p>
+          <p class="control-help">Shift+Option/Alt+↑/↓ or +/−: canvas zoom · Ctrl+Shift+1: reset canvas zoom</p>
+          <p class="control-help">Shift+Option/Alt+←/→: graph rotation</p>
           <button class="quiet-button" id="motion">Run layout</button>
           <button class="quiet-button" id="show-all">Show all types</button>
           <section class="inspector"><h2>YAML type configuration</h2>
@@ -39,7 +43,7 @@ See licenses/LICENSE-APACHE-2.0 for the license text.
         </aside>
         <section class="workspace" aria-label="Freshmind graph workspace">
           <div class="canvas-heading">TYPES &amp; RELATIONS</div><div id="graph"></div>
-          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Ctrl+Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Ctrl+Shift+Option/Alt+↓ or −)">−</button></div>
+          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Shift+Option/Alt+↓ or −)">−</button></div>
           <div class="canvas-footer"><span>Scroll ↑/↓: graph spacing · Scroll ←/→: focus + context · Pinch: canvas zoom</span></div>
         </section>
       </main>

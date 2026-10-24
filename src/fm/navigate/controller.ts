@@ -280,11 +280,11 @@ export class FreshmindNavigation {
   private run(operation: Promise<void>): void {
     void operation.catch(error => { if (!this.disposed) { this.message = error instanceof Error ? error.message : String(error); this.publish(); } });
   }
-  /** Handles graph-scoped keys, including explicit Ctrl view shortcuts; other modifier chords pass through. */
+  /** Handles graph-scoped keys, including Ctrl and Shift+Alt view shortcuts; other chords pass through. */
   handleKey(event: NavigationKey): boolean {
     if (this.disposed || event.metaKey || event.isComposing) return false;
     if (event.altKey) {
-      if (!event.ctrlKey || !event.shiftKey) return false;
+      if (event.ctrlKey || !event.shiftKey) return false;
       if (event.key === "ArrowLeft" || event.key === "ArrowRight") this.rotateBy((event.key === "ArrowRight" ? 1 : -1) * Math.PI / 36);
       else if (event.key === "ArrowUp" || event.key === "ArrowDown") this.canvasZoomBy(1.2 ** (event.key === "ArrowUp" ? 1 : -1));
       else return false;

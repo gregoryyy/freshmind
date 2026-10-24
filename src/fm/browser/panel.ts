@@ -31,6 +31,10 @@ import {projectRfcStructure} from "../rfc/index.js";
 import {validateNodeImportanceView} from "../geometry/index.js";
 import type {NodeImportanceViewSettings} from "../geometry/index.js";
 import type {RelationLabelPlacement,OverlapBox} from "../geometry/index.js";
+import {InPlaceLabels} from "./label-editing.js";
+
+export type LabelEditingMode="on-demand"|"in-place";
+export type LabelEditListener=(item:FreshNode|FreshEdge)=>void;
 
 export interface FreshmindPanelOptions extends TGPanelOptions {
   types?: TypeRegistry;
@@ -41,6 +45,7 @@ export interface FreshmindPanelOptions extends TGPanelOptions {
   rfcExclusion?:Partial<RfcExclusionSettings>;
   nodeImportance?:Partial<NodeImportanceViewSettings>;
   relationLabelPlacement?:RelationLabelPlacement;
+  labelEditing?:LabelEditingMode;
 }
 export type FreshmindSelection = FreshNode | FreshEdge | null;
 export type SelectionListener = (selection: FreshmindSelection) => void;
@@ -64,6 +69,9 @@ export class FreshmindPanel extends TGPanel {
   private structuralView?:StructuralViewController;
   private nodeImportance:NodeImportanceViewSettings={mode:"configured",showValues:false};
   private relationLabelPlacement:RelationLabelPlacement="original";
+  private labelEditing:LabelEditingMode="on-demand";
+  private labelEditors?:InPlaceLabels;
+  private readonly labelEditListeners=new Set<LabelEditListener>();
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -74,6 +82,10 @@ export class FreshmindPanel extends TGPanel {
     super(undefined,{...options,animateLocality:options.animateLocality??Boolean(container)});
     this.types=options.types??new TypeRegistry(freshmind2014Configuration);
     this.nodeImportance=validateNodeImportanceView({...this.nodeImportance,...options.nodeImportance});
+    if(options.labelEditing!==undefined){
+      if(!["on-demand","in-place"].includes(options.labelEditing))throw new TypeError("Invalid label editing mode");
+      this.labelEditing=options.labelEditing;
+    }
     if(options.relationLabelPlacement!==undefined){
       if(!["original","avoid-overlap"].includes(options.relationLabelPlacement))throw new TypeError("Invalid relation-label placement");
       this.relationLabelPlacement=options.relationLabelPlacement;
@@ -95,6 +107,22 @@ export class FreshmindPanel extends TGPanel {
     if(container){this.mount(container);if(options.autoStart!==false)this.tgLayout.start();}
   }
   getTypeRegistry():TypeRegistry{return this.types;}
+  /** Transient presentation/input preference, independent of structural editing and graph persistence. */
+  getLabelEditingMode():LabelEditingMode{return this.labelEditing;}
+  /** Commits pending valid labels before leaving in-place mode; a validation error leaves the mode unchanged. */
+  setLabelEditingMode(mode:LabelEditingMode):void {
+    if(!["on-demand","in-place"].includes(mode))throw new TypeError("Invalid label editing mode");
+    if(mode===this.labelEditing)return;
+    this.labelEditors?.finish();this.labelEditors?.reset();this.labelEditing=mode;this.repaintAfterMove();
+  }
+  /** Focuses the moving label component when in-place mode is enabled, otherwise lets an application use its editor. */
+  focusLabelEditor(item:FreshmindSelection=this.getSelection()):boolean {
+    return Boolean(item&&this.labelEditing==="in-place"&&this.labelEditors?.focus(item));
+  }
+  adjustLabelWeight(item:FreshNode|FreshEdge,direction:1|-1):boolean {
+    return this.labelEditing==="in-place"&&(this.labelEditors?.adjustWeight(item,direction)??false);
+  }
+  addLabelEditListener(listener:LabelEditListener):()=>void {this.labelEditListeners.add(listener);return()=>this.labelEditListeners.delete(listener);}
   /** Transient importance display preferences; configured mode reads inherited YAML/item styles. */
   getNodeImportance():NodeImportanceViewSettings{return {...this.nodeImportance};}
   /** Transient label placement preference; graph styles, positions and physics are unchanged. */
@@ -186,7 +214,9 @@ export class FreshmindPanel extends TGPanel {
   protected override mount(container: HTMLElement): void {
     super.mount(container);
     const svg = [...container.querySelectorAll<SVGSVGElement>(":scope > svg.tg-panel")].at(-1)!;
+    this.labelEditors=new InPlaceLabels(svg,this,item=>{for(const listener of this.labelEditListeners)listener(item);});
     this.unbindNavigation = bindNavigation(svg, this, this.navigation!, this.navigationStatus);
+    this.repaint();
   }
   private refreshStructuralView():void {
     const changed=this.structuralView?.refresh(),selected=this.getSelect();
@@ -197,6 +227,8 @@ export class FreshmindPanel extends TGPanel {
   override repaint(): void {
     this.refreshStructuralView();
     this.rfc?.reconcile(); this.navigation?.reconcile(false); super.repaint();
+    this.labelEditors?.reconcile();
+    if(this.labelEditing==="in-place")this.labelEditors?.render();
   }
   /** Records the requested neighborhood separately from selection; superseded async requests cannot reset it. */
   override setLocale(node: Node | null, radius: number, maxAdd = 1000, maxExpand = 1000, outgoingOnly = false): Promise<void> {
@@ -232,6 +264,7 @@ export class FreshmindPanel extends TGPanel {
    */
   override setGraphEltSet(graph:GraphEltSet):void {
     if(!(graph instanceof FreshGraph))throw new TypeError("FreshmindPanel requires a FreshGraph");
+    this.labelEditors?.reset();
     this.structuralView?.reset();
     this.rfc?.setFocus(null);
     this.navigation?.graphChanged(); this.neighborhoodFocus = null;
@@ -319,7 +352,7 @@ export class FreshmindPanel extends TGPanel {
   private geometries(arrangeLabels=true):Map<FreshEdge,EdgeGeometry> {
     const edges=[...this.getGES().getEdges()] as FreshEdge[];
     const result=routeEdges(edges,(x,y)=>this.getLensSet().convRealToDraw(x,y),e=>this.getEdgeStyle(e),n=>this.getNodeStyle(n));
-    if(arrangeLabels&&this.relationLabelPlacement==="avoid-overlap")this.presentation.arrangeEdgeLabels(result,edges,this.labelObstacles(),e=>this.getEdgeStyle(e));
+    if(arrangeLabels&&this.relationLabelPlacement==="avoid-overlap")this.presentation.arrangeEdgeLabels(result,edges,this.labelObstacles(),e=>this.getEdgeStyle(e),this.labelEditors?.labelOf);
     return result;
   }
   private labelObstacles():OverlapBox[] {
@@ -340,7 +373,7 @@ export class FreshmindPanel extends TGPanel {
   }
   protected override paintNode(element:SVGGElement,node:Node):void {
     if(!(node instanceof FreshNode))throw new TypeError("Freshmind rendering requires FreshNode");
-    this.presentation.paintNode(element,node,this.getNodeStyle(node));
+    this.presentation.paintNode(element,node,this.getNodeStyle(node),this.labelEditors?.labelOf(node));
     element.setAttribute("aria-pressed",String(node===this.getSelect()&&!this.selectedEdge));
   }
   protected override paintEdges(layer:SVGGElement):void {
@@ -356,7 +389,7 @@ export class FreshmindPanel extends TGPanel {
     this.presentation.paintEdges(layer,edges,geometries,e=>this.getEdgeStyle(e),this.selectedEdge,{
       hover:edge=>{this.setMouseOverE(edge);this.repaint();},
       select:edge=>this.setSelectEdge(edge===this.selectedEdge?null:edge)
-    },this.relationLabelPlacement==="avoid-overlap"?this.labelObstacles():undefined);
+    },this.relationLabelPlacement==="avoid-overlap"?this.labelObstacles():undefined,this.labelEditors?.labelOf);
   }
   protected override paintDecorations(layer:SVGGElement):void {
     this.presentation.paintDecorations(layer,[...this.getGES().getNodes()] as FreshNode[],n=>this.getNodeStyle(n),this.getFocus() as FreshNode|null);
@@ -375,12 +408,14 @@ export class FreshmindPanel extends TGPanel {
     return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}${node instanceof FreshNode?`\nWeight: ${node.getWeight()}`:""}\nDouble-click or press Enter to center; E to expand; Space for details`;
   }
   override clearAll(): void {
+    this.labelEditors?.reset();
     this.structuralView?.reset();
     this.rfc?.setFocus(null);
     this.navigation?.graphChanged(); this.neighborhoodFocus = null;
     this.neighborhoodRevision++; this.changingNeighborhood = false; super.clearAll();
   }
   override destroy(): void {
+    this.labelEditors?.destroy();this.labelEditors=undefined;this.labelEditListeners.clear();
     this.structuralView?.destroy();
     this.rfcPaintRevision++; this.removeRfcPaint?.();
     this.removeRfcForce?.(); this.rfc?.destroy();

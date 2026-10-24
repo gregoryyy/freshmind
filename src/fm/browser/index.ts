@@ -7,7 +7,7 @@
  */
 
 export {FreshmindPanel} from "./panel.js";
-export type {FreshmindPanelOptions,FreshmindSelection,SelectionListener} from "./panel.js";
+export type {FreshmindPanelOptions,FreshmindSelection,SelectionListener,LabelEditingMode,LabelEditListener} from "./panel.js";
 export {captureDocument,installDocument} from "./document.js";
 export type {InstallDocumentOptions} from "./document.js";
 export {resourceURL,renderAnnotation} from "./content.js";

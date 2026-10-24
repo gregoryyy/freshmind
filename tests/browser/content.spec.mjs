@@ -78,7 +78,7 @@ test("public examples load their full graphs and expose linked content; Les MisÃ
   for(const [id,nodes,edges,title] of [["florentine",15,20,"Medici"],["karate",34,78,"Member 1"],["les-miserables",77,254,"Myriel"]]) {
     await page.locator("#example-graph").focus();
     await page.locator("#example-graph").selectOption(id);await expect(page.locator("#file-status")).toContainText(`${nodes} nodes, ${edges} relations`);
-    await expect(page.locator("#graph svg")).toBeFocused();await page.keyboard.press("Control+Shift+Alt+ArrowRight");
+    await expect(page.locator("#graph svg")).toBeFocused();await page.keyboard.press("Shift+Alt+ArrowRight");
     expect(await page.evaluate(()=>window.graphBrowser.getRotation())).toBeCloseTo(Math.PI/36,10);
     const data=await page.evaluate(()=>{const p=window.graphBrowser;p.tgLayout.stop();return [p.getNodeCount(),p.getEdgeCount(),p.visibleNodeCount()];});
     expect(data.slice(0,2)).toEqual([nodes,edges]);if(id==="les-miserables")expect(data[2]).toBeLessThan(nodes);

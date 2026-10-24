@@ -25,8 +25,8 @@ Point at the graph to give its centered node keyboard control without a click wh
 | --- | --- |
 | Ctrl + Shift + ↑ / ↓ (also Ctrl + ↑ / ↓) | Increase/decrease graph spacing; object sizes remain fixed. |
 | Ctrl + Shift + ← / → | Decrease/increase focus + context strength. |
-| Ctrl + Shift + Option/Alt + ↑ / ↓ | Increase/decrease canvas zoom around the viewport center. |
-| Ctrl + Shift + Option/Alt + ← / → | Rotate the view counterclockwise/clockwise by 5°, keeping labels upright. |
+| Shift + Option/Alt + ↑ / ↓ | Increase/decrease canvas zoom around the viewport center. |
+| Shift + Option/Alt + ← / → | Rotate the view counterclockwise/clockwise by 5°, keeping labels upright. |
 | Ctrl + Shift + 1 | Reset canvas zoom to 100%, keeping the viewport center. |
 | + / − (also =) | Additional canvas zoom controls. |
 | C / W | Cycle default edge forms: Spider → Lens midpoint → Straight. Explicit relation overrides are preserved. C matches FM2014. |
@@ -53,12 +53,21 @@ Point at the graph to give its centered node keyboard control without a click wh
 | Label suffix: =number | Set absolute node/relation weight when saving, e.g. Topic =3. The numeric command is removed from the stored label. |
 | Escape / Space in node content | Close the content popup and return focus to the graph; links and controls retain normal activation. |
 | Ctrl/Cmd + Enter | Commit the current editor. Enter also commits a single-line relation edit. |
-| Escape in an editor | Cancel the draft and return focus to the graph. Clicking away retains the draft. |
+| Escape in an editor | Cancel the draft and return focus to the graph. In-place labels save valid changes on blur; overlays retain drafts. |
 | R | Reverse the selected relation through the validated editor command. |
 | L | Open the selected node's linked resource explicitly. |
 | Edit mode: background double-click | Create a node at that position. |
 | Edit mode: Shift-click target | Connect the selected source node to that target. |
 | Edit mode: Delete / Backspace | Delete the focused node. Text inputs retain normal deletion. |
+
+**View → Label editing → In place** makes every visible node and relation label
+an editable component that follows the moving graph. Click text to place the
+caret; drag a node by its body. F2 focuses the selected moving label in the main
+browser. Node labels accept newlines; Ctrl/Cmd+Enter commits. Enter also commits
+relation labels. Leaving a label commits a valid draft; invalid drafts remain
+marked for correction, and Escape cancels. Native text selection, clipboard,
+caret and deletion keys stay with the label. Full details remain in the overlay.
+The palette page also offers in-place labels; its default labels are read-only.
 
 ## Search
 
@@ -84,7 +93,7 @@ Point at the graph to give its centered node keyboard control without a click wh
 
 ## Differences from the Java key map
 
-Graph spacing uses Ctrl+Shift+↑/↓ (also Ctrl+↑/↓), canvas zoom uses Ctrl+Shift+Option/Alt+↑/↓, and focus/context uses Ctrl+Shift+←/→. Ctrl+Shift+Option/Alt+←/→ rotates the view by 5° per press while keeping labels upright. Canvas reset retains Ctrl+Shift+1. FM2014 used Ctrl+Shift+↑/↓ for canvas zoom; the old map also used Alt arrows and Ctrl arrows for panning. +/− now scales the canvas, whereas Java used it for graph spacing. Drag the background to pan. Ordinary selection keeps the neighborhood; Enter/double-click and N control centering.
+Graph spacing uses Ctrl+Shift+↑/↓ (also Ctrl+↑/↓), canvas zoom uses Shift+Option/Alt+↑/↓, and focus/context uses Ctrl+Shift+←/→. Shift+Option/Alt+←/→ rotates the view by 5° per press while keeping labels upright. Canvas reset retains Ctrl+Shift+1. FM2014 used Ctrl+Shift+↑/↓ for canvas zoom; the old map also used Alt arrows and Ctrl arrows for panning. +/− now scales the canvas, whereas Java used it for graph spacing. Drag the background to pan. Ordinary selection keeps the neighborhood; Enter/double-click and N control centering.
 
 Clipboard graph operations, parent/child/sibling creation shortcuts, 3D controls, control-panel toggles and SVG export are not implemented shortcuts. Search shortcuts follow FM2014 but use the retained lexical/LDA prototype; Ctrl+I checks a literal snapshot, and literal queries automatically index current text. No Lucene dependency is added; see [the search guide](graph-search.md). File saving downloads YAML rather than overwriting a selected local file; Ctrl/Cmd+Shift+S opens the filename field. The numeric =weight suffix is supported in label editors. Other legacy type/style suffixes use explicit fields and YAML visual settings. Ctrl+G/H adjusts a draft and requires Save; details editing uses an overlay rather than the side pane.
 

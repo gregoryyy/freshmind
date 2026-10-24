@@ -154,8 +154,8 @@ Freeze this ordering when preselection begins so spring motion cannot reshuffle 
 | `N` | Toggle `moveToCenter`. |
 | Ctrl+Shift+↑ / Ctrl+Shift+↓ (also Ctrl+↑ / Ctrl+↓) | Increase/decrease graph spacing by a factor of 1.2 through the panel limits (0.15–5). |
 | Ctrl+Shift+← / Ctrl+Shift+→ | Decrease/increase focus + context strength by five percentage points, clamped to 0–100. |
-| Ctrl+Shift+Option/Alt+↑ / Ctrl+Shift+Option/Alt+↓ | Increase/decrease whole-canvas scale by a factor of 1.2, independently of graph spacing. |
-| Ctrl+Shift+Option/Alt+← / Ctrl+Shift+Option/Alt+→ | Rotate counterclockwise/clockwise by 5° through the existing rotation lens; labels stay upright. |
+| Shift+Option/Alt+↑ / Shift+Option/Alt+↓ | Increase/decrease whole-canvas scale by a factor of 1.2, independently of graph spacing. |
+| Shift+Option/Alt+← / Shift+Option/Alt+→ | Rotate counterclockwise/clockwise by 5° through the existing rotation lens; labels stay upright. |
 | Ctrl+Shift+1 | Reset canvas scale to 100%, retaining the viewport center. |
 | Vertical scroll / pinch | Vertical scrolling changes graph spacing; pinch (Ctrl+wheel) scales the canvas around the pointer. Horizontal scrolling changes focus/context. |
 | F2 | Edit the selected label. |
@@ -184,7 +184,39 @@ Node content uses a modeless, resizable popup, restoring the intent of FM2014's 
 
 Provide focused node and relation editors backed by commands. Node editing exposes label, semantic type, visual type/override, URL, weight and annotation. Relation editing exposes label, semantic type, endpoints/direction, visual settings, weight and length. Offer reverse as an explicit operation. Editing labels leaves IDs unchanged and duplicate labels are valid.
 
-Inline label editing uses a multiline control for nodes and a text control for relation labels, with an absolute weight field and increase/decrease controls. F2 opens this overlay. The full item editor also lives in a modeless overlay, opened by **Edit selected item**; Ctrl+Space or Shift+F2 opens it directly at the node annotation. Ctrl/Cmd+Enter commits a multiline edit, Enter commits a single-line relation edit, and Escape cancels label and weight together. Closing the full overlay retains its draft. Clicking away must not silently apply an invalid edit; retain the draft with a clear field error. Pause directional navigation while editing. Apply a valid edit atomically, notify subscribers and restore keyboard focus to the graph.
+On-demand label editing uses a multiline control for nodes and a text control for relation labels, with an absolute weight field and increase/decrease controls. F2 opens this overlay by default. The full item editor also lives in a modeless overlay, opened by **Edit selected item**; Ctrl+Space or Shift+F2 opens it directly at the node annotation. Ctrl/Cmd+Enter commits a multiline edit, Enter commits a single-line relation edit, and Escape cancels label and weight together. Closing the full overlay retains its draft. Clicking away must not silently apply an invalid edit; retain the draft with a clear field error. Pause directional navigation while editing. Apply a valid edit atomically, notify subscribers and restore keyboard focus to the graph.
+
+**View → Label editing → In place** enables a second presentation/input mode,
+independent of structural Edit graph mode. Every visible label becomes a stable
+HTML text component inside its existing SVG group: textarea for multiline nodes,
+input for relations, including empty labels, loops and parallel relations. The
+components move with the graph and shared curve-label geometry through lenses,
+canvas transforms and label placement. Repaints preserve the focused control,
+text selection and IME composition; typing does not drag the graph or pause
+layout. Drag nodes using their bodies. F2 focuses the moving label rather than
+opening an extra overlay. Full item/details editing still uses its overlay.
+
+Changes preview in the rendered label/body measurements while model text and
+weights remain committed values. Blur or Ctrl/Cmd+Enter saves; Enter also saves a
+relation, and Escape restores committed text. Numeric suffixes and Ctrl+G/H use
+the same nonnegative model-weight rules. `applyLabelEdit()` changes only label
+and optional weight, preserving styles, endpoints, IDs and other metadata.
+Invalid or externally conflicting drafts remain marked and announced. A failed
+mode change retains the current mode for correction. Leaving in-place mode
+commits valid pending labels; hiding/deleting an item, replacing the graph or
+destroying the panel discards detached drafts. No stale blur callback writes to
+the new graph. Commits also update the full overlay's label/weight fields while
+retaining its unrelated drafts.
+
+Library hosts configure `new FreshmindPanel(host, {labelEditing: "in-place"})`,
+`setLabelEditingMode("in-place")` / `setLabelEditingMode("on-demand")`,
+`focusLabelEditor(item)` and
+`addLabelEditListener(listener)`. `bindLabelEditingControls()` binds a caller-owned
+select/status pair. The library default stays `on-demand`; the preference stays
+with the panel across graph loads and is not written into graph YAML. The palette
+page offers the same in-place mode. This adds one HTML control per visible label;
+it is intended for editing manageable local views, not a claim of virtualized
+large-graph editing.
 
 Place inline relation editors using the shared curve label anchor, map that anchor through the canvas transform and reposition on graph/view/resize changes. Node inline editors use the transformed body center. The full overlay retains per-item drafts when selection changes and keeps long annotation editing still while the graph moves. During document replacement its fields are temporarily disabled, then the existing file-control focus restoration can return to the active editor. An empty graph leaves disabled fields and an accessible close button. Display plain annotations as text and render HTML through an inert-template formatting/link allowlist while preserving its original source for export. No source attributes, active elements, styles or resource-loading elements are copied. Supported web/mail links open only on user action; old file paths remain editable data. Internal node links use IDs; imported file paths and URLs remain data until the user opens them. Preserve unavailable legacy targets and report them during conversion.
 

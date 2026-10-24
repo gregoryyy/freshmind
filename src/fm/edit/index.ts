@@ -6,6 +6,6 @@
  * See licenses/LICENSE-APACHE-2.0 for the license text.
  */
 
-export {applyNodeEdit,applyRelationEdit} from "./commands.js";
+export {applyNodeEdit,applyRelationEdit,applyLabelEdit} from "./commands.js";
 export type {NodeEdit,RelationEdit,RelationEditContext} from "./commands.js";
 export {parseWeightedLabel} from "./label.js";
