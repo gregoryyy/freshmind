@@ -48,6 +48,7 @@ export class FreshmindPanel extends TGPanel {
   private readonly presentation=new FreshmindPresentation();
   private selectedEdge: FreshEdge|null=null;
   private readonly selectionListeners = new Set<SelectionListener>();
+  private readonly graphChangeListeners=new Set<()=>void>();
   private navigation?: FreshmindNavigation;
   private neighborhoodFocus: FreshNode | null = null;
   private neighborhoodRevision = 0;
@@ -198,6 +199,8 @@ export class FreshmindPanel extends TGPanel {
    */
   loadTypeConfiguration(source:string):void{const types=parseTypeConfiguration(source);this.setTypeRegistry(types);}
   override getCompleteEltSet():FreshGraph{return super.getCompleteEltSet() as FreshGraph;}
+  /** Subscribes to complete-graph replacement, independently of layout/repaint activity. */
+  addGraphChangeListener(listener:()=>void):()=>void {this.graphChangeListeners.add(listener);return ()=>this.graphChangeListeners.delete(listener);}
   /**
    * Installs a FreshGraph through the base lifecycle and clears old relations' draw geometry.
    * @throws {TypeError} If graph is not a FreshGraph.
@@ -210,6 +213,7 @@ export class FreshmindPanel extends TGPanel {
     this.neighborhoodRevision++; this.changingNeighborhood = false;
     for(const edge of this.getCompleteEltSet().getEdges())if(edge instanceof FreshEdge)edge.setGeometry(null);
     super.setGraphEltSet(graph);
+    for(const listener of this.graphChangeListeners)listener();
   }
   /** Supplies the configured default semantic type for panel creation and edit gestures. */
   protected override createNode(id:string|null,label:string|null):FreshNode {

@@ -134,8 +134,8 @@ The LDA libraries used by the Java prototype are available as sources. Local sou
 - [x] 4.2 Port the required Lucene search functionality and integration points. `fm4/fm/search` provides bounded Boolean/field/phrase/prefix queries, exact tag lookup, TF–IDF/cosine retrieval and owned graph query/result/feedback commands. Browser bindings follow in 4.5; Lucene binary/scoring compatibility is not claimed.
 - [x] 4.3 Port the required `knowceans-lda-simple` framework functionality from the available sources (`org.knowceans.topics.simple`). Serial collapsed Gibbs, fixed-topic fold-in, perplexity, stable corpus/model IDs, topic words and bounded topic similarity are available in `fm4/fm/topics`; original GPL scope is retained.
 - [x] 4.4 Port the required utilities from `knowceans.util.*`. Ported the reachable Cokus generator subset with its original notice and added validated categorical/Jensen–Shannon helpers. Java collections, demo printing/timers, Swing and binary corpus/model I/O are not runtime requirements. `just test-lda-java` verifies pinned source outputs.
-- [ ] 4.5 Integrate LDA-based graph visual search methods with the browser.
-  - [ ] 4.5.1 Represent term and tag queries as graph nodes linked to retrieved results.
-  - [ ] 4.5.2 Allow similarity queries from existing nodes and add links to the retrieved items.
-  - [ ] 4.5.3 Allow removal of irrelevant result links and retain that interaction as input for future relevance feedback.
+- [x] 4.5 Integrate LDA-based graph visual search methods with the browser. See the [search guide](graph-search.md) for controls, worker/model lifecycle and persistence limits.
+  - [x] 4.5.1 Represent term and tag queries as graph nodes linked to retrieved results. Search the complete graph, reveal results in the current view and retain context/manual relations.
+  - [x] 4.5.2 Allow similarity queries from existing nodes and add links to the retrieved items. Both lexical vectors and LDA topics exclude the source and preserve RFC/lens/importance settings.
+  - [x] 4.5.3 Allow removal of irrelevant result links and retain that interaction as input for future relevance feedback. Persist negative judgments through YAML and omit matching rejected items on reruns; feedback learning remains future work.
 - [ ] 4.6 Add example data and reproducible search experiments.

@@ -20,3 +20,5 @@ export {bindStructuralViewControls} from "./structural-view.js";
 export type {StructuralViewElements} from "./structural-view.js";
 export {bindNodeImportanceControls} from "./node-importance.js";
 export type {NodeImportanceElements} from "./node-importance.js";
+export {bindGraphSearchControls} from "./search-controls.js";
+export type {GraphSearchElements} from "./search-controls.js";

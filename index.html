@@ -63,6 +63,28 @@
           </details>
           <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
           </details>
+          <details class="sidebar-section" id="search-section"><summary>Graph search</summary>
+            <label class="control-label" for="search-engine">Search method</label><select id="search-engine"><option value="lexical">Lexical</option><option value="lda">LDA topics</option></select>
+            <label class="control-label" for="search-kind">Query kind</label><select id="search-kind"><option value="terms">Terms</option><option value="tags">Tags (exact)</option></select>
+            <label class="control-label" for="search-query">Query</label><input id="search-query" type="text" maxlength="4096" required placeholder="graph AND layout" aria-describedby="search-help" />
+            <p id="search-help" class="control-help">Search all stored nodes, including hidden items. Lexical terms support phrases and AND/OR/NOT; LDA uses topic similarity. Tags match whole values, separated by commas. Run again on a selected query to refresh its links.</p>
+            <label class="control-label" for="search-limit">Maximum results</label><input id="search-limit" type="number" min="1" max="100" step="1" value="5" required />
+            <div class="editor-actions"><button id="search-run" type="button">Run query</button><button id="search-similar" type="button">Find similar nodes</button></div>
+            <button id="search-reject" type="button" disabled>Reject selected result</button>
+            <p class="control-help">Reject a result relation to save a negative judgment and omit it on future runs of that query. Other relations remain.</p>
+            <details class="control-subsection"><summary>Topic model training</summary>
+              <label class="control-label" for="search-topics">Topics</label><input id="search-topics" type="number" min="1" max="256" step="1" value="6" required />
+              <label class="control-label" for="search-iterations">Training passes</label><input id="search-iterations" type="number" min="0" max="10000" step="1" value="100" required />
+              <label class="control-label" for="search-seed">Random seed</label><input id="search-seed" type="number" min="0" max="4294967295" step="1" value="4357" required />
+              <label class="control-label" for="search-alpha">Document topic prior</label><input id="search-alpha" type="number" min="0.000000001" max="1000000" step="any" value="0.1" required />
+              <label class="control-label" for="search-beta">Topic word prior</label><input id="search-beta" type="number" min="0.000000001" max="1000000" step="any" value="0.01" required />
+              <button id="search-train" type="button">Train topic model</button>
+              <p class="control-help">Train before LDA search, and retrain after changing graph text or tags. Models stay in memory; saved graphs retain queries, result links and rejection feedback.</p>
+              <div id="search-topic-words" class="control-help"></div>
+            </details>
+            <button id="search-cancel" type="button" disabled>Cancel search or training</button>
+            <p id="search-status" class="control-help" role="status"></p>
+          </details>
           <details class="sidebar-section" id="structural-section"><summary>Structural focus + context</summary>
             <label class="pin-control"><input id="structural-enabled" type="checkbox" /> Enable structural view</label>
             <label class="control-label" for="structural-aggregate-types">Aggregate leaf types</label><select id="structural-aggregate-types" multiple size="4"></select>

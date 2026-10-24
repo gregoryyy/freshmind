@@ -9,7 +9,7 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls } from "../src/fm/ui/index.js";
+import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls,bindGraphSearchControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
 import {bindRfcShowcase} from "./rfc-showcase.js";
@@ -69,6 +69,12 @@ let allVisible = false;
 let paused = false;
 const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status") });
 const disposeImportance=bindNodeImportanceControls(panel,{mode:get<HTMLSelectElement>("node-importance-mode"),showValues:get<HTMLInputElement>("show-node-weights")});
+const disposeSearch=bindGraphSearchControls(panel,{
+  engine:get<HTMLSelectElement>("search-engine"),kind:get<HTMLSelectElement>("search-kind"),query:get<HTMLInputElement>("search-query"),limit:get<HTMLInputElement>("search-limit"),
+  run:get<HTMLButtonElement>("search-run"),similar:get<HTMLButtonElement>("search-similar"),reject:get<HTMLButtonElement>("search-reject"),train:get<HTMLButtonElement>("search-train"),cancel:get<HTMLButtonElement>("search-cancel"),
+  topics:get<HTMLInputElement>("search-topics"),iterations:get<HTMLInputElement>("search-iterations"),seed:get<HTMLInputElement>("search-seed"),alpha:get<HTMLInputElement>("search-alpha"),beta:get<HTMLInputElement>("search-beta"),
+  status:get("search-status"),topicWords:get("search-topic-words")
+});
 const disposeZoom = bindZoomControls(panel, {
   spacing: get<HTMLInputElement>("graph-zoom"), spacingValue: get("graph-zoom-value"),
   canvasIn: get("zoom-in"), canvasOut: get("zoom-out"), canvasReset: get("zoom-reset")
@@ -254,5 +260,5 @@ Object.assign(window, { graphBrowser: panel });
 void focusOn(root).then(() => {
   if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
 });
-window.addEventListener("pagehide", () => { showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

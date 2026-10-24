@@ -23,7 +23,7 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 | TouchGraph foundation | Complete: graph/locality APIs, spring layout and lenses, with Java compatibility checks. |
 | Freshmind browser features | Complete: types, labeled curves, navigation, editors, content popups and native YAML persistence. |
 | Reinforcement Focus + Context | Planned milestone complete: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible comparisons including hybrid views. |
-| LDA-based graph visual search | In progress: lexical retrieval and the LDA sampler/query core complete; browser integration and experiments follow. |
+| LDA-based graph visual search | Browser search complete: lexical/tag queries, topic training, node similarity and saved rejection feedback. Example experiments follow. |
 
 See the [roadmap](docs/TODO.md) for remaining tasks and the [implementation record](docs/DONE.md) for completed scope, verification and compatibility limits. RFC experiments use small synthetic graphs; they do not establish general convergence or perceptual benefit. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes.
 
@@ -90,7 +90,7 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 | Trees, DAGs, clustering and cluster forces | [Substructures](docs/rfc-substructures.md), [clusters](docs/rfc-clusters.md) |
 | Importance and focal-region exclusion | [Importance contract](docs/rfc-importance.md), [exclusion contract](docs/rfc-exclusion.md) |
 | Reversible filtering and leaf aggregation | [Structural focus + context](docs/structural-focus-context.md) |
-| Graph visual search and LDA port | [Source audit and implementation contract](docs/visual-search-design.md) |
+| Graph visual search and LDA port | [Browser guide](docs/graph-search.md), [source audit and implementation contract](docs/visual-search-design.md) |
 | Scientific analysis and experiments | [Second draft paper](docs/papers/rfc-revisited-draft2.md), [follow-up reports](docs/experiments/rfc-followup/README.md) |
 | Example data, provenance and conversion | [Public networks](examples/public/README.md), [approved Java examples](examples/fm2014/README.md) |
 | Java reference and compatibility | [FM 2014 source analysis](docs/fm2014_analysis.md), [compatibility audit](docs/DONE.md#compatibility-audit) |
