@@ -130,7 +130,7 @@ Use the thesis excerpt as the interaction reference. Its community browser uses 
 
 The LDA libraries used by the Java prototype are available as sources. Local source references include `../knowceans/knowceans-lda-simple/` and `../knowceans/knowceans-ilda/`, with simple LDA implementations in `org.knowceans.topics.simple`. Select and audit the required source subset and map it to the prototype's search interfaces.
 
-- [ ] 4.1 Identify the Lucene functionality and `knowceans` dependencies required for graph visual search.
+- [x] 4.1 Identify the Lucene functionality and `knowceans` dependencies required for graph visual search. The [source audit and implementation contract](visual-search-design.md) defines the reachable subset, lexical grammar, sampler/utilities, licenses, matrix/score semantics, graph ownership and browser lifecycle.
 - [ ] 4.2 Port the required Lucene search functionality and integration points.
 - [ ] 4.3 Port the required `knowceans-lda-simple` framework functionality from the available sources (`org.knowceans.topics.simple`).
 - [ ] 4.4 Port the required utilities from `knowceans.util.*`.
