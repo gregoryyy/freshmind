@@ -20,11 +20,13 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 
 | Area | Current status |
 | --- | --- |
-| TouchGraph foundation | Complete: graph/locality APIs, spring layout and lenses, with Java compatibility checks. |
-| Freshmind browser features | Complete: types, labeled curves, navigation, overlay editors with label/weight commands, content popups and native YAML persistence. |
-| Reinforcement Focus + Context | Planned milestone complete: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible comparisons including hybrid views. |
+| TouchGraph foundation | Ported and checked: graph/locality APIs, spring layout and lenses, with Java compatibility checks. |
+| Freshmind browser features | Implemented in the port’s scope: types, labeled curves, navigation, overlay editors with label/weight commands, content popups and native YAML persistence. |
+| Reinforcement Focus + Context | Agreed milestone implemented: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible comparisons including hybrid views. |
+| Research and future views | Application/library survey and pre-2024 appendix completed; radius-two view designed, implementation proposed. |
+| Assurance | Intent, usage constraints, architecture and evidence approach proposed in [PR #36](https://github.com/gregoryyy/freshmind/pull/36); implementation-wide audit remains pending. |
 | Readability | Measured node-label separation with pinned/focus protection and overlap counts; automatic relation-label placement near clear curve positions. |
-| Graph visual search | Current lexical/LDA prototype retained: queries, tags, node similarity and feedback. Backend replacement is deferred. |
+| Graph visual search | Elasticlunr literal retrieval and FM 2014-style LDA semantics: explicit metrics, document/term APIs, local model files, query graphs and feedback. Embeddings deferred. |
 
 See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes. **View → Label spacing** offers paused node separation and automatic relation-label placement; see the [readability guide](docs/readability.md).
 
@@ -41,7 +43,7 @@ Open the localhost address printed by Vite. `/` is the graph browser; `/freshmin
 
 Try **RFC → Research community showcase** to compare a plain graph, viewing lens, one/two RFC foci and hybrid aggregation. See the [showcase guide](docs/rfc-showcase.md) or [six-view flipbook](docs/rfc-showcase/index.html).
 
-The current lexical and topic-model search remains available. If an external literal-search library is needed, use elasticlunr. See the [integration plan](docs/search-module-integration.md) and [browser guide](docs/graph-search.md).
+Graph search uses elasticlunr for literal retrieval and local LDA for semantic retrieval. Choose distance or likelihood ranking and save/load topic models separately from graph files. See the [browser guide](docs/graph-search.md) and [FM 2014 parity record](docs/fm2014-retrieval-parity.md) for supported operations, verification and intentional differences. Embeddings are deferred.
 
 RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Point at the graph to give the centered node keyboard control; explicit control/editor focus takes priority. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
 
@@ -95,7 +97,7 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 | Importance and focal-region exclusion | [Importance contract](docs/rfc-importance.md), [exclusion contract](docs/rfc-exclusion.md) |
 | Reversible filtering and leaf aggregation | [Structural focus + context](docs/structural-focus-context.md) |
 | Graph readability | [Node separation and relation-label placement](docs/readability.md) |
-| Graph visual search | [Current scope and future integration](docs/search-module-integration.md), [earlier prototype guide](docs/graph-search.md) |
+| Graph visual search | [Integration and scope](docs/search-module-integration.md), [browser guide](docs/graph-search.md), [FM 2014 parity](docs/fm2014-retrieval-parity.md) |
 | Scientific analysis and experiments | [Second draft paper](docs/papers/rfc-revisited-draft2.md), [follow-up reports](docs/experiments/rfc-followup/README.md) |
 | Example data, provenance and conversion | [Public networks](examples/public/README.md), [approved Java examples](examples/fm2014/README.md), [fictional search library](examples/search/README.md) |
 | Java reference and compatibility | [FM 2014 source analysis](docs/fm2014_analysis.md), [compatibility audit](docs/DONE.md#compatibility-audit) |

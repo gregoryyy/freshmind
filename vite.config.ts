@@ -20,6 +20,7 @@ export default defineConfig({
         .map(name=>`${name}\n\n${readFileSync(new URL(`${name}/${name==="events"?"LICENSE":"LICENSE.txt"}`,modules),"utf8")}`).join("\n\n");
       this.emitFile({type:"asset",fileName:"LICENSES-CLUSTERING.txt",source:clusteringLicenses});
       this.emitFile({ type: "asset", fileName: "LICENSE-YAML.txt", source: readFileSync(new URL("yaml/LICENSE", modules), "utf8") });
+      this.emitFile({ type: "asset", fileName: "licenses/LICENSE-ELASTICLUNR.txt", source: readFileSync(new URL("elasticlunr/LICENSE", modules), "utf8") });
       this.emitFile({ type: "asset", fileName: "LICENSE-NETWORKX.txt", source: readFileSync(new URL("examples/public/sources/LICENSE-NETWORKX.txt", import.meta.url), "utf8") });
     }
   }]

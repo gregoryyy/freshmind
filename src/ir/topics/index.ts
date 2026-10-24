@@ -3,3 +3,4 @@ export * from "./cokus.js";
 export * from "./numeric.js";
 export * from "./gibbs.js";
 export * from "./model.js";
+export * from "./similarities.js";

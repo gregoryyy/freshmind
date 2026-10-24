@@ -76,7 +76,10 @@ const disposeSearch=bindGraphSearchControls(panel,{
   engine:get<HTMLSelectElement>("search-engine"),kind:get<HTMLSelectElement>("search-kind"),query:get<HTMLInputElement>("search-query"),limit:get<HTMLInputElement>("search-limit"),
   run:get<HTMLButtonElement>("search-run"),similar:get<HTMLButtonElement>("search-similar"),reject:get<HTMLButtonElement>("search-reject"),train:get<HTMLButtonElement>("search-train"),cancel:get<HTMLButtonElement>("search-cancel"),
   topics:get<HTMLInputElement>("search-topics"),iterations:get<HTMLInputElement>("search-iterations"),seed:get<HTMLInputElement>("search-seed"),alpha:get<HTMLInputElement>("search-alpha"),beta:get<HTMLInputElement>("search-beta"),
-  status:get("search-status"),topicWords:get("search-topic-words")
+  status:get("search-status"),topicWords:get("search-topic-words"),
+  metric:get<HTMLSelectElement>("search-metric"),maxDistance:get<HTMLInputElement>("search-distance"),
+  saveModel:get<HTMLButtonElement>("search-save-model"),loadModel:get<HTMLInputElement>("search-load-model"),
+  minDocumentFrequency:get<HTMLInputElement>("search-min-df")
 });
 const disposeZoom = bindZoomControls(panel, {
   spacing: get<HTMLInputElement>("graph-zoom"), spacingValue: get("graph-zoom-value"),

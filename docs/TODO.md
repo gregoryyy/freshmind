@@ -9,7 +9,14 @@ techniques and libraries, and proposes a radius-two adjacency view. Its research
 and interactive design are complete; implementation/evaluation tasks in milestone
 6 below are proposed future increments.
 
-**Current status:** Milestones 1–3 are complete within their agreed scope. The current lexical/LDA graph-search implementation is retained for now; replacement tasks 4.8–4.12 are deferred. Use elasticlunr if an external literal-search library becomes necessary. Milestone 5 covers node separation and relation-label placement. RFC and visual search should realize the ideas described in the reference text; exact figure layouts, crosshairs and labels are outside scope. See the [current search direction](search-module-integration.md) and [implementation history](DONE.md).
+**Current status:** Milestones 1–3 are complete within their agreed scope. Milestone 4
+now uses elasticlunr for literal retrieval and LDA semantics for FM 2014 feature
+parity; embeddings are deferred. Tasks 4.8–4.12 describe a superseded plan, not
+unfinished requirements under the latest direction. Milestone 5 covers node and
+relation-label readability. RFC and visual search realize the ideas described in
+the reference text; exact figure layouts, crosshairs and labels are outside scope.
+See the [search direction](search-module-integration.md),
+[parity limits](fm2014-retrieval-parity.md) and [implementation history](DONE.md).
 
 ## Source material
 
@@ -135,25 +142,30 @@ The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-fo
 
 ## 4. Graph visual search
 
-Keep the current search implementation for now. If a literal-search library is
-needed, use **elasticlunr**; no dependency replacement is requested at present.
-A future semantic approach may use a supplied module and embeddings. The
-[integration plan](search-module-integration.md) records this direction.
+Use **elasticlunr** as the literal engine and implement **LDA semantic retrieval**
+for FM 2014 graph-search feature parity, per the latest user direction. Embeddings
+are deferred. See the [integration plan](search-module-integration.md) and
+[parity record](fm2014-retrieval-parity.md).
 
-Tasks **4.1–4.6** completed the current lexical/LDA prototype; **4.13** separated
-IR from FM/TG. Earlier verification remains in [DONE.md](DONE.md). Backend
-replacement tasks below retain their numbers and remain deferred, not completed.
+Tasks **4.1–4.6** built the earlier prototype; **4.13** separated IR from FM/TG.
+Tasks **4.7** and **4.14** record earlier scope decisions. Tasks **4.8–4.12** below
+are superseded, not silently redefined or claimed as implemented.
 
 - [x] 4.7 Record the revised search ownership and scope: user-supplied literal and semantic search; LDA superseded; text-described interactions guide RFC and search examples.
-- [ ] 4.8 (Deferred) Review the supplied module's API, indexing lifecycle, query capabilities, result identities/scores and execution requirements once it is available.
-- [ ] 4.9 (Deferred) Adapt the browser search boundary to that API and replace LDA-specific backend assumptions, training controls, lifecycle and dependencies.
-- [ ] 4.10 (Deferred) If the current literal index needs replacement, integrate elasticlunr and verify its actual query behavior; preserve stable result IDs and graph interactions.
-- [ ] 4.11 (Deferred) Integrate and verify the supplied semantic approach, including embeddings if selected by that module.
-- [ ] 4.12 (Deferred) Adapt examples, walkthroughs and reproducible comparisons to the supplied module; verify graph query/context/result links, supported node similarity, rejection feedback, persistence and stale-work cleanup.
+- ~~4.8 (Superseded) Review the supplied module's API, indexing lifecycle, query capabilities, result identities/scores and execution requirements once it is available.~~
+- ~~4.9 (Superseded) Adapt the browser search boundary to that API and replace LDA-specific backend assumptions, training controls, lifecycle and dependencies.~~
+- ~~4.10 (Superseded) If the current literal index needs replacement, integrate elasticlunr and verify its actual query behavior; preserve stable result IDs and graph interactions.~~
+- ~~4.11 (Superseded) Integrate and verify the supplied semantic approach, including embeddings if selected by that module.~~
+- ~~4.12 (Superseded) Adapt examples, walkthroughs and reproducible comparisons to the supplied module; verify graph query/context/result links, supported node similarity, rejection feedback, persistence and stale-work cleanup.~~
 
 - [x] 4.13 Separate information retrieval into `ir` alongside `fm` and `tg`, move topics and worker/model ownership there, and use short Freshmind module names (`render`, `navigate`, `edit`, `struct`, `cluster`, `struct-view`) while preserving public aliases.
 
 - [x] 4.14 Record the retained current-search baseline and conditional elasticlunr choice; defer replacement work and continue with readability.
+
+- [x] 4.15 Audit FM 2014 retrieval sources and authorized Dirichlet binaries; document operations, equations, defects and intentional differences using synthetic reference checks.
+- [x] 4.16 Integrate pinned npm elasticlunr with stable IDs, existing bounded query grammar, exact metadata filters and node-based literal queries; preserve independent IR ownership.
+- [x] 4.17 Add FM-style LDA distance/likelihood document and term operations, minimum document frequency, explicit metric provenance and local model save/load with freshness/cancellation guards. Defer embeddings and Java binary-model import.
+- [x] 4.18 Verify numeric reference, workers/browser lifecycle and distribution artifacts; refresh progress, guides and the production search walkthrough. Historical prototype experiment records remain reproducible with their original scorer.
 
 ## 5. Readability: node separation and relation-label placement
 
@@ -176,15 +188,14 @@ Crossings, decorations and continuous node collision handling remain future work
 
 The [research roadmap](ROAD.md) and [design contract](radius-two-view.md) define
 this direction. Completed research/design is distinct from the proposed
-implementation below. Keep the current search; use elasticlunr only if an
-external literal-search library is needed, and inspect any supplied semantic
-module before adapting it.
+implementation below. Keep retrieval behind IR contracts; use the elasticlunr
+and LDA capabilities described above. Embedding retrieval remains deferred.
 
 - [x] 6.1 Research high-value application workflows, RFC/visual-search state of the art and available libraries, with primary sources and explicit shortcomings; extend [ROAD Appendix A](ROAD.md#appendix-a-related-work-before-2024) with pre-2024 work and distinguish close comparisons from adjacent techniques.
 - [x] 6.2 Design the orthogonal radius-two view: vertical direct neighbors, horizontal second-hop occurrences, relationship labels/weights, shared identity, non-row relations, bounded data access and keyboard/overlay integration. Provide an interactive fictional mockup.
 - [ ] 6.3 Implement a detached, deterministic radius-two projection with stable identities, explicit occurrence/edge records, direction/filter policies and incomplete-page contracts; verify graph/coordinate preservation and graph-replacement behavior.
 - [ ] 6.4 Add an opt-in bounded browser view with measured/virtual rows and cells, paging, selection, pivot/history, accessible navigation and shared overlay editing; preserve the current RFC/lens view.
-- [ ] 6.5 Connect existing retrieval results as view seeds without changing IR ownership; integrate supplied semantics only when available and preserve query provenance, cancellation and stale-result guards.
+- [ ] 6.5 Connect existing retrieval results as view seeds without changing IR ownership; use the LDA adapter and preserve query provenance, cancellation and stale-result guards.
 - [ ] 6.6 Evaluate correctness, browser costs and user tasks against ordinary ego node-link, RFC and simple list/tree baselines, with a matrix for shared-neighbor tasks; use attributed data and distinguish unique nodes, occurrences and edge records.
 - [ ] 6.7 Run a narrow maintainer/researcher pilot to validate a repeated investigation task; revise the representation if direction, sharing or missing context causes errors.
 - [ ] 6.8 Add one application adapter after the pilot identifies a useful task and available source, initially considering dependency impact, evidence exploration or data lineage; preserve source evidence and scope.
