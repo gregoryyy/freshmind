@@ -20,6 +20,10 @@ build:
 build-demo:
     npm run build:demo
 
+# Check the optional local knowceans Java sampler/RNG reference; requires a JDK.
+test-lda-java:
+    node scripts/lda-java-reference.mjs
+
 # Capture a production-build walkthrough into docs/flipbook/ (PNGs, Markdown and HTML).
 flipbook *args: build-demo
     node scripts/flipbook.mjs "$@"

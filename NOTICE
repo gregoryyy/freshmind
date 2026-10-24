@@ -78,3 +78,38 @@ includes LICENSE-NETWORKX.txt. Original dataset references and source hashes
 are recorded in examples/public/README.md and provenance.json.
 Freshmind's graph-derived annotations and native YAML conversion are additions;
 they do not replace the original NetworkX attribution.
+
+
+LDA and numerical utilities
+
+The serial LDA sampler/model port (src/fm/topics/gibbs.ts, model.ts and index.ts)
+retains GPL-3.0-or-later from knowceans-ilda, Copyright (c) 2005-2011 Gregor
+Heinrich; TypeScript port Copyright (c) 2026 Gregor Heinrich. No warranty.
+Full terms: LICENSE-GPL-3.0. Combined builds including this code use that license;
+individual component notices and separately marked licenses remain.
+Pinned local source: knowceans-ilda/src/org/knowceans/topics/simple/LdaGibbs.java
+SHA-256: 8d098e7377840203ec757c5b926ca6ee4aa3243e933e0b2a4d642ec56a5460ed
+
+The required CokusRandom subset is derived from
+knowceans-ilda/src/org/knowceans/util/CokusRandom.java
+SHA-256: bb553def52d76f80c77bee1949024d35daca8443fc79dfd7c8ad9e206a90af1a
+Original notice and port attribution:
+
+Copyright (c) 2006 Gregor Heinrich. All rights reserved. Redistribution and
+use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met: 1. Redistributions of source
+code must retain the above copyright notice, this list of conditions and the
+following disclaimer. 2. Redistributions in binary form must reproduce the
+above copyright notice, this list of conditions and the following disclaimer
+in the documentation and/or other materials provided with the distribution.
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESSED OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+TypeScript port (c) 2026 Gregor Heinrich. See NOTICE for the pinned source.

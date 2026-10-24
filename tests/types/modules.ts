@@ -21,6 +21,7 @@ import {FreshmindPanel,installDocument,captureDocument} from 'fm4/fm/browser';
 import type {FreshmindPanelOptions} from 'fm4/fm/browser';
 import {bindNodeImportanceControls} from 'fm4/fm/ui';
 import {LexicalSearchIndex,graphSearchCorpus,createGraphQuery,applyGraphSearchResults} from 'fm4/fm/search';
+import {LdaGibbs,trainLda,LdaSearchIndex} from 'fm4/fm/topics';
 
 // Compile-only consumer fixture: public declaration identities must compose across modules.
 const options:FreshNodeOptions={type:'person',weight:9,visual:{style:{importance:{mode:'size'}}}};
@@ -43,4 +44,4 @@ new FreshmindNavigation(nav);installDocument(panel,document);captureDocument(pan
 spanningTree(graph,['a','b'],'a','pair');projectRfcStructure(graph,locality,node,null,{x:1,y:1});
 createNodeOutline('ellipse',100,40);nodeImportanceScale(9,registry.resolveNode(node as FreshNode).importance);
 applyRelationEdit(edge as FreshEdge,{label:'link',type:'default',curve:null},{graph:graph as FreshGraph,locality});
-void [LocalityUtils,StructuralViewController,FreshmindPresentation,bindNodeImportanceControls,parseTypeConfiguration,routeEdges];
+void [LocalityUtils,StructuralViewController,FreshmindPresentation,bindNodeImportanceControls,parseTypeConfiguration,routeEdges,LdaGibbs,trainLda,LdaSearchIndex];

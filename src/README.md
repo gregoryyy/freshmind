@@ -30,6 +30,7 @@ The library is one ESM package with two domains: `tg/` preserves TouchGraph, and
 | `fm/clustering/` | Community/component detection and conversion to stored memberships. | `fm4/fm/clustering` |
 | `fm/structure-view/` | Reversible type filtering/leaf aggregation and the presented membership index. | `fm4/fm/structure-view` |
 | `fm/search/` | Headless corpus/analyzer, bounded query parser, lexical term vectors and owned graph search/feedback commands. | `fm4/fm/search` |
+| `fm/topics/` | Serial LDA training, fixed-topic fold-in, topic similarity and the required seeded numerical utilities. Sampler/model code retains GPL-3.0-or-later. | `fm4/fm/topics` |
 | `fm/browser/` | FreshmindPanel composition, DOM keyboard adapter, document installation/capture and safe annotation/resource presentation. | `fm4/fm/browser` |
 | `fm/ui/` | Reusable caller-owned controls, content popup and key-map/zoom/importance/structure bindings. | `fm4/fm/ui` |
 

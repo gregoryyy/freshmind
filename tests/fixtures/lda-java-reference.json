@@ -1,0 +1,114 @@
+{
+  "source": "knowceans-ilda serial LdaGibbs and CokusRandom; 2026-10-24",
+  "seed": 4357,
+  "random10000Sha256": "9316d9ded89959da5a0d37195b60e4c1ee37592e427ec6a3b4bd20431abfcf7c",
+  "first12": [
+    3510405877,
+    4290933890,
+    2191955339,
+    564929546,
+    152112058,
+    4262624192,
+    2687398418,
+    268830360,
+    1763988213,
+    578848526,
+    4212814465,
+    3596577449
+  ],
+  "trainingWords": [
+    [
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      2
+    ],
+    [],
+    [
+      2,
+      2,
+      0
+    ]
+  ],
+  "trainingIterations": 7,
+  "queryWords": [
+    0,
+    2,
+    2
+  ],
+  "queryIterations": 5,
+  "documentTopicCounts": [
+    [
+      3,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      2,
+      0
+    ]
+  ],
+  "topicTermCounts": [
+    [
+      3,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      3
+    ],
+    [
+      0,
+      1,
+      0
+    ]
+  ],
+  "topicTotals": [
+    4,
+    3,
+    1
+  ],
+  "assignments": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [],
+    [
+      1,
+      1,
+      0
+    ]
+  ],
+  "queryCounts": [
+    [
+      1,
+      2,
+      0
+    ]
+  ],
+  "perplexity": 2.148663433705535,
+  "querySeed": 4357,
+  "queryRng": "Independent chain reset before initq"
+}

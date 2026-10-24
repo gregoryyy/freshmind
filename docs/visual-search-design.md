@@ -115,10 +115,13 @@ readers, `LdaTeaLeaves`, demo random permutations, configuration singletons and
 Java collection wrappers are not required runtime dependencies. Port the needed
 `CokusRandom` generator with its own source notice and fixed-vector tests; use
 ordinary TypeScript arrays/Map and explicit small numerical helpers for the rest.
-Document any RNG API mapping: Java `Random.nextInt` rejection behavior and
-`nextDouble` need not equal a single uniform draw from the underlying generator.
-Reproducibility is defined by our stored seed, corpus order, vocabulary and
-implementation version, not an unsupported claim of identical Java chains.
+The audited `CokusRandom` overrides both `nextInt(n)` and `nextDouble`: bounded
+integers use `floor(n*uniform)` and uniforms use one unsigned draw divided by
+2^32. The port preserves this mapping. `just test-lda-java` checks 10,000 draws,
+serial training counts/assignments and independently seeded query fold-in against
+the pinned source. Reproducibility records seed, corpus order, vocabulary and
+implementation version; this bounded check does not assert equivalence for all
+legacy models or sampler variants.
 
 Train on a stable sorted-ID corpus/vocabulary. Store IDs alongside rows, never
 infer graph identities from ordinal scores. Return detached model snapshots,
@@ -129,6 +132,26 @@ that misnaming nor its unbounded scale. Predictive query likelihood can be repor
 separately; do not confuse a distribution over words with one over documents.
 
 ## Graph and browser contract (4.5)
+
+The sampler/utilities contract is implemented in `fm4/fm/topics` (4.3–4.4):
+
+```ts
+import {trainLda, LdaSearchIndex} from "fm4/fm/topics";
+const model = trainLda(corpus, {topics: 6, alpha: .1, beta: .01,
+  iterations: 100, seed: 4357});
+const topical = new LdaSearchIndex(model);
+const terms = topical.search("graph layout");
+const neighbors = topical.similar(nodeId);
+const topicWords = topical.topicWords(10);
+```
+
+`trainLdaSteps` yields progress after initialization and each sweep. `LdaGibbs`
+exposes incremental stepping and detached diagnostic snapshots; `foldInLda` never
+writes to phi. A model retains ordered IDs/vocabulary, exact corpus key, lengths,
+settings, version and posterior matrices. Runtime models are not automatically
+embedded into native graph files. Limits are 256 topics, 100,000 vocabulary terms,
+two million topic/term or document/topic cells and tokens, 10,000 sweeps and priors
+from 1e-9 to 1e6. Browser work must use the worker adapter in 4.5.
 
 Search operates on a corpus snapshot with an exact content fingerprint. Node
 position, visibility, RFC weights and layout ticks do not invalidate that corpus;

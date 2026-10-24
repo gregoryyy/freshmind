@@ -5,6 +5,14 @@ licensed under the Apache License, Version 2.0. The full license text is
 provided in LICENSE-APACHE-2.0. Their copyright notices identify Gregor
 Heinrich's original work and the TypeScript port.
 
+The LDA sampler port in src/fm/topics/gibbs.ts and model.ts, and its module
+entry point, retain GPL-3.0-or-later from knowceans-ilda. The full text is in
+LICENSE-GPL-3.0. The combined Freshmind entry points include this GPL code;
+the browser build containing it is distributed under GPL-3.0-or-later with
+the individual component notices retained. Separately marked Apache files
+retain their own license. The CokusRandom port has its original permissive
+two-condition notice in src/fm/topics/cokus.ts and NOTICE.
+
 TouchGraph-derived components retain the original licenses reproduced below.
 The short headers in src/tg/ refer to this file and NOTICE. Distribute both
 files with those sources, and reproduce the required notices and license

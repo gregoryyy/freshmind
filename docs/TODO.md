@@ -132,8 +132,8 @@ The LDA libraries used by the Java prototype are available as sources. Local sou
 
 - [x] 4.1 Identify the Lucene functionality and `knowceans` dependencies required for graph visual search. The [source audit and implementation contract](visual-search-design.md) defines the reachable subset, lexical grammar, sampler/utilities, licenses, matrix/score semantics, graph ownership and browser lifecycle.
 - [x] 4.2 Port the required Lucene search functionality and integration points. `fm4/fm/search` provides bounded Boolean/field/phrase/prefix queries, exact tag lookup, TF–IDF/cosine retrieval and owned graph query/result/feedback commands. Browser bindings follow in 4.5; Lucene binary/scoring compatibility is not claimed.
-- [ ] 4.3 Port the required `knowceans-lda-simple` framework functionality from the available sources (`org.knowceans.topics.simple`).
-- [ ] 4.4 Port the required utilities from `knowceans.util.*`.
+- [x] 4.3 Port the required `knowceans-lda-simple` framework functionality from the available sources (`org.knowceans.topics.simple`). Serial collapsed Gibbs, fixed-topic fold-in, perplexity, stable corpus/model IDs, topic words and bounded topic similarity are available in `fm4/fm/topics`; original GPL scope is retained.
+- [x] 4.4 Port the required utilities from `knowceans.util.*`. Ported the reachable Cokus generator subset with its original notice and added validated categorical/Jensen–Shannon helpers. Java collections, demo printing/timers, Swing and binary corpus/model I/O are not runtime requirements. `just test-lda-java` verifies pinned source outputs.
 - [ ] 4.5 Integrate LDA-based graph visual search methods with the browser.
   - [ ] 4.5.1 Represent term and tag queries as graph nodes linked to retrieved results.
   - [ ] 4.5.2 Allow similarity queries from existing nodes and add links to the retrieved items.

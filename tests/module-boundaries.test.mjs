@@ -70,7 +70,7 @@ test('source dependencies cross feature boundaries only through module contracts
 
 test('every headless module remains free of browser adapters, rendering, UI, D3 and YAML dependencies',async()=>{
   const modules=['fm4/core','fm4/fm/core','fm4/tg/model','fm4/tg/graph','fm4/tg/layout','fm4/tg/lenses',
-    'fm4/fm/model','fm4/fm/config/core','fm4/fm/geometry','fm4/fm/navigation','fm4/fm/editing','fm4/fm/rfc','fm4/fm/structures','fm4/fm/clustering','fm4/fm/structure-view','fm4/fm/search'];
+    'fm4/fm/model','fm4/fm/config/core','fm4/fm/geometry','fm4/fm/navigation','fm4/fm/editing','fm4/fm/rfc','fm4/fm/structures','fm4/fm/clustering','fm4/fm/structure-view','fm4/fm/search','fm4/fm/topics'];
   const visited=new Set();
   async function walk(url) {
     if(visited.has(url.href))return;visited.add(url.href);
