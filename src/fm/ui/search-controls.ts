@@ -4,6 +4,7 @@ import {isSearchQueryNode,searchResultMetadata} from "../ir/index.js";
 import type {SearchEngine,SearchRequest,SearchMetric} from "../../ir/corpus/index.js";
 import {GraphSearchController,SearchCancelledError} from "../browser/index.js";
 import type {FreshmindPanel} from "../browser/index.js";
+import {GraphQueryEditor} from "../browser/index.js";
 export interface GraphSearchElements {
   engine:HTMLSelectElement;kind:HTMLSelectElement;query:HTMLInputElement;limit:HTMLInputElement;
   run:HTMLButtonElement;similar:HTMLButtonElement;reject:HTMLButtonElement;train:HTMLButtonElement;cancel:HTMLButtonElement;
@@ -71,9 +72,21 @@ export function bindGraphSearchControls(panel:FreshmindPanel,e:GraphSearchElemen
     target.scrollIntoView({block:"nearest"});
   };
   const choose=(semantic:boolean)=>{e.engine.value=semantic?"lda":"lexical";e.kind.value="terms";sync();};
+  const queryEditor=new GraphQueryEditor(panel,(node,text)=>{
+    const search=node.getData().search as Record<string,unknown>;
+    const request={...search.request as SearchRequest,query:text.trim()};
+    // submitQuery validates synchronously before the input closes, then retains accepted text on engine failure.
+    void controller.submitQuery(node,request,Number(e.limit.value)).catch(showError);
+  });
+  const editQuery=(item:FreshNode|FreshEdge)=>{
+    if(!(item instanceof FreshNode)||!isSearchQueryNode(item))return false;
+    const request=(item.getData().search as Record<string,unknown>).request as SearchRequest;
+    return queryEditor.open(item,request?.query??"");
+  };
   const removeKeys=panel.getNavigation().setActions({
     quickSearch:()=>{if(controller.getState().busy)return;choose(false);e.query.value="";reveal();e.query.focus();},
-    search:semantic=>{if(controller.getState().busy)return;choose(semantic);reveal();e.query.focus();e.query.select();},
+    search:semantic=>{try{choose(semantic);const context=panel.getSelect(),options=semanticOptions();editQuery(controller.createQuery(semantic?"lda":"lexical",context instanceof FreshNode?context:null,options));}catch(error){showError(error);}},
+    editQuery,
     similar:semantic=>{if(controller.getState().busy)return;choose(semantic);reveal();similar();},
     index:semantic=>{if(controller.getState().busy)return;choose(semantic);reveal();if(semantic)train();else void controller.index().catch(showError);}
   });
@@ -88,5 +101,5 @@ export function bindGraphSearchControls(panel:FreshmindPanel,e:GraphSearchElemen
       }
     }sync();
   });
-  return ()=>{disposed=true;removeKeys();removeState();removeSelection();removers.forEach(remove=>remove());controller.dispose();};
+  return ()=>{disposed=true;queryEditor.dispose();removeKeys();removeState();removeSelection();removers.forEach(remove=>remove());controller.dispose();};
 }

@@ -22,4 +22,6 @@
 .fm-node-details footer { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
 .fm-node-details button:focus-visible, .fm-node-details a:focus-visible, .fm-node-content:focus-visible { outline: 3px solid #6cb08b; outline-offset: 2px; }
 .fm-label-editor:focus { outline: 1px solid #42674a; background: #ffffffed !important; color: #172c22 !important; }
+.fm-query-editing > .tg-label, .fm-query-editing > .fm-editable-label { visibility: hidden; }
+.fm-query-editor { overflow: visible; }
 .fm-label-editor[aria-invalid=true] { outline: 2px solid #a72b20; background: #fff0ee !important; color: #701d16 !important; }

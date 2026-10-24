@@ -12,6 +12,43 @@ function fixture(){
   return {panel,a,b,c,manual,controller,workers};
 }
 const request={engine:'lexical',kind:'terms',query:'graph'};
+test('query shortcuts can create a visible empty draft before retrieval without changing the content corpus',()=>{
+  const {controller,panel,a,workers,manual}=fixture();panel.setSelect(a);
+  const corpus=graphSearchCorpus(panel.getCompleteEltSet()),q=controller.createQuery('lexical');
+  assert.equal(panel.getSelection(),q);assert.equal(q.getSemanticType(),'lucenequery');assert.equal(q.getData().search.draft,true);
+  assert.equal(q.getData().search.request.query,'');assert.equal(panel.getGES().contains(q),true);
+  assert.equal(graphSearchCorpus(panel.getCompleteEltSet()).key,corpus.key);assert.equal(workers.length,0);
+  const context=[...q.getEdges()][0];assert.equal(context.from,a);assert.equal(context.to,q);assert.equal(context.getData().search.role,'context');
+  const before=structuredClone(q.getData());assert.throws(()=>controller.submitQuery(q,{...request,query:''}),/Invalid/);assert.deepEqual(q.getData(),before);
+  assert.throws(()=>controller.createQuery('unknown'),/engine/);assert.equal(panel.getNodeCount(),4);assert.ok(panel.getCompleteEltSet().contains(manual));
+  controller.dispose();panel.destroy();
+});
+test('committed query text searches the same node, preserves context/manual links, and survives engine failure',async()=>{
+  const {controller,panel,a,workers,manual}=fixture(),q=controller.createQuery('lexical',a);
+  const pending=controller.submitQuery(q,request),w=workers.at(-1);
+  assert.equal(q.getLabel(),'[graph]');assert.equal(q.getData().search.draft,false);
+  w.answer({kind:'results',results:new LexicalSearchIndex(w.job.corpus).search('graph')});const edges=await pending;
+  assert.equal(edges.length,2);assert.ok(edges.every(e=>e.from===q));assert.equal(panel.getNodeCount(),4);
+  const again=controller.submitQuery(q,{...request,query:'topic'}),w2=workers.at(-1);w2.answer({kind:'results',results:new LexicalSearchIndex(w2.job.corpus).search('topic')});
+  const replacement=await again;assert.equal(replacement.length,1);assert.equal(replacement[0].to.getID(),'c');
+  assert.ok(edges.every(e=>!panel.getCompleteEltSet().contains(e)));assert.ok(panel.getCompleteEltSet().contains(manual));
+  const semantic=controller.createQuery('lda',a);await assert.rejects(controller.submitQuery(semantic,{engine:'lda',kind:'terms',query:'topic'}),/Train/);
+  assert.equal(semantic.getLabel(),'[topic]');assert.ok(panel.getCompleteEltSet().contains(semantic));assert.equal(semantic.getData().search.request.query,'topic');
+  controller.dispose();panel.destroy();
+});
+test('deleting a query cancels its pending job, returns to context, and never removes content or accepts late replies',async()=>{
+  const {controller,panel,a,workers,manual}=fixture(),q=controller.createQuery('lexical',a);
+  const pending=controller.submitQuery(q,request),rejected=assert.rejects(pending,/cancelled/),w=workers.at(-1),late=w.onmessage;
+  assert.equal(panel.getInteractionMode(),'navigate');assert.equal(panel.getNavigation().handleKey({key:'Backspace',ctrlKey:true}),true);
+  await rejected;assert.ok(w.terminated);assert.equal(controller.getState().busy,false);assert.equal(panel.getSelect(),a);
+  late({data:{kind:'results',results:[{id:'b',score:1,relevance:1,rank:1}]}});
+  assert.equal(panel.getNodeCount(),3);assert.equal(panel.getEdgeCount(),1);assert.ok(panel.getCompleteEltSet().contains(manual));
+  panel.getNavigation().handleKey({key:'Backspace',ctrlKey:true,repeat:true});assert.equal(panel.getNodeCount(),3);
+  panel.getNavigation().handleKey({key:'Delete'});assert.equal(panel.getNodeCount(),3); // Navigate gate for content.
+  panel.setInteractionMode('edit');panel.setSelectEdge(manual);panel.getNavigation().handleKey({key:'Delete',ctrlKey:true});
+  assert.equal(panel.getNodeCount(),3);assert.equal(panel.getEdgeCount(),0);assert.equal(panel.getSelect(),a);
+  controller.dispose();panel.destroy();
+});
 test('cancelling after a worker reply clears UI status and prevents graph mutations',async()=>{
   const {controller,panel,a,workers}=fixture();
   const pending=controller.query(request,5,a),cancelled=assert.rejects(pending,/cancelled/);

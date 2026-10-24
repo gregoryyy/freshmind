@@ -63,6 +63,8 @@ export interface NavigationKey {
 }
 export interface NavigationActions {
   edit?(item: NavigationItem): void; editDetails?(item: NavigationItem): void;
+  /** Optional feature editor gets first refusal before the generic label editor. */
+  editQuery?(item:NavigationItem):boolean;
   help?(): void; openResource?(): void; reverseRelation?(): void;
   quickSearch?():void; search?(semantic:boolean):void; similar?(semantic:boolean):void; index?(semantic:boolean):void;
   adjustWeight?(item:NavigationItem,direction:1|-1):void;
@@ -77,6 +79,7 @@ export interface NavigationHost {
   getCenteredNode?():FreshNode|null;
   getNeighborhoodFocus(): FreshNode | null;
   getSelection(): NavigationItem | null;
+  deleteSelection?():boolean;
   setSelect(node: Node | null): void;
   setSelectEdge(edge: FreshEdge | null): void;
   updateDrawPositions(): void;

@@ -12,6 +12,7 @@ export {captureDocument,installDocument} from "./document.js";
 export type {InstallDocumentOptions} from "./document.js";
 export {resourceURL,renderAnnotation} from "./content.js";
 export {GraphSearchController,SearchCancelledError} from "./search.js";
+export {GraphQueryEditor} from "./query-editor.js";
 export type {GraphSearchState,SearchWorkerFactory} from "./search.js";
 export {separateNodeLabels} from "./readability.js";
 export type {LabelSeparationResult} from "./readability.js";

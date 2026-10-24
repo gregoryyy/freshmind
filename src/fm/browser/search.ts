@@ -1,9 +1,9 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later; Copyright (c) 2026 Gregor Heinrich. */
 import {FreshEdge,FreshNode,getMutationLocality} from "../model/index.js";
 import type {FreshGraph} from "../model/index.js";
-import {graphSearchCorpus,isSearchQueryNode,createGraphQuery,applyGraphSearchResults,rejectGraphSearchResult} from "../ir/index.js";
+import {graphSearchCorpus,isSearchQueryNode,createGraphQuery,createGraphQueryDraft,applyGraphSearchResults,rejectGraphSearchResult} from "../ir/index.js";
 import {validateSearchRequest} from "../../ir/corpus/index.js";
-import type {SearchCorpus,SearchRequest,SearchEngine} from "../../ir/corpus/index.js";
+import type {SearchCorpus,SearchRequest,SearchEngine,SearchResult} from "../../ir/corpus/index.js";
 import {SearchSession,SearchCancelledError} from "../../ir/browser/index.js";
 import type {SearchWorkerFactory} from "../../ir/browser/index.js";
 import type {LdaOptions,LdaProgress,LdaModel} from "../../ir/topics/index.js";
@@ -17,6 +17,7 @@ export class GraphSearchController {
   private graph:FreshGraph;
   private disposed=false;
   private generation=0;
+  private pendingSource:FreshNode|null=null;
   private readonly listeners=new Set<(state:GraphSearchState)=>void>();
   private readonly removeGraphChange:()=>void;
   private state:GraphSearchState={busy:false,trained:false,message:"Choose terms or tags to search the graph.",topicWords:[]};
@@ -29,9 +30,12 @@ export class GraphSearchController {
   addListener(listener:(state:GraphSearchState)=>void):()=>void {this.listeners.add(listener);listener(this.getState());return ()=>this.listeners.delete(listener);}
   private publish(changes:Partial<GraphSearchState>):void {this.state={...this.state,...changes};for(const listener of this.listeners)listener(this.getState());}
   private resetGraph():void {this.cancel();this.graph=this.panel.getCompleteEltSet();this.session.reset();this.publish({trained:false,topicWords:[],message:"Graph changed. Search or train a topic model."});}
-  private checkGraph():void {if(this.graph!==this.panel.getCompleteEltSet())this.resetGraph();}
+  private checkGraph():void {
+    if(this.graph!==this.panel.getCompleteEltSet())this.resetGraph();
+    else if(this.pendingSource&&!this.graph.contains(this.pendingSource))this.cancel();
+  }
   cancel():void {
-    this.generation++;const busy=this.state.busy;this.session.cancel();
+    this.generation++;this.pendingSource=null;const busy=this.state.busy;this.session.cancel();
     if(busy)this.publish({busy:false,message:"Search cancelled."});
   }
   private async run<T>(corpus:SearchCorpus,execute:(progress:(p:LdaProgress)=>void)=>Promise<T>,operation:"search"|"train"|"index"|"load"="search"):Promise<T>{
@@ -71,7 +75,10 @@ export class GraphSearchController {
     const sourceLabel=source?.getLabel(),sourceQuery=source&&isSearchQueryNode(source)?JSON.stringify(source.getData().search):null;
     if(r.kind==="similarity"&&(!source||!graph.contains(source)||source.getID()!==r.query||isSearchQueryNode(source)))throw new Error("Select a content node for similarity search");
     if(source&&!graph.contains(source))throw new Error("Search source is outside the graph");
-    const pending=this.run(corpus,()=>this.session.search(corpus,r,limit)),generation=this.generation,results=await pending;
+    const pending=this.run(corpus,()=>this.session.search(corpus,r,limit)),generation=this.generation;
+    this.pendingSource=source??null;
+    let results:SearchResult[];
+    try{results=await pending;}finally{if(generation===this.generation)this.pendingSource=null;}
     // No asynchronous boundary between validation and mutation. A deleted source is never recreated.
     if(this.disposed||generation!==this.generation)throw new SearchCancelledError();
     if(graph!==this.panel.getCompleteEltSet()||source&&!graph.contains(source)||graphSearchCorpus(graph).key!==corpus.key)throw new Error("Search source or graph changed");
@@ -79,10 +86,32 @@ export class GraphSearchController {
     let owner=source;
     if(r.kind!=="similarity"){
       if(!owner||!isSearchQueryNode(owner))owner=createGraphQuery(graph,r,source);
-      else {const data=owner.getData(),search=data.search as Record<string,unknown>;owner.setData({...data,search:{...search,version:1,role:"query",request:{...r}}} as Parameters<FreshNode["setData"]>[0]);owner.setLabel(`[${r.query}]`);owner.setSemanticType(r.engine==="lda"?"ldaquery":"lucenequery");}
+      else this.commitQuery(owner,r);
     }
     const edges=applyGraphSearchResults(graph,owner!,r,results,corpus);
     this.reveal(owner!,edges);this.publish({message:`${edges.length} result${edges.length===1?"":"s"} linked. Select a result relation to reject it.`});return edges;
+  }
+  /** Creates/selects the query before retrieval, so graph entry and deletion work even without a trained model. */
+  createQuery(engine:SearchEngine,context:FreshNode|null=this.panel.getSelect() as FreshNode|null,options:Pick<SearchRequest,"metric"|"maxDistance">={}):FreshNode {
+    if(this.disposed)throw new Error("Search controller disposed");
+    this.checkGraph();this.cancel();
+    const node=createGraphQueryDraft(this.graph,engine,context,options);this.reveal(node,[]);
+    this.publish({message:"Type the query on its node; Enter searches, Escape cancels editing. Ctrl+Backspace/Delete removes the selected query."});
+    return node;
+  }
+  /** Accept query text before launching a job. Failure retains the accepted text for correction/retry. */
+  submitQuery(source:FreshNode,request:SearchRequest,limit=5):Promise<FreshEdge[]> {
+    if(this.disposed)throw new Error("Search controller disposed");
+    const r=validateSearchRequest(request);
+    if(r.kind==="similarity"||!Number.isInteger(limit)||limit<1||limit>100)throw new TypeError("Choose a term/tag query and 1–100 results");
+    if(!this.panel.getCompleteEltSet().contains(source)||!isSearchQueryNode(source))throw new Error("Select a current query node");
+    this.commitQuery(source,r);this.panel.repaintAfterMove();
+    return this.query(r,limit,source);
+  }
+  private commitQuery(owner:FreshNode,r:SearchRequest):void {
+    const data=owner.getData(),search=data.search as Record<string,unknown>;
+    owner.setData({...data,search:{...search,version:1,role:"query",draft:false,request:{...r}}} as Parameters<FreshNode["setData"]>[0]);
+    owner.setLabel(`[${r.query}]`);owner.setSemanticType(r.engine==="lda"?"ldaquery":"lucenequery");
   }
   exportModel():LdaModel {this.checkGraph();return this.session.exportModel(graphSearchCorpus(this.panel.getCompleteEltSet()));}
   async loadModel(read:()=>Promise<unknown>):Promise<void>{

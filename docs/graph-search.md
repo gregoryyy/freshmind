@@ -11,17 +11,31 @@ view, so their ordinary semantic connections remain available for exploration.
 Explicit structural type filters still apply; remove a filter to inspect a
 result of a hidden type.
 
-With the graph focused, FM2014's shortcuts reveal the controls even when
-collapsed: `/` clears and focuses literal search; **Ctrl+F** focuses literal
-terms and **Ctrl+Shift+F** selects the topic-model method. Enter in the
-query field runs it with the selected graph context. **Ctrl+R** and
+With the graph focused, **Ctrl+F** creates a lexical query node beside the
+selected context; **Ctrl+Shift+F** creates an LDA query node. Type directly on
+the node and press **Enter** to search. The input moves with its node through
+layout and view transforms; the side pane can stay collapsed. **F2** or
+**Ctrl+Enter** on a query reopens its query input and reruns the same node when
+submitted. Escape cancels editing; an unused query remains available to delete.
+Leaving the field retains its draft for reopening, without running a query.
+
+After leaving the input, **Ctrl+Backspace**, **Ctrl+Delete**, **Delete**,
+**Backspace** or **Ctrl+D** removes the selected query and its incident links,
+retains the content nodes and returns selection to a visible context. This works
+in Navigate mode. Ordinary node/relation deletion requires Edit mode; relations
+take precedence over the node anchor, regardless of which SVG item has DOM focus.
+Inside text fields, deletion chords keep their native text-editing behavior.
+
+`/` still clears and focuses the side-pane literal search field, which remains
+an alternative entry point. **Ctrl+R** and
 **Ctrl+Shift+R** retrieve literal/topic similarities for the selected content
 node. **Ctrl+I** builds and checks a literal index snapshot in a worker, reporting
 the document count without creating graph items. The engine indexes current
 text automatically for every literal query, so this is an explicit check rather
 than a prerequisite or persistent index. **Ctrl+Shift+I** trains the current
-topic model using the configured settings. Busy work ignores repeated shortcut
-requests; cancellation and graph/text freshness checks remain authoritative.
+topic model using the configured settings. A new query-node shortcut cancels a
+previous job; similarity/index/training shortcuts ignore requests while busy.
+Cancellation and graph/text freshness checks remain authoritative.
 These shortcuts apply to the graph, leaving normal text and browser shortcuts
 available in editors. See the [key map](KEYMAP.md).
 
@@ -69,6 +83,14 @@ the active job. A new job supersedes the previous one; replacing a graph cancels
 it and clears its in-memory model. Changed corpus text, deleted sources and edits
 to a running query prevent stale results from attaching. Bindings and controllers
 have explicit disposers for embedding applications.
+
+Query nodes exist before retrieval succeeds, including before LDA training.
+Empty query drafts are explicitly marked in their metadata and excluded from
+the retrieval corpus; they are never submitted to an engine. Accepted query text
+remains on its node after an engine error so it can be retried. Existing result
+links are replaced only after a successful retrieval; their request provenance
+continues to identify the search that produced them. The query deletion commands
+cancel its active worker and prevent late replies from recreating it.
 
 **Save** retains query/context/result relations and rejection judgments through
 the existing YAML metadata format, including currently hidden items. Trained

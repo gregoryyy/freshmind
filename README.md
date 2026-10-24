@@ -21,10 +21,10 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 | Area | Current status |
 | --- | --- |
 | TouchGraph foundation | Ported graph/locality APIs, spring layout and lenses, with scoped Java compatibility checks. |
-| Freshmind browser features | Ported types, labeled curves, navigation, overlay editors with label/weight commands, optional moving in-place labels, content popups and native YAML persistence. |
+| Freshmind browser features | Types, labeled curves, navigation, overlay/moving label editors, content popups and YAML persistence. Selected-item deletion is repaired; [keyboard creation/linking and graph clipboard commands remain incomplete](docs/fm2014-keyboard-audit.md). |
 | Reinforcement Focus + Context | Implemented planned mechanisms: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible synthetic comparisons. |
 | Readability | Measured node-label separation with pinned/focus protection and overlap counts; automatic relation-label placement near clear curve positions. |
-| Graph visual search | Elasticlunr literal retrieval and FM 2014-style LDA semantics: explicit metrics, document/term APIs, local model files, query graphs and feedback. Embeddings deferred. |
+| Graph visual search | Elasticlunr literal retrieval and FM 2014-style LDA semantics, with [query entry directly on graph nodes](docs/graph-search.md), metrics, local models and feedback. Embeddings deferred. |
 | Application research and alternative views | Literature/application review and radius-two design/mockup complete; production implementation and evaluation remain pending. |
 | System assurance | [Intent, constraints, architecture and verification approach](docs/assurance/README.md) documented for review. Implementation mapping, risk assessment and conformance checks remain pending. |
 
