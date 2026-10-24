@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later; Copyright (c) 2026 Gregor Heinrich.
- * Worker lifecycle extracted from the Freshmind search prototype; see LICENSE-GPL-3.0. */
+ * Worker lifecycle extracted from the Freshmind search prototype; see licenses/LICENSE-GPL-3.0. */
 import type {SearchWorkerJob,SearchWorkerMessage} from "./protocol.js";
 import type {LdaProgress} from "../topics/index.js";
 

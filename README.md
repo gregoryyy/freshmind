@@ -20,15 +20,17 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 
 | Area | Current status |
 | --- | --- |
-| TouchGraph foundation | Ported and checked: graph/locality APIs, spring layout and lenses, with Java compatibility checks. |
-| Freshmind browser features | Implemented in the port’s scope: types, labeled curves, navigation, overlay editors with label/weight commands, content popups and native YAML persistence. |
-| Reinforcement Focus + Context | Agreed milestone implemented: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible comparisons including hybrid views. |
+| TouchGraph foundation | Ported graph/locality APIs, spring layout and lenses, with scoped Java compatibility checks. |
+| Freshmind browser features | Ported types, labeled curves, navigation, overlay editors with label/weight commands, content popups and native YAML persistence. |
+| Reinforcement Focus + Context | Implemented planned mechanisms: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible synthetic comparisons. |
 | Research and future views | Application/library survey and pre-2024 appendix completed; radius-two view designed, implementation proposed. |
 | Assurance | Intent, usage constraints, architecture and evidence approach proposed in [PR #36](https://github.com/gregoryyy/freshmind/pull/36); implementation-wide audit remains pending. |
 | Readability | Measured node-label separation with pinned/focus protection and overlap counts; automatic relation-label placement near clear curve positions. |
-| Graph visual search | Elasticlunr literal retrieval and FM 2014-style LDA semantics: explicit metrics, document/term APIs, local model files, query graphs and feedback. Embeddings deferred. |
+| Graph visual search | Working lexical/LDA prototype: queries, tags, node similarity and feedback. Next: elasticlunr literal retrieval and FM 2014 LDA feature parity; embeddings deferred. |
+| Application research and alternative views | Literature/application review and radius-two design/mockup complete; production implementation and evaluation remain pending. |
+| System assurance | Intent, usage constraints, architecture and deterministic verification approach documented for review. Implementation mapping, risk assessment and conformance checks remain pending. |
 
-See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes. **View → Label spacing** offers paused node separation and automatic relation-label placement; see the [readability guide](docs/readability.md).
+See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Feature delivery is distinct from conformance to the [assurance baseline](docs/assurance/README.md); that audit has not been completed. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes. **View → Label spacing** offers paused node separation and automatic relation-label placement; see the [readability guide](docs/readability.md).
 
 ## Run the browser
 
@@ -90,6 +92,7 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 
 | Topic | Reference |
 | --- | --- |
+| System intent, constraints and assurance | [Assurance approach and baseline](docs/assurance/README.md) |
 | Application research and future layouts | [ROAD: use cases, related work and libraries](docs/ROAD.md), [radius-two view design](docs/radius-two-view.md) |
 | Browser controls and examples | [Key map](docs/KEYMAP.md), [walkthrough](docs/flipbook/README.md) |
 | Freshmind models, types, navigation, editing and YAML | [Feature design](docs/fm_port-design.md) |
@@ -120,7 +123,7 @@ XML conversion checks require Python 3. Browser checks need a Playwright browser
 
 ## Source and licensing
 
-Freshmind sources marked Apache-2.0 retain [Apache 2.0](LICENSE-APACHE-2.0). The LDA sampler port retains [GPL 3 or later](LICENSE-GPL-3.0); combined builds including it use that license. The Cokus MT19937 generator retains its upstream [GNU Library GPL 2 or later](LICENSE-LGPL-2.0) notice. TouchGraph-derived components retain their original terms. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for scope, pinned Java references and dependency attribution; distribute these notices and license texts with the sources.
+Freshmind sources marked Apache-2.0 retain [Apache 2.0](licenses/LICENSE-APACHE-2.0). The LDA sampler port retains [GPL 3 or later](licenses/LICENSE-GPL-3.0); combined builds including it use that license. The Cokus MT19937 generator retains its upstream [GNU Library GPL 2 or later](licenses/LICENSE-LGPL-2.0) notice. TouchGraph-derived components retain their original terms. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for scope, pinned Java references and dependency attribution; distribute these notices and license texts with the sources.
 
 This product includes software developed by TouchGraph LLC (http://www.touchgraph.com/).
 

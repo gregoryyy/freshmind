@@ -2,7 +2,7 @@
  *
  * Cokus MT19937 from David Blei's lda-c, via knowceans CokusRandom.
  * Java adaptation: Gregor Heinrich. TypeScript adaptation: Freshmind 4, 2026.
- * See NOTICE for pinned sources and LICENSE-LGPL-2.0 for the full license.
+ * See NOTICE for pinned sources and licenses/LICENSE-LGPL-2.0 for the full license.
  *
  * Upstream cokus.c notice:
  * This is the ``Mersenne Twister'' random number generator MT19937, which

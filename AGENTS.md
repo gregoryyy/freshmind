@@ -27,6 +27,7 @@ Strict TypeScript, native ES modules, Node and Vite. SVG/D3 provides presentatio
 - Keep one TODO item per branch where practical. Reference its number in the PR, mark completed work in `docs/TODO.md` and record implementation notes, deviations and verification in `docs/DONE.md`.
 - Preserve the README's motivation and overview; link to existing detailed documents for specifics. Keep `just` recipes as the documented workflow rather than replacing them with npm commands.
 - Keep changes scoped. Do not overwrite unrelated work or regenerate historical experiment records merely because source paths changed.
+- Consult [the assurance baseline](docs/assurance/README.md) for intended purpose, usage constraints and architectural requirements. Keep its requirement IDs and explicit open decisions distinct from implementation/completion claims; reconcile changes of direction and report evidence gaps rather than inferring requirements from existing code.
 
 ## Verification
 

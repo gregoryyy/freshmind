@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later; Copyright (c) 2026 Gregor Heinrich.
- * Part of the LDA port; see gibbs.ts and LICENSE-GPL-3.0. No warranty. */
+ * Part of the LDA port; see gibbs.ts and licenses/LICENSE-GPL-3.0. No warranty. */
 import {compareSearchIds,createSearchCorpus,searchTokens} from "../corpus/index.js";
 import {rankSearchResults} from "../lexical/index.js";
 import type {SearchCorpus,SearchResult,SearchMetric} from "../corpus/index.js";
