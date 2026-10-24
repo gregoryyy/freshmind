@@ -8,7 +8,13 @@
 
 The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the 21-step flipbook](docs/flipbook/index.html).
 
-The original Freshmind was developed between 2002 and 2014. This project carries its graph-browsing concepts into a modern browser and reimplements and extends the RFC idea from [Gregor Heinrich’s 2005 paper](docs/literature/rfc@3ia05compact.pdf). RFC reinforces selected neighborhoods while retaining their surrounding context. Extensions include explicit focal target lengths, persistent tree/DAG/cluster definitions and reproducible layout comparisons.
+## Background and motivation
+
+The original Freshmind was developed by Gregor Heinrich in several waves between 2002 and 2014.
+
+The purpose of this partial port is to demonstrate Freshmind's concepts in a modern browser environment. Some of these concepts have aged well and may still be valuable more than a decade later. Freshmind 4 carries selected functionality forward and adds new capabilities for exploring these ideas.
+
+Freshmind 4 reimplements and extends the original Reinforcement Focus+Context idea from [Gregor Heinrich’s 2005 paper](docs/literature/rfc@3ia05compact.pdf). RFC reinforces selected neighborhoods while retaining their surrounding context. Extensions include explicit focal target lengths, persistent tree/DAG/cluster definitions and reproducible layout comparisons.
 
 ## Progress
 
@@ -23,18 +29,36 @@ See the [roadmap](docs/TODO.md) for remaining tasks and the [implementation reco
 
 ## Run the browser
 
+Use the repository's `just` recipes:
+
 ```sh
-npm install
-npm run dev
+just install
+just dev
 ```
 
 Open the localhost address printed by Vite. `/` is the graph browser; `/freshmind.html` explores the type palette and live YAML configuration. **Load example** offers synthetic RFC graphs, public networks and the approved Berry/NIPS-FM datasets.
 
 RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
 
+The other common recipes are:
+
+```sh
+just build          # Library and TypeScript declarations
+just build-demo     # Production demo
+just preview        # Build and serve the production demo
+just flipbook       # Production walkthrough: screenshots, Markdown and HTML
+just check          # Type checking, core tests and demo build
+just check-all      # Also run Java parity and browser tests
+just pdf README.md  # PDF beside one Markdown source
+just pdfs docs      # PDFs for Markdown files under docs
+just --list         # All recipes, including experiments and example conversion
+```
+
+PDF recipes use Pandoc and Google Chrome; `CHROME` selects another Chrome executable. Experiment and conversion instructions are in the detailed documents linked below.
+
 ## Use the library
 
-Build with `npm run build`. Give the graph container an explicit height, for example `600px`:
+Build with `just build`. Give the graph container an explicit height, for example `600px`:
 
 ```ts
 import { FreshmindPanel, FreshNode, FreshEdge } from "fm4/fm";
@@ -71,17 +95,16 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 ## Development and verification
 
 ```sh
-npm run typecheck
-npm test
-npm run test:java       # Requires a JDK.
-npm run build:demo
-npx playwright install chromium
-npm run test:browser
+just typecheck
+just test
+just test-java       # Requires a JDK.
+just build-demo
+just test-browser
 ```
 
-XML conversion checks require Python 3. To use installed Google Chrome for browser tests, run `PLAYWRIGHT_CHANNEL=chrome npm run test:browser`; set `PLAYWRIGHT_PORT` if the default port 4173 is occupied.
+XML conversion checks require Python 3. Browser checks need a Playwright browser or Google Chrome. To use installed Chrome, run `PLAYWRIGHT_CHANNEL=chrome just test-browser`; set `PLAYWRIGHT_PORT` if the default port 4173 is occupied.
 
-`just flipbook` regenerates the production walkthrough. `node scripts/flipbook.mjs --help` lists capture options. `just --list` shows the build, experiment, example-conversion and PDF recipes. Current verification results are recorded in [DONE.md](docs/DONE.md).
+`just flipbook` regenerates the production walkthrough; `just flipbook --help` lists capture options. Current verification results are recorded in [DONE.md](docs/DONE.md).
 
 ## Source and licensing
 
