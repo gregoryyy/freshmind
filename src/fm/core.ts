@@ -20,6 +20,8 @@ export {FreshmindNavigation,keymap,collectCandidates,bestCandidateIndex,screenDi
 export type {Direction,CandidateKind,Candidate,Preselection,NavigationItem,NavigationState,NavigationOptions,
   NavigationSettings,NavigationHost,NavigationKey,NavigationActions,NavigationClock} from "./navigation/index.js";
 export * from "./rfc/index.js";
+export * from "./search/index.js";
+export * from "./topics/index.js";
 export * from "./structure-view/index.js";
 export {validateSubstructure,analyzeSubstructure,spanningTree,clusterStructure} from "./structures/index.js";
 export type {GraphSubstructure,SubstructureGraph,SubstructureTopology} from "./structures/index.js";

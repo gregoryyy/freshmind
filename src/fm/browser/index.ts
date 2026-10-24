@@ -11,3 +11,5 @@ export type {FreshmindPanelOptions,FreshmindSelection,SelectionListener} from ".
 export {captureDocument,installDocument} from "./document.js";
 export type {InstallDocumentOptions} from "./document.js";
 export {resourceURL,renderAnnotation} from "./content.js";
+export {GraphSearchController,SearchCancelledError} from "./search.js";
+export type {GraphSearchState,SearchWorkerFactory} from "./search.js";

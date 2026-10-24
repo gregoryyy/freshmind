@@ -1,0 +1,994 @@
+format: freshmind
+version: 1
+title: Fictional topic library
+types:
+  format: freshmind-types
+  version: 1
+  id: freshmind-2014
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+    includes:
+      label: Contains
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      importance:
+        mode: size
+        minScale: 0.85
+        maxScale: 1.5
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#0000b0"
+        width: 1
+        dash: solid
+      arrow:
+        placement: middle
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: library
+    label: Topic library
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: Collection root. Browse authors and their papers.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": -40
+    data:
+      tags: []
+    extensions: {}
+  - id: mira
+    label: Mira Vega
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: Graph layout geometry uses spring forces, repulsion and readable network neighborhoods. Visual graph browsing preserves local structure and spatial context.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -350
+      "y": -130
+    data:
+      tags:
+        - visual search
+    extensions: {}
+  - id: layout-1
+    label: Spring neighborhoods
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Spring forces arrange graph vertices. Repulsion separates neighbors while graph layout geometry retains readable network structure.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -350
+      "y": -260
+    data:
+      tags:
+        - visual search
+    extensions: {}
+  - id: layout-2
+    label: Local geometry
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Graph drawing balances spring attraction and repulsion. Geometry and spatial neighborhoods guide network browsing.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -237.416697508023
+      "y": -195
+    data:
+      tags:
+        - visual search
+    extensions: {}
+  - id: layout-3
+    label: Readable maps
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Readable graph layout aligns vertices and labels. Spring forces and geometric distances preserve neighborhood context.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -237.41669750802296
+      "y": -65.00000000000003
+    data:
+      tags:
+        - visual search
+    extensions: {}
+  - id: layout-4
+    label: Motion and forces
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Graph springs create motion. Repulsion and damping stabilize spatial graph layout while local neighborhoods remain recognizable.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -350
+      "y": 0
+    data:
+      tags:
+        - visual search
+    extensions: {}
+  - id: layout-5
+    label: Browsing structure
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Visual network browsing explores local graph structure. Geometric spring layout preserves context around neighboring vertices.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -462.583302491977
+      "y": -64.99999999999996
+    data:
+      tags:
+        - visual search
+    extensions: {}
+  - id: layout-6
+    label: Graph lenses
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: A spatial lens expands a graph neighborhood. Spring layout and repulsion supply graph geometry before viewing transforms.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -462.583302491977
+      "y": -195
+    data:
+      tags:
+        - visual search
+    extensions: {}
+  - id: niko
+    label: Niko Chen
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: Probabilistic topic models describe documents with word distributions. Bayesian inference samples latent topics and retrieves text with semantic vocabulary.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": 190
+    data:
+      tags:
+        - topic models
+    extensions: {}
+  - id: topics-1
+    label: Latent documents
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Topic models represent documents as mixtures. Bayesian inference samples latent topics from word counts and document vocabulary.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 7.960204194457796e-15
+      "y": 60
+    data:
+      tags:
+        - topic models
+    extensions: {}
+  - id: topics-2
+    label: Words and probability
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Probability distributions connect words and latent topics. Topic inference retrieves documents with shared semantic vocabulary.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 112.58330249197702
+      "y": 125
+    data:
+      tags:
+        - topic models
+    extensions: {}
+  - id: topics-3
+    label: Sampling text
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Gibbs sampling estimates Bayesian topic distributions. Documents share word vocabulary through latent text mixtures.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 112.58330249197704
+      "y": 254.99999999999997
+    data:
+      tags:
+        - topic models
+    extensions: {}
+  - id: topics-4
+    label: Semantic retrieval
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Document retrieval compares probabilistic topics. Text mixtures combine word evidence and Bayesian latent inference.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 7.960204194457796e-15
+      "y": 320
+    data:
+      tags:
+        - topic models
+    extensions: {}
+  - id: topics-5
+    label: Topic explanations
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Word distributions explain latent document topics. Bayesian probability and vocabulary support interpretable text retrieval.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -112.58330249197701
+      "y": 255.00000000000006
+    data:
+      tags:
+        - topic models
+    extensions: {}
+  - id: topics-6
+    label: Corpus mixtures
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: A text corpus contains document mixtures of latent topics. Word counts drive Bayesian inference and probability estimates.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -112.58330249197702
+      "y": 124.99999999999999
+    data:
+      tags:
+        - topic models
+    extensions: {}
+  - id: elin
+    label: Elin Rowan
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: Forest ecology studies habitat, plants and species diversity. Woodland field surveys measure trees, soil and ecological restoration across seasons.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 350
+      "y": -130
+    data:
+      tags:
+        - forest ecology
+    extensions: {}
+  - id: ecology-1
+    label: Woodland surveys
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Forest field surveys count plant species. Trees and soil describe woodland habitat and ecological diversity.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 350
+      "y": -260
+    data:
+      tags:
+        - forest ecology
+    extensions: {}
+  - id: ecology-2
+    label: Habitat restoration
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Forest restoration supports habitat and species diversity. Woodland plants recover as soil and tree conditions improve.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 462.583302491977
+      "y": -195
+    data:
+      tags:
+        - forest ecology
+    extensions: {}
+  - id: ecology-3
+    label: Seasonal plants
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Seasonal field surveys describe forest plants. Ecological habitat and soil conditions shape woodland species diversity.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 462.58330249197707
+      "y": -65.00000000000003
+    data:
+      tags:
+        - forest ecology
+    extensions: {}
+  - id: ecology-4
+    label: Trees and soil
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Trees connect forest soil and plant habitat. Field ecology measures woodland species and restoration diversity.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 350
+      "y": 0
+    data:
+      tags:
+        - forest ecology
+    extensions: {}
+  - id: ecology-5
+    label: Species diversity
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Woodland habitat supports diverse plant species. Forest surveys connect ecology, soil and restoration.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 237.416697508023
+      "y": -64.99999999999996
+    data:
+      tags:
+        - forest ecology
+    extensions: {}
+  - id: ecology-6
+    label: Ecological recovery
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Forest restoration changes tree and plant communities. Habitat surveys measure ecological recovery and woodland species diversity.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 237.416697508023
+      "y": -195
+    data:
+      tags:
+        - forest ecology
+    extensions: {}
+  - id: bridge-1
+    label: Topic maps
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Graph layout organizes documents by latent topic mixtures. Bayesian text inference supplies word distributions; geometric spring forces and repulsion arrange the resulting graph.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -170
+      "y": -330
+    data:
+      tags:
+        - visual search
+        - topic models
+    extensions: {}
+  - id: bridge-2
+    label: Semantic neighborhoods
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Visual graph browsing explores semantic documents. Topic probability distributions connect word vocabulary, while spring layout preserves geometric neighborhood structure.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 170
+      "y": -330
+    data:
+      tags:
+        - visual search
+        - topic models
+    extensions: {}
+edges:
+  - id: library:mira
+    from: library
+    to: mira
+    label: researcher
+    type: includes
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: mira:layout-1
+    from: mira
+    to: layout-1
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: mira:layout-2
+    from: mira
+    to: layout-2
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: mira:layout-3
+    from: mira
+    to: layout-3
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: mira:layout-4
+    from: mira
+    to: layout-4
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: mira:layout-5
+    from: mira
+    to: layout-5
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: mira:layout-6
+    from: mira
+    to: layout-6
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: library:niko
+    from: library
+    to: niko
+    label: researcher
+    type: includes
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: niko:topics-1
+    from: niko
+    to: topics-1
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: niko:topics-2
+    from: niko
+    to: topics-2
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: niko:topics-3
+    from: niko
+    to: topics-3
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: niko:topics-4
+    from: niko
+    to: topics-4
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: niko:topics-5
+    from: niko
+    to: topics-5
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: niko:topics-6
+    from: niko
+    to: topics-6
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: library:elin
+    from: library
+    to: elin
+    label: researcher
+    type: includes
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: elin:ecology-1
+    from: elin
+    to: ecology-1
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: elin:ecology-2
+    from: elin
+    to: ecology-2
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: elin:ecology-3
+    from: elin
+    to: ecology-3
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: elin:ecology-4
+    from: elin
+    to: ecology-4
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: elin:ecology-5
+    from: elin
+    to: ecology-5
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: elin:ecology-6
+    from: elin
+    to: ecology-6
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: mira:bridge-1
+    from: mira
+    to: bridge-1
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: niko:bridge-1
+    from: niko
+    to: bridge-1
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: mira:bridge-2
+    from: mira
+    to: bridge-2
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: niko:bridge-2
+    from: niko
+    to: bridge-2
+    label: wrote
+    type: authored
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: layout-1:topics-2
+    from: layout-1
+    to: topics-2
+    label: cites
+    type: cites
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: topics-1:ecology-2
+    from: topics-1
+    to: ecology-2
+    label: cites
+    type: cites
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+  - id: ecology-1:layout-2
+    from: ecology-1
+    to: layout-2
+    label: cites
+    type: cites
+    visual: {}
+    weight: 10
+    length: 110
+    data: {}
+    extensions: {}
+data:
+  example: graph-search
+  provenance: All people, papers, text and relations are fictional, authored for Freshmind 4. Three deliberately separated themes plus two layout/topic bridge documents. No legacy corpus or external resource extraction.
+extensions: {}
+view:
+  wholeGraph: true
+  focus: library
+  radius: 2
+  backlinks: true
+  moveToCenter: true
+  lenses:
+    zoom: 1
+    hyperbolic: 0
+    rotation: 0
+    pan:
+      x: 0
+      "y": 0
+  canvas:
+    zoom: 0.8
+    pan:
+      x: 0
+      "y": 0
