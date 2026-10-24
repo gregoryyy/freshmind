@@ -4,7 +4,7 @@ Develop the browser in stages: establish a plain TouchGraph baseline, restore Fr
 
 Completed work, implementation notes, deviations, and lessons are recorded in [DONE.md](DONE.md).
 
-**Current status:** Milestones 1–3 are complete within their agreed scope. Milestone 4's earlier lexical/LDA prototype is implemented, but its LDA direction is superseded: Gregor will provide a Lucene-equivalent literal search engine and a semantic approach, potentially based on embeddings. Integration awaits that module. RFC and visual search should realize the ideas described in the reference text; exact figure layouts, crosshairs and labels are outside scope. See the [current search direction](search-module-integration.md) and [implementation history](DONE.md).
+**Current status:** Milestones 1–3 are complete within their agreed scope. The current lexical/LDA graph-search implementation is retained for now; replacement tasks 4.8–4.12 are deferred. Use elasticlunr if an external literal-search library becomes necessary. Milestone 5 completes the first node-label readability increment. RFC and visual search should realize the ideas described in the reference text; exact figure layouts, crosshairs and labels are outside scope. See the [current search direction](search-module-integration.md) and [implementation history](DONE.md).
 
 ## Source material
 
@@ -124,26 +124,36 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
 
 The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-focus/README.md), [multiple-focus tree report](experiments/rfc-multifocus/README.md), [follow-up comparisons F–H](experiments/rfc-followup/README.md), [exclusion Experiment I](experiments/rfc-exclusion/README.md), [hybrid Experiment J](experiments/rfc-hybrid/README.md) and [second draft paper](papers/rfc-revisited-draft2.md) document the implementation and experiments. The current experimental round covers stars/trees, damping versus rigidity, nonuniform importance, compact clusters, exclusion and hybrid views; DAG templates have functional checks only. The main browser exposes activation/removal and strength controls under **Reinforcement Focus + Context**. Node/link weights scale RFC stiffness separately from coordinate weights and ordinary TG forces; the [importance contract](rfc-importance.md) also defines bounded browser body/label sizing (3.2.18). Optional [focal-region exclusion](rfc-exclusion.md) is implemented and evaluated in 100 additional runs. [Structural focus + context](structural-focus-context.md) implements reversible type filtering and conservative leaf aggregation (3.2.6); Experiment J completes the matched hybrid comparisons (3.4.2). Multiple centers and memberships are documented in [the substructure design](rfc-substructures.md); [cluster forces](rfc-clusters.md) remain deformable rather than rigid bodies. Finite synthetic comparisons do not establish general convergence or readability.
 
-## 4. Graph visual search with the supplied search module
+## 4. Graph visual search
 
-Gregor will provide the search module: literal search equivalent to Lucene and a
-semantic approach that may use embeddings. LDA is excluded from the intended
-implementation. The [integration plan](search-module-integration.md) records the
-current direction; the thesis text remains the interaction reference.
+Keep the current search implementation for now. If a literal-search library is
+needed, use **elasticlunr**; no dependency replacement is requested at present.
+A future semantic approach may use a supplied module and embeddings. The
+[integration plan](search-module-integration.md) records this direction.
 
-Tasks **4.1–4.6** completed the earlier lexical/LDA prototype. Their implementation,
-verification, examples and experiments remain recorded in [DONE.md](DONE.md).
-That completion does not establish completion of the revised milestone. New task
-numbers preserve those historical references.
+Tasks **4.1–4.6** completed the current lexical/LDA prototype; **4.13** separated
+IR from FM/TG. Earlier verification remains in [DONE.md](DONE.md). Backend
+replacement tasks below retain their numbers and remain deferred, not completed.
 
 - [x] 4.7 Record the revised search ownership and scope: user-supplied literal and semantic search; LDA superseded; text-described interactions guide RFC and search examples.
-- [ ] 4.8 Review the supplied module's API, indexing lifecycle, query capabilities, result identities/scores and execution requirements once it is available.
-- [ ] 4.9 Adapt the browser search boundary to that API and replace LDA-specific backend assumptions, training controls, lifecycle and dependencies.
-- [ ] 4.10 Integrate and verify literal search through the supplied Lucene-equivalent engine, using its actual supported query behavior.
-- [ ] 4.11 Integrate and verify the supplied semantic approach, including embeddings if selected by that module.
-- [ ] 4.12 Adapt examples, walkthroughs and reproducible comparisons to the supplied module; verify graph query/context/result links, supported node similarity, rejection feedback, persistence and stale-work cleanup.
+- [ ] 4.8 (Deferred) Review the supplied module's API, indexing lifecycle, query capabilities, result identities/scores and execution requirements once it is available.
+- [ ] 4.9 (Deferred) Adapt the browser search boundary to that API and replace LDA-specific backend assumptions, training controls, lifecycle and dependencies.
+- [ ] 4.10 (Deferred) If the current literal index needs replacement, integrate elasticlunr and verify its actual query behavior; preserve stable result IDs and graph interactions.
+- [ ] 4.11 (Deferred) Integrate and verify the supplied semantic approach, including embeddings if selected by that module.
+- [ ] 4.12 (Deferred) Adapt examples, walkthroughs and reproducible comparisons to the supplied module; verify graph query/context/result links, supported node similarity, rejection feedback, persistence and stale-work cleanup.
 
 - [x] 4.13 Separate information retrieval into `ir` alongside `fm` and `tg`, move topics and worker/model ownership there, and use short Freshmind module names (`render`, `navigate`, `edit`, `struct`, `cluster`, `struct-view`) while preserving public aliases.
 
-Tasks **4.8–4.12** depend on the module being provided. Backend implementation and
-embedding choices remain with the supplied search module.
+- [x] 4.14 Record the retained current-search baseline and conditional elasticlunr choice; defer replacement work and continue with readability.
+
+## 5. Readability: node-label separation
+
+Improve the rendered graph without changing the TouchGraph/RFC force equations.
+The first increment is an explicit arrangement action for visible node bodies and
+labels, with measurable before/after intersections. Relation-label placement,
+crossings and continuous collision handling remain separate future work.
+
+- [x] 5.1 Define measured rectangle separation, pinned/focus/drag protection, transform handling, work bounds and compatibility limits.
+- [x] 5.2 Implement a deterministic headless separator and browser adapter using measured node geometry and existing inverse lenses.
+- [x] 5.3 Add caller-owned controls under View, report before/after overlaps and synchronize paused motion; preserve semantic data and hidden positions.
+- [x] 5.4 Verify logic and real SVG geometry, document limits and add a production before/after comparison to the main flipbook.

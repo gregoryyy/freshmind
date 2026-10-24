@@ -14,3 +14,5 @@ export {createClusterBoundary} from "./cluster-boundary.js";
 export type {ClusterBoundaryBox} from "./cluster-boundary.js";
 export {nodeImportanceScale,validateNodeImportanceView} from "./importance.js";
 export type {NodeImportanceViewSettings} from "./importance.js";
+export {countNodeOverlaps,separateNodeOverlaps} from "./overlap.js";
+export type {OverlapBox,OverlapOptions,OverlapResult} from "./overlap.js";

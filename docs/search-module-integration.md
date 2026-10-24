@@ -1,56 +1,48 @@
-# Graph search: supplied-module direction
+# Graph search: current baseline and future integration
 
-Scope decision from Gregor Heinrich, **2026-10-24**. This supersedes the LDA-based
-implementation plan in the [earlier source audit](visual-search-design.md).
+Latest scope decision from Gregor Heinrich, **2026-10-24**: keep the current
+search implementation for now. If an external literal-search library becomes
+necessary, use **elasticlunr**. This is a conditional library choice, not an
+instruction to install it or replace the working index now.
 
-Gregor will provide the search module. The intended capabilities are:
+## Current baseline
 
-- A literal search engine equivalent in purpose to Lucene.
-- Semantic retrieval, potentially based on embeddings. Its implementation remains
-  open until the supplied module and its capabilities can be reviewed.
-- Graph exploration that realizes the ideas and interactions described in the
-  reference text. Original figure layouts, crosshairs and labels are outside scope,
-  for both RFC and visual search.
+The lexical index, exact tags, current LDA topic prototype, node similarity,
+query/context/result relations, rejection feedback and search walkthrough remain
+available. The [browser guide](graph-search.md) describes their actual behavior.
+LDA remains a prototype rather than the long-term semantic direction; keeping it
+now does not reopen the earlier LDA development plan.
 
-LDA is excluded from the intended search implementation. The existing LDA code,
-controls, experiments and walkthrough document an earlier prototype. They remain
-in the checkout for now; extracting them into IR does not replace the prototype.
-
-## Current ownership
-
-Information retrieval is a separate `src/ir/` domain alongside `src/fm/` and
-`src/tg/`. It owns plain corpus/request/result contracts, the prototype lexical
-index, `ir/topics`, worker execution and the search session/model lifecycle.
-IR imports neither graph domain. Its default `fm4/ir` entry is headless;
-`fm4/ir/browser` exposes the explicit worker/session adapter.
+Information retrieval lives in `src/ir/` alongside `src/fm/` and `src/tg/`.
+IR owns plain corpus/request/result contracts, lexical retrieval, `ir/topics`,
+worker execution and search session/model lifecycle. IR imports neither graph
+domain. `fm4/ir` is headless; `fm4/ir/browser` exposes worker/session adapters.
 
 `fm4/fm/ir` adapts graph content and applies query/context/result relations and
 feedback. Freshmind's browser controller owns graph replacement/source-edit guards,
-status and visibility. The [module map](../src/README.md) lists canonical short
-imports and preserved public aliases. This separation does not select the supplied
-module's API or mark its integration complete.
+status and visibility. The [module map](../src/README.md) lists canonical imports
+and preserved public aliases.
 
-## Integration work
+## Deferred backend work
 
-Once the module is available, inspect its actual API, indexing lifecycle, literal
-query behavior, semantic capabilities, result identities/scores and execution
-requirements. Derive the adapter from those findings; no engine, embedding model,
-provider, vector format or scoring contract is selected by this document.
+Tasks **4.8–4.12** in [TODO.md](TODO.md#4-graph-visual-search) concern future
+backend replacement and are deferred. They do not block unrelated browser work.
+A semantic module may still be supplied by Gregor and may use embeddings; its
+API, provider, vector format and scoring behavior remain open.
 
-Freshmind owns the graph interaction around retrieval: query/context nodes,
-result relations, stable node identities, existing-node similarity where supported,
-explicit rejection feedback, native persistence and navigation through surrounding
-semantic relations. Preserve the existing RFC, viewing-lens and structural-view
-owners when adapting those interactions.
+When replacement is needed, inspect the actual module's API, indexing lifecycle,
+query capabilities, stable result identities/scores and execution requirements.
+Use elasticlunr if a literal-search library is required. Verify its actual query
+behavior rather than assuming Lucene syntax or score compatibility. Adapt the
+browser boundary and retire LDA-specific controls/lifecycle as appropriate to the
+replacement. No dependency or backend API is selected beyond that conditional
+literal-library preference.
 
-Replace the prototype's LDA-specific backend assumptions, training controls,
-model lifecycle and dependencies as part of that integration. Reassess which
-existing graph commands, cancellation/stale-result guards and fixtures remain
-useful. Verify the actual supplied engine rather than treating the homemade
-lexical index or LDA scores as its specification.
+Preserve graph query/context/result links, supported existing-node similarity,
+rejection feedback, persistence, cancellation and stale-result guards. Keep the
+existing RFC, viewing-lens and structural-view owners. Examples, walkthroughs and
+comparisons must describe the backend actually running; earlier LDA measurements
+remain evidence about that prototype.
 
-Examples, walkthroughs and reproducible comparisons must then describe the supplied
-module's literal and semantic behavior. The earlier LDA measurements remain
-historical evidence about that prototype, not acceptance results for the new
-direction. [TODO.md](TODO.md#4-graph-visual-search-with-the-supplied-search-module)
-tracks the pending work; it depends on receiving the module.
+RFC and visual search should fulfil the ideas described in the reference text.
+Exact figure layouts, crosshairs and labels remain outside scope.
