@@ -79,7 +79,7 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 // Call panel.destroy() when removing the browser.
 ```
 
-`fm4` / `fm4/tg` expose the TouchGraph browser API. `fm4/core` / `fm4/tg/core` and `fm4/fm/core` provide headless entry points without D3, DOM rendering or YAML parsing. The [module map](src/README.md) documents feature-specific imports and dependency boundaries; the [feature design](docs/fm_port-design.md) describes the model, configuration, editing and persistence contracts.
+`fm4` / `fm4/tg` expose the TouchGraph browser API. `fm4/core` / `fm4/tg/core` and `fm4/fm/core` provide headless entry points without D3, DOM rendering or YAML parsing. `fm4/ir` provides independent headless information retrieval, including `fm4/ir/topics`. The [module map](src/README.md) documents the three source domains, short feature imports and dependency boundaries; the [feature design](docs/fm_port-design.md) describes the model, configuration, editing and persistence contracts.
 
 ## Detailed documentation
 
@@ -113,7 +113,7 @@ XML conversion checks require Python 3. Browser checks need a Playwright browser
 
 ## Source and licensing
 
-Freshmind sources marked Apache-2.0 retain [Apache 2.0](LICENSE-APACHE-2.0). The LDA sampler port retains [GPL 3 or later](LICENSE-GPL-3.0); combined builds including it use that license. TouchGraph-derived components retain their original terms. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for scope, pinned Java references and dependency attribution; distribute these notices and license texts with the sources.
+Freshmind sources marked Apache-2.0 retain [Apache 2.0](LICENSE-APACHE-2.0). The LDA sampler port retains [GPL 3 or later](LICENSE-GPL-3.0); combined builds including it use that license. The Cokus MT19937 generator retains its upstream [GNU Library GPL 2 or later](LICENSE-LGPL-2.0) notice. TouchGraph-derived components retain their original terms. See [LICENSE](LICENSE) and [NOTICE](NOTICE) for scope, pinned Java references and dependency attribution; distribute these notices and license texts with the sources.
 
 This product includes software developed by TouchGraph LLC (http://www.touchgraph.com/).
 

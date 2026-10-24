@@ -54,7 +54,7 @@ flowchart TD
   L --> V[SVG drawing and picking]
 ```
 
-`src/fm/structure-view/` contains the headless projection, controller and membership index; `src/fm/ui/structural-view.ts` binds application-owned controls. `fm4/fm/structure-view` exports the controller, pure projection/validation helpers and types. The main browser supplies elements; the behavior is available from the library.
+`src/fm/struct-view/` contains the headless projection, controller and membership index; `src/fm/ui/structural-view.ts` binds application-owned controls. `fm4/fm/struct-view` exports the controller, pure projection/validation helpers and types. The main browser supplies elements; the behavior is available from the library.
 
 The existing TG locality remains the authoritative neighborhood for `LocalityUtils` and serialized asynchronous traversal. The presented `StructuralLocality` holds references to existing nodes/edges. It forwards public locality mutations to that source and recomputes actual visibility flags/incidence counts, including loop incidence twice. Forwarding keeps reference cleanup/rendering at the usual repaint boundary, so compound edits do not expose half-applied panel state. Relation reconnection uses source membership to retain attachments even when a structural rule hides the new endpoint. It does not own adjacency. `getUnfilteredLocality()` exposes source membership through a read-only TypeScript contract; shared node/edge visibility flags describe the presented view.
 

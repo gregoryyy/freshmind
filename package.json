@@ -51,16 +51,16 @@
     "./fm/ui/style.css": "./src/fm/ui/style.css",
     "./config/fm2014.types.yaml": "./config/fm2014.types.yaml",
     "./fm/structures": {
-      "types": "./dist/fm/structures/index.d.ts",
-      "import": "./dist/fm/structures/index.js"
+      "types": "./dist/fm/struct/index.d.ts",
+      "import": "./dist/fm/struct/index.js"
     },
     "./fm/structure-view": {
-      "types": "./dist/fm/structure-view/index.d.ts",
-      "import": "./dist/fm/structure-view/index.js"
+      "types": "./dist/fm/struct-view/index.d.ts",
+      "import": "./dist/fm/struct-view/index.js"
     },
     "./fm/clustering": {
-      "types": "./dist/fm/clustering/index.d.ts",
-      "import": "./dist/fm/clustering/index.js"
+      "types": "./dist/fm/cluster/index.d.ts",
+      "import": "./dist/fm/cluster/index.js"
     },
     "./tg/model": {
       "types": "./dist/tg/model/index.d.ts",
@@ -95,28 +95,80 @@
       "import": "./dist/fm/geometry/index.js"
     },
     "./fm/navigation": {
-      "types": "./dist/fm/navigation/index.d.ts",
-      "import": "./dist/fm/navigation/index.js"
+      "types": "./dist/fm/navigate/index.d.ts",
+      "import": "./dist/fm/navigate/index.js"
     },
     "./fm/editing": {
-      "types": "./dist/fm/editing/index.d.ts",
-      "import": "./dist/fm/editing/index.js"
+      "types": "./dist/fm/edit/index.d.ts",
+      "import": "./dist/fm/edit/index.js"
     },
     "./fm/rendering": {
-      "types": "./dist/fm/rendering/index.d.ts",
-      "import": "./dist/fm/rendering/index.js"
+      "types": "./dist/fm/render/index.d.ts",
+      "import": "./dist/fm/render/index.js"
     },
     "./fm/topics": {
-      "types": "./dist/fm/topics/index.d.ts",
-      "import": "./dist/fm/topics/index.js"
+      "types": "./dist/ir/topics/index.d.ts",
+      "import": "./dist/ir/topics/index.js"
     },
     "./fm/search": {
-      "types": "./dist/fm/search/index.d.ts",
-      "import": "./dist/fm/search/index.js"
+      "types": "./dist/fm/ir/index.d.ts",
+      "import": "./dist/fm/ir/index.js"
     },
     "./fm/browser": {
       "types": "./dist/fm/browser/index.d.ts",
       "import": "./dist/fm/browser/index.js"
+    },
+    "./ir": {
+      "types": "./dist/ir/index.d.ts",
+      "import": "./dist/ir/index.js"
+    },
+    "./ir/core": {
+      "types": "./dist/ir/core.d.ts",
+      "import": "./dist/ir/core.js"
+    },
+    "./ir/corpus": {
+      "types": "./dist/ir/corpus/index.d.ts",
+      "import": "./dist/ir/corpus/index.js"
+    },
+    "./ir/lexical": {
+      "types": "./dist/ir/lexical/index.d.ts",
+      "import": "./dist/ir/lexical/index.js"
+    },
+    "./ir/topics": {
+      "types": "./dist/ir/topics/index.d.ts",
+      "import": "./dist/ir/topics/index.js"
+    },
+    "./ir/browser": {
+      "types": "./dist/ir/browser/index.d.ts",
+      "import": "./dist/ir/browser/index.js"
+    },
+    "./fm/render": {
+      "types": "./dist/fm/render/index.d.ts",
+      "import": "./dist/fm/render/index.js"
+    },
+    "./fm/navigate": {
+      "types": "./dist/fm/navigate/index.d.ts",
+      "import": "./dist/fm/navigate/index.js"
+    },
+    "./fm/edit": {
+      "types": "./dist/fm/edit/index.d.ts",
+      "import": "./dist/fm/edit/index.js"
+    },
+    "./fm/struct": {
+      "types": "./dist/fm/struct/index.d.ts",
+      "import": "./dist/fm/struct/index.js"
+    },
+    "./fm/cluster": {
+      "types": "./dist/fm/cluster/index.d.ts",
+      "import": "./dist/fm/cluster/index.js"
+    },
+    "./fm/struct-view": {
+      "types": "./dist/fm/struct-view/index.d.ts",
+      "import": "./dist/fm/struct-view/index.js"
+    },
+    "./fm/ir": {
+      "types": "./dist/fm/ir/index.d.ts",
+      "import": "./dist/fm/ir/index.js"
     }
   },
   "files": [
@@ -126,6 +178,7 @@
     "LICENSE",
     "LICENSE-APACHE-2.0",
     "LICENSE-GPL-3.0",
+    "LICENSE-LGPL-2.0",
     "NOTICE",
     "README.md"
   ],

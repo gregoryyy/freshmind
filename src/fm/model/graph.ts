@@ -9,8 +9,8 @@
 import {Node,Edge} from "../../tg/model/index.js";
 import {GraphEltSet} from "../../tg/graph/index.js";
 import {clone} from "../config/core.js";
-import {validateSubstructure} from "../structures/index.js";
-import type {GraphSubstructure} from "../structures/index.js";
+import {validateSubstructure} from "../struct/index.js";
+import type {GraphSubstructure} from "../struct/index.js";
 import {FreshNode} from "./node.js";
 import {FreshEdge} from "./edge.js";
 

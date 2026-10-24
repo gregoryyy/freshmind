@@ -28,7 +28,7 @@ function imports(source,filename) {
 }
 
 test('all pre-refactor public entry points retain their named exports',async()=>{
-  // Captured from checkpoint 5089211 before relocating implementations; additions are allowed.
+  // Original API captured at 5089211, search API at db898dc before IR extraction; additions are allowed.
   const baseline=JSON.parse(await readFile(new URL('fixtures/public-exports.json',import.meta.url),'utf8'));
   for(const [name,names] of Object.entries(baseline)) {
     const exported=await import(name);
@@ -39,7 +39,7 @@ test('all pre-refactor public entry points retain their named exports',async()=>
 test('feature module entry points share the existing constructors and mutation ownership',async()=>{
   const [tg,model,graph,layout,lenses,browser,fm,fmodel,fbrowser,config,geometry,editing,nav]=await Promise.all([
     import('fm4'),import('fm4/tg/model'),import('fm4/tg/graph'),import('fm4/tg/layout'),import('fm4/tg/lenses'),import('fm4/tg/browser'),
-    import('fm4/fm'),import('fm4/fm/model'),import('fm4/fm/browser'),import('fm4/fm/config/core'),import('fm4/fm/geometry'),import('fm4/fm/editing'),import('fm4/fm/navigation')]);
+    import('fm4/fm'),import('fm4/fm/model'),import('fm4/fm/browser'),import('fm4/fm/config/core'),import('fm4/fm/geometry'),import('fm4/fm/edit'),import('fm4/fm/navigate')]);
   for(const entry of [model,graph,layout,lenses,browser])for(const [name,value] of Object.entries(entry))assert.equal(tg[name],value,name);
   for(const name of ['FreshNode','FreshEdge','FreshGraph','FreshmindDocument'])assert.equal(fmodel[name],fm[name],name);
   assert.equal(fbrowser.FreshmindPanel,fm.FreshmindPanel);assert.equal(fbrowser.installDocument,fm.installDocument);
@@ -50,31 +50,37 @@ test('feature module entry points share the existing constructors and mutation o
   assert.equal(fmodel.getMutationLocality(projection),plain);assert.equal(fmodel.getMutationLocality(undefined),undefined);
 });
 
-test('source dependencies cross feature boundaries only through module contracts, with TouchGraph independent of Freshmind',async()=>{
+test('source contracts keep IR and TouchGraph independent of other domains',async()=>{
   for(const url of await files(new URL('src/',root),'.ts')) {
     const relative=fileURLToPath(url).slice(fileURLToPath(new URL('src/',root)).length),parts=relative.split('/');
     for(const spec of imports(await readFile(url,'utf8'),relative)) {
-      if(!spec.startsWith('.'))continue;
+      if(!spec.startsWith('.')){
+        if(parts[0]==='ir')assert.ok(!/^fm4\/(fm|tg)(\/|$)/.test(spec),`${relative} imports another domain: ${spec}`);
+        if(parts[0]==='tg')assert.ok(!/^fm4\/(fm|ir)(\/|$)/.test(spec),`${relative} imports another domain: ${spec}`);
+        continue;
+      }
       const target=new URL(spec.replace(/\.js$/,'.ts'),url);await access(target);
       const destination=fileURLToPath(target).slice(fileURLToPath(new URL('src/',root)).length).split('/');
-      assert.ok(parts[0]!=='tg'||destination[0]!=='fm',`${relative} imports Freshmind: ${spec}`);
+      if(parts[0]==='tg'||parts[0]==='ir')assert.equal(destination[0],parts[0],`${relative} imports another domain: ${spec}`);
       if(parts.length<3||destination.length<3||parts[0]===destination[0]&&parts[1]===destination[1])continue;
       assert.ok(['index.ts','core.ts'].includes(destination.at(-1)),`${relative} bypasses a module contract: ${spec}`);
     }
   }
-  for(const domain of ['tg','fm'])for(const item of await readdir(new URL(`src/${domain}/`,root),{withFileTypes:true}))
+  for(const domain of ['tg','fm','ir'])for(const item of await readdir(new URL(`src/${domain}/`,root),{withFileTypes:true}))
     if(item.isDirectory())await access(new URL(`src/${domain}/${item.name}/index.ts`,root));
-  for(const former of ['tg/model.ts','tg/graph.ts','tg/layout.ts','tg/lenses.ts','tg/locality.ts','tg/panel.ts','fm/model.ts','fm/panel.ts'])
+  for(const former of ['tg/model.ts','tg/graph.ts','tg/layout.ts','tg/lenses.ts','tg/locality.ts','tg/panel.ts','fm/model.ts','fm/panel.ts',
+    'fm/topics','fm/search','fm/rendering','fm/navigation','fm/editing','fm/structures','fm/clustering','fm/structure-view','search'])
     await assert.rejects(access(new URL(`src/${former}`,root)),{code:'ENOENT'});
 });
 
 test('every headless module remains free of browser adapters, rendering, UI, D3 and YAML dependencies',async()=>{
   const modules=['fm4/core','fm4/fm/core','fm4/tg/model','fm4/tg/graph','fm4/tg/layout','fm4/tg/lenses',
-    'fm4/fm/model','fm4/fm/config/core','fm4/fm/geometry','fm4/fm/navigation','fm4/fm/editing','fm4/fm/rfc','fm4/fm/structures','fm4/fm/clustering','fm4/fm/structure-view','fm4/fm/search','fm4/fm/topics'];
+    'fm4/fm/model','fm4/fm/config/core','fm4/fm/geometry','fm4/fm/navigate','fm4/fm/edit','fm4/fm/rfc','fm4/fm/struct','fm4/fm/cluster','fm4/fm/struct-view','fm4/fm/ir',
+    'fm4/ir','fm4/ir/core','fm4/ir/corpus','fm4/ir/lexical','fm4/ir/topics'];
   const visited=new Set();
   async function walk(url) {
     if(visited.has(url.href))return;visited.add(url.href);
-    assert.ok(!/\/(?:browser|rendering|ui)\//.test(url.pathname),url.pathname);
+    assert.ok(!/\/(?:browser|render|rendering|ui)\//.test(url.pathname),url.pathname);
     for(const spec of imports(await readFile(url,'utf8'),url.pathname)) {
       assert.ok(!spec.startsWith('d3-')&&spec!=='yaml',`${url.pathname}: ${spec}`);
       if(spec.startsWith('.'))await walk(new URL(spec,url));
@@ -97,7 +103,32 @@ test('emitted internal runtime dependencies have no import cycles',async()=>{
   for(const id of nodes.keys())visit(id);
 });
 
+test('short module names and legacy aliases expose the same implementations',async()=>{
+  for(const [oldName,newName] of [['rendering','render'],['navigation','navigate'],['editing','edit'],['structures','struct'],['clustering','cluster'],['structure-view','struct-view'],['search','ir']]){
+    const old=await import(`fm4/fm/${oldName}`),current=await import(`fm4/fm/${newName}`);
+    assert.deepEqual(Object.keys(old),Object.keys(current));for(const key of Object.keys(old))assert.equal(old[key],current[key],`${oldName}.${key}`);
+  }
+  const [ir,core,corpus,lexical,topics,legacyTopics,fm,browser,fmBrowser]=await Promise.all([
+    import('fm4/ir'),import('fm4/ir/core'),import('fm4/ir/corpus'),import('fm4/ir/lexical'),import('fm4/ir/topics'),import('fm4/fm/topics'),import('fm4/fm/core'),import('fm4/ir/browser'),import('fm4/fm/browser')]);
+  for(const entry of [core,corpus,lexical,topics])for(const [key,value] of Object.entries(entry)){assert.equal(ir[key],value,key);assert.equal(fm[key],value,key);}
+  for(const [key,value] of Object.entries(topics))assert.equal(legacyTopics[key],value,key);
+  assert.equal(browser.SearchCancelledError,fmBrowser.SearchCancelledError);
+  assert.ok(!Object.hasOwn(ir,'FreshNode'));assert.ok(!Object.hasOwn(ir,'graphSearchCorpus'));
+});
+
+test('the complete IR dependency closure, including workers, has no FM or TG imports',async()=>{
+  for(const url of await files(new URL('dist/ir/',root),'.js'))for(const spec of imports(await readFile(url,'utf8'),url.pathname)){
+    if(spec.startsWith('.'))assert.ok(new URL(spec,url).pathname.includes('/dist/ir/'),`${url.pathname}: ${spec}`);
+    else assert.ok(!/^fm4\/(fm|tg)(\/|$)/.test(spec)&&!spec.startsWith('d3-')&&spec!=='yaml',`${url.pathname}: ${spec}`);
+  }
+});
+
 test('public module declaration files type-check as an external TypeScript consumer',async()=>{
   await run(process.execPath,[fileURLToPath(new URL('node_modules/typescript/bin/tsc',root)),'--noEmit','--strict','--target','ES2022',
     '--module','NodeNext','--moduleResolution','NodeNext','--lib','ES2022,DOM','--skipLibCheck','tests/types/modules.ts'],{cwd:fileURLToPath(root)});
+});
+
+test('IR declarations work for a standalone consumer without DOM or graph types',async()=>{
+  await run(process.execPath,[fileURLToPath(new URL('node_modules/typescript/bin/tsc',root)),'--noEmit','--strict','--target','ES2022',
+    '--module','NodeNext','--moduleResolution','NodeNext','--lib','ES2022','--types','node','tests/types/ir.ts'],{cwd:fileURLToPath(root)});
 });

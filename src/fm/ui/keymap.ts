@@ -7,7 +7,7 @@
  */
 
 import type { FreshmindPanel } from "../browser/index.js";
-import { keymap } from "../navigation/index.js";
+import { keymap } from "../navigate/index.js";
 
 export interface KeymapOptions {
   /** Optional application-owned help button. */

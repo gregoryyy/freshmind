@@ -1,13 +1,10 @@
 /* SPDX-License-Identifier: Apache-2.0; Copyright (c) 2026 Gregor Heinrich. */
 import {FreshEdge,FreshNode} from "../model/index.js";
 import type {FreshGraph,JsonValue} from "../model/index.js";
+import {validateSearchRequest} from "../../ir/corpus/index.js";
 import {graphSearchCorpus,isSearchQueryNode} from "./corpus.js";
-import type {SearchCorpus,SearchRequest,SearchResult} from "./types.js";
+import type {SearchCorpus,SearchRequest,SearchResult} from "../../ir/corpus/index.js";
 function record(value:JsonValue|undefined):Record<string,JsonValue>|null{return value&&typeof value==="object"&&!Array.isArray(value)?value:null;}
-export function validateSearchRequest(request:SearchRequest):SearchRequest {
-  if(!request||!["lexical","lda"].includes(request.engine)||!["terms","tags","similarity"].includes(request.kind)||typeof request.query!=="string"||!request.query.trim()||request.query.length>4096)throw new TypeError("Invalid search request");
-  return {engine:request.engine,kind:request.kind,query:request.query};
-}
 function requestKey(request:SearchRequest):string{return JSON.stringify(validateSearchRequest(request));}
 function unusedNodeId(graph:FreshGraph):string{let n=1;while(graph.findNode(`query-${n}`))n++;return `query-${n}`;}
 /** Creates a query and optional context relation without changing source node importance. */

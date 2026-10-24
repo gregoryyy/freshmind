@@ -47,7 +47,7 @@ Add base-class extension points only where a concrete Freshmind feature requires
 - **Presentation hooks:** protected methods or small strategies for node presentation and edge geometry/drawing. Default implementations retain current rendering. Freshmind overrides add types, shapes, multiline labels and labeled curves within the existing panel render lifecycle.
 - **Interaction hooks:** scoped dispatch methods for graph/item input, plus existing selection and graph notifications. Freshmind handles its shortcuts and edge/preselection behavior through these hooks while delegating dragging, locality and view operations to the existing machinery.
 
-Keep these hooks narrow, default-compatible and reusable. Freshmind YAML parsing, type registries, editors and search services belong in the extension layer. The existing public APIs and plain-panel defaults continue to work. The headless entry point remains usable without D3, DOM, file-picker APIs or a YAML parser dependency.
+Keep these hooks narrow, default-compatible and reusable. Freshmind YAML parsing, type registries, editors and graph-search adapters belong in the extension layer. Retrieval algorithms, topics and worker/model lifecycle live in the independent `ir` domain; see the [module map](../src/README.md). The existing public APIs and plain-panel defaults continue to work. The headless entry point remains usable without D3, DOM, file-picker APIs or a YAML parser dependency.
 
 New features should first use existing methods and subclassing/composition. Add a hook when that feature needs access the current classes do not expose; there is no prerequisite rewrite of the TouchGraph classes. RFC integrates as an optional layout extension through `TGLayout`, with the ordinary layout retained as the baseline.
 
@@ -115,7 +115,7 @@ Source: Java `tg/Edge.setMiddle`, `getDoubleBisection`, `paintArrow`, and `Fresh
 
 ## 2.3 Navigation, keyboard preselection and selection
 
-Implemented in `src/fm/navigation/`: headless candidate geometry and controller. The graph-scoped DOM adapter lives in `src/fm/browser/navigation.ts`. `FreshmindPanel.getNavigation()` exposes shared commands/settings and state subscriptions; `getNeighborhoodFocus()` records the locality origin separately from the inherited viewing-lens focus. Main-browser controls and keyboard input use the same controller. See the [completion record](DONE.md#milestone-23-freshmind-navigation--2026-10-23).
+Implemented in `src/fm/navigate/`: headless candidate geometry and controller. The graph-scoped DOM adapter lives in `src/fm/browser/navigation.ts`. `FreshmindPanel.getNavigation()` exposes shared commands/settings and state subscriptions; `getNeighborhoodFocus()` records the locality origin separately from the inherited viewing-lens focus. Main-browser controls and keyboard input use the same controller. See the [completion record](DONE.md#milestone-23-freshmind-navigation--2026-10-23).
 
 ### State and commands
 

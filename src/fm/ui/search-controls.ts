@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: Apache-2.0; Copyright (c) 2026 Gregor Heinrich. */
 import {FreshEdge,FreshNode} from "../model/index.js";
-import {isSearchQueryNode,searchResultMetadata} from "../search/index.js";
-import type {SearchEngine,SearchRequest} from "../search/index.js";
+import {isSearchQueryNode,searchResultMetadata} from "../ir/index.js";
+import type {SearchEngine,SearchRequest} from "../../ir/corpus/index.js";
 import {GraphSearchController,SearchCancelledError} from "../browser/index.js";
 import type {FreshmindPanel} from "../browser/index.js";
 export interface GraphSearchElements {

@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later; Copyright (c) 2026 Gregor Heinrich. */
-import {LexicalSearchIndex} from "../search/index.js";
+import {LexicalSearchIndex} from "../lexical/index.js";
 import {LdaSearchIndex,trainLdaSteps} from "../topics/index.js";
-import type {SearchWorkerJob,SearchWorkerMessage} from "./search-protocol.js";
+import type {SearchWorkerJob,SearchWorkerMessage} from "./protocol.js";
 // This file is an isolated worker entry, never imported through the browser barrel at runtime.
 const port=globalThis as unknown as {onmessage:((event:MessageEvent<SearchWorkerJob>)=>void)|null;postMessage(message:SearchWorkerMessage):void};
 port.onmessage=({data:job})=>{

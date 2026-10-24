@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: Apache-2.0; Copyright (c) 2026 Gregor Heinrich. */
-import {compareSearchIds,createSearchCorpus,normalizeSearchText,searchTokens} from "./corpus.js";
+import {compareSearchIds,createSearchCorpus,normalizeSearchText,searchTokens} from "../corpus/index.js";
 import {parseSearchQuery} from "./query.js";
-import type {SearchCorpus,SearchDocument,SearchQuery,SearchResult} from "./types.js";
+import type {SearchCorpus,SearchDocument,SearchQuery,SearchResult} from "../corpus/index.js";
 type TextField="content"|"label"|"hint";
 type Vector=Map<string,number>;
 type Row={doc:SearchDocument;tokens:Record<TextField,string[]>;vectors:Record<TextField,Vector>};

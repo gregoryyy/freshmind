@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import {FreshGraph,FreshNode,FreshEdge,FreshmindDocument} from 'fm4/fm/model';
 import {TypeRegistry,freshmind2014Configuration} from 'fm4/fm/config/core';
 import {parseDocument,serializeDocument} from 'fm4/fm/io';
-import {createSearchCorpus,graphSearchCorpus,LexicalSearchIndex,parseSearchQuery,searchTokens,annotationSearchText,
-  createGraphQuery,applyGraphSearchResults,rejectGraphSearchResult,searchResultMetadata} from 'fm4/fm/search';
+import {createSearchCorpus,LexicalSearchIndex,parseSearchQuery,searchTokens} from 'fm4/ir';
+import {graphSearchCorpus,annotationSearchText,
+  createGraphQuery,applyGraphSearchResults,rejectGraphSearchResult,searchResultMetadata} from 'fm4/fm/ir';
 const docs=[
   {id:'a',type:'Paper',label:'Graph layout',hint:'springs in the graph',tags:['Visual Search','layout']},
   {id:'b',type:'paper',label:'Topic models',hint:'probabilistic topic search',tags:['search']},

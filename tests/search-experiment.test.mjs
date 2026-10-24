@@ -4,8 +4,9 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {searchExample,searchCases,searchThemes} from '../scripts/search-example.mjs';
 import {retrievalMetrics} from '../scripts/search-experiment.mjs';
-import {graphSearchCorpus,LexicalSearchIndex} from 'fm4/fm/search';
-import {LdaSearchIndex} from 'fm4/fm/topics';
+import {graphSearchCorpus} from 'fm4/fm/ir';
+import {LexicalSearchIndex} from 'fm4/ir/lexical';
+import {LdaSearchIndex} from 'fm4/ir/topics';
 import {parseDocument,serializeDocument} from 'fm4/fm/io';
 test('fictional search fixture preserves native data, theme judgments, exact tags and semantic context',()=>{
   const doc=searchExample(),native=readFileSync(new URL('../examples/search/topic-library.fm.yaml',import.meta.url),'utf8');

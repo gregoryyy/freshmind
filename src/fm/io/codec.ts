@@ -13,7 +13,7 @@ import { clone, jsonData, keys, number, record, text } from "../config/core.js";
 import { parseYamlValue } from "./yaml-value.js";
 import type { DocumentRecord, DocumentView, LoadOptions, SaveOptions } from "./types.js";
 import type { FreshNodeOptions, FreshEdgeOptions, Metadata } from "../model/index.js";
-import {validateSubstructure} from "../structures/index.js";
+import {validateSubstructure} from "../struct/index.js";
 
 function string(value: unknown, path: string): asserts value is string {
   if (typeof value !== "string") throw new TypeError(path + ": expected a string");

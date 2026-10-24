@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {FreshmindPanel,GraphSearchController} from 'fm4/fm/browser';
 import {FreshNode,FreshGraph,FreshEdge} from 'fm4/fm/model';
-import {LexicalSearchIndex,graphSearchCorpus,searchResultMetadata} from 'fm4/fm/search';
-import {trainLda} from 'fm4/fm/topics';
+import {graphSearchCorpus,searchResultMetadata} from 'fm4/fm/ir';
+import {LexicalSearchIndex} from 'fm4/ir/lexical';
+import {trainLda} from 'fm4/ir/topics';
 function fixture(){
   const panel=new FreshmindPanel(),a=panel.addNode(new FreshNode('a','graph layout')),b=panel.addNode(new FreshNode('b','graph spring')),c=panel.addNode(new FreshNode('c','topic model'));
   const manual=panel.addEdge(new FreshEdge(a,c,{label:'manual'})),workers=[];
@@ -11,6 +12,15 @@ function fixture(){
   return {panel,a,b,c,manual,controller,workers};
 }
 const request={engine:'lexical',kind:'terms',query:'graph'};
+test('cancelling after a worker reply clears UI status and prevents graph mutations',async()=>{
+  const {controller,panel,a,workers}=fixture();
+  const pending=controller.query(request,5,a),cancelled=assert.rejects(pending,/cancelled/);
+  workers.at(-1).answer({kind:'results',results:new LexicalSearchIndex(workers.at(-1).job.corpus).search('graph')});
+  controller.cancel();await cancelled;
+  assert.equal(controller.getState().busy,false);assert.equal(panel.getNodeCount(),3);
+  assert.equal([...panel.getCompleteEltSet().getEdges()].filter(e=>searchResultMetadata(e)).length,0);
+  controller.dispose();panel.destroy();
+});
 test('browser controller reconciles visible locality, preserves manual relations and repeated-query feedback',async()=>{
   const f=fixture(),{controller,panel,a,manual,workers}=f;panel.setSelect(a);await panel.setLocale(a,0);panel.getRfc().setFocus(a);panel.setHyperbolic(47);
   const pending=controller.query(request,5,a),w=workers.at(-1);w.answer({kind:'results',results:new LexicalSearchIndex(w.job.corpus).search('graph')});const edges=await pending;

@@ -9,19 +9,21 @@ import type {FreshNodeOptions,LocalitySource} from 'fm4/fm/model';
 import {TypeRegistry,freshmind2014Configuration} from 'fm4/fm/config/core';
 import {parseTypeConfiguration} from 'fm4/fm/config';
 import {createNodeOutline,routeEdges,nodeImportanceScale} from 'fm4/fm/geometry';
-import {applyRelationEdit} from 'fm4/fm/editing';
-import {FreshmindNavigation} from 'fm4/fm/navigation';
-import type {NavigationHost} from 'fm4/fm/navigation';
+import {applyRelationEdit} from 'fm4/fm/edit';
+import {FreshmindNavigation} from 'fm4/fm/navigate';
+import type {NavigationHost} from 'fm4/fm/navigate';
 import {serializeDocument,parseDocument} from 'fm4/fm/io';
-import {spanningTree} from 'fm4/fm/structures';
+import {spanningTree} from 'fm4/fm/struct';
 import {projectRfcStructure} from 'fm4/fm/rfc';
-import {StructuralViewController} from 'fm4/fm/structure-view';
-import {FreshmindPresentation} from 'fm4/fm/rendering';
+import {StructuralViewController} from 'fm4/fm/struct-view';
+import {FreshmindPresentation} from 'fm4/fm/render';
 import {FreshmindPanel,installDocument,captureDocument} from 'fm4/fm/browser';
 import type {FreshmindPanelOptions} from 'fm4/fm/browser';
 import {bindNodeImportanceControls} from 'fm4/fm/ui';
-import {LexicalSearchIndex,graphSearchCorpus,createGraphQuery,applyGraphSearchResults} from 'fm4/fm/search';
-import {LdaGibbs,trainLda,LdaSearchIndex} from 'fm4/fm/topics';
+import {graphSearchCorpus,createGraphQuery,applyGraphSearchResults} from 'fm4/fm/ir';
+import {LexicalSearchIndex} from 'fm4/ir';
+import {SearchSession,SearchWorkerClient} from 'fm4/ir/browser';
+import {LdaGibbs,trainLda,LdaSearchIndex} from 'fm4/ir/topics';
 
 // Compile-only consumer fixture: public declaration identities must compose across modules.
 const options:FreshNodeOptions={type:'person',weight:9,visual:{style:{importance:{mode:'size'}}}};
@@ -44,4 +46,4 @@ new FreshmindNavigation(nav);installDocument(panel,document);captureDocument(pan
 spanningTree(graph,['a','b'],'a','pair');projectRfcStructure(graph,locality,node,null,{x:1,y:1});
 createNodeOutline('ellipse',100,40);nodeImportanceScale(9,registry.resolveNode(node as FreshNode).importance);
 applyRelationEdit(edge as FreshEdge,{label:'link',type:'default',curve:null},{graph:graph as FreshGraph,locality});
-void [LocalityUtils,StructuralViewController,FreshmindPresentation,bindNodeImportanceControls,parseTypeConfiguration,routeEdges,LdaGibbs,trainLda,LdaSearchIndex];
+void [SearchSession,SearchWorkerClient,LocalityUtils,StructuralViewController,FreshmindPresentation,bindNodeImportanceControls,parseTypeConfiguration,routeEdges,LdaGibbs,trainLda,LdaSearchIndex];

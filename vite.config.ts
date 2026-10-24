@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [{
     name: "include-original-notices",
     generateBundle() {
-      for (const fileName of ["LICENSE", "LICENSE-APACHE-2.0", "LICENSE-GPL-3.0", "NOTICE"]) {
+      for (const fileName of ["LICENSE", "LICENSE-APACHE-2.0", "LICENSE-GPL-3.0", "LICENSE-LGPL-2.0", "NOTICE"]) {
         this.emitFile({ type: "asset", fileName, source: readFileSync(new URL(fileName, import.meta.url), "utf8") });
       }
       const modules = new URL("node_modules/", import.meta.url);

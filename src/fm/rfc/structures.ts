@@ -7,8 +7,8 @@
  */
 import type {Node, Edge} from "../../tg/model/index.js";
 import type {ImmutableGraphEltSet} from "../../tg/graph/index.js";
-import {analyzeSubstructure} from "../structures/index.js";
-import type {GraphSubstructure, SubstructureTopology} from "../structures/index.js";
+import {analyzeSubstructure} from "../struct/index.js";
+import type {GraphSubstructure, SubstructureTopology} from "../struct/index.js";
 import {collectFocalStar} from "./forces.js";
 import {rfcNodeImportance,rfcRelationStrength,rfcTargetStrengths} from "./importance.js";
 import type {CoordinateWeights, FocalStar} from "./types.js";

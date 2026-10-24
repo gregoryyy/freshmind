@@ -82,34 +82,76 @@ they do not replace the original NetworkX attribution.
 
 LDA and numerical utilities
 
-The serial LDA sampler/model port (src/fm/topics/gibbs.ts, model.ts and index.ts)
+The serial LDA sampler/model port (src/ir/topics/gibbs.ts, model.ts and index.ts)
 retains GPL-3.0-or-later from knowceans-ilda, Copyright (c) 2005-2011 Gregor
 Heinrich; TypeScript port Copyright (c) 2026 Gregor Heinrich. No warranty.
 Full terms: LICENSE-GPL-3.0. Combined builds including this code use that license;
 individual component notices and separately marked licenses remain.
+The search worker and session lifecycle extracted from the GPL-marked Freshmind
+browser controller remain GPL-3.0-or-later in src/ir/browser/.
 Pinned local source: knowceans-ilda/src/org/knowceans/topics/simple/LdaGibbs.java
 SHA-256: 8d098e7377840203ec757c5b926ca6ee4aa3243e933e0b2a4d642ec56a5460ed
 
-The required CokusRandom subset is derived from
+Cokus MT19937 random number generator
+
+The generator in src/ir/topics/cokus.ts is Shawn Cokus's March 8, 1998
+recoding of MT19937, distributed in David Blei's lda-c. The underlying
+MT19937 code credits Makoto Matsumoto and Takuji Nishimura (1997).
+Java adaptation: Gregor Heinrich, knowceans CokusRandom.
+TypeScript adaptation: Freshmind 4, 2026.
+
+Upstream source: blei-lab/lda-c, commit
+d8fbd6bc9adc3fc32d3d47af1460158d44c789d0, cokus.c
+https://github.com/blei-lab/lda-c/blob/d8fbd6bc9adc3fc32d3d47af1460158d44c789d0/cokus.c
+SHA-256: c2c0cabbb5e607a9a670597f7ab7cd1c4f2cfd33192b2b271828db05703782ad
+Intermediate local Java source:
 knowceans-ilda/src/org/knowceans/util/CokusRandom.java
 SHA-256: bb553def52d76f80c77bee1949024d35daca8443fc79dfd7c8ad9e206a90af1a
-Original notice and port attribution:
 
-Copyright (c) 2006 Gregor Heinrich. All rights reserved. Redistribution and
-use in source and binary forms, with or without modification, are permitted
-provided that the following conditions are met: 1. Redistributions of source
-code must retain the above copyright notice, this list of conditions and the
-following disclaimer. 2. Redistributions in binary form must reproduce the
-above copyright notice, this list of conditions and the following disclaimer
-in the documentation and/or other materials provided with the distribution.
-THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESSED OR
-IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
-EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
-OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
-OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-TypeScript port (c) 2026 Gregor Heinrich. See NOTICE for the pinned source.
+The upstream generator uses the GNU Library General Public License,
+version 2 or later (LGPL-2.0-or-later); full version 2 text is included in
+LICENSE-LGPL-2.0. The upstream notice is reproduced below and in cokus.ts.
+
+This is the ``Mersenne Twister'' random number generator MT19937, which
+generates pseudorandom integers uniformly distributed in 0..(2^32 - 1)
+starting from any odd seed in 0..(2^32 - 1).  This version is a recode
+by Shawn Cokus (Cokus@math.washington.edu) on March 8, 1998 of a version by
+Takuji Nishimura (who had suggestions from Topher Cooper and Marc Rieffel in
+July-August 1997).
+
+Effectiveness of the recoding (on Goedel2.math.washington.edu, a DEC Alpha
+running OSF/1) using GCC -O3 as a compiler: before recoding: 51.6 sec. to
+generate 300 million random numbers; after recoding: 24.0 sec. for the same
+(i.e., 46.5% of original time), so speed is now about 12.5 million random
+number generations per second on this machine.
+
+According to the URL <http://www.math.keio.ac.jp/~matumoto/emt.html>
+(and paraphrasing a bit in places), the Mersenne Twister is ``designed
+with consideration of the flaws of various existing generators,'' has
+a period of 2^19937 - 1, gives a sequence that is 623-dimensionally
+equidistributed, and ``has passed many stringent tests, including the
+die-hard test of G. Marsaglia and the load test of P. Hellekalek and
+S. Wegenkittl.''  It is efficient in memory usage (typically using 2506
+to 5012 bytes of static data, depending on data type sizes, and the code
+is quite short as well).  It generates random numbers in batches of 624
+at a time, so the caching and pipelining of modern systems is exploited.
+It is also divide- and mod-free.
+
+This library is free software; you can redistribute it and/or modify it
+under the terms of the GNU Library General Public License as published by
+the Free Software Foundation (either version 2 of the License or, at your
+option, any later version).  This library is distributed in the hope that
+it will be useful, but WITHOUT ANY WARRANTY, without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+the GNU Library General Public License for more details.  You should have
+received a copy of the GNU Library General Public License along with this
+library; if not, write to the Free Software Foundation, Inc., 59 Temple
+Place, Suite 330, Boston, MA 02111-1307, USA.
+
+The code as Shawn received it included the following notice:
+
+  Copyright (C) 1997 Makoto Matsumoto and Takuji Nishimura.  When
+  you use this, send an e-mail to <matumoto@math.keio.ac.jp> with
+  an appropriate reference to your work.
+
+It would be nice to CC: <Cokus@math.washington.edu> when you write.
