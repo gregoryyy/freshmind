@@ -16,3 +16,5 @@ export {nodeImportanceScale,validateNodeImportanceView} from "./importance.js";
 export type {NodeImportanceViewSettings} from "./importance.js";
 export {countNodeOverlaps,separateNodeOverlaps} from "./overlap.js";
 export type {OverlapBox,OverlapOptions,OverlapResult} from "./overlap.js";
+export {placeRelationLabels} from "./relation-labels.js";
+export type {RelationLabelPlacement,RelationLabelBox,RelationLabelOptions,RelationLabelResult} from "./relation-labels.js";

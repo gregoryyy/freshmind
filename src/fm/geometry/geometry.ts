@@ -22,7 +22,7 @@ export interface EdgeGeometry {
   end: Point;
   /** Point at t=0.5 on the original curve, before endpoint clipping. */
   midpoint: Point;
-  /** Midpoint plus the configured draw-space label offset. */
+  /** Default midpoint plus label offset; browser placement may choose a measured nearby anchor. */
   labelAnchor: Point;
   arrowPoint: Point;
   /** Tangent angle in degrees, suitable for an SVG rotate transform. */

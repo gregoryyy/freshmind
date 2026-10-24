@@ -15,6 +15,8 @@ import type { NodeOutline } from "../geometry/index.js";
 import {createClusterBoundary} from "../geometry/index.js";
 import type {RfcRegionState} from "../rfc/index.js";
 import {nodeImportanceScale} from "../geometry/index.js";
+import {placeRelationLabels} from "../geometry/index.js";
+import type {OverlapBox,RelationLabelBox,Point} from "../geometry/index.js";
 
 export interface ClusterRegion {id:string;nodes:FreshNode[];edges:FreshEdge[];}
 
@@ -27,6 +29,29 @@ let nextHaloId = 0;
 export class FreshmindPresentation {
   private readonly haloFilterId = `fm-rfc-glow-${++nextHaloId}`;
   private readonly measurements = new WeakMap<SVGGElement, { key: string; width: number; height: number; outline: NodeOutline }>();
+  private readonly labelMeasurements=new WeakMap<FreshEdge,{key:string;x:number;y:number;width:number;height:number}>();
+  private readonly labelKeys=new WeakMap<SVGTextElement,string>();
+  private labelKey(edge:FreshEdge,style:EdgeStyle):string{return JSON.stringify([edge.getLabel(),style.label.font,typeof document==="undefined"?"":document.fonts?.status]);}
+  /** Shares measured label placement with painting and panel/editor geometry queries. */
+  arrangeEdgeLabels(geometries:Map<FreshEdge,EdgeGeometry>,edges:FreshEdge[],obstacles:OverlapBox[],styleOf:(edge:FreshEdge)=>EdgeStyle):void {
+    const labels:RelationLabelBox[]=[],offsets=new Map<string,Point>();
+    for(const edge of edges){
+      const g=geometries.get(edge)!,style=styleOf(edge),metrics=this.labelMeasurements.get(edge);
+      const anchor={x:g.midpoint.x+style.label.offset.x,y:g.midpoint.y+style.label.offset.y};g.labelAnchor=anchor;
+      if(!metrics||metrics.key!==this.labelKey(edge,style)||!metrics.width||!metrics.height)continue;
+      const offset={x:metrics.x+metrics.width/2,y:metrics.y+metrics.height/2},candidates:Point[]=[];
+      for(const t of [.25,.375,.5,.625,.75]){
+        const p=g.pointAt(t),tangent=g.tangentAt(t),length=Math.hypot(tangent.x,tangent.y);
+        const normal=length?{x:-tangent.y/length,y:tangent.x/length}:{x:0,y:-1};
+        for(const distance of [0,metrics.height/2+4,-metrics.height/2-4,metrics.height+8,-metrics.height-8])
+          candidates.push({x:p.x+style.label.offset.x+offset.x+normal.x*distance,y:p.y+style.label.offset.y+offset.y+normal.y*distance});
+      }
+      const id=edge.getID()!;offsets.set(id,offset);
+      labels.push({id,x:anchor.x+offset.x,y:anchor.y+offset.y,width:metrics.width+4,height:metrics.height+4,candidates});
+    }
+    const positions=placeRelationLabels(labels,obstacles).positions,byId=new Map(edges.map(e=>[e.getID()!,e]));
+    for(const p of positions){const offset=offsets.get(p.id)!;geometries.get(byId.get(p.id)!)!.labelAnchor={x:p.x-offset.x,y:p.y-offset.y};}
+  }
   /** Draws the physical exclusion boundary through all current lenses, rather than a screen-space ellipse. */
   paintRfcRegions(layer:SVGGElement,regions:readonly RfcRegionState[],project:(x:number,y:number)=>{x:number;y:number}):void {
     const root=select(layer).selectAll<SVGGElement,null>("g.fm-exclusion-regions").data(regions.length?[null]:[])
@@ -141,7 +166,7 @@ export class FreshmindPresentation {
    * @param interaction Panel-owned hover/selection callbacks; presentation owns no selection state.
    */
   paintEdges(layer: SVGGElement, edges: FreshEdge[], geometries: Map<FreshEdge,EdgeGeometry>,
-    styleOf:(edge:FreshEdge)=>EdgeStyle, selected:FreshEdge|null, interaction:EdgeInteraction):void {
+    styleOf:(edge:FreshEdge)=>EdgeStyle, selected:FreshEdge|null, interaction:EdgeInteraction,labelObstacles?:OverlapBox[]):void {
     const groups=select(layer).selectAll<SVGGElement,FreshEdge>("g.fm-edge").data(edges,edge=>edge.getID()!).join(enter=>{
       const group=enter.append("g").attr("class","fm-edge").attr("tabindex",0).attr("role","button");
       group.append("path").attr("class","fm-edge-path").attr("fill","none").style("pointer-events","none");
@@ -160,6 +185,18 @@ export class FreshmindPresentation {
       .on("click",(event:MouseEvent,edge)=>{event.stopPropagation();interaction.select(edge);})
       .on("keydown",(event:KeyboardEvent,edge)=>{if(event.key==="Enter"){event.preventDefault();interaction.select(edge);}});
     groups.each((edge,index,elements)=>{
+      const label=elements[index].querySelector<SVGTextElement>(".fm-edge-label")!,style=styleOf(edge),key=this.labelKey(edge,style);
+      if(this.labelKeys.get(label)!==key){
+        label.textContent=edge.getLabel();label.style.font=style.label.font;
+        this.labelKeys.set(label,key);
+      }
+      if(labelObstacles&&this.labelMeasurements.get(edge)?.key!==key){
+        label.setAttribute("x","0");label.setAttribute("y","0");const b=label.getBBox();
+        this.labelMeasurements.set(edge,{key,x:b.x,y:b.y,width:b.width,height:b.height});
+      }
+    });
+    if(labelObstacles)this.arrangeEdgeLabels(geometries,edges,labelObstacles,styleOf);
+    groups.each((edge,index,elements)=>{
       const group=select(elements[index]),style=styleOf(edge),geometry=geometries.get(edge)!;
       edge.setGeometry(geometry);
       const width=style.stroke.width*Math.max(.5,edge.getWeight()/10)+(elements[index].matches(":focus-visible")?2:0),size=style.arrow.size;
@@ -169,7 +206,7 @@ export class FreshmindPresentation {
       group.select(".fm-edge-arrow").attr("display",style.arrow.placement==="none"?"none":null)
         .attr("d",`M ${-size} ${-size/2} L ${size} 0 L ${-size} ${size/2} Z`)
         .attr("fill",style.stroke.color).attr("transform",`translate(${geometry.arrowPoint.x},${geometry.arrowPoint.y}) rotate(${geometry.arrowAngle})`);
-      group.select(".fm-edge-label").text(edge.getLabel()).attr("x",geometry.labelAnchor.x).attr("y",geometry.labelAnchor.y)
+      group.select(".fm-edge-label").attr("x",geometry.labelAnchor.x).attr("y",geometry.labelAnchor.y)
         .attr("fill",style.label.color).style("font",style.label.font);
     });
   }

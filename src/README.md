@@ -20,8 +20,8 @@ The library is one ESM package with three domains: `tg/` preserves TouchGraph, `
 | --- | --- | --- |
 | `fm/model/` | FreshNode, FreshEdge, FreshGraph, document aggregate, metadata/options and the locality mutation-owner capability. Classes have one implementation each. | `fm4/fm/model` |
 | `fm/config/` | Validated semantic/visual types, inheritance, preset and primitive validation. `core.ts` is parser-free; `index.ts` adds YAML type loading. | `fm4/fm/config/core`, `fm4/fm/config` |
-| `fm/geometry/` | Pure node outlines, curve routing/picking, cluster hulls, bounded importance mapping and measured rectangle separation. | `fm4/fm/geometry` |
-| `fm/render/` | SVG/D3 presentation using resolved styles, geometry and shared graph objects. | `fm4/fm/render` |
+| `fm/geometry/` | Pure node outlines, curve routing/picking, cluster hulls, bounded importance mapping, rectangle separation and relation-label candidate placement. | `fm4/fm/geometry` |
+| `fm/render/` | SVG/D3 presentation using resolved styles, geometry and shared graph objects; cached relation-text measurements feed shared label/editor anchors. | `fm4/fm/render` |
 | `fm/navigate/` | Headless candidates, preselection, timer/command state and key-map data. | `fm4/fm/navigate` |
 | `fm/edit/` | Atomic validated node/relation edits, delegating to model and source-neighborhood owners. | `fm4/fm/edit` |
 | `fm/io/` | Native transfer contracts, strict YAML values and complete-graph codec; DOM-free, with a YAML dependency. | `fm4/fm/io` |

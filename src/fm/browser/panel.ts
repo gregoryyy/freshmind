@@ -30,6 +30,7 @@ import {StructuralViewController} from "../struct-view/index.js";
 import {projectRfcStructure} from "../rfc/index.js";
 import {validateNodeImportanceView} from "../geometry/index.js";
 import type {NodeImportanceViewSettings} from "../geometry/index.js";
+import type {RelationLabelPlacement,OverlapBox} from "../geometry/index.js";
 
 export interface FreshmindPanelOptions extends TGPanelOptions {
   types?: TypeRegistry;
@@ -39,6 +40,7 @@ export interface FreshmindPanelOptions extends TGPanelOptions {
   rfcStabilization?: RfcStabilizationOptions;
   rfcExclusion?:Partial<RfcExclusionSettings>;
   nodeImportance?:Partial<NodeImportanceViewSettings>;
+  relationLabelPlacement?:RelationLabelPlacement;
 }
 export type FreshmindSelection = FreshNode | FreshEdge | null;
 export type SelectionListener = (selection: FreshmindSelection) => void;
@@ -61,6 +63,7 @@ export class FreshmindPanel extends TGPanel {
   private rfcPaintRevision = 0;
   private structuralView?:StructuralViewController;
   private nodeImportance:NodeImportanceViewSettings={mode:"configured",showValues:false};
+  private relationLabelPlacement:RelationLabelPlacement="original";
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -71,6 +74,10 @@ export class FreshmindPanel extends TGPanel {
     super(undefined,{...options,animateLocality:options.animateLocality??Boolean(container)});
     this.types=options.types??new TypeRegistry(freshmind2014Configuration);
     this.nodeImportance=validateNodeImportanceView({...this.nodeImportance,...options.nodeImportance});
+    if(options.relationLabelPlacement!==undefined){
+      if(!["original","avoid-overlap"].includes(options.relationLabelPlacement))throw new TypeError("Invalid relation-label placement");
+      this.relationLabelPlacement=options.relationLabelPlacement;
+    }
     this.setGraphEltSet(new FreshGraph());
     this.navigation = new FreshmindNavigation(this, options.navigation);
     this.navigationStatus = options.navigationStatus;
@@ -90,6 +97,12 @@ export class FreshmindPanel extends TGPanel {
   getTypeRegistry():TypeRegistry{return this.types;}
   /** Transient importance display preferences; configured mode reads inherited YAML/item styles. */
   getNodeImportance():NodeImportanceViewSettings{return {...this.nodeImportance};}
+  /** Transient label placement preference; graph styles, positions and physics are unchanged. */
+  getRelationLabelPlacement():RelationLabelPlacement{return this.relationLabelPlacement;}
+  setRelationLabelPlacement(mode:RelationLabelPlacement):void {
+    if(!["original","avoid-overlap"].includes(mode))throw new TypeError("Invalid relation-label placement");
+    if(mode===this.relationLabelPlacement)return;this.relationLabelPlacement=mode;this.repaintAfterMove();
+  }
   /** Applies a validated display update atomically; does not wake layout or mutate document styles/weights. */
   configureNodeImportance(changes:Partial<NodeImportanceViewSettings>):void {
     const next=validateNodeImportanceView({...this.nodeImportance,...changes});
@@ -291,13 +304,22 @@ export class FreshmindPanel extends TGPanel {
     if(edge.isPreselected())states.push("preselected");if(edge.isKeyselected())states.push("activeCandidate");
     return this.types.resolveEdge(edge,states);
   }
-  private geometries():Map<FreshEdge,EdgeGeometry> {
+  private geometries(arrangeLabels=true):Map<FreshEdge,EdgeGeometry> {
     const edges=[...this.getGES().getEdges()] as FreshEdge[];
-    return routeEdges(edges,(x,y)=>this.getLensSet().convRealToDraw(x,y),e=>this.getEdgeStyle(e),n=>this.getNodeStyle(n));
+    const result=routeEdges(edges,(x,y)=>this.getLensSet().convRealToDraw(x,y),e=>this.getEdgeStyle(e),n=>this.getNodeStyle(n));
+    if(arrangeLabels&&this.relationLabelPlacement==="avoid-overlap")this.presentation.arrangeEdgeLabels(result,edges,this.labelObstacles(),e=>this.getEdgeStyle(e));
+    return result;
+  }
+  private labelObstacles():OverlapBox[] {
+    return [...this.getGES().getNodes()].map(node=>{
+      const point=this.getLensSet().convRealToDraw(node.x,node.y);
+      return {id:node.getID()!,x:point.x,y:point.y,width:node.getWidth()+4,height:node.getHeight()+4};
+    });
   }
   /**
    * Recomputes visible routes under the current lenses and caches the requested edge's result.
    * Body dimensions come from the latest paint, or caller-supplied headless measurements.
+   * Enabled label placement reuses the latest text measurements and the same candidates as painting.
    * Coordinates precede canvas scaling/pan; drawToScreen maps them into viewport pixels.
    * @returns Shared drawing/picking/editor geometry, or null for a hidden/nonmember edge.
    */
@@ -310,7 +332,7 @@ export class FreshmindPanel extends TGPanel {
     element.setAttribute("aria-pressed",String(node===this.getSelect()&&!this.selectedEdge));
   }
   protected override paintEdges(layer:SVGGElement):void {
-    const edges = [...this.getGES().getEdges()] as FreshEdge[], geometries = this.geometries(), state = this.rfc?.getState();
+    const edges = [...this.getGES().getEdges()] as FreshEdge[], geometries = this.geometries(false), state = this.rfc?.getState();
     const nodeIds = new Set(state?.active ? state.memberIds : []);
     const edgeIds = new Set(state?.active ? state.radialEdgeIds : []);
     this.presentation.paintRfcHalos(layer, [...this.getGES().getNodes()].filter(node => nodeIds.has(node.getID()!)) as FreshNode[],
@@ -322,7 +344,7 @@ export class FreshmindPanel extends TGPanel {
     this.presentation.paintEdges(layer,edges,geometries,e=>this.getEdgeStyle(e),this.selectedEdge,{
       hover:edge=>{this.setMouseOverE(edge);this.repaint();},
       select:edge=>this.setSelectEdge(edge===this.selectedEdge?null:edge)
-    });
+    },this.relationLabelPlacement==="avoid-overlap"?this.labelObstacles():undefined);
   }
   protected override paintDecorations(layer:SVGGElement):void {
     this.presentation.paintDecorations(layer,[...this.getGES().getNodes()] as FreshNode[],n=>this.getNodeStyle(n),this.getFocus() as FreshNode|null);

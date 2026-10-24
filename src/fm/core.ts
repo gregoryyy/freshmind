@@ -15,6 +15,8 @@ export {createEdgeGeometry,routeEdges,createClusterBoundary,nodeImportanceScale,
 export type {EdgeGeometry,Point,WorldToDraw,NodeImportanceViewSettings,ClusterBoundaryBox} from "./geometry/index.js";
 export {countNodeOverlaps,separateNodeOverlaps} from "./geometry/index.js";
 export type {OverlapBox,OverlapOptions,OverlapResult} from "./geometry/index.js";
+export {placeRelationLabels} from "./geometry/index.js";
+export type {RelationLabelPlacement,RelationLabelBox,RelationLabelOptions,RelationLabelResult} from "./geometry/index.js";
 export {applyNodeEdit,applyRelationEdit} from "./edit/index.js";
 export type {NodeEdit,RelationEdit,RelationEditContext} from "./edit/index.js";
 export type {DocumentRecord,DocumentView,NodeRecord,EdgeRecord,LoadOptions,SaveOptions} from "./io/index.js";

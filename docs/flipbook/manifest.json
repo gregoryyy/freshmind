@@ -32,6 +32,8 @@
     "21-nips.png",
     "22-label-overlap.png",
     "23-labels-separated.png",
+    "24-relation-overlap.png",
+    "25-relations-separated.png",
     "README.md",
     "index.html",
     "manifest.json"
@@ -174,6 +176,18 @@
       "title": "Separate overlapping nodes",
       "caption": "Separate overlapping nodes arranges visible bodies with a requested gap and pauses motion. Pinned nodes and the viewing focus stay in place; semantic relations, RFC, hidden nodes and viewing settings are retained. The status reports remaining intersections. Resuming motion or changing the view can introduce new overlaps; relation labels and crossings are separate concerns.",
       "file": "23-labels-separated.png"
+    },
+    {
+      "id": "relation-overlap",
+      "title": "Inspect original relation-label positions",
+      "caption": "With node bodies already separated and motion paused, turn off Avoid relation label overlaps to inspect the original midpoint-and-offset anchors. Relation text can still intersect node bodies or other relation labels. The following view uses these exact node positions and curves.",
+      "file": "24-relation-overlap.png"
+    },
+    {
+      "id": "relations-separated",
+      "title": "Place relation labels near clear curve positions",
+      "caption": "Avoid relation label overlaps measures SVG text and tries nearby positions along each curve and its normal. The browser enables this bounded presentation pass by default. It reduces label–node and label–label intersections in this view while retaining every label, node position and curve. Dense views can still overlap; toggling off restores original anchors.",
+      "file": "25-relations-separated.png"
     }
   ]
 }
