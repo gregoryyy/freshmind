@@ -9,7 +9,7 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls,bindGraphSearchControls,bindReadabilityControls } from "../src/fm/ui/index.js";
+import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls,bindGraphSearchControls,bindReadabilityControls,bindLabelEditingControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
 import {bindRfcShowcase} from "./rfc-showcase.js";
@@ -116,6 +116,7 @@ const disposeStructuralView=bindStructuralViewControls(panel,{
 panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
 const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); });
+const disposeLabelEditing=bindLabelEditingControls(panel,{mode:get<HTMLSelectElement>("label-editing-mode"),status:get("label-editing-status")});
 const navigation = panel.getNavigation();
 const disposeDetails = bindNodeDetails(panel, {graph: get("graph"), onNodeLink: focusOn, onEdit: () => editor.focusDetails()});
 navigation.setActions({edit: () => editor.openInline(), editDetails: () => editor.focusDetails(),adjustWeight:(_item,direction)=>editor.adjustWeight(direction), openResource, reverseRelation: () => editor.reverseRelation()});
@@ -263,5 +264,5 @@ Object.assign(window, { graphBrowser: panel });
 void focusOn(root).then(() => {
   if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
 });
-window.addEventListener("pagehide", () => { disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeLabelEditing(); disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

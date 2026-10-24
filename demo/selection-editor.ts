@@ -55,6 +55,12 @@ export class SelectionEditor {
       else if (event.key === "Enter" && (event.ctrlKey || event.metaKey || event.target === this.edgeLabel)) {event.preventDefault(); this.save();}
     });
     panel.addGraphListener({graphMoved: () => this.positionInline()});
+    panel.addLabelEditListener(item=>{
+      // An in-place label commit must not discard unrelated drafts in the full overlay.
+      const draft=this.drafts.get(item);
+      if(draft){draft.label=item.getLabel();draft["item-weight"]=String(item.getWeight());}
+      if(this.selection===item)this.show(item);this.onApplied();
+    });
     const observer = new ResizeObserver(() => this.positionInline()); observer.observe(get("graph"));
     window.addEventListener("pagehide", () => {observer.disconnect(); this.closeInline();this.overlay.close();}, {once: true});
   }
@@ -102,6 +108,7 @@ export class SelectionEditor {
   /** Opens a multiline node or single-line relation editor at the shared renderer anchor. */
   openInline(): void {
     if (!this.selection) return; this.closeInline();this.overlay.close();
+    if(this.panel.focusLabelEditor(this.selection))return;
     const node = this.selection instanceof FreshNode;
     this.inline = document.createElement("div"); this.inline.className = "inline-editor";
     this.inlineInput = node ? document.createElement("textarea") : document.createElement("input");
@@ -130,7 +137,9 @@ export class SelectionEditor {
   }
   /** Weight commands alter the shared draft; commit/cancel applies to label and weight together. */
   adjustWeight(direction:1|-1):void {
-    if(!this.selection)return;if(!this.inline&&!this.overlay.open)this.openInline();
+    if(!this.selection)return;
+    if(!this.inline&&!this.overlay.open&&this.panel.adjustLabelWeight(this.selection,direction))return;
+    if(!this.inline&&!this.overlay.open)this.openInline();
     try{
       const control=this.selection instanceof FreshNode?this.nodeLabel:this.edgeLabel,parsed=control.value===this.selection.getLabel()?{label:control.value}:parseWeightedLabel(control.value),field=get<HTMLInputElement>("item-weight");
       const current=parsed.weight??(field.value.trim()?Number(field.value):NaN);
@@ -153,6 +162,8 @@ export class SelectionEditor {
     from.value = to.value; to.value = previous; this.retainDraft(); this.save();
   }
   private positionInline(): void {
+    // Retain its shared draft, but remove a superseded floating label editor when the mode changes.
+    if(this.panel.getLabelEditingMode()==="in-place"){this.closeInline();return;}
     if (!this.inline || !this.selection) return;
     const item = this.selection;
     if (!this.panel.getGES().contains(item)) {this.closeInline(); return;}

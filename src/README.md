@@ -35,7 +35,7 @@ The library is one ESM package with three domains: `tg/` preserves TouchGraph, `
 
 `fm4/fm/core` composes the parser-free, DOM-free feature modules; model references to geometry/view types are type-only. `fm4/fm` adds browser, rendering, UI and codecs. `fm4/fm/ui/style.css` remains the optional stylesheet. Pure geometry no longer shares a directory with the DOM renderer, and navigation/edit/I/O modules no longer contain panel or DOM adapters.
 
-The canonical type configuration remains `config/fm2014.types.yaml`; `just sync-fm-config` generates `fm/config/fm2014.ts` and the documented example. The demo owns file pickers/downloads and shared drafts for full/inline overlay editors. Numeric label-weight parsing is a pure edit helper; graph search shortcuts call optional navigation actions owned by the search UI. XML migration and reproducible research tools live in `scripts/`; proprietary reference datasets remain excluded.
+The canonical type configuration remains `config/fm2014.types.yaml`; `just sync-fm-config` generates `fm/config/fm2014.ts` and the documented example. The demo owns file pickers/downloads and shared drafts for full/inline overlay editors. FM's browser also offers a configurable in-place label mode with persistent HTML text components moving inside the existing SVG groups; `fm/edit` supplies its label-only commit command. Numeric label-weight parsing is a pure edit helper; graph search shortcuts call optional navigation actions owned by the search UI. XML migration and reproducible research tools live in `scripts/`; proprietary reference datasets remain excluded.
 
 ```ts
 import {FreshGraph, FreshNode, FreshEdge} from "fm4/fm/model";

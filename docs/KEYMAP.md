@@ -53,12 +53,21 @@ Point at the graph to give its centered node keyboard control without a click wh
 | Label suffix: =number | Set absolute node/relation weight when saving, e.g. Topic =3. The numeric command is removed from the stored label. |
 | Escape / Space in node content | Close the content popup and return focus to the graph; links and controls retain normal activation. |
 | Ctrl/Cmd + Enter | Commit the current editor. Enter also commits a single-line relation edit. |
-| Escape in an editor | Cancel the draft and return focus to the graph. Clicking away retains the draft. |
+| Escape in an editor | Cancel the draft and return focus to the graph. In-place labels save valid changes on blur; overlays retain drafts. |
 | R | Reverse the selected relation through the validated editor command. |
 | L | Open the selected node's linked resource explicitly. |
 | Edit mode: background double-click | Create a node at that position. |
 | Edit mode: Shift-click target | Connect the selected source node to that target. |
 | Edit mode: Delete / Backspace | Delete the focused node. Text inputs retain normal deletion. |
+
+**View → Label editing → In place** makes every visible node and relation label
+an editable component that follows the moving graph. Click text to place the
+caret; drag a node by its body. F2 focuses the selected moving label in the main
+browser. Node labels accept newlines; Ctrl/Cmd+Enter commits. Enter also commits
+relation labels. Leaving a label commits a valid draft; invalid drafts remain
+marked for correction, and Escape cancels. Native text selection, clipboard,
+caret and deletion keys stay with the label. Full details remain in the overlay.
+The palette page also offers in-place labels; its default labels are read-only.
 
 ## Search
 

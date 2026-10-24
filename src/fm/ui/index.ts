@@ -24,3 +24,5 @@ export {bindGraphSearchControls} from "./search-controls.js";
 export type {GraphSearchElements} from "./search-controls.js";
 export {bindReadabilityControls} from "./readability.js";
 export type {ReadabilityElements} from "./readability.js";
+export {bindLabelEditingControls} from "./label-editing.js";
+export type {LabelEditingElements} from "./label-editing.js";

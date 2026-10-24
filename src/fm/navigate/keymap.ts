@@ -37,7 +37,7 @@ export const keymap = [
   {group: "Editing", keys: "Label suffix: =number", action: "Set absolute node/relation weight when saving, e.g. Topic =3. The numeric command is removed from the stored label.", browser: true},
   {group: "Editing", keys: "Escape / Space in node content", action: "Close the content popup and return focus to the graph; links and controls retain normal activation.", browser: true},
   {group: "Editing", keys: "Ctrl/Cmd + Enter", action: "Commit the current editor. Enter also commits a single-line relation edit.", browser: true},
-  {group: "Editing", keys: "Escape in an editor", action: "Cancel the draft and return focus to the graph. Clicking away retains the draft.", browser: true},
+  {group: "Editing", keys: "Escape in an editor", action: "Cancel the draft and return focus to the graph. In-place labels save valid changes on blur; overlays retain drafts.", browser: true},
   {group: "Editing", keys: "R", action: "Reverse the selected relation through the validated editor command.", browser: true},
   {group: "Editing", keys: "L", action: "Open the selected node's linked resource explicitly.", browser: true},
   {group: "Editing", keys: "Edit mode: background double-click", action: "Create a node at that position.", browser: true},
