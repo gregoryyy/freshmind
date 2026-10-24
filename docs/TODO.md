@@ -4,6 +4,11 @@ Develop the browser in stages: establish a plain TouchGraph baseline, restore Fr
 
 Completed work, implementation notes, deviations, and lessons are recorded in [DONE.md](DONE.md).
 
+The [ROAD document](ROAD.md) researches modern applications, RFC/visual-search
+techniques and libraries, and proposes a radius-two adjacency view. Its research
+and interactive design are complete; implementation/evaluation tasks in milestone
+6 below are proposed future increments.
+
 **Current status:** Milestones 1–3 are complete within their agreed scope. The current lexical/LDA graph-search implementation is retained for now; replacement tasks 4.8–4.12 are deferred. Use elasticlunr if an external literal-search library becomes necessary. Milestone 5 covers node separation and relation-label placement. RFC and visual search should realize the ideas described in the reference text; exact figure layouts, crosshairs and labels are outside scope. See the [current search direction](search-module-integration.md) and [implementation history](DONE.md).
 
 ## Source material
@@ -166,3 +171,20 @@ Crossings, decorations and continuous node collision handling remain future work
 - [x] 5.6 Cache measured SVG text and share chosen anchors with rendering and inline relation editors through lenses, parallel edges and self-loops.
 - [x] 5.7 Enable relation-label avoidance in the main browser with a reversible View control; preserve original library defaults and transient preferences across graph replacement.
 - [x] 5.8 Verify independent rectangle counts, real SVG collisions, editing/control lifecycle and production before/after captures; document limits.
+
+## 6. Applications and radius-two exploration
+
+The [research roadmap](ROAD.md) and [design contract](radius-two-view.md) define
+this direction. Completed research/design is distinct from the proposed
+implementation below. Keep the current search; use elasticlunr only if an
+external literal-search library is needed, and inspect any supplied semantic
+module before adapting it.
+
+- [x] 6.1 Research high-value application workflows, RFC/visual-search state of the art and available libraries, with primary sources and explicit shortcomings; extend [ROAD Appendix A](ROAD.md#appendix-a-related-work-before-2024) with pre-2024 work and distinguish close comparisons from adjacent techniques.
+- [x] 6.2 Design the orthogonal radius-two view: vertical direct neighbors, horizontal second-hop occurrences, relationship labels/weights, shared identity, non-row relations, bounded data access and keyboard/overlay integration. Provide an interactive fictional mockup.
+- [ ] 6.3 Implement a detached, deterministic radius-two projection with stable identities, explicit occurrence/edge records, direction/filter policies and incomplete-page contracts; verify graph/coordinate preservation and graph-replacement behavior.
+- [ ] 6.4 Add an opt-in bounded browser view with measured/virtual rows and cells, paging, selection, pivot/history, accessible navigation and shared overlay editing; preserve the current RFC/lens view.
+- [ ] 6.5 Connect existing retrieval results as view seeds without changing IR ownership; integrate supplied semantics only when available and preserve query provenance, cancellation and stale-result guards.
+- [ ] 6.6 Evaluate correctness, browser costs and user tasks against ordinary ego node-link, RFC and simple list/tree baselines, with a matrix for shared-neighbor tasks; use attributed data and distinguish unique nodes, occurrences and edge records.
+- [ ] 6.7 Run a narrow maintainer/researcher pilot to validate a repeated investigation task; revise the representation if direction, sharing or missing context causes errors.
+- [ ] 6.8 Add one application adapter after the pilot identifies a useful task and available source, initially considering dependency impact, evidence exploration or data lineage; preserve source evidence and scope.
