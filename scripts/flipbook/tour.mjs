@@ -4,6 +4,13 @@ import {fileURLToPath} from "node:url";
 
 const rfcExample = fileURLToPath(new URL("../../docs/experiments/rfc-single-focus/crowded-star.fm.yaml", import.meta.url));
 const weightedExample = fileURLToPath(new URL("../../docs/experiments/rfc-single-focus/wide-labels.fm.yaml", import.meta.url));
+let readabilityBefore=0;
+const overlaps=page=>page.locator(".fm-node .fm-shape").evaluateAll(elements=>{
+  const boxes=elements.map(e=>e.getBoundingClientRect());let count=0;
+  for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
+    const a=boxes[i],b=boxes[j];if(Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top))count++;
+  }return count;
+});
 
 /** Keeps each captured act's controls visible without scrolling the graph itself. */
 async function sidebar(page, ...openIds) {
@@ -288,6 +295,28 @@ export const tour = [
       await page.waitForFunction(() => document.querySelector("#file-status").textContent.includes("3777 nodes, 5257 relations"));
       await advance(80);
       await page.locator(".sidebar").evaluate(sidebar => { sidebar.scrollTop = 0; });
+    }
+  },
+  {
+    id:"label-overlap",title:"Inspect overlapping node labels",
+    caption:"The graph-browser example retains RFC on its center node. Point-based layout can leave wide node labels intersecting even when their centers are apart. Label spacing uses the measured visible bodies, including multiline labels and importance scaling.",
+    async run({page,open,advance}){
+      await open("/");await page.waitForFunction(()=>window.graphBrowser.getRfc().getState().focusId==="root");await advance(60);
+      await page.evaluate(()=>window.graphBrowser.centerOn(window.graphBrowser.findNode("root"),true));await sidebar(page,"view-section");
+      await page.locator("#readability-section").evaluate(e=>e.open=true);
+      readabilityBefore=await overlaps(page);if(!readabilityBefore)throw new Error("Readability comparison needs an overlapping baseline");
+      await page.evaluate(()=>document.activeElement?.blur());
+    }
+  },
+  {
+    id:"labels-separated",title:"Separate overlapping nodes",
+    caption:"Separate overlapping nodes arranges visible bodies with a requested gap and pauses motion. Pinned nodes and the viewing focus stay in place; semantic relations, RFC, hidden nodes and viewing settings are retained. The status reports remaining intersections. Resuming motion or changing the view can introduce new overlaps; relation labels and crossings are separate concerns.",
+    async run({page}){
+      await page.getByRole("button",{name:"Separate overlapping nodes",exact:true}).click();
+      await page.waitForFunction(()=>document.querySelector("#readability-status").textContent.includes("overlapping node pairs"));
+      const after=await overlaps(page);if(after>=readabilityBefore)throw new Error("Label arrangement did not reduce measured body overlaps");
+      console.log(`[flipbook] Node body overlaps: ${readabilityBefore} -> ${after}`);
+      await page.evaluate(()=>document.activeElement?.blur());
     }
   }
 ];

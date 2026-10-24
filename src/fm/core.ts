@@ -13,6 +13,8 @@ export type {NodeShape,DashStyle,CurveMode,InteractionState,DeepPartial,StrokeSt
   NodeImportanceMode,NodeImportanceStyle,VisualDefinition,VisualOverride,SemanticType,TypeConfiguration,VisualItem} from "./config/core.js";
 export {createEdgeGeometry,routeEdges,createClusterBoundary,nodeImportanceScale,createNodeOutline,dashArray} from "./geometry/index.js";
 export type {EdgeGeometry,Point,WorldToDraw,NodeImportanceViewSettings,ClusterBoundaryBox} from "./geometry/index.js";
+export {countNodeOverlaps,separateNodeOverlaps} from "./geometry/index.js";
+export type {OverlapBox,OverlapOptions,OverlapResult} from "./geometry/index.js";
 export {applyNodeEdit,applyRelationEdit} from "./edit/index.js";
 export type {NodeEdit,RelationEdit,RelationEditContext} from "./edit/index.js";
 export type {DocumentRecord,DocumentView,NodeRecord,EdgeRecord,LoadOptions,SaveOptions} from "./io/index.js";

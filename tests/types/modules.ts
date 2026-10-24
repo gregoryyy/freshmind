@@ -8,7 +8,7 @@ import {FreshNode,FreshEdge,FreshGraph,FreshmindDocument,getMutationLocality} fr
 import type {FreshNodeOptions,LocalitySource} from 'fm4/fm/model';
 import {TypeRegistry,freshmind2014Configuration} from 'fm4/fm/config/core';
 import {parseTypeConfiguration} from 'fm4/fm/config';
-import {createNodeOutline,routeEdges,nodeImportanceScale} from 'fm4/fm/geometry';
+import {createNodeOutline,routeEdges,nodeImportanceScale,separateNodeOverlaps} from 'fm4/fm/geometry';
 import {applyRelationEdit} from 'fm4/fm/edit';
 import {FreshmindNavigation} from 'fm4/fm/navigate';
 import type {NavigationHost} from 'fm4/fm/navigate';
@@ -17,7 +17,7 @@ import {spanningTree} from 'fm4/fm/struct';
 import {projectRfcStructure} from 'fm4/fm/rfc';
 import {StructuralViewController} from 'fm4/fm/struct-view';
 import {FreshmindPresentation} from 'fm4/fm/render';
-import {FreshmindPanel,installDocument,captureDocument} from 'fm4/fm/browser';
+import {FreshmindPanel,installDocument,captureDocument,separateNodeLabels} from 'fm4/fm/browser';
 import type {FreshmindPanelOptions} from 'fm4/fm/browser';
 import {bindNodeImportanceControls} from 'fm4/fm/ui';
 import {graphSearchCorpus,createGraphQuery,applyGraphSearchResults} from 'fm4/fm/ir';
@@ -42,6 +42,7 @@ const registry=new TypeRegistry(freshmind2014Configuration),document=new Freshmi
 parseDocument(serializeDocument(document));
 const panelOptions:FreshmindPanelOptions={types:registry,autoStart:false,nodeImportance:{mode:'configured'}};
 const panel=new FreshmindPanel(undefined,panelOptions),base:TGPanel=panel,nav:NavigationHost=panel;
+separateNodeOverlaps([{id:'label',x:0,y:0,width:120,height:30}],{gap:8});separateNodeLabels(panel);
 new FreshmindNavigation(nav);installDocument(panel,document);captureDocument(panel);base.getGES();
 spanningTree(graph,['a','b'],'a','pair');projectRfcStructure(graph,locality,node,null,{x:1,y:1});
 createNodeOutline('ellipse',100,40);nodeImportanceScale(9,registry.resolveNode(node as FreshNode).importance);

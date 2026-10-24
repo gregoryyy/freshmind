@@ -22,3 +22,5 @@ export {bindNodeImportanceControls} from "./node-importance.js";
 export type {NodeImportanceElements} from "./node-importance.js";
 export {bindGraphSearchControls} from "./search-controls.js";
 export type {GraphSearchElements} from "./search-controls.js";
+export {bindReadabilityControls} from "./readability.js";
+export type {ReadabilityElements} from "./readability.js";

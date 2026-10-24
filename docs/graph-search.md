@@ -1,10 +1,10 @@
 # Graph visual search
 
-**Prototype guide:** the controls below describe the earlier lexical/LDA
-implementation currently in the checkout. The intended search module will be
-provided by Gregor, combining a Lucene-equivalent literal engine and semantic
-retrieval that may use embeddings. LDA is superseded. See the
-[current integration plan](search-module-integration.md); replacement is pending.
+**Current retained implementation:** this guide describes the lexical/LDA search
+kept in the browser for now. Backend replacement is deferred. If an external
+literal-search library becomes necessary, use elasticlunr; no new dependency is
+installed. Future semantic retrieval may use a supplied module and embeddings.
+See the [current integration plan](search-module-integration.md).
 
 Open **Graph search** in the main browser. Search covers the complete stored
 graph, including items outside the current neighborhood. Results join the current

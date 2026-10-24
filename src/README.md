@@ -20,7 +20,7 @@ The library is one ESM package with three domains: `tg/` preserves TouchGraph, `
 | --- | --- | --- |
 | `fm/model/` | FreshNode, FreshEdge, FreshGraph, document aggregate, metadata/options and the locality mutation-owner capability. Classes have one implementation each. | `fm4/fm/model` |
 | `fm/config/` | Validated semantic/visual types, inheritance, preset and primitive validation. `core.ts` is parser-free; `index.ts` adds YAML type loading. | `fm4/fm/config/core`, `fm4/fm/config` |
-| `fm/geometry/` | Pure node outlines, curve routing/picking, cluster hulls and bounded importance display mapping. | `fm4/fm/geometry` |
+| `fm/geometry/` | Pure node outlines, curve routing/picking, cluster hulls, bounded importance mapping and measured rectangle separation. | `fm4/fm/geometry` |
 | `fm/render/` | SVG/D3 presentation using resolved styles, geometry and shared graph objects. | `fm4/fm/render` |
 | `fm/navigate/` | Headless candidates, preselection, timer/command state and key-map data. | `fm4/fm/navigate` |
 | `fm/edit/` | Atomic validated node/relation edits, delegating to model and source-neighborhood owners. | `fm4/fm/edit` |
@@ -55,7 +55,7 @@ import {bindRfcControls} from "fm4/fm/ui";
 
 `fm4/ir` and `fm4/ir/core` expose the headless modules. They need no graph objects, DOM, D3 or YAML. `fm4/ir/browser` is explicit; importing it does not start a worker or install the worker's global message handler. `SearchSession` takes document snapshots and returns stable-ID results. Freshmind's `GraphSearchController` composes it with graph replacement/edit guards, graph commands and panel visibility.
 
-The retrieval implementations describe the current prototype. Gregor will supply the intended Lucene-equivalent literal engine and semantic approach; LDA is superseded. Extraction establishes ownership without choosing that module's API or backend. See the [integration plan](../docs/search-module-integration.md).
+The current lexical/LDA prototype is retained for now. If an external literal-search library becomes necessary, use elasticlunr. Future semantic replacement remains deferred; no new dependency is required for the current implementation. See the [integration plan](../docs/search-module-integration.md).
 
 ```ts
 import {createSearchCorpus, LexicalSearchIndex} from "fm4/ir";

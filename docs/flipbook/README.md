@@ -129,3 +129,15 @@ Select Group Beta and reveal its leaves to restore detail while retaining the cu
 ![Browse the approved NIPS dataset](21-nips.png)
 
 NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.
+
+## 22. Inspect overlapping node labels
+
+![Inspect overlapping node labels](22-label-overlap.png)
+
+The graph-browser example retains RFC on its center node. Point-based layout can leave wide node labels intersecting even when their centers are apart. Label spacing uses the measured visible bodies, including multiline labels and importance scaling.
+
+## 23. Separate overlapping nodes
+
+![Separate overlapping nodes](23-labels-separated.png)
+
+Separate overlapping nodes arranges visible bodies with a requested gap and pauses motion. Pinned nodes and the viewing focus stay in place; semantic relations, RFC, hidden nodes and viewing settings are retained. The status reports remaining intersections. Resuming motion or changing the view can introduce new overlaps; relation labels and crossings are separate concerns.
