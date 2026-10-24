@@ -53,7 +53,7 @@ export function bindRfcShowcase(panel:FreshmindPanel,e:RfcShowcaseElements):{loa
     panel.getStructuralView().configure({enabled:mode.aggregate,aggregateTypes:mode.aggregate?["person","paper"]:[],detailRadius:1});
     panel.setZoom(1);panel.setLensPan(0,0);panel.setRotation(0);panel.setHyperbolic(mode.lens);
     panel.setCanvasZoom(frame.zoom);panel.setCanvasPan(frame.pan.x,frame.pan.y);
-    panel.resetDamper();panel.repaintAfterMove();e.caption.textContent=mode.caption;
+    panel.tgLayout.resetAdaptiveDamping();panel.resetDamper();panel.repaintAfterMove();e.caption.textContent=mode.caption;
   };
   const changed=()=>{void choose();};
   const graphChanged=()=>{if(current&&!active()){revision++;current=undefined;initial.clear();e.container.hidden=true;}};

@@ -21,6 +21,8 @@ Use **Apply comparison view** in Graph files:
 
 Each choice restores the loaded file's starting positions, clears retained momentum/temporary locality mobility and restores the same initial canvas framing. Motion follows the normal pause/resume control. **Fit visible graph** changes canvas scaling/translation without moving physical points. The dropdown applies a setup; subsequent edits to the regular controls remain available.
 
+Live browsing retains the general damping preference. The recorded fixed-batch showcase and its repeatability check disable extra general damping to retain their original comparison protocol; adaptive recovery otherwise uses elapsed time. Restoring a live showcase start clears learned damping without changing the preference.
+
 Select a group and press **E**, or use **Reveal selected parent's leaves** in Structural focus + context, to recover its aggregated detail. The shared Semantic Methods group is part of both foci. Maya connects two groups, and two context papers are connected by a citation; these remain semantic bridges rather than becoming leaf aggregates. Other project collaboration, team and membership relations also remain present. Explicit node/relation type filters still take precedence, including inside a focus.
 
 Use **Shift+Enter** to toggle other RFC centers or inspect the two stored focal definitions under Substructures. Edit labels, annotations or relation roles with the usual editors. Save YAML at any point: the complete 34-node/37-relation graph, extended type definitions, content and both stored memberships survive, including currently aggregated nodes. Structural rules and active RFC centers remain transient.

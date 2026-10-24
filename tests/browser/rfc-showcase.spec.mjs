@@ -15,7 +15,12 @@ async function choose(page,name,text) {
 const coords=page=>page.evaluate(()=>[...window.graphBrowser.getAllNodes()].map(n=>[n.getID(),n.x,n.y]));
 
 test("six showcase views share starts, compose focal/structural/lens controls and fit without moving physical points",async({page},info)=>{
-  const errors=await ready(page),initial=await coords(page),finals=new Map();
+  test.setTimeout(90000); // Six views include three full 160-batch SVG layout runs.
+  const errors=await ready(page);
+  // This fixed-batch comparison retains the original force protocol. General
+  // damping's real-time recovery deliberately makes live trajectories time dependent.
+  await page.evaluate(()=>window.graphBrowser.tgLayout.setAdaptiveDampingEnabled(false));
+  const initial=await coords(page),finals=new Map();
   for(const [mode,text,foci,lens,count] of [["plain","Ordinary layout",0,0,34],["lens","viewing lens allocates",0,60,34],
     ["single","five immediate branches",1,0,34],["two","independent focal neighborhoods",2,0,34],
     ["hybrid","typed counts",2,0,18],["hybrid-lens","same hybrid rules",2,60,18]]) {

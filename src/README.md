@@ -8,11 +8,11 @@ The library is one ESM package with three domains: `tg/` preserves TouchGraph, `
 | --- | --- | --- |
 | `tg/model/` | `Node` and `Edge`, split into their own files; graph objects share these identities. | `fm4/tg/model` |
 | `tg/graph/` | Complete membership, locality/visibility, visitor contracts, exceptions, traversal and serialized locality animation. Complete adjacency remains owned by `GraphEltSet`. | `fm4/tg/graph` |
-| `tg/layout/` | The original spring embedder, layout host/force contracts and timed runner. | `fm4/tg/layout` |
+| `tg/layout/` | The original spring embedder, layout host/force contracts and timed runner; an optional general motion stabilizer runs after force accumulation. | `fm4/tg/layout` |
 | `tg/lenses/` | Points, lens composition, HyperScroll-derived mapping and affine transforms. | `fm4/tg/lenses` |
 | `tg/browser/` | SVG panel, pointer/drag/canvas interaction and mounting; depends on D3 and DOM APIs. | `fm4/tg/browser` |
 
-`fm4/core` / `fm4/tg/core` compose the first four modules. `fm4` / `fm4/tg` also expose the browser panel. TouchGraph imports neither Freshmind nor IR. Its source headers retain the original copyright notices and point to root [LICENSE](../LICENSE) and [NOTICE](../NOTICE); moved files have corrected relative paths. Both files must accompany redistribution. Java references retain their original full headers.
+`fm4/core` / `fm4/tg/core` compose the first four modules. `fm4` / `fm4/tg` also expose the browser panel. TouchGraph imports neither Freshmind nor IR. Its derived source headers retain the original copyright notices and point to root [LICENSE](../LICENSE) and [NOTICE](../NOTICE); the added motion stabilizer retains its Apache-2.0 header. Both root files must accompany redistribution. Java references retain their original full headers.
 
 ## Freshmind
 

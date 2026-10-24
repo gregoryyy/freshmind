@@ -75,7 +75,7 @@ async function openRfc(page, example = rfcExample) {
   try {
     await page.locator("#open-graph-files").setInputFiles(example);
     await page.waitForFunction(graph => window.graphBrowser.getCompleteEltSet() !== graph && window.graphBrowser.getSelection()?.getID() === "center", previous);
-    await page.evaluate(() => window.graphBrowser.setZoom(2));
+    await page.evaluate(() => {window.graphBrowser.setZoom(2);window.graphBrowser.tgLayout.setAdaptiveDampingEnabled(false);});
   } finally { await previous.dispose(); }
 }
 
@@ -173,7 +173,7 @@ export const tour = [
   },
   {
     id: "rfc-baseline", title: "Single-focus comparison: ordinary layout",
-    caption: "The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.",
+    caption: "The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Adaptive damping is off throughout the fixed-force comparison. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.",
     async run({page, advance}) {
       const [download] = await Promise.all([
         page.waitForEvent("download"), page.getByRole("button", {name: "Download YAML", exact: true}).click()
@@ -385,6 +385,19 @@ export const tour = [
       const bounds=await page.locator("#graph svg").boundingBox();await page.mouse.move(bounds.x+20,bounds.y+20);await page.keyboard.press("Enter");
       const valid=await page.evaluate(()=>document.activeElement===document.querySelector("#graph-zoom")&&!window.graphBrowser.getSelection());
       if(!valid)throw new Error("Graph hover took explicit control focus");
+    }
+  },
+  {
+    id:"layout-damping",title:"Suppress oscillation with or without RFC",
+    caption:"View → Layout motion enables general adaptive damping by default. It watches all movable visible nodes, including when RFC is off as shown here. Adaptive impulses attenuates repeated swings and gradually restores gain; Earlier TouchGraph cooling instead starts the inherited fast cooling phase after detected cycles. The status makes the active setting visible.",
+    async run({page}){
+      await sidebar(page,"view-section");
+      await page.locator("#adaptive-damping").evaluate(e=>{e.closest("details").open=true;});
+      await page.evaluate(()=>window.graphBrowser.getRfc().setFocus(null));
+      await page.getByLabel("Adaptive damping",{exact:true}).check();
+      await page.getByLabel("Damping response",{exact:true}).selectOption("impulse");
+      const valid=await page.evaluate(()=>{const p=window.graphBrowser;return p.tgLayout.getAdaptiveDampingState().enabled&&!p.getRfc().getState().enabled;});
+      if(!valid)throw new Error("General damping depends on RFC activation");
     }
   }
 ];
