@@ -4,7 +4,7 @@ Design drafted **2026-10-22**, updated **2026-10-24**. This specifies milestones
 
 Freshmind 4 provides typed and visually distinct nodes, labeled curved relations, keyboard browsing with preselection, and label/annotation editing. Its native persistence is a versioned YAML graph format. Only the approved `berry` and `nips-fm` Java examples are migrated; the remaining datasets are proprietary.
 
-The Java code captures the intended features of an experimental application developed under time pressure. Use it to recover those features and distinctive interactions. **Keep the TouchGraph design in place and add Freshmind features as clean extensions to it.** Its model, graph/locality structure, panel, layout and lens pipeline remain the foundation. RFC will be rebuilt separately in milestone 3; retrieval algorithms are milestone 4, with query integration points established here.
+The Java code captures the intended features of an experimental application developed under time pressure. Use it to recover those features and distinctive interactions. **Keep the TouchGraph design in place and add Freshmind features as clean extensions to it.** Its model, graph/locality structure, panel, layout and lens pipeline remain the foundation. RFC is implemented separately in milestone 3; retrieval algorithms remain planned for milestone 4, with query integration points established here.
 
 ## 1. Responsibilities and integration
 
@@ -49,7 +49,7 @@ Add base-class extension points only where a concrete Freshmind feature requires
 
 Keep these hooks narrow, default-compatible and reusable. Freshmind YAML parsing, type registries, editors and search services belong in the extension layer. The existing public APIs and plain-panel defaults continue to work. The headless entry point remains usable without D3, DOM, file-picker APIs or a YAML parser dependency.
 
-New features should first use existing methods and subclassing/composition. Add a hook when that feature needs access the current classes do not expose; there is no prerequisite rewrite of the TouchGraph classes. Future RFC should likewise integrate as an optional layout extension through `TGLayout`, with the ordinary layout retained as the baseline.
+New features should first use existing methods and subclassing/composition. Add a hook when that feature needs access the current classes do not expose; there is no prerequisite rewrite of the TouchGraph classes. RFC integrates as an optional layout extension through `TGLayout`, with the ordinary layout retained as the baseline.
 
 ## 2.2 Model types, visual types and labeled relations
 
