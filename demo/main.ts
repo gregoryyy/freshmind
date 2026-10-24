@@ -9,7 +9,7 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls,bindGraphSearchControls,bindReadabilityControls } from "../src/fm/ui/index.js";
+import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls,bindGraphSearchControls,bindReadabilityControls,bindMotionControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
 import {bindRfcShowcase} from "./rfc-showcase.js";
@@ -67,7 +67,8 @@ for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Co
 
 let allVisible = false;
 let paused = false;
-const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status"),relationLabelPlacement:"avoid-overlap" });
+const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status"),relationLabelPlacement:"avoid-overlap",adaptiveDamping:{enabled:true} });
+const disposeMotion=bindMotionControls(panel,{adaptiveDamping:get<HTMLInputElement>("adaptive-damping"),response:get<HTMLSelectElement>("damping-response"),status:get("adaptive-damping-status")});
 const disposeReadability=bindReadabilityControls(panel,{separate:get<HTMLButtonElement>("separate-labels"),gap:get<HTMLInputElement>("label-gap"),status:get("readability-status"),relationLabels:get<HTMLInputElement>("avoid-relation-labels")},result=>{
   if(result.moved){paused=true;get("motion").textContent="Resume motion";}
 });
@@ -92,8 +93,6 @@ const disposeRfc = bindRfcControls(panel, {
   radialStiffness: get<HTMLInputElement>("rfc-radial"), radialLength: get<HTMLInputElement>("rfc-length"), indicator: get("rfc-indicator"),
   clusterRigidity:get<HTMLInputElement>("rfc-cluster-rigidity"),
   treePreset: get<HTMLButtonElement>("rfc-tree"), attractionPreset: get<HTMLButtonElement>("rfc-attraction"),
-  adaptiveDamping: get<HTMLInputElement>("rfc-adaptive-damping"),
-  stabilizationStatus:get("rfc-stabilization-status"),
   excludeContext:get<HTMLInputElement>("rfc-exclusion"),excludeOverlap:get<HTMLInputElement>("rfc-overlap-exclusion"),
   exclusionStrength:get<HTMLInputElement>("rfc-exclusion-strength"),exclusionPadding:get<HTMLInputElement>("rfc-exclusion-padding"),
   addCenter:get<HTMLButtonElement>("rfc-add-center"),centers:get<HTMLSelectElement>("rfc-centers"),removeCenter:get<HTMLButtonElement>("rfc-remove-center"),
@@ -266,5 +265,5 @@ Object.assign(window, { graphBrowser: panel });
 void focusOn(root).then(() => {
   if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
 });
-window.addEventListener("pagehide", () => { disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeMotion(); disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

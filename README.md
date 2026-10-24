@@ -6,7 +6,7 @@
 
 ![Freshmind 4 graph example with RFC enabled on its central Graph browsers node](docs/flipbook/01-browser.png)
 
-The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the 29-step flipbook](docs/flipbook/index.html).
+The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the 30-step flipbook](docs/flipbook/index.html).
 
 ## Background and motivation
 
@@ -46,6 +46,8 @@ Try **RFC → Research community showcase** to compare a plain graph, viewing le
 Graph search uses elasticlunr for literal retrieval and local LDA for semantic retrieval. Choose distance or likelihood ranking and save/load topic models separately from graph files. See the [browser guide](docs/graph-search.md) and [FM 2014 parity record](docs/fm2014-retrieval-parity.md) for supported operations, verification and intentional differences. Embeddings are deferred.
 
 RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Point at the graph to give the centered node keyboard control; explicit control/editor focus takes priority. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
+
+**View → Layout motion → Adaptive damping** starts enabled and suppresses oscillation with or without RFC. See the [damping guide and experiment](docs/layout-damping.md).
 
 The other common recipes are:
 

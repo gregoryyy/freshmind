@@ -86,6 +86,11 @@ rfc-stability-experiment output="docs/experiments/rfc-stability": build
 rfc-stability-figures output="docs/experiments/rfc-stability":
     python3 scripts/rfc-stability-figures.py {{quote(output)}}
 
+# General adaptive damping with and without RFC; matched native forces and slow-motion detector probes.
+layout-damping-experiment output="docs/experiments/layout-damping": build
+    node scripts/layout-damping-experiment.mjs {{quote(output)}}
+    python3 scripts/layout-damping-figures.py {{quote(output)}}
+
 # Matched damping/rigidity, importance and cluster comparisons (780 runs), reports and eight diagrams.
 rfc-followup-experiment output="docs/experiments/rfc-followup": build
     node scripts/rfc-followup-experiment.mjs {{quote(output)}}

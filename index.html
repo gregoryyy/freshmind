@@ -52,6 +52,14 @@
           <label class="control-label lens-label" for="hyper">Focus + context <output id="hyper-value">60%</output></label>
           <input type="range" id="hyper" min="0" max="100" value="60" step="1" />
           <div class="range-labels"><span>Undistorted</span><span>Strong lens</span></div>
+          <details class="control-subsection" open><summary>Layout motion</summary>
+            <label class="pin-control"><input id="adaptive-damping" type="checkbox" checked /> Adaptive damping</label>
+            <label class="control-label" for="damping-response">Damping response</label>
+            <select id="damping-response"><option value="impulse">Adaptive impulses</option><option value="cooling">Earlier TouchGraph cooling</option></select>
+            <p class="control-help">Suppresses repeated swings across the graph, with or without RFC. After quiet motion, gradually restores normal movement.</p>
+            <p class="control-help">Earlier cooling uses TouchGraph's existing settling behavior as soon as repeated swings are detected.</p>
+            <p id="adaptive-damping-status" class="control-help" role="status">Adaptive damping on · watching graph motion.</p>
+          </details>
           <details class="control-subsection" id="readability-section">
             <summary>Label spacing</summary>
             <label class="pin-control"><input id="avoid-relation-labels" type="checkbox" /> Avoid relation label overlaps</label>
@@ -137,9 +145,6 @@
             <p class="control-help">Weights of 1 use ordinary distances. Horizontal 0.25 with vertical 1 favors a focal layout twice as wide.</p>
             <p id="rfc-status" class="control-help" role="status" aria-live="polite">RFC off.</p>
             <p class="control-help">When RFC is on, press Return or double-click the current center again to reinforce it. Yellow halos mark the reinforced nodes and relations.</p>
-            <label class="pin-control"><input id="rfc-adaptive-damping" type="checkbox" /> Experimental adaptive damping</label>
-            <p class="control-help">Watch reinforced nodes and, when exclusion is on, nearby context for repeated reversals and circulation. After 0.5 seconds of quiet motion, recover over 3 seconds; renewed movement rolls recovery back.</p>
-            <p id="rfc-stabilization-status" class="control-help">Damping off; detection is disabled.</p>
             </details>
             <details class="control-subsection"><summary>Focal regions</summary>
               <label class="pin-control"><input id="rfc-exclusion" type="checkbox" /> Keep context outside focal regions</label>

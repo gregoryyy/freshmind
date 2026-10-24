@@ -17,6 +17,7 @@ import type { ZoomBehavior } from "d3-zoom";
 import { Edge, Node } from "../model/index.js";
 import { GraphEltSet, VisibleLocality } from "../graph/index.js";
 import { TGLayout } from "../layout/index.js";
+import type {LayoutAdaptiveDampingOptions} from "../layout/index.js";
 import { LocalityUtils } from "../graph/index.js";
 import { HyperLens, RotateLens, TGAbstractLens, TGLensSet, TranslateLens, ZoomLens } from "../lenses/index.js";
 import { TGPoint2D } from "../lenses/index.js";
@@ -29,6 +30,7 @@ export interface TGPanelOptions {
   hyperbolic?: number;
   onSelect?: (node: Node | null) => void;
   interactionMode?: TGInteractionMode;
+  adaptiveDamping?:LayoutAdaptiveDampingOptions;
 }
 type SvgSelection = Selection<SVGSVGElement, unknown, null, undefined>;
 type DragSubject = { x: number; y: number; node: Node };
@@ -81,7 +83,7 @@ export class TGPanel {
     this.interactionMode = options.interactionMode ?? "navigate";
     this.hyperLens = new HyperLens(options.hyperbolic ?? 0);
     this.localityUtils = new LocalityUtils(this.visibleLocality, this, options.animateLocality ?? Boolean(container));
-    this.tgLayout = new TGLayout(this);
+    this.tgLayout = new TGLayout(this,Math.random,options.adaptiveDamping);
     const focusLens = new class extends TGAbstractLens {
       constructor(private panel: TGPanel) { super(); }
       override applyLens(point: TGPoint2D): void {
@@ -141,6 +143,7 @@ export class TGPanel {
    */
   setGraphEltSet(graph: GraphEltSet): void {
     this.localityUtils.dispose();
+    this.tgLayout.resetAdaptiveDamping();
     this.visibleLocality.removeAll();
     this.completeEltSet = graph;
     this.visibleLocality = new VisibleLocality(graph);
@@ -193,6 +196,7 @@ export class TGPanel {
   hideEdge(edge: Edge): void { this.visibleLocality.removeEdge(edge); this.localityChanged(); this.resetDamper(); this.repaint(); }
   clearAll(): void {
     this.localityUtils.dispose();
+    this.tgLayout.resetAdaptiveDamping();
     this.visibleLocality.clearAll();
     this.localityUtils = new LocalityUtils(this.visibleLocality, this, this.options.animateLocality ?? Boolean(this.container));
     this.focus = null; this.clearSelect(); this.setDragNode(null); this.resetDamper(); this.repaint();
