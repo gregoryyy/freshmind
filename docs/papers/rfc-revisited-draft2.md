@@ -1,12 +1,12 @@
 # Reinforcement Focus+Context revisited: local structure, radial constraints and stable interaction
 
-**Gregor Heinrich** · Freshmind 4 · 24 October 2026
+**Gregor Heinrich** · Freshmind 4 · 25 October 2026
 
-**Second draft — implementation study and analytical extensions; not peer reviewed**
+**Second draft — updated results and related-work appendix, 25 October 2026; not peer reviewed**
 
 ## Abstract
 
-Reinforcement Focus+Context (RFC), introduced in 2005, makes selected graph neighborhoods resemble recognizable structural primitives while retaining their connections to the surrounding graph. This draft reviews that proposal and examines its re-implementation in Freshmind 4, a TypeScript port and extension of concepts developed in Java Freshmind between 2002 and 2014. We distinguish increased attraction, direct angular reinforcement, the original longitudinal approximation, and an added spring with an explicit preferred focal radius. Three deterministic synthetic examples and controlled ablations show that angular regularity and radial regularity require separate controls. We derive the discrepancy of the 2005 chord approximation for unequal radii and analyze oscillation using the actual TouchGraph integration equations. A movable six-branch center introduces a radial mode four times stiffer than the corresponding pinned-center mode. Recorded runs illustrate how lowering force rigidity suppresses a persistent large-amplitude oscillation. An initial local damping experiment detects repeated movement reversals and gradually restores motion after a quiet interval. A subsequent general layout controller also handles native TouchGraph oscillations without RFC, with completed-swing tracking for slower motion. A controlled mixed-motion comparison motivates independent node gains so focal oscillation does not throttle steadily moving context. Three further experiments compare multiple depth-two tree foci, additional leaf relations and shared subtrees across 120 matched runs. They expose context costs, clipped-motion outliers and infeasible pinned-root length targets. Companion studies add 780 matched damping/rigidity, importance and cluster comparisons, distinguishing quiet motion, force balance and shape preservation. Subsequent exclusion and hybrid-view studies add 100 and 160 matched runs respectively; the hybrid controls preserve nominated detail and score common retained constraints. These are mechanism tests and local stability calculations; they do not establish perceptual benefit, general convergence or performance on large graphs.
+Reinforcement Focus+Context (RFC), introduced in 2005, makes selected graph neighborhoods resemble recognizable structural primitives while retaining their connections to the surrounding graph. We reimplement and extend that idea in Freshmind 4, a browser-based successor to the Java system. Controlled synthetic comparisons separate attraction strength, angular regularity and an explicit preferred focal radius. We derive the unequal-radius error in the original chord approximation and a local stability condition for the actual TouchGraph update. Multiple-tree, importance, cluster, exclusion and hybrid-view experiments expose competing objectives and infeasible targets. Subsequent damping comparisons distinguish missed detection, suppression, recovery and stalled context: a general detector recognizes prescribed slow cycles after approximately two cycles, while independent node gains let context approach an RFC exclusion boundary without sharing a focal oscillator's attenuation. These are mechanism tests and local calculations; quiet motion does not establish force balance, label clearance, perceptual benefit or large-graph performance. A selective literature appendix places RFC beside earlier constrained layouts and adaptive node-speed control, and relates graph-native retrieval to search-first and associative browsing. We claim a reproducible reconstruction and explicit extensions, rather than novelty for structural constraints, local damping or query/result graphs as general ideas.
 
 ## 1. Reviewing the 2005 proposal
 
@@ -19,6 +19,8 @@ The paper proposes stronger focal springs and an angular moment between cyclical
 The initial numerical reconstruction uses one visible, depth-one focal star. Experiments C–E below extend the comparison to two depth-two tree foci, ordinary leaf links and shared subtrees. Companion Experiments F–H (§6.6) evaluate damping versus lower rigidity, nonuniform importance and compact clusters. DAG templates remain outside the numerical comparisons. A subsequent optional exclusion reconstruction and Experiment I (§7.1) address context and non-shared intersection vertices. A subsequent rule-based hybrid view and Experiment J (§7.2) combine reversible leaf aggregation/type filtering with matched RFC and viewing-lens controls. Reproduction of the original figures is outside the agreed implementation scope. The Java implementation was experimental and developed under time pressure; it is useful evidence of intended features, rather than a complete algorithmic specification. This draft therefore separates the original concepts, explicit reconstruction choices, and new extensions.
 
 Force-directed drawing provides the broader setting: Fruchterman and Reingold describe a spring-embedding heuristic seeking regular edge lengths ([1991](https://doi.org/10.1002/spe.4380211102)). The actual TouchGraph equations used here are specified below; they should not be inferred from that general description. Label geometry is a separate issue. Harel and Koren examine the difficulties of treating non-uniform vertices as points and propose shape-aware extensions ([2002](https://www.weizmann.ac.il/math/harel/sites/math.harel/files/users/user56/non_uniform_avi_acm.pdf)). A weighted coordinate metric alone is a weaker provision than explicit shape collision avoidance.
+
+Appendix A extends the related-work review to publications before 2024 and selected 2024–2026 work. Particularly relevant comparisons are GLIDE and vector-based stress majorization for local organization constraints, ForceAtlas2 for adaptive node speeds, and Apolo/Refinery for iterative graph exploration. These systems have not been benchmarked against Freshmind in the experiments below. Similar mechanisms establish a comparison set, without establishing direct descent from RFC.
 
 ## 2. Reconstructing the forces
 
@@ -112,11 +114,36 @@ Thus the approximation is exact for equal radii, and for $N=2$, but otherwise re
 
 ## 3. Controlled implementation experiments
 
+### 3.1 Evidence inventory
+
+The study accumulated separate experimental checkpoints rather than rerunning every comparison under each new browser default. The evidence inventory is:
+
+<div style="break-inside: avoid;">
+
+| Study | Recorded conditions | Main question / boundary |
+| --- | --- | --- |
+| Single focus (A) | 9 baseline/preset runs, 6 ablations, 3 movable-center runs, 3 stiffness/rigidity runs; separate 48-run sweep | Separate force objectives and integration modes on three designed fixtures. |
+| Original damping (B) | 6 off/on runs | Historical v1 detector and recovery, not the current default. |
+| Trees (C–E) | 120 runs | Activation, context links, shared membership and pinned-root feasibility. |
+| Follow-ups (F–H) | 240 / 300 / 240 runs | Damping versus rigidity, importance, and cluster deformation. |
+| Detector robustness | 4 graphs × off/v1/v2; 2 prescribed probes per detector | Detection blind spots and response; duplicated off controls are retained in both records. |
+| Exclusion (I) | 100 runs | Point penetration and exposure, rather than label-body clearance. |
+| Hybrid views (J) | 160 conditions, including 80 physical lens twins | Retained constraints and changing visible topology. |
+| General damping (K) | 16 layout runs, plus prescribed-motion probes | Native/RFC detection and earlier cooling; historical shared gain. |
+| Independent damping (L) | 12 controlled runs; separate rendered regression | Context progress while another node's response is attenuated. |
+
+</div>
+
+Counts describe experimental conditions, not independent samples from a graph population. Matched starts, lens twins and prescribed inputs must not be pooled into a statistical sample size. Figures retain their recorded inputs; this update adds synthesis and citations without regenerating historical numerical records.
+
+### 3.2 Single-focus protocol and results
+
 Three synthetic graphs each contain nine nodes, twelve semantic relations, six focal branches, and two competing context anchors. The crowded-star example has mildly unequal initial radii; unequal-radii also varies physical focal edge parameters from 20 to 120. Wide-labels stretches the initial geometry and context horizontally, uses long labels, and sets coordinate weights to $(0.25,1)$. Physics still treats vertices as points: the long text itself adds no collision force.
 
 Each method starts from identical coordinates within its fixture. The seeded random source is `0x1234abcd`; it is used only for coincident-node separation. Each run executes 250 batches of ten TouchGraph integration steps. Main comparisons fix the center and context anchors; separate runs release the center. Baseline forces use unweighted physical coordinates, while reported RFC gap and length errors use each fixture's stated metric. The baseline's metric is only a measurement convention. These three configurations are examples, not independent statistical replications.
 
 Angular error is RMS deviation of cyclic weighted gaps from $2\pi/6$. Length error is RMS deviation of weighted focal radius from 120. Coordinates, traces, semantic endpoints and settings are retained in [the experiment records](../experiments/rfc-single-focus/results.json). The controlled ablations keep $m=1$: strong angles use $(k,a)=(0,10000)$; length only uses $(1,0)$; the combined tree uses $(1,10000)$.
+
 
 | Fixture | Earlier attraction + angles: angle / length RMS | Strong angles: angle / length RMS | Length + angles: angle / length RMS |
 | --- | ---: | ---: | ---: |
@@ -192,7 +219,7 @@ The stiff run retains large movement. Lowering rigidity to 0.25 reduces the isol
 
 First, choose length, angular stiffness and force scale separately. Increasing all strengths can make a pattern visually convincing while undermining integration. Reducing global rigidity scales ordinary and RFC forces together, preserving their relative strength and, outside regularization/discrete effects, their equilibrium. Reducing only radial stiffness changes the competing equilibrium. A smaller damper reduces both force response and retained momentum. It can stabilize a stiff mode, but may freeze an inaccurate intermediate layout if driven to zero prematurely.
 
-Second, distinguish force residual, actual displacement, clipping frequency and kinetic-like state. TouchGraph's `maxMotion` includes uncapped accumulated displacement even for pinned nodes. It is therefore not the maximum actual movement of movable vertices. Its adaptive rule only decreases the damper under certain motion-ratio conditions; persistent alternating motion can keep it high. The experiment reports actual net position changes across ten-step batches, which can still alias rapid oscillations. Future diagnostics should sample every integration step, track velocity sign changes and count clipped updates.
+Second, distinguish force residual, actual displacement, clipping frequency and kinetic-like state. TouchGraph's `maxMotion` includes uncapped accumulated displacement even for pinned nodes. It is therefore not the maximum actual movement of movable vertices. Its adaptive rule only decreases the damper under certain motion-ratio conditions; persistent alternating motion can keep it high. The initial experiment reports actual net position changes across ten-step batches, which can still alias rapid oscillations. Later comparisons (§5) sample individual integrations to avoid that cancellation; spectral analysis and explicit per-axis clipping diagnostics remain future work.
 
 Third, stiffness-aware scaling could estimate a local Hessian bound $\Lambda$ and choose force scale $s$ with a safety margin under $ds\Lambda<2+d$. A row-sum bound or a small focal-block eigensolve could be practical, but it must include context coupling and weighted geometry. A changing branch order, a repulsion cutoff and newly-local mobility weights limit the applicability of smooth Hessian analysis. This proposal is not yet implemented or validated.
 
@@ -247,7 +274,30 @@ Tail motion is RMS of the ten sampled net batch displacements at batches 310–4
 
 *Figure 7. Separate damping experiment. Left: net sampled batch movement, floored at 10⁻⁶ for the logarithmic display. Right: local impulse gain with detection backoffs and gradual recovery. Identical force settings are used within each off/on pair; all centers are movable.*
 
-This experiment supports adaptive suppression of visible oscillation on these fixtures, not general convergence. A positive gain preserves the underlying zero-force equations in the local idealization, but changes the trajectory and can select a different local arrangement. The finite gain floor, movement thresholds, context coupling, observation cadence and inherited cooling remain limitations. Future comparisons should include per-step spectra, clipping counts, alternative recovery durations and larger/multiple focal structures. Hessian-based stiffness control remains a separate, unimplemented alternative.
+This experiment supports adaptive suppression of visible oscillation on these fixtures, not general convergence. A positive gain preserves the underlying zero-force equations in the local idealization, but changes the trajectory and can select a different local arrangement. The finite gain floor, movement thresholds, context coupling, observation cadence and inherited cooling remain limitations. The subsequent comparison below adds multiple focal structures and per-step motion; spectra, explicit clipping counts, alternative recovery durations and larger graphs remain open. Hessian-based stiffness control remains a separate, unimplemented alternative.
+
+#### Detector robustness checkpoint: v1 versus v2
+
+The subsequent [stability comparison](../experiments/rfc-stability/README.md) retains the v1 response and adds a v2 detector. In an 80-step prescribed probe, one member alternates by four units while another translates twelve units per step: v1 misses the reversal because it never wins the union-energy vote. A second probe follows a radius-ten, six-step orbit, whose 60° direction changes miss v1's sharp-reversal test. V2 detects both, using per-member reversal votes and low-net-travel circulation windows. These imposed paths measure detection, not feedback stability. Per-member observation at this checkpoint still feeds a shared attenuation response; independent application is a later change (§5.5).
+
+Four graphs receive identical starts and forces under damping off, v1 and v2, each for 4000 integrations at a virtual 2 ms cadence. The off controls occur in both versioned records and agree; the table describes twelve distinct layout conditions. A large step means at least one movable focal member travels more than 29.9 physical units in an integration, rather than an exact per-axis clipping count.
+
+| Scenario | Movable members | Off: large steps | V1: large steps | V2: large steps |
+| --- | ---: | ---: | ---: | ---: |
+| Two star centers | 4 | 2103 | 13 | 8 |
+| Overlapping weighted clusters | 4 | 2133 | 16 | 6 |
+| Leaf-connected trees | 14 | 4000 | 23 | 8 |
+| Shared subtree, pinned roots | 9 | 3172 | 12 | 5 |
+
+All enabled runs have zero motion in their final hundred integrations under inherited cooling. This does not imply more accurate geometry: on the leaf-linked start, v2 leaves spring-length RMS 13.30 versus 8.81 with v1. The pinned shared-subtree retains roughly 54 units of error under every response because its targets are infeasible. V2's stronger backoff and recovery rollback address observed instability, without establishing universal detection or convergence.
+
+<div style="break-inside: avoid;">
+
+![Figure 8](../experiments/rfc-stability/figures/02-stability-and-residuals.svg)
+
+*Figure 8. Historical v1/v2 comparison on matched starts. Large-step counts and remaining spring-length errors are separate outcomes; the latter is an unweighted soft-radius target error, not a force residual or readability score. Both damped leaf-tree layouts stop moving despite different final errors. These records precede general and independent-node damping.*
+
+</div>
 
 ### 5.4 General layout damping and Experiment K
 
@@ -272,9 +322,9 @@ A large step means any movable vertex travels more than 29.9 physical units. Eve
 
 <div style="break-inside: avoid;">
 
-![Figure 12](../experiments/layout-damping/figures/general-damping.svg)
+![Figure 9](../experiments/layout-damping/figures/general-damping.svg)
 
-*Figure 12. General layout damping. A: a prescribed slow swing and its first v3 detection; v2 remains inactive. B–C: actual per-step movement, summarized by batch maxima, with native TG or stiff RFC forces. V2/v3 impulse curves coincide in these fast cases; the red curve uses earlier inherited cooling. D: general impulse gain; dotted lines mark the last movement above 0.1 in each impulse-damped run. Quiet motion precedes full gain recovery. The experiment report supplies the full protocol, controls and all sixteen runs.*
+*Figure 9. General layout damping. A: a prescribed slow swing and its first v3 detection; v2 remains inactive. B–C: actual per-step movement, summarized by batch maxima, with native TG or stiff RFC forces. V2/v3 impulse curves coincide in these fast cases; the red curve uses earlier inherited cooling. D: general impulse gain; dotted lines mark the last movement above 0.1 in each impulse-damped run. Quiet motion precedes full gain recovery. The experiment report supplies the full protocol, controls and all sixteen runs.*
 
 </div>
 
@@ -282,9 +332,9 @@ The conservative alternative addresses a delay already present in TouchGraph. Fo
 
 <div style="break-inside: avoid;">
 
-![Figure 13](../experiments/layout-damping/figures/early-cooling.svg)
+![Figure 10](../experiments/layout-damping/figures/early-cooling.svg)
 
-*Figure 13. The inherited TG damper under extra damping off, adaptive impulse suppression and earlier inherited cooling. The latter moves directly into the existing fast cooling phase after confirmed oscillation. The 0.9 threshold is shown dotted. These are virtual-cadence trajectories with matched forces and starting coordinates.*
+*Figure 10. The inherited TG damper under extra damping off, adaptive impulse suppression and earlier inherited cooling. The latter moves directly into the existing fast cooling phase after confirmed oscillation. The 0.9 threshold is shown dotted. These are virtual-cadence trajectories with matched forces and starting coordinates.*
 
 </div>
 
@@ -307,12 +357,28 @@ The current default instead retains a detector, gain and recovery state for each
 
 [Experiment L](../experiments/damping-context/README.md) crosses two controlled fixtures, inherited cooling off/on, and extra damping off/shared/independent, giving twelve matched runs of 1000 integrations. A focal branch has a prescribed persistent swing and requests a four-unit response. This isolates response cross-talk rather than relying on a chosen unstable solver trajectory. Context begins at (20,0). In one fixture it receives unit x impulses; in the other the actual RFC exclusion callback acts against a known radius-120 region with fixed root/outer branch and exclusion strength 0.01. Pair repulsion is zero in these fixtures. Starts, force settings and the imposed input match across modes; times use a virtual 2 ms cadence.
 
-| Controlled case | Shared-gain context x | Independent-gain context x | Independent late oscillator response |
-| --- | ---: | ---: | ---: |
-| Unit drift, inherited cooling off | 27.000009 | 1020.000000 | 4.00 × 10⁻⁸ |
-| RFC exclusion, inherited cooling on | 25.513432 | 119.999998 | 3.64 × 10⁻⁸ |
+| Fixture / inherited cooling | Off: context x | Shared: context x | Independent: context x | Independent late response |
+| --- | ---: | ---: | ---: | ---: |
+| Unit drift / off | 1020.000000 | 27.000009 | 1020.000000 | 4.00 × 10⁻⁸ |
+| Unit drift / on | 970.050000 | 26.993227 | 970.248700 | 3.64 × 10⁻⁸ |
+| RFC exclusion / off | 120.000000 | 25.515831 | 120.000000 | 4.00 × 10⁻⁸ |
+| RFC exclusion / on | 119.999998 | 25.513432 | 119.999998 | 3.64 × 10⁻⁸ |
 
 The shared controller leaves the RFC context vertex about 94.49 units inside the region. With independent gains it approaches the boundary within 0.001 units under both inherited-cooling settings, while the imposed oscillator's late applied response remains small. The corresponding rendered-browser regression independently checks label rectangles: context overlaps the focal label under the shared gain and clears it under the default independent gains. Native stiff-star suppression, independent recovery and fixed/dragged/replacement behavior have separate regression checks.
+
+The off conditions also clear context but retain late oscillator responses of 4.00 (cooling off) or about 3.64 (cooling on). Independent attenuation therefore preserves coherent progress while suppressing the requested oscillatory response. Its unit-drift trajectory with inherited cooling on is close to, but not exactly the off trajectory: inherited global cooling remains coupled to aggregate motion.
+
+<div style="break-inside: avoid;">
+
+<div style="aspect-ratio: 1440 / 620; overflow: hidden;">
+
+![Figure 11](../experiments/damping-context/comparison.png)
+
+</div>
+
+*Figure 11. Separate rendered-browser regression for Experiment L: shared gain stalls a context label; independent gains allow it to clear. Starts, settings and prescribed focal motion match within this browser comparison. Label rectangles are independently asserted by the regression; this capture is not the numerical oracle for the headless table or a readability study. The display trims unused lower white margin; the source capture is unchanged.*
+
+</div>
 
 This is a mechanism correction with deliberately controlled inputs. Different per-vertex gains change coupled trajectories; the scalar common-gain substitution in §5.4 is not a general stability proof for this update. A vertex that itself oscillates can still be attenuated, inherited cooling can leave residual forces, and pinned/conflicting constraints may remain infeasible. Region exclusion is a soft center-based force; these results do not establish collision-free labels, arbitrary-graph convergence, user benefit or real-time latency bounds.
 
@@ -326,7 +392,7 @@ Three topology families are crossed with four activation conditions (neither tre
 
 We score both stored trees in every condition, even when one or both are inactive. Tree angle RMS includes every cyclic gap at every degree-two-or-higher vertex, weighted by the number of gaps. Tree length RMS measures endpoint-distance errors against 120 on its six selected edges. The union metrics deduplicate shared edges and use the combined local neighborhoods, giving a fixed comparison observable across activation conditions. They need separate interpretation where trees overlap. Tail motion is measured across the **last 100 individual integration steps**, over movable vertices, rather than across net ten-step batches. A passive observer reads positions before integration and at each batch end; no force or integration hook is changed. Full coordinates, per-tree measurements, min/max summaries, traces and seeds are in the [multi-focus records](../experiments/rfc-multifocus/results.json).
 
-The table reports means across five initializations for movable roots. Means are descriptive; five designed perturbations do not support population confidence claims. Figures 8–10 show the first recorded seed, 0x1234abcd, rather than a selected best run. Complete pinned-root comparisons and the right-only controls remain in the [experiment report](../experiments/rfc-multifocus/README.md).
+The table reports means across five initializations for movable roots. Means are descriptive; five designed perturbations do not support population confidence claims. Figures 12–14 show the first recorded seed, 0x1234abcd, rather than a selected best run. Complete pinned-root comparisons and the right-only controls remain in the [experiment report](../experiments/rfc-multifocus/README.md).
 
 | Topology | Active foci | Left angle RMS | Right angle RMS | Union angle RMS | Union length RMS |
 | --- | --- | ---: | ---: | ---: | ---: |
@@ -346,9 +412,9 @@ Two disjoint seven-member trees are joined by one ordinary root-to-root relation
 
 Activating both makes both trees regular while retaining the connecting context edge: mean union angle RMS becomes 0.0254 and length RMS 2.42. Pinned roots also permit a regular result in this topology, with mean union angle RMS 0.0181 and length RMS 2.25. Movable-root tail step RMS ranges from zero to 0.1446; low shape error is therefore not synonymous with a stationary embedding. Neither condition imposes separation of the two focal regions.
 
-![Figure 8](figures/rfc/08-joined-trees.svg)
+![Figure 12](figures/rfc/08-joined-trees.svg)
 
-*Figure 8. Experiment C, one fixed recorded initialization with movable roots. Green/blue denote tree membership; stars mark active roots and yellow bands identify reinforced edges. The dashed red relation is ordinary context. The three layouts use common physical axes. Lower plots include all four activation conditions and measure the union of the two stored trees. Links are drawn as straight endpoint segments to expose physical geometry, independently of the SVG edge-form setting.*
+*Figure 12. Experiment C, one fixed recorded initialization with movable roots. Green/blue denote tree membership; stars mark active roots and yellow bands identify reinforced edges. The dashed red relation is ordinary context. The three layouts use common physical axes. Lower plots include all four activation conditions and measure the union of the two stored trees. Links are drawn as straight endpoint segments to expose physical geometry, independently of the SVG edge-form setting.*
 
 ### 6.3 Experiment D: trees with additional leaf connections
 
@@ -358,13 +424,13 @@ For movable roots, baseline union length RMS is 47.72; with both foci it is 15.9
 
 All five pinned-root, both-focus runs have tail step RMS below 0.004. Their mean angle/length RMS values are 0.0766/10.81. Pinning changes the feasible geometry and coupled modes as well as dynamics, so this does not isolate a damping effect. Additional leaf links can make the default multi-focus configuration sensitive to starting layout even where four nearby starts appear satisfactory. Experiment B's adaptive damping is not enabled as an unreported remedy.
 
-![Figure 9](figures/rfc/09-leaf-connected-trees.svg)
+![Figure 13](figures/rfc/09-leaf-connected-trees.svg)
 
-*Figure 9. Experiment D uses the same two stored trees, with four added ordinary leaf relations shown dashed red. This first-seed layout is one of the quieter runs; it must be read with Figure 11, which retains the oscillatory initialization. The bottom traces measure union gap and length errors under each activation condition.*
+*Figure 13. Experiment D uses the same two stored trees, with four added ordinary leaf relations shown dashed red. This first-seed layout is one of the quieter runs; it must be read with Figure 15, which retains the oscillatory initialization. The bottom traces measure union gap and length errors under each activation condition.*
 
 ### 6.4 Experiment E: overlapping tree membership and feasibility
 
-The trees now share one intermediate vertex and its two leaves. Their union has 11 vertices and 10 edges and remains a tree. Each definition still has seven vertices and six edges. The controller applies shared radial constraints once, merges local angular neighborhoods and attenuates angular moments according to shared membership. Purple vertices in Figure 10 belong to both trees.
+The trees now share one intermediate vertex and its two leaves. Their union has 11 vertices and 10 edges and remains a tree. Each definition still has seven vertices and six edges. The controller applies shared radial constraints once, merges local angular neighborhoods and attenuates angular moments according to shared membership. Purple vertices in Figure 14 belong to both trees.
 
 With movable roots and both foci, mean union gap RMS is 0.0214 and length RMS 3.41. Individual-tree gap RMS remains approximately 0.4707. This is not contradictory: the shared vertex has degree four in the union but degree three in either stored tree. Four equal union gaps are 90°; removing one neighbor leaves gaps of 90°, 90° and 180°, rather than the individual tree's 120°. Their local RMS deviation from 120° is $\pi/(3\sqrt{2})$. In a seven-member tree there are eight scored gaps (two at the root and three at each intermediate vertex). If all other local gaps were exact, this single merged vertex would contribute
 
@@ -382,17 +448,17 @@ $$
 
 Here $q=2$, $M=10$, so the bound is $\max(0,D-240)/\sqrt{20}$. Each run records this feasibility bound. With roots pinned, both-focus mean union length RMS is 48.96, compared with 3.41 when roots can move. Four pinned runs cool to negligible movement despite substantial geometric residuals; the fifth, seed 0x9e3779b9, has tail step RMS 36.0468 and reversal fraction 0.833. Cooling, feasibility and dynamic instability are separate issues. The first cannot certify success, and the geometric lower bound cannot explain away a persistent clipped oscillation.
 
-![Figure 10](figures/rfc/10-shared-subtree.svg)
+![Figure 14](figures/rfc/10-shared-subtree.svg)
 
-*Figure 10. Experiment E, movable roots and a shared subtree. Purple vertices belong to both stored trees. Shared radial edges are reinforced once. The both-focus union approaches a regular degree-four shared neighborhood while either individual tree retains a nonzero angle score. The first-seed traces also show that the finite-budget evolution need not be smooth or monotonic.*
+*Figure 14. Experiment E, movable roots and a shared subtree. Purple vertices belong to both stored trees. Shared radial edges are reinforced once. The both-focus union approaches a regular degree-four shared neighborhood while either individual tree retains a nonzero angle score. The first-seed traces also show that the finite-budget evolution need not be smooth or monotonic.*
 
 ### 6.5 What these additional experiments establish
 
 The comparisons support coexistence of multiple reinforced trees, show a context cost under a single focus, and expose two constraints on extensions: added leaf relations can excite persistent motion, and overlapping memberships change local angular targets. Shared pinned roots can make preferred lengths infeasible before any solver is considered. Multiple centers therefore require observables for each member structure, their union and actual per-step motion.
 
-![Figure 11](figures/rfc/11-multifocus-motion.svg)
+![Figure 15](figures/rfc/11-multifocus-motion.svg)
 
-*Figure 11. Tail motion across all 120 runs: five initializations per topology, root condition and activation mode. Points identify seeds, vertical lines span the observed range and horizontal bars mark arithmetic means. Actual per-step RMS is measured over the final 100 steps; values below 10⁻⁶ are floored for display. The clipped-motion outliers remain visible. Zero motion may reflect inherited cooling with residual geometric error.*
+*Figure 15. Tail motion across all 120 runs: five initializations per topology, root condition and activation mode. Points identify seeds, vertical lines span the observed range and horizontal bars mark arithmetic means. Actual per-step RMS is measured over the final 100 steps; values below 10⁻⁶ are floored for display. The clipped-motion outliers remain visible. Zero motion may reflect inherited cooling with residual geometric error.*
 
 These are small, synthetic tree experiments, with additional semantic leaf links in Experiment D. DAG layouts, cluster selection quality, exclusion regions, label collisions, perceptual readability and large graphs are not evaluated. No setting was retuned after seeing a failed seed. The following companion experiments compare adaptive damping and lower rigidity on these same starts, then extend evaluation to importance and compact clusters. They retain the fixed-force records above.
 
@@ -412,7 +478,7 @@ Exact zero removes angular branches; a positive epsilon retains their slots. Tra
 
 Under strong load, separate-clique pair deformation RMS falls from 85.46 with plain TG and 94.88 with tree projection to 8.66 with cluster rigidity 2. The latter nevertheless has a mean 2014 large transient steps; adaptive damping reduces that to 4.8 with deformation 8.71. Sparse rings expose the limitation of link stiffness: increasing rigidity from 1 to 2 lowers common link RMS from 25.24 to 16.94 but increases all-pairs deformation from 30.76 to 35.74; the damped rigidity-2 deformation is 47.01. Sparse clusters remain flexible rather than becoming rigid bodies. Preserving the square reference can also increase straight crossings because both diagonals are retained. These studies support distinct structural primitives and explicit trade-offs, not a universal readability claim.
 
-The present experimental round is complete for the implemented tree/importance/cluster mechanisms. Hybrid filtering, DAG comparison, broader datasets and human evaluation remain open. F–H do not modify production forces, rendering or defaults; a subsequent optional exclusion extension is described in §7.1.
+The present experimental round is complete for the implemented tree/importance/cluster mechanisms. Hybrid filtering is evaluated separately in Experiment J (§7.2); DAG comparison, broader datasets and human evaluation remain open. F–H do not modify production forces, rendering or defaults; a subsequent optional exclusion extension is described in §7.1.
 
 ## 7. Interaction and implementation boundaries
 
@@ -432,7 +498,7 @@ Rather than sum potentially canceling forces from multiple ellipses, sample esca
 
 For fixed single-region geometry, mean context depth RMS falls from 29.06 under RFC alone to 7.81 with default exclusion and 2.40 with stronger exclusion. Cluster-region depth is 17.22, 0.00 and 1.49 respectively: stronger force is not uniformly better within the fixed computation budget. The pinned interior pressure anchor remains an intruder by design. The existing RFC constraints already clear final non-shared overlap on these starts; the additional overlap rule therefore has direct force/edge-case tests and small transient differences, without demonstrated additional final-quality benefit in this study. Neither zero motion nor zero point penetration establishes readability.
 
-Exclusion remains off by default and does not change Experiments A–H. Its controls and physical boundary display are reusable source features. With optional damping also enabled, nearby context candidates join the observation/attenuation union using a conservative watch margin, retaining motion history during ordinary boundary crossings. This remains an experiment rather than a general stability guarantee. Hybrid filtering and its matched comparison are described next.
+Exclusion remains off by default and does not change Experiments A–H. Its controls and physical boundary display are reusable source features. For the optional RFC-local damping path, nearby context candidates join the observation/attenuation union using a conservative watch margin, retaining motion history during ordinary boundary crossings. That historical path differs from the current browser's independent-node general controller (§5.5); neither supplies a general stability guarantee. Hybrid filtering and its matched comparison are described next.
 
 ### 7.2 Structural aggregation and hybrid views
 
@@ -452,22 +518,128 @@ A subsequent [browser display](../rfc-importance.md#node-importance-display) map
 
 The renderer measures intrinsic text before applying its display transform, then uses the scaled body consistently for picking, focus, curve clipping and group outlines. Display changes do not modify point coordinates, mass, repulsion or RFC stiffness, and do not wake the integrator. These functional properties distinguish the new display from Experiment G's force-weight comparisons. Body size still does not establish label clearance or perceptual benefit; a readability study remains necessary.
 
+### 7.4 Readability, retrieval and assurance checkpoint
+
+The browser now offers [measured node separation and automatic relation-label placement](../readability.md). The former is a bounded, explicit arrangement of visible body rectangles that protects pinned/focused/dragged nodes and pauses motion when positions change. Resuming forces or changing the lens can reintroduce overlap. The latter scores candidate label positions near their own curves against measured obstacles without changing node positions or semantic relations. These features have geometry and browser regressions; they are separate from RFC's soft center-exclusion force and have no comparative user evaluation here. Experiment L's label-rectangle assertion supports one controlled context-clearing case, not general collision avoidance.
+
+Graph visual search is also implemented beyond the earlier prototype: an independent IR package provides elasticlunr literal retrieval and local LDA training/query inference, with document/term similarities, explicit distance or predictive metrics, and local model files. FM adapters retain graph ownership and query/result provenance. The [FM 2014 parity record](../fm2014-retrieval-parity.md) documents synthetic matrix comparisons against the owner's original binary, intentional corrections and fixed-model inference differences. Those checks establish neither identical historical text rankings nor relevance on real collections. The earlier [54-condition prototype search report](../experiments/search/README.md) remains historical evidence about its own scorer; it is not an elasticlunr benchmark. Embedding retrieval is deferred.
+
+The [assurance baseline](../assurance/README.md) proposes implementation-independent intent, usage constraints and architectural requirements for a local-first, information-preserving graph browser, with possible later server-backed use. Its claim–assumptions–check–evidence approach helps separate semantic preservation, asynchronous freshness, local data handling and geometry. It is a proposed baseline awaiting review and mapping to evidence, not a completed conformance, privacy or security audit. Deterministic implementation checks complement task evaluation; they cannot establish that numerical regularity serves the user's purpose.
+
 ## 8. Discussion and next experiments
 
 The reconstruction supports a narrower, reproducible reading of the original proposal: a locally regular structural primitive can coexist with competing ordinary graph forces. The extension makes two objectives explicit. Angular reinforcement distributes branches; a preferred-length spring keeps them near a chosen focal radius. Their interaction depends on context, metric and solver dynamics. The unequal-radius chord calculation and discrete stability bound provide explanations that were absent from the original presentation.
 
-The single-star evidence uses degree six and three designed starting configurations. The additional tree experiments vary initialization over five seeded perturbations, activation and root constraints, but retain small, designed topologies and a fixed computation budget. We have not measured task completion, comprehension, actual browser label overlap, mental-map preservation or large-graph performance. F–H add limited straight-segment crossing and close-center proxies, which do not measure routed curves or human readability. Moving-center runs also change the layout's orientation and position, so lower errors are not solely evidence of a better solver. Clipped-motion outliers and the shared-root feasibility calculation further limit any universal claim for the default preset.
+The single-star evidence uses degree six and three designed starting configurations. The additional tree experiments vary initialization over five seeded perturbations, activation and root constraints, but retain small, designed topologies and a fixed computation budget. We have not measured task completion, comprehension, population-level browser label overlap, mental-map preservation or large-graph performance. The bounded geometry regressions in §7.4 and Experiment L should not be confused with those evaluations. F–H add limited straight-segment crossing and close-center proxies, which do not measure routed curves or human readability. Moving-center runs also change the layout's orientation and position, so lower errors are not solely evidence of a better solver. Clipped-motion outliers and the shared-root feasibility calculation further limit any universal claim for the default preset.
 
-Next steps are broader exclusion/overlap cases, shape-aware label handling and interaction evaluation. The planned RFC mechanism/comparison milestone is complete within its agreed scope, with LDA-based graph visual search next in the implementation roadmap. Experiments F–H establish small, reproducible comparisons of damping/rigidity, importance and cluster shape. Importance, mass and spring strength should remain separate concepts: changing mass changes dynamics, while changing force weights changes equilibrium and curvature. The final-coordinate force probe supplements motion and target-error diagnostics; no one metric replaces the others. Further evaluation should vary degree and label dimensions, compare alternative integrators, and compare direct angular moments with both original and corrected chord constraints. A user study is needed before treating numerical regularity as evidence of intelligibility.
+The planned RFC mechanism/comparison milestone is complete within its agreed scope; literal and LDA retrieval are implemented (§7.4). The latest damping evidence separates four questions: whether a cycle is detected, whether its response is suppressed, whether normal gain recovers, and whether unrelated context continues to progress. Experiments K and L answer different parts and use different controller scopes. Earlier cooling is a viable conservative comparison on the recorded stress starts, while independent gains correct shared attenuation's context-stalling failure. Neither response solves incompatible geometry or guarantees equilibrium.
 
-The accompanying implementation stores overlapping tree/DAG/cluster memberships, reinforces deeper tree neighborhoods and layered DAG templates, and supports center toggling through Shift+Enter/Shift+double-click. Connected components and Louvain communities create stored cluster definitions directly, with optional spanning-tree conversion. Cluster forces reinforce internal links and apply soft compactness about a weighted centroid without angular targets; their contract is specified in the [cluster design](../rfc-clusters.md) and evaluated on manual synthetic memberships in Experiment H. These additions do not alter the single-star numerical path used above. Their [companion design and functional example](../rfc-substructures.md) specify ownership, shared-constraint normalization and lifecycle. DAG templates have functional checks only; community-detection quality, hard region separation and label collision handling remain unevaluated or incomplete. The subsequent browser importance display (§7.3) has functional verification; its perceptual effect remains unevaluated by these comparisons.
+Next experiments should compare constrained-layout and adaptive-speed alternatives from Appendix A, vary degree and label dimensions, and measure local shape, body overlap, context movement, force residual and settling separately. Importance, mass and spring strength should remain separate concepts: changing mass changes dynamics, while changing force weights changes equilibrium and curvature. Direct angular moments should also be compared with original and corrected chord constraints and with alternative integration schemes. A user study is needed before treating numerical regularity as evidence of intelligibility. Visual-search studies additionally need judged retrieval queries and navigation/feedback tasks; a better backend score alone does not demonstrate a better graph interface.
 
-## Reproducibility and references
+The accompanying implementation stores overlapping tree/DAG/cluster memberships, reinforces deeper tree neighborhoods and layered DAG templates, and supports center toggling through Shift+Enter/Shift+double-click. Connected components and Louvain communities create stored cluster definitions directly, with optional spanning-tree conversion. Cluster forces reinforce internal links and apply soft compactness about a weighted centroid without angular targets; their contract is specified in the [cluster design](../rfc-clusters.md) and evaluated on manual synthetic memberships in Experiment H. These additions do not alter the single-star numerical path used above. Their [companion design and functional example](../rfc-substructures.md) specify ownership, shared-constraint normalization and lifecycle. DAG templates have functional checks only; community-detection quality, hard region separation and continuous label collision avoidance remain unevaluated or incomplete. The subsequent browser importance display (§7.3) has functional verification; its perceptual effect remains unevaluated by these comparisons. The proposed radius-two representation has a design and mockup, with production implementation and comparison still open.
 
-Run `just rfc-experiment`, `just rfc-multifocus-experiment`, `just rfc-plot`, and `just rfc-figures` from the repository root. `just rfc-paper` regenerates those original artifacts and renders this draft to PDF. `just rfc-exclusion-experiment` regenerates Experiment I and its native inputs/report/figures. `just rfc-hybrid-experiment` regenerates Experiment J, its native input, numeric records, report, tables and three drawings; `just rfc-hybrid-figures` redraws/reports from those records without rerunning layout. `just layout-damping-experiment` regenerates Experiment K, its report and Figure 12 without replacing historical records; it uses a frozen v2 detector reference from `43fea7a` and the current general layout controller. `just rfc-followup-experiment` separately regenerates F–H; its record-only runner, [shared protocol](../../scripts/lib/rfc-comparison.mjs), [reports](../../scripts/rfc-followup-report.py) and [eight further diagrams](../../scripts/rfc-followup-figures.py) retain their own inputs. The scripts use only synthetic graphs and analytical equations. The original force comparisons and the multi-focus experiments keep the separate adaptive-damping experiment disabled. No proprietary example data or reconstructed screenshots from the 2005 paper are used. Figures are supplied as SVG, PDF and PNG; [stability-calculations.json](figures/rfc/stability-calculations.json) records eigenvalue checks. The [main figure source](../../scripts/rfc-paper-figures.py), [multi-focus figures](../../scripts/rfc-multifocus-figures.py), [single-star fixture](../../tests/fixtures/rfc.mjs), [multi-focus fixture](../../tests/fixtures/rfc-multifocus.mjs), and [implementation design](../rfc-design.md) specify the remaining details. The pre-extension implementation was checkpointed as `8414b9a`; the recorded results describe the revised sources supplied with this draft.
+## Appendix A. Related work and comparison agenda
+
+### A.1 Scope and historical focus/context layouts
+
+This selective review includes work before 1 January 2024 and selected publications available by 25 October 2026. It extends the [roadmap review](../ROAD.md#appendix-a-related-work-before-2024), following focus/context, constrained layout, adaptive force integration, search-seeded exploration and associative browsing. Papers, author project pages and institutional/publisher records support the descriptions below. This is not a systematic review or a complete RFC citation genealogy. The comparisons are our assessment; they do not assert direct influence, absence of other related work, or experimental superiority.
+
+Furnas's **Generalized Fisheye Views** (1986) balances a priori importance against distance from a focus to select detail and context. Sarkar and Brown's **Graphical Fisheye Views of Graphs** (1991 report; CHI 1992) combines geometric distortion with structural information. These distinguish selecting detail and allocating display space from imposing a local structural arrangement. RFC can be combined with either operation, as Experiment J separates the viewing lens from physical reinforcement. [Furnas paper](https://courses.ischool.berkeley.edu/i247/f05/readings/Furnas_GeneralizedFisheyeViews_CHI86.pdf), [Sarkar–Brown report](https://cs.brown.edu/research/pubs/techreports/reports/CS-91-61.html).
+
+Adding forces to express visual organization also predates RFC. **GLIDE**, by Ryall, Marks and Shieber (1997), lets users manipulate visual constraints while a spring-like simulation maintains them; its stated target is diagrams with at most fifty nodes. Dwyer et al.'s **constraint-based cooperative layout** (2008) gives a focal detail view richer placement/routing constraints while synchronizing it with an overview. The former is an earlier mechanism comparison; the latter pursues local clarity and retained context through cooperating views, whereas RFC modifies one embedding. Neither comparison has been run here. [GLIDE paper](https://www.eecs.harvard.edu/shieber/Biblio/Papers/ryall-uist-97.pdf), [cooperative-layout paper](https://users.monash.edu/~mwybrow/papers/dwyer-infovis-2008.pdf).
+
+Wang et al.'s **Revisiting Stress Majorization** (InfoVis 2017; TVCG 2018) is an especially close structural comparison. Its vector-based formulation constrains edge vectors and lengths, demonstrating local stars, circles, edge directions and cluster separation. Recognizable local primitives are therefore an established constrained-layout objective, not a novelty claim for this reconstruction. Compare maintained shape, context displacement, body overlap and interactive updates under matched constraints; the present TG-only baselines do not establish an advantage over that solver. [Author project and paper](https://www.yunhaiwang.net/infovis17/vectormds/index.html).
+
+**fCoSE**, by Balcı and Dogrusoz (online 2021; TVCG 2022), combines spectral initialization, compound spring embedding and user placement constraints, with nonuniform node dimensions. It is a practical baseline for constrained browser layout and body treatment. Its nested compound structure and placement constraints differ from our overlapping focal memberships; translating the same task and constraints is necessary before interpreting a comparison. Body-aware layout should not be equated with guaranteed label clearance under every lens or edit. [fCoSE paper](https://yoksis.bilkent.edu.tr/pdf/files/15807.pdf).
+
+### A.2 Adaptive integration and the damping contribution
+
+**ForceAtlas2**, by Jacomy, Venturini, Heymann and Bastian (2014), already combines global speed control with per-node adaptive speeds. Its instability signal uses changes in resultant forces, called swinging; effective traction and aggregated swinging regulate global speed, while local speed decreases for unstable nodes. Thus independent attenuation of unstable members has a clear earlier counterpart. [ForceAtlas2 paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC4051631/).
+
+Our controller instead observes actual displacement histories around TouchGraph's retained impulses, reversal/circulation/completed-swing tests, clipping and inherited cooling. The contribution documented here is a concrete integration and measured failure/correction sequence: union-energy masking, late slow-cycle detection, shared-gain context stalling, then independent gains and recovery. It is not the invention of adaptive local speed or a proof that these thresholds outperform ForceAtlas2. A useful next comparison would hold graph forces and initial conditions fixed where possible, then compare response policies; a full ForceAtlas2 run changes the force model as well and should be reported separately. Include steady translation mixed with oscillation, slow drift, short stiff spans, body clearance and final force balance rather than time to stillness alone.
+
+### A.3 Visual retrieval and associative exploration before 2024
+
+The [historical community-browser description (2011), pp. 212–213](../literature/gheinrich-phd-thesis_p212.pdf) embeds a query and retrieved items within a graph, preserving ordinary semantic relations and supporting navigation and node-based similarity. That interaction concept is broader than its original retrieval model. The current implementation combines elasticlunr literal and LDA semantic retrieval; embeddings remain deferred. Graphical construction of a structural query is a distinct task from browsing content retrieved by text or similarity.
+
+Van Ham and Perer's **Search, Show Context, Expand on Demand** (2009) starts with an item of interest and uses degree of interest to select contextual subgraphs, demonstrated on a large legal-citation collection. It is a close search-first navigation baseline. Its source collection size is not evidence that Freshmind scales similarly, and degree-of-interest selection differs from a fixed radius budget. Both approaches need to explain omitted context. [IBM publication](https://research.ibm.com/publications/search-show-context-expand-on-demand-supporting-large-graph-exploration-with-degree-of-interest).
+
+**Apolo**, by Chau, Kittur, Hong and Faloutsos (2011), combines incremental exploration with exemplar-based belief propagation. Its twelve-participant related-paper study is relevant to finding useful new material from existing items. **PivotPaths**, by Dörk, Henry Riche, Ramos and Dumais (2012), supports gradual pivots through faceted information relations, with interviews and a two-week deployment. These provide workflow comparisons for similarity expansion and continuity; their inference methods and relation models differ from ours. Their evaluations concern their own systems and tasks. [Apolo paper](https://www.cs.cmu.edu/~dchau/apolo/apolo.pdf), [PivotPaths project and publication](https://mariandoerk.de/pivotpaths/).
+
+**Refinery**, by Kairam et al. (2015), is particularly close to graph-native query/result context: heterogeneous sets of nodes form queries, random walks produce degree-of-interest scores, and query nodes remain visible within result subgraphs. Its study involved twelve academic researchers. Dedicated text-query nodes and another ranking engine are implementation differences, not sufficient novelty claims. A matched study should compare finding a useful item, explaining its relation to a query, rejecting results and returning to prior context, while evaluating backend relevance separately. [Refinery publication](https://idl.uw.edu/papers/refinery).
+
+### A.4 Recent work and the proposed radius-two representation
+
+The 2024–2026 comparison set extends beyond force-layout aesthetics. **CoRe-GD** (Grötschla et al., ICLR 2024) learns stress-based layouts with a hierarchical GNN framework; it is a global-layout scalability comparison rather than an RFC or label-readability evaluation. **User-Guided Force-Directed Graph Layout** (Balcı and Luna, 2025 arXiv preprint) derives positional constraints from freehand sketches. It is relevant to expressing intended organization, with no demonstrated equivalence to our controller. [CoRe-GD](https://arxiv.org/abs/2402.06706), [user-guided preprint](https://arxiv.org/abs/2506.15860).
+
+**CMGV** (Zafar et al., online December 2025; 2026 issue) coordinates filtering, hiding and compound collapse/expansion through explicit main/visible graph models and associated layout operations. This is relevant to the hybrid-view ownership and operation-composition problem. Its compound/meta-edge approach differs from our conservative leaf aggregation and overlapping RFC definitions. **Envisage** (Wen et al., 2025 manuscript) supports expressive structural graph-query construction, verification and progressive execution, evaluated with two case studies and fourteen analyst interviews. Its structural query rules should not be conflated with our content-query/result interface. [CMGV publisher article](https://journals.sagepub.com/doi/10.1177/14738716251383173), [Envisage manuscript](https://arxiv.org/abs/2507.11999).
+
+Our proposed [radius-two view](../radius-two-view.md) places immediate neighbors vertically about a center and second-hop occurrences horizontally beside their first-hop rows. Relationship text, direction and weight should identify each occurrence; shared stable node identity must survive repeated display occurrences and omitted links must be disclosed. This remains a design and interactive mockup, not a production layout or measured result.
+
+Earlier **TreePlus** (Lee et al., 2006) emphasizes readable labels and incremental graph-as-tree exploration, with interaction revealing missing graph structure and a twenty-eight-participant study. **Juniper** (Nobre, Streit and Lex, online 2018; TVCG 2019) linearizes a query-selected spanning tree and combines it with attribute and adjacency tables. These are strong representation baselines for rows, labels and non-tree relation disclosure. **ProtEGOnist** (Brich et al., 2024) explores small-world networks through aggregated and detailed ego-graphs; it adds a recent neighborhood comparison rather than an identical row layout. Compare shared-neighbor identity and relationship-reading tasks, including relation direction, labels and weights, before claiming an advantage for the proposed view. [TreePlus](https://www.microsoft.com/en-us/research/publication/treeplus-interactive-exploration-networks-enhanced-tree-layouts/), [Juniper](https://pmc.ncbi.nlm.nih.gov/articles/PMC6785378/), [ProtEGOnist](https://diglib.cgv.tugraz.at/items/eaa044c9-1f90-47ee-92bc-a3e3e1f551f6).
+
+### A.5 Available libraries, gaps and evaluation priorities
+
+The available [Cytoscape.js fCoSE extension](https://github.com/iVis-at-Bilkent/cytoscape.js-fcose) exposes fixed-position, alignment and relative-placement constraints; its documented placement constraints apply to simple nodes. [WebCola](https://github.com/tgdwyer/WebCola) supplies JavaScript constraint-based layout. Both merit isolated solver experiments. Adopting either would require an adapter for stable identity, fixed/dragged state, overlapping definitions and view ownership. Those are integration gaps relative to our contracts, not universal flaws in those libraries. A renderer or layout package alone does not provide query provenance, retrieval ranking, feedback or local persistence; the [roadmap's library survey](../ROAD.md) addresses the wider tool set. No replacement library or external solver benchmark is part of this paper update.
+
+Van Wageningen, Mchedlidze and Telea's **Same Quality Metrics, Different Graph Drawings** (GD 2025) demonstrates visually different drawings with nearly unchanged quality metrics. This reinforces our limited interpretation of target-error and motion summaries: even several favorable numerical values do not establish useful comprehension. [Conference paper](https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.GD.2025.7).
+
+The next comparisons should preserve explicit inputs and separate these claims:
+
+| Claim | Comparison and evidence still needed |
+| --- | --- |
+| Local reinforcement is useful | Plain TG, lens-only and matched constrained-layout alternatives; shape error, context displacement and user tasks. |
+| Damping improves interaction | Independent/shared/earlier-cooling responses and adaptive-speed alternatives; detection cycles, transient motion, recovery, residual force and context progress. |
+| Labels remain readable | Measured body/label overlap across degree, text size and view changes, plus reading tasks; include pinned and infeasible cases. |
+| Graph-native retrieval helps discovery | Same judged corpus/queries with a result list and Apolo/Refinery-style workflows; relevance and interaction outcomes reported separately. |
+| Radius two clarifies relations | Simple lists/trees, ordinary ego graphs and tree/table approaches; shared identity, omitted relations, direction, labels and weights. |
+| Local information is preserved | Requirement-linked deterministic round trips, stale-job rejection, data-flow observations and focused review; a proposed assurance baseline is not a verdict. |
+
+The defensible present claim is a modern reconstruction with explicit extensions and reproducible mechanism evidence. The review identifies substantial related work under other names; it neither establishes a direct RFC lineage nor an absence of prior equivalent ideas. Exact reenactment of the 2005 figures is unnecessary for these comparisons.
+
+## Reproducibility
+
+To render this document without rerunning experiments, use `just pdf docs/papers/rfc-revisited-draft2.md`. The following recipes reproduce particular records or drawings from the repository root; they are separate checkpoints, not one experiment under today's defaults.
+
+| Evidence | Recipe / scope |
+| --- | --- |
+| A–B and C–E | `just rfc-experiment`, `just rfc-multifocus-experiment`, `just rfc-plot`, `just rfc-figures`. `just rfc-paper` runs these original generators and renders the draft. |
+| Detector robustness | `just rfc-stability-experiment` for v2; the report documents `--historical` for v1. `just rfc-stability-figures` redraws retained records. |
+| F–H | `just rfc-followup-experiment`; separate damping, weights and clusters records retain their own conditions. |
+| I | `just rfc-exclusion-experiment` regenerates numeric records, native inputs, report and figures. |
+| J | `just rfc-hybrid-experiment`; `just rfc-hybrid-figures` redraws/reports retained records without rerunning layout. |
+| K | `just layout-damping-experiment`; explicitly selects historical graph scope and the frozen v2 detector reference from `43fea7a`, preserving its original shared-gain comparison. |
+| L | `just damping-context-experiment`; headless records/report only. Figure 11 is the separately captured browser regression, left unchanged by this generator. |
+
+The [single-star fixture](../../tests/fixtures/rfc.mjs), [multi-focus fixture](../../tests/fixtures/rfc-multifocus.mjs), [shared comparison protocol](../../scripts/lib/rfc-comparison.mjs) and linked reports define seeds, initial geometry, force settings, measured quantities and budgets. The pre-extension implementation was checkpointed as `8414b9a`; v1 damping is frozen from `d0fa69a` in its isolated research fixture. Current implementation status in §7.4 was checked against main at `97af88a`; individual historical records describe their own sources and defaults. This revision does not replace those records with runs of the current independent-node controller. The earlier prototype search scorer also remains isolated for historical replay.
+
+The scripts use synthetic graphs and analytical equations, without proprietary example data or reconstructed screenshots from the 2005 paper. Original force and multiple-focus comparisons explicitly disable added adaptive damping; inherited TG cooling is separately declared. Virtual-cadence timings do not measure wall-clock performance. Numeric/analytical drawings have SVG/PDF/PNG companions; the rendered comparison is a PNG. Figure numbers in this paper follow reading order; companion filenames and their report numbering remain unchanged. [Stability calculations](figures/rfc/stability-calculations.json), [main drawing source](../../scripts/rfc-paper-figures.py), [multi-focus drawings](../../scripts/rfc-multifocus-figures.py) and [implementation design](../rfc-design.md) provide the remaining details. The update checked reported values against retained artifacts; it did not perform new experiments or external-system benchmarks.
+
+## References
+
+Primary links accompany each related-work discussion in Appendix A; selected bibliographic entries follow.
 
 1. Gregor Heinrich. **Reinforcement Focus+Context.** 2005. [Original six-page paper](../literature/rfc@3ia05compact.pdf).
 2. Thomas M. J. Fruchterman and Edward M. Reingold. **Graph drawing by force-directed placement.** *Software: Practice and Experience* 21(11), 1129–1164, 1991. [DOI](https://doi.org/10.1002/spe.4380211102).
 3. David Harel and Yehuda Koren. **Drawing Graphs with Non-Uniform Vertices.** *AVI 2002*. [Author-hosted paper](https://www.weizmann.ac.il/math/harel/sites/math.harel/files/users/user56/non_uniform_avi_acm.pdf).
+4. George W. Furnas. **Generalized Fisheye Views.** CHI, 1986. [Paper](https://courses.ischool.berkeley.edu/i247/f05/readings/Furnas_GeneralizedFisheyeViews_CHI86.pdf).
+5. Manojit Sarkar and Marc H. Brown. **Graphical Fisheye Views of Graphs.** Brown CS-91-61, 1991; CHI, 1992. [Report](https://cs.brown.edu/research/pubs/techreports/reports/CS-91-61.html).
+6. Kathy Ryall, Joe Marks and Stuart Shieber. **An Interactive Constraint-Based System for Drawing Graphs.** UIST, 1997. [Paper](https://www.eecs.harvard.edu/shieber/Biblio/Papers/ryall-uist-97.pdf).
+7. Tim Dwyer et al. **Exploration of Networks Using Overview+Detail with Constraint-Based Cooperative Layout.** TVCG 14(6), 1293–1300, 2008. [Paper](https://users.monash.edu/~mwybrow/papers/dwyer-infovis-2008.pdf).
+8. Yunhai Wang et al. **Revisiting Stress Majorization as a Unified Framework for Interactive Constrained Graph Visualization.** TVCG 24(1), 489–499, 2018 (InfoVis 2017). [Project and paper](https://www.yunhaiwang.net/infovis17/vectormds/index.html).
+9. Hasan Balcı and Ugur Dogrusoz. **fCoSE: A Fast Compound Graph Layout Algorithm with Constraint Support.** TVCG 28(12), 4582–4593, 2022. [Paper](https://yoksis.bilkent.edu.tr/pdf/files/15807.pdf).
+10. Mathieu Jacomy, Tommaso Venturini, Sebastien Heymann and Mathieu Bastian. **ForceAtlas2, a Continuous Graph Layout Algorithm for Handy Network Visualization Designed for the Gephi Software.** PLOS ONE 9(6), e98679, 2014. [Paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC4051631/).
+11. Frank van Ham and Adam Perer. **Search, Show Context, Expand on Demand: Supporting Large Graph Exploration with Degree-of-Interest.** TVCG, 2009. [Institutional publication](https://research.ibm.com/publications/search-show-context-expand-on-demand-supporting-large-graph-exploration-with-degree-of-interest).
+12. Duen Horng Chau, Aniket Kittur, Jason I. Hong and Christos Faloutsos. **Apolo: Making Sense of Large Network Data by Combining Rich User Interaction and Machine Learning.** CHI, 2011. [Paper](https://www.cs.cmu.edu/~dchau/apolo/apolo.pdf).
+13. Marian Dörk, Nathalie Henry Riche, Gonzalo Ramos and Susan Dumais. **PivotPaths: Strolling through Faceted Information Spaces.** TVCG 18(12), 2709–2718, 2012. [Project and publication](https://mariandoerk.de/pivotpaths/).
+14. Sanjay Kairam, Nathalie Henry Riche, Steven Drucker, Roland Fernandez and Jeffrey Heer. **Refinery: Visual Exploration of Large, Heterogeneous Networks through Associative Browsing.** Computer Graphics Forum 34(3), 2015. [Publication](https://idl.uw.edu/papers/refinery).
+15. Bongshin Lee et al. **TreePlus: Interactive Exploration of Networks with Enhanced Tree Layouts.** TVCG, 2006. [Institutional publication](https://www.microsoft.com/en-us/research/publication/treeplus-interactive-exploration-networks-enhanced-tree-layouts/).
+16. Carolina Nobre, Marc Streit and Alexander Lex. **Juniper: A Tree+Table Approach to Multivariate Graph Visualization.** TVCG 25(1), 544–554, 2019 (online 2018). [Paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC6785378/).
+17. Nicolas Brich et al. **ProtEGOnist: Visual Analysis of Interactions in Small World Networks Using Ego-graphs.** Computer Graphics Forum 43(3), 2024. [Publication and paper](https://diglib.cgv.tugraz.at/items/eaa044c9-1f90-47ee-92bc-a3e3e1f551f6).
+18. Florian Grötschla, Joël Mathys, Robert Veres and Roger Wattenhofer. **CoRe-GD: A Hierarchical Framework for Scalable Graph Visualization with GNNs.** ICLR, 2024. [Paper](https://arxiv.org/abs/2402.06706).
+19. Hasan Balcı and Augustin Luna. **User-Guided Force-Directed Graph Layout.** arXiv preprint 2506.15860, 2025. [Preprint](https://arxiv.org/abs/2506.15860).
+20. Osama Zafar, Ugur Dogrusoz, Hasan Balci and Ahmet Feyzi Halac. **CMGV: Algorithms and a Unified Framework for Complexity Management in Graph Visualization.** Information Visualization 25(2), 2026 (online 2025). [Publisher article](https://journals.sagepub.com/doi/10.1177/14738716251383173).
+21. Xiaolin Wen et al. **Envisage: Towards Expressive Visual Graph Querying.** arXiv manuscript 2507.11999, 2025. [Manuscript](https://arxiv.org/abs/2507.11999).
+22. Simon van Wageningen, Tamara Mchedlidze and Alexandru C. Telea. **Same Quality Metrics, Different Graph Drawings.** GD, 2025. [Conference paper](https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.GD.2025.7).
 
 This draft and its drawings were prepared by Gregor Heinrich with assistance from Codex GPT-6.1. Analytical extensions and experimental conclusions require author review before publication.
