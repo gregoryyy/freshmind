@@ -6,12 +6,12 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { FreshNode, FreshEdge, FreshGraph } from "../model.js";
-import type { Annotation, Metadata } from "../model.js";
-import type { VisibleLocality } from "../../tg/graph.js";
-import type { NodeShape, CurveMode, NodeStyle, EdgeStyle } from "../config/types.js";
-import type { VisualOverride } from "../config/types.js";
-import { text, validateVisualOverride } from "../config/validation.js";
+import { FreshNode, FreshEdge, FreshGraph,getMutationLocality } from "../model/index.js";
+import type { Annotation, Metadata } from "../model/index.js";
+import type { VisibleLocality } from "../../tg/graph/index.js";
+import type { NodeShape, CurveMode, NodeStyle, EdgeStyle } from "../config/core.js";
+import type { VisualOverride } from "../config/core.js";
+import { text, validateVisualOverride } from "../config/core.js";
 
 export interface NodeEdit {
   label: string; type: string; shape: NodeShape | null;
@@ -58,10 +58,13 @@ export function applyRelationEdit(edge: FreshEdge, edit: RelationEdit, context?:
     weight: edit.weight ?? edge.getWeight(), length: edit.length ?? edge.getLength(), data: edit.data ?? edge.getData(), extensions: edit.extensions ?? edge.getExtensions()});
   if (from !== edge.from || to !== edge.to) {
     if (!context) throw new Error("Endpoint changes require a graph context");
-    const visible = context.locality?.contains(edge);
-    if (visible) context.locality!.removeEdge(edge);
+    // Preserve source membership even when a structural rule currently hides a target.
+    // The enclosing edit repaints after all validated mutations, avoiding partial UI updates.
+    const locality=getMutationLocality(context.locality);
+    const visible = locality?.contains(edge);
+    if (visible) locality!.removeEdge(edge);
     context.graph.reconnectEdge(edge, from, to);
-    if (visible && context.locality!.contains(from) && context.locality!.contains(to)) context.locality!.addEdge(edge);
+    if (visible && locality!.contains(from) && locality!.contains(to)) locality!.addEdge(edge);
   }
   edge.setWeight(candidate.getWeight()); edge.setLength(candidate.getLength()); edge.setData(candidate.getData()); edge.setExtensions(candidate.getExtensions());
   edge.setVisual(validated); edge.setSemanticType(edit.type); edge.setLabel(edit.label);

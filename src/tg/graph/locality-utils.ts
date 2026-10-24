@@ -3,14 +3,15 @@
  * Copyright (c) 2001-2002 Alexander Shapiro. All rights reserved.
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  *
- * Full license terms and required notices: ../../LICENSE and ../../NOTICE.
+ * Full license terms and required notices: ../../../LICENSE and ../../../NOTICE.
  * Redistribute this source with those files.
  */
 
 // TypeScript adaptation, 2026. See NOTICE for the pinned Java reference.
 
-import { GESUtils, Locality } from "./graph.js";
-import type { Node } from "./model.js";
+import {GESUtils} from "./traversal.js";
+import type {Locality} from "./locality.js";
+import type { Node } from "../model/index.js";
 
 export interface LocalityHost {
   stopDamper(): void;

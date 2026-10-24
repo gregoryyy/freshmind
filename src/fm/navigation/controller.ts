@@ -6,7 +6,7 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { FreshNode, FreshEdge } from "../model.js";
+import { FreshNode, FreshEdge } from "../model/index.js";
 import { directions, collectCandidates, bestCandidateIndex } from "./candidates.js";
 import type { Candidate, CandidateKind, Direction, NavigationActions, NavigationClock, NavigationHost,
   NavigationItem, NavigationKey, NavigationOptions, NavigationSettings, NavigationState } from "./types.js";

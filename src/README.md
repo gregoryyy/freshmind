@@ -1,27 +1,57 @@
-# Source boundaries
+# Source modules
 
-`tg/` owns the TouchGraph API, model, complete/visible graph, locality, spring layout, lens pipeline and browser panel. It must not import `fm/`. Package exports map `fm4` / `fm4/tg` to its browser entry point and `fm4/core` / `fm4/tg/core` to its headless entry point. There are no root TypeScript shims and only one set of TouchGraph constructors.
+The library is one ESM package with two domains: `tg/` preserves TouchGraph, and `fm/` adds Freshmind. Each feature directory has an `index.ts` contract. Top-level `core.ts` and `index.ts` files compose the existing public API; they do not duplicate implementations. Existing `fm4`, `fm4/core`, `fm4/tg`, `fm4/tg/core`, `fm4/fm` and `fm4/fm/core` imports retain constructor identity and their named exports.
 
-TouchGraph source headers retain copyright notices and point to the full original terms in the root [LICENSE](../LICENSE) and attribution in [NOTICE](../NOTICE). Both files must accompany redistribution. The Java reference sources keep their original headers; Freshmind-specific files use their separate Apache 2.0 notices.
+## TouchGraph
 
-`fm/` adds Freshmind behavior through subclasses and composed helpers:
+| Module | Responsibility | Package entry |
+| --- | --- | --- |
+| `tg/model/` | `Node` and `Edge`, split into their own files; graph objects share these identities. | `fm4/tg/model` |
+| `tg/graph/` | Complete membership, locality/visibility, visitor contracts, exceptions, traversal and serialized locality animation. Complete adjacency remains owned by `GraphEltSet`. | `fm4/tg/graph` |
+| `tg/layout/` | The original spring embedder, layout host/force contracts and timed runner. | `fm4/tg/layout` |
+| `tg/lenses/` | Points, lens composition, HyperScroll-derived mapping and affine transforms. | `fm4/tg/lenses` |
+| `tg/browser/` | SVG panel, pointer/drag/canvas interaction and mounting; depends on D3 and DOM APIs. | `fm4/tg/browser` |
 
-- `model.ts` extends TouchGraph nodes, edges and graph invariants. Metadata remains independent of layout forces. Geometry and registry imports here are types only.
-- `config/types.ts`, `validation.ts` and `registry.ts` define and resolve semantic/visual types without browser or YAML dependencies. `fm2014.ts` is the generated preset.
-- `config/yaml.ts` parses type profiles; `io/yaml-value.ts` supplies strict graph/editor YAML parsing. Validation produces a registry before a panel replaces its existing configuration.
-- `rendering/shapes.ts` and `geometry.ts` are pure helpers shared by drawing, picking and editor anchors. They do not import D3 or a DOM renderer.
-- `rendering/presentation.ts` owns SVG/D3 presentation. It receives resolved styles and geometry; it does not own graph membership or physics. Shape-based viewing/keyboard focus paths occupy the noninteractive decoration layer, keeping them outside node focus bounds and hidden-link counts.
-- `panel.ts` connects factories, presentation and selection to `TGPanel`, overriding its narrow node double-click/tooltip hooks for Freshmind centering. TouchGraph retains mounting, dragging, locality, lenses, layout and destruction, including its original double-click expansion default.
-- `editing/commands.ts` validates basic label/type/shape/curve edits before applying them to existing model objects. These commands remain headless; demo forms own their drafts and delegate model mutation here.
-- `navigation/types.ts`, `candidates.ts` and `controller.ts` own temporary candidate order, timeout and shared navigation commands without DOM, D3 or YAML imports. The controller reads live membership, draw coordinates and committed selection from its panel host, and delegates locality and centering to that host. The clock is injectable for deterministic tests.
-- `navigation/keyboard.ts` scopes DOM input to the mounted SVG and supplies accessible status updates. It excludes text entry and unregistered browser modifier chords while dispatching Ctrl+Shift+↑/↓ graph spacing (also Ctrl+↑/↓), Ctrl+Shift+←/→ focus/context and Ctrl+Shift+Option/Alt+↑/↓ / Ctrl+Shift+1 canvas zoom controls and Ctrl+Shift+Option/Alt+←/→ rotation. Horizontal-dominant wheel input adjusts focus/context; vertical scrolling adjusts graph spacing. Ctrl+wheel/pinch reaches the independent canvas transform. It retains normal Tab navigation and disposes its listeners with the panel. Focus redraws are coalesced after DOM mutation so blur during deletion cannot reenter a D3 join. Application editors connect through controller actions.
-- `ui/` supplies reusable key-map help, node-content popups and graph/canvas zoom bindings through `fm4/fm/ui` and `fm4/fm`. Callers supply elements rather than global IDs, and dispose bindings before removing their controls or panel. Key-map F1 handling can be scoped to a wrapper for multiple browsers. `fm4/fm/ui/style.css` is an optional stylesheet; the headless entry points never import UI modules.
-- `rfc/` owns transient single-focus reinforcement, settings and weighted physical-angle constraints. `metric.ts` supplies the paper’s weighted distance; forces differentiate it into physical impulses without reading renderer geometry or viewing transforms. Its controller registers a force through `TGLayout.addForce()`; it does not add graph elements or own integration, damping or a second timer. The panel transfers this registration when a layout is replaced and clears the center on graph replacement. `ui/rfc-controls.ts` binds caller-owned activation/settings elements with explicit cleanup. The `fm4/fm/rfc` entry point is headless.
+`fm4/core` / `fm4/tg/core` compose the first four modules. `fm4` / `fm4/tg` also expose the browser panel. TouchGraph never imports Freshmind. Its source headers retain the original copyright notices and point to root [LICENSE](../LICENSE) and [NOTICE](../NOTICE); moved files have corrected relative paths. Both files must accompany redistribution. Java references retain their original full headers.
 
-`tg/core.ts` and `fm/core.ts` expose the headless dependency closures. `tg/index.ts` and `fm/index.ts` add browser integration. Tests enforce class identity, one-way dependencies and parser/renderer-free core imports.
+## Freshmind
 
-`editing/commands.ts` validates complete edits with detached candidates before mutation. Endpoint changes update the existing complete adjacency and optional visible incidence counts, preserving relation identity/order. `ui/node-details.ts` binds navigation detail state to a modeless, resizable popup, follows committed selection and delegates editing/navigation through callbacks. Its disposer removes DOM and subscriptions without destroying the panel or controller. `editing/details.ts` owns browser annotation/resource presentation; retained HTML never enters the model as executable DOM.
+| Module | Responsibility | Package entry |
+| --- | --- | --- |
+| `fm/model/` | FreshNode, FreshEdge, FreshGraph, document aggregate, metadata/options and the locality mutation-owner capability. Classes have one implementation each. | `fm4/fm/model` |
+| `fm/config/` | Validated semantic/visual types, inheritance, preset and primitive validation. `core.ts` is parser-free; `index.ts` adds YAML type loading. | `fm4/fm/config/core`, `fm4/fm/config` |
+| `fm/geometry/` | Pure node outlines, curve routing/picking, cluster hulls and bounded importance display mapping. | `fm4/fm/geometry` |
+| `fm/rendering/` | SVG/D3 presentation using resolved styles, geometry and shared graph objects. | `fm4/fm/rendering` |
+| `fm/navigation/` | Headless candidates, preselection, timer/command state and key-map data. | `fm4/fm/navigation` |
+| `fm/editing/` | Atomic validated node/relation edits, delegating to model and source-neighborhood owners. | `fm4/fm/editing` |
+| `fm/io/` | Native transfer contracts, strict YAML values and complete-graph codec; DOM-free, with a YAML dependency. | `fm4/fm/io` |
+| `fm/structures/` | Persistent tree/DAG/cluster definitions, validation, topology and spanning-tree selection. | `fm4/fm/structures` |
+| `fm/rfc/` | Reinforcement projection, forces, importance, exclusion, optional stabilizer and transient controller. | `fm4/fm/rfc` |
+| `fm/clustering/` | Community/component detection and conversion to stored memberships. | `fm4/fm/clustering` |
+| `fm/structure-view/` | Reversible type filtering/leaf aggregation and the presented membership index. | `fm4/fm/structure-view` |
+| `fm/browser/` | FreshmindPanel composition, DOM keyboard adapter, document installation/capture and safe annotation/resource presentation. | `fm4/fm/browser` |
+| `fm/ui/` | Reusable caller-owned controls, content popup and key-map/zoom/importance/structure bindings. | `fm4/fm/ui` |
 
-`io/types.ts` holds parser-free transfer/view contracts. `io/codec.ts` is the optional YAML graph codec (`fm4/fm/io`); `io/panel.ts` captures/restores complete documents through the panel API. File pickers/downloads and inline/inspector UI live in `demo/`, and the XML migration tools live in `scripts/`. The `examples/fm2014/` assets are restricted to the two approved datasets. `navigation/keymap.ts` supplies browser help and generated `docs/KEYMAP.md`.
+`fm4/fm/core` composes the parser-free, DOM-free feature modules; model references to geometry/view types are type-only. `fm4/fm` adds browser, rendering, UI and codecs. `fm4/fm/ui/style.css` remains the optional stylesheet. Pure geometry no longer shares a directory with the DOM renderer, and navigation/editing/I/O modules no longer contain panel or DOM adapters.
 
-Further search features should be added under `fm/` as their milestones are implemented. They should delegate to the existing model and panel owners rather than copying live adjacency, visibility or node-selection state. Freshmind selection listeners expose committed node/edge selection to inspectors while retaining the base panel's node navigation anchor. `FreshmindPanel` also records the neighborhood origin, independently of committed selection and viewing-lens focus; queued locality changes retain the latest requested origin.
+The canonical type configuration remains `config/fm2014.types.yaml`; `npm run sync:fm-config` generates `fm/config/fm2014.ts` and the documented example. The demo owns file pickers/downloads and editor drafts. XML migration and reproducible research tools live in `scripts/`; proprietary reference datasets remain excluded.
+
+```ts
+import {FreshGraph, FreshNode, FreshEdge} from "fm4/fm/model";
+import {TypeRegistry, freshmind2014Configuration} from "fm4/fm/config/core";
+import {FreshmindPanel} from "fm4/fm/browser";
+import {bindRfcControls} from "fm4/fm/ui";
+```
+
+## Dependency rules
+
+- Cross-feature imports use the destination's `index.ts` contract, or `config/core.ts` for parser-free configuration. Inside a feature, concrete file imports keep the runtime graph acyclic. Source consumers and research tools use public entry points rather than emitted private paths.
+- TouchGraph imports no Freshmind code. Parser-free feature modules import neither browser adapters, rendering/UI modules, D3 nor YAML. YAML codecs remain usable in Node through their separate entry point.
+- Complete adjacency, locality, coordinates, selection and lifecycle state keep their existing owners. Split model files do not create parallel graph/selection objects. Renderers receive styles/geometry and do not own physics or semantic membership.
+- Type-only contracts can connect model, geometry and view data without importing those implementations at runtime. Layout forces use physical coordinates, independently of viewing transforms and presentation size.
+- Edit commands resolve a projected locality's mutation owner through the small model capability, rather than importing `StructuralLocality`. Structural viewing still derives its presented subset from TG's authoritative neighborhood.
+- Browser controllers compose features and retain explicit listener/timer cleanup. UI bindings take caller-owned elements and return disposers; core features remain usable without controls or a mounted panel.
+
+`tests/module-boundaries.test.mjs` verifies source contracts, one-way domain dependencies, parser/browser-free headless closures, runtime import cycles, the pre-refactor export inventory and constructor identity. A separate external-consumer TypeScript fixture checks the emitted declarations across package subpaths. The existing behavior, numerical replays and Java parity checks remain the compatibility evidence.
+
+New features should get a feature module and a narrow contract, use existing graph/panel owners, and keep browser adapters out of headless modules. Former flat implementation files were removed; no compatibility source shims were added.

@@ -7,13 +7,14 @@
  */
 
 import { select } from "d3-selection";
-import { FreshNode, FreshEdge } from "../model.js";
-import type { NodeStyle, EdgeStyle } from "../config/types.js";
-import type { EdgeGeometry } from "./geometry.js";
-import { createNodeOutline, dashArray } from "./shapes.js";
-import type { NodeOutline } from "./shapes.js";
-import {createClusterBoundary} from "./cluster-boundary.js";
-import type {RfcRegionState} from "../rfc/types.js";
+import { FreshNode, FreshEdge } from "../model/index.js";
+import type { NodeStyle, EdgeStyle } from "../config/core.js";
+import type { EdgeGeometry } from "../geometry/index.js";
+import { createNodeOutline, dashArray } from "../geometry/index.js";
+import type { NodeOutline } from "../geometry/index.js";
+import {createClusterBoundary} from "../geometry/index.js";
+import type {RfcRegionState} from "../rfc/index.js";
+import {nodeImportanceScale} from "../geometry/index.js";
 
 export interface ClusterRegion {id:string;nodes:FreshNode[];edges:FreshEdge[];}
 
@@ -83,19 +84,22 @@ export class FreshmindPresentation {
    * @param element Mounted node group containing the base .tg-label element.
    */
   paintNode(element: SVGGElement, node: FreshNode, style: NodeStyle): void {
-    const group=select(element);
+    const group=select(element),scale=nodeImportanceScale(node.getWeight(),style.importance);
     // Native SVG outlines enclose a bounding box rather than this node's actual shape.
-    group.classed("fm-node",true).attr("data-semantic-type",node.getSemanticType()).style("outline","none");
+    group.classed("fm-node",true).attr("data-semantic-type",node.getSemanticType()).attr("data-importance-scale",scale).style("outline","none");
     const hidden=node.edgeCount()-node.visibleEdgeCount();
-    group.attr("aria-label",`${node.getLabel()}, ${node.getSemanticType()}, ${node.edgeCount()} connections${hidden?`, ${hidden} hidden`:""}${node.fixed?", pinned":""}`);
+    group.attr("aria-label",`${node.getLabel()}, ${node.getSemanticType()}, weight ${node.getWeight()}, ${node.edgeCount()} connections${hidden?`, ${hidden} hidden`:""}${node.fixed?", pinned":""}`);
     group.selectAll(".tg-shape, .tg-round-shape").attr("display","none");
     const label=element.querySelector<SVGTextElement>(".tg-label")!;
     label.style.font=style.text.font; label.setAttribute("fill",style.text.color);
     // Layout animation changes position/colors, not text metrics. Measure only when
     // label, font loading, wrapping, padding or shape changes to avoid forced reflow each frame.
-    const key=JSON.stringify([node.getLabel(),style.text.font,style.label,style.shape,document.fonts?.status]);
+    const key=JSON.stringify([node.getLabel(),style.text.font,style.label,style.shape,scale,document.fonts?.status]);
     let layout=this.measurements.get(element);
     if(!layout || layout.key!==key) {
+      // Measure intrinsic text before applying its display scale. Browser hinting can
+      // otherwise slightly change the measured base width between importance values.
+      label.removeAttribute("transform");
       const measure=(text:string)=>{label.textContent=text;return label.getComputedTextLength();};
       const lines:string[]=[];
       for(const paragraph of node.getLabel().split(/\r?\n/)) {
@@ -115,6 +119,7 @@ export class FreshmindPresentation {
       let width=Math.max(30,textWidth+style.label.paddingX*2),height=Math.max(28,lines.length*lineHeight+style.label.paddingY*2);
       if(!["rectangle","rounded-rectangle"].includes(style.shape))width+=24;
       if(style.shape==="circle")width=height=Math.max(width,height);
+      width*=scale;height*=scale;
       label.textContent="";
       lines.forEach((line,index)=>{
         const span=document.createElementNS("http://www.w3.org/2000/svg","tspan");
@@ -123,6 +128,7 @@ export class FreshmindPresentation {
       layout={key,width,height,outline:createNodeOutline(style.shape,width,height)};
       this.measurements.set(element,layout);
     }
+    label.setAttribute("transform",`scale(${scale})`);
     node.setDimensions(layout.width,layout.height);node.setOutline(layout.outline);
     group.selectAll<SVGPathElement,FreshNode>("path.fm-shape").data([node]).join("path").attr("class","fm-shape")
       .attr("d",layout.outline.path).attr("fill",style.fill).attr("stroke",style.stroke.color)
@@ -173,10 +179,10 @@ export class FreshmindPresentation {
    */
   paintDecorations(layer: SVGGElement, nodes: FreshNode[], styleOf:(node:FreshNode)=>NodeStyle, focus:FreshNode|null):void {
     const root=select(layer);
-    root.selectAll<SVGEllipseElement,FreshNode>("ellipse.fm-halo").data(nodes.filter(n=>styleOf(n).halo.enabled),n=>n.getID()!).join("ellipse")
+    root.selectAll<SVGEllipseElement,FreshNode>("ellipse.fm-halo").data(nodes.filter(n=>styleOf(n).importance.mode==="legacy"&&styleOf(n).halo.enabled),n=>n.getID()!).join("ellipse")
       .attr("class","fm-halo").attr("cx",n=>n.drawx).attr("cy",n=>n.drawy)
-      .attr("rx",n=>n.getWidth()/2*Math.sqrt(Math.max(n.getWeight(),10)/10))
-      .attr("ry",n=>n.getHeight()/2*Math.max(n.getWeight(),10)/10)
+      .attr("rx",n=>n.getWidth()/2*Math.sqrt(Math.min(1000,Math.max(n.getWeight(),10)/10)))
+      .attr("ry",n=>n.getHeight()/2*Math.min(1000,Math.max(n.getWeight(),10)/10))
       .attr("fill",n=>styleOf(n).fill).attr("opacity",n=>n.markedForRemoval?0.1:styleOf(n).halo.opacity);
     root.selectAll<SVGPathElement,FreshNode>("path.fm-focus").data(focus?[focus]:[]).join("path").attr("class","fm-focus")
       .attr("d",n=>createNodeOutline(styleOf(n).shape,n.getWidth()+6,n.getHeight()+6).path)
@@ -191,5 +197,19 @@ export class FreshmindPresentation {
     root.selectAll<SVGTextElement,FreshNode>("text.fm-pin").data(nodes.filter(n=>n.fixed),n=>n.getID()!).join("text")
       .attr("class","fm-pin").attr("x",n=>n.drawx+n.getWidth()/2+4).attr("y",n=>n.drawy-n.getHeight()/2)
       .attr("font-size",12).text("⌖");
+  }
+  /** Counts aggregated nodes by semantic type without modifying labels or node focus bounds. */
+  paintAggregation(layer:SVGGElement,groups:readonly import("../structure-view/index.js").AggregationGroup[],nodeOf:(id:string)=>FreshNode|null):void {
+    const parents=[...new Set(groups.map(g=>g.parentId))].map(id=>({node:nodeOf(id)!,groups:groups.filter(g=>g.parentId===id)}));
+    select(layer).selectAll<SVGTextElement,typeof parents[number]>("text.fm-aggregation-count").data(parents,p=>p.node.getID()!).join("text")
+      .attr("class","fm-aggregation-count").attr("data-for-node",p=>p.node.getID()).attr("x",p=>p.node.drawx)
+      .attr("y",p=>p.node.drawy+p.node.getHeight()/2+32).attr("text-anchor","middle").attr("font-size",10)
+      .attr("fill","#284e3a").attr("pointer-events","none").text(p=>p.groups.map(g=>`+${g.type}: ${g.nodeIds.length}`).join(" · "));
+  }
+  /** Optional exact values are sibling decorations, keeping node body focus and hit bounds intact. */
+  paintNodeWeights(layer:SVGGElement,nodes:FreshNode[],enabled:boolean):void {
+    select(layer).selectAll<SVGTextElement,FreshNode>("text.fm-node-weight").data(enabled?nodes:[],n=>n.getID()!).join("text")
+      .attr("class","fm-node-weight").attr("data-weight-node",n=>n.getID()).attr("x",n=>n.drawx).attr("y",n=>n.drawy-n.getHeight()/2-9)
+      .attr("text-anchor","middle").attr("font-size",10).attr("fill","#39483b").attr("pointer-events","none").text(n=>`w: ${n.getWeight()}`);
   }
 }

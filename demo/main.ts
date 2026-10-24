@@ -9,10 +9,10 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails } from "../src/fm/ui/index.js";
+import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
-import { resourceURL } from "../src/fm/editing/details.js";
+import { resourceURL } from "../src/fm/browser/index.js";
 import "./style.css";
 
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -67,6 +67,7 @@ for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Co
 let allVisible = false;
 let paused = false;
 const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status") });
+const disposeImportance=bindNodeImportanceControls(panel,{mode:get<HTMLSelectElement>("node-importance-mode"),showValues:get<HTMLInputElement>("show-node-weights")});
 const disposeZoom = bindZoomControls(panel, {
   spacing: get<HTMLInputElement>("graph-zoom"), spacingValue: get("graph-zoom-value"),
   canvasIn: get("zoom-in"), canvasOut: get("zoom-out"), canvasReset: get("zoom-reset")
@@ -94,6 +95,12 @@ const disposeStructures=bindSubstructureControls(panel,{
   cluster:get<HTMLSelectElement>("cluster-select"),members:get("cluster-members"),renderCluster:get<HTMLButtonElement>("cluster-render")
 });
 bindFileControls(panel);
+const disposeStructuralView=bindStructuralViewControls(panel,{
+  enabled:get<HTMLInputElement>("structural-enabled"),hiddenNodeTypes:get<HTMLSelectElement>("structural-node-types"),
+  hiddenRelationTypes:get<HTMLSelectElement>("structural-relation-types"),aggregateTypes:get<HTMLSelectElement>("structural-aggregate-types"),
+  detailRadius:get<HTMLInputElement>("structural-detail-radius"),reveal:get<HTMLButtonElement>("structural-reveal"),
+  reset:get<HTMLButtonElement>("structural-reset"),status:get("structural-status"),groups:get("structural-groups")
+});
 panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
 const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); });
@@ -244,5 +251,5 @@ Object.assign(window, { graphBrowser: panel });
 void focusOn(root).then(() => {
   if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
 });
-window.addEventListener("pagehide", () => { disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

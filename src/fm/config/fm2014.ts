@@ -143,6 +143,11 @@ export const freshmind2014Configuration = {
         "enabled": true,
         "opacity": 0.3
       },
+      "importance": {
+        "mode": "size",
+        "minScale": 0.85,
+        "maxScale": 1.5
+      },
       "states": {
         "fixed": {
           "fill": "#0000ff"

@@ -7,8 +7,8 @@
  */
 import { stringify } from "yaml";
 import type { FreshmindPanel, FreshmindDocument } from "../src/fm/index.js";
-import { parseDocument, serializeDocument } from "../src/fm/io/codec.js";
-import { captureDocument, installDocument } from "../src/fm/io/panel.js";
+import { parseDocument, serializeDocument } from "../src/fm/io/index.js";
+import { captureDocument, installDocument } from "../src/fm/browser/index.js";
 import berryURL from "../examples/fm2014/berry.fm.yaml?url";
 import nipsURL from "../examples/fm2014/nips-fm.fm.yaml?url";
 import typesURL from "../examples/fm2014/fm2014.types.yaml?url";
@@ -22,9 +22,10 @@ import joinedTreesURL from "../docs/experiments/rfc-multifocus/joined-trees.fm.y
 import leafTreesURL from "../docs/experiments/rfc-multifocus/leaf-connected-trees.fm.yaml?url";
 import sharedTreesURL from "../docs/experiments/rfc-multifocus/shared-subtree.fm.yaml?url";
 import exclusionURL from "../docs/experiments/rfc-exclusion/overlap-pressure.fm.yaml?url";
+import structuralURL from "../examples/rfc/structural-focus-context.fm.yaml?url";
 
 const examples: Record<string, {url: string; companion?: string}> = {
-  berry: {url: berryURL, companion: typesURL}, "nips-fm": {url: nipsURL, companion: typesURL},
+  "structural-focus-context":{url:structuralURL},berry: {url: berryURL, companion: typesURL}, "nips-fm": {url: nipsURL, companion: typesURL},
   florentine: {url: florentineURL}, karate: {url: karateURL}, "les-miserables": {url: lesMiserablesURL},substructures:{url:substructuresURL},
   "joined-trees": {url: joinedTreesURL}, "leaf-connected-trees": {url: leafTreesURL}, "shared-subtree": {url: sharedTreesURL}, "weighted-tree": {url: weightedTreeURL}, clusters: {url: clustersURL},exclusion:{url:exclusionURL}
 };

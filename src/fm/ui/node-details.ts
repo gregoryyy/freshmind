@@ -6,9 +6,9 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import {FreshNode} from "../model.js";
-import type {FreshmindPanel} from "../panel.js";
-import {renderAnnotation, resourceURL} from "../editing/details.js";
+import {FreshNode} from "../model/index.js";
+import type {FreshmindPanel} from "../browser/index.js";
+import {renderAnnotation, resourceURL} from "../browser/index.js";
 
 export interface NodeDetailsOptions {
   /** Mounted graph host, used to place the popup and return keyboard focus. */

@@ -6,8 +6,8 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { FreshNode, FreshEdge } from "../model.js";
-import type { ImmutableGraphEltSet } from "../../tg/graph.js";
+import { FreshNode, FreshEdge } from "../model/index.js";
+import type { ImmutableGraphEltSet } from "../../tg/graph/index.js";
 import type { Direction, CandidateKind, Candidate } from "./types.js";
 
 export const directions: readonly Direction[] = ["right", "down", "left", "up"];

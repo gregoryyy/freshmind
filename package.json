@@ -33,12 +33,12 @@
       "import": "./dist/fm/core.js"
     },
     "./fm/config": {
-      "types": "./dist/fm/config/yaml.d.ts",
-      "import": "./dist/fm/config/yaml.js"
+      "types": "./dist/fm/config/index.d.ts",
+      "import": "./dist/fm/config/index.js"
     },
     "./fm/io": {
-      "types": "./dist/fm/io/codec.d.ts",
-      "import": "./dist/fm/io/codec.js"
+      "types": "./dist/fm/io/index.d.ts",
+      "import": "./dist/fm/io/index.js"
     },
     "./fm/rfc": {
       "types": "./dist/fm/rfc/index.d.ts",
@@ -51,12 +51,64 @@
     "./fm/ui/style.css": "./src/fm/ui/style.css",
     "./config/fm2014.types.yaml": "./config/fm2014.types.yaml",
     "./fm/structures": {
-      "types": "./dist/fm/structures/model.d.ts",
-      "import": "./dist/fm/structures/model.js"
+      "types": "./dist/fm/structures/index.d.ts",
+      "import": "./dist/fm/structures/index.js"
+    },
+    "./fm/structure-view": {
+      "types": "./dist/fm/structure-view/index.d.ts",
+      "import": "./dist/fm/structure-view/index.js"
     },
     "./fm/clustering": {
       "types": "./dist/fm/clustering/index.d.ts",
       "import": "./dist/fm/clustering/index.js"
+    },
+    "./tg/model": {
+      "types": "./dist/tg/model/index.d.ts",
+      "import": "./dist/tg/model/index.js"
+    },
+    "./tg/graph": {
+      "types": "./dist/tg/graph/index.d.ts",
+      "import": "./dist/tg/graph/index.js"
+    },
+    "./tg/layout": {
+      "types": "./dist/tg/layout/index.d.ts",
+      "import": "./dist/tg/layout/index.js"
+    },
+    "./tg/lenses": {
+      "types": "./dist/tg/lenses/index.d.ts",
+      "import": "./dist/tg/lenses/index.js"
+    },
+    "./tg/browser": {
+      "types": "./dist/tg/browser/index.d.ts",
+      "import": "./dist/tg/browser/index.js"
+    },
+    "./fm/model": {
+      "types": "./dist/fm/model/index.d.ts",
+      "import": "./dist/fm/model/index.js"
+    },
+    "./fm/config/core": {
+      "types": "./dist/fm/config/core.d.ts",
+      "import": "./dist/fm/config/core.js"
+    },
+    "./fm/geometry": {
+      "types": "./dist/fm/geometry/index.d.ts",
+      "import": "./dist/fm/geometry/index.js"
+    },
+    "./fm/navigation": {
+      "types": "./dist/fm/navigation/index.d.ts",
+      "import": "./dist/fm/navigation/index.js"
+    },
+    "./fm/editing": {
+      "types": "./dist/fm/editing/index.d.ts",
+      "import": "./dist/fm/editing/index.js"
+    },
+    "./fm/rendering": {
+      "types": "./dist/fm/rendering/index.d.ts",
+      "import": "./dist/fm/rendering/index.js"
+    },
+    "./fm/browser": {
+      "types": "./dist/fm/browser/index.d.ts",
+      "import": "./dist/fm/browser/index.js"
     }
   },
   "files": [

@@ -5,7 +5,7 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type {Node, Edge} from "../../tg/model.js";
+import type {Node, Edge} from "../../tg/model/index.js";
 
 /** Reads live Freshmind importance; ordinary TouchGraph objects retain unit reinforcement strength. */
 function importance(item:object,defaultWeight:number):number {

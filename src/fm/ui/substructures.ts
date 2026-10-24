@@ -5,10 +5,10 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import {FreshNode} from "../model.js";
-import type {FreshmindPanel} from "../panel.js";
-import {spanningTree,validateSubstructure,clusterStructure} from "../structures/model.js";
-import type {GraphSubstructure} from "../structures/model.js";
+import {FreshNode} from "../model/index.js";
+import type {FreshmindPanel} from "../browser/index.js";
+import {spanningTree,validateSubstructure,clusterStructure} from "../structures/index.js";
+import type {GraphSubstructure} from "../structures/index.js";
 import {clusterGraph,clusterToSubstructure} from "../clustering/index.js";
 import type {ClusterResult} from "../clustering/index.js";
 

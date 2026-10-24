@@ -40,9 +40,11 @@ test("node content is modeless, scrollable and stable during graph movement; clo
   expect(box.y).toBeGreaterThanOrEqual(11); expect(box.y+box.height).toBeLessThanOrEqual(833); expect(errors).toEqual([]);
 });
 
-test("content follows selection, sanitizes HTML and navigates hidden node links without changing relations",async({page})=>{
+for(const structural of [false,true])test(`content follows selection, sanitizes HTML and navigates hidden node links without changing relations${structural?" with structural view":""}`,async({page})=>{
   const requests=[];page.on("request",r=>{if(r.url().includes("example.invalid")) requests.push(r.url());});
-  const errors=await ready(page);await page.keyboard.press("Space");
+  const errors=await ready(page);
+  if(structural)await page.evaluate(()=>window.graphBrowser.getStructuralView().configure({enabled:true,aggregateTypes:['person','paper']}));
+  await page.keyboard.press("Space");
   // The modeless popup permits graph selection while it remains open.
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode("b")));
   await expect(popup(page)).toHaveAccessibleName("Node content: Beta"); await expect(popup(page).locator("strong")).toHaveText("Formatted");

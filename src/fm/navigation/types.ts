@@ -6,10 +6,10 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type { FreshNode, FreshEdge } from "../model.js";
-import type { Node } from "../../tg/model.js";
-import type { ImmutableGraphEltSet } from "../../tg/graph.js";
-import type { CurveMode } from "../config/types.js";
+import type { FreshNode, FreshEdge } from "../model/index.js";
+import type { Node } from "../../tg/model/index.js";
+import type { ImmutableGraphEltSet } from "../../tg/graph/index.js";
+import type { CurveMode } from "../config/core.js";
 
 export type Direction = "up" | "right" | "down" | "left";
 export type CandidateKind = "node" | "edge";

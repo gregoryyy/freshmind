@@ -6,8 +6,8 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type { Node } from "../../tg/model.js";
-import type { ImmutableGraphEltSet } from "../../tg/graph.js";
+import type { Node } from "../../tg/model/index.js";
+import type { ImmutableGraphEltSet } from "../../tg/graph/index.js";
 import type { CoordinateWeights, FocalStar, RfcBranch, RfcSettings } from "./types.js";
 import {validateCoordinateWeights, weightedDistance} from "./metric.js";
 import {rfcRelationStrength} from "./importance.js";

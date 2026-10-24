@@ -13,7 +13,7 @@ test("RFC is active by default and sidebar sections collapse without losing valu
   expect(await page.evaluate(()=>window.graphBrowser.getRfc().getState().focusId)).toBe("root");
   await expect(page.locator("#rfc-indicator")).toHaveText("On");
   await expect(page.locator(".fm-rfc-node-halo")).toHaveCount(6);
-  expect(await page.locator(".sidebar > details > summary").allTextContents()).toEqual(["Graph files","View","Reinforcement Focus + Context On","Navigation options","Selected item"]);
+  expect(await page.locator(".sidebar > details > summary").allTextContents()).toEqual(["Graph files","View","Structural focus + context","Reinforcement Focus + Context On","Navigation options","Selected item"]);
   const sizes=await page.locator(".sidebar > details > summary").evaluateAll(items=>items.map(x=>parseFloat(getComputedStyle(x).fontSize)));
   expect(sizes.every(n=>n>=16)).toBe(true);
   await page.locator("#graph-zoom").fill("140");

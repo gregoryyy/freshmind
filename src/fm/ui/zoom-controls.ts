@@ -6,7 +6,7 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type { FreshmindPanel } from "../panel.js";
+import type { FreshmindPanel } from "../browser/index.js";
 
 /** Application-owned elements; graph spacing is a percentage-valued range input. */
 export interface ZoomControlElements {

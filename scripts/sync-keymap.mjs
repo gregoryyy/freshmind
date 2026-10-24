@@ -1,7 +1,7 @@
 /* Freshmind. Apache-2.0. Copyright (c) 2002-2014, 2026 Gregor Heinrich.
  * TypeScript port by Gregor Heinrich using Codex GPT-6.1. */
 import { writeFile } from "node:fs/promises";
-import { keymap } from "../dist/fm/navigation/keymap.js";
+import { keymap } from "fm4/fm/navigation";
 let text="# Freshmind 4 key map\n\nAdapted from the Java reference's `keys.txt` (2003–2012) and checked against the implemented port. Open **Key map**, press **?** with the graph focused, or press **F1** for the same reference in the browser.\n\nGraph commands require graph focus. Text editors keep normal typing, caret movement and clipboard shortcuts. Ctrl means Control, including on macOS; Option is the Alt modifier. File and editor commit shortcuts also accept Command. Editing and file controls below apply to the main graph browser; the palette page supplies navigation/view/help.\n";
 for(const group of new Set(keymap.map(row=>row.group))) {
   text+="\n## "+group+"\n\n| Key or gesture | Action |\n| --- | --- |\n";

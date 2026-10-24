@@ -3,7 +3,7 @@
  * Copyright (c) 2001-2002 Alexander Shapiro. All rights reserved.
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  *
- * Full license terms and required notices: ../../LICENSE and ../../NOTICE.
+ * Full license terms and required notices: ../../../LICENSE and ../../../NOTICE.
  * Redistribute this source with those files.
  */
 
@@ -14,12 +14,12 @@ import type { Selection } from "d3-selection";
 import { drag } from "d3-drag";
 import { zoom, zoomIdentity } from "d3-zoom";
 import type { ZoomBehavior } from "d3-zoom";
-import { Edge, Node } from "./model.js";
-import { GraphEltSet, VisibleLocality } from "./graph.js";
-import { TGLayout } from "./layout.js";
-import { LocalityUtils } from "./locality.js";
-import { HyperLens, RotateLens, TGAbstractLens, TGLensSet, TranslateLens, ZoomLens } from "./lenses.js";
-import { TGPoint2D } from "./lenses.js";
+import { Edge, Node } from "../model/index.js";
+import { GraphEltSet, VisibleLocality } from "../graph/index.js";
+import { TGLayout } from "../layout/index.js";
+import { LocalityUtils } from "../graph/index.js";
+import { HyperLens, RotateLens, TGAbstractLens, TGLensSet, TranslateLens, ZoomLens } from "../lenses/index.js";
+import { TGPoint2D } from "../lenses/index.js";
 
 export interface GraphListener { graphMoved?(): void; graphReset?(): void; }
 export type TGInteractionMode = "navigate" | "edit";
@@ -125,8 +125,8 @@ export class TGPanel {
   getNodeCount(): number { return this.completeEltSet.nodeCount(); }
   getEdgeCount(): number { return this.completeEltSet.edgeCount(); }
   edgeNum(): number { return this.visibleEdgeCount(); }
-  visibleEdgeCount(): number { return this.visibleLocality.edgeCount(); }
-  visibleNodeCount(): number { return this.visibleLocality.nodeCount(); }
+  visibleEdgeCount(): number { return this.getGES().edgeCount(); }
+  visibleNodeCount(): number { return this.getGES().nodeCount(); }
   nodeNum(): number { return this.visibleNodeCount(); }
   getAllNodes(): IterableIterator<Node> { return this.completeEltSet.getNodes(); }
   getAllEdges(): IterableIterator<Edge> { return this.completeEltSet.getEdges(); }
@@ -220,21 +220,21 @@ export class TGPanel {
   getMousePos(): TGPoint2D { return new TGPoint2D(this.mousePos); }
   /** Picks one node inside a box in renderer coordinates, retaining Java's one-candidate semantics. */
   multiSelect(from: TGPoint2D, to: TGPoint2D): void {
-    const candidates = [...this.visibleLocality.getNodes()].filter(node =>
+    const candidates = [...this.getGES().getNodes()].filter(node =>
       node.drawx > Math.min(from.x, to.x) && node.drawx < Math.max(from.x, to.x)
       && node.drawy > Math.min(from.y, to.y) && node.drawy < Math.max(from.y, to.y));
     this.setSelect(candidates[Math.trunc(Math.random() * candidates.length)] ?? null);
   }
   /** Clear references after removals, without selecting a new node during an animation. */
   localityChanged(): void {
-    if (this.selected && !this.visibleLocality.contains(this.selected)) this.clearSelect();
-    if (this.focus && !this.visibleLocality.contains(this.focus)) this.focus = null;
-    if (this.dragNode && !this.visibleLocality.contains(this.dragNode)) this.setDragNode(null);
-    if (this.mouseOverN && !this.visibleLocality.contains(this.mouseOverN)) this.mouseOverN = null;
-    if (this.mouseOverE && !this.visibleLocality.contains(this.mouseOverE)) this.mouseOverE = null;
+    if (this.selected && !this.getGES().contains(this.selected)) this.clearSelect();
+    if (this.focus && !this.getGES().contains(this.focus)) this.focus = null;
+    if (this.dragNode && !this.getGES().contains(this.dragNode)) this.setDragNode(null);
+    if (this.mouseOverN && !this.getGES().contains(this.mouseOverN)) this.mouseOverN = null;
+    if (this.mouseOverE && !this.getGES().contains(this.mouseOverE)) this.mouseOverE = null;
   }
   updateLocalityFromVisibility(): void {
-    this.visibleLocality.updateLocalityFromVisibility(); this.localityChanged(); this.resetDamper(); this.repaint();
+    this.getGES().updateLocalityFromVisibility(); this.localityChanged(); this.resetDamper(); this.repaint();
   }
   clearSelect(): void { this.setSelect(null); }
   setSelect(node: Node | null): void {
@@ -242,7 +242,7 @@ export class TGPanel {
     this.options.onSelect?.(node);
     this.repaint();
   }
-  selectFirstNode(): void { this.setSelect(this.visibleLocality.getFirstNode()); }
+  selectFirstNode(): void { this.setSelect(this.getGES().getFirstNode()); }
   getDragNode(): Node | null { return this.dragNode; }
   /**
    * Transfers drag ownership to the layout, freezing lens focus while its node is dragged.
@@ -338,13 +338,13 @@ export class TGPanel {
   getTopLeftDraw(): TGPoint2D { return new TGPoint2D(this.topLeftDraw); }
   getBottomRightDraw(): TGPoint2D { return new TGPoint2D(this.bottomRightDraw); }
   updateGraphSize(): void {
-    const nodes = [...this.visibleLocality.getNodes()];
+    const nodes = [...this.getGES().getNodes()];
     this.topLeftDraw.setLocation(nodes.length ? Math.min(...nodes.map(node => node.drawx)) : 0,
       nodes.length ? Math.min(...nodes.map(node => node.drawy)) : 0);
     this.bottomRightDraw.setLocation(nodes.length ? Math.max(...nodes.map(node => node.drawx)) : 0,
       nodes.length ? Math.max(...nodes.map(node => node.drawy)) : 0);
   }
-  updateDrawPositions(): void { this.visibleLocality.forAllNodes(node => this.updateDrawPos(node)); }
+  updateDrawPositions(): void { this.getGES().forAllNodes(node => this.updateDrawPos(node)); }
   processGraphMove(): void { this.updateDrawPositions(); this.updateGraphSize(); }
   /** Refreshes renderer coordinates through the lens chain; canvas scaling is applied separately. */
   updateDrawPos(node: Node): void {
@@ -505,7 +505,7 @@ export class TGPanel {
     if (!this.nodeLayer || !this.edgeLayer || !this.svg) return;
     this.scene!.attr("transform", this.canvasTransform.toString());
     if (this.focus && !this.completeEltSet.contains(this.focus)) this.focus = null;
-    const nodes = this.nodeLayer.selectAll<SVGGElement, Node>("g.tg-node").data([...this.visibleLocality.getNodes()], node => node.getID()!)
+    const nodes = this.nodeLayer.selectAll<SVGGElement, Node>("g.tg-node").data([...this.getGES().getNodes()], node => node.getID()!)
       .join(enter => {
         const group = enter.append("g").attr("class", "tg-node").attr("tabindex", 0).attr("role", "button");
         group.append("rect").attr("class", "tg-shape");
@@ -530,7 +530,7 @@ export class TGPanel {
     // otherwise enclose the count as well as the node body. The extra gap also
     // clears the demo's keyboard focus outline and its offset.
     this.badgeLayer?.selectAll<SVGTextElement, Node>("text")
-      .data([...this.visibleLocality.getNodes()].filter(node => node.visibleEdgeCount() < node.edgeCount()), node => node.getID()!)
+      .data([...this.getGES().getNodes()].filter(node => node.visibleEdgeCount() < node.edgeCount()), node => node.getID()!)
       .join("text").attr("class", "tg-hidden-count").attr("data-for-node", node => node.getID())
       .attr("text-anchor", "middle").attr("font-size", 10).attr("fill", "#52645c")
       .attr("x", node => node.drawx).attr("y", node => node.drawy + node.getHeight() / 2 + 18)
@@ -582,7 +582,7 @@ export class TGPanel {
         : Math.min(rx / Math.abs(dx), ry / Math.abs(dy)));
       return { x: edge.to.drawx + dx * scale, y: edge.to.drawy + dy * scale };
     };
-    select(layer).selectAll<SVGLineElement, Edge>("line").data([...this.visibleLocality.getEdges()]).join("line")
+    select(layer).selectAll<SVGLineElement, Edge>("line").data([...this.getGES().getEdges()]).join("line")
       .attr("x1", edge => edge.from.drawx).attr("y1", edge => edge.from.drawy)
       .attr("x2", edge => endpoint(edge).x).attr("y2", edge => endpoint(edge).y)
       .attr("marker-end", `url(#${this.arrowId})`)
@@ -606,7 +606,7 @@ export class TGPanel {
   protected handleNodeClick(event: MouseEvent, node: Node): void {
     event.stopPropagation();
     if (this.interactionMode === "edit" && event.shiftKey && this.selected && this.selected !== node
-      && this.visibleLocality.contains(this.selected) && !this.findEdge(this.selected, node)) this.addEdge(this.selected, node);
+      && this.getGES().contains(this.selected) && !this.findEdge(this.selected, node)) this.addEdge(this.selected, node);
     this.setSelect(node === this.selected ? null : node);
   }
   /** Dispatches node-local selection, expansion and edit deletion shortcuts. */

@@ -6,10 +6,10 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { FreshNode } from "../model.js";
-import type { FreshmindPanel } from "../panel.js";
-import type { RfcSettings,RfcExclusionSettings } from "../rfc/types.js";
-import {rfcForcePresets} from "../rfc/presets.js";
+import { FreshNode } from "../model/index.js";
+import type { FreshmindPanel } from "../browser/index.js";
+import type { RfcSettings,RfcExclusionSettings } from "../rfc/index.js";
+import {rfcForcePresets} from "../rfc/index.js";
 
 export interface RfcControlElements {
   activate: HTMLButtonElement;

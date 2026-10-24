@@ -6,7 +6,7 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 import { isAlias, isPair, isScalar, parseDocument } from "yaml";
-import { jsonData } from "../config/validation.js";
+import { jsonData } from "../config/core.js";
 
 /** Reads one strict YAML 1.2 JSON-compatible value, rejecting aliases, merges, tags and duplicate keys. */
 export function parseYamlValue(source: string): unknown {

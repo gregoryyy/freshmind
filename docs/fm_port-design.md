@@ -1,6 +1,6 @@
 # Freshmind feature design
 
-Design drafted **2026-10-22**, updated **2026-10-23**. This specifies milestones **2.2–2.5** in [TODO.md](TODO.md). Milestones **2.2–2.5 are implemented**: types, navigation, metadata/inline editors, native YAML persistence and approved example conversion. The YAML examples are supported contracts. See [DONE.md](DONE.md) for implementation notes and [KEYMAP.md](KEYMAP.md) for user controls. The [Java reference analysis](fm2014_analysis.md) supplies the feature inventory and development context.
+Design drafted **2026-10-22**, updated **2026-10-24**. This specifies milestones **2.2–2.5** in [TODO.md](TODO.md). Milestones **2.2–2.5 are implemented**: types, navigation, metadata/inline editors, native YAML persistence and approved example conversion. The YAML examples are supported contracts. See [DONE.md](DONE.md) for implementation notes and [KEYMAP.md](KEYMAP.md) for user controls. The [Java reference analysis](fm2014_analysis.md) supplies the feature inventory and development context.
 
 Freshmind 4 provides typed and visually distinct nodes, labeled curved relations, keyboard browsing with preselection, and label/annotation editing. Its native persistence is a versioned YAML graph format. Only the approved `berry` and `nips-fm` Java examples are migrated; the remaining datasets are proprietary.
 
@@ -70,9 +70,9 @@ Use **string IDs** for semantic types and visual types. Node identity remains in
 
 `FreshNode.getType()` must keep the existing TouchGraph shape contract. Add a separate semantic accessor such as `getSemanticType()` and a visual-type accessor. The Freshmind renderer obtains its resolved shape from the style resolver. This avoids the Java override that conflates semantic category and geometric shape.
 
-Keep node weight, relation weight, retrieval score and physical length distinct. Node weight can drive the existing visual halo; relation weight controls stroke width. Neither introduces a force multiplier. A future result relation stores its query ID, result role, backend and score in explicit data fields, while its human label remains editable. Query node types may declare a query kind; actual execution is added in milestone 4.
+Keep node weight, relation weight, retrieval score and physical length distinct. Node weight drives bounded body/label size by default; relation weight controls stroke width. These presentation rules leave ordinary TouchGraph forces unchanged. Optional RFC reads model weights through its separate [stiffness contract](rfc-importance.md). A future result relation stores its query ID, result role, backend and score in explicit data fields, while its human label remains editable. Query node types may declare a query kind; actual execution is added in milestone 4.
 
-For the initial profile, a relation's stroke width is its configured base width times `max(0.5, weight / 10)`, retaining fractional widths rather than Java's integer truncation. The legacy halo scales node-body width by `sqrt(max(weight, 10) / 10)` and height by `max(weight, 10) / 10`. These are presentation rules; geometry picking for the node uses its body, while halo drawing remains decorative.
+For the initial profile, a relation's stroke width is its configured base width times `max(0.5, weight / 10)`, retaining fractional widths rather than Java's integer truncation. Node styles support `importance: {mode: size, minScale: 0.85, maxScale: 1.5}` with inherited type/item/state overrides. Weight 1 retains normal size and zero stays visible; glyphs and measured bodies receive the same bounded scale. Uniform and legacy modes are available, as are optional exact values. The legacy halo uses width factor `sqrt(f)` and height factor `f`, with `f = min(1000, max(weight, 10) / 10)`. Geometry picking uses the measured body, while halos and values remain separate decorations. See the [display mapping and API](rfc-importance.md#node-importance-display).
 
 ### YAML type configuration
 
@@ -115,7 +115,7 @@ Source: Java `tg/Edge.setMiddle`, `getDoubleBisection`, `paintArrow`, and `Fresh
 
 ## 2.3 Navigation, keyboard preselection and selection
 
-Implemented in `src/fm/navigation/`: headless candidate geometry and controller, plus a graph-scoped DOM adapter. `FreshmindPanel.getNavigation()` exposes shared commands/settings and state subscriptions; `getNeighborhoodFocus()` records the locality origin separately from the inherited viewing-lens focus. Main-browser controls and keyboard input use the same controller. See the [completion record](DONE.md#milestone-23-freshmind-navigation--2026-10-23).
+Implemented in `src/fm/navigation/`: headless candidate geometry and controller. The graph-scoped DOM adapter lives in `src/fm/browser/navigation.ts`. `FreshmindPanel.getNavigation()` exposes shared commands/settings and state subscriptions; `getNeighborhoodFocus()` records the locality origin separately from the inherited viewing-lens focus. Main-browser controls and keyboard input use the same controller. See the [completion record](DONE.md#milestone-23-freshmind-navigation--2026-10-23).
 
 ### State and commands
 

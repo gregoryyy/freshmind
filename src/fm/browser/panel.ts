@@ -6,25 +6,30 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { TGPanel } from "../tg/panel.js";
-import type { TGPanelOptions } from "../tg/panel.js";
-import { Node, Edge } from "../tg/model.js";
-import { GraphEltSet } from "../tg/graph.js";
-import { FreshNode, FreshEdge, FreshGraph } from "./model.js";
-import { TypeRegistry } from "./config/registry.js";
-import { freshmind2014Configuration } from "./config/fm2014.js";
-import { parseTypeConfiguration } from "./config/yaml.js";
-import type { CurveMode, EdgeStyle, InteractionState, NodeStyle } from "./config/types.js";
-import { FreshmindPresentation } from "./rendering/presentation.js";
-import { routeEdges } from "./rendering/geometry.js";
-import type { EdgeGeometry } from "./rendering/geometry.js";
-import { FreshmindNavigation } from "./navigation/controller.js";
-import { bindNavigation } from "./navigation/keyboard.js";
-import type { NavigationOptions } from "./navigation/types.js";
-import { RfcController } from "./rfc/controller.js";
-import type { RfcSettings,RfcExclusionSettings } from "./rfc/types.js";
-import type { RfcStabilizationOptions } from "./rfc/stabilization.js";
-import type { TGLayout } from "../tg/layout.js";
+import { TGPanel } from "../../tg/browser/index.js";
+import type { TGPanelOptions } from "../../tg/browser/index.js";
+import { Node, Edge } from "../../tg/model/index.js";
+import { GraphEltSet } from "../../tg/graph/index.js";
+import type {VisibleLocality,ImmutableGraphEltSet} from "../../tg/graph/index.js";
+import { FreshNode, FreshEdge, FreshGraph } from "../model/index.js";
+import { TypeRegistry } from "../config/core.js";
+import { freshmind2014Configuration } from "../config/core.js";
+import { parseTypeConfiguration } from "../config/index.js";
+import type { CurveMode, EdgeStyle, InteractionState, NodeStyle } from "../config/core.js";
+import { FreshmindPresentation } from "../rendering/index.js";
+import { routeEdges } from "../geometry/index.js";
+import type { EdgeGeometry } from "../geometry/index.js";
+import { FreshmindNavigation } from "../navigation/index.js";
+import { bindNavigation } from "./navigation.js";
+import type { NavigationOptions } from "../navigation/index.js";
+import { RfcController } from "../rfc/index.js";
+import type { RfcSettings,RfcExclusionSettings } from "../rfc/index.js";
+import type { RfcStabilizationOptions } from "../rfc/index.js";
+import type { TGLayout } from "../../tg/layout/index.js";
+import {StructuralViewController} from "../structure-view/index.js";
+import {projectRfcStructure} from "../rfc/index.js";
+import {validateNodeImportanceView} from "../geometry/index.js";
+import type {NodeImportanceViewSettings} from "../geometry/index.js";
 
 export interface FreshmindPanelOptions extends TGPanelOptions {
   types?: TypeRegistry;
@@ -33,6 +38,7 @@ export interface FreshmindPanelOptions extends TGPanelOptions {
   rfc?: Partial<RfcSettings>;
   rfcStabilization?: RfcStabilizationOptions;
   rfcExclusion?:Partial<RfcExclusionSettings>;
+  nodeImportance?:Partial<NodeImportanceViewSettings>;
 }
 export type FreshmindSelection = FreshNode | FreshEdge | null;
 export type SelectionListener = (selection: FreshmindSelection) => void;
@@ -52,6 +58,8 @@ export class FreshmindPanel extends TGPanel {
   private removeRfcForce?: () => void;
   private removeRfcPaint?: () => void;
   private rfcPaintRevision = 0;
+  private structuralView?:StructuralViewController;
+  private nodeImportance:NodeImportanceViewSettings={mode:"configured",showValues:false};
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -61,19 +69,32 @@ export class FreshmindPanel extends TGPanel {
     // Mount after extension fields are initialized: base mounting calls virtual paint hooks.
     super(undefined,{...options,animateLocality:options.animateLocality??Boolean(container)});
     this.types=options.types??new TypeRegistry(freshmind2014Configuration);
+    this.nodeImportance=validateNodeImportanceView({...this.nodeImportance,...options.nodeImportance});
     this.setGraphEltSet(new FreshGraph());
     this.navigation = new FreshmindNavigation(this, options.navigation);
     this.navigationStatus = options.navigationStatus;
     this.rfc = new RfcController(this, options.rfc, options.rfcStabilization,options.rfcExclusion);
     this.removeRfcForce = this.tgLayout.addForce(this.rfc.apply);
     this.removeRfcPaint = this.rfc.addListener(() => {
+      this.refreshStructuralView();
       const revision = ++this.rfcPaintRevision;
       // Render paused/headless updates without reentering an in-progress SVG join.
       queueMicrotask(() => { if (revision === this.rfcPaintRevision) this.repaint(); });
     });
+    this.structuralView=new StructuralViewController({getSource:()=>super.getGES(),getComplete:()=>this.getCompleteEltSet(),
+      getContext:()=>this.structuralContext(),changed:()=>{this.localityChanged();this.resetDamper();this.repaintAfterMove();}});
+    this.structuralView.refresh();
     if(container){this.mount(container);if(options.autoStart!==false)this.tgLayout.start();}
   }
   getTypeRegistry():TypeRegistry{return this.types;}
+  /** Transient importance display preferences; configured mode reads inherited YAML/item styles. */
+  getNodeImportance():NodeImportanceViewSettings{return {...this.nodeImportance};}
+  /** Applies a validated display update atomically; does not wake layout or mutate document styles/weights. */
+  configureNodeImportance(changes:Partial<NodeImportanceViewSettings>):void {
+    const next=validateNodeImportanceView({...this.nodeImportance,...changes});
+    if(next.mode===this.nodeImportance.mode&&next.showValues===this.nodeImportance.showValues)return;
+    this.nodeImportance=next;this.repaintAfterMove();
+  }
   /** Returns the inherited default edge form, independently of relation-specific overrides. */
   getEdgeCurve(): CurveMode {
     return this.types.getDefaultEdgeStyle().curve;
@@ -95,6 +116,28 @@ export class FreshmindPanel extends TGPanel {
   getNavigation(): FreshmindNavigation { return this.navigation!; }
   /** Returns the reinforcement controller, disabled until a center is chosen. */
   getRfc(): RfcController { return this.rfc!; }
+  /** Reversible type filtering/leaf aggregation, independent of graph ownership and lens geometry. */
+  getStructuralView():StructuralViewController{return this.structuralView!;}
+  /** Current neighborhood before structural rules; this read-only view does not reveal the complete graph. */
+  getUnfilteredLocality():ImmutableGraphEltSet{return super.getGES();}
+  /** Expanding an aggregated parent reveals its retained leaf detail as well as ordinary neighbors. */
+  override expandNode(node:Node):Promise<void>{this.structuralView?.reveal(node.getID()!);return super.expandNode(node);}
+  override getGES():VisibleLocality{return this.structuralView?.getLocality()??super.getGES();}
+  private structuralContext():{centers:string[];protectedIds:Set<string>} {
+    const source=super.getGES(),graph=this.getCompleteEltSet(),protectedIds=new Set<string>(),centers:string[]=[];
+    for(const node of [this.getFocus(),this.getSelect(),this.neighborhoodFocus,this.selectedEdge?.from,this.selectedEdge?.to])
+      if(node&&source.contains(node))protectedIds.add(node.getID()!);
+    if(this.getFocus()&&source.contains(this.getFocus()!))centers.push(this.getFocus()!.getID()!);
+    const state=this.rfc?.getState();
+    for(const activation of state?.centers??[]) {
+      const root=graph.findNode(activation.focusId);if(!root||!source.contains(root))continue;
+      centers.push(activation.focusId);
+      const definition=activation.structureId?graph.getSubstructure(activation.structureId):null;
+      const projection=projectRfcStructure(graph,source,root,definition,state!.settings.coordinateWeights);
+      for(const node of projection.nodes)protectedIds.add(node.getID()!);
+    }
+    return {centers,protectedIds};
+  }
   /** Adds a second or subsequent focal center without replacing locality or existing activation. */
   addRfcCenter(node:FreshNode):void {this.rfc!.addFocus(node);}
   /** Toggles a focal center independently of selection/locality and returns its new activation state. */
@@ -119,7 +162,16 @@ export class FreshmindPanel extends TGPanel {
     const svg = [...container.querySelectorAll<SVGSVGElement>(":scope > svg.tg-panel")].at(-1)!;
     this.unbindNavigation = bindNavigation(svg, this, this.navigation!, this.navigationStatus);
   }
-  override repaint(): void { this.rfc?.reconcile(); this.navigation?.reconcile(false); super.repaint(); }
+  private refreshStructuralView():void {
+    const changed=this.structuralView?.refresh(),selected=this.getSelect();
+    // Navigation can select a complete-graph target before its queued neighborhood arrives.
+    // Retain the original locality queue's cleanup timing for that pending target.
+    if(changed&&!this.changingNeighborhood&&(!selected||super.getGES().contains(selected)))this.localityChanged();
+  }
+  override repaint(): void {
+    this.refreshStructuralView();
+    this.rfc?.reconcile(); this.navigation?.reconcile(false); super.repaint();
+  }
   /** Records the requested neighborhood separately from selection; superseded async requests cannot reset it. */
   override setLocale(node: Node | null, radius: number, maxAdd = 1000, maxExpand = 1000, outgoingOnly = false): Promise<void> {
     if (!(node instanceof FreshNode) || radius < 0 || !this.getCompleteEltSet().contains(node))
@@ -152,6 +204,7 @@ export class FreshmindPanel extends TGPanel {
    */
   override setGraphEltSet(graph:GraphEltSet):void {
     if(!(graph instanceof FreshGraph))throw new TypeError("FreshmindPanel requires a FreshGraph");
+    this.structuralView?.reset();
     this.rfc?.setFocus(null);
     this.navigation?.graphChanged(); this.neighborhoodFocus = null;
     this.neighborhoodRevision++; this.changingNeighborhood = false;
@@ -208,6 +261,7 @@ export class FreshmindPanel extends TGPanel {
   override setSelect(node:Node|null):void{this.navigation?.cancel(undefined,false);this.selectedEdge=null;super.setSelect(node);this.selectionChanged();}
   /** Clears hidden edge selection/geometry after the base panel reconciles its references. */
   override localityChanged():void {
+    this.structuralView?.refresh();
     super.localityChanged();
     if(this.selectedEdge&&!this.getGES().contains(this.selectedEdge)){
       this.selectedEdge=null;this.selectionChanged();
@@ -222,7 +276,9 @@ export class FreshmindPanel extends TGPanel {
     if(node.fixed)states.push("fixed");if(node===this.getMouseOverN())states.push("hover");
     if(node===this.getSelect()&&!this.selectedEdge)states.push("selected");
     if(node.isPreselected())states.push("preselected");if(node.isKeyselected())states.push("activeCandidate");
-    return this.types.resolveNode(node,states);
+    const style=this.types.resolveNode(node,states);
+    if(this.nodeImportance.mode!=="configured")style.importance.mode=this.nodeImportance.mode;
+    return style;
   }
   /** Resolves relation hover, selection and externally managed preselection/candidate flags. */
   getEdgeStyle(edge:FreshEdge):EdgeStyle {
@@ -266,6 +322,8 @@ export class FreshmindPanel extends TGPanel {
   }
   protected override paintDecorations(layer:SVGGElement):void {
     this.presentation.paintDecorations(layer,[...this.getGES().getNodes()] as FreshNode[],n=>this.getNodeStyle(n),this.getFocus() as FreshNode|null);
+    this.presentation.paintAggregation(layer,this.structuralView?.getState().groups??[],id=>this.getCompleteEltSet().findNode(id));
+    this.presentation.paintNodeWeights(layer,[...this.getGES().getNodes()] as FreshNode[],this.nodeImportance.showValues);
   }
   /** Freshmind double-click selects and centers through the same command/settings as Enter. */
   protected override handleNodeDoubleClick(event: MouseEvent, node: Node): void {
@@ -276,14 +334,16 @@ export class FreshmindPanel extends TGPanel {
     void this.getNavigation().centerSelection();
   }
   protected override getNodeTitle(node: Node): string {
-    return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}\nDouble-click or press Enter to center; E to expand; Space for details`;
+    return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}${node instanceof FreshNode?`\nWeight: ${node.getWeight()}`:""}\nDouble-click or press Enter to center; E to expand; Space for details`;
   }
   override clearAll(): void {
+    this.structuralView?.reset();
     this.rfc?.setFocus(null);
     this.navigation?.graphChanged(); this.neighborhoodFocus = null;
     this.neighborhoodRevision++; this.changingNeighborhood = false; super.clearAll();
   }
   override destroy(): void {
+    this.structuralView?.destroy();
     this.rfcPaintRevision++; this.removeRfcPaint?.();
     this.removeRfcForce?.(); this.rfc?.destroy();
     this.unbindNavigation?.(); this.navigation?.destroy(); this.selectionListeners.clear(); super.destroy();
