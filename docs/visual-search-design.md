@@ -1,10 +1,10 @@
 # Graph visual search: source audit and implementation contract
 
-**Prototype implementation audit (2026-10-24):** the current lexical/LDA search
-is retained for now. Backend replacement is deferred; elasticlunr is the choice
-if an external literal-search library becomes necessary. The [current integration
-plan](search-module-integration.md) records that scope. This audit preserves the
-prototype's numerical contracts and source history.
+**Historical prototype audit (2026-10-24):** the numerical contracts below
+record the earlier lexical/LDA implementation. The latest user direction adds
+elasticlunr and FM 2014-style LDA retrieval; embeddings remain deferred. See the
+[current integration plan](search-module-integration.md) and
+[parity record](fm2014-retrieval-parity.md) for the replacement and its evidence.
 
 Task **4.1**, audited 2026-10-24. The goal is equivalent graph exploration with
 current browser technology: queries become nodes, results become removable

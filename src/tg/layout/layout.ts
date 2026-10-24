@@ -11,6 +11,11 @@
 
 import type {Node} from "../model/index.js";
 import type {LayoutHost,LayoutForce} from "./types.js";
+import {MotionStabilizer} from "./stabilization.js";
+import type {MotionStabilizationOptions,MotionStabilizationState} from "./stabilization.js";
+
+export type AdaptiveDampingResponse="impulse"|"cooling";
+export interface LayoutAdaptiveDampingOptions extends MotionStabilizationOptions {response?:AdaptiveDampingResponse;}
 
 /** Direct port of TGLayout 1.21, including Java integer repulsion arithmetic. */
 export class TGLayout {
@@ -26,13 +31,37 @@ export class TGLayout {
   private running = false;
   private generation = 0;
   private readonly forces = new Map<symbol, LayoutForce>();
+  private readonly adaptiveDamping:MotionStabilizer;
+  private adaptiveDampingResponse:AdaptiveDampingResponse;
 
   /**
    * Creates a stopped layout with a zero damper.
    * @param panel Supplies the currently simulated graph and a repaint callback.
    * @param random Random source used only to separate coincident nodes.
    */
-  constructor(private readonly panel: LayoutHost, private readonly random: () => number = Math.random) {}
+  constructor(private readonly panel: LayoutHost, private readonly random: () => number = Math.random, adaptiveDamping:LayoutAdaptiveDampingOptions={}) {
+    this.adaptiveDampingResponse=this.validateResponse(adaptiveDamping.response??"impulse");
+    this.adaptiveDamping=new MotionStabilizer(adaptiveDamping);
+  }
+  private validateResponse(response:AdaptiveDampingResponse):AdaptiveDampingResponse {
+    if(response!=="impulse"&&response!=="cooling")throw new TypeError("adaptiveDamping.response must be impulse or cooling");
+    return response;
+  }
+  getAdaptiveDampingResponse():AdaptiveDampingResponse {return this.adaptiveDampingResponse;}
+  /** Chooses impulse attenuation or an earlier handoff to TouchGraph's existing fast cooling phase. */
+  setAdaptiveDampingResponse(response:AdaptiveDampingResponse):void {
+    this.validateResponse(response);if(response===this.adaptiveDampingResponse)return;
+    this.adaptiveDampingResponse=response;this.resetAdaptiveDamping();this.resetDamper();this.panel.repaintAfterMove();
+  }
+  /** Detached diagnostics for optional damping of every movable visible node, independent of RFC. */
+  getAdaptiveDampingState():MotionStabilizationState {return this.adaptiveDamping.getState();}
+  /** Toggles extra oscillation suppression without changing legacy force strengths or cooling. */
+  setAdaptiveDampingEnabled(enabled:boolean):void {
+    if(enabled===this.adaptiveDamping.getState().enabled)return;
+    this.adaptiveDamping.setEnabled(enabled);this.resetDamper();this.panel.repaintAfterMove();
+  }
+  /** Discards learned damping when a document is cleared/replaced, retaining the user's preference. */
+  resetAdaptiveDamping():void {this.adaptiveDamping.reset();}
   /** Registers an optional force without replacing baseline physics. The returned disposer removes this registration. */
   addForce(force: LayoutForce): () => void {
     const registration = Symbol();
@@ -133,6 +162,15 @@ export class TGLayout {
     for (let i = 0; i < 10; i++) {
       this.relaxEdges(); this.avoidLabels();
       for (const force of this.forces.values()) force(this.panel.getGES(), this.rigidity);
+      const nodes=[...this.panel.getGES().getNodes()];
+      if(this.adaptiveDampingResponse==="impulse")this.adaptiveDamping.apply(nodes,this.dragNode);
+      else {
+        const before=this.adaptiveDamping.getState().detections;
+        this.adaptiveDamping.observe(nodes,this.dragNode);
+        // The original rule cools large motion by 0.0001 until d<0.9, then
+        // by 0.01. A confirmed cycle can enter that existing phase sooner.
+        if(this.damping&&this.adaptiveDamping.getState().detections>before)this.damper=Math.min(this.damper,.89);
+      }
       this.moveNodes();
     }
     this.rigidity = this.newRigidity;
@@ -153,7 +191,7 @@ export class TGLayout {
     this.running = true;
     const generation = ++this.generation;
     let first = true;
-    const needsTicks = () => [...this.forces.values()].some(force => force.needsTicks?.());
+    const needsTicks = () => this.adaptiveDampingResponse==="impulse"&&this.adaptiveDamping.getState().phase!=="steady"||[...this.forces.values()].some(force => force.needsTicks?.());
     const run = () => {
       if (!this.running || generation !== this.generation) return;
       if (first || needsTicks() || !(this.damper < 0.1 && this.damping && this.maxMotion < 0.001)) { first = false; this.relax(); }

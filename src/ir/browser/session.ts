@@ -47,6 +47,21 @@ export class SearchSession {
     const answer=await this.jobs.run({kind:"search",corpus,request:r,limit,model:r.engine==="lda"&&r.kind!=="tags"?this.model:undefined});this.check(generation);
     if(answer.kind!=="results")throw new Error("Unexpected search worker response");return answer.results;
   }
+  exportModel(input:SearchCorpus):LdaModel {
+    if(this.disposed)throw new Error("Search session disposed");
+    const corpus=createSearchCorpus(input.documents);
+    if(!this.model||this.model.corpus.key!==corpus.key)throw new Error("Train or load a topic model for the current corpus first");
+    return new LdaSearchIndex(this.model).getModel();
+  }
+  async loadModel(input:SearchCorpus,read:()=>Promise<unknown>):Promise<void>{
+    if(this.disposed)throw new Error("Search session disposed");
+    const corpus=createSearchCorpus(input.documents);this.cancel();const generation=this.generation;
+    const candidate=await read();this.check(generation);
+    if(!candidate||typeof candidate!=="object")throw new TypeError("Invalid topic model file");
+    const index=new LdaSearchIndex(candidate as LdaModel),model=index.getModel();
+    if(model.corpus.key!==corpus.key)throw new Error("Topic model belongs to a different corpus");
+    this.model=model;this.topicWords=index.topicWords(6).map(row=>row.map(word=>word.term));
+  }
   cancel():void {this.generation++;this.jobs.cancel();}
   reset():void {this.cancel();this.model=undefined;this.topicWords=[];}
   dispose():void {if(this.disposed)return;this.disposed=true;this.reset();this.jobs.dispose();}

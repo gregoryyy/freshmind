@@ -4,7 +4,7 @@ import {execFileSync} from "node:child_process";
 import {mkdtempSync,rmSync,readFileSync} from "node:fs";
 import {join} from "node:path";
 import {tmpdir} from "node:os";
-import {Node} from "fm4/core";
+import {Node,MotionStabilizer} from "fm4/core";
 import {RfcStabilizer} from "fm4/fm/rfc";
 import {FreshmindPanel} from "fm4/fm";
 import {adaptiveRun} from "./fixtures/rfc.mjs";
@@ -119,6 +119,49 @@ test("persistent circulating and smaller-amplitude motion is detected without a 
     assert.ok(s.getState().detections>0,`period ${period}`);assert.equal(s.getState().lastTrigger,"circulation");
   }
   const {step}=rig();let state;for(let i=0;i<20;i++)state=step(i%2?.2:0);assert.ok(state.detections>0);
+});
+
+test("slow swings and orbits trigger within a few cycles even when individual steps stay below the motion threshold",()=>{
+  for(const period of [24,80,320])for(const amplitude of [.5,20])for(const angle of [0,Math.PI/4,Math.PI/2])for(const orbit of [false,true]) {
+    let time=0,first=null;const s=new MotionStabilizer({enabled:true,now:()=>time}),n=new Node("slow");
+    for(let i=0;i<=Math.ceil(period*2.5);i++) {
+      const phase=i*2*Math.PI/period,x=amplitude*Math.cos(phase),y=orbit?amplitude*Math.sin(phase):0;
+      n.x=x*Math.cos(angle)-y*Math.sin(angle);n.y=x*Math.sin(angle)+y*Math.cos(angle);
+      n.dx=10;n.dy=-5;time+=2;s.apply([n]);
+      if(s.getState().detections){first=i;break;}
+    }
+    assert.notEqual(first,null,JSON.stringify({period,amplitude,angle,orbit}));
+    const state=s.getState();assert.ok(state.gain<=.5);assert.deepEqual(state.detectedNodeIds,["slow"]);
+    assert.equal(n.dx,10*state.gain);assert.equal(n.dy,-5*state.gain);
+  }
+});
+
+test("completed-cycle tracking ignores slow decaying motion, small jitter, translation with a ripple and a single excursion",()=>{
+  const period=160;
+  for(const mode of ["decay","jitter","drift","excursion"]) {
+    let time=0;const s=new MotionStabilizer({enabled:true,now:()=>time}),n=new Node(mode);
+    for(let i=0;i<period*5;i++) {
+      const phase=i*2*Math.PI/period;
+      n.x=mode==="drift"?i*100/period:mode==="excursion"?.5*Math.sin(Math.min(Math.PI,i*Math.PI/period)):
+        (mode==="jitter"?.05:.5*.6**(i/(period/2)))*Math.cos(phase);
+      n.y=mode==="drift"?.5*Math.cos(phase):0;n.dx=10;n.dy=0;time+=2;s.apply([n]);
+    }
+    assert.equal(s.getState().detections,0,mode);assert.equal(s.getState().gain,1,mode);
+  }
+});
+
+test("a pause or membership change discards incomplete slow cycles",()=>{
+  for(const change of ["pause","membership"]) {
+    let time=0;const s=new MotionStabilizer({enabled:true,now:()=>time}),n=new Node("slow"),extra=new Node("extra");
+    extra.x=extra.y=0;
+    for(let i=0;i<270;i++) {
+      if(i===150&&change==="pause")time+=1000;
+      n.x=.5*Math.cos(i*2*Math.PI/80);n.y=0;n.dx=10;n.dy=0;time+=2;
+      // Reset before four extrema, then observe less than another two cycles.
+      s.apply(change==="membership"&&i>=150?[n,extra]:[n]);
+    }
+    assert.equal(s.getState().detections,0,change);
+  }
 });
 
 test("wild swings bound the next requested displacement below the old gain floor",()=>{

@@ -8,7 +8,7 @@ One npm ESM package, with three source domains. See the [module map](src/README.
 
 - `src/tg/`: TouchGraph model, graph/locality, layout, lenses and browser panel. Imports neither FM nor IR.
 - `src/fm/`: Freshmind model, configuration, geometry, `render`, `navigate`, `edit`, I/O, `struct`, RFC, `cluster`, `struct-view`, graph-search adapters, browser composition and UI.
-- `src/ir/`: independent information retrieval: corpus contracts, lexical prototype, `topics` and worker/session lifecycle. Imports neither FM nor TG. Freshmind adapts graph content and applies results through `fm/ir`.
+- `src/ir/`: independent information retrieval: corpus contracts, elasticlunr literal retrieval, `topics` and worker/session lifecycle. Imports neither FM nor TG. Freshmind adapts graph content and applies results through `fm/ir`.
 - `demo/`: application pages, controls, file pickers and example loading. `tests/` uses Node tests and Playwright; `tests/reference/` contains pinned Java compatibility sources.
 - `scripts/`: conversion, reproducible experiments, walkthrough capture and PDF tooling. `config/fm2014.types.yaml` is the canonical type profile; use `just sync-fm-config` to regenerate its outputs.
 - `docs/`, `examples/`, `assets/`: designs, reports, attributed data and artwork. `dist/` and `demo-dist/` are generated; never edit them.
@@ -44,4 +44,4 @@ Strict TypeScript, native ES modules, Node and Vite. SVG/D3 provides presentatio
 - Async jobs must check document identity/generation and corpus/source validity before applying results. Cancellation, replacement and disposal must clean up workers, listeners and timers and ignore late callbacks.
 - Preserve original source headers, pinned references, dataset provenance and licence notices. Use approved conversion inputs; do not import proprietary reference datasets into the repository.
 - RFC and visual search should fulfil the ideas described in the reference text, with room to improve the implementation. Exact 2005 figure layouts, crosshairs and labels are outside scope. Keep experiments reproducible and distinguish synthetic observations from general quality claims.
-- Keep the current lexical/LDA search implementation for now. If an external literal-search library becomes necessary, use elasticlunr; do not add it speculatively. A future supplied semantic module may use embeddings. Follow the [integration plan](docs/search-module-integration.md) and inspect the actual API before adapting it.
+- Use elasticlunr for literal retrieval and LDA-based semantics for FM 2014 graph-search feature parity, per the latest user direction. Embedding retrieval is deferred. Preserve independent IR ownership, local data handling and model/source freshness. Follow the [integration plan](docs/search-module-integration.md) and [parity record](docs/fm2014-retrieval-parity.md); distinguish corrected legacy defects and scoped numerical checks from exact historical behavior or general retrieval-quality claims.
