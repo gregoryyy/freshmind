@@ -20,13 +20,15 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 
 | Area | Current status |
 | --- | --- |
-| TouchGraph foundation | Complete: graph/locality APIs, spring layout and lenses, with Java compatibility checks. |
-| Freshmind browser features | Complete: types, labeled curves, navigation, overlay editors with label/weight commands, content popups and native YAML persistence. |
-| Reinforcement Focus + Context | Planned milestone complete: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible comparisons including hybrid views. |
+| TouchGraph foundation | Ported graph/locality APIs, spring layout and lenses, with scoped Java compatibility checks. |
+| Freshmind browser features | Ported types, labeled curves, navigation, overlay editors with label/weight commands, content popups and native YAML persistence. |
+| Reinforcement Focus + Context | Implemented planned mechanisms: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible synthetic comparisons. |
 | Readability | Measured node-label separation with pinned/focus protection and overlap counts; automatic relation-label placement near clear curve positions. |
-| Graph visual search | Current lexical/LDA prototype retained: queries, tags, node similarity and feedback. Backend replacement is deferred. |
+| Graph visual search | Working lexical/LDA prototype: queries, tags, node similarity and feedback. Next: elasticlunr literal retrieval and FM 2014 LDA feature parity; embeddings deferred. |
+| Application research and alternative views | Literature/application review and radius-two design/mockup complete; production implementation and evaluation remain pending. |
+| System assurance | Intent, usage constraints, architecture and deterministic verification approach documented for review. Implementation mapping, risk assessment and conformance checks remain pending. |
 
-See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes. **View → Label spacing** offers paused node separation and automatic relation-label placement; see the [readability guide](docs/readability.md).
+See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Feature delivery is distinct from conformance to the [assurance baseline](docs/assurance/README.md); that audit has not been completed. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes. **View → Label spacing** offers paused node separation and automatic relation-label placement; see the [readability guide](docs/readability.md).
 
 ## Run the browser
 
@@ -41,7 +43,7 @@ Open the localhost address printed by Vite. `/` is the graph browser; `/freshmin
 
 Try **RFC → Research community showcase** to compare a plain graph, viewing lens, one/two RFC foci and hybrid aggregation. See the [showcase guide](docs/rfc-showcase.md) or [six-view flipbook](docs/rfc-showcase/index.html).
 
-The current lexical and topic-model search remains available. If an external literal-search library is needed, use elasticlunr. See the [integration plan](docs/search-module-integration.md) and [browser guide](docs/graph-search.md).
+The current lexical and topic-model search remains available. The next retrieval increment will use elasticlunr and restore FM 2014 LDA-based retrieval features; embeddings are deferred. The [browser guide](docs/graph-search.md) describes current behavior; the earlier [integration plan](docs/search-module-integration.md) will be revised for this scope.
 
 RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Point at the graph to give the centered node keyboard control; explicit control/editor focus takes priority. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
 
