@@ -15,6 +15,11 @@ RFC experiment documentation (**3.5**) is complete for the implemented compariso
 
 Milestones **1–3** are complete within their agreed scope. Original-figure reproduction (**3.3.1**) was removed from scope at the user's request on 2026-10-24; it is not claimed as implemented. Experiment J completes the final planned RFC comparison (**3.4.2**). The [search report](experiments/search/README.md) completed the earlier prototype task **4.6**; revised milestone **4** awaits the supplied module. Earlier entries below describe the prototype at their respective checkpoints. Numerical regularity, low motion, force balance and successful synthetic retrieval checks do not establish general convergence, perceptual benefit or real-world search quality.
 
+## Production flipbook refresh — 2026-10-24
+
+- Regenerated all 21 main walkthrough captures with `just flipbook` from the current production build, including the README's RFC-on-center image. Existing captions, HTML viewer and manifest remain current; the palette capture is byte identical. The separate RFC showcase and search prototype walkthrough retain their own tours.
+- Verification: production build and all tour steps pass without page errors. All manifest files and Markdown links resolve; every PNG is 1440 × 1000. Inspected RFC, importance and structural-view captures. Offline Chrome verification loads all 21 images and checks buttons, keyboard navigation, endpoint bounds and direct slide links. No application code changed.
+
 ## Cokus generator attribution correction — 2026-10-24
 
 - Corrected the generator's attribution to Shawn Cokus's 1998 recoding of MT19937 by Makoto Matsumoto and Takuji Nishimura (1997), distributed through David Blei's lda-c and the knowceans Java adaptation. The earlier copied Java wrapper notice obscured the upstream authors and license; its permissive-license description was incorrect.
