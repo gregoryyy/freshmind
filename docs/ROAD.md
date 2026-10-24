@@ -5,6 +5,10 @@ Research snapshot: **2026-10-24**. This document proposes the next direction;
 The radius-two view below is a design, with a standalone mockup, rather than an
 implemented browser feature.
 
+[Appendix A](#appendix-a-related-work-before-2024) extends the literature review
+to work published before 2024, distinguishing RFC comparisons, visual retrieval
+workflows and adjacent graph-query/representation techniques.
+
 Freshmind makes relationships navigable: find an item, understand its immediate
 context, and follow useful connections without losing the question that brought
 you there. The modern opportunity is an inspectable interface to existing graph
@@ -202,7 +206,7 @@ The survey searched the original RFC concept and adjacent work on constrained
 layout, ego networks, visual adjacency lists, graph-as-tree/table exploration,
 visual queries and graph-backed retrieval, checking primary papers, author
 pages, official repositories and documentation. It includes relevant 2024–2026
-work as well as foundational techniques; it is a targeted survey, not an
+work as well as the pre-2024 review in Appendix A; it is a targeted survey, not an
 exhaustive literature review. Bibliographic years above follow the paper or
 venue, not a search engine's crawl date. Links were consulted on 2026-10-24;
 moving library documentation describes an observed snapshot, not a pinned API.
@@ -211,3 +215,101 @@ Open decisions are the first pilot's data source, domain meaning of weights,
 whether stable row repetition or a unique-node matrix better supports shared
 neighbors, and how much non-tree detail should be permanently visible. Resolve
 these with the mockup and task evidence before fixing a new public API.
+
+## Appendix A. Related work before 2024
+
+### A.1 Scope and interpretation
+
+This historical extension considers publications **before 2024-01-01**, with
+sources checked on **2026-10-24**. It supplements the current survey rather than
+replacing it. Search terms included reinforcement focus/context, constrained
+graph layout, local structural primitives, degree of interest, search-seeded
+graph exploration, associative browsing and visual query/result context. The
+review follows relevant references and checks papers, author project pages and
+institutional/publisher records. It is selective, not a systematic review or a
+complete citation genealogy; no entry for a year means no selected paper, not
+that no related work exists.
+
+Our two historical anchors have different purposes. [Heinrich's RFC paper
+(2005)](literature/rfc@3ia05compact.pdf) embeds recognizable local structures in
+a surrounding graph layout. The [community-browser description (2011),
+pp. 212–213](literature/gheinrich-phd-thesis_p212.pdf) makes a query part of the
+graph, links retrieved items to it, preserves ordinary semantic relations, and
+supports radius-two navigation, node-based similarity queries, annotations and
+removal of irrelevant result links as a possible feedback mechanism. The
+retrieval model used in that example does not define the interaction concept:
+literal and supplied semantic retrieval remain our current direction.
+
+The contribution and reported scope columns below describe the sources. The
+comparison column is our assessment, not a defect claimed by their authors.
+Similarity of mechanisms does not establish influence or direct descent from
+RFC. A graphical query language and a graph interface to retrieved content also
+solve different problems.
+
+### A.2 Focus/context and reinforcement through layout
+
+| Work | Contribution and reported scope | Relationship to RFC / comparison to make |
+| --- | --- | --- |
+| **Furnas (1986), Generalized Fisheye Views**, CHI. [Paper](https://courses.ischool.berkeley.edu/i247/f05/readings/Furnas_GeneralizedFisheyeViews_CHI86.pdf) | Formalizes degree of interest through a priori importance and distance from a focus; selects detail while retaining important context. | A foundation for choosing what to show. It does not specify RFC's reinforcement of local trees/circles; distinguish structural selection from changing layout geometry. |
+| **Sarkar & Brown (1991 technical report; CHI 1992), Graphical Fisheye Views of Graphs**. [Author-institution report](https://cs.brown.edu/research/pubs/techreports/reports/CS-91-61.html) | Combines geometric transformations with structural information for graph viewing and browsing. | A viewing-distortion comparison. Magnifying a region and imposing a recognizable local arrangement should be evaluated separately, including whether either makes labels readable. |
+| **Ryall, Marks & Shieber (1997), An Interactive Constraint-Based System for Drawing Graphs**, UIST. [Author-hosted paper](https://www.eecs.harvard.edu/shieber/Biblio/Papers/ryall-uist-97.pdf) | GLIDE lets users specify visual organization constraints and manipulate a continuously simulated drawing. Its stated target is diagrams of 50 nodes or fewer. | A close earlier mechanism: high-level organization becomes spring-like forces. RFC's focus/context policy is more specific, but adding forces for visual structure is not itself new. Its small-diagram scope is not evidence for large-graph exploration. |
+| **Dwyer, Koren & Marriott (2006), IPSep-CoLa**, TVCG 12(5), 821–828. [Institutional record / DOI](https://research.monash.edu/en/publications/ipsep-cola-an-incremental-procedure-for-separation-constraint-lay/) | Adds minimum horizontal/vertical separation constraints to stress-based layout, supporting direction, label nonoverlap and grouping. | A constraint-solving alternative to soft reinforcement. Compare explicit separation requirements and feasible/infeasible cases; extra repulsion alone does not establish body clearance. |
+| **Dwyer et al. (2008), Exploration of Networks Using Overview+Detail with Constraint-Based Cooperative Layout**, TVCG 14(6), 1293–1300. [Author-hosted paper](https://users.monash.edu/~mwybrow/papers/dwyer-infovis-2008.pdf) | Uses different, cooperating layouts for an overview and a focal detail view; the detailed layout supports user constraints and edge routing. | Closely related in objective: improve a local region while retaining context. Separate overview/detail views differ from RFC's embedding in one drawing; compare orientation and transitions as well as local aesthetics. |
+| **Dwyer (2009), Scalable, Versatile and Simple Constrained Graph Layout**, Computer Graphics Forum 28(3), 991–998. [Publisher paper](https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1467-8659.2009.01449.x) | Extends incremental constrained layout to inequalities/equalities on Euclidean distances using a position-based constraint response. | A useful numerical baseline for maintaining local shape. Its solver contribution does not supply query/result semantics or validate a particular browsing workflow. |
+| **Wang et al. (InfoVis 2017; TVCG 2018), Revisiting Stress Majorization as a Unified Framework for Interactive Constrained Graph Visualization**, 24(1), 489–499. [Author project](https://www.yunhaiwang.net/infovis17/vectormds/index.html), [institutional publication record](https://graphics.uni-konstanz.de/publikationen/Wang2018RevisitingStressMajorization/index.html) | Reformulates stress using edge vectors and lengths; explicitly demonstrates local **star, circle, path and cluster-separation constraints**, including selected ego-network regions. | **One of the closest comparisons to RFC's structural-primitives idea in this review.** Compare local shape, context disruption, overlap, interactive changes and numerical behavior. Similar functionality is established here; direct influence from RFC is not established by this survey. |
+| **Balcı & Dogrusoz (online 2021; TVCG 2022), fCoSE: A Fast Compound Graph Layout Algorithm with Constraint Support**, 28(12), 4582–4593. [Paper](https://yoksis.bilkent.edu.tr/pdf/files/15807.pdf) | Combines spectral initialization and compound spring embedding with placement constraints and nonuniform node dimensions; evaluates small to medium graphs. | A modern pre-2024 comparison for constraints and node-body treatment. Nested compound structure differs from our overlapping focal memberships, and a layout solver does not provide the complete search/navigation interface. |
+
+This history changes the comparison set: RFC should be evaluated against
+interactive constrained layouts, especially Wang et al.'s local primitives, as
+well as against ordinary force layout and lenses. Quiet motion, low stress,
+local shape and readable labels are separate outcomes. The present review does
+not establish a large literature explicitly named “Reinforcement Focus+Context”;
+it does establish substantial related work under constrained graph layout.
+
+### A.3 Visual retrieval and associative graph exploration
+
+| Work | Contribution and reported scope | Relationship to our visual-search concept |
+| --- | --- | --- |
+| **van Ham & Perer (2009), Search, Show Context, Expand on Demand**, TVCG. [IBM publication](https://research.ibm.com/publications/search-show-context-expand-on-demand-supporting-large-graph-exploration-with-degree-of-interest) | Starts from a node of interest, selects contextual subgraphs using degree of interest, and supports bounded expansion. Demonstrates browsing a large legal-citation database. | A close search-first interaction comparison. Radius and degree-of-interest budgets both omit context; our view must explain omissions and retain the query that led to a result. |
+| **Chau, Kittur, Hong & Faloutsos (2011), Apolo**, CHI. [Author-hosted paper](https://www.cs.cmu.edu/~dchau/apolo/apolo.pdf) | Combines incremental network exploration with exemplar-based belief propagation to identify relevant nodes. Reports a 12-participant related-paper study. | Closely related to node-based similarity search and interactive refinement. Its graph inference differs from literal/embedding retrieval; compare the interaction independently of ranking quality, using equivalent inputs and judgments. |
+| **Dörk, Henry Riche, Ramos & Dumais (2012), PivotPaths**, TVCG 18(12), 2709–2718. [Author project and publication](https://mariandoerk.de/pivotpaths/) | Shows relations among faceted items and supports lightweight pivots with gradual transitions; evaluated through interviews and a two-week deployment. | A close precedent for moving between retrieved items and their relational context. Faceted paths are not arbitrary semantic graph edges; compare pivot comprehensibility and continuity without assuming identical data models. |
+| **Kairam, Henry Riche, Drucker, Fernandez & Heer (2015), Refinery**, Computer Graphics Forum 34(3), 301–310. [Author-hosted paper](https://idl.cs.washington.edu/files/2015-Refinery-EuroVis.pdf) | Uses heterogeneous sets of nodes as queries, computes random-walk degree-of-interest scores, and visualizes query nodes within result subgraphs. Reports a study with 12 academic researchers. | **A particularly close comparison for query/result context embedded in a graph.** Its queries comprise existing graph nodes; our browser can also create dedicated term/tag query nodes. Neither that difference nor a different retrieval backend establishes novelty or superiority. |
+| **Nguyen et al. (2016), SenseMap: Supporting Browser-Based Online Sensemaking through Analytic Provenance**, VAST. [Institutional paper](https://openaccess.city.ac.uk/15530/1/SenseMap-final.pdf) | Captures browsing actions in a history map and supports curated knowledge maps. Its exploratory five-person task study reports successful engagement for three participants and negative experiences for two. | Adjacent evidence for preserving exploration history and source provenance, rather than a matching retrieval algorithm. It also cautions against treating a visual map as an automatic improvement over ordinary browsing. |
+
+Apolo and Refinery are stronger historical workflow comparisons than a generic
+whole-graph viewer. The common idea is iterative retrieval and exploration with
+visible context; the exact mechanisms differ. We should compare finding a useful
+new item, explaining its connection to a query, rejecting a result and returning
+to an earlier context. Their reported studies concern their own systems/tasks,
+not evidence that Freshmind improves those outcomes. None requires reviving LDA
+or adopting its particular inference algorithm.
+
+### A.4 Adjacent representations and structural queries
+
+These works help delimit the proposal; they are not additional direct RFC or
+content-retrieval implementations.
+
+| Work | Relevance and boundary |
+| --- | --- |
+| **Lee et al. (2006), TreePlus: Interactive Exploration of Networks with Enhanced Tree Layouts**, TVCG. [Microsoft Research publication](https://www.microsoft.com/en-us/research/publication/treeplus-interactive-exploration-networks-enhanced-tree-layouts/) | Incremental graph-as-tree exploration prioritizes readable labels and reveals omitted graph structure through interaction. Its controlled 28-participant comparison is relevant to our local exploration tasks; a tree projection must still account for cross-links. It is an important baseline for the proposed radius-two view. |
+| **Haag, Lohmann, Siek & Ertl (2015), Visual Querying of Linked Data with QueryVOWL**, ESWC workshop. [Workshop paper](https://ceur-ws.org/Vol-1556/paper6.pdf) | A graphical query notation mapped to SPARQL, with prototypes and qualitative evaluation. This is querying graph structure, distinct from placing a content query and its retrieved results in a graph. It is relevant only if a structural-query backend and explicit matching semantics are added. |
+| **Nobre, Streit & Lex (preprint/online 2018; TVCG 2019), Juniper: A Tree+Table Approach to Multivariate Graph Visualization**, 25(1), 544–554. [Paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC6785378/), [institutional publication record](https://research.jku.at/en/publications/juniper-a-treetable-approach-to-multivariate-graph-visualization/) | Extracts a query-selected subgraph, linearizes a spanning tree and combines it with attributes and adjacency information. This is a close representation baseline for readable rows and retained non-tree relations. Our repeated second-hop occurrences differ from its spanning-tree/table design; test shared identity and route comprehension rather than claiming a new graph-as-table idea. |
+
+### A.5 Consequences for the research plan
+
+The closest selected comparisons are **Wang et al. (2018)** for local structural
+primitives, **Apolo / Refinery** for visual search workflows, and **TreePlus /
+Juniper** for the proposed radius-two representation. This is a comparison
+shortlist, not a requirement to port those systems or reproduce their figures.
+
+For RFC, measure maintained local structure, body overlap, settling time and
+context movement independently. For visual search, separate backend retrieval
+quality from task accuracy, result explanation, feedback and navigation cost.
+For radius two, compare shared-neighbor and relationship-reading tasks with
+simple lists/trees and an ordinary ego graph. The current implementation's
+synthetic experiments do not replace these comparisons.
+
+The defensible claim is that Freshmind reimplements and extends its historical
+ideas in a modern browser. This review identifies meaningful related work but
+does not establish an unbroken RFC lineage, the absence of other close systems,
+novelty of the combined interface, or superiority over these alternatives.

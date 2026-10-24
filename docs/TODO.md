@@ -180,7 +180,7 @@ implementation below. Keep the current search; use elasticlunr only if an
 external literal-search library is needed, and inspect any supplied semantic
 module before adapting it.
 
-- [x] 6.1 Research high-value application workflows, RFC/visual-search state of the art and available libraries, with primary sources and explicit shortcomings.
+- [x] 6.1 Research high-value application workflows, RFC/visual-search state of the art and available libraries, with primary sources and explicit shortcomings; extend [ROAD Appendix A](ROAD.md#appendix-a-related-work-before-2024) with pre-2024 work and distinguish close comparisons from adjacent techniques.
 - [x] 6.2 Design the orthogonal radius-two view: vertical direct neighbors, horizontal second-hop occurrences, relationship labels/weights, shared identity, non-row relations, bounded data access and keyboard/overlay integration. Provide an interactive fictional mockup.
 - [ ] 6.3 Implement a detached, deterministic radius-two projection with stable identities, explicit occurrence/edge records, direction/filter policies and incomplete-page contracts; verify graph/coordinate preservation and graph-replacement behavior.
 - [ ] 6.4 Add an opt-in bounded browser view with measured/virtual rows and cells, paging, selection, pivot/history, accessible navigation and shared overlay editing; preserve the current RFC/lens view.

@@ -17,6 +17,12 @@ RFC experiment documentation (**3.5**) is complete for the implemented compariso
 
 Milestones **1–3** are complete within their agreed scope. Original-figure reproduction (**3.3.1**) was removed from scope at the user's request on 2026-10-24; it is not claimed as implemented. Experiment J completes the final planned RFC comparison (**3.4.2**). The [search report](experiments/search/README.md) completed the earlier prototype task **4.6**; the latest scope retains the current implementation and defers backend replacement. Milestone **5** addresses node separation and relation-label placement. Earlier entries below describe the prototype at their respective checkpoints. Numerical regularity, low motion, force balance and successful synthetic retrieval checks do not establish general convergence, perceptual benefit or real-world search quality.
 
+## Historical RFC and visual-search literature appendix — 2026-10-24
+
+- Extends **6.1** in [ROAD Appendix A](ROAD.md#appendix-a-related-work-before-2024), covering selected work from 1986 through 2022 within a pre-2024 publication cutoff. Distinguishes focus/context foundations, interactive constrained layouts, visual retrieval/associative browsing and adjacent tree/table or structural-query approaches. Records publication-versus-online years and links primary papers, author pages and institutional records.
+- Identifies Wang et al.'s star/circle constraints as a close RFC comparison, Apolo/Refinery as visual-search workflow comparisons, and TreePlus/Juniper as representation baselines. Preserves the original RFC and 2011 community-browser anchors, current literal/supplied semantic-search direction and the newer survey. Makes no claim of an exhaustive search, direct RFC descent, novelty or comparative superiority.
+- Verification: checked cited primary sources, local Markdown targets/anchors and whitespace. Documentation-only; application tests and historical experiments were not rerun.
+
 ## Application research and radius-two design — 2026-10-24
 
 - Completes **6.1–6.2** on a new research branch from main. Added [ROAD.md](ROAD.md): prioritized software dependency impact, lineage, AI evidence inspection, service incidents, identity review, fraud/entity resolution and scientific exploration. Separates evidence for existing workflows from unvalidated Freshmind product hypotheses and recommends a narrow public-data pilot.
