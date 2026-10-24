@@ -24,6 +24,10 @@ build-demo:
 test-lda-java:
     node scripts/lda-java-reference.mjs
 
+# Check the owner-authorized FM2014 retrieval binary on synthetic probability matrices.
+test-retrieval-java:
+    node scripts/retrieval-java-reference.mjs
+
 # Regenerate the fictional graph-search library without importing legacy corpora.
 search-example: build
     node scripts/search-example.mjs

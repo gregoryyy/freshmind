@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {searchExample,searchCases,searchThemes} from '../scripts/search-example.mjs';
 import {retrievalMetrics} from '../scripts/search-experiment.mjs';
 import {graphSearchCorpus} from 'fm4/fm/ir';
-import {LexicalSearchIndex} from 'fm4/ir/lexical';
+import {LexicalSearchIndex} from './fixtures/lexical-v1.mjs';
 import {LdaSearchIndex} from 'fm4/ir/topics';
 import {parseDocument,serializeDocument} from 'fm4/fm/io';
 test('fictional search fixture preserves native data, theme judgments, exact tags and semantic context',()=>{

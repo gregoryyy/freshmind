@@ -22,6 +22,11 @@ is GNU Library General Public License version 2 or later
 The original generator notice and adaptation provenance are retained in
 src/ir/topics/cokus.ts and NOTICE.
 
+The npm elasticlunr 0.9.5 engine and generated ES-module adapter retain the
+upstream MIT license, including Oliver Nightingale and Wei Song's notices.
+The full text is in licenses/LICENSE-ELASTICLUNR.txt. The adapter's portability
+changes are described in scripts/elasticlunr-runtime.mjs and NOTICE.
+
 TouchGraph-derived components retain the original licenses reproduced below.
 The short headers in src/tg/ refer to this file and NOTICE. Distribute both
 files with those sources, and reproduce the required notices and license

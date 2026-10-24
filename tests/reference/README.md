@@ -31,3 +31,14 @@ This product includes software developed by TouchGraph LLC
 
 This product includes software developed by TouchGraph
 (http://www.touchgraph.com/).
+
+
+## FM 2014 retrieval binary reference
+
+`fm2014/RetrievalReference.java` is our synthetic harness, not decompiled source.
+`just test-retrieval-java` compiles it against the owner's local FM 2014
+`lib/knowceans-corpus.jar` and `lib/knowceans-tools.jar`, pins class hashes and
+executes posteriors/distance/predictive query rankings. No legacy corpus or JAR
+is copied. Ordinary tests compare against `../fixtures/fm2014-retrieval.json`
+without a JDK or external project. See the
+[scope and corrections](../../docs/fm2014-retrieval-parity.md).

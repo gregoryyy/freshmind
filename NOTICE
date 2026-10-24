@@ -62,6 +62,16 @@ The yaml package is distributed under its ISC license. It parses Freshmind
 type configuration and is excluded from the headless core entry points.
 The demo build includes its full notice in LICENSE-YAML.txt.
 
+Elasticlunr 0.9.5 supplies the literal retrieval index and ranking under MIT.
+Copyright (C) 2013 Oliver Nightingale; Copyright (C) 2015 Wei Song.
+Its installed package retains LICENSE; this distribution and the production
+browser include the full notice in licenses/LICENSE-ELASTICLUNR.txt. The IR
+adapter retains stable IDs, the bounded FM query grammar and exact metadata
+filters around that engine. scripts/elasticlunr-runtime.mjs generates a pinned
+ES module: it declares the legacy lunr alias locally, forces the CommonJS export
+and restores the global this used by the console utility. The upstream engine
+source and copyright notices otherwise remain intact.
+
 Graphology, graphology-components, graphology-communities-louvain and their
 graphology-indices, graphology-utils, graphology-types, mnemonist, obliterator,
 pandemonium and events dependencies are distributed under their respective
