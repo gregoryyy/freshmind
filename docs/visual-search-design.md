@@ -61,6 +61,28 @@ scores, descending rank and deterministic ID ties; provide bounded relevance
 separately for display. Empty/OOV queries return no results. A parsed pure-negative
 query returns no results, matching the positive retrieval contract.
 
+The lexical contract above is implemented in `fm4/fm/search` (4.2). A minimal
+headless use is:
+
+```ts
+import {graphSearchCorpus, LexicalSearchIndex, createGraphQuery,
+  applyGraphSearchResults} from "fm4/fm/search";
+
+const corpus = graphSearchCorpus(graph);
+const index = new LexicalSearchIndex(corpus);
+const request = {engine: "lexical", kind: "terms", query: "graph AND layout"} as const;
+const queryNode = createGraphQuery(graph, request, selectedNode);
+applyGraphSearchResults(graph, queryNode, request, index.search(request.query), corpus);
+```
+
+`index.tags(["visual search"])` intersects whole normalized tag values;
+`index.similar(nodeId)` excludes the source. `getCorpus()` returns detached values.
+Exact `corpus.key` comparison protects stale work; compact `fingerprint` values in
+result metadata are provenance only. Query reruns replace that source's results
+for the selected engine. These graph commands operate on the complete graph;
+browser locality/repaint integration belongs to 4.5. Phrase positions include stop
+words, but an all-stop phrase has no searchable terms and yields no results.
+
 ## LDA and utility subset (4.3–4.4)
 
 Select the serial `LdaGibbs` implementation, not the parallel/generated/HDP/ETT

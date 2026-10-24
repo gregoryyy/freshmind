@@ -29,6 +29,7 @@ The library is one ESM package with two domains: `tg/` preserves TouchGraph, and
 | `fm/rfc/` | Reinforcement projection, forces, importance, exclusion, optional stabilizer and transient controller. | `fm4/fm/rfc` |
 | `fm/clustering/` | Community/component detection and conversion to stored memberships. | `fm4/fm/clustering` |
 | `fm/structure-view/` | Reversible type filtering/leaf aggregation and the presented membership index. | `fm4/fm/structure-view` |
+| `fm/search/` | Headless corpus/analyzer, bounded query parser, lexical term vectors and owned graph search/feedback commands. | `fm4/fm/search` |
 | `fm/browser/` | FreshmindPanel composition, DOM keyboard adapter, document installation/capture and safe annotation/resource presentation. | `fm4/fm/browser` |
 | `fm/ui/` | Reusable caller-owned controls, content popup and key-map/zoom/importance/structure bindings. | `fm4/fm/ui` |
 

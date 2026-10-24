@@ -20,12 +20,16 @@ import {FreshmindPresentation} from 'fm4/fm/rendering';
 import {FreshmindPanel,installDocument,captureDocument} from 'fm4/fm/browser';
 import type {FreshmindPanelOptions} from 'fm4/fm/browser';
 import {bindNodeImportanceControls} from 'fm4/fm/ui';
+import {LexicalSearchIndex,graphSearchCorpus,createGraphQuery,applyGraphSearchResults} from 'fm4/fm/search';
 
 // Compile-only consumer fixture: public declaration identities must compose across modules.
 const options:FreshNodeOptions={type:'person',weight:9,visual:{style:{importance:{mode:'size'}}}};
 const node:Node=new FreshNode('a','A',options),other=new FreshNode('b','B');
 const edge:Edge=new FreshEdge(node as FreshNode,other);
 const graph:GraphEltSet=new FreshGraph();graph.addNode(node);graph.addNode(other);graph.addEdge(edge);
+const corpus=graphSearchCorpus(graph as FreshGraph),search=new LexicalSearchIndex(corpus);
+const query={engine:'lexical',kind:'terms',query:'A'} as const;
+applyGraphSearchResults(graph as FreshGraph,createGraphQuery(graph as FreshGraph,query),query,search.search('A'),corpus);
 const locality=new VisibleLocality(graph),source:LocalitySource={getMutationSource:()=>locality};
 getMutationLocality(source.getMutationSource());
 const host:LayoutHost={getGES:()=>locality,repaintAfterMove(){}};
