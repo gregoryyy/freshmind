@@ -1,7 +1,8 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later; Copyright (c) 2026 Gregor Heinrich.
  * Part of the LDA port; see gibbs.ts and LICENSE-GPL-3.0. No warranty. */
-import {compareSearchIds,createSearchCorpus,rankSearchResults,searchTokens} from "../search/index.js";
-import type {SearchCorpus,SearchResult} from "../search/index.js";
+import {compareSearchIds,createSearchCorpus,searchTokens} from "../corpus/index.js";
+import {rankSearchResults} from "../lexical/index.js";
+import type {SearchCorpus,SearchResult} from "../corpus/index.js";
 import {LdaGibbs,foldInLda,validateLdaOptions} from "./gibbs.js";
 import type {LdaOptions} from "./gibbs.js";
 import {topicSimilarity} from "./numeric.js";
@@ -20,7 +21,7 @@ export function* trainLdaSteps(input:SearchCorpus,options:Partial<LdaOptions>={}
   return {version:LDA_MODEL_VERSION,corpus,options:o,vocabulary,documentIds:corpus.documents.map(d=>d.id),lengths:words.map(d=>d.length),theta,phi};
 }
 export function trainLda(corpus:SearchCorpus,options:Partial<LdaOptions>={}):LdaModel {const steps=trainLdaSteps(corpus,options);let next=steps.next();while(!next.done)next=steps.next();return next.value;}
-/** Owns a detached, validated model and maps rows to stable graph IDs. */
+/** Owns a detached, validated model and maps rows to stable document IDs. */
 export class LdaSearchIndex {
   private readonly model:LdaModel;
   constructor(model:LdaModel){

@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
-import {createSearchCorpus} from 'fm4/fm/search';
-import {CokusRandom,sampleCategorical,topicSimilarity,LdaGibbs,foldInLda,trainLda,trainLdaSteps,LdaSearchIndex} from 'fm4/fm/topics';
+import {createSearchCorpus} from 'fm4/ir/corpus';
+import {CokusRandom,sampleCategorical,topicSimilarity,LdaGibbs,foldInLda,trainLda,trainLdaSteps,LdaSearchIndex} from 'fm4/ir/topics';
 const reference=JSON.parse(readFileSync(new URL('fixtures/lda-java-reference.json',import.meta.url),'utf8'));
 const close=(a,b)=>assert.ok(Math.abs(a-b)<1e-12,`${a} != ${b}`);
 test('CokusRandom reproduces 10000 Java unsigned draws across buffer reloads',()=>{

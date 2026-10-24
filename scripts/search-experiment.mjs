@@ -3,8 +3,9 @@ import {mkdir,writeFile} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 import {parseArgs} from 'node:util';
 import {createHash} from 'node:crypto';
-import {graphSearchCorpus,LexicalSearchIndex,SEARCH_ANALYZER_VERSION} from 'fm4/fm/search';
-import {trainLda,LdaSearchIndex,LDA_MODEL_VERSION} from 'fm4/fm/topics';
+import {graphSearchCorpus} from 'fm4/fm/ir';
+import {LexicalSearchIndex,SEARCH_ANALYZER_VERSION} from 'fm4/ir';
+import {trainLda,LdaSearchIndex,LDA_MODEL_VERSION} from 'fm4/ir/topics';
 import {searchExample,searchCases,searchThemes} from './search-example.mjs';
 export function retrievalMetrics(results,relevant,k=5){
   const expected=new Set(relevant),top=results.slice(0,k),hits=top.filter(r=>expected.has(r.id)).length;

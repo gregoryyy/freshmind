@@ -18,8 +18,8 @@ import {projectRfcStructure, constrainedStar} from "./structures.js";
 import type {RfcProjection} from "./structures.js";
 import {applyClusterLink,applyClusterCompactness} from "./clusters.js";
 import {focalRegions,applyRegionExclusion} from "./exclusion.js";
-import {analyzeSubstructure} from "../structures/index.js";
-import type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "../structures/index.js";
+import {analyzeSubstructure} from "../struct/index.js";
+import type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "../struct/index.js";
 
 const defaults:RfcSettings={...rfcForcePresets.tree,coordinateWeights:{x:1,y:1}};
 

@@ -8,7 +8,7 @@
 
 export * from "./core.js";
 export * from "./browser/index.js";
-export {FreshmindPresentation} from "./rendering/index.js";
+export {FreshmindPresentation} from "./render/index.js";
 export {parseTypeConfiguration} from "./config/index.js";
 export {parseDocument,readDocument,serializeDocument,documentToRecord} from "./io/index.js";
 export * from "./ui/index.js";

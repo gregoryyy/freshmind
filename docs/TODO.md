@@ -143,5 +143,7 @@ numbers preserve those historical references.
 - [ ] 4.11 Integrate and verify the supplied semantic approach, including embeddings if selected by that module.
 - [ ] 4.12 Adapt examples, walkthroughs and reproducible comparisons to the supplied module; verify graph query/context/result links, supported node similarity, rejection feedback, persistence and stale-work cleanup.
 
+- [x] 4.13 Separate information retrieval into `ir` alongside `fm` and `tg`, move topics and worker/model ownership there, and use short Freshmind module names (`render`, `navigate`, `edit`, `struct`, `cluster`, `struct-view`) while preserving public aliases.
+
 Tasks **4.8–4.12** depend on the module being provided. Backend implementation and
 embedding choices remain with the supplied search module.

@@ -7,8 +7,8 @@
  */
 
 import { FreshNode } from "../model/index.js";
-import type { FreshmindNavigation } from "../navigation/index.js";
-import type { NavigationHost, NavigationItem } from "../navigation/index.js";
+import type { FreshmindNavigation } from "../navigate/index.js";
+import type { NavigationHost, NavigationItem } from "../navigate/index.js";
 
 let nextId = 0;
 /** Attaches graph-scoped keyboard/scroll input and live status; returns complete cleanup. */

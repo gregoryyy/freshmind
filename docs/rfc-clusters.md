@@ -33,7 +33,7 @@ In **Substructures**, choose **Structure kind → Cluster** and create from the 
 **Graph clusters → Render cluster with RFC** now accepts a detected community directly as `kind: cluster`. `clusterToSubstructure()` defaults to that behavior. For an intentional tree projection, pass `"tree"` as its final argument after the optional representative:
 
 ```ts
-import {clusterGraph, clusterToSubstructure} from "fm4/fm/clustering";
+import {clusterGraph, clusterToSubstructure} from "fm4/fm/cluster";
 
 const result = clusterGraph(graph);
 const cluster = clusterToSubstructure(graph, result, result.clusters[0].id, "community");

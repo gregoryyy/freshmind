@@ -13,17 +13,17 @@ export type {NodeShape,DashStyle,CurveMode,InteractionState,DeepPartial,StrokeSt
   NodeImportanceMode,NodeImportanceStyle,VisualDefinition,VisualOverride,SemanticType,TypeConfiguration,VisualItem} from "./config/core.js";
 export {createEdgeGeometry,routeEdges,createClusterBoundary,nodeImportanceScale,createNodeOutline,dashArray} from "./geometry/index.js";
 export type {EdgeGeometry,Point,WorldToDraw,NodeImportanceViewSettings,ClusterBoundaryBox} from "./geometry/index.js";
-export {applyNodeEdit,applyRelationEdit} from "./editing/index.js";
-export type {NodeEdit,RelationEdit,RelationEditContext} from "./editing/index.js";
+export {applyNodeEdit,applyRelationEdit} from "./edit/index.js";
+export type {NodeEdit,RelationEdit,RelationEditContext} from "./edit/index.js";
 export type {DocumentRecord,DocumentView,NodeRecord,EdgeRecord,LoadOptions,SaveOptions} from "./io/index.js";
-export {FreshmindNavigation,keymap,collectCandidates,bestCandidateIndex,screenDirection} from "./navigation/index.js";
+export {FreshmindNavigation,keymap,collectCandidates,bestCandidateIndex,screenDirection} from "./navigate/index.js";
 export type {Direction,CandidateKind,Candidate,Preselection,NavigationItem,NavigationState,NavigationOptions,
-  NavigationSettings,NavigationHost,NavigationKey,NavigationActions,NavigationClock} from "./navigation/index.js";
+  NavigationSettings,NavigationHost,NavigationKey,NavigationActions,NavigationClock} from "./navigate/index.js";
 export * from "./rfc/index.js";
-export * from "./search/index.js";
-export * from "./topics/index.js";
-export * from "./structure-view/index.js";
-export {validateSubstructure,analyzeSubstructure,spanningTree,clusterStructure} from "./structures/index.js";
-export type {GraphSubstructure,SubstructureGraph,SubstructureTopology} from "./structures/index.js";
-export {clusterGraph,clusterToSubstructure,clusteringSignature} from "./clustering/index.js";
-export type {ClusterOptions,ClusterResult,GraphCluster} from "./clustering/index.js";
+export * from "./ir/index.js";
+export * from "../ir/topics/index.js";
+export * from "./struct-view/index.js";
+export {validateSubstructure,analyzeSubstructure,spanningTree,clusterStructure} from "./struct/index.js";
+export type {GraphSubstructure,SubstructureGraph,SubstructureTopology} from "./struct/index.js";
+export {clusterGraph,clusterToSubstructure,clusteringSignature} from "./cluster/index.js";
+export type {ClusterOptions,ClusterResult,GraphCluster} from "./cluster/index.js";

@@ -4,7 +4,7 @@ The core reconstruction began with tasks 3.2.1–3.2.3 of [milestone 3](TODO.md#
 
 ## Scope and ownership
 
-`src/fm/rfc/` owns transient focal centers, settings, derived constraints and force calculations. `src/fm/structures/` supplies persistent graph-owned memberships and `src/fm/clustering/` supplies detached cluster proposals. `TGLayout` gains a generic optional force callback between its ordinary attraction/repulsion and its existing momentum integration. It imports no Freshmind code. Fixed nodes, dragging, locality weighting, displacement limits, damping and scheduling remain TouchGraph responsibilities.
+`src/fm/rfc/` owns transient focal centers, settings, derived constraints and force calculations. `src/fm/struct/` supplies persistent graph-owned memberships and `src/fm/cluster/` supplies detached cluster proposals. `TGLayout` gains a generic optional force callback between its ordinary attraction/repulsion and its existing momentum integration. It imports no Freshmind code. Fixed nodes, dragging, locality weighting, displacement limits, damping and scheduling remain TouchGraph responsibilities.
 
 `FreshmindPanel.getRfc()` exposes the controller and attaches it to the current layout. Replacing the layout transfers this attachment; replacing/clearing the graph clears RFC. Destroying the panel detaches the callback and controller. The controller also works with a headless host and an explicitly registered force callback.
 

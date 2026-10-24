@@ -45,7 +45,7 @@ content and decode common/numeric entities without importing a DOM into core.
 
 ## Lexical functionality (4.2)
 
-Export a parser/browser-free `fm4/fm/search` entry point. Index complete-graph nodes,
+The parser/browser-free retrieval entry is `fm4/ir`; `fm4/fm/ir` adapts graph nodes. Index complete-graph nodes,
 including currently hidden items; exclude generated query nodes. Preserve IDs as
 strings throughout. Reject duplicate IDs and invalid inputs before mutation.
 
@@ -67,12 +67,13 @@ scores, descending rank and deterministic ID ties; provide bounded relevance
 separately for display. Empty/OOV queries return no results. A parsed pure-negative
 query returns no results, matching the positive retrieval contract.
 
-The lexical contract above is implemented in `fm4/fm/search` (4.2). A minimal
+The lexical contract above is implemented in `fm4/ir/lexical` (4.2), with graph commands in `fm4/fm/ir`. A minimal
 headless use is:
 
 ```ts
-import {graphSearchCorpus, LexicalSearchIndex, createGraphQuery,
-  applyGraphSearchResults} from "fm4/fm/search";
+import {LexicalSearchIndex} from "fm4/ir/lexical";
+import {graphSearchCorpus, createGraphQuery,
+  applyGraphSearchResults} from "fm4/fm/ir";
 
 const corpus = graphSearchCorpus(graph);
 const index = new LexicalSearchIndex(corpus);
@@ -140,10 +141,10 @@ separately; do not confuse a distribution over words with one over documents.
 
 ## Graph and browser contract (4.5)
 
-The sampler/utilities contract is implemented in `fm4/fm/topics` (4.3–4.4):
+The sampler/utilities contract is implemented in `fm4/ir/topics` (4.3–4.4):
 
 ```ts
-import {trainLda, LdaSearchIndex} from "fm4/fm/topics";
+import {trainLda, LdaSearchIndex} from "fm4/ir/topics";
 const model = trainLda(corpus, {topics: 6, alpha: .1, beta: .01,
   iterations: 100, seed: 4357});
 const topical = new LdaSearchIndex(model);

@@ -10,8 +10,8 @@ import louvain from "graphology-communities-louvain";
 import {connectedComponents} from "graphology-components";
 import type {ImmutableGraphEltSet} from "../../tg/graph/index.js";
 import type {Edge} from "../../tg/model/index.js";
-import {spanningTree,clusterStructure} from "../structures/index.js";
-import type {GraphSubstructure} from "../structures/index.js";
+import {spanningTree,clusterStructure} from "../struct/index.js";
+import type {GraphSubstructure} from "../struct/index.js";
 
 export interface ClusterOptions {
   algorithm?: "louvain" | "components";

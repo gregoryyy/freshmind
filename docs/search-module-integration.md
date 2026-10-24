@@ -14,8 +14,21 @@ Gregor will provide the search module. The intended capabilities are:
 
 LDA is excluded from the intended search implementation. The existing LDA code,
 controls, experiments and walkthrough document an earlier prototype. They remain
-in the checkout for now; this scope update changes documentation only and does
-not claim that the prototype has been removed or replaced.
+in the checkout for now; extracting them into IR does not replace the prototype.
+
+## Current ownership
+
+Information retrieval is a separate `src/ir/` domain alongside `src/fm/` and
+`src/tg/`. It owns plain corpus/request/result contracts, the prototype lexical
+index, `ir/topics`, worker execution and the search session/model lifecycle.
+IR imports neither graph domain. Its default `fm4/ir` entry is headless;
+`fm4/ir/browser` exposes the explicit worker/session adapter.
+
+`fm4/fm/ir` adapts graph content and applies query/context/result relations and
+feedback. Freshmind's browser controller owns graph replacement/source-edit guards,
+status and visibility. The [module map](../src/README.md) lists canonical short
+imports and preserved public aliases. This separation does not select the supplied
+module's API or mark its integration complete.
 
 ## Integration work
 

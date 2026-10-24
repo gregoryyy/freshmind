@@ -199,7 +199,7 @@ export class FreshmindPresentation {
       .attr("font-size",12).text("⌖");
   }
   /** Counts aggregated nodes by semantic type without modifying labels or node focus bounds. */
-  paintAggregation(layer:SVGGElement,groups:readonly import("../structure-view/index.js").AggregationGroup[],nodeOf:(id:string)=>FreshNode|null):void {
+  paintAggregation(layer:SVGGElement,groups:readonly import("../struct-view/index.js").AggregationGroup[],nodeOf:(id:string)=>FreshNode|null):void {
     const parents=[...new Set(groups.map(g=>g.parentId))].map(id=>({node:nodeOf(id)!,groups:groups.filter(g=>g.parentId===id)}));
     select(layer).selectAll<SVGTextElement,typeof parents[number]>("text.fm-aggregation-count").data(parents,p=>p.node.getID()!).join("text")
       .attr("class","fm-aggregation-count").attr("data-for-node",p=>p.node.getID()).attr("x",p=>p.node.drawx)

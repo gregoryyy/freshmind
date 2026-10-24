@@ -79,7 +79,7 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 // Call panel.destroy() when removing the browser.
 ```
 
-`fm4` / `fm4/tg` expose the TouchGraph browser API. `fm4/core` / `fm4/tg/core` and `fm4/fm/core` provide headless entry points without D3, DOM rendering or YAML parsing. The [module map](src/README.md) documents feature-specific imports and dependency boundaries; the [feature design](docs/fm_port-design.md) describes the model, configuration, editing and persistence contracts.
+`fm4` / `fm4/tg` expose the TouchGraph browser API. `fm4/core` / `fm4/tg/core` and `fm4/fm/core` provide headless entry points without D3, DOM rendering or YAML parsing. `fm4/ir` provides independent headless information retrieval, including `fm4/ir/topics`. The [module map](src/README.md) documents the three source domains, short feature imports and dependency boundaries; the [feature design](docs/fm_port-design.md) describes the model, configuration, editing and persistence contracts.
 
 ## Detailed documentation
 

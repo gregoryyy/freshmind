@@ -7,10 +7,10 @@
  */
 import {FreshNode} from "../model/index.js";
 import type {FreshmindPanel} from "../browser/index.js";
-import {spanningTree,validateSubstructure,clusterStructure} from "../structures/index.js";
-import type {GraphSubstructure} from "../structures/index.js";
-import {clusterGraph,clusterToSubstructure} from "../clustering/index.js";
-import type {ClusterResult} from "../clustering/index.js";
+import {spanningTree,validateSubstructure,clusterStructure} from "../struct/index.js";
+import type {GraphSubstructure} from "../struct/index.js";
+import {clusterGraph,clusterToSubstructure} from "../cluster/index.js";
+import type {ClusterResult} from "../cluster/index.js";
 
 export interface SubstructureControlElements {
   structure:HTMLSelectElement; name:HTMLInputElement; kind:HTMLSelectElement;

@@ -2,7 +2,7 @@
  * Prepared by Gregor Heinrich using Codex GPT-6.1. */
 import {TGLayout,VisibleLocality,HyperLens} from "fm4/core";
 import {FreshGraph,RfcController,projectRfcStructure,rfcForcePresets} from "fm4/fm/core";
-import {StructuralViewController,validateStructuralView,structuralViewDefaults} from "fm4/fm/structure-view";
+import {StructuralViewController,validateStructuralView,structuralViewDefaults} from "fm4/fm/struct-view";
 import {structuralExample} from "../structural-view-example.mjs";
 import {randomSource,seeds} from "./rfc-comparison.mjs";
 

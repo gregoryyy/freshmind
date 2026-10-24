@@ -82,11 +82,13 @@ they do not replace the original NetworkX attribution.
 
 LDA and numerical utilities
 
-The serial LDA sampler/model port (src/fm/topics/gibbs.ts, model.ts and index.ts)
+The serial LDA sampler/model port (src/ir/topics/gibbs.ts, model.ts and index.ts)
 retains GPL-3.0-or-later from knowceans-ilda, Copyright (c) 2005-2011 Gregor
 Heinrich; TypeScript port Copyright (c) 2026 Gregor Heinrich. No warranty.
 Full terms: LICENSE-GPL-3.0. Combined builds including this code use that license;
 individual component notices and separately marked licenses remain.
+The search worker and session lifecycle extracted from the GPL-marked Freshmind
+browser controller remain GPL-3.0-or-later in src/ir/browser/.
 Pinned local source: knowceans-ilda/src/org/knowceans/topics/simple/LdaGibbs.java
 SHA-256: 8d098e7377840203ec757c5b926ca6ee4aa3243e933e0b2a4d642ec56a5460ed
 

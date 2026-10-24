@@ -23,7 +23,7 @@ A **tree** selects a connected acyclic set of semantic relations, ignoring their
 Deleting a member or a selected structural relation invalidates and removes the affected definitions; reconnecting a structural relation also invalidates them. Other context relations and locality hiding do not remove definitions. This conservative policy prevents dangling or silently reinterpreted membership. Use the structure editor to change membership atomically before deleting semantic content when retaining the definition matters.
 
 ```ts
-import {spanningTree} from "fm4/fm/structures";
+import {spanningTree} from "fm4/fm/struct";
 
 const graph = panel.getCompleteEltSet();
 graph.setSubstructure(spanningTree(graph, ["a", "b", "c"], "a", "s1", "Selected tree"));
@@ -74,7 +74,7 @@ The projection ignores direction and self-loops, sums reciprocal/parallel relati
 The browser offers visible/complete graph scope, a cluster selector and a member-label preview. **Render cluster with RFC** stores an unordered cluster definition with its internal links, reveals its members, and adds its root as a center. If the selected node belongs to the cluster it becomes the representative; otherwise the highest internal projected-degree member is chosen, with ID tie breaking. All ordinary semantic relations remain in the graph, including connections to other clusters. Definitions are saved; unaccepted proposals are not.
 
 ```ts
-import {clusterGraph, clusterToSubstructure} from "fm4/fm/clustering";
+import {clusterGraph, clusterToSubstructure} from "fm4/fm/cluster";
 
 const result = clusterGraph(graph, {algorithm: "louvain", resolution: 1, weighted: false});
 const definition = clusterToSubstructure(graph, result, result.clusters[0].id, "community-1", "Community 1");

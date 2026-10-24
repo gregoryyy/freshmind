@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: Apache-2.0; Copyright (c) 2026 Gregor Heinrich. */
-import type {SearchField,SearchQuery} from "./types.js";
+import type {SearchField,SearchQuery} from "../corpus/index.js";
 type Token={value:string;quoted:boolean};
 const fields=new Set(["content","label","hint","id","type","tag"]);
 /** Bounded subset of the reference parser; unsupported syntax fails explicitly. */
