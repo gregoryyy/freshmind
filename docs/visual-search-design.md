@@ -1,5 +1,11 @@
 # Graph visual search: source audit and implementation contract
 
+**Superseded prototype plan (2026-10-24):** Gregor will provide a Lucene-equivalent
+literal engine and semantic search that may use embeddings. LDA is excluded from
+the intended implementation. The [supplied-module integration plan](search-module-integration.md)
+is the current direction; the audit and numerical contracts below describe the
+earlier prototype and remain available as implementation history.
+
 Task **4.1**, audited 2026-10-24. The goal is equivalent graph exploration with
 current browser technology: queries become nodes, results become removable
 relations, and an existing node can retrieve similar items. The [thesis

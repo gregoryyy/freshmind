@@ -4,7 +4,7 @@ Design drafted **2026-10-22**, updated **2026-10-24**. This specifies milestones
 
 Freshmind 4 provides typed and visually distinct nodes, labeled curved relations, keyboard browsing with preselection, and label/annotation editing. Its native persistence is a versioned YAML graph format. Only the approved `berry` and `nips-fm` Java examples are migrated; the remaining datasets are proprietary.
 
-The Java code captures the intended features of an experimental application developed under time pressure. Use it to recover those features and distinctive interactions. **Keep the TouchGraph design in place and add Freshmind features as clean extensions to it.** Its model, graph/locality structure, panel, layout and lens pipeline remain the foundation. RFC is implemented separately in milestone 3; milestone 4's [search design](visual-search-design.md) and [browser guide](graph-search.md) document the completed lexical/LDA retrieval extensions.
+The Java code captures the intended features of an experimental application developed under time pressure. Use it to recover those features and distinctive interactions. **Keep the TouchGraph design in place and add Freshmind features as clean extensions to it.** Its model, graph/locality structure, panel, layout and lens pipeline remain the foundation. RFC is implemented separately in milestone 3. Milestone 4 now awaits Gregor's supplied literal and semantic search module; the [integration plan](search-module-integration.md) is current, while the [earlier audit](visual-search-design.md) and [prototype guide](graph-search.md) retain the superseded lexical/LDA implementation history.
 
 ## 1. Responsibilities and integration
 
