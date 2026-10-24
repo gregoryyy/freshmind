@@ -105,8 +105,9 @@ ownership uses these structured values, never the relation label. Removing or
 editing a result label does not silently change its ownership.
 
 Load **Graph search → Fictional topic library** in the example selector for a
-24-node demonstration. The [seven-step walkthrough](search-walkthrough/index.html)
-shows current interactions; the archived prototype [54-run comparison](experiments/search/README.md) records
+24-node demonstration. The [search chapter of the main flipbook](flipbook/index.html#search-library)
+and the [dedicated nine-view walkthrough](search-walkthrough/index.html)
+show query entry, retrieval, similarity, feedback and query deletion. The archived prototype [54-run comparison](experiments/search/README.md) records
 rankings, synthetic judgments, seeds and limits for the earlier scorer, not the
 new backends. Its frozen scorer preserves historical replay. Regenerate with
 `just search-example`, `just search-experiment` and `just search-flipbook`.

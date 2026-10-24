@@ -6,7 +6,7 @@
 
 ![Freshmind 4 graph example with RFC enabled on its central Graph browsers node](docs/flipbook/01-browser.png)
 
-The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the 30-step flipbook](docs/flipbook/index.html).
+The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the flipbook](docs/flipbook/index.html), including a [search chapter](docs/flipbook/index.html#search-library) with query entry, literal/LDA results, similarity and feedback.
 
 ## Background and motivation
 

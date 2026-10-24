@@ -1,6 +1,7 @@
 /* Freshmind. Apache-2.0. Copyright (c) 2002-2014, 2026 Gregor Heinrich.
  * TypeScript port by Gregor Heinrich using Codex GPT-6.1. */
 import {fileURLToPath} from "node:url";
+import {tour as searchTour} from "./search.mjs";
 
 const rfcExample = fileURLToPath(new URL("../../docs/experiments/rfc-single-focus/crowded-star.fm.yaml", import.meta.url));
 const weightedExample = fileURLToPath(new URL("../../docs/experiments/rfc-single-focus/wide-labels.fm.yaml", import.meta.url));
@@ -80,7 +81,7 @@ async function openRfc(page, example = rfcExample) {
 }
 
 /** Ordered acts and captions are the source of the generated walkthrough. */
-export const tour = [
+const browserSteps = [
   {
     id: "browser", title: "Graph browser with RFC on the center node",
     caption: "The graph-browser example opens with Reinforcement Focus+Context active on its central Graph browsers node. Yellow halos identify the reinforced center and its five immediate branches; the surrounding graph retains its ordinary connections and forces.",
@@ -138,6 +139,7 @@ export const tour = [
     id: "public-network", title: "Florentine families",
     caption: "This public example has 15 families and 20 undirected marriage links. Node content contains graph-derived summaries and links to the connected families, with source attribution retained in the document.",
     async run({page, advance}) {
+      await sidebar(page, "files-section", "selection-section");
       await page.locator("#example-graph").selectOption("florentine");
       await page.waitForFunction(() => document.querySelector("#file-status").textContent.includes("15 nodes, 20 relations"));
       await advance(80);
@@ -400,4 +402,28 @@ export const tour = [
       if(!valid)throw new Error("General damping depends on RFC activation");
     }
   }
+];
+
+// Present complete user workflows, with search before the detailed layout examples.
+// Preserve existing slide IDs so bookmarked examples keep working after reordering.
+const chapters = [
+  ["Explore", ["browser", "neighborhood", "view-controls", "key-map"]],
+  ["Files and content", ["types", "berry", "nips", "public-network", "inline-edit", "annotation", "save-yaml"]],
+  ["Focus + context", ["rfc-baseline", "rfc-attraction", "rfc", "rfc-weighted", "multiple-foci", "clusters", "focal-regions", "importance", "structural-view", "reveal-detail"]],
+  ["Readability", ["label-overlap", "labels-separated", "relation-overlap", "relations-separated"]],
+  ["Editing and keyboard", ["label-weight", "details-editor", "hover-keyboard", "control-focus"]],
+  ["Layout motion", ["layout-damping"]]
+];
+const byId = new Map(browserSteps.map(step => [step.id, step]));
+const ordered = chapters.map(([chapter, ids]) => ids.map(id => {
+  const step = byId.get(id);
+  if (!step) throw new Error("Missing browser tour step: " + id);
+  byId.delete(id);
+  return {...step, chapter};
+}));
+if (byId.size) throw new Error("Unassigned browser tour steps: " + [...byId.keys()].join(", "));
+export const tour = [
+  ...ordered[0],
+  ...searchTour.map(step => ({...step, id: "search-" + step.id, chapter: "Search"})),
+  ...ordered.slice(1).flat()
 ];

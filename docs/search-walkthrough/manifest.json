@@ -10,12 +10,14 @@
   "browser": "155.0.8059.85",
   "files": [
     "01-library.png",
-    "02-lexical-query.png",
-    "03-exact-tags.png",
-    "04-topic-model.png",
-    "05-topical-query.png",
-    "06-node-similarity.png",
-    "07-rejected-result.png",
+    "02-query-draft.png",
+    "03-lexical-query.png",
+    "04-exact-tags.png",
+    "05-topic-model.png",
+    "06-topical-query.png",
+    "07-node-similarity.png",
+    "08-rejected-result.png",
+    "09-delete-query.png",
     "README.md",
     "index.html",
     "manifest.json"
@@ -28,40 +30,52 @@
       "file": "01-library.png"
     },
     {
+      "id": "query-draft",
+      "title": "Start a search directly on the graph",
+      "caption": "Select Mira Vega and press Ctrl+F. A query node appears immediately, linked to Mira as context, with its text editor on the graph. Type spring layout and press Enter to retrieve. The empty draft is excluded from the search corpus; ordinary typing and text deletion keep their normal meaning.",
+      "file": "02-query-draft.png"
+    },
+    {
       "id": "lexical-query",
       "title": "A term query joins its context",
-      "caption": "An elasticlunr literal query for spring layout is attached to Mira Vega as context. Green relations carry ranked relevance; existing authored and citation relations remain. The query node can be selected and rerun without duplicating it.",
-      "file": "02-lexical-query.png"
+      "caption": "Enter runs the elasticlunr literal query for spring layout. The radius-two neighborhood shows ranked matches and their ordinary context; other content stays stored and searchable. Green relations carry ranked relevance alongside authored/citation links. F2 edits and reruns the query without duplicating it; the sidebar offers the same search controls.",
+      "file": "03-lexical-query.png"
     },
     {
       "id": "exact-tags",
       "title": "Whole-tag retrieval",
       "caption": "The same query node now retrieves exact visual search tags. Tags are explicit metadata and work without topic training. The query replaces its earlier result links while retaining context and manual semantic relations.",
-      "file": "03-exact-tags.png"
+      "file": "04-exact-tags.png"
     },
     {
       "id": "topic-model",
       "title": "Train and inspect topics",
       "caption": "Three topics are trained locally for 200 serial Gibbs passes with seed 4357, alpha 0.1, beta 0.01 and minimum document frequency 2. Separate local JSON files can save/reload the model and its corpus. The most probable words make the fitted topics inspectable. This deliberately separated synthetic corpus does not establish general retrieval quality.",
-      "file": "04-topic-model.png"
+      "file": "05-topic-model.png"
     },
     {
       "id": "topical-query",
       "title": "Retrieve by inferred topics",
-      "caption": "The text query geometry repulsion is folded into the fixed topic model. Document topic distributions determine symmetric KL distance in bits, with a strict default distance limit of 0.6. Raw distances are labeled; lower values are better. Switching the selected query to LDA replaces its prior links and updates its query type; scores are separate from node importance and RFC physics.",
-      "file": "05-topical-query.png"
+      "caption": "Ctrl+Shift+F starts a separate LDA query on the graph. Enter submits geometry repulsion to the trained topic model. Symmetric KL distance in bits ranks document topic mixtures, with a strict default limit of 0.6; lower distances are better. The earlier tag query remains available. Search scores stay separate from importance and RFC physics.",
+      "file": "06-topical-query.png"
     },
     {
       "id": "node-similarity",
       "title": "Use an existing paper as the query",
-      "caption": "Spring neighborhoods retrieves similar graph items directly from its own topic mixture, excluding itself. Existing authored/citation relations remain. The result links expand ordinary graph browsing without requiring a separate results page.",
-      "file": "06-node-similarity.png"
+      "caption": "Select Spring neighborhoods and press Ctrl+Shift+R to retrieve similar items from its topic mixture, excluding itself. Ctrl+R provides literal similarity. Existing authored/citation relations remain. Results expand ordinary graph browsing without requiring a separate results page.",
+      "file": "07-node-similarity.png"
     },
     {
       "id": "rejected-result",
       "title": "Retain a negative judgment",
       "caption": "Rejecting a selected green result relation removes that link and saves its source, target, query, engine and corpus provenance. Repeating the same query omits that item. Native YAML saves queries, remaining links and feedback; model JSON is saved separately through the training controls. Feedback learning remains future work.",
-      "file": "07-rejected-result.png"
+      "file": "08-rejected-result.png"
+    },
+    {
+      "id": "delete-query",
+      "title": "Remove a query and keep the source graph",
+      "caption": "Select the LDA text-query node and press Ctrl+Backspace (or Ctrl+Delete) while graph focus is active. Only that query and its incident associations disappear; retrieved papers, original semantic relations, the earlier tag query and the paper-based similarity search remain. Native YAML can retain the queries and rejection judgments you choose to keep.",
+      "file": "09-delete-query.png"
     }
   ]
 }

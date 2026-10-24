@@ -19,9 +19,10 @@ to ordinary layout; its forces can introduce overlaps again. Changing the lens,
 graph spacing, rotation, label text or importance can also require another pass.
 Save with layout positions enabled to retain the arrangement in native YAML.
 
-Views 22–23 in the [main flipbook](flipbook/index.html#label-overlap)
-show the current browser before and after node separation. Views 24–25 compare
-relation-label placement on the same paused arrangement.
+The main flipbook shows [overlapping nodes](flipbook/index.html#label-overlap)
+and [the separated arrangement](flipbook/index.html#labels-separated), then compares
+[original relation-label positions](flipbook/index.html#relation-overlap) with
+[automatic placement](flipbook/index.html#relations-separated) on that same paused arrangement.
 
 ## Geometry and ownership
 
