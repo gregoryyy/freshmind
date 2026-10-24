@@ -24,7 +24,7 @@ function insertQuery(graph:FreshGraph,validated:SearchRequest,context?:FreshNode
     position:context?{x:context.x+80,y:context.y+40}:{x:0,y:0},
     data:{search:{version:1,role:"query",...(draft?{draft:true}:{}),request:{...validated}}}});
   graph.addNode(node);
-  if(context)graph.addEdge(new FreshEdge(context,node,{label:"query context",data:{search:{version:1,role:"context",owner:node.getID()!}}}));
+  if(context)graph.addEdge(new FreshEdge(context,node,{visual:{style:{stroke:{color:"#28845d",dash:"dashed"},label:{color:"#28845d"}}},data:{search:{version:1,role:"context",owner:node.getID()!}}}));
   return node;
 }
 /** Only structured relations with matching endpoints are search-owned. Labels never confer ownership. */
@@ -52,7 +52,7 @@ export function applyGraphSearchResults(graph:FreshGraph,source:FreshNode,reques
       r.value!==undefined&&r.metric===undefined||validated.metric!==undefined&&r.metric!==validated.metric)throw new TypeError("Invalid search score provenance");
     seen.add(r.id);if(target===source||rejected.has(r.id))continue;
     const details={...(r.backend===undefined?{}:{backend:r.backend}),...(r.metric===undefined?{}:{metric:r.metric,value:r.value!})};
-    edges.push(new FreshEdge(source,target,{label:r.metric?`${validated.engine} ${r.metric} ${r.value!.toPrecision(3)}`:`${validated.engine} ${r.score.toPrecision(3)}`,visual:{style:{stroke:{color:"#28845d",width:1+3*r.relevance}}},
+    edges.push(new FreshEdge(source,target,{label:`#${r.rank}`,visual:{style:{stroke:{color:"#28845d",width:1+3*r.relevance},label:{color:"#28845d"}}},
       data:{search:{version:1,role:"result",owner:source.getID()!,target:r.id,request:{...validated},requestKey:requestKey(validated),score:r.score,relevance:r.relevance,rank:r.rank,corpus:corpus.fingerprint,...details}}}));
   }
   for(const edge of [...graph.getEdges()]){const s=searchResultMetadata(edge);if(s&&edge.from===source&&(isSearchQueryNode(source)||record(s.request)?.engine===validated.engine))graph.deleteEdge(edge);}

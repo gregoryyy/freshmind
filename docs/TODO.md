@@ -185,6 +185,7 @@ are superseded, not silently redefined or claimed as implemented.
 - [x] 4.18 Verify numeric reference, workers/browser lifecycle and distribution artifacts; refresh progress, guides and the production search walkthrough. Historical prototype experiment records remain reproducible with their original scorer.
 - [x] 4.19 Restore graph-native Ctrl+F/Ctrl+Shift+F query creation, moving query entry and Enter submission, F2/Ctrl+Enter reruns, direct query deletion and context return. Preserve content nodes, native text/IME ownership, corpus freshness and pending-job cancellation; route ordinary Edit-mode deletion by selected item with relation precedence.
 - [x] 4.20 Balance the main flipbook with an early search chapter shared with the dedicated walkthrough: graph query entry, literal/tag retrieval, LDA training/querying, node similarity, rejection and query deletion. Add chapter navigation, preserve existing slide anchors and verify captured source-content preservation.
+- [x] 4.21 Declutter search relations with compact rank labels, a consistent distinct color and inspectable exact scores; reinforce successful query/similarity neighborhoods with RFC and refresh both walkthroughs.
 
 ## 5. Readability: node separation and relation-label placement
 

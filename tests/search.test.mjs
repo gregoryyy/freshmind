@@ -75,6 +75,12 @@ test('graph result ownership, stale batches, rejection and YAML feedback preserv
   const context=[...graph.getEdges()].find(e=>e!==manual);
   const results=i.search('graph');let edges=applyGraphSearchResults(graph,q,request,results,corpus);
   assert.equal(edges.length,2);assert.equal(graphSearchCorpus(graph).key,corpus.key);
+  assert.equal(context.getLabel(),'');assert.equal(context.getVisual().style.stroke.dash,'dashed');
+  for(const edge of edges){
+    const data=searchResultMetadata(edge),style=edge.getVisual().style;
+    assert.equal(edge.getLabel(),`#${data.rank}`);assert.equal(style.label.color,style.stroke.color);
+    assert.equal(data.score,results.find(r=>r.id===edge.to.getID()).score);
+  }
   assert.equal(searchResultMetadata(manual),null);
   assert.throws(()=>applyGraphSearchResults(graph,q,request,[...results,{...results[0],id:'missing'}],corpus));
   assert.ok(graph.contains(edges[0]));

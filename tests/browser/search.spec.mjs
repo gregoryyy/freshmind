@@ -9,6 +9,45 @@ async function ready(page){
     g.addEdge(new FreshEdge(g.findNode('a'),g.findNode('b'),{id:'manual',label:'related'}));p.setGraphEltSet(g);await p.setLocale(g.findNode('b'),0);p.setSelect(g.findNode('b'));p.setHyperbolic(47);
   });await page.locator('#search-section').evaluate(e=>e.open=true);return errors;
 }
+test('search uses compact green associations, inspectable scores and RFC around the result source',async({page})=>{
+  const errors=await ready(page);await page.locator('#search-query').fill('graph');await page.locator('#search-run').click();
+  await expect(page.locator('#search-status')).toContainText('2 results linked');
+  const state=await page.evaluate(()=>{
+    const p=window.graphBrowser,q=p.getSelect(),edges=[...q.getEdges()].filter(e=>e.getData().search?.role==='result');
+    return {query:q.getID(),focus:p.getRfc().getState().focusId,branches:p.getRfc().getState().branchIds,results:edges.map(e=>({id:e.getID(),rank:e.getData().search.rank,score:e.getData().search.score})),context:[...q.getEdges()].find(e=>e.getData().search?.role==='context').getID()};
+  });
+  expect(state.focus).toBe(state.query);expect(state.branches.sort()).toEqual(['a','b','c']);
+  for(const result of state.results){
+    const group=page.locator(`[data-edge-id="${result.id}"]`);
+    await expect(group.locator('.fm-edge-label')).toHaveText(`#${result.rank}`);
+    await expect(group.locator('.fm-edge-label')).toHaveAttribute('fill','#28845d');
+    await expect(group.locator('.fm-edge-path')).toHaveAttribute('stroke','#28845d');
+    await expect(group.locator('.fm-edge-arrow')).toHaveAttribute('fill','#28845d');
+    await expect(group.locator('title')).toContainText(`score: ${result.score}`);
+    await expect(group).toHaveAttribute('aria-label',new RegExp(`rank ${result.rank}`));
+  }
+  const context=page.locator(`[data-edge-id="${state.context}"]`);
+  await expect(context.locator('.fm-edge-label')).toHaveText('');
+  await expect(context.locator('.fm-edge-path')).toHaveAttribute('stroke-dasharray',/.+/);
+  await expect(context.locator('title')).toHaveText('Search context');
+  await expect(page.locator('[data-edge-id="manual"] .fm-edge-path')).toHaveAttribute('stroke','#0000b0');
+  await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('a')));await page.locator('#search-similar').click();
+  await expect(page.locator('#search-status')).toContainText(/results? linked/);
+  expect(await page.evaluate(()=>window.graphBrowser.getRfc().getState().focusId)).toBe('a');
+  expect(errors).toEqual([]);
+});
+test('malformed imported search diagnostics remain inert during rendering',async({page})=>{
+  const errors=await ready(page);
+  await page.evaluate(async()=>{
+    const p=window.graphBrowser,edge=[...p.getAllEdges()].find(e=>e.getID()==='manual'),bad={toString:'not callable',valueOf:'not callable'};
+    edge.setData({search:{version:1,role:'result',owner:'a',target:'b',rank:bad,metric:'<script>diagnostic</script>',value:bad,request:{engine:bad}}});
+    await p.setLocaleAll();p.repaint();
+  });
+  await expect(page.locator('[data-edge-id="manual"] title')).toContainText('rank unknown');
+  await expect(page.locator('[data-edge-id="manual"] title')).toContainText('unavailable');
+  await expect(page.locator('[data-edge-id="manual"] script')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
 test('real worker lexical/tag queries reveal results, preserve relations and save rejection feedback',async({page},info)=>{
   const errors=await ready(page);await page.locator('#search-query').fill('graph');await page.locator('#search-run').click();
   await expect(page.locator('#search-status')).toContainText('2 results linked');
@@ -158,6 +197,10 @@ test('semantic metrics/raw values and a local model file survive save/load witho
   await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText(/results? linked/);
   const data=await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].filter(e=>e.getData().search?.role==='result').map(e=>e.getData().search));
   expect(data.length).toBeGreaterThan(0);expect(data.every(s=>s.metric==='symmetric-kl'&&s.value>=0&&s.request.maxDistance===100)).toBe(true);
+  const rendered=await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].filter(e=>e.getData().search?.role==='result').map(e=>{
+    const group=document.querySelector(`[data-edge-id="${e.getID()}"]`),data=e.getData().search;
+    return {compact:group.querySelector('.fm-edge-label').textContent===`#${data.rank}`,details:group.querySelector('title').textContent.includes(`symmetric-kl: ${data.value}`)};
+  }));expect(rendered.every(r=>r.compact&&r.details)).toBe(true);
   await page.evaluate(()=>window.graphBrowser.findNode('a').setHint('changed corpus'));
   await page.locator('#search-load-model').setInputFiles(path);await expect(page.locator('#search-status')).toContainText('different corpus');
   expect(leaks).toEqual([]);expect(errors).toEqual([]);

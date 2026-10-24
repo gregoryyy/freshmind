@@ -17,6 +17,22 @@ import type {RfcRegionState} from "../rfc/index.js";
 import {nodeImportanceScale} from "../geometry/index.js";
 import {placeRelationLabels} from "../geometry/index.js";
 import type {OverlapBox,RelationLabelBox,Point} from "../geometry/index.js";
+import {isSearchQueryNode,searchResultMetadata} from "../ir/index.js";
+
+/** Keep score provenance inspectable without repeating it in every painted label. */
+function relationDescription(edge:FreshEdge):string {
+  const result=searchResultMetadata(edge);
+  if(result){
+    const request=result.request,engine=request&&typeof request==="object"&&!Array.isArray(request)?request.engine:undefined;
+    const rank=typeof result.rank==="number"&&Number.isFinite(result.rank)?String(result.rank):"unknown";
+    const raw=typeof result.metric==="string"?result.value:result.score;
+    const value=typeof raw==="number"&&Number.isFinite(raw)?String(raw):"unavailable";
+    return `${edge.getLabel()?edge.getLabel()+", ":""}Search result, rank ${rank}, ${typeof engine==="string"?engine:"search"}, ${typeof result.metric==="string"?result.metric:"score"}: ${value}`;
+  }
+  const context=edge.getData().search;
+  if(context&&typeof context==="object"&&!Array.isArray(context)&&context.version===1&&context.role==="context"&&context.owner===edge.to.getID()&&isSearchQueryNode(edge.to))return edge.getLabel()?`${edge.getLabel()}, search context`:"Search context";
+  return edge.getLabel()||"Unlabeled relation";
+}
 
 export interface ClusterRegion {id:string;nodes:FreshNode[];edges:FreshEdge[];}
 
@@ -169,6 +185,7 @@ export class FreshmindPresentation {
     styleOf:(edge:FreshEdge)=>EdgeStyle, selected:FreshEdge|null, interaction:EdgeInteraction,labelObstacles?:OverlapBox[],labelOf?:(edge:FreshEdge)=>string):void {
     const groups=select(layer).selectAll<SVGGElement,FreshEdge>("g.fm-edge").data(edges,edge=>edge.getID()!).join(enter=>{
       const group=enter.append("g").attr("class","fm-edge").attr("tabindex",0).attr("role","button");
+      group.append("title");
       group.append("path").attr("class","fm-edge-path").attr("fill","none").style("pointer-events","none");
       group.append("path").attr("class","fm-edge-hit").attr("fill","none").attr("stroke","transparent").style("pointer-events","stroke");
       group.append("path").attr("class","fm-edge-arrow").style("pointer-events","none");
@@ -179,11 +196,12 @@ export class FreshmindPresentation {
     // Keyboard focus is shown on the routed stroke below, alongside selection color.
     groups.style("outline","none").attr("data-edge-id",edge=>edge.getID()).attr("data-semantic-type",edge=>edge.getSemanticType())
       .attr("aria-pressed",edge=>String(edge===selected))
-      .attr("aria-label",edge=>`${edge.from.getLabel()} → ${edge.to.getLabel()}, ${edge.getLabel()||"Unlabeled relation"}, ${edge.getSemanticType()}`)
+      .attr("aria-label",edge=>`${edge.from.getLabel()} → ${edge.to.getLabel()}, ${relationDescription(edge)}, ${edge.getSemanticType()}`)
       .attr("opacity",edge=>(edge.from.markedForRemoval||edge.to.markedForRemoval)?0.15:1)
       .on("mouseenter",(_event,edge)=>interaction.hover(edge)).on("mouseleave",()=>interaction.hover(null))
       .on("click",(event:MouseEvent,edge)=>{event.stopPropagation();interaction.select(edge);})
       .on("keydown",(event:KeyboardEvent,edge)=>{if(event.key==="Enter"){event.preventDefault();interaction.select(edge);}});
+    groups.select("title").text(edge=>relationDescription(edge));
     groups.each((edge,index,elements)=>{
       const label=elements[index].querySelector<SVGTextElement>(".fm-edge-label")!,style=styleOf(edge),key=this.labelKey(edge,style,labelOf);
       if(this.labelKeys.get(label)!==key){

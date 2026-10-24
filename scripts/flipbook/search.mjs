@@ -10,6 +10,7 @@ const linked=page=>page.waitForFunction(()=>/\d+ results? linked/.test(document.
 async function neighborhood(page,id){
   await page.evaluate(async id=>{
     const p=window.graphBrowser,node=id?p.findNode(id):p.getSelect();
+    if(p.getRfc().getState().focusId!==node.getID())throw new Error('Search did not reinforce its source');
     p.fastFinishAnimation();await p.setLocale(node,2);
   },id);
 }
@@ -24,9 +25,9 @@ const semantics=page=>page.evaluate(()=>{
   };
 });
 export const tour=[
-  {id:'library',title:'A searchable research library',caption:'This new fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including currently hidden items. RFC and the viewing lens remain independent controls.',async run({page,open,advance}){
+  {id:'library',title:'A searchable research library',caption:'This fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including hidden items. The library starts without reinforcement; successful searches activate RFC around their query or similarity source.',async run({page,open,advance}){
     await open('/');await page.locator('.sidebar > details').evaluateAll(items=>items.forEach(e=>e.open=['files-section','search-section'].includes(e.id)));await page.locator('#example-graph').selectOption('graph-search');await page.waitForFunction(()=>document.querySelector('#file-status').textContent.includes('24 nodes, 28 relations'));
-    // Clear the default RFC through its ordinary control for an uncluttered search walkthrough.
+    // Start with a plain library; the search UI subsequently activates RFC itself.
     await page.locator('#rfc-section').evaluate(e=>e.open=true);await page.locator('#rfc-clear').click();await page.locator('#rfc-section').evaluate(e=>e.open=false);
     await advance(160);await fit(page,'files');semanticSnapshot=await semantics(page);
   }},
@@ -38,7 +39,7 @@ export const tour=[
     const valid=await page.evaluate(()=>{const q=window.graphBrowser.getSelect();return q.getData().search?.draft&&[...q.getEdges()].some(e=>e.from.getID()==='mira'&&e.getData().search?.role==='context');});
     if(!valid)throw new Error('Query draft is missing its context relation');
   }},
-  {id:'lexical-query',title:'A term query joins its context',caption:'Enter runs the elasticlunr literal query for spring layout. The radius-two neighborhood shows ranked matches and their ordinary context; other content stays stored and searchable. Green relations carry ranked relevance alongside authored/citation links. F2 edits and reruns the query without duplicating it; the sidebar offers the same search controls.',async run({page,advance}){
+  {id:'lexical-query',title:'A term query joins its context',caption:'Enter runs the literal query and reinforces its neighborhood around the query node. Solid green links show compact ranks (#1, #2, …); the dashed green link identifies context. Blue semantic relations remain. Hover a result for the exact engine/score. F2 edits and reruns the query without duplicating it.',async run({page,advance}){
     await page.getByRole('textbox',{name:'Lexical query on graph',exact:true}).press('Enter');await linked(page);await neighborhood(page);await advance(120);await fit(page);
   }},
   {id:'exact-tags',title:'Whole-tag retrieval',caption:'The same query node now retrieves exact visual search tags. Tags are explicit metadata and work without topic training. The query replaces its earlier result links while retaining context and manual semantic relations.',async run({page,advance}){
@@ -49,12 +50,12 @@ export const tour=[
     await page.locator('#search-topics').fill('3');await page.locator('#search-iterations').fill('200');await page.locator('#search-train').click();await page.waitForFunction(()=>document.querySelector('#search-status').textContent.includes('Topic model ready'));
     await fit(page,'training');
   }},
-  {id:'topical-query',title:'Retrieve by inferred topics',caption:'Ctrl+Shift+F starts a separate LDA query on the graph. Enter submits geometry repulsion to the trained topic model. Symmetric KL distance in bits ranks document topic mixtures, with a strict default limit of 0.6; lower distances are better. The earlier tag query remains available. Search scores stay separate from importance and RFC physics.',async run({page,advance}){
+  {id:'topical-query',title:'Retrieve by inferred topics',caption:'Ctrl+Shift+F starts a separate LDA query. Enter submits geometry repulsion and moves RFC to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.',async run({page,advance}){
     await page.locator('#search-section .control-subsection').evaluate(e=>e.open=false);await select(page,'mira');await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+f');
     const field=page.getByRole('textbox',{name:'LDA query on graph',exact:true});await field.fill('geometry repulsion');await field.press('Enter');await linked(page);
     semanticQueryId=await page.evaluate(()=>window.graphBrowser.getSelect().getID());await neighborhood(page,semanticQueryId);await advance(120);await fit(page);
   }},
-  {id:'node-similarity',title:'Use an existing paper as the query',caption:'Select Spring neighborhoods and press Ctrl+Shift+R to retrieve similar items from its topic mixture, excluding itself. Ctrl+R provides literal similarity. Existing authored/citation relations remain. Results expand ordinary graph browsing without requiring a separate results page.',async run({page,advance}){
+  {id:'node-similarity',title:'Use an existing paper as the query',caption:'Select Spring neighborhoods and press Ctrl+Shift+R to retrieve topic similarities and reinforce a neighborhood around this paper. Ctrl+R provides literal similarity. Compact green ranked links stay distinct from existing blue authored/citation relations. No separate results page is needed.',async run({page,advance}){
     await select(page,'layout-1');await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+r');await linked(page);await neighborhood(page,'layout-1');await advance(100);await fit(page);
   }},
   {id:'rejected-result',title:'Retain a negative judgment',caption:'Rejecting a selected green result relation removes that link and saves its source, target, query, engine and corpus provenance. Repeating the same query omits that item. Native YAML saves queries, remaining links and feedback; model JSON is saved separately through the training controls. Feedback learning remains future work.',async run({page}){

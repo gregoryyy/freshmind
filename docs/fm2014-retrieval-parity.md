@@ -106,7 +106,8 @@ Results retain raw `value` and `metric`. For symmetric KL, the positive display
 `score` is `1 / (1 + distance)`; predictive `score` is the probability itself;
 Jensen–Shannon `score` is one minus its normalized divergence. `relevance` is a
 relative display normalization, not a calibrated probability. Edge labels show
-the selected metric and raw value. Request settings and diagnostics survive graph
+compact ranks; hover/accessible descriptions and metadata retain the selected
+metric and raw value. Request settings and diagnostics survive graph
 serialization and participate in feedback ownership.
 
 New FM-style queries use strict distance limits **0.6** for term queries and
