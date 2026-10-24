@@ -12,6 +12,7 @@ import type { VisibleLocality } from "../../tg/graph/index.js";
 import type { NodeShape, CurveMode, NodeStyle, EdgeStyle } from "../config/core.js";
 import type { VisualOverride } from "../config/core.js";
 import { text, validateVisualOverride } from "../config/core.js";
+import {parseWeightedLabel} from "./label.js";
 
 export interface NodeEdit {
   label: string; type: string; shape: NodeShape | null;
@@ -22,6 +23,17 @@ export interface RelationEdit {
   visual?: VisualOverride<EdgeStyle>; weight?: number; length?: number; from?: string; to?: string; data?: Metadata; extensions?: Metadata;
 }
 export interface RelationEditContext { graph: FreshGraph; locality?: VisibleLocality; }
+
+/** Commits only a label and an optional numeric weight suffix, preserving every other item field. */
+export function applyLabelEdit(item:FreshNode|FreshEdge,input:string):void {
+  if(typeof input!=="string")throw new TypeError("Expected a label string");
+  // Imported literal suffixes remain literal when the text was not changed.
+  if(input===item.getLabel())return;
+  const parsed=parseWeightedLabel(input);
+  // Parsing validates the complete optional weight before either live field changes.
+  if(parsed.weight!==undefined)item.setWeight(parsed.weight);
+  item.setLabel(parsed.label);
+}
 
 /** Validates a label/type/shape draft before mutation; identity, coordinates and metadata stay intact. */
 export function applyNodeEdit(node: FreshNode, edit: NodeEdit): void {

@@ -31,14 +31,14 @@ export class FreshmindPresentation {
   private readonly measurements = new WeakMap<SVGGElement, { key: string; width: number; height: number; outline: NodeOutline }>();
   private readonly labelMeasurements=new WeakMap<FreshEdge,{key:string;x:number;y:number;width:number;height:number}>();
   private readonly labelKeys=new WeakMap<SVGTextElement,string>();
-  private labelKey(edge:FreshEdge,style:EdgeStyle):string{return JSON.stringify([edge.getLabel(),style.label.font,typeof document==="undefined"?"":document.fonts?.status]);}
+  private labelKey(edge:FreshEdge,style:EdgeStyle,labelOf?:(edge:FreshEdge)=>string):string{return JSON.stringify([labelOf?.(edge)??edge.getLabel(),style.label.font,typeof document==="undefined"?"":document.fonts?.status]);}
   /** Shares measured label placement with painting and panel/editor geometry queries. */
-  arrangeEdgeLabels(geometries:Map<FreshEdge,EdgeGeometry>,edges:FreshEdge[],obstacles:OverlapBox[],styleOf:(edge:FreshEdge)=>EdgeStyle):void {
+  arrangeEdgeLabels(geometries:Map<FreshEdge,EdgeGeometry>,edges:FreshEdge[],obstacles:OverlapBox[],styleOf:(edge:FreshEdge)=>EdgeStyle,labelOf?:(edge:FreshEdge)=>string):void {
     const labels:RelationLabelBox[]=[],offsets=new Map<string,Point>();
     for(const edge of edges){
       const g=geometries.get(edge)!,style=styleOf(edge),metrics=this.labelMeasurements.get(edge);
       const anchor={x:g.midpoint.x+style.label.offset.x,y:g.midpoint.y+style.label.offset.y};g.labelAnchor=anchor;
-      if(!metrics||metrics.key!==this.labelKey(edge,style)||!metrics.width||!metrics.height)continue;
+      if(!metrics||metrics.key!==this.labelKey(edge,style,labelOf)||!metrics.width||!metrics.height)continue;
       const offset={x:metrics.x+metrics.width/2,y:metrics.y+metrics.height/2},candidates:Point[]=[];
       for(const t of [.25,.375,.5,.625,.75]){
         const p=g.pointAt(t),tangent=g.tangentAt(t),length=Math.hypot(tangent.x,tangent.y);
@@ -108,7 +108,7 @@ export class FreshmindPresentation {
    * Labels are text content; annotation HTML is not rendered here.
    * @param element Mounted node group containing the base .tg-label element.
    */
-  paintNode(element: SVGGElement, node: FreshNode, style: NodeStyle): void {
+  paintNode(element: SVGGElement, node: FreshNode, style: NodeStyle,displayLabel=node.getLabel()): void {
     const group=select(element),scale=nodeImportanceScale(node.getWeight(),style.importance);
     // Native SVG outlines enclose a bounding box rather than this node's actual shape.
     group.classed("fm-node",true).attr("data-semantic-type",node.getSemanticType()).attr("data-importance-scale",scale).style("outline","none");
@@ -119,7 +119,7 @@ export class FreshmindPresentation {
     label.style.font=style.text.font; label.setAttribute("fill",style.text.color);
     // Layout animation changes position/colors, not text metrics. Measure only when
     // label, font loading, wrapping, padding or shape changes to avoid forced reflow each frame.
-    const key=JSON.stringify([node.getLabel(),style.text.font,style.label,style.shape,scale,document.fonts?.status]);
+    const key=JSON.stringify([displayLabel,style.text.font,style.label,style.shape,scale,document.fonts?.status]);
     let layout=this.measurements.get(element);
     if(!layout || layout.key!==key) {
       // Measure intrinsic text before applying its display scale. Browser hinting can
@@ -127,7 +127,7 @@ export class FreshmindPresentation {
       label.removeAttribute("transform");
       const measure=(text:string)=>{label.textContent=text;return label.getComputedTextLength();};
       const lines:string[]=[];
-      for(const paragraph of node.getLabel().split(/\r?\n/)) {
+      for(const paragraph of displayLabel.split(/\r?\n/)) {
         let line="";
         for(const character of Array.from(paragraph)) {
           if(line && measure(line+character)>style.label.maxWidth) {
@@ -166,7 +166,7 @@ export class FreshmindPresentation {
    * @param interaction Panel-owned hover/selection callbacks; presentation owns no selection state.
    */
   paintEdges(layer: SVGGElement, edges: FreshEdge[], geometries: Map<FreshEdge,EdgeGeometry>,
-    styleOf:(edge:FreshEdge)=>EdgeStyle, selected:FreshEdge|null, interaction:EdgeInteraction,labelObstacles?:OverlapBox[]):void {
+    styleOf:(edge:FreshEdge)=>EdgeStyle, selected:FreshEdge|null, interaction:EdgeInteraction,labelObstacles?:OverlapBox[],labelOf?:(edge:FreshEdge)=>string):void {
     const groups=select(layer).selectAll<SVGGElement,FreshEdge>("g.fm-edge").data(edges,edge=>edge.getID()!).join(enter=>{
       const group=enter.append("g").attr("class","fm-edge").attr("tabindex",0).attr("role","button");
       group.append("path").attr("class","fm-edge-path").attr("fill","none").style("pointer-events","none");
@@ -185,9 +185,9 @@ export class FreshmindPresentation {
       .on("click",(event:MouseEvent,edge)=>{event.stopPropagation();interaction.select(edge);})
       .on("keydown",(event:KeyboardEvent,edge)=>{if(event.key==="Enter"){event.preventDefault();interaction.select(edge);}});
     groups.each((edge,index,elements)=>{
-      const label=elements[index].querySelector<SVGTextElement>(".fm-edge-label")!,style=styleOf(edge),key=this.labelKey(edge,style);
+      const label=elements[index].querySelector<SVGTextElement>(".fm-edge-label")!,style=styleOf(edge),key=this.labelKey(edge,style,labelOf);
       if(this.labelKeys.get(label)!==key){
-        label.textContent=edge.getLabel();label.style.font=style.label.font;
+        label.textContent=labelOf?.(edge)??edge.getLabel();label.style.font=style.label.font;
         this.labelKeys.set(label,key);
       }
       if(labelObstacles&&this.labelMeasurements.get(edge)?.key!==key){
@@ -195,7 +195,7 @@ export class FreshmindPresentation {
         this.labelMeasurements.set(edge,{key,x:b.x,y:b.y,width:b.width,height:b.height});
       }
     });
-    if(labelObstacles)this.arrangeEdgeLabels(geometries,edges,labelObstacles,styleOf);
+    if(labelObstacles)this.arrangeEdgeLabels(geometries,edges,labelObstacles,styleOf,labelOf);
     groups.each((edge,index,elements)=>{
       const group=select(elements[index]),style=styleOf(edge),geometry=geometries.get(edge)!;
       edge.setGeometry(geometry);

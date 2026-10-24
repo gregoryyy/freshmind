@@ -17,6 +17,10 @@ See LICENSE-APACHE-2.0 for the license text.
       <header class="topbar"><a class="brand" href="/">fm4</a><span class="project-name">Freshmind types and relations</span><a href="/">Graph browser</a><button id="keymap-help">Key map</button></header>
       <main>
         <aside class="sidebar">
+          <label class="control-label" for="label-editing-mode">Label editing</label>
+          <select id="label-editing-mode" aria-describedby="label-editing-help"><option value="on-demand">Read-only labels</option><option value="in-place">In place</option></select>
+          <p id="label-editing-help" class="control-help">In place: edit moving node and relation text directly. Leaving saves; Escape cancels. Ctrl/Cmd+Enter saves a node; Enter saves a relation. Drag nodes by their body.</p>
+          <p id="label-editing-status" class="control-help" role="status"></p>
           <label class="control-label" for="curve">Relation curves</label>
           <select id="curve"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
           <label class="control-label" for="graph-zoom">Graph spacing <output id="graph-zoom-value">85%</output></label>

@@ -77,8 +77,9 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.4.4 Restore the FM2014 node-content popup: modeless/resizable text and safe HTML, selection tracking, internal navigation, keyboard close/focus return and editing through the shared inspector.
   - [x] 2.4.5 Move full item/details editing into a modeless overlay; expose Ctrl+Space and Shift+F2 for direct details editing, retain per-item drafts and preserve focus during graph replacement.
   - [x] 2.4.6 Add numeric label weight commands, inline weight controls and Ctrl+G/H draft adjustments for nodes and relations, with atomic save/cancel and unchanged imported literal labels on unrelated edits.
+  - [x] 2.4.7 Add a configurable in-place label mode: stable editable node/edge text components that move with the graph, preserve caret/composition, preview drafts through shared geometry and commit label/weight changes safely; retain on-demand/full overlays and graph/body gestures.
 
-The main browser supports inline labels/weights and full overlay edits, including annotations, URLs, visual overrides and metadata. Shared commands validate the entire draft before mutation, preserve stable IDs and restore graph focus. See the [user key map](KEYMAP.md) and [completion record](DONE.md).
+The main browser supports inline labels/weights and full overlay edits, including annotations, URLs, visual overrides and metadata. Optional in-place label editing keeps editable node/relation text moving with the graph. Shared commands validate edits before mutation, preserve stable IDs and restore graph focus. See the [user key map](KEYMAP.md) and [completion record](DONE.md).
 - [x] 2.5 Create native YAML persistence and migrate the legacy examples.
   - [x] 2.5.1 Define and validate the versioned `.fm.yaml` graph format, with embedded or companion YAML type configuration.
   - [x] 2.5.2 Implement browser loading/saving and complete-graph serialization, including optional saved view/layout state.

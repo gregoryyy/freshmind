@@ -9,7 +9,7 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel, TypeRegistry } from "../src/fm/index.js";
 import type { CurveMode } from "../src/fm/config/core.js";
 import source from "../config/fm2014.types.yaml?raw";
-import { bindZoomControls, bindKeymap } from "../src/fm/ui/index.js";
+import { bindZoomControls, bindKeymap,bindLabelEditingControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import "./style.css";
 import "./freshmind.css";
@@ -21,6 +21,8 @@ const disposeZoom = bindZoomControls(panel, {
   canvasIn: get("zoom-in"), canvasOut: get("zoom-out"), canvasReset: get("zoom-reset")
 });
 const disposeKeymap = bindKeymap(panel, {button: get("keymap-help")});
+const disposeLabelEditing=bindLabelEditingControls(panel,{mode:get<HTMLSelectElement>("label-editing-mode"),status:get("label-editing-status")});
+panel.getNavigation().setActions({edit:item=>{panel.focusLabelEditor(item);},adjustWeight:(item,direction)=>{panel.adjustLabelWeight(item,direction);}});
 panel.addGraphListener({graphMoved:()=>{get<HTMLInputElement>("hyper").value=String(panel.getHyperbolic());}});
 const graph=new FreshGraph();
 const entries=Object.entries(panel.getTypeRegistry().getConfiguration().nodeTypes);
@@ -50,4 +52,4 @@ get("motion").addEventListener("click",()=>{running=!running;if(running){panel.r
 get("show-all").addEventListener("click",()=>{panel.getGES().addAll();panel.repaint();panel.focusGraph();});
 declare global { interface Window { freshmindBrowser: FreshmindPanel; } }
 window.freshmindBrowser=panel;
-window.addEventListener("pagehide",()=>{disposeKeymap();disposeZoom();panel.destroy();});
+window.addEventListener("pagehide",()=>{disposeLabelEditing();disposeKeymap();disposeZoom();panel.destroy();});

@@ -42,6 +42,10 @@
           </div>
           </details>
           <details class="sidebar-section" id="view-section" open><summary>View</summary>
+          <label class="control-label" for="label-editing-mode">Label editing</label>
+          <select id="label-editing-mode" aria-describedby="label-editing-help"><option value="on-demand">On demand (F2)</option><option value="in-place">In place</option></select>
+          <p id="label-editing-help" class="control-help">In place: click node or relation text to edit while it moves. Leaving the label saves; Escape cancels. Ctrl/Cmd+Enter saves a node; Enter also saves a relation. Drag nodes by their body.</p>
+          <p id="label-editing-status" class="control-help" role="status"></p>
           <p id="view-status" class="section-label">LOCAL NEIGHBORHOOD</p>
           <label class="control-label" for="depth">Neighborhood depth <output id="depth-value">2 hops</output></label>
           <input type="range" id="depth" min="0" max="6" value="2" step="1" />
