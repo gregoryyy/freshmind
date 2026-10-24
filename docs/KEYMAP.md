@@ -2,7 +2,7 @@
 
 Adapted from the Java reference's `keys.txt` (2003–2012) and checked against the implemented port. Open **Key map**, press **?** with the graph focused, or press **F1** for the same reference in the browser.
 
-Graph commands require graph focus. Text editors keep normal typing, caret movement and clipboard shortcuts. Ctrl means Control, including on macOS; Option is the Alt modifier. File and editor commit shortcuts also accept Command. Editing and file controls below apply to the main graph browser; the palette page supplies navigation/view/help.
+Point at the graph to give its centered node keyboard control without a click when page focus is passive. Explicit side-pane controls and editors retain focus; click or Tab into the graph to leave them. Arrow navigation then follows the selected node as usual. Text editors keep normal typing, caret movement and clipboard shortcuts. Ctrl means Control, including on macOS; Option is the Alt modifier. File and editor commit shortcuts also accept Command. Editing and file controls below apply to the main graph browser; the palette page supplies navigation/view/help.
 
 ## Navigation
 
@@ -36,6 +36,7 @@ Graph commands require graph focus. Text editors keep normal typing, caret movem
 | Key or gesture | Action |
 | --- | --- |
 | Vertical scroll | Increase/decrease graph spacing, keeping labels and shapes the same size. |
+| Pointer over graph | Resume keyboard control at the centered node without a click when page focus is passive. Explicit side-pane controls and editors retain focus; click or Tab into the graph to leave them. |
 | Pinch / Ctrl + wheel | Scale the complete canvas around the pointer. |
 | Horizontal two-finger scroll | Adjust focus + context. Diagonal wheel events use their dominant axis. |
 | Drag node / background | Move a node through the viewing lenses / pan the canvas. |

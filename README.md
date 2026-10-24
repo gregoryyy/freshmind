@@ -6,7 +6,7 @@
 
 ![Freshmind 4 graph example with RFC enabled on its central Graph browsers node](docs/flipbook/01-browser.png)
 
-The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the 27-step flipbook](docs/flipbook/index.html).
+The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the 29-step flipbook](docs/flipbook/index.html).
 
 ## Background and motivation
 
@@ -43,7 +43,7 @@ Try **RFC → Research community showcase** to compare a plain graph, viewing le
 
 The current lexical and topic-model search remains available. If an external literal-search library is needed, use elasticlunr. See the [integration plan](docs/search-module-integration.md) and [browser guide](docs/graph-search.md).
 
-RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
+RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Point at the graph to give the centered node keyboard control; explicit control/editor focus takes priority. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
 
 The other common recipes are:
 

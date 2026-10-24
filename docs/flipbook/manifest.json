@@ -36,6 +36,8 @@
     "25-relations-separated.png",
     "26-label-weight.png",
     "27-details-editor.png",
+    "28-hover-keyboard.png",
+    "29-control-focus.png",
     "README.md",
     "index.html",
     "manifest.json"
@@ -202,6 +204,18 @@
       "title": "Edit node details directly in an overlay",
       "caption": "Ctrl+Enter commits the weight. Ctrl+Space or Shift+F2 then opens the full modeless editor at the node annotation, outside the side pane. It also exposes types, visual settings, URLs and metadata. Close retains a per-item draft; Save commits and Escape cancels. The annotation shown here is still a draft.",
       "file": "27-details-editor.png"
+    },
+    {
+      "id": "hover-keyboard",
+      "title": "Point at the graph to control its center",
+      "caption": "Close the editor, clear selection and move the pointer over a branch without clicking. Keyboard control resumes at the node in the viewport center, independently of the hovered branch. Enter acts immediately on that centered target; arrow navigation then continues from the selected node.",
+      "file": "28-hover-keyboard.png"
+    },
+    {
+      "id": "control-focus",
+      "title": "Explicit control focus takes priority",
+      "caption": "Focus Graph spacing in the side pane, then point back at the graph. The input keeps focus and Enter belongs to that control. Editors, buttons and summaries have the same protection. Click or Tab into the graph when ready to return keyboard control.",
+      "file": "29-control-focus.png"
     }
   ]
 }

@@ -45,6 +45,7 @@ const panel=new FreshmindPanel(undefined,panelOptions),base:TGPanel=panel,nav:Na
 separateNodeOverlaps([{id:'label',x:0,y:0,width:120,height:30}],{gap:8});separateNodeLabels(panel);
 placeRelationLabels([{id:'edge-label',x:0,y:0,width:40,height:12,candidates:[{x:0,y:20}]}],[]);panel.setRelationLabelPlacement('avoid-overlap');
 parseWeightedLabel('node =2');
+panel.getCenteredNode();
 new FreshmindNavigation(nav);installDocument(panel,document);captureDocument(panel);base.getGES();
 spanningTree(graph,['a','b'],'a','pair');projectRfcStructure(graph,locality,node,null,{x:1,y:1});
 createNodeOutline('ellipse',100,40);nodeImportanceScale(9,registry.resolveNode(node as FreshNode).importance);

@@ -365,5 +365,26 @@ export const tour = [
       await page.getByLabel("Inline node label",{exact:true}).press("Control+Enter");await page.keyboard.press("Control+Space");
       await page.getByLabel("Annotation",{exact:true}).fill("Draft details edited directly in the overlay.");
     }
+  },
+  {
+    id:"hover-keyboard",title:"Point at the graph to control its center",
+    caption:"Close the editor, clear selection and move the pointer over a branch without clicking. Keyboard control resumes at the node in the viewport center, independently of the hovered branch. Enter acts immediately on that centered target; arrow navigation then continues from the selected node.",
+    async run({page}){
+      await page.getByRole("button",{name:"Close item editor",exact:true}).click();
+      await page.evaluate(()=>{window.graphBrowser.setSelect(null);document.activeElement?.blur();});
+      await page.locator('[data-node-id="topic-0"]').hover();await page.keyboard.press("Enter");
+      const valid=await page.evaluate(()=>{const p=window.graphBrowser;return document.activeElement===document.querySelector('[data-node-id="root"]')&&p.getSelection()===p.getCenteredNode()&&p.getSelect()?.getID()==="root";});
+      if(!valid)throw new Error("Pointer activation did not route Enter to the centered node");
+    }
+  },
+  {
+    id:"control-focus",title:"Explicit control focus takes priority",
+    caption:"Focus Graph spacing in the side pane, then point back at the graph. The input keeps focus and Enter belongs to that control. Editors, buttons and summaries have the same protection. Click or Tab into the graph when ready to return keyboard control.",
+    async run({page}){
+      await sidebar(page,"view-section");await page.evaluate(()=>window.graphBrowser.setSelect(null));await page.locator("#graph-zoom").focus();
+      const bounds=await page.locator("#graph svg").boundingBox();await page.mouse.move(bounds.x+20,bounds.y+20);await page.keyboard.press("Enter");
+      const valid=await page.evaluate(()=>document.activeElement===document.querySelector("#graph-zoom")&&!window.graphBrowser.getSelection());
+      if(!valid)throw new Error("Graph hover took explicit control focus");
+    }
   }
 ];
