@@ -1,0 +1,1284 @@
+format: freshmind
+version: 1
+title: "Research community: RFC showcase"
+types:
+  format: freshmind-types
+  version: 1
+  id: freshmind-2014
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+    includes:
+      label: Project content
+      visual: content
+    team:
+      label: Project team
+      visual: team
+    member:
+      label: Group membership
+      visual: member
+    collaborates:
+      label: Project collaboration
+      visual: team
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      importance:
+        mode: size
+        minScale: 0.85
+        maxScale: 1.5
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#0000b0"
+        width: 1
+        dash: solid
+      arrow:
+        placement: middle
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+    content:
+      extends: default
+      stroke:
+        color: "#9a6950"
+      label:
+        color: "#805740"
+    team:
+      extends: default
+      stroke:
+        color: "#4c639d"
+        width: 1.5
+      label:
+        color: "#405887"
+    member:
+      extends: default
+      stroke:
+        color: "#58815c"
+      label:
+        color: "#456c49"
+nodes:
+  - id: atlas
+    label: Graph Atlas
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: A focal project about exploring graph communities.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 260
+      "y": 150
+    data: {}
+    extensions: {}
+  - id: topics
+    label: Topic Lens
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: A second focal project sharing Semantic Methods with Graph Atlas.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 260
+      "y": -210
+    data: {}
+    extensions: {}
+  - id: archive
+    label: Archive Bridge
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: A context project connecting two teams.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -510
+      "y": -140
+    data: {}
+    extensions: {}
+  - id: signal
+    label: Signal Studio
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: A context project in the Visual Systems group.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -450
+      "y": 260
+    data: {}
+    extensions: {}
+  - id: review
+    label: Review Desk
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: A context project in the Open Data group.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -190
+      "y": -510
+    data: {}
+    extensions: {}
+  - id: corpus
+    label: Corpus Hub
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: A context project in the Semantic Methods group.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -80
+      "y": 480
+    data: {}
+    extensions: {}
+  - id: visual
+    label: Visual Systems
+    type: group
+    visual: {}
+    annotation:
+      format: text
+      text: A team whose low-detail leaf members can aggregate into a typed count.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -80
+      "y": 170
+    data: {}
+    extensions: {}
+  - id: semantic
+    label: Semantic Methods
+    type: group
+    visual: {}
+    annotation:
+      format: text
+      text: A shared group belonging to both focal neighborhoods. Its own leaf members can aggregate while the shared group stays visible.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -30
+      "y": -35
+    data: {}
+    extensions: {}
+  - id: data
+    label: Open Data
+    type: group
+    visual: {}
+    annotation:
+      format: text
+      text: A team whose low-detail leaf members can aggregate into a typed count.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -200
+      "y": -280
+    data: {}
+    extensions: {}
+  - id: ada
+    label: Ada
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: A fictional group member. In the hybrid view, this single-neighbor person aggregates into the group's typed count.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -150
+      "y": 280
+    data: {}
+    extensions: {}
+  - id: eli
+    label: Eli
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: A fictional group member. In the hybrid view, this single-neighbor person aggregates into the group's typed count.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -20
+      "y": 300
+    data: {}
+    extensions: {}
+  - id: noor
+    label: Noor
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: A fictional group member. In the hybrid view, this single-neighbor person aggregates into the group's typed count.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -120
+      "y": -80
+    data: {}
+    extensions: {}
+  - id: liam
+    label: Liam
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: A fictional group member. In the hybrid view, this single-neighbor person aggregates into the group's typed count.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 60
+      "y": -90
+    data: {}
+    extensions: {}
+  - id: zoe
+    label: Zoe
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: A fictional group member. In the hybrid view, this single-neighbor person aggregates into the group's typed count.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -320
+      "y": -360
+    data: {}
+    extensions: {}
+  - id: sam
+    label: Sam
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: A fictional group member. In the hybrid view, this single-neighbor person aggregates into the group's typed count.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -150
+      "y": -410
+    data: {}
+    extensions: {}
+  - id: maya
+    label: Maya
+    type: person
+    visual: {}
+    annotation:
+      format: text
+      text: A collaborator connecting Visual Systems and Semantic Methods. Two semantic neighbors make Maya a bridge, so conservative leaf aggregation keeps this person visible.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -55
+      "y": 60
+    data: {}
+    extensions: {}
+  - id: atlas-paper-1
+    label: |-
+      Community
+      Maps
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Graph Atlas. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 447.04081108034654
+      "y": 116.5973804858643
+    data: {}
+    extensions: {}
+  - id: atlas-paper-2
+    label: |-
+      Readable
+      Neighborhoods
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Graph Atlas. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 424.5752613492341
+      "y": 244.94726616301966
+    data: {}
+    extensions: {}
+  - id: atlas-paper-3
+    label: |-
+      Local
+      Structure
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Graph Atlas. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 324.70739464618254
+      "y": 328.6419689717486
+    data: {}
+    extensions: {}
+  - id: topics-paper-1
+    label: |-
+      Topic
+      Landscapes
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Topic Lens. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 298.9943529619768
+      "y": -411.2571500272146
+    data: {}
+    extensions: {}
+  - id: topics-paper-2
+    label: |-
+      Query
+      Contexts
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Topic Lens. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 419.4779419417629
+      "y": -338.80910695296234
+    data: {}
+    extensions: {}
+  - id: topics-paper-3
+    label: |-
+      Semantic
+      Trails
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Topic Lens. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 464.95656291475643
+      "y": -205.78012818091608
+    data: {}
+    extensions: {}
+  - id: archive-paper-1
+    label: |-
+      Archive
+      Connections
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Archive Bridge. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -682.5376095807906
+      "y": -60.43384337454343
+    data: {}
+    extensions: {}
+  - id: archive-paper-2
+    label: |-
+      Digital
+      Collections
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Archive Bridge. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -693.2219681042525
+      "y": -190.29622653842222
+    data: {}
+    extensions: {}
+  - id: archive-paper-3
+    label: |-
+      Shared
+      Catalogues
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Archive Bridge. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -617.7341721060599
+      "y": -296.50350846106255
+    data: {}
+    extensions: {}
+  - id: signal-paper-1
+    label: |-
+      Signal
+      Patterns
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Signal Studio. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -519.6923041839668
+      "y": 452.7899964664387
+    data: {}
+    extensions: {}
+  - id: signal-paper-2
+    label: |-
+      Robust
+      Estimates
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Signal Studio. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -627.5023400151329
+      "y": 362.556907564299
+    data: {}
+    extensions: {}
+  - id: signal-paper-3
+    label: |-
+      Visual
+      Signals
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Signal Studio. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -651.8302517866116
+      "y": 224.08970253878437
+    data: {}
+    extensions: {}
+  - id: review-paper-1
+    label: |-
+      Review
+      Methods
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Review Desk. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -355.432654514192
+      "y": -603.4453681055834
+    data: {}
+    extensions: {}
+  - id: review-paper-2
+    label: |-
+      Evidence
+      Notes
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Review Desk. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -256.33071440286005
+      "y": -688.0456018182033
+    data: {}
+    extensions: {}
+  - id: review-paper-3
+    label: |-
+      Study
+      Designs
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Review Desk. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -126.03240286186045
+      "y": -688.9082069564521
+    data: {}
+    extensions: {}
+  - id: corpus-paper-1
+    label: |-
+      Corpus
+      Links
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Corpus Hub. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 24.49119191208645
+      "y": 656.3706064308662
+    data: {}
+    extensions: {}
+  - id: corpus-paper-2
+    label: |-
+      Document
+      Models
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Corpus Hub. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -113.70179239759824
+      "y": 682.2107543855894
+    data: {}
+    extensions: {}
+  - id: corpus-paper-3
+    label: |-
+      Reusable
+      Corpora
+    type: paper
+    visual: {}
+    annotation:
+      format: text
+      text: Synthetic research note for Corpus Hub. Content in a focal neighborhood remains visible; remote single-neighbor papers can aggregate.
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -236.04429713766004
+      "y": 612.9480249225751
+    data: {}
+    extensions: {}
+edges:
+  - id: atlas:visual
+    from: atlas
+    to: visual
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: atlas:semantic
+    from: atlas
+    to: semantic
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: topics:semantic
+    from: topics
+    to: semantic
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: topics:data
+    from: topics
+    to: data
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: archive:visual
+    from: archive
+    to: visual
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: archive:data
+    from: archive
+    to: data
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: signal:visual
+    from: signal
+    to: visual
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: review:data
+    from: review
+    to: data
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: corpus:semantic
+    from: corpus
+    to: semantic
+    label: team
+    type: team
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: visual:ada
+    from: visual
+    to: ada
+    label: member
+    type: member
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: visual:eli
+    from: visual
+    to: eli
+    label: member
+    type: member
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: semantic:noor
+    from: semantic
+    to: noor
+    label: member
+    type: member
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: semantic:liam
+    from: semantic
+    to: liam
+    label: member
+    type: member
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: data:zoe
+    from: data
+    to: zoe
+    label: member
+    type: member
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: data:sam
+    from: data
+    to: sam
+    label: member
+    type: member
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: visual:maya
+    from: visual
+    to: maya
+    label: member
+    type: member
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: semantic:maya
+    from: semantic
+    to: maya
+    label: member
+    type: member
+    visual: {}
+    weight: 10
+    length: 90
+    data: {}
+    extensions: {}
+  - id: atlas:atlas-paper-1
+    from: atlas
+    to: atlas-paper-1
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: atlas:atlas-paper-2
+    from: atlas
+    to: atlas-paper-2
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: atlas:atlas-paper-3
+    from: atlas
+    to: atlas-paper-3
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: topics:topics-paper-1
+    from: topics
+    to: topics-paper-1
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: topics:topics-paper-2
+    from: topics
+    to: topics-paper-2
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: topics:topics-paper-3
+    from: topics
+    to: topics-paper-3
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: archive:archive-paper-1
+    from: archive
+    to: archive-paper-1
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: archive:archive-paper-2
+    from: archive
+    to: archive-paper-2
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: archive:archive-paper-3
+    from: archive
+    to: archive-paper-3
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: signal:signal-paper-1
+    from: signal
+    to: signal-paper-1
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: signal:signal-paper-2
+    from: signal
+    to: signal-paper-2
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: signal:signal-paper-3
+    from: signal
+    to: signal-paper-3
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: review:review-paper-1
+    from: review
+    to: review-paper-1
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: review:review-paper-2
+    from: review
+    to: review-paper-2
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: review:review-paper-3
+    from: review
+    to: review-paper-3
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: corpus:corpus-paper-1
+    from: corpus
+    to: corpus-paper-1
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: corpus:corpus-paper-2
+    from: corpus
+    to: corpus-paper-2
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: corpus:corpus-paper-3
+    from: corpus
+    to: corpus-paper-3
+    label: ""
+    type: includes
+    visual: {}
+    weight: 10
+    length: 130
+    data: {}
+    extensions: {}
+  - id: archive-paper-1:corpus-paper-2
+    from: archive-paper-1
+    to: corpus-paper-2
+    label: cites
+    type: cites
+    visual: {}
+    weight: 10
+    length: 160
+    data: {}
+    extensions: {}
+  - id: archive:corpus
+    from: archive
+    to: corpus
+    label: collaborates
+    type: collaborates
+    visual: {}
+    weight: 10
+    length: 180
+    data: {}
+    extensions: {}
+data:
+  example: rfc-showcase
+  provenance: All projects, people, notes and relations are synthetic. This is a new capability demonstration inspired by the 2005 RFC/hybrid examples, not reconstructed source data.
+extensions: {}
+substructures:
+  - id: atlas-focus
+    label: "Graph Atlas: focal neighborhood"
+    kind: tree
+    rootId: atlas
+    nodeIds:
+      - atlas
+      - visual
+      - semantic
+      - atlas-paper-1
+      - atlas-paper-2
+      - atlas-paper-3
+    edgeIds:
+      - atlas:atlas-paper-1
+      - atlas:atlas-paper-2
+      - atlas:atlas-paper-3
+      - atlas:semantic
+      - atlas:visual
+  - id: topics-focus
+    label: "Topic Lens: focal neighborhood"
+    kind: tree
+    rootId: topics
+    nodeIds:
+      - topics
+      - semantic
+      - data
+      - topics-paper-1
+      - topics-paper-2
+      - topics-paper-3
+    edgeIds:
+      - topics:data
+      - topics:semantic
+      - topics:topics-paper-1
+      - topics:topics-paper-2
+      - topics:topics-paper-3
+view:
+  wholeGraph: true
+  focus: atlas
+  radius: 2
+  backlinks: true
+  moveToCenter: true
+  lenses:
+    zoom: 1
+    hyperbolic: 0
+    rotation: 0
+    pan:
+      x: 0
+      "y": 0
+  canvas:
+    zoom: 0.65
+    pan:
+      x: 0
+      "y": 0

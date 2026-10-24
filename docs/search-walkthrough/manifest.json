@@ -1,0 +1,67 @@
+{
+  "format": "freshmind-flipbook",
+  "version": 1,
+  "build": "demo-dist",
+  "source": "scripts/flipbook/search.mjs",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "browser": "155.0.8059.85",
+  "files": [
+    "01-library.png",
+    "02-lexical-query.png",
+    "03-exact-tags.png",
+    "04-topic-model.png",
+    "05-topical-query.png",
+    "06-node-similarity.png",
+    "07-rejected-result.png",
+    "README.md",
+    "index.html",
+    "manifest.json"
+  ],
+  "steps": [
+    {
+      "id": "library",
+      "title": "A searchable research library",
+      "caption": "This new fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including currently hidden items. RFC and the viewing lens remain independent controls.",
+      "file": "01-library.png"
+    },
+    {
+      "id": "lexical-query",
+      "title": "A term query joins its context",
+      "caption": "A lexical query for spring layout is attached to Mira Vega as context. Green relations carry ranked relevance; existing authored and citation relations remain. The query node can be selected and rerun without duplicating it.",
+      "file": "02-lexical-query.png"
+    },
+    {
+      "id": "exact-tags",
+      "title": "Whole-tag retrieval",
+      "caption": "The same query node now retrieves exact visual search tags. Tags are explicit metadata and work without topic training. The query replaces its earlier result links while retaining context and manual semantic relations.",
+      "file": "03-exact-tags.png"
+    },
+    {
+      "id": "topic-model",
+      "title": "Train and inspect topics",
+      "caption": "Three topics are trained locally for 200 serial Gibbs passes with seed 4357, alpha 0.1 and beta 0.01. The most probable words make the fitted topics inspectable. This deliberately separated synthetic corpus does not establish general retrieval quality.",
+      "file": "04-topic-model.png"
+    },
+    {
+      "id": "topical-query",
+      "title": "Retrieve by inferred topics",
+      "caption": "The text query geometry repulsion is folded into the fixed topic model. Document topic distributions determine bounded Jensen–Shannon similarity. Switching the selected query to LDA replaces its prior links and updates its query type; scores are separate from node importance and RFC physics.",
+      "file": "05-topical-query.png"
+    },
+    {
+      "id": "node-similarity",
+      "title": "Use an existing paper as the query",
+      "caption": "Spring neighborhoods retrieves similar graph items directly from its own topic mixture, excluding itself. Existing authored/citation relations remain. The result links expand ordinary graph browsing without requiring a separate results page.",
+      "file": "06-node-similarity.png"
+    },
+    {
+      "id": "rejected-result",
+      "title": "Retain a negative judgment",
+      "caption": "Rejecting a selected green result relation removes that link and saves its source, target, query, engine and corpus provenance. Repeating the same query omits that item. Native YAML saves queries, remaining links and feedback; the trained model stays in memory. Feedback learning remains future work.",
+      "file": "07-rejected-result.png"
+    }
+  ]
+}

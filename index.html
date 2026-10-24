@@ -25,9 +25,21 @@
           <details class="sidebar-section" id="files-section" open><summary>Graph files</summary>
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <label class="control-label" for="example-graph">Load example</label>
-          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="RFC"><option value="structural-focus-context">Structural focus + context</option><option value="substructures">Trees and DAG</option><option value="weighted-tree">Weighted tree</option><option value="clusters">Overlapping clusters</option><option value="exclusion">Focal-region exclusion</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
+          <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="Graph search"><option value="graph-search">Fictional topic library</option></optgroup><optgroup label="RFC"><option value="rfc-showcase">Research community showcase</option><option value="structural-focus-context">Structural focus + context</option><option value="substructures">Trees and DAG</option><option value="weighted-tree">Weighted tree</option><option value="clusters">Overlapping clusters</option><option value="exclusion">Focal-region exclusion</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
           <input type="file" id="open-graph-files" accept=".yaml,.yml" multiple hidden />
           <p id="file-status" class="control-help" role="status"></p>
+          <div id="rfc-showcase" hidden>
+            <label class="control-label" for="rfc-showcase-view">Apply comparison view</label>
+            <select id="rfc-showcase-view" aria-describedby="rfc-showcase-help">
+              <option value="">Choose a view…</option>
+              <option value="plain">Plain graph</option><option value="lens">Viewing lens</option>
+              <option value="single">One RFC focus</option><option value="two">Two RFC foci</option>
+              <option value="hybrid">Hybrid aggregation</option><option value="hybrid-lens">Hybrid + viewing lens</option>
+            </select>
+            <p id="rfc-showcase-help" class="control-help">Each choice restores the file's starting positions and common initial framing. Motion follows the normal pause/resume control.</p>
+            <p id="rfc-showcase-caption" class="control-help" role="status"></p>
+            <div class="document-tools"><button id="rfc-showcase-fit" type="button">Fit visible graph</button></div>
+          </div>
           </details>
           <details class="sidebar-section" id="view-section" open><summary>View</summary>
           <p id="view-status" class="section-label">LOCAL NEIGHBORHOOD</p>
@@ -50,6 +62,28 @@
             <p class="control-help">Weight 1 has normal size; lower weights are smaller and higher weights larger, within configured limits. Yellow halos show RFC participation.</p>
           </details>
           <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
+          </details>
+          <details class="sidebar-section" id="search-section"><summary>Graph search</summary>
+            <label class="control-label" for="search-engine">Search method</label><select id="search-engine"><option value="lexical">Lexical</option><option value="lda">LDA topics</option></select>
+            <label class="control-label" for="search-kind">Query kind</label><select id="search-kind"><option value="terms">Terms</option><option value="tags">Tags (exact)</option></select>
+            <label class="control-label" for="search-query">Query</label><input id="search-query" type="text" maxlength="4096" required placeholder="graph AND layout" aria-describedby="search-help" />
+            <p id="search-help" class="control-help">Search all stored nodes, including hidden items. Lexical terms support phrases and AND/OR/NOT; LDA uses topic similarity. Tags match whole values, separated by commas. Run again on a selected query to refresh its links.</p>
+            <label class="control-label" for="search-limit">Maximum results</label><input id="search-limit" type="number" min="1" max="100" step="1" value="5" required />
+            <div class="editor-actions"><button id="search-run" type="button">Run query</button><button id="search-similar" type="button">Find similar nodes</button></div>
+            <button id="search-reject" type="button" disabled>Reject selected result</button>
+            <p class="control-help">Reject a result relation to save a negative judgment and omit it on future runs of that query. Other relations remain.</p>
+            <details class="control-subsection"><summary>Topic model training</summary>
+              <label class="control-label" for="search-topics">Topics</label><input id="search-topics" type="number" min="1" max="256" step="1" value="6" required />
+              <label class="control-label" for="search-iterations">Training passes</label><input id="search-iterations" type="number" min="0" max="10000" step="1" value="100" required />
+              <label class="control-label" for="search-seed">Random seed</label><input id="search-seed" type="number" min="0" max="4294967295" step="1" value="4357" required />
+              <label class="control-label" for="search-alpha">Document topic prior</label><input id="search-alpha" type="number" min="0.000000001" max="1000000" step="any" value="0.1" required />
+              <label class="control-label" for="search-beta">Topic word prior</label><input id="search-beta" type="number" min="0.000000001" max="1000000" step="any" value="0.01" required />
+              <button id="search-train" type="button">Train topic model</button>
+              <p class="control-help">Train before LDA search, and retrain after changing graph text or tags. Models stay in memory; saved graphs retain queries, result links and rejection feedback.</p>
+              <div id="search-topic-words" class="control-help"></div>
+            </details>
+            <button id="search-cancel" type="button" disabled>Cancel search or training</button>
+            <p id="search-status" class="control-help" role="status"></p>
           </details>
           <details class="sidebar-section" id="structural-section"><summary>Structural focus + context</summary>
             <label class="pin-control"><input id="structural-enabled" type="checkbox" /> Enable structural view</label>

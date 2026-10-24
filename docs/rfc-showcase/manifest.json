@@ -1,0 +1,60 @@
+{
+  "format": "freshmind-flipbook",
+  "version": 1,
+  "build": "demo-dist",
+  "source": "scripts/flipbook/rfc-showcase.mjs",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "browser": "155.0.8059.85",
+  "files": [
+    "01-plain.png",
+    "02-lens.png",
+    "03-single.png",
+    "04-two.png",
+    "05-hybrid.png",
+    "06-hybrid-lens.png",
+    "README.md",
+    "index.html",
+    "manifest.json"
+  ],
+  "steps": [
+    {
+      "id": "plain",
+      "title": "Plain community graph",
+      "caption": "The whole synthetic research community contains 34 typed nodes and 37 relations: six projects, three groups, seven people and eighteen notes. Project collaboration, shared group membership and a citation connect the surrounding context.",
+      "file": "01-plain.png"
+    },
+    {
+      "id": "lens",
+      "title": "Viewing focus + context",
+      "caption": "The viewing lens enlarges the area around Graph Atlas while retaining distant context. It transforms display positions independently of physical layout. This scene starts from the same saved coordinates and runs the same number of layout batches as the plain view.",
+      "file": "02-lens.png"
+    },
+    {
+      "id": "single",
+      "title": "One reinforced neighborhood",
+      "caption": "Graph Atlas has five reinforced branches: two groups and three notes. Target-length and angular reinforcement use horizontally weighted coordinates; soft focal-region exclusion pushes context away. Complete semantic graph data remains unchanged.",
+      "file": "03-single.png"
+    },
+    {
+      "id": "two",
+      "title": "Two independent RFC foci",
+      "caption": "Graph Atlas and Topic Lens have separate focal neighborhoods, with Semantic Methods shared between them. Halos identify their eleven distinct members, and dashed boundaries follow the current viewing transform. Soft context/non-shared exclusion complements reinforcement; surrounding semantic relations remain present.",
+      "file": "04-two.png"
+    },
+    {
+      "id": "hybrid",
+      "title": "RFC with structural aggregation",
+      "caption": "The two foci retain their detail while sixteen remote leaf people and papers aggregate into typed parent counts. Eighteen of 34 nodes and 21 of 37 relations remain visible. The shared group, Maya's two-group collaboration and the citation-bearing context papers remain explicit. Reveal a parent's leaves to inspect its detail.",
+      "file": "05-hybrid.png"
+    },
+    {
+      "id": "hybrid-lens",
+      "title": "Hybrid focus + context with the viewing lens",
+      "caption": "The viewing lens composes with the same two focal neighborhoods and reversible aggregation rules. All 34 nodes, 37 relations and two stored focal definitions remain available for browsing, editing and YAML export. The showcase demonstrates the original tasks with a new graph and the current implementation; it makes no general readability or convergence claim.",
+      "file": "06-hybrid-lens.png"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ Develop the browser in stages: establish a plain TouchGraph baseline, restore Fr
 
 Completed work, implementation notes, deviations, and lessons are recorded in [DONE.md](DONE.md).
 
-**Current status:** Milestones 1–3 are complete within their agreed scope. RFC includes multiple centers, stored tree/DAG/cluster memberships, importance, exclusion, structural views and reproducible comparisons, including 160 matched hybrid runs. Reproducing the original paper's figures is not required (scope decision, 2026-10-24). Milestone 4 (LDA-based visual search) has not started.
+**Current status:** Milestones 1–3 are complete within their agreed scope. Milestone 4's earlier lexical/LDA prototype is implemented, but its LDA direction is superseded: Gregor will provide a Lucene-equivalent literal search engine and a semantic approach, potentially based on embeddings. Integration awaits that module. RFC and visual search should realize the ideas described in the reference text; exact figure layouts, crosshairs and labels are outside scope. See the [current search direction](search-module-integration.md) and [implementation history](DONE.md).
 
 ## Source material
 
@@ -103,6 +103,7 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
   - [x] 3.3.5 Add a loadable stored tree with nonuniform/zero node and relation importance, retaining ordinary context and all saved membership IDs.
   - [x] 3.3.6 Add a loadable overlapping-cluster example retaining clique cycles, shared members, zero importance and ordinary boundary links.
   - [x] 3.3.7 Add four synthetic exclusion fixtures with pinned-pressure controls, shared membership and cluster regions; expose the cross-pressure example in the main browser.
+  - [x] 3.3.8 Build a capability-equivalent current RFC/hybrid showcase: a new typed research community with single/two foci, shared groups, semantic bridges and reversible context aggregation. Add six browser comparison setups, complete YAML preservation and a production walkthrough. Original-figure reproduction remains outside scope.
 - [x] 3.4 Create reproducible experiments comparing the mechanism with the plain TouchGraph baseline.
   - [x] 3.4.1 Compare the single-focus implementation from identical starting states with seeded randomness and recorded settings/coordinates/metrics.
   - [x] 3.4.2 Compare hybrid structural filtering/aggregation with matched TG/RFC/lens controls, accounting for retained constraints and changed visible graph size. Experiment J records 160 runs, identical nominated detail in force controls, common-subset scores, exact physical lens twins and motion/force diagnostics. Focal-region exclusion is covered in 3.4.11, weighted coordinates in 3.4.1 and multiple tree foci in 3.4.5.
@@ -123,18 +124,24 @@ Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is histor
 
 The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-focus/README.md), [multiple-focus tree report](experiments/rfc-multifocus/README.md), [follow-up comparisons F–H](experiments/rfc-followup/README.md), [exclusion Experiment I](experiments/rfc-exclusion/README.md), [hybrid Experiment J](experiments/rfc-hybrid/README.md) and [second draft paper](papers/rfc-revisited-draft2.md) document the implementation and experiments. The current experimental round covers stars/trees, damping versus rigidity, nonuniform importance, compact clusters, exclusion and hybrid views; DAG templates have functional checks only. The main browser exposes activation/removal and strength controls under **Reinforcement Focus + Context**. Node/link weights scale RFC stiffness separately from coordinate weights and ordinary TG forces; the [importance contract](rfc-importance.md) also defines bounded browser body/label sizing (3.2.18). Optional [focal-region exclusion](rfc-exclusion.md) is implemented and evaluated in 100 additional runs. [Structural focus + context](structural-focus-context.md) implements reversible type filtering and conservative leaf aggregation (3.2.6); Experiment J completes the matched hybrid comparisons (3.4.2). Multiple centers and memberships are documented in [the substructure design](rfc-substructures.md); [cluster forces](rfc-clusters.md) remain deformable rather than rigid bodies. Finite synthetic comparisons do not establish general convergence or readability.
 
-## 4. Add graph visual search with LDA
+## 4. Graph visual search with the supplied search module
 
-Use the thesis excerpt as the interaction reference. Its community browser uses ETT models; this milestone introduces LDA-based retrieval with the same style of graph interaction.
+Gregor will provide the search module: literal search equivalent to Lucene and a
+semantic approach that may use embeddings. LDA is excluded from the intended
+implementation. The [integration plan](search-module-integration.md) records the
+current direction; the thesis text remains the interaction reference.
 
-The LDA libraries used by the Java prototype are available as sources. Local source references include `../knowceans/knowceans-lda-simple/` and `../knowceans/knowceans-ilda/`, with simple LDA implementations in `org.knowceans.topics.simple`. Select and audit the required source subset and map it to the prototype's search interfaces.
+Tasks **4.1–4.6** completed the earlier lexical/LDA prototype. Their implementation,
+verification, examples and experiments remain recorded in [DONE.md](DONE.md).
+That completion does not establish completion of the revised milestone. New task
+numbers preserve those historical references.
 
-- [ ] 4.1 Identify the Lucene functionality and `knowceans` dependencies required for graph visual search.
-- [ ] 4.2 Port the required Lucene search functionality and integration points.
-- [ ] 4.3 Port the required `knowceans-lda-simple` framework functionality from the available sources (`org.knowceans.topics.simple`).
-- [ ] 4.4 Port the required utilities from `knowceans.util.*`.
-- [ ] 4.5 Integrate LDA-based graph visual search methods with the browser.
-  - [ ] 4.5.1 Represent term and tag queries as graph nodes linked to retrieved results.
-  - [ ] 4.5.2 Allow similarity queries from existing nodes and add links to the retrieved items.
-  - [ ] 4.5.3 Allow removal of irrelevant result links and retain that interaction as input for future relevance feedback.
-- [ ] 4.6 Add example data and reproducible search experiments.
+- [x] 4.7 Record the revised search ownership and scope: user-supplied literal and semantic search; LDA superseded; text-described interactions guide RFC and search examples.
+- [ ] 4.8 Review the supplied module's API, indexing lifecycle, query capabilities, result identities/scores and execution requirements once it is available.
+- [ ] 4.9 Adapt the browser search boundary to that API and replace LDA-specific backend assumptions, training controls, lifecycle and dependencies.
+- [ ] 4.10 Integrate and verify literal search through the supplied Lucene-equivalent engine, using its actual supported query behavior.
+- [ ] 4.11 Integrate and verify the supplied semantic approach, including embeddings if selected by that module.
+- [ ] 4.12 Adapt examples, walkthroughs and reproducible comparisons to the supplied module; verify graph query/context/result links, supported node similarity, rejection feedback, persistence and stale-work cleanup.
+
+Tasks **4.8–4.12** depend on the module being provided. Backend implementation and
+embedding choices remain with the supplied search module.

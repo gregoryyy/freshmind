@@ -4,6 +4,8 @@ Task **3.2.6** adds reversible type filters and leaf aggregation alongside RFC a
 
 ## Try it
 
+For a larger, ready-to-explore demonstration, load **RFC → Research community showcase**. Its [six comparison views](rfc-showcase.md) cover ordinary layout, the viewing lens, one/two RFC centers and hybrid aggregation on a 34-node typed community. Hybrid mode retains 18 nodes, with typed counts for sixteen aggregated leaves, shared focal detail and explicit semantic bridges. The smaller fixture below remains the functional/numerical reference.
+
 1. Load **RFC → Structural focus + context**. This synthetic graph contains 13 nodes, 13 relations and two saved detail trees. Pause motion to compare membership without changing positions.
 2. Open **Structural focus + context** in the sidebar. Select **Person (person)** and **Paper (paper)** under **Aggregate leaf types**, then enable the structural view. With the initial Project A star and detail radius 1, six nodes remain visible and seven leaves aggregate. The shared collaborator stays visible because it has two distinct semantic neighbors.
 3. Select Group Alpha or Group Beta and click **Reveal selected parent’s leaves**, or press **E**. Expanding also reveals newly discovered leaves on its first invocation. A reveal exception lasts until the rules or document change.

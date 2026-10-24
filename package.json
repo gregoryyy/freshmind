@@ -106,6 +106,14 @@
       "types": "./dist/fm/rendering/index.d.ts",
       "import": "./dist/fm/rendering/index.js"
     },
+    "./fm/topics": {
+      "types": "./dist/fm/topics/index.d.ts",
+      "import": "./dist/fm/topics/index.js"
+    },
+    "./fm/search": {
+      "types": "./dist/fm/search/index.d.ts",
+      "import": "./dist/fm/search/index.js"
+    },
     "./fm/browser": {
       "types": "./dist/fm/browser/index.d.ts",
       "import": "./dist/fm/browser/index.js"
@@ -117,6 +125,7 @@
     "config",
     "LICENSE",
     "LICENSE-APACHE-2.0",
+    "LICENSE-GPL-3.0",
     "NOTICE",
     "README.md"
   ],
