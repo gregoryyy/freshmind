@@ -59,7 +59,13 @@ test('source contracts keep IR and TouchGraph independent of other domains',asyn
         if(parts[0]==='tg')assert.ok(!/^fm4\/(fm|ir)(\/|$)/.test(spec),`${relative} imports another domain: ${spec}`);
         continue;
       }
-      const target=new URL(spec.replace(/\.js$/,'.ts'),url);await access(target);
+      let target=new URL(spec.replace(/\.js$/,'.ts'),url);
+      try{await access(target);}catch(error){
+        if(error.code!=='ENOENT')throw error;
+        // Generated third-party ESM has a checked source declaration rather than
+        // a TypeScript implementation. Its declaration still obeys the boundary.
+        target=new URL(spec.replace(/\.js$/,'.d.ts'),url);await access(target);
+      }
       const destination=fileURLToPath(target).slice(fileURLToPath(new URL('src/',root)).length).split('/');
       if(parts[0]==='tg'||parts[0]==='ir')assert.equal(destination[0],parts[0],`${relative} imports another domain: ${spec}`);
       if(parts.length<3||destination.length<3||parts[0]===destination[0]&&parts[1]===destination[1])continue;

@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {readFile} from 'node:fs/promises';
 async function ready(page){
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.waitForFunction(()=>window.graphBrowser);
   await page.getByRole('button',{name:'Pause motion',exact:true}).click();
@@ -27,8 +28,8 @@ test('real worker trains topics, retrieves by terms and existing nodes, and requ
   const errors=await ready(page);await page.locator('#search-engine').selectOption('lda');await page.locator('#search-query').fill('graph');await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText('Train a topic model');
   await page.locator('#search-section .control-subsection').evaluate(e=>e.open=true);await page.locator('#search-topics').fill('2');await page.locator('#search-iterations').fill('40');await page.locator('#search-train').click();
   await expect(page.locator('#search-status')).toContainText('Topic model ready: 2 topics');await expect(page.locator('#search-topic-words p')).toHaveCount(2);
-  await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText('results linked');
-  await page.evaluate(async()=>{const p=window.graphBrowser;await p.setLocaleAll();p.setSelect(p.findNode('a'));});await page.locator('#search-similar').click();await expect(page.locator('#search-status')).toContainText('results linked');
+  await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText(/results? linked/);
+  await page.evaluate(async()=>{const p=window.graphBrowser;await p.setLocaleAll();p.setSelect(p.findNode('a'));});await page.locator('#search-similar').click();await expect(page.locator('#search-status')).toContainText(/results? linked/);
   expect(await page.evaluate(()=>{const p=window.graphBrowser;return [...p.getCompleteEltSet().getEdges()].some(e=>e.from.getID()==='a'&&e.to.getID()!=='a'&&e.getData().search?.request?.kind==='similarity');})).toBe(true);
   await page.evaluate(()=>window.graphBrowser.findNode('a').setLabel('changed text'));await page.locator('#search-similar').click();await expect(page.locator('#search-status')).toContainText('Train a topic model');expect(errors).toEqual([]);
 });
@@ -43,7 +44,10 @@ test('long worker training can be cancelled and graph replacement clears the mod
 test('loadable fictional library supports a query engine switch without retaining mismatched query results',async({page})=>{
   const errors=await ready(page);await page.locator('#example-graph').selectOption('graph-search');await expect(page.locator('#file-status')).toContainText('24 nodes, 28 relations');
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('mira')));await page.locator('#search-query').fill('spring layout');await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText('5 results linked');
+  await expect(page.locator('#search-metric')).toHaveValue('symmetric-kl');
   await page.locator('#search-engine').selectOption('lda');await page.locator('#search-section .control-subsection').evaluate(e=>e.open=true);await page.locator('#search-topics').fill('3');await page.locator('#search-iterations').fill('200');await page.locator('#search-train').click();await expect(page.locator('#search-status')).toContainText('Topic model ready');
+  await expect(page.locator('#search-metric')).toHaveValue('symmetric-kl');
+  await page.locator('#search-distance').fill('100');
   await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText('5 results linked');
   const result=await page.evaluate(()=>{const p=window.graphBrowser,q=p.findNode('query-1'),edges=[...p.getCompleteEltSet().getEdges()].filter(e=>e.from===q&&e.getData().search?.role==='result');return{nodes:p.getNodeCount(),type:q.getSemanticType(),engines:edges.map(e=>e.getData().search.request.engine),context:[...q.getEdges()].some(e=>e.getData().search?.role==='context')};});
   expect(result).toEqual({nodes:25,type:'ldaquery',engines:Array(5).fill('lda'),context:true});expect(errors).toEqual([]);
@@ -68,7 +72,33 @@ test('FM2014 semantic search and training shortcuts retain the current model lif
   await page.locator('#search-topics').fill('2');await page.locator('#search-iterations').fill('40');await page.locator('#search-section').evaluate(e=>e.open=false);
   await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+i');await expect(page.locator('#search-status')).toContainText('Topic model ready: 2 topics');
   await page.keyboard.press('Control+Shift+f');await expect(page.locator('#search-query')).toBeFocused();await expect(page.locator('#search-engine')).toHaveValue('lda');
-  await page.locator('#search-query').fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText('results linked');
-  await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('a')));await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+r');await expect(page.locator('#search-status')).toContainText('results linked');
+  await page.locator('#search-query').fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText(/results? linked/);
+  await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('a')));await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+r');await expect(page.locator('#search-status')).toContainText(/results? linked/);
   expect(await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].some(e=>e.from.getID()==='a'&&e.getData().search?.request?.engine==='lda'&&e.getData().search.request.kind==='similarity'))).toBe(true);expect(errors).toEqual([]);
+});
+
+test('semantic metrics/raw values and a local model file survive save/load without document transfer',async({page},info)=>{
+  const errors=await ready(page),leaks=[];
+  page.on('request',request=>{if((request.url()+' '+(request.postData()??'')).includes('private-canary'))leaks.push(request.url());});
+  await page.evaluate(()=>{const p=window.graphBrowser;p.findNode('a').setHint('private-canary graph spring layout');});
+  await page.locator('#search-engine').selectOption('lda');
+  await page.locator('#search-section .control-subsection').evaluate(e=>e.open=true);
+  await page.locator('#search-topics').fill('2');await page.locator('#search-iterations').fill('40');await page.locator('#search-train').click();
+  await expect(page.locator('#search-status')).toContainText('Topic model ready');
+  const download=page.waitForEvent('download');await page.locator('#search-save-model').click();
+  const file=await download,path=info.outputPath('topic-model.json');await file.saveAs(path);
+  const saved=JSON.parse(await readFile(path,'utf8'));expect(saved.corpus.documents.some(d=>d.hint.includes('private-canary'))).toBe(true);
+  await page.locator('#search-metric').selectOption('predictive');await page.locator('#search-query').fill('graph');await page.locator('#search-run').click();
+  await expect(page.locator('#search-status')).toContainText(/results? linked/);
+  expect(await page.evaluate(()=>{const results=[...window.graphBrowser.getAllEdges()].filter(e=>e.getData().search?.role==='result');return results.length>0&&results.every(e=>{
+    const s=e.getData().search;return s.metric==='predictive'&&s.value===s.score&&s.backend==='fm2014-lda-1'&&s.request.metric==='predictive';
+  });})).toBe(true);
+  await page.locator('#search-load-model').setInputFiles(path);await expect(page.locator('#search-status')).toContainText('Topic model loaded: 2 topics');
+  await page.locator('#search-metric').selectOption('symmetric-kl');await page.locator('#search-distance').fill('100');
+  await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText(/results? linked/);
+  const data=await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].filter(e=>e.getData().search?.role==='result').map(e=>e.getData().search));
+  expect(data.length).toBeGreaterThan(0);expect(data.every(s=>s.metric==='symmetric-kl'&&s.value>=0&&s.request.maxDistance===100)).toBe(true);
+  await page.evaluate(()=>window.graphBrowser.findNode('a').setHint('changed corpus'));
+  await page.locator('#search-load-model').setInputFiles(path);await expect(page.locator('#search-status')).toContainText('different corpus');
+  expect(leaks).toEqual([]);expect(errors).toEqual([]);
 });

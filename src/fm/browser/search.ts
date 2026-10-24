@@ -6,7 +6,7 @@ import {validateSearchRequest} from "../../ir/corpus/index.js";
 import type {SearchCorpus,SearchRequest,SearchEngine} from "../../ir/corpus/index.js";
 import {SearchSession,SearchCancelledError} from "../../ir/browser/index.js";
 import type {SearchWorkerFactory} from "../../ir/browser/index.js";
-import type {LdaOptions,LdaProgress} from "../../ir/topics/index.js";
+import type {LdaOptions,LdaProgress,LdaModel} from "../../ir/topics/index.js";
 import type {FreshmindPanel} from "./panel.js";
 export {SearchCancelledError} from "../../ir/browser/index.js";
 export type {SearchWorkerFactory} from "../../ir/browser/index.js";
@@ -34,10 +34,10 @@ export class GraphSearchController {
     this.generation++;const busy=this.state.busy;this.session.cancel();
     if(busy)this.publish({busy:false,message:"Search cancelled."});
   }
-  private async run<T>(corpus:SearchCorpus,execute:(progress:(p:LdaProgress)=>void)=>Promise<T>,operation:"search"|"train"|"index"="search"):Promise<T>{
+  private async run<T>(corpus:SearchCorpus,execute:(progress:(p:LdaProgress)=>void)=>Promise<T>,operation:"search"|"train"|"index"|"load"="search"):Promise<T>{
     if(this.disposed)throw new Error("Search controller disposed");this.checkGraph();this.cancel();
     const graph=this.graph,generation=this.generation;
-    this.publish({busy:true,message:operation==="train"?"Training topic model…":operation==="index"?"Checking literal search index…":"Searching…"});
+    this.publish({busy:true,message:operation==="train"?"Training topic model…":operation==="index"?"Checking literal search index…":operation==="load"?"Loading topic model…":"Searching…"});
     try {
       const answer=await execute(progress=>{
         if(generation===this.generation&&!this.disposed)this.publish({message:`Training topic model: ${progress.iteration}/${progress.iterations} passes.`});
@@ -84,7 +84,13 @@ export class GraphSearchController {
     const edges=applyGraphSearchResults(graph,owner!,r,results,corpus);
     this.reveal(owner!,edges);this.publish({message:`${edges.length} result${edges.length===1?"":"s"} linked. Select a result relation to reject it.`});return edges;
   }
-  similar(engine:SearchEngine,limit=5):Promise<FreshEdge[]>{const source=this.panel.getSelect();if(!(source instanceof FreshNode))return Promise.reject(new Error("Select a content node"));return this.query({engine,kind:"similarity",query:source.getID()!},limit,source);}
+  exportModel():LdaModel {this.checkGraph();return this.session.exportModel(graphSearchCorpus(this.panel.getCompleteEltSet()));}
+  async loadModel(read:()=>Promise<unknown>):Promise<void>{
+    const corpus=graphSearchCorpus(this.panel.getCompleteEltSet()),pending=this.run(corpus,()=>this.session.loadModel(corpus,read),"load"),generation=this.generation;
+    await pending;if(this.disposed||generation!==this.generation)throw new SearchCancelledError();
+    const state=this.session.getState();this.publish({trained:state.trained,topicWords:state.topicWords,message:`Topic model loaded: ${state.topics} topics.`});
+  }
+  similar(engine:SearchEngine,limit=5,options:Pick<SearchRequest,"metric"|"maxDistance">={}):Promise<FreshEdge[]>{const source=this.panel.getSelect();if(!(source instanceof FreshNode))return Promise.reject(new Error("Select a content node"));return this.query({engine,kind:"similarity",query:source.getID()!,...options},limit,source);}
   reject(edge=this.panel.getSelectEdge()):void {
     if(!(edge instanceof FreshEdge))throw new Error("Select a search result relation");
     rejectGraphSearchResult(this.panel.getCompleteEltSet(),edge);getMutationLocality(this.panel.getGES())!.updateLocalityFromVisibility();this.panel.localityChanged();this.panel.repaint();this.publish({message:"Result rejected. Future runs of this query omit it; judgment saved with the graph."});

@@ -10,12 +10,14 @@
  */
 import {CokusRandom} from "./cokus.js";
 import {sampleCategorical} from "./numeric.js";
-export interface LdaOptions {topics:number;alpha:number;beta:number;iterations:number;seed:number}
+export interface LdaOptions {topics:number;alpha:number;beta:number;iterations:number;seed:number;minDocumentFrequency?:number}
 export const defaultLdaOptions:Readonly<LdaOptions>=Object.freeze({topics:6,alpha:.1,beta:.01,iterations:100,seed:4357});
 export function validateLdaOptions(options:Partial<LdaOptions>={}):LdaOptions {
   const o={...defaultLdaOptions,...options};
   if(!Number.isInteger(o.topics)||o.topics<1||o.topics>256||!Number.isInteger(o.iterations)||o.iterations<0||o.iterations>10000||!Number.isInteger(o.seed)||o.seed<0||o.seed>0xffffffff)throw new RangeError("Invalid topic count, iteration budget or seed");
-  if([o.alpha,o.beta].some(p=>!Number.isFinite(p)||p<1e-9||p>1e6))throw new RangeError("LDA priors must be between 1e-9 and 1e6");return o;
+  if([o.alpha,o.beta].some(p=>!Number.isFinite(p)||p<1e-9||p>1e6))throw new RangeError("LDA priors must be between 1e-9 and 1e6");
+  if(o.minDocumentFrequency!==undefined&&(!Number.isInteger(o.minDocumentFrequency)||o.minDocumentFrequency<1||o.minDocumentFrequency>100000))throw new RangeError("Minimum document frequency must be 1–100000");
+  return o;
 }
 const matrix=(rows:number,cols:number)=>Array.from({length:rows},()=>new Array<number>(cols).fill(0));
 export interface GibbsSnapshot {iteration:number;theta:number[][];phi:number[][];documentTopicCounts:number[][];topicTermCounts:number[][];topicTotals:number[];assignments:number[][]}

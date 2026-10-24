@@ -22,6 +22,22 @@ function transport(){
 }
 function answerTraining(worker){worker.answer({kind:'trained',model:trainLda(worker.job.corpus,worker.job.options)});}
 
+test('local model files round-trip independently of workers, reject a wrong corpus atomically and ignore canceled reads',async()=>{
+  const {workers,factory}=transport(),session=new SearchSession(factory),model=trainLda(corpus,options);
+  await session.loadModel(corpus,async()=>JSON.parse(JSON.stringify(model)));
+  assert.equal(workers.length,0);assert.equal(session.getState().trained,true);assert.deepEqual(session.exportModel(corpus),model);
+  const exported=session.exportModel(corpus);exported.theta[0][0]=999;assert.deepEqual(session.exportModel(corpus),model);
+  await assert.rejects(session.loadModel(corpus,async()=>({...model,documentIds:['bad']})),/model/);
+  assert.deepEqual(session.exportModel(corpus),model);
+  const changed=createSearchCorpus(corpus.documents.map(d=>({...d,label:d.label+' changed'})));
+  await assert.rejects(session.loadModel(changed,async()=>model),/different corpus/);
+  assert.deepEqual(session.exportModel(corpus),model);assert.throws(()=>session.exportModel(changed),/current corpus/);
+  let finish;const pending=session.loadModel(corpus,()=>new Promise(resolve=>finish=resolve)),rejected=assert.rejects(pending,SearchCancelledError);
+  session.reset();finish(model);await rejected;assert.equal(session.getState().trained,false);
+  let later;const disposed=session.loadModel(corpus,()=>new Promise(resolve=>later=resolve)),ignored=assert.rejects(disposed,SearchCancelledError);
+  session.dispose();later(model);await ignored;assert.equal(session.getState().trained,false);
+});
+
 test('standalone IR transport reports progress, cleans up workers and rejects failures',async()=>{
   const {workers,factory}=transport(),client=new SearchWorkerClient(factory),progress=[];
   const pending=client.run({kind:'train',corpus,options},p=>progress.push(p)),worker=workers.at(-1);
