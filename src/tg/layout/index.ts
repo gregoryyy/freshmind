@@ -10,4 +10,7 @@
 // TypeScript adaptation, 2026. See NOTICE for the pinned Java reference.
 
 export {TGLayout} from "./layout.js";
+export type {AdaptiveDampingResponse,LayoutAdaptiveDampingOptions} from "./layout.js";
+export {MotionStabilizer} from "./stabilization.js";
+export type {MotionStabilizationOptions,MotionStabilizationState} from "./stabilization.js";
 export type {LayoutHost,LayoutForce} from "./types.js";

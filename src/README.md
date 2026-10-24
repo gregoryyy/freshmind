@@ -8,11 +8,11 @@ The library is one ESM package with three domains: `tg/` preserves TouchGraph, `
 | --- | --- | --- |
 | `tg/model/` | `Node` and `Edge`, split into their own files; graph objects share these identities. | `fm4/tg/model` |
 | `tg/graph/` | Complete membership, locality/visibility, visitor contracts, exceptions, traversal and serialized locality animation. Complete adjacency remains owned by `GraphEltSet`. | `fm4/tg/graph` |
-| `tg/layout/` | The original spring embedder, layout host/force contracts and timed runner. | `fm4/tg/layout` |
+| `tg/layout/` | The original spring embedder, layout host/force contracts and timed runner; an optional general motion stabilizer runs after force accumulation. | `fm4/tg/layout` |
 | `tg/lenses/` | Points, lens composition, HyperScroll-derived mapping and affine transforms. | `fm4/tg/lenses` |
 | `tg/browser/` | SVG panel, pointer/drag/canvas interaction and mounting; depends on D3 and DOM APIs. | `fm4/tg/browser` |
 
-`fm4/core` / `fm4/tg/core` compose the first four modules. `fm4` / `fm4/tg` also expose the browser panel. TouchGraph imports neither Freshmind nor IR. Its source headers retain the original copyright notices and point to root [LICENSE](../LICENSE) and [NOTICE](../NOTICE); moved files have corrected relative paths. Both files must accompany redistribution. Java references retain their original full headers.
+`fm4/core` / `fm4/tg/core` compose the first four modules. `fm4` / `fm4/tg` also expose the browser panel. TouchGraph imports neither Freshmind nor IR. Its derived source headers retain the original copyright notices and point to root [LICENSE](../LICENSE) and [NOTICE](../NOTICE); the added motion stabilizer retains its Apache-2.0 header. Both root files must accompany redistribution. Java references retain their original full headers.
 
 ## Freshmind
 
@@ -49,13 +49,16 @@ import {bindRfcControls} from "fm4/fm/ui";
 | Module | Responsibility | Package entry |
 | --- | --- | --- |
 | `ir/corpus/` | Plain document/result/request contracts, deterministic corpus snapshots, normalization, annotation text extraction and validation. | `fm4/ir/corpus` |
-| `ir/lexical/` | Prototype bounded query parser, lexical term vectors, ranking, exact tags and content similarity. | `fm4/ir/lexical` |
-| `ir/topics/` | Existing serial LDA prototype, fixed-topic fold-in, topic similarity and seeded numerical utilities, with original component licenses. | `fm4/ir/topics` |
+| `ir/lexical/` | Elasticlunr postings/scores, bounded FM query grammar, exact metadata filters and label/content similarity queries. | `fm4/ir/lexical` |
+| `ir/topics/` | Seeded LDA training and vocabulary filtering, fixed-topic inference, FM document/term retrieval metrics and validated model snapshots, with original component licenses. | `fm4/ir/topics` |
 | `ir/browser/` | Worker protocol/entry, cancellable worker transport and independent search session/model lifecycle. | `fm4/ir/browser` |
 
 `fm4/ir` and `fm4/ir/core` expose the headless modules. They need no graph objects, DOM, D3 or YAML. `fm4/ir/browser` is explicit; importing it does not start a worker or install the worker's global message handler. `SearchSession` takes document snapshots and returns stable-ID results. Freshmind's `GraphSearchController` composes it with graph replacement/edit guards, graph commands and panel visibility.
 
-The current lexical/LDA prototype is retained for now. If an external literal-search library becomes necessary, use elasticlunr. Future semantic replacement remains deferred; no new dependency is required for the current implementation. See the [integration plan](../docs/search-module-integration.md).
+Literal retrieval uses elasticlunr; LDA supplies FM 2014-style document and term
+retrieval. Embeddings are deferred. The [integration plan](../docs/search-module-integration.md)
+and [parity record](../docs/fm2014-retrieval-parity.md) define supported operations,
+score interpretation and intentional differences from the reference.
 
 ```ts
 import {createSearchCorpus, LexicalSearchIndex} from "fm4/ir";

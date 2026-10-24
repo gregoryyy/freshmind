@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later; Copyright (c) 2026 Gregor Heinrich. */
 import {LexicalSearchIndex} from "../lexical/index.js";
-import {LdaSearchIndex,trainLdaSteps} from "../topics/index.js";
+import {LdaQueryClient,LdaSearchIndex,trainLdaSteps} from "../topics/index.js";
 import type {SearchWorkerJob,SearchWorkerMessage} from "./protocol.js";
 // This file is an isolated worker entry, never imported through the browser barrel at runtime.
 const port=globalThis as unknown as {onmessage:((event:MessageEvent<SearchWorkerJob>)=>void)|null;postMessage(message:SearchWorkerMessage):void};
@@ -17,7 +17,7 @@ port.onmessage=({data:job})=>{
       const r=job.request;
       if(r.kind==="tags")port.postMessage({kind:"results",results:new LexicalSearchIndex(job.corpus).tags(r.query.split(",").map(t=>t.trim()).filter(Boolean),job.limit)});
       else{
-        const index=r.engine==="lda"?job.model?new LdaSearchIndex(job.model):null:new LexicalSearchIndex(job.corpus);
+        const index=r.engine==="lda"?job.model?r.metric===undefined?new LdaSearchIndex(job.model):new LdaQueryClient(job.model,{metric:r.metric,...(r.maxDistance===undefined?{}:{maxDistance:r.maxDistance})}):null:new LexicalSearchIndex(job.corpus);
         if(!index)throw new Error("Train the topic model before searching");
         port.postMessage({kind:"results",results:r.kind==="similarity"?index.similar(r.query,job.limit):index.search(r.query,job.limit)});
       }

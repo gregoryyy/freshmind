@@ -56,6 +56,14 @@
           <label class="control-label lens-label" for="hyper">Focus + context <output id="hyper-value">60%</output></label>
           <input type="range" id="hyper" min="0" max="100" value="60" step="1" />
           <div class="range-labels"><span>Undistorted</span><span>Strong lens</span></div>
+          <details class="control-subsection" open><summary>Layout motion</summary>
+            <label class="pin-control"><input id="adaptive-damping" type="checkbox" checked /> Adaptive damping</label>
+            <label class="control-label" for="damping-response">Damping response</label>
+            <select id="damping-response"><option value="impulse">Adaptive impulses</option><option value="cooling">Earlier TouchGraph cooling</option></select>
+            <p class="control-help">Suppresses repeated swings across the graph, with or without RFC. After quiet motion, gradually restores normal movement.</p>
+            <p class="control-help">Earlier cooling uses TouchGraph's existing settling behavior as soon as repeated swings are detected.</p>
+            <p id="adaptive-damping-status" class="control-help" role="status">Adaptive damping on · watching graph motion.</p>
+          </details>
           <details class="control-subsection" id="readability-section">
             <summary>Label spacing</summary>
             <label class="pin-control"><input id="avoid-relation-labels" type="checkbox" /> Avoid relation label overlaps</label>
@@ -81,7 +89,10 @@
             <label class="control-label" for="search-engine">Search method</label><select id="search-engine"><option value="lexical">Lexical</option><option value="lda">LDA topics</option></select>
             <label class="control-label" for="search-kind">Query kind</label><select id="search-kind"><option value="terms">Terms</option><option value="tags">Tags (exact)</option></select>
             <label class="control-label" for="search-query">Query</label><input id="search-query" type="text" maxlength="4096" required placeholder="graph AND layout" aria-describedby="search-help" />
-            <p id="search-help" class="control-help">Search all stored nodes, including hidden items. Lexical terms support phrases and AND/OR/NOT; LDA uses topic similarity. Tags match whole values, separated by commas. Run again on a selected query to refresh its links.</p>
+            <p id="search-help" class="control-help">Search all stored nodes, including hidden items. Literal queries support phrases and AND/OR/NOT. Tags match whole values, separated by commas. Run again on a selected query to refresh its links.</p>
+            <label class="control-label" for="search-metric">LDA ranking</label><select id="search-metric"><option value="symmetric-kl">FM 2014 symmetric KL distance</option><option value="predictive">Predictive likelihood</option><option value="jensen-shannon">Bounded Jensen–Shannon distance</option></select>
+            <label class="control-label" for="search-distance">Maximum semantic distance (optional)</label><input id="search-distance" type="number" min="0" step="any" placeholder="Query 0.6 · similarity 0.2" />
+            <p class="control-help">Smaller distances and larger likelihoods rank first. Distance limits are strict and do not apply to likelihood ranking. Result relations retain the metric and raw value. Embedding retrieval is deferred.</p>
             <label class="control-label" for="search-limit">Maximum results</label><input id="search-limit" type="number" min="1" max="100" step="1" value="5" required />
             <div class="editor-actions"><button id="search-run" type="button">Run query</button><button id="search-similar" type="button">Find similar nodes</button></div>
             <button id="search-reject" type="button" disabled>Reject selected result</button>
@@ -90,10 +101,13 @@
               <label class="control-label" for="search-topics">Topics</label><input id="search-topics" type="number" min="1" max="256" step="1" value="6" required />
               <label class="control-label" for="search-iterations">Training passes</label><input id="search-iterations" type="number" min="0" max="10000" step="1" value="100" required />
               <label class="control-label" for="search-seed">Random seed</label><input id="search-seed" type="number" min="0" max="4294967295" step="1" value="4357" required />
+              <label class="control-label" for="search-min-df">Minimum document frequency</label><input id="search-min-df" type="number" min="1" max="100000" step="1" value="2" required />
               <label class="control-label" for="search-alpha">Document topic prior</label><input id="search-alpha" type="number" min="0.000000001" max="1000000" step="any" value="0.1" required />
               <label class="control-label" for="search-beta">Topic word prior</label><input id="search-beta" type="number" min="0.000000001" max="1000000" step="any" value="0.01" required />
               <button id="search-train" type="button">Train topic model</button>
-              <p class="control-help">Train before LDA search, and retrain after changing graph text or tags. Models stay in memory; saved graphs retain queries, result links and rejection feedback.</p>
+              <p class="control-help">Train or load before LDA search; retrain after changing graph text or tags. Graph saves retain queries, results and feedback. Save a separate topic model to reuse training. Model files contain corpus text and are limited to 64 MiB.</p>
+              <button id="search-save-model" type="button" disabled>Save topic model</button>
+              <label class="control-label" for="search-load-model">Load topic model</label><input id="search-load-model" type="file" accept=".json,application/json" />
               <div id="search-topic-words" class="control-help"></div>
             </details>
             <button id="search-cancel" type="button" disabled>Cancel search or training</button>
@@ -135,9 +149,6 @@
             <p class="control-help">Weights of 1 use ordinary distances. Horizontal 0.25 with vertical 1 favors a focal layout twice as wide.</p>
             <p id="rfc-status" class="control-help" role="status" aria-live="polite">RFC off.</p>
             <p class="control-help">When RFC is on, press Return or double-click the current center again to reinforce it. Yellow halos mark the reinforced nodes and relations.</p>
-            <label class="pin-control"><input id="rfc-adaptive-damping" type="checkbox" /> Experimental adaptive damping</label>
-            <p class="control-help">Watch reinforced nodes and, when exclusion is on, nearby context for repeated reversals and circulation. After 0.5 seconds of quiet motion, recover over 3 seconds; renewed movement rolls recovery back.</p>
-            <p id="rfc-stabilization-status" class="control-help">Damping off; detection is disabled.</p>
             </details>
             <details class="control-subsection"><summary>Focal regions</summary>
               <label class="pin-control"><input id="rfc-exclusion" type="checkbox" /> Keep context outside focal regions</label>

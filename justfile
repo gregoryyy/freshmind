@@ -24,6 +24,10 @@ build-demo:
 test-lda-java:
     node scripts/lda-java-reference.mjs
 
+# Check the owner-authorized FM2014 retrieval binary on synthetic probability matrices.
+test-retrieval-java:
+    node scripts/retrieval-java-reference.mjs
+
 # Regenerate the fictional graph-search library without importing legacy corpora.
 search-example: build
     node scripts/search-example.mjs
@@ -81,6 +85,11 @@ rfc-stability-experiment output="docs/experiments/rfc-stability": build
 # Redraw recorded stability probes, layouts and motion/gain/cooling comparisons; requires matplotlib/numpy.
 rfc-stability-figures output="docs/experiments/rfc-stability":
     python3 scripts/rfc-stability-figures.py {{quote(output)}}
+
+# General adaptive damping with and without RFC; matched native forces and slow-motion detector probes.
+layout-damping-experiment output="docs/experiments/layout-damping": build
+    node scripts/layout-damping-experiment.mjs {{quote(output)}}
+    python3 scripts/layout-damping-figures.py {{quote(output)}}
 
 # Matched damping/rigidity, importance and cluster comparisons (780 runs), reports and eight diagrams.
 rfc-followup-experiment output="docs/experiments/rfc-followup": build

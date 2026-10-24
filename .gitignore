@@ -5,6 +5,7 @@ node_modules/
 dist/
 demo-dist/
 .vite/
+src/ir/lexical/elasticlunr-runtime.js
 *.tsbuildinfo
 *.class
 *.tgz

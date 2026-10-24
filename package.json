@@ -174,11 +174,13 @@
   "files": [
     "dist",
     "src",
+    "scripts/elasticlunr-runtime.mjs",
     "config",
     "LICENSE",
     "LICENSE-APACHE-2.0",
     "LICENSE-GPL-3.0",
     "LICENSE-LGPL-2.0",
+    "licenses",
     "NOTICE",
     "README.md"
   ],
@@ -192,12 +194,17 @@
     "test:browser": "playwright test",
     "prepack": "npm run build",
     "sync:fm-config": "node scripts/sync-fm-config.mjs",
-    "prebuild": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\""
+    "prebuild": "node scripts/elasticlunr-runtime.mjs && node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\"",
+    "predev": "node scripts/elasticlunr-runtime.mjs",
+    "pretypecheck": "node scripts/elasticlunr-runtime.mjs",
+    "postbuild": "node scripts/elasticlunr-runtime.mjs --dist",
+    "prebuild:demo": "node scripts/elasticlunr-runtime.mjs"
   },
   "dependencies": {
     "d3-drag": "^3.0.0",
     "d3-selection": "^3.0.0",
     "d3-zoom": "^3.0.0",
+    "elasticlunr": "0.9.5",
     "graphology": "^0.26.0",
     "graphology-communities-louvain": "^2.0.2",
     "graphology-components": "^1.5.4",
