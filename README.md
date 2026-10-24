@@ -88,6 +88,7 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 
 | Topic | Reference |
 | --- | --- |
+| Application research and future layouts | [ROAD: use cases, related work and libraries](docs/ROAD.md), [radius-two view design](docs/radius-two-view.md) |
 | Browser controls and examples | [Key map](docs/KEYMAP.md), [walkthrough](docs/flipbook/README.md) |
 | Freshmind models, types, navigation, editing and YAML | [Feature design](docs/fm_port-design.md) |
 | Source modules and package entry points | [Module map](src/README.md) |
