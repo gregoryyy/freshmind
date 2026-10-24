@@ -38,6 +38,7 @@
     "27-details-editor.png",
     "28-hover-keyboard.png",
     "29-control-focus.png",
+    "30-layout-damping.png",
     "README.md",
     "index.html",
     "manifest.json"
@@ -106,7 +107,7 @@
     {
       "id": "rfc-baseline",
       "title": "Single-focus comparison: ordinary layout",
-      "caption": "The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.",
+      "caption": "The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Adaptive damping is off throughout the fixed-force comparison. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.",
       "file": "11-rfc-baseline.png"
     },
     {
@@ -216,6 +217,12 @@
       "title": "Explicit control focus takes priority",
       "caption": "Focus Graph spacing in the side pane, then point back at the graph. The input keeps focus and Enter belongs to that control. Editors, buttons and summaries have the same protection. Click or Tab into the graph when ready to return keyboard control.",
       "file": "29-control-focus.png"
+    },
+    {
+      "id": "layout-damping",
+      "title": "Suppress oscillation with or without RFC",
+      "caption": "View → Layout motion enables general adaptive damping by default. It watches all movable visible nodes, including when RFC is off as shown here. Adaptive impulses attenuates repeated swings and gradually restores gain; Earlier TouchGraph cooling instead starts the inherited fast cooling phase after detected cycles. The status makes the active setting visible.",
+      "file": "30-layout-damping.png"
     }
   ]
 }

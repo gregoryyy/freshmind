@@ -9,6 +9,8 @@
 export { bindKeymap } from "./keymap.js";
 export type { KeymapOptions } from "./keymap.js";
 export { bindZoomControls } from "./zoom-controls.js";
+export {bindMotionControls} from "./motion-controls.js";
+export type {MotionControlElements} from "./motion-controls.js";
 export type { ZoomControlElements } from "./zoom-controls.js";
 export { bindRfcControls } from "./rfc-controls.js";
 export type { RfcControlElements } from "./rfc-controls.js";

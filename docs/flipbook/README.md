@@ -68,7 +68,7 @@ Ctrl+Shift+S opens the filename dialog. Saving downloads the complete stored gra
 
 ![Single-focus comparison: ordinary layout](11-rfc-baseline.png)
 
-The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.
+The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Adaptive damping is off throughout the fixed-force comparison. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.
 
 ## 12. Single-focus comparison: attraction reinforcement
 
@@ -177,3 +177,9 @@ Close the editor, clear selection and move the pointer over a branch without cli
 ![Explicit control focus takes priority](29-control-focus.png)
 
 Focus Graph spacing in the side pane, then point back at the graph. The input keeps focus and Enter belongs to that control. Editors, buttons and summaries have the same protection. Click or Tab into the graph when ready to return keyboard control.
+
+## 30. Suppress oscillation with or without RFC
+
+![Suppress oscillation with or without RFC](30-layout-damping.png)
+
+View → Layout motion enables general adaptive damping by default. It watches all movable visible nodes, including when RFC is off as shown here. Adaptive impulses attenuates repeated swings and gradually restores gain; Earlier TouchGraph cooling instead starts the inherited fast cooling phase after detected cycles. The status makes the active setting visible.

@@ -13,6 +13,8 @@ export const tour=scenes.map(([id,title,ready,caption],index)=>({id,title,captio
   async run({page,open,advance}) {
     if(index===0) {
       await open("/");
+      // Retain the recorded fixed-force comparison; live general recovery uses wall time.
+      await page.evaluate(()=>window.graphBrowser.tgLayout.setAdaptiveDampingEnabled(false));
       await page.locator(".sidebar > details").evaluateAll(sections=>{for(const section of sections)section.open=section.id==="files-section";});
       await page.locator("#example-graph").selectOption("rfc-showcase");
       await page.waitForFunction(()=>document.querySelector("#file-status").textContent.includes("34 nodes, 37 relations")&&window.graphBrowser.getRfc().getState().centers.length===2);

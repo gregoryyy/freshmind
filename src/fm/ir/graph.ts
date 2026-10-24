@@ -38,9 +38,13 @@ export function applyGraphSearchResults(graph:FreshGraph,source:FreshNode,reques
   for(const r of results){
     const target=graph.findNode(r.id);
     if(!target||seen.has(r.id)||!Number.isFinite(r.score)||r.score<0||!Number.isFinite(r.relevance)||r.relevance<0||r.relevance>1||!Number.isInteger(r.rank)||r.rank<1)throw new TypeError("Invalid search result batch");
+    if(r.backend!==undefined&&(typeof r.backend!=="string"||r.backend.length>200)||
+      r.metric!==undefined&&(!["symmetric-kl","predictive","jensen-shannon"].includes(r.metric)||validated.engine!=="lda"||!Number.isFinite(r.value)||r.value!<0)||
+      r.value!==undefined&&r.metric===undefined||validated.metric!==undefined&&r.metric!==validated.metric)throw new TypeError("Invalid search score provenance");
     seen.add(r.id);if(target===source||rejected.has(r.id))continue;
-    edges.push(new FreshEdge(source,target,{label:`${validated.engine} ${r.score.toPrecision(3)}`,visual:{style:{stroke:{color:"#28845d",width:1+3*r.relevance}}},
-      data:{search:{version:1,role:"result",owner:source.getID()!,target:r.id,request:{...validated},requestKey:requestKey(validated),score:r.score,relevance:r.relevance,rank:r.rank,corpus:corpus.fingerprint}}}));
+    const details={...(r.backend===undefined?{}:{backend:r.backend}),...(r.metric===undefined?{}:{metric:r.metric,value:r.value!})};
+    edges.push(new FreshEdge(source,target,{label:r.metric?`${validated.engine} ${r.metric} ${r.value!.toPrecision(3)}`:`${validated.engine} ${r.score.toPrecision(3)}`,visual:{style:{stroke:{color:"#28845d",width:1+3*r.relevance}}},
+      data:{search:{version:1,role:"result",owner:source.getID()!,target:r.id,request:{...validated},requestKey:requestKey(validated),score:r.score,relevance:r.relevance,rank:r.rank,corpus:corpus.fingerprint,...details}}}));
   }
   for(const edge of [...graph.getEdges()]){const s=searchResultMetadata(edge);if(s&&edge.from===source&&(isSearchQueryNode(source)||record(s.request)?.engine===validated.engine))graph.deleteEdge(edge);}
   for(const edge of edges)graph.addEdge(edge);

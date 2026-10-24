@@ -34,13 +34,14 @@ test('search parser handles Boolean precedence, adjacency, fields, phrases and b
   const many=createSearchCorpus(Array.from({length:257},(_,n)=>({id:String(n),type:'t',label:`prefix${n}`,hint:'',tags:[]})));
   assert.throws(()=>new LexicalSearchIndex(many).search('prefix*'),/256/);
 });
-test('TF–IDF scores and term-vector cosine agree with hand calculations; ties use stable IDs',()=>{
+test('elasticlunr TF–IDF and label/content similarity agree with hand calculations; ties use stable IDs',()=>{
   const corpus=createSearchCorpus([{id:'b',type:'t',label:'alpha alpha beta',hint:'',tags:[]},{id:'a',type:'t',label:'alpha beta',hint:'',tags:[]},{id:'c',type:'t',label:'gamma',hint:'',tags:[]}]);
-  const i=new LexicalSearchIndex(corpus),idf=1+Math.log(4/3),r=i.search('alpha');
+  const i=new LexicalSearchIndex(corpus),idf=1+Math.log(3/3),r=i.search('alpha');
   assert.equal(r[0].id,'b');assert.ok(Math.abs(r[0].score-Math.sqrt(2)*idf/Math.sqrt(3))<1e-12);
   assert.ok(Math.abs(r[1].score-idf/Math.sqrt(2))<1e-12);
   const similar=i.similar('a');assert.deepEqual(similar.map(r=>r.id),['b']);
-  assert.ok(Math.abs(similar[0].score-(Math.sqrt(2)+1)/Math.sqrt(6))<1e-12);
+  assert.ok(Math.abs(similar[0].score-2*(Math.sqrt(2)+1)*idf/Math.sqrt(3))<1e-12);
+  assert.equal(similar[0].backend,'elasticlunr-0.9.5');
   assert.deepEqual(ids(i.tags([])),[]);assert.deepEqual(i.similar('unknown'),[]);
   const tie=new LexicalSearchIndex(createSearchCorpus(['z','a'].map(id=>({id,type:'t',label:'same',hint:'',tags:[]}))));
   assert.deepEqual(tie.search('same').map(r=>r.id),['a','z']);

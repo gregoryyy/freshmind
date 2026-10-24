@@ -31,10 +31,11 @@ Both can use attributable public inputs and concrete questions. Data lineage is
 a promising next integration when a source of lineage events is available.
 These are prioritization judgments, not measured demand or revenue forecasts.
 
-Keep retrieval in `ir`, supplied semantic search behind its existing boundary,
-and the current search implementation for now. The conditional literal-search
-library choice remains **elasticlunr**. No library installation or backend
-replacement follows from this survey.
+Keep retrieval in `ir`, behind document/result contracts. Following this survey,
+the user requested **elasticlunr** literal retrieval and **LDA** semantic retrieval
+for FM 2014 parity; embeddings are deferred. The [integration plan](search-module-integration.md)
+and [parity record](fm2014-retrieval-parity.md) describe that implementation;
+this survey itself does not establish retrieval quality.
 
 ## Applications worth testing
 
@@ -96,8 +97,8 @@ Current visual search is therefore a workflow, not one layout algorithm:
 **query → ranked seeds → local context → inspect a relation/source → pivot or
 refine → compare results**. Keep the existing query/context/result separation.
 Measure retrieval quality independently of interface speed and correctness.
-Do not reopen LDA development or silently replace the user-supplied semantic
-module direction; see the [integration plan](search-module-integration.md).
+Use the explicitly requested elasticlunr/LDA direction; embeddings are deferred.
+See the [integration plan](search-module-integration.md).
 
 ## Available libraries and their shortcomings for this project
 
@@ -119,7 +120,7 @@ unless the source explicitly documents the limitation.
 | [React Flow](https://github.com/xyflow/xyflow), [performance guide](https://reactflow.dev/learn/advanced-use/performance) | Custom node interfaces and editing ecosystem; MIT core. | Adds a React/state integration to this native ESM/SVG application. Its guide warns about repeated renders and recommends limiting expanded content. Useful workflow editor; not an automatic answer to large exploratory graphs. A bounded HTML row view needs no framework conversion. |
 | [yFiles for HTML](https://docs.yworks.com/yfiles-html/dguide/layout-incremental_layout/), [labeling](https://docs.yworks.com/yfiles-html/dguide/label_placement/), [licensing](https://www.yworks.com/products/yfiles-for-html/license-types) | Incremental/partial layouts and integrated/generic labeling. Commercial. | Commercial SDK/domain/deployment terms and migration cost. Generic label placement cannot always avoid overlaps; integrated placement may change geometry. A serious paid baseline if product requirements justify it, not a prerequisite for this design. |
 | [Ogma](https://doc.linkurious.com/ogma/latest/examples/grouping-large.html), [plugins](https://doc.linkurious.com/ogma/latest/plugins/), [availability](https://doc.linkurious.com/ogma/latest/download.html) | Large-graph grouping, cards, timelines and annotations. Commercial product. | Commercial integration and another graph/view abstraction; proposed identity/row semantics still need design. The [6.0.4 changelog](https://doc.linkurious.com/ogma/latest/changelog.html) records limitations for endpoint text on self-loops/curves; check the chosen release rather than assuming every label form works. |
-| [elasticlunr](https://github.com/weixsong/elasticlunr.js) | Browser/offline field search, boosting and Boolean configuration; MIT. | Lexical retrieval only; Lucene compatibility and semantic retrieval must not be assumed. The maintainer asks for maintenance help in the README, so inspect actual release/API/test behavior when needed. Remains the user's preferred conditional literal library; retain the current index now. |
+| [elasticlunr](https://github.com/weixsong/elasticlunr.js) | Browser/offline field search, boosting and Boolean configuration; MIT. | Lexical retrieval only; Lucene compatibility and semantic retrieval must not be assumed. The maintainer asks for maintenance help in the README, so inspect actual release/API/test behavior when needed. The user selected pinned npm 0.9.5 for literal retrieval; our adapter preserves a bounded grammar and repairs its strict-module alias declaration. LDA provides semantics separately. |
 
 **Selection:** prototype the adjacency view with the existing graph contracts and
 ordinary HTML/SVG. No physics engine is needed to assign rows and horizontal
@@ -181,7 +182,7 @@ reviewable and open its PR against main.
 | **6.1–6.2 Research/design — complete** | This application/library survey, design contract and interactive mockup. | Source links, explicit alternatives, inspectable geometry and relation semantics. This does not complete implementation. |
 | **6.3 Projection contract** | Deterministic radius-two data projection with stable node/edge IDs and separate occurrence IDs; correctness fixtures. | Shared descendants, triangles, parallel/reciprocal/undirected edges, loops, filters, incomplete pages and graph replacement behave as specified. Source data/coordinates remain unchanged. |
 | **6.4 Bounded browser view** | Opt-in view switch, measured rows/cells, paging/virtualization, selection/pivot/history and keyboard access; shared overlay editor. | Hubs stay usable with bounded mounted elements. Direction, counts and truncation are explicit. Switching views preserves graph identity and editor behavior. |
-| **6.5 Retrieval connection** | Existing lexical results and stable result IDs can seed/pivot the view; user-supplied semantic adapter only when available. | Stale jobs and source replacement cannot attach wrong results. Query links, semantic relations and relevance remain distinct. No speculative IR replacement. |
+| **6.5 Retrieval connection** | Elasticlunr/LDA results and stable result IDs can seed/pivot the view through the existing IR adapter. | Stale jobs and source replacement cannot attach wrong results. Query links, semantic relations and relevance remain distinct. No speculative IR replacement. |
 | **6.6 Evaluation** | Public/attributed dependency or citation snapshot plus synthetic stress fixtures; compare adjacency view, ordinary ego node-link, current RFC, and a simple list/tree baseline. Add a matrix baseline for shared-neighbor tasks. | Report direction/weight/path/common-neighbor correctness, task time/errors, label reading, duplicates, pivot continuity and measured browser costs. Keep retrieval quality separate. No “better” claim based solely on overlap counts. |
 | **6.7–6.8 Application pilot** | Maintainer/researcher task sessions, then one evidence-backed application adapter if useful. | Agree the data source and task; demonstrate that the view improves a repeated decision. If pilots show no benefit, revise the representation before expanding integrations. |
 
@@ -238,7 +239,8 @@ graph, links retrieved items to it, preserves ordinary semantic relations, and
 supports radius-two navigation, node-based similarity queries, annotations and
 removal of irrelevant result links as a possible feedback mechanism. The
 retrieval model used in that example does not define the interaction concept:
-literal and supplied semantic retrieval remain our current direction.
+elasticlunr literal and LDA semantic retrieval are our current direction, with
+embeddings deferred.
 
 The contribution and reported scope columns below describe the sources. The
 comparison column is our assessment, not a defect claimed by their authors.

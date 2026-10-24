@@ -1,48 +1,53 @@
-# Graph search: current baseline and future integration
+# Graph retrieval direction and integration
 
-Latest scope decision from Gregor Heinrich, **2026-10-24**: keep the current
-search implementation for now. If an external literal-search library becomes
-necessary, use **elasticlunr**. This is a conditional library choice, not an
-instruction to install it or replace the working index now.
+Scope revision from Gregor Heinrich, **2026-10-24**: use the npm package
+**elasticlunr** for literal retrieval and implement LDA-based semantic retrieval
+with the graph-search functionality of FM 2014. **Embedding retrieval is
+deferred.** This supersedes the earlier conditional-library and supplied-semantic-
+module plans; it does not change the graph-browser purpose.
 
-## Current baseline
+## Implemented retrieval boundary
 
-The lexical index, exact tags, current LDA topic prototype, node similarity,
-query/context/result relations, rejection feedback and search walkthrough remain
-available. The [browser guide](graph-search.md) describes their actual behavior.
-LDA remains a prototype rather than the long-term semantic direction; keeping it
-now does not reopen the earlier LDA development plan.
+Information retrieval remains in `src/ir/`, independent of FM and TG. It owns
+corpus snapshots, elasticlunr indexing/ranking, topic training/inference,
+document/term similarity, workers and model lifecycle. FM owns graph extraction,
+query/context/result relations, feedback and source/document freshness checks.
+See the [module map](../src/README.md).
 
-Information retrieval lives in `src/ir/` alongside `src/fm/` and `src/tg/`.
-IR owns plain corpus/request/result contracts, lexical retrieval, `ir/topics`,
-worker execution and search session/model lifecycle. IR imports neither graph
-domain. `fm4/ir` is headless; `fm4/ir/browser` exposes worker/session adapters.
+- `LexicalSearchIndex` now uses **elasticlunr 0.9.5**. A bounded compatibility
+  grammar supplies Boolean expressions, phrases, prefixes and exact metadata
+  filters. It does not claim Lucene syntax, score or binary-index compatibility.
+- `LdaQueryClient` provides semantic query and document retrieval, term
+  suggestions and document/term similarity operations. It supports accurately
+  named symmetric-KL distance and predictive likelihood. The former prototype's
+  true Jensen–Shannon mode remains available for compatibility.
+- Training supports seeded local Gibbs sampling and minimum document frequency;
+  the main browser starts at FM's minimum frequency of 2. Models can be saved and
+  loaded as separate local JSON files, with exact corpus-content validation.
+- Results retain backend, metric, raw value, rank and corpus provenance. Query
+  settings participate in persisted rejection feedback. No embedding dependency,
+  server or automatic linked-resource fetch is introduced.
 
-`fm4/fm/ir` adapts graph content and applies query/context/result relations and
-feedback. Freshmind's browser controller owns graph replacement/source-edit guards,
-status and visibility. The [module map](../src/README.md) lists canonical imports
-and preserved public aliases.
+The [FM 2014 parity record](fm2014-retrieval-parity.md) specifies the examined
+sources/binaries, feature mapping, corrected legacy defects and deliberate
+differences. The [browser guide](graph-search.md) explains controls and limits.
 
-## Deferred backend work
+## Compatibility and evidence
 
-Tasks **4.8–4.12** in [TODO.md](TODO.md#4-graph-visual-search) concern future
-backend replacement and are deferred. They do not block unrelated browser work.
-A semantic module may still be supplied by Gregor and may use embeddings; its
-API, provider, vector format and scoring behavior remain open.
+Existing public import paths and the `lexical` / `lda` persisted engine names
+remain. Requests without explicit semantic settings retain prototype scoring;
+new browser requests explicitly select the FM-style metric. The standalone
+`LdaSearchIndex` default also preserves historical Jensen–Shannon experiments.
+Legacy Java/Lucene binary index/model formats are not loaded by the browser.
 
-When replacement is needed, inspect the actual module's API, indexing lifecycle,
-query capabilities, stable result identities/scores and execution requirements.
-Use elasticlunr if a literal-search library is required. Verify its actual query
-behavior rather than assuming Lucene syntax or score compatibility. Adapt the
-browser boundary and retire LDA-specific controls/lifecycle as appropriate to the
-replacement. No dependency or backend API is selected beyond that conditional
-literal-library preference.
+The earlier 54-run [prototype comparison](experiments/search/README.md) remains
+historical evidence. Its lexical scorer is frozen for replay, and its results
+are not silently regenerated with elasticlunr. Current library/binary reference
+checks, real-worker tests and the updated walkthrough provide separate evidence
+for the implemented behavior. Small synthetic tests do not establish general
+retrieval relevance or usability.
 
-Preserve graph query/context/result links, supported existing-node similarity,
-rejection feedback, persistence, cancellation and stale-result guards. Keep the
-existing RFC, viewing-lens and structural-view owners. Examples, walkthroughs and
-comparisons must describe the backend actually running; earlier LDA measurements
-remain evidence about that prototype.
-
-RFC and visual search should fulfil the ideas described in the reference text.
-Exact figure layouts, crosshairs and labels remain outside scope.
+Tasks **4.15–4.18** in [TODO.md](TODO.md#4-graph-visual-search) record this scope.
+The previous supplied-module replacement tasks **4.8–4.12** are superseded rather
+than asserted complete. RFC and search implement the historical ideas; exact
+figure reproduction remains outside scope.
