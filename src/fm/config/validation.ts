@@ -60,7 +60,7 @@ export function merge<T>(...values: unknown[]): T {
 
 function style(value: unknown, kind: "node" | "edge", path: string): void {
   const obj = record(value, path);
-  keys(obj, kind === "node" ? ["shape", "fill", "text", "stroke", "label", "halo"] : ["curve", "stroke", "arrow", "label"], path);
+  keys(obj, kind === "node" ? ["shape", "fill", "text", "stroke", "label", "halo","importance"] : ["curve", "stroke", "arrow", "label"], path);
   for (const [key, val] of Object.entries(obj)) {
     const p = `${path}.${key}`;
     if (key === "shape") choice(val, nodeShapes, p);
@@ -69,7 +69,7 @@ function style(value: unknown, kind: "node" | "edge", path: string): void {
     else {
       const fields = record(val, p);
       const allowed = key === "stroke" ? ["color", "width", "dash"] : key === "text" ? ["color", "font"]
-        : key === "halo" ? ["enabled", "opacity"] : key === "arrow" ? ["placement", "size"]
+        : key === "halo" ? ["enabled", "opacity"] : key === "importance" ? ["mode","minScale","maxScale"] : key === "arrow" ? ["placement", "size"]
         : kind === "node" ? ["maxWidth", "paddingX", "paddingY"] : ["font", "color", "offset"];
       keys(fields, allowed, p);
       for (const [f, v] of Object.entries(fields)) {
@@ -77,6 +77,9 @@ function style(value: unknown, kind: "node" | "edge", path: string): void {
         if (["color", "font"].includes(f)) text(v, fp);
         else if (f === "dash") choice(v, dashStyles, fp);
         else if (f === "placement") choice(v, ["middle", "end", "none"], fp);
+        else if (f === "mode") choice(v,["size","legacy","none"],fp);
+        else if (f === "minScale") number(v,fp,.5,1);
+        else if (f === "maxScale") number(v,fp,1,3);
         else if (f === "enabled") { if (typeof v !== "boolean") throw new TypeError(`${fp}: expected boolean`); }
         else if (f === "offset") {
           const offset = record(v, fp); keys(offset, ["x", "y"], fp);

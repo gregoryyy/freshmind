@@ -82,3 +82,7 @@ The [exclusion contract](rfc-exclusion.md) implements the 2005 paper’s ordinar
 ## Structural focus + context
 
 The [structural view contract](structural-focus-context.md) implements the hybrid mechanism from §2.3 of the paper. Semantic leaf types aggregate outside protected detail and expose typed parent counts; explicit node/relation filters take precedence. The complete graph and stored memberships remain unchanged. TG neighborhood traversal uses its existing source membership; rendering, physics, picking and RFC share the derived view. Hidden centers suspend and can resume; activating a stored structure restores its eligible aggregated detail. Controls, E/reveal/reset, a synthetic native example and library APIs are included. Rules remain transient and default off. Functional verification does not replace the pending matched hybrid comparisons or original-paper figure reconstruction.
+
+## Importance display
+
+[Node importance display](rfc-importance.md#node-importance-display) now provides bounded body/label scaling around default weight 1, uniform/legacy modes and optional exact values. Type/item configuration persists in YAML; transient panel preferences can override it. Actual measured dimensions drive picking, shape-matched focus, curve clipping, cluster boundaries and silhouette halos. The display neither wakes integration nor changes ordinary/RFC forces. Yellow glow retains its independent participation meaning. This completes 3.2.18 without adding a perceptual-evaluation claim.

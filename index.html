@@ -43,6 +43,12 @@
           <label class="control-label" for="curve">Edge curves</label>
           <select id="curve" aria-describedby="curve-help"><option value="spider">Spider</option><option value="lens">Lens midpoint</option><option value="straight">Straight</option></select>
           <p id="curve-help" class="control-help">Spider bends relations into branching curves. Drag nodes diagonally to see the bend.</p>
+          <details class="control-subsection"><summary>Node importance</summary>
+            <label class="control-label" for="node-importance-mode">Importance display</label>
+            <select id="node-importance-mode"><option value="configured">Use type configuration</option><option value="size">Body and label size</option><option value="none">Uniform size</option><option value="legacy">Legacy halo</option></select>
+            <label class="pin-control"><input id="show-node-weights" type="checkbox" /> Show node weight values</label>
+            <p class="control-help">Weight 1 has normal size; lower weights are smaller and higher weights larger, within configured limits. Yellow halos show RFC participation.</p>
+          </details>
           <button id="show-all" class="quiet-button">Show whole graph <span>↗</span></button>
           </details>
           <details class="sidebar-section" id="structural-section"><summary>Structural focus + context</summary>

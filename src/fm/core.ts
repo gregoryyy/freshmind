@@ -14,6 +14,8 @@ export * from "./config/types.js";
 export { createEdgeGeometry, routeEdges } from "./rendering/geometry.js";
 export type { EdgeGeometry, Point, WorldToDraw } from "./rendering/geometry.js";
 export {createClusterBoundary} from "./rendering/cluster-boundary.js";
+export {nodeImportanceScale} from "./rendering/importance.js";
+export type {NodeImportanceViewSettings} from "./rendering/importance.js";
 export type {ClusterBoundaryBox} from "./rendering/cluster-boundary.js";
 export { createNodeOutline, dashArray } from "./rendering/shapes.js";
 export { applyNodeEdit, applyRelationEdit } from "./editing/commands.js";

@@ -19,6 +19,9 @@ export const interactionStates = ["fixed", "hover", "selected", "preselected", "
 export type InteractionState = typeof interactionStates[number];
 export type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] };
 export interface StrokeStyle { color: string; width: number; dash: DashStyle; }
+export type NodeImportanceMode="size"|"legacy"|"none";
+/** Size bounds straddle the default weight's exact scale of one. Legacy uses the existing halo style. */
+export interface NodeImportanceStyle {mode:NodeImportanceMode;minScale:number;maxScale:number;}
 /** Fully resolved presentation; dimensions/offsets are draw pixels and fonts are CSS strings. */
 export interface NodeStyle {
   shape: NodeShape;
@@ -27,6 +30,7 @@ export interface NodeStyle {
   stroke: StrokeStyle;
   label: { maxWidth: number; paddingX: number; paddingY: number };
   halo: { enabled: boolean; opacity: number };
+  importance:NodeImportanceStyle;
 }
 /** Fully resolved curve/stroke/label style, independent of physical spring length and weight. */
 export interface EdgeStyle {
@@ -57,7 +61,8 @@ export interface VisualItem<T> { getSemanticType(): string; getVisual(): VisualO
 export const defaultNodeStyle: NodeStyle = {
   shape: "rectangle", fill: "#a03000", text: { color: "#ffffff", font: "bold 13px Arial, sans-serif" },
   stroke: { color: "#000000", width: 1, dash: "solid" },
-  label: { maxWidth: 150, paddingX: 8, paddingY: 4 }, halo: { enabled: true, opacity: 0.3 }
+  label: { maxWidth: 150, paddingX: 8, paddingY: 4 }, halo: { enabled: true, opacity: 0.3 },
+  importance:{mode:"size",minScale:.85,maxScale:1.5}
 };
 export const defaultEdgeStyle: EdgeStyle = {
   curve: "spider", stroke: { color: "#0000b0", width: 1, dash: "solid" },

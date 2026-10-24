@@ -53,6 +53,8 @@ nodeVisuals:
     stroke: {color: "#000000", width: 1, dash: solid}
     label: {maxWidth: 150, paddingX: 8, paddingY: 4}
     halo: {enabled: true, opacity: 0.3}
+    # Bounded body/text scaling; use legacy for the old weight-based halo or none for uniform size.
+    importance: {mode: size, minScale: 0.85, maxScale: 1.5}
     states:
       fixed: {fill: "#0000ff"}
       # Highlight fills need their own dark text; inheriting white from the body is low contrast.

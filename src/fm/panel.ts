@@ -28,6 +28,8 @@ import type { RfcStabilizationOptions } from "./rfc/stabilization.js";
 import type { TGLayout } from "../tg/layout.js";
 import {StructuralViewController} from "./structure-view/controller.js";
 import {projectRfcStructure} from "./rfc/structures.js";
+import {validateNodeImportanceView} from "./rendering/importance.js";
+import type {NodeImportanceViewSettings} from "./rendering/importance.js";
 
 export interface FreshmindPanelOptions extends TGPanelOptions {
   types?: TypeRegistry;
@@ -36,6 +38,7 @@ export interface FreshmindPanelOptions extends TGPanelOptions {
   rfc?: Partial<RfcSettings>;
   rfcStabilization?: RfcStabilizationOptions;
   rfcExclusion?:Partial<RfcExclusionSettings>;
+  nodeImportance?:Partial<NodeImportanceViewSettings>;
 }
 export type FreshmindSelection = FreshNode | FreshEdge | null;
 export type SelectionListener = (selection: FreshmindSelection) => void;
@@ -56,6 +59,7 @@ export class FreshmindPanel extends TGPanel {
   private removeRfcPaint?: () => void;
   private rfcPaintRevision = 0;
   private structuralView?:StructuralViewController;
+  private nodeImportance:NodeImportanceViewSettings={mode:"configured",showValues:false};
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -65,6 +69,7 @@ export class FreshmindPanel extends TGPanel {
     // Mount after extension fields are initialized: base mounting calls virtual paint hooks.
     super(undefined,{...options,animateLocality:options.animateLocality??Boolean(container)});
     this.types=options.types??new TypeRegistry(freshmind2014Configuration);
+    this.nodeImportance=validateNodeImportanceView({...this.nodeImportance,...options.nodeImportance});
     this.setGraphEltSet(new FreshGraph());
     this.navigation = new FreshmindNavigation(this, options.navigation);
     this.navigationStatus = options.navigationStatus;
@@ -82,6 +87,14 @@ export class FreshmindPanel extends TGPanel {
     if(container){this.mount(container);if(options.autoStart!==false)this.tgLayout.start();}
   }
   getTypeRegistry():TypeRegistry{return this.types;}
+  /** Transient importance display preferences; configured mode reads inherited YAML/item styles. */
+  getNodeImportance():NodeImportanceViewSettings{return {...this.nodeImportance};}
+  /** Applies a validated display update atomically; does not wake layout or mutate document styles/weights. */
+  configureNodeImportance(changes:Partial<NodeImportanceViewSettings>):void {
+    const next=validateNodeImportanceView({...this.nodeImportance,...changes});
+    if(next.mode===this.nodeImportance.mode&&next.showValues===this.nodeImportance.showValues)return;
+    this.nodeImportance=next;this.repaintAfterMove();
+  }
   /** Returns the inherited default edge form, independently of relation-specific overrides. */
   getEdgeCurve(): CurveMode {
     return this.types.getDefaultEdgeStyle().curve;
@@ -263,7 +276,9 @@ export class FreshmindPanel extends TGPanel {
     if(node.fixed)states.push("fixed");if(node===this.getMouseOverN())states.push("hover");
     if(node===this.getSelect()&&!this.selectedEdge)states.push("selected");
     if(node.isPreselected())states.push("preselected");if(node.isKeyselected())states.push("activeCandidate");
-    return this.types.resolveNode(node,states);
+    const style=this.types.resolveNode(node,states);
+    if(this.nodeImportance.mode!=="configured")style.importance.mode=this.nodeImportance.mode;
+    return style;
   }
   /** Resolves relation hover, selection and externally managed preselection/candidate flags. */
   getEdgeStyle(edge:FreshEdge):EdgeStyle {
@@ -308,6 +323,7 @@ export class FreshmindPanel extends TGPanel {
   protected override paintDecorations(layer:SVGGElement):void {
     this.presentation.paintDecorations(layer,[...this.getGES().getNodes()] as FreshNode[],n=>this.getNodeStyle(n),this.getFocus() as FreshNode|null);
     this.presentation.paintAggregation(layer,this.structuralView?.getState().groups??[],id=>this.getCompleteEltSet().findNode(id));
+    this.presentation.paintNodeWeights(layer,[...this.getGES().getNodes()] as FreshNode[],this.nodeImportance.showValues);
   }
   /** Freshmind double-click selects and centers through the same command/settings as Enter. */
   protected override handleNodeDoubleClick(event: MouseEvent, node: Node): void {
@@ -318,7 +334,7 @@ export class FreshmindPanel extends TGPanel {
     void this.getNavigation().centerSelection();
   }
   protected override getNodeTitle(node: Node): string {
-    return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}\nDouble-click or press Enter to center; E to expand; Space for details`;
+    return `${node.getLabel()}${node.fixed ? " (pinned)" : ""}${node instanceof FreshNode?`\nWeight: ${node.getWeight()}`:""}\nDouble-click or press Enter to center; E to expand; Space for details`;
   }
   override clearAll(): void {
     this.structuralView?.reset();
