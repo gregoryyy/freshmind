@@ -85,6 +85,15 @@ rfc-exclusion-experiment output="docs/experiments/rfc-exclusion": build
 rfc-exclusion-figures output="docs/experiments/rfc-exclusion":
     python3 scripts/rfc-exclusion-figures.py {{quote(output)}}
 
+# Matched TG/RFC, lens and structural views (160 runs), native input, report and diagrams.
+rfc-hybrid-experiment output="docs/experiments/rfc-hybrid": build
+    node scripts/rfc-hybrid-experiment.mjs {{quote(output)}}
+    python3 scripts/rfc-hybrid-figures.py {{quote(output)}}
+
+# Redraw hybrid-view comparisons and rebuild their report from recorded data.
+rfc-hybrid-figures output="docs/experiments/rfc-hybrid":
+    python3 scripts/rfc-hybrid-figures.py {{quote(output)}}
+
 # Regenerate the synthetic tree/DAG, weighted-tree and overlapping-cluster examples.
 substructure-examples: build
     node scripts/substructure-examples.mjs

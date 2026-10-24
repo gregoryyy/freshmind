@@ -22,7 +22,7 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 | --- | --- |
 | TouchGraph foundation | Complete: graph/locality APIs, spring layout and lenses, with Java compatibility checks. |
 | Freshmind browser features | Complete: types, labeled curves, navigation, editors, content popups and native YAML persistence. |
-| Reinforcement Focus + Context | Mechanism implemented: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation. Original-paper example reconstruction and matched hybrid comparisons remain open. |
+| Reinforcement Focus + Context | Planned milestone complete: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible comparisons including hybrid views. |
 | LDA-based graph visual search | Not started. Reference Java/LDA sources have been located. |
 
 See the [roadmap](docs/TODO.md) for remaining tasks and the [implementation record](docs/DONE.md) for completed scope, verification and compatibility limits. RFC experiments use small synthetic graphs; they do not establish general convergence or perceptual benefit. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes.
