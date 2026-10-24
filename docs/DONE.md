@@ -15,6 +15,11 @@ RFC experiment documentation (**3.5**) is complete for the implemented compariso
 
 Milestones **1–3** are complete within their agreed scope. Original-figure reproduction (**3.3.1**) was removed from scope at the user's request on 2026-10-24; it is not claimed as implemented. Experiment J completes the final planned RFC comparison (**3.4.2**). The [search report](experiments/search/README.md) completed the earlier prototype task **4.6**; revised milestone **4** awaits the supplied module. Earlier entries below describe the prototype at their respective checkpoints. Numerical regularity, low motion, force balance and successful synthetic retrieval checks do not establish general convergence, perceptual benefit or real-world search quality.
 
+## Repository agent guidance — 2026-10-24
+
+- Added root [AGENTS.md](../AGENTS.md), adapted from the neighboring Kibitz project's structure for FM4's domains, public contracts, just workflow, verification, licensing and research/search scope. Preserves the README motivation and the user-supplied retrieval direction.
+- Root [CLAUDE.md](../CLAUDE.md) imports `@AGENTS.md`, sharing one instruction source across agents. Verified local links, documented recipe names, import text and whitespace; application suites were not rerun for this documentation-only change.
+
 ## IR domain and shorter module names — 2026-10-24
 
 - Completes **4.13**. Extracted information retrieval into `src/ir/` alongside `fm/` and `tg/`. Plain corpus/request/result contracts, the prototype lexical index, topics/numerical utilities and worker/session/model lifecycle belong to IR. IR imports neither graph domain; its default entry and declarations work without DOM or graph types.
