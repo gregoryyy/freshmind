@@ -40,3 +40,19 @@ test("general motion controls synchronize external changes and remove listeners 
   });
   expect(result).toEqual({synchronized:true,disposed:true,untouched:true});
 });
+
+test("page teardown releases the main browser's motion controls",async({page})=>{
+  const errors=[];page.on("pageerror",e=>errors.push(e.message));
+  await page.goto("/");await page.waitForFunction(()=>window.graphBrowser?.getRfc().getState().active);
+  const result=await page.evaluate(()=>{
+    const panel=window.graphBrowser;panel.tgLayout.stop();
+    const enabled=document.querySelector("#adaptive-damping"),response=document.querySelector("#damping-response");
+    const before={enabled:panel.tgLayout.getAdaptiveDampingState().enabled,response:panel.tgLayout.getAdaptiveDampingResponse()};
+    window.dispatchEvent(new PageTransitionEvent("pagehide",{persisted:false}));
+    enabled.checked=!before.enabled;enabled.dispatchEvent(new Event("change"));
+    response.value=before.response==="impulse"?"cooling":"impulse";response.dispatchEvent(new Event("change"));
+    return {before,after:{enabled:panel.tgLayout.getAdaptiveDampingState().enabled,response:panel.tgLayout.getAdaptiveDampingResponse()},
+      mounted:!!document.querySelector("#graph svg")};
+  });
+  expect(result.after).toEqual(result.before);expect(result.mounted).toBe(false);expect(errors).toEqual([]);
+});

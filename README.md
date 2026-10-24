@@ -21,14 +21,12 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 | Area | Current status |
 | --- | --- |
 | TouchGraph foundation | Ported graph/locality APIs, spring layout and lenses, with scoped Java compatibility checks. |
-| Freshmind browser features | Ported types, labeled curves, navigation, overlay editors with label/weight commands, content popups and native YAML persistence. |
+| Freshmind browser features | Ported types, labeled curves, navigation, overlay editors with label/weight commands, optional moving in-place labels, content popups and native YAML persistence. |
 | Reinforcement Focus + Context | Implemented planned mechanisms: multiple foci, stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible synthetic comparisons. |
-| Research and future views | Application/library survey and pre-2024 appendix completed; radius-two view designed, implementation proposed. |
-| Assurance | Intent, usage constraints, architecture and evidence approach proposed in [PR #36](https://github.com/gregoryyy/freshmind/pull/36); implementation-wide audit remains pending. |
 | Readability | Measured node-label separation with pinned/focus protection and overlap counts; automatic relation-label placement near clear curve positions. |
-| Graph visual search | Working lexical/LDA prototype: queries, tags, node similarity and feedback. Next: elasticlunr literal retrieval and FM 2014 LDA feature parity; embeddings deferred. |
+| Graph visual search | Elasticlunr literal retrieval and FM 2014-style LDA semantics: explicit metrics, document/term APIs, local model files, query graphs and feedback. Embeddings deferred. |
 | Application research and alternative views | Literature/application review and radius-two design/mockup complete; production implementation and evaluation remain pending. |
-| System assurance | Intent, usage constraints, architecture and deterministic verification approach documented for review. Implementation mapping, risk assessment and conformance checks remain pending. |
+| System assurance | [Intent, constraints, architecture and verification approach](docs/assurance/README.md) documented for review. Implementation mapping, risk assessment and conformance checks remain pending. |
 
 See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Feature delivery is distinct from conformance to the [assurance baseline](docs/assurance/README.md); that audit has not been completed. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes. **View → Label spacing** offers paused node separation and automatic relation-label placement; see the [readability guide](docs/readability.md).
 
