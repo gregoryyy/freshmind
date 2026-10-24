@@ -5,6 +5,16 @@ import {fileURLToPath} from "node:url";
 const rfcExample = fileURLToPath(new URL("../../docs/experiments/rfc-single-focus/crowded-star.fm.yaml", import.meta.url));
 const weightedExample = fileURLToPath(new URL("../../docs/experiments/rfc-single-focus/wide-labels.fm.yaml", import.meta.url));
 let readabilityBefore=0;
+let relationBefore;
+const relationMetrics=page=>page.evaluate(()=>{
+  const labels=[...document.querySelectorAll(".fm-edge-label")].filter(e=>e.textContent).map(e=>e.getBoundingClientRect());
+  const nodes=[...document.querySelectorAll(".fm-node .fm-shape")].map(e=>e.getBoundingClientRect());let count=0;
+  for(let i=0;i<labels.length;i++)for(const b of [...nodes,...labels.slice(i+1)]){
+    const a=labels[i];if(Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top))count++;
+  }
+  return {count,positions:[...window.graphBrowser.getAllNodes()].map(n=>[n.getID(),n.x,n.y]),
+    paths:[...document.querySelectorAll(".fm-edge-path")].map(e=>e.getAttribute("d"))};
+});
 const overlaps=page=>page.locator(".fm-node .fm-shape").evaluateAll(elements=>{
   const boxes=elements.map(e=>e.getBoundingClientRect());let count=0;
   for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
@@ -316,6 +326,26 @@ export const tour = [
       await page.waitForFunction(()=>document.querySelector("#readability-status").textContent.includes("overlapping node pairs"));
       const after=await overlaps(page);if(after>=readabilityBefore)throw new Error("Label arrangement did not reduce measured body overlaps");
       console.log(`[flipbook] Node body overlaps: ${readabilityBefore} -> ${after}`);
+      await page.evaluate(()=>document.activeElement?.blur());
+    }
+  },
+  {
+    id:"relation-overlap",title:"Inspect original relation-label positions",
+    caption:"With node bodies already separated and motion paused, turn off Avoid relation label overlaps to inspect the original midpoint-and-offset anchors. Relation text can still intersect node bodies or other relation labels. The following view uses these exact node positions and curves.",
+    async run({page}){
+      await page.getByLabel("Avoid relation label overlaps",{exact:true}).uncheck();
+      relationBefore=await relationMetrics(page);if(!relationBefore.count)throw new Error("Relation-label comparison needs an overlapping baseline");
+      await page.evaluate(()=>document.activeElement?.blur());
+    }
+  },
+  {
+    id:"relations-separated",title:"Place relation labels near clear curve positions",
+    caption:"Avoid relation label overlaps measures SVG text and tries nearby positions along each curve and its normal. The browser enables this bounded presentation pass by default. It reduces label–node and label–label intersections in this view while retaining every label, node position and curve. Dense views can still overlap; toggling off restores original anchors.",
+    async run({page}){
+      await page.getByLabel("Avoid relation label overlaps",{exact:true}).check();const after=await relationMetrics(page);
+      if(after.count>=relationBefore.count)throw new Error("Relation-label placement did not reduce measured intersections");
+      if(JSON.stringify(after.positions)!==JSON.stringify(relationBefore.positions)||JSON.stringify(after.paths)!==JSON.stringify(relationBefore.paths))throw new Error("Relation-label placement changed nodes or curves");
+      console.log(`[flipbook] Relation-label intersections: ${relationBefore.count} -> ${after.count}`);
       await page.evaluate(()=>document.activeElement?.blur());
     }
   }

@@ -67,8 +67,8 @@ for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Co
 
 let allVisible = false;
 let paused = false;
-const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status") });
-const disposeReadability=bindReadabilityControls(panel,{separate:get<HTMLButtonElement>("separate-labels"),gap:get<HTMLInputElement>("label-gap"),status:get("readability-status")},result=>{
+const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status"),relationLabelPlacement:"avoid-overlap" });
+const disposeReadability=bindReadabilityControls(panel,{separate:get<HTMLButtonElement>("separate-labels"),gap:get<HTMLInputElement>("label-gap"),status:get("readability-status"),relationLabels:get<HTMLInputElement>("avoid-relation-labels")},result=>{
   if(result.moved){paused=true;get("motion").textContent="Resume motion";}
 });
 const disposeImportance=bindNodeImportanceControls(panel,{mode:get<HTMLSelectElement>("node-importance-mode"),showValues:get<HTMLInputElement>("show-node-weights")});

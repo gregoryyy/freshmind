@@ -54,6 +54,8 @@
           <div class="range-labels"><span>Undistorted</span><span>Strong lens</span></div>
           <details class="control-subsection" id="readability-section">
             <summary>Label spacing</summary>
+            <label class="pin-control"><input id="avoid-relation-labels" type="checkbox" /> Avoid relation label overlaps</label>
+            <p class="control-help">Keeps relation labels near their curves and seeks clearer positions as the graph moves. Dense views can still have overlaps.</p>
             <label class="control-label" for="label-gap">Gap between nodes</label>
             <input id="label-gap" type="number" min="0" max="100" step="1" value="8" required />
             <button id="separate-labels" class="quiet-button" type="button">Separate overlapping nodes</button>

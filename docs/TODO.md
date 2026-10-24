@@ -4,7 +4,7 @@ Develop the browser in stages: establish a plain TouchGraph baseline, restore Fr
 
 Completed work, implementation notes, deviations, and lessons are recorded in [DONE.md](DONE.md).
 
-**Current status:** Milestones 1–3 are complete within their agreed scope. The current lexical/LDA graph-search implementation is retained for now; replacement tasks 4.8–4.12 are deferred. Use elasticlunr if an external literal-search library becomes necessary. Milestone 5 completes the first node-label readability increment. RFC and visual search should realize the ideas described in the reference text; exact figure layouts, crosshairs and labels are outside scope. See the [current search direction](search-module-integration.md) and [implementation history](DONE.md).
+**Current status:** Milestones 1–3 are complete within their agreed scope. The current lexical/LDA graph-search implementation is retained for now; replacement tasks 4.8–4.12 are deferred. Use elasticlunr if an external literal-search library becomes necessary. Milestone 5 covers node separation and relation-label placement. RFC and visual search should realize the ideas described in the reference text; exact figure layouts, crosshairs and labels are outside scope. See the [current search direction](search-module-integration.md) and [implementation history](DONE.md).
 
 ## Source material
 
@@ -146,14 +146,19 @@ replacement tasks below retain their numbers and remain deferred, not completed.
 
 - [x] 4.14 Record the retained current-search baseline and conditional elasticlunr choice; defer replacement work and continue with readability.
 
-## 5. Readability: node-label separation
+## 5. Readability: node separation and relation-label placement
 
 Improve the rendered graph without changing the TouchGraph/RFC force equations.
 The first increment is an explicit arrangement action for visible node bodies and
-labels, with measurable before/after intersections. Relation-label placement,
-crossings and continuous collision handling remain separate future work.
+labels, with measurable before/after intersections. The second places relation
+labels near their curves using measured text and a bounded candidate search.
+Crossings, decorations and continuous node collision handling remain future work.
 
 - [x] 5.1 Define measured rectangle separation, pinned/focus/drag protection, transform handling, work bounds and compatibility limits.
 - [x] 5.2 Implement a deterministic headless separator and browser adapter using measured node geometry and existing inverse lenses.
 - [x] 5.3 Add caller-owned controls under View, report before/after overlaps and synchronize paused motion; preserve semantic data and hidden positions.
 - [x] 5.4 Verify logic and real SVG geometry, document limits and add a production before/after comparison to the main flipbook.
+- [x] 5.5 Add deterministic, bounded relation-label candidate placement against visible node bodies and other relation labels, keeping every label and preserving node/curve geometry.
+- [x] 5.6 Cache measured SVG text and share chosen anchors with rendering and inline relation editors through lenses, parallel edges and self-loops.
+- [x] 5.7 Enable relation-label avoidance in the main browser with a reversible View control; preserve original library defaults and transient preferences across graph replacement.
+- [x] 5.8 Verify independent rectangle counts, real SVG collisions, editing/control lifecycle and production before/after captures; document limits.

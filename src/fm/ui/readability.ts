@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: Apache-2.0; Copyright (c) 2026 Gregor Heinrich. */
 import {separateNodeLabels} from "../browser/index.js";
 import type {FreshmindPanel,LabelSeparationResult} from "../browser/index.js";
-export interface ReadabilityElements {separate:HTMLButtonElement;gap:HTMLInputElement;status:HTMLElement}
+export interface ReadabilityElements {separate:HTMLButtonElement;gap:HTMLInputElement;status:HTMLElement;relationLabels?:HTMLInputElement}
 /** Caller-owned controls; the callback keeps the application's motion toggle synchronized. */
 export function bindReadabilityControls(panel:FreshmindPanel,e:ReadabilityElements,onSeparated?:(result:LabelSeparationResult)=>void):()=>void {
   const run=()=>{
@@ -13,7 +13,10 @@ export function bindReadabilityControls(panel:FreshmindPanel,e:ReadabilityElemen
     }catch(error){e.gap.setCustomValidity((error as Error).message);e.gap.reportValidity();}
   };
   const clear=()=>e.gap.setCustomValidity("");
+  const update=()=>{if(e.relationLabels)e.relationLabels.checked=panel.getRelationLabelPlacement()==="avoid-overlap";};
+  const labels=()=>panel.setRelationLabelPlacement(e.relationLabels!.checked?"avoid-overlap":"original");
+  const listener={graphMoved:update};panel.addGraphListener(listener);update();e.relationLabels?.addEventListener("change",labels);
   const removeGraphChange=panel.addGraphChangeListener(()=>{e.status.textContent="";});
   e.separate.addEventListener("click",run);e.gap.addEventListener("input",clear);
-  return()=>{removeGraphChange();e.separate.removeEventListener("click",run);e.gap.removeEventListener("input",clear);};
+  return()=>{removeGraphChange();panel.removeGraphListener(listener);e.relationLabels?.removeEventListener("change",labels);e.separate.removeEventListener("click",run);e.gap.removeEventListener("input",clear);};
 }
