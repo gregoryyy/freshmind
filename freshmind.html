@@ -25,8 +25,8 @@ See LICENSE-APACHE-2.0 for the license text.
           <label class="control-label lens-label" for="hyper">Focus + context</label>
           <input type="range" id="hyper" min="0" max="100" value="0" />
           <p class="control-help">Ctrl+Shift+↑/↓: graph spacing · Ctrl+Shift+←/→: focus + context</p>
-          <p class="control-help">Ctrl+Shift+Option/Alt+↑/↓ or +/−: canvas zoom · Ctrl+Shift+1: reset canvas zoom</p>
-          <p class="control-help">Ctrl+Shift+Option/Alt+←/→: graph rotation</p>
+          <p class="control-help">Shift+Option/Alt+↑/↓ or +/−: canvas zoom · Ctrl+Shift+1: reset canvas zoom</p>
+          <p class="control-help">Shift+Option/Alt+←/→: graph rotation</p>
           <button class="quiet-button" id="motion">Run layout</button>
           <button class="quiet-button" id="show-all">Show all types</button>
           <section class="inspector"><h2>YAML type configuration</h2>
@@ -39,7 +39,7 @@ See LICENSE-APACHE-2.0 for the license text.
         </aside>
         <section class="workspace" aria-label="Freshmind graph workspace">
           <div class="canvas-heading">TYPES &amp; RELATIONS</div><div id="graph"></div>
-          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Ctrl+Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Ctrl+Shift+Option/Alt+↓ or −)">−</button></div>
+          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Shift+Option/Alt+↓ or −)">−</button></div>
           <div class="canvas-footer"><span>Scroll ↑/↓: graph spacing · Scroll ←/→: focus + context · Pinch: canvas zoom</span></div>
         </section>
       </main>

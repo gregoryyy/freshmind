@@ -47,16 +47,17 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.3.2 Restore directional neighbor/edge navigation, candidate highlighting/cycling, confirmation, cancellation and timeout behavior.
   - [x] 2.3.3 Integrate mouse selection, keyboard shortcuts, details and editing without intercepting text-entry or browser controls.
   - [x] 2.3.4 Verify radius/backlink/degree limits, centering, expansion, collapse and hide behavior with the selection model.
-  - [x] 2.3.5 Add Ctrl+Shift+↑/↓ graph spacing (also Ctrl+↑/↓), Ctrl+Shift+←/→ focus + context, and Ctrl+Shift+Option/Alt+↑/↓ / Ctrl+Shift+1 canvas zoom/reset controls, keeping view controls synchronized and text entry unaffected.
+  - [x] 2.3.5 Add Ctrl+Shift+↑/↓ graph spacing (also Ctrl+↑/↓), Ctrl+Shift+←/→ focus + context, and Shift+Option/Alt+↑/↓ / Ctrl+Shift+1 canvas zoom/reset controls, keeping view controls synchronized and text entry unaffected.
   - [x] 2.3.6 Separate graph-distance zoom from canvas scaling, expose both controls and preserve inverse interaction, centering and physical coordinates through their composition.
   - [x] 2.3.7 Map vertical scrolling to graph spacing, horizontal two-finger scrolling to focus + context and pinch/Ctrl+wheel to canvas zoom, preserving text-editor input and graph/navigation state.
   - [x] 2.3.8 Adapt the reference `keys.txt` into a user key map and accessible browser help, showing implemented commands and documenting changes from Java.
-  - [x] 2.3.9 Add Ctrl+Shift+Option/Alt+←/→ view rotation, retaining physical positions, upright labels and navigation state.
+  - [x] 2.3.9 Add Shift+Option/Alt+←/→ view rotation, retaining physical positions, upright labels and navigation state.
   - [x] 2.3.10 Restore C to cycle default edge forms, with W as an alias; synchronize the browser selector and key map while preserving explicit relation overrides and text-editor input.
   - [x] 2.3.11 Highlight selected relations on their rendered line, matching the Java selection color; replace browser bounding-box focus frames with stroke emphasis, including curves, parallel relations and self-loops on both pages.
   - [x] 2.3.12 Group left-pane controls into collapsible sections with larger headings, retaining values and keyboard access to a collapsed inspector.
   - [x] 2.3.13 Restore FM2014 quick/literal/topic query, similarity and index/training shortcuts through optional graph-scoped actions, retaining current search backends and text-input behavior.
   - [x] 2.3.14 Let pointer entry resume graph keyboard control from the centered node without a click; preserve explicit side-pane/editor focus, selection-driven navigation, stationary-pointer recovery and listener cleanup.
+  - [x] 2.3.15 Simplify canvas zoom and rotation from Ctrl+Shift+Option/Alt arrows to Shift+Option/Alt arrows, updating help/tooltips while retaining native editor input and other view shortcuts.
 - [x] 2.4 Port labeling and the associated editors.
   - [x] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
   - [x] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.
