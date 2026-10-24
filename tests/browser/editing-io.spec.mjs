@@ -123,7 +123,7 @@ test("finishing an example load preserves an editor focused while the request wa
   await page.locator("#example-graph").focus();await page.locator("#example-graph").selectOption("florentine");await requested;
   await page.locator("#edit-details").click();const annotation=page.getByLabel("Annotation",{exact:true});await annotation.focus();release();
   await expect(page.locator("#file-status")).toContainText("15 nodes, 20 relations");await expect(annotation).toBeFocused();
-  await page.keyboard.press("Control+Shift+Alt+ArrowRight");expect(await page.evaluate(()=>window.graphBrowser.getRotation())).toBe(0);
+  await page.keyboard.press("Shift+Alt+ArrowRight");expect(await page.evaluate(()=>window.graphBrowser.getRotation())).toBe(0);
   expect(errors).toEqual([]);
 });
 test("local companions are required before replacement and companion exports contain the effective configuration",async({page})=>{

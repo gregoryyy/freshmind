@@ -159,7 +159,7 @@ test("Ctrl view shortcuts change zoom/lens geometry, sync controls and preserve 
   expect(view.zoom).toBeCloseTo(1.2,8);expect(view.hyper).toBe(0);expect(view.distance).toBeCloseTo(before.distance*1.2,6);
   await page.keyboard.press("Control+Shift+ArrowRight");await expect(page.locator("#hyper")).toHaveValue("5");await expect(page.locator("#hyper-value")).toHaveText("5%");
   await page.keyboard.press("Control+Shift+ArrowLeft");await expect(page.locator("#hyper")).toHaveValue("0");
-  await page.keyboard.press("Control+Shift+Alt+ArrowUp");
+  await page.keyboard.press("Shift+Alt+ArrowUp");
   expect(await page.evaluate(()=>window.graphBrowser.getCanvasZoom())).toBeCloseTo(1.2,8);
   await page.keyboard.press("Control+Shift+Digit1");
   expect(await page.evaluate(()=>window.graphBrowser.getCanvasZoom())).toBe(1);
@@ -174,7 +174,7 @@ test("Ctrl view shortcuts change zoom/lens geometry, sync controls and preserve 
   expect(await page.evaluate(()=>window.graphBrowser.getZoom())).toBe(5);await expect(page.locator("#hyper")).toHaveValue("100");
   await page.evaluate(()=>window.graphBrowser.setZoom(1));await page.keyboard.press("F2");
   const label=page.getByLabel("Inline node label",{exact:true});await expect(label).toBeFocused();
-  await label.press("Control+Shift+ArrowUp");await label.press("Control+Shift+ArrowDown");await label.press("Control+Shift+ArrowLeft");await label.press("Control+Shift+Alt+ArrowUp");await label.press("Control+Shift+Digit1");
+  await label.press("Control+Shift+ArrowUp");await label.press("Control+Shift+ArrowDown");await label.press("Control+Shift+ArrowLeft");await label.press("Shift+Alt+ArrowUp");await label.press("Control+Shift+Digit1");
   expect(await page.evaluate(()=>window.graphBrowser.getZoom())).toBe(1);expect(await page.evaluate(()=>window.graphBrowser.getHyperbolic())).toBe(100);
   expect(await page.evaluate(()=>window.graphBrowser.getCanvasZoom())).toBe(1);
   await page.locator("#graph svg").focus();await page.keyboard.press("Control+Shift+ArrowUp");

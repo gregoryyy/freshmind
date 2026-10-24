@@ -20,6 +20,14 @@ RFC experiment documentation (**3.5**) is complete for the implemented compariso
 
 Milestones **1–3** are complete within their agreed scope. Original-figure reproduction (**3.3.1**) was removed from scope at the user's request on 2026-10-24; it is not claimed as implemented. Experiment J completes the final planned RFC comparison (**3.4.2**). The [search report](experiments/search/README.md) completed the earlier prototype task **4.6**; the latest scope adds elasticlunr and FM-style LDA (4.15–4.18), while retaining the earlier report as historical evidence. Milestone **5** addresses node separation and relation-label placement. Earlier entries below describe the prototype at their respective checkpoints. Numerical regularity, low motion, force balance and successful synthetic retrieval checks do not establish general convergence, perceptual benefit or real-world search quality.
 
+## Simpler canvas and rotation shortcuts — 2026-10-24
+
+- Completes **2.3.15**. Shift+Option/Alt+↑/↓ scales the canvas; Shift+Option/Alt+←/→ rotates by 5°. The former three-modifier chords pass through. Graph spacing/focus-context shortcuts and Ctrl+Shift+1 reset retain their existing mappings. Explicit inputs and editors retain native selection/caret behavior.
+- Updated the shared key definitions, generated key map, both browser pages' help/tooltips and feature guide. Logic and browser regressions use the new chords and check modifier rejection, held-key repeats, bounds, preserved graph/navigation state and text-editor isolation. Earlier entries retain their original shortcut mappings as checkpoint history.
+
+- Verification: `just check` passes **246 core tests**, type checking and library/demo builds. All **30 focused Chrome tests pass** across zoom, navigation, content and editing/I/O on the main and palette pages. The production key-map capture is refreshed from the existing tour. README and its recipes are unchanged; documentation links and whitespace check out.
+- Conflict resolution against current main: retained the retrieval/damping completion records and recaptured only `04-key-map.png` through the first four existing production-tour steps. The image shows the simplified shortcuts and current general damping controls; the 30-step manifest and remaining images are preserved. `just check` passes **264 core tests**, type checking and both builds; all **30 focused Chrome tests** pass again.
+
 ## Elasticlunr and FM 2014 semantic retrieval — 2026-10-24
 
 - Completes **4.15–4.18** under the latest explicit scope: npm **elasticlunr 0.9.5** supplies literal indexing/scoring; LDA provides semantic retrieval. Embeddings are deferred. IR remains independent of FM/TG; stable graph IDs, query/context/result relations, shortcuts, exact tags, rejection feedback and worker/source freshness remain at their existing boundaries.

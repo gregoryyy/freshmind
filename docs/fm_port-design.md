@@ -154,8 +154,8 @@ Freeze this ordering when preselection begins so spring motion cannot reshuffle 
 | `N` | Toggle `moveToCenter`. |
 | Ctrl+Shift+↑ / Ctrl+Shift+↓ (also Ctrl+↑ / Ctrl+↓) | Increase/decrease graph spacing by a factor of 1.2 through the panel limits (0.15–5). |
 | Ctrl+Shift+← / Ctrl+Shift+→ | Decrease/increase focus + context strength by five percentage points, clamped to 0–100. |
-| Ctrl+Shift+Option/Alt+↑ / Ctrl+Shift+Option/Alt+↓ | Increase/decrease whole-canvas scale by a factor of 1.2, independently of graph spacing. |
-| Ctrl+Shift+Option/Alt+← / Ctrl+Shift+Option/Alt+→ | Rotate counterclockwise/clockwise by 5° through the existing rotation lens; labels stay upright. |
+| Shift+Option/Alt+↑ / Shift+Option/Alt+↓ | Increase/decrease whole-canvas scale by a factor of 1.2, independently of graph spacing. |
+| Shift+Option/Alt+← / Shift+Option/Alt+→ | Rotate counterclockwise/clockwise by 5° through the existing rotation lens; labels stay upright. |
 | Ctrl+Shift+1 | Reset canvas scale to 100%, retaining the viewport center. |
 | Vertical scroll / pinch | Vertical scrolling changes graph spacing; pinch (Ctrl+wheel) scales the canvas around the pointer. Horizontal scrolling changes focus/context. |
 | F2 | Edit the selected label. |

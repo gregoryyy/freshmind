@@ -35,7 +35,7 @@ async function measure(page) {
 }
 
 for (const path of ["/", "/freshmind.html"]) {
-  test(`Ctrl Shift Alt left/right rotates the rendered view on ${path}`, async ({page}) => {
+  test(`Shift Alt left/right rotates the rendered view on ${path}`, async ({page}) => {
     const errors=await ready(page,path);
     const view=()=>page.evaluate(()=>{
       const p=window.graphBrowser||window.freshmindBrowser,a=p.findNode("anchor"),b=p.findNode("right");
@@ -45,15 +45,15 @@ for (const path of ["/", "/freshmind.html"]) {
         positions:[...p.getAllNodes()].map(n=>[n.getID(),n.x,n.y])};
     });
     await page.locator('[data-node-id="anchor"]').focus();const before=await view();
-    await page.keyboard.press("Control+Shift+Alt+ArrowRight");const rotated=await view();
+    await page.keyboard.press("Shift+Alt+ArrowRight");const rotated=await view();
     expect(rotated.rotation).toBeCloseTo(Math.PI/36,10);expect(rotated.angle-before.angle).toBeCloseTo(Math.PI/36,10);
     expect(rotated.labelAngle).toBeCloseTo(0,10);expect(rotated.positions).toEqual(before.positions);
     for(const property of ["zoom","canvas","hyper","selection"])expect(rotated[property]).toEqual(before[property]);
-    await page.keyboard.press("Control+Shift+Alt+ArrowLeft");expect((await view()).rotation).toBeCloseTo(0,10);
+    await page.keyboard.press("Shift+Alt+ArrowLeft");expect((await view()).rotation).toBeCloseTo(0,10);
     await page.locator("#motion").click();await expect(page.locator("#graph svg")).toBeFocused();
-    await page.keyboard.press("Control+Shift+Alt+ArrowRight");expect((await view()).rotation).toBeCloseTo(Math.PI/36,10);
+    await page.keyboard.press("Shift+Alt+ArrowRight");expect((await view()).rotation).toBeCloseTo(Math.PI/36,10);
     await page.getByRole("button",{name:"Canvas zoom in",exact:true}).click();await expect(page.locator("#graph svg")).toBeFocused();
-    await page.keyboard.press("Control+Shift+Alt+ArrowLeft");expect((await view()).rotation).toBeCloseTo(0,10);
+    await page.keyboard.press("Shift+Alt+ArrowLeft");expect((await view()).rotation).toBeCloseTo(0,10);
     await page.getByRole("button",{name:"Key map",exact:true}).click();
     await expect(page.getByRole("dialog",{name:"Freshmind key map"})).toContainText("Rotate the view counterclockwise/clockwise by 5°");
     expect(errors).toEqual([]);
@@ -76,12 +76,12 @@ for (const path of ["/", "/freshmind.html"]) {
     expect((await measure(page)).graph).toBeCloseTo(1.8, 8); expect((await measure(page)).canvas).toBeCloseTo(1.44, 8);
     await expect(page.locator("#graph-zoom-value")).toHaveText("180%"); await expect(page.locator("#zoom-reset")).toHaveText("144%");
     await page.screenshot({ path: testInfo.outputPath("dual-zoom.png") });
-    await page.keyboard.press("Control+Shift+Alt+ArrowUp");
+    await page.keyboard.press("Shift+Alt+ArrowUp");
     expect((await measure(page)).canvas).toBeCloseTo(1.728, 8); expect((await measure(page)).graph).toBeCloseTo(1.8, 8);
     await expect(page.locator("#zoom-reset")).toHaveText("173%"); await expect(page.locator("#hyper")).toHaveValue("0");
-    await page.keyboard.press("Control+Shift+Alt+ArrowDown"); expect((await measure(page)).canvas).toBeCloseTo(1.44, 8);
+    await page.keyboard.press("Shift+Alt+ArrowDown"); expect((await measure(page)).canvas).toBeCloseTo(1.44, 8);
     await page.keyboard.press("Control+Shift+Digit1"); expect((await measure(page)).canvas).toBe(1);
-    await page.keyboard.press("Control+Shift+Alt+ArrowUp");
+    await page.keyboard.press("Shift+Alt+ArrowUp");
     await page.getByRole("button", { name: "Reset canvas zoom", exact: true }).click();
     expect((await measure(page)).canvas).toBe(1); expect((await measure(page)).graph).toBeCloseTo(1.8, 8);
     expect(errors).toEqual([]);
@@ -141,8 +141,8 @@ for (const path of ["/", "/freshmind.html"]) {
       foreign.append(input); node.append(foreign); input.focus();
       const before = [p.getZoom(), p.getCanvasZoom(), p.getHyperbolic(), p.getRotation()];
       const wheel = new WheelEvent("wheel", { deltaX: 100, deltaY: 20, bubbles: true, cancelable: true }); input.dispatchEvent(wheel);
-      for (const altKey of [false, true]) for (const key of ["ArrowRight", "ArrowUp", "ArrowDown", "!"])
-        input.dispatchEvent(new KeyboardEvent("keydown", { key, ctrlKey: true, shiftKey: true, altKey, bubbles: true, cancelable: true }));
+      for (const modifiers of [{ctrlKey:true,shiftKey:true},{shiftKey:true,altKey:true}]) for (const key of ["ArrowRight", "ArrowUp", "ArrowDown", "!"])
+        input.dispatchEvent(new KeyboardEvent("keydown", { key, ...modifiers, bubbles: true, cancelable: true }));
       const after = [p.getZoom(), p.getCanvasZoom(), p.getHyperbolic(), p.getRotation()]; foreign.remove();
       return { before, after, prevented: wheel.defaultPrevented };
     });

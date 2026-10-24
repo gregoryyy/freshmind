@@ -186,8 +186,8 @@
             <input id="candidate-timeout" type="number" required min="0" max="9007199254740991" step="1" value="2500" />
           <p class="control-help">Arrows: nodes · Shift+arrows: relations · Enter: confirm/center · Esc: cancel · E/K/H: expand/collapse/hide</p>
           <p class="control-help">Ctrl+Shift+↑/↓: graph spacing · Ctrl+Shift+←/→: focus + context</p>
-          <p class="control-help">Ctrl+Shift+Option/Alt+↑/↓ or +/−: canvas zoom · Ctrl+Shift+1: reset canvas zoom</p>
-          <p class="control-help">Ctrl+Shift+Option/Alt+←/→: graph rotation</p>
+          <p class="control-help">Shift+Option/Alt+↑/↓ or +/−: canvas zoom · Ctrl+Shift+1: reset canvas zoom</p>
+          <p class="control-help">Shift+Option/Alt+←/→: graph rotation</p>
           </details>
           <p id="navigation-status" class="control-help" role="status" aria-live="polite" aria-atomic="true"></p>
           <details class="sidebar-section inspector" id="selection-section" open><summary>Selected item</summary>
@@ -218,7 +218,7 @@
         <section class="workspace" aria-label="Graph workspace">
           <div class="canvas-heading"><span id="graph-count"></span></div>
           <div id="graph"></div>
-          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Ctrl+Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Ctrl+Shift+Option/Alt+↓ or −)">−</button><button id="center" aria-label="Center view" title="Center view">◎</button></div>
+          <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Shift+Option/Alt+↓ or −)">−</button><button id="center" aria-label="Center view" title="Center view">◎</button></div>
           <div class="canvas-footer"><span>Scroll ↑/↓: graph spacing · Scroll ←/→: focus + context · Pinch: canvas zoom · F2 to edit</span><button id="motion">Pause motion</button></div>
         </section>
       </main>
