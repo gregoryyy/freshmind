@@ -30,7 +30,7 @@ The library is one ESM package with three domains: `tg/` preserves TouchGraph, `
 | `fm/cluster/` | Community/component detection and conversion to stored memberships. | `fm4/fm/cluster` |
 | `fm/struct-view/` | Reversible type filtering/leaf aggregation and the presented membership index. | `fm4/fm/struct-view` |
 | `fm/ir/` | Graph-to-corpus adapter, query/context/result relations, provenance and rejection feedback. Retrieval algorithms live in IR. | `fm4/fm/ir` |
-| `fm/browser/` | FreshmindPanel composition, DOM keyboard adapter, document installation/capture, safe annotations and graph-search coordination, stale graph/source checks and result visibility. Workers and models belong to IR. | `fm4/fm/browser` |
+| `fm/browser/` | FreshmindPanel composition and selected-item deletion, DOM keyboard adapter, document installation/capture, safe annotations, graph-search coordination and moving query inputs, stale graph/source checks and result visibility. Workers and models belong to IR. | `fm4/fm/browser` |
 | `fm/ui/` | Reusable caller-owned controls, content popup and key-map/zoom/importance/structure/search bindings. | `fm4/fm/ui` |
 
 `fm4/fm/core` composes the parser-free, DOM-free feature modules; model references to geometry/view types are type-only. `fm4/fm` adds browser, rendering, UI and codecs. `fm4/fm/ui/style.css` remains the optional stylesheet. Pure geometry no longer shares a directory with the DOM renderer, and navigation/edit/I/O modules no longer contain panel or DOM adapters.

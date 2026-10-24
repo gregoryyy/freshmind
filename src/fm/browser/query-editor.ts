@@ -2,9 +2,13 @@
 import type {FreshNode} from "../model/index.js";
 import type {FreshmindPanel} from "./panel.js";
 
+interface QueryEntry {
+  node:FreshNode;group:SVGGElement;box:SVGForeignObjectElement;field:HTMLInputElement;
+  svg:SVGSVGElement;source:string;composing:boolean;
+}
 /** A feature-owned query input inside its node group; Enter submits, blur retains a draft, Escape cancels. */
 export class GraphQueryEditor {
-  private active?:{node:FreshNode;group:SVGGElement;box:SVGForeignObjectElement;field:HTMLInputElement;svg:SVGSVGElement;source:string;composing:boolean};
+  private active?:QueryEntry;
   private readonly drafts=new WeakMap<FreshNode,{text:string;source:string}>();
   private readonly graphListener={graphMoved:()=>this.reconcile(),graphReset:()=>this.close()};
   private readonly removeGraphChange:()=>void;
@@ -23,12 +27,12 @@ export class GraphQueryEditor {
     field.setAttribute("aria-label",node.getSemanticType()==="ldaquery"?"LDA query on graph":"Lexical query on graph");
     field.setAttribute("aria-keyshortcuts","Enter Escape");field.title="Enter searches; Escape cancels editing. After leaving the input, Ctrl+Backspace/Delete removes this query.";
     field.style.cssText="box-sizing:border-box;width:240px;height:32px;padding:3px 6px;border:2px solid #42674a;border-radius:5px;background:#fff;color:#172c22;font:16px sans-serif;user-select:text;cursor:text;";
-    box.append(field);group.append(box);const entry=this.active={node,group,box,field,svg,source:draft?.source??JSON.stringify([node.getLabel(),node.getData().search]),composing:false};
+    box.append(field);group.append(box);const entry:QueryEntry=this.active={node,group,box,field,svg,source:draft?.source??JSON.stringify([node.getLabel(),node.getData().search]),composing:false};
     group.classList.add("fm-query-editing");
     for(const name of ["pointerdown","mousedown","touchstart","click","dblclick"])field.addEventListener(name,event=>event.stopPropagation());
     field.addEventListener("input",()=>{this.drafts.set(node,{text:field.value,source:entry.source});field.removeAttribute("aria-invalid");});
-    field.addEventListener("compositionstart",()=>{if(this.active)this.active.composing=true;});
-    field.addEventListener("compositionend",()=>{if(this.active)this.active.composing=false;});
+    field.addEventListener("compositionstart",()=>{if(this.active===entry)entry.composing=true;});
+    field.addEventListener("compositionend",()=>{if(this.active===entry)entry.composing=false;});
     field.addEventListener("blur",()=>{if(this.active?.field===field)this.close();});
     // Navigation protects native text on this same SVG capture phase, so target key listeners cannot run.
     svg.addEventListener("keydown",this.keydown,true);

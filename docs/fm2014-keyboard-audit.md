@@ -1,16 +1,27 @@
 # FM 2014 keyboard editing comparison
 
 Reviewed **2026-10-24**, against main commit
-`3b316c645bb2d2cef399d9485cbb43fc7ea73544`. This is an audit, not an
-implementation of the missing commands. The current browser has label/details
-editing, but does **not** have FM 2014's keyboard structural-editing workflow.
+`3b316c645bb2d2cef399d9485cbb43fc7ea73544`. The comparison tables below preserve
+that snapshot; they are not a statement that every recorded gap is still open.
+
+**Follow-up implemented in this PR:** selected-item deletion now has relation
+precedence and works from graph-root and item focus. Query nodes can be deleted
+while browsing; other structural deletion retains the Edit-mode gate. Ctrl+D,
+Ctrl+Backspace/Ctrl+Delete and plain Backspace/Delete are graph-scoped aliases;
+text inputs retain native deletion. Ctrl+F/Ctrl+Shift+F now creates a lexical/LDA
+node **before** retrieval, with moving query entry, Enter submission and
+F2/Ctrl+Enter editing/rerun. See [the current workflow](graph-search.md) and the
+[implementation/verification record](DONE.md). The maintainer's clarification
+supplies the Ctrl+Backspace/Delete aliases; the supplied Java key handler lists
+Ctrl+D and plain Delete. Creation/linking/clipboard gaps remain in TODO 2.6.
 
 ## Sources and scope
 
 Reference root: `../knowceans/knowceans-freshmind-2014/`, relative to this project.
 Read `keys.txt`, `src/org/knowceans/freshmind/keyboard/FreshKeys.java`,
 `FreshCommands.java`, `FreshmindBrowser.java`, `TransferableTGPanel.java` and
-`io/ClipboardHandler.java` / `io/ATransferHandler.java`. The reference was not
+`io/ClipboardHandler.java` / `io/ATransferHandler.java`; the search follow-up also
+traces `ir/search/NodeQueryAdapter.java`. The reference was not
 changed. Java findings below are source traces, not a new Java GUI execution.
 
 The port comparison follows [the dispatcher](../src/fm/navigate/controller.ts),
@@ -29,7 +40,7 @@ Reference SHA-256 identifiers (raw file bytes):
 | `keyboard/FreshKeys.java` | `a4812fbb79f59ca0f883b6e51f9912ccffa2f11f3d5232df0d279e6d86deb349` |
 | `FreshCommands.java` | `e11427ea99f05d15f9e712e34d670b5854db5c85a4296194a8039e18dcd43e08` |
 
-## Editing commands
+## Editing commands at the audited commit
 
 Ctrl means **Control**, including on macOS. Command is additionally accepted for
 file operations and editor commits; it is not a general graph-command alias.
@@ -55,7 +66,7 @@ file operations and editor commits; it is not a general graph-command alias.
 | Ctrl+O / Ctrl+S / Ctrl+Shift+S | Open / save / save as. | **Adapted:** open local YAML, download YAML / choose a download filename. Command aliases also work. Save exports committed values, not editor drafts. |
 | Ctrl+Q | Described as quit without saving. | **Inactive in Java:** the exit call is commented out. No browser equivalent is required to reproduce that active implementation. |
 
-### Highest-priority defect: Delete uses DOM focus, not the selected item
+### Reproduced defect at the audited commit: Delete used DOM focus
 
 On a two-node graph `a → b` with relation `ab`, in **Edit mode**:
 
@@ -115,7 +126,7 @@ changing the plain TouchGraph behavior globally would affect another API.
 | M / T | Layout pause / control-panel toggle shortcuts missing; motion has a button. |
 | Alt+R / Alt+Shift+R | Java RFC activation/undo shortcuts absent; current RFC controls and Enter/Shift+Enter provide different activation/center operations. |
 | Alt+Shift+S | Java handler dispatches SVG export with Shift; `keys.txt` says Alt+S. No current SVG export shortcut. |
-| /, Ctrl+F/R/I and shifted variants | Implemented quick search, literal/LDA queries, similarities and index/training actions. Literal retrieval now uses elasticlunr. See [retrieval parity](fm2014-retrieval-parity.md) for backend/metric limits. |
+| /, Ctrl+F/R/I and shifted variants | Bindings were present, but Ctrl+F/Ctrl+Shift+F only focused side-pane fields; a query node appeared after successful retrieval. The Java shortcut created the node first, and accepting its label ran retrieval. This graph-entry gap is repaired in the follow-up above. See [retrieval parity](fm2014-retrieval-parity.md) for backend/metric limits. |
 | Q, D, Ctrl+Shift+D, Alt+Shift+F | Legacy query/similarity visibility/removal shortcuts absent. The current search UI has scoped rejection controls, not the same command set. Java Alt+Shift+F also falls through to undo RFC. |
 | Ctrl+W / Ctrl+Shift+W / Ctrl+E | Legacy clustering shortcuts absent; current clustering controls implement different algorithms. |
 
@@ -137,7 +148,8 @@ routing; they do **not** establish what each operating system/browser does with
 native reserved chords. The deletion table was probed separately, and the
 Tab/Delete failure was additionally confirmed with real keyboard input.
 
-Priorities are tracked under **2.6** in [TODO.md](TODO.md):
+The audit proposed these priorities under **2.6** in [TODO.md](TODO.md).
+The first is now implemented; the remaining structural commands are still open:
 
 1. Selected-item deletion, edge precedence and consistent routing, including
    graph-root focus, Tab focus, empty graphs, in-place editors and IME. Preserve

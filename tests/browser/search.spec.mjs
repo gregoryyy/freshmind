@@ -119,8 +119,11 @@ test('query editor supports in-place label mode, empty graphs and source replace
   await page.evaluate(()=>window.graphBrowser.findNode('query-1').setLabel('Changed elsewhere'));
   await page.keyboard.press('F2');await expect(input).toHaveValue('retained draft');await input.press('Enter');await expect(input).toHaveAttribute('aria-invalid','true');
   expect(await page.evaluate(()=>window.graphBrowser.findNode('query-1').getLabel())).toBe('Changed elsewhere');await input.press('Escape');await page.keyboard.press('F2');
+  await input.evaluate(field=>window.retiredQueryField=field);
   await page.evaluate(()=>window.graphBrowser.clearAll());await expect(input).toHaveCount(0);await page.locator('#graph svg').focus();await page.keyboard.press('Control+f');
-  const lexical=page.getByRole('textbox',{name:'Lexical query on graph',exact:true});await expect(lexical).toBeFocused();await lexical.fill('missing');await lexical.press('Enter');await expect(page.locator('#search-status')).toContainText('0 results linked');
+  const lexical=page.getByRole('textbox',{name:'Lexical query on graph',exact:true});await expect(lexical).toBeFocused();
+  await page.evaluate(()=>window.retiredQueryField.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true})));
+  await lexical.fill('missing');await lexical.press('Enter');await expect(page.locator('#search-status')).toContainText('0 results linked');
   await page.locator('#graph svg').focus();await page.keyboard.press('Control+Backspace');expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(0);
   await page.keyboard.press('Control+f');await expect(lexical).toBeFocused();await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await expect(lexical).toHaveCount(0);expect(errors).toEqual([]);
 });

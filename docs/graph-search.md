@@ -89,8 +89,8 @@ Empty query drafts are explicitly marked in their metadata and excluded from
 the retrieval corpus; they are never submitted to an engine. Accepted query text
 remains on its node after an engine error so it can be retried. Existing result
 links are replaced only after a successful retrieval; their request provenance
-continues to identify the search that produced them. Deleting the active query
-cancels its worker and prevents late replies from recreating it.
+continues to identify the search that produced them. The query deletion commands
+cancel its active worker and prevent late replies from recreating it.
 
 **Save** retains query/context/result relations and rejection judgments through
 the existing YAML metadata format, including currently hidden items. Trained

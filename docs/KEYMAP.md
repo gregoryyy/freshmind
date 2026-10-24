@@ -47,7 +47,7 @@ Point at the graph to give its centered node keyboard control without a click wh
 
 | Key or gesture | Action |
 | --- | --- |
-| F2 / Ctrl + Enter | Edit the selected node/relation label inline. |
+| F2 / Ctrl + Enter | Edit the selected node/relation label; on a search query, reopen its in-graph query input. |
 | Ctrl + Space / Shift + F2 | Edit node details in the overlay. Ctrl+Space also opens it from the content popup. |
 | Ctrl + G / Ctrl + H | Increase/decrease draft weight: node steps 0.1, relation steps 1, minimum 0. Save applies it; Escape cancels. |
 | Label suffix: =number | Set absolute node/relation weight when saving, e.g. Topic =3. The numeric command is removed from the stored label. |
@@ -58,7 +58,7 @@ Point at the graph to give its centered node keyboard control without a click wh
 | L | Open the selected node's linked resource explicitly. |
 | Edit mode: background double-click | Create a node at that position. |
 | Edit mode: Shift-click target | Connect the selected source node to that target. |
-| Edit mode: Delete / Backspace | Delete the focused node. Text inputs retain normal deletion. |
+| Delete / Backspace / Ctrl + Delete / Ctrl + Backspace / Ctrl + D | Delete the selected query and its links, returning to a visible context. Other selected nodes/relations require Edit mode; a selected relation takes precedence over its node anchor. Text inputs retain native deletion. |
 
 **View → Label editing → In place** makes every visible node and relation label
 an editable component that follows the moving graph. Click text to place the
@@ -74,7 +74,7 @@ The palette page also offers in-place labels; its default labels are read-only.
 | Key or gesture | Action |
 | --- | --- |
 | / | Reveal literal search, clear the query and focus its input. |
-| Ctrl + F / Ctrl + Shift + F | Reveal and focus literal / current topic-model search. Enter runs the query in its selected graph context. |
+| Ctrl + F / Ctrl + Shift + F | Create a lexical / LDA query node beside the selected context and type on the node. Enter searches; Escape cancels editing. F2 reopens the query. The side pane can stay collapsed. |
 | Ctrl + R / Ctrl + Shift + R | Retrieve literal / topic-model similarities for the selected content node. |
 | Ctrl + I / Ctrl + Shift + I | Check the current literal index / train the current topic model with the configured settings. Literal queries also index automatically. |
 
@@ -95,6 +95,6 @@ The palette page also offers in-place labels; its default labels are read-only.
 
 Graph spacing uses Ctrl+Shift+↑/↓ (also Ctrl+↑/↓), canvas zoom uses Shift+Option/Alt+↑/↓, and focus/context uses Ctrl+Shift+←/→. Shift+Option/Alt+←/→ rotates the view by 5° per press while keeping labels upright. Canvas reset retains Ctrl+Shift+1. FM2014 used Ctrl+Shift+↑/↓ for canvas zoom; the old map also used Alt arrows and Ctrl arrows for panning. +/− now scales the canvas, whereas Java used it for graph spacing. Drag the background to pan. Ordinary selection keeps the neighborhood; Enter/double-click and N control centering.
 
-Keyboard structural editing is incomplete: linked parent/child/sibling creation, graph clipboard operations, Ctrl+L/B linking, Ctrl+D deletion, Ctrl+A new document and Ctrl+J initial node are absent. Delete/Backspace is inherited node-only deletion in Edit mode and can target DOM focus while a different item is selected. See [the FM2014 comparison and reproduction](fm2014-keyboard-audit.md) and TODO 2.6. U, layout/control-panel toggles and SVG export are also absent shortcuts. Search shortcuts follow FM2014 with elasticlunr literal retrieval and LDA semantics; Ctrl+I checks the current literal index, and literal queries automatically index current text. See [the search guide](graph-search.md) and [retrieval parity](fm2014-retrieval-parity.md). File saving downloads YAML rather than overwriting a selected local file; Ctrl/Cmd+Shift+S opens the filename field. The numeric =weight suffix is supported in label editors. Other legacy type/style suffixes use explicit fields and YAML visual settings. Ctrl+G/H adjusts a draft and requires Save; details editing uses an overlay rather than the side pane.
+Keyboard structural editing is incomplete: linked parent/child/sibling creation, graph clipboard operations, Ctrl+L/B linking, Ctrl+A new document and Ctrl+J initial node are absent. Deletion now targets the selected item with relation precedence. Query nodes are removable in Navigate mode; other structural deletion requires Edit mode. Ctrl+Backspace/Delete and Ctrl+D are additional aliases, with native text deletion preserved. Ctrl+F/Ctrl+Shift+F creates a graph query before retrieval and opens its moving input; Enter searches and F2 reopens it. See [the FM2014 comparison and reproduction](fm2014-keyboard-audit.md) and TODO 2.6. U, layout/control-panel toggles and SVG export are not implemented shortcuts. Search shortcuts follow FM2014 with elasticlunr literal retrieval and LDA semantics; Ctrl+I checks the current literal index, and literal queries automatically index current text. See [the search guide](graph-search.md) and [retrieval parity](fm2014-retrieval-parity.md). File saving downloads YAML rather than overwriting a selected local file; Ctrl/Cmd+Shift+S opens the filename field. The numeric =weight suffix is supported in label editors. Other legacy type/style suffixes use explicit fields and YAML visual settings. Ctrl+G/H adjusts a draft and requires Save; details editing uses an overlay rather than the side pane.
 
 Exports include committed changes, not editor drafts. HTML annotations retain their source but display through a formatting/link allowlist. Legacy local resource paths remain data; the browser opens only supported web/mail links on an explicit action.
