@@ -1,0 +1,285 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Freshmind · Radius-two design study</title>
+  <style>
+    :root { color-scheme: light; font: 15px/1.5 system-ui, sans-serif; color: #20313c; background: #eff3f3; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1460px; margin: auto; padding: 30px 36px; }
+    header { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
+    h1 { font-size: 30px; letter-spacing: -.8px; margin: 4px 0 8px; }
+    h2 { font-size: 19px; margin: 0 0 12px; }
+    p { margin: 8px 0; }
+    .eyebrow { color: #42635e; text-transform: uppercase; font-size: 12px; letter-spacing: 1.8px; font-weight: 750; }
+    .muted { color: #53666f; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible { outline: 3px solid #175bd1; outline-offset: 3px; }
+    .action { border: 1px solid #becdce; background: white; border-radius: 7px; padding: 8px 14px; color: #23433d; }
+    .action:disabled { cursor: default; opacity: .5; }
+    nav { display: flex; gap: 12px; align-items: center; margin: 24px 0 14px; }
+    nav label { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+    .board { border: 1px solid #d5dfe1; border-radius: 14px; background: white; overflow: hidden; }
+    .board-head { display: grid; grid-template-columns: 1fr 270px 1fr; gap: 18px; text-align: center; background: #f7f9f8; padding: 17px 20px; border-bottom: 1px solid #dbe3e3; }
+    .board-head strong { display: block; font-size: 13px; }
+    .board-head span { font-size: 12px; color: #53666f; }
+    #rows { padding: 8px 20px; }
+    .row { display: grid; grid-template-columns: minmax(0, 1fr) 270px minmax(0, 1fr); gap: 18px; min-height: 114px; align-items: center; padding: 12px 0; }
+    .row + .row { border-top: 1px solid #edf0f0; }
+    .wing { display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch; }
+    .wing.left { justify-content: flex-end; }
+    .chip { color: #20313c; padding: 10px 12px; min-width: 143px; max-width: 210px; text-align: left; background: #fbfcfc; border: 1px solid #d6e0e3; border-radius: 8px; }
+    .chip strong { display: block; font-size: 14px; }
+    .chip small { display: block; margin-top: 3px; color: #53666f; font-size: 11px; }
+    .chip .shared { color: #745315; }
+    .spine { text-align: center; border-color: #a6c1ba; background: #f5faf8; width: 100%; max-width: none; }
+    .spine small { font-size: 11px; }
+    .spine .cross { color: #695b7d; }
+    .chip.matched { background: #fff7dd; border-color: #bc8e2d; box-shadow: inset 3px 0 #bc8e2d; }
+    .row.related .spine { border-color: #b79b58; }
+    .center-row { min-height: 100px; display: grid; grid-template-columns: 1fr 270px 1fr; gap: 18px; align-items: center; padding: 12px 0; }
+    .center-node { background: #235e52; color: white; border: 1px solid #235e52; border-radius: 10px; padding: 16px; text-align: center; }
+    .center-node strong { display: block; font-size: 20px; }
+    .center-node small { color: #d8e9e3; }
+    .center-note { font-size: 12px; color: #53666f; }
+    .center-note:first-child { text-align: right; }
+    .empty { color: #839196; font-size: 12px; align-self: center; padding: 8px; }
+    .summary { padding: 13px 20px; border-top: 1px solid #dbe3e3; color: #53666f; font-size: 12px; }
+    .inspection { margin-top: 18px; border-radius: 12px; border: 1px solid #d5dfe1; background: white; padding: 22px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; }
+    #detail-title { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    #detail-title h2 { margin: 0; }
+    .tag { font-size: 11px; color: #6e5419; background: #fff5d6; padding: 3px 8px; border-radius: 5px; }
+    .relation { font-size: 13px; margin: 9px 0; }
+    .relation small { display: block; font-size: 11px; color: #53666f; }
+    #witnesses { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 14px; }
+    #witnesses button { border: 1px solid #ccdade; background: #f6f9f9; border-radius: 5px; padding: 5px 10px; color: #264a43; }
+    .foot { font-size: 12px; color: #53666f; margin-top: 16px; }
+    .foot a { color: #26574d; }
+    #other { margin-top: 14px; font-size: 13px; }
+    #other summary { cursor: pointer; color: #57476c; }
+    @media (max-width: 900px) {
+      main { padding: 20px 12px; }
+      header { align-items: flex-start; }
+      h1 { font-size: 25px; }
+      .board { overflow-x: auto; }
+      .board-head, #rows, .summary { min-width: 850px; }
+      .inspection { grid-template-columns: 1fr; }
+      nav { flex-wrap: wrap; }
+      nav label { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <div class="eyebrow">Freshmind / design study 01</div>
+      <h1>A neighborhood you can read</h1>
+      <p class="muted">One focus. Direct neighbors on the spine. Their neighbors across each row.</p>
+    </div>
+    <span class="tag">Proposal · fictional service data</span>
+  </header>
+  <nav aria-label="Neighborhood history">
+    <button class="action" id="back" disabled>← Back</button>
+    <button class="action" id="reset">Reset study</button>
+    <span id="trail" class="muted"></span>
+    <label><input type="checkbox" id="weights" checked> Show relation weights</label>
+  </nav>
+  <section class="board" aria-label="Radius-two neighborhood">
+    <div class="board-head">
+      <div><strong>INCOMING TO EACH ROW NODE</strong><span>Second-hop entries · source → row</span></div>
+      <div><strong>DIRECT NEIGHBORS · r = 1</strong><span>Each names its relation to the center</span></div>
+      <div><strong>OUTGOING FROM EACH ROW NODE</strong><span>Second-hop entries · row → target</span></div>
+    </div>
+    <div id="rows"></div>
+    <div class="summary" id="counts" role="status"></div>
+  </section>
+  <section class="inspection" aria-label="Selected relationship and shared identity">
+    <div>
+      <div id="detail-title"><h2 id="selected-name"></h2><span class="tag" id="identity-tag"></span></div>
+      <div id="relations"></div>
+      <p class="foot" id="record-note"></p>
+    </div>
+    <div>
+      <h2>Same node, every route</h2>
+      <p id="via" class="muted"></p>
+      <div id="witnesses"></div>
+      <button class="action" id="pivot">Make this the center ↵</button>
+      <p class="foot">Select or focus a label to highlight its occurrences.<br>Double-click or press Enter to pivot; use Tab to inspect entries.</p>
+    </div>
+  </section>
+  <details id="other">
+    <summary id="other-summary"></summary>
+    <div id="other-relations"></div>
+  </details>
+  <p class="foot">A row associates every horizontal entry with its spine node; adjacent cells are not linked to each other.
+    Left/right carries direction, never distance or weight. “Via” names witnesses, not extra edges.<br>
+    This small offline mockup demonstrates the design; paging, virtualization, production editors and matrix comparison remain proposed.
+    <a href="../../radius-two-view.md">Design contract</a> · <a href="../../ROAD.md">Research and roadmap</a></p>
+</main>
+<script>
+  // Original fictional fixture. No source, application or retrieval state is imported.
+  const nodes = new Map([
+    ['checkout', 'Checkout'], ['web', 'Web'], ['billing', 'Billing'],
+    ['inventory', 'Inventory'], ['support', 'Support'], ['identity', 'Identity'],
+    ['gateway', 'Gateway'], ['ledger', 'Ledger'], ['warehouse', 'Warehouse'], ['crm', 'CRM']
+  ]);
+  const edges = [
+    ['e1', 'web', 'checkout', 'calls', 180],
+    ['e2', 'checkout', 'billing', 'calls', 95],
+    ['e3', 'checkout', 'inventory', 'calls', 120],
+    ['e4', 'support', 'checkout', 'calls', 15],
+    ['e5', 'gateway', 'web', 'calls', 180],
+    ['e6', 'web', 'identity', 'calls', 180],
+    ['e7', 'billing', 'identity', 'calls', 48],
+    ['e8', 'billing', 'ledger', 'calls', 90],
+    ['e9', 'billing', 'ledger', 'retries', 0],
+    ['e10', 'inventory', 'identity', 'calls', 12],
+    ['e11', 'inventory', 'warehouse', 'calls', 100],
+    ['e12', 'support', 'crm', 'calls', 15],
+    ['e13', 'support', 'web', 'escalates to', null],
+    ['e14', 'billing', 'billing', 'health check', 2]
+  ].map(([id, source, target, label, weight]) => ({id, source, target, label, weight}));
+  const el = id => document.getElementById(id);
+  const name = id => nodes.get(id);
+  const adjacent = id => [...new Set(edges.flatMap(e => e.source === id ? [e.target] : e.target === id ? [e.source] : []))].filter(n => n !== id);
+  const between = (a, b) => edges.filter(e => (e.source === a && e.target === b) || (e.source === b && e.target === a));
+  const label = (e, weights = true) => `${e.label}${weights ? ` · ${e.weight === null ? 'weight not supplied' : `${e.weight} req/s`}` : ''}`;
+  const sentence = e => `${name(e.source)} → ${name(e.target)} · ${label(e)}`;
+  let center = 'checkout', selected = 'identity', selectedEdges = between('billing', 'identity');
+  let history = [], witnesses = new Map(), extras = [], selectedVia = 'billing';
+
+  function chip(id, relations, spine = false, via = null) {
+    const button = document.createElement('button');
+    button.className = `chip${spine ? ' spine' : ''}`;
+    button.dataset.node = id;
+    button.dataset.via = via || '';
+    const title = document.createElement('strong'); title.textContent = name(id); button.append(title);
+    const detail = document.createElement('small');
+    if (spine) {
+      detail.textContent = relations.map(e => `${name(e.source)} → ${name(e.target)} · ${label(e, el('weights').checked)}`).join(' / ');
+    } else {
+      detail.textContent = relations.length > 1 ? `${relations.length} relations · inspect` : `${relations[0].label} →${el('weights').checked ? ` ${relations[0].weight === null ? 'weight not supplied' : `${relations[0].weight} req/s`}` : ''}`;
+    }
+    button.append(detail);
+    const paths = witnesses.get(id) || [];
+    if (!spine && paths.length > 1) {
+      const shared = document.createElement('small'); shared.className = 'shared'; shared.textContent = `via ${paths.length} rows · same node`; button.append(shared);
+    }
+    if (spine) {
+      const localExtras = extras.filter(e => e.source === id || e.target === id);
+      if (localExtras.length) {
+        const cross = document.createElement('small'); cross.className = 'cross';
+        cross.textContent = localExtras.map(e => e.source === e.target ? 'self relation' : `also linked to ${name(e.source === id ? e.target : e.source)}`).join(' · '); button.append(cross);
+      }
+    }
+    button.setAttribute('aria-label', `${name(id)}. ${relations.map(sentence).join('. ')}${paths.length > 1 ? `. Same node via ${paths.map(name).join(', ')}` : ''}. Select to inspect; Enter to pivot.`);
+    const select = () => { selected = id; selectedEdges = relations; selectedVia = via; inspect(); };
+    button.addEventListener('click', select);
+    button.addEventListener('focus', select);
+    button.addEventListener('dblclick', () => pivot(id));
+    button.addEventListener('keydown', event => {
+      if (event.key === 'Enter') { event.preventDefault(); pivot(id); }
+    });
+    return button;
+  }
+
+  function render() {
+    const n1 = adjacent(center);
+    const n2 = new Set(n1.flatMap(adjacent).filter(id => id !== center && !n1.includes(id)));
+    const local = new Set([center, ...n1, ...n2]);
+    witnesses = new Map([...n2].map(id => [id, n1.filter(u => between(u, id).length)]));
+    const rowEdgeIds = new Set(n1.flatMap(u => between(center, u)).map(e => e.id));
+    for (const u of n1) for (const v of n2) for (const e of between(u, v)) rowEdgeIds.add(e.id);
+    extras = edges.filter(e => local.has(e.source) && local.has(e.target) && !rowEdgeIds.has(e.id));
+    el('rows').replaceChildren();
+    const split = Math.ceil(n1.length / 2);
+    const addCenter = () => {
+      const row = document.createElement('div'); row.className = 'center-row';
+      const left = document.createElement('div'); left.className = 'center-note'; left.textContent = 'Select a relation to inspect its evidence';
+      const focus = document.createElement('div'); focus.className = 'center-node';
+      const title = document.createElement('strong'); title.textContent = name(center);
+      const caption = document.createElement('small'); caption.textContent = 'CENTER · radius two · either direction'; focus.append(title, caption);
+      const right = document.createElement('div'); right.className = 'center-note'; right.textContent = 'Aligned rows replace ordinary drawn edges';
+      row.append(left, focus, right); el('rows').append(row);
+    };
+    if (!n1.length) addCenter();
+    for (let i = 0; i < n1.length; i++) {
+      if (i === split) addCenter();
+      const u = n1[i], row = document.createElement('div'); row.className = 'row'; row.dataset.row = u;
+      const wings = ['left', 'right'].map(side => {
+        const wing = document.createElement('div'); wing.className = `wing ${side}`;
+        for (const v of n2) {
+          const relations = between(u, v).filter(e => side === 'left' ? e.target === u : e.source === u);
+          if (relations.length) wing.append(chip(v, relations, false, u));
+        }
+        if (!wing.children.length) { const empty = document.createElement('span'); empty.className = 'empty'; empty.textContent = 'No second-hop entries'; wing.append(empty); }
+        return wing;
+      });
+      row.append(wings[0], chip(u, between(center, u), true), wings[1]); el('rows').append(row);
+    }
+    if (n1.length && split === n1.length) addCenter();
+    const occurrences = [...witnesses.values()].reduce((sum, rows) => sum + rows.length, 0);
+    el('counts').textContent = `${n1.length} direct neighbors · ${n2.size} unique r=2 nodes · ${occurrences} row occurrences · ${rowEdgeIds.size} edge records in rows · ${extras.length} other relations · Complete fictional snapshot`;
+    el('other-summary').textContent = `${extras.length} other neighborhood relations — cross-links and self-loops are listed here`;
+    el('other-relations').replaceChildren();
+    for (const edge of extras) {
+      const p = document.createElement('p'); p.textContent = `${sentence(edge)} [${edge.id}]`; el('other-relations').append(p);
+    }
+    el('back').disabled = !history.length;
+    el('trail').textContent = [...history.map(s => name(s.center)), name(center)].join(' / ');
+    inspect();
+  }
+
+  function inspect() {
+    document.querySelectorAll('[data-node]').forEach(button => button.classList.toggle('matched', button.dataset.node === selected));
+    const paths = witnesses.get(selected) || [];
+    document.querySelectorAll('[data-row]').forEach(row => row.classList.toggle('related', paths.includes(row.dataset.row)));
+    el('selected-name').textContent = name(selected);
+    el('identity-tag').textContent = `canonical ID: ${selected}`;
+    el('relations').replaceChildren();
+    const additional = extras.filter(e => e.source === selected || e.target === selected);
+    for (const edge of [...new Map([...selectedEdges, ...additional].map(e => [e.id, e])).values()]) {
+      const p = document.createElement('p'); p.className = 'relation'; p.textContent = sentence(edge);
+      const provenance = document.createElement('small'); provenance.textContent = `Relation ${edge.id} · fictional snapshot · ${selectedEdges.includes(edge) ? 'selected entry' : 'other neighborhood relation'}`; p.append(provenance); el('relations').append(p);
+    }
+    el('record-note').textContent = 'Exact relation records stay distinct. Zero is a value; “not supplied” means missing. All traffic values are invented for this design.';
+    el('via').textContent = paths.length ? `${paths.length} row witness${paths.length === 1 ? '' : 'es'}: ${paths.map(name).join(', ')}. Highlighted entries are one node.` : selected === center ? 'This node is the current center.' : `Direct neighbor of ${name(center)}. Other relations are disclosed below the graph.`;
+    el('witnesses').replaceChildren();
+    for (const u of paths) {
+      const button = document.createElement('button'); button.textContent = `via ${name(u)}`;
+      button.addEventListener('click', () => {
+        const match = [...document.querySelectorAll('[data-node]')].find(item => item.dataset.node === selected && item.dataset.via === u);
+        match?.focus(); match?.scrollIntoView({block: 'nearest', behavior: 'instant'});
+      });
+      el('witnesses').append(button);
+    }
+    el('pivot').disabled = selected === center;
+  }
+
+  function pivot(id) {
+    if (id === center) return;
+    history.push({center, selected, edgeIds: selectedEdges.map(e => e.id), selectedVia});
+    center = selected = id; selectedEdges = []; selectedVia = null; render();
+    el('pivot').focus();
+  }
+  el('pivot').addEventListener('click', () => pivot(selected));
+  el('back').addEventListener('click', () => {
+    const state = history.pop(); if (!state) return;
+    center = state.center; selected = state.selected; selectedVia = state.selectedVia;
+    selectedEdges = edges.filter(e => state.edgeIds.includes(e.id)); render();
+    const match = [...document.querySelectorAll('[data-node]')].find(item => item.dataset.node === selected && item.dataset.via === (selectedVia || ''));
+    match?.focus();
+  });
+  el('reset').addEventListener('click', () => {
+    center = 'checkout'; selected = 'identity'; selectedEdges = between('billing', 'identity'); selectedVia = 'billing'; history = []; el('weights').checked = true; render();
+  });
+  el('weights').addEventListener('change', render);
+  render();
+</script>
+</body>
+</html>
