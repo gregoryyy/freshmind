@@ -2,12 +2,12 @@ Freshmind licensing
 
 Freshmind-specific files marked SPDX-License-Identifier: Apache-2.0 are
 licensed under the Apache License, Version 2.0. The full license text is
-provided in LICENSE-APACHE-2.0. Their copyright notices identify Gregor
+provided in licenses/LICENSE-APACHE-2.0. Their copyright notices identify Gregor
 Heinrich's original work and the TypeScript port.
 
 The LDA sampler port in src/ir/topics/gibbs.ts and model.ts, and its module
 entry point, retain GPL-3.0-or-later from knowceans-ilda. The full text is in
-LICENSE-GPL-3.0. The combined Freshmind and IR entry points include this GPL code;
+licenses/LICENSE-GPL-3.0. The combined Freshmind and IR entry points include this GPL code;
 the browser build containing it is distributed under GPL-3.0-or-later with
 the individual component notices retained. Separately marked Apache files
 retain their own license. The search worker/session code extracted from the
@@ -18,7 +18,7 @@ The Cokus MT19937 generator in src/ir/topics/cokus.ts comes from Shawn
 Cokus's recoding of work by Makoto Matsumoto and Takuji Nishimura, via
 David Blei's lda-c and the knowceans Java adaptation. Its upstream license
 is GNU Library General Public License version 2 or later
-(LGPL-2.0-or-later), with full version 2 text in LICENSE-LGPL-2.0.
+(LGPL-2.0-or-later), with full version 2 text in licenses/LICENSE-LGPL-2.0.
 The original generator notice and adaptation provenance are retained in
 src/ir/topics/cokus.ts and NOTICE.
 
@@ -26,7 +26,7 @@ TouchGraph-derived components retain the original licenses reproduced below.
 The short headers in src/tg/ refer to this file and NOTICE. Distribute both
 files with those sources, and reproduce the required notices and license
 terms in binary distribution materials. The HyperScroll-derived transform
-in src/tg/lenses.ts uses the TouchGraph Software License; the other adapted
+in src/tg/lenses/hyperbolic.ts uses the TouchGraph Software License; the other adapted
 TouchGraph components use the TouchGraph LLC. Apache-Style Software License.
 
 ====================================================================

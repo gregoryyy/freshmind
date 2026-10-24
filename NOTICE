@@ -7,7 +7,7 @@ Freshmind 4 project direction and maintenance: Gregor Heinrich, 2026.
 Freshmind-specific sources marked Apache-2.0:
 Copyright (c) 2002-2014 Gregor Heinrich.
 Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
-Licensed under the Apache License, Version 2.0; see LICENSE-APACHE-2.0.
+Licensed under the Apache License, Version 2.0; see licenses/LICENSE-APACHE-2.0.
 
 Original Freshmind artwork in assets/artwork/fm2014/:
 Copyright (c) 2002-2014 Gregor Heinrich. Apache-2.0.
@@ -56,25 +56,25 @@ D3 dependencies (d3-selection, d3-drag, d3-zoom and their dependencies)
 are distributed under their respective ISC licenses. See the installed
 packages' LICENSE files. They supply browser interaction and rendering,
 and do not replace the original spring layout engine.
-The demo build includes their full notices in LICENSES-D3.txt.
+The demo build includes their full notices in licenses/LICENSES-D3.txt.
 
 The yaml package is distributed under its ISC license. It parses Freshmind
 type configuration and is excluded from the headless core entry points.
-The demo build includes its full notice in LICENSE-YAML.txt.
+The demo build includes its full notice in licenses/LICENSE-YAML.txt.
 
 Graphology, graphology-components, graphology-communities-louvain and their
 graphology-indices, graphology-utils, graphology-types, mnemonist, obliterator,
 pandemonium and events dependencies are distributed under their respective
 MIT licenses. They provide detached clustering projections, not a replacement
 for TouchGraph's graph model or physics. See the installed packages' license
-files; the production demo includes their full notices in LICENSES-CLUSTERING.txt.
+files; the production demo includes their full notices in licenses/LICENSES-CLUSTERING.txt.
 
 Public example graph representations from NetworkX 3.4.2
 
 Copyright (C) 2004-2024, NetworkX Developers. All rights reserved.
 Distributed under the 3-clause BSD license; the original source and full
 license are retained under examples/public/sources/. The production demo
-includes LICENSE-NETWORKX.txt. Original dataset references and source hashes
+includes licenses/LICENSE-NETWORKX.txt. Original dataset references and source hashes
 are recorded in examples/public/README.md and provenance.json.
 Freshmind's graph-derived annotations and native YAML conversion are additions;
 they do not replace the original NetworkX attribution.
@@ -85,7 +85,7 @@ LDA and numerical utilities
 The serial LDA sampler/model port (src/ir/topics/gibbs.ts, model.ts and index.ts)
 retains GPL-3.0-or-later from knowceans-ilda, Copyright (c) 2005-2011 Gregor
 Heinrich; TypeScript port Copyright (c) 2026 Gregor Heinrich. No warranty.
-Full terms: LICENSE-GPL-3.0. Combined builds including this code use that license;
+Full terms: licenses/LICENSE-GPL-3.0. Combined builds including this code use that license;
 individual component notices and separately marked licenses remain.
 The search worker and session lifecycle extracted from the GPL-marked Freshmind
 browser controller remain GPL-3.0-or-later in src/ir/browser/.
@@ -110,7 +110,7 @@ SHA-256: bb553def52d76f80c77bee1949024d35daca8443fc79dfd7c8ad9e206a90af1a
 
 The upstream generator uses the GNU Library General Public License,
 version 2 or later (LGPL-2.0-or-later); full version 2 text is included in
-LICENSE-LGPL-2.0. The upstream notice is reproduced below and in cokus.ts.
+licenses/LICENSE-LGPL-2.0. The upstream notice is reproduced below and in cokus.ts.
 
 This is the ``Mersenne Twister'' random number generator MT19937, which
 generates pseudorandom integers uniformly distributed in 0..(2^32 - 1)

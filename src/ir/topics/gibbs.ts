@@ -6,7 +6,7 @@
  * This program is free software: you can redistribute it and/or modify it under
  * the GNU General Public License, version 3 or (at your option) any later version.
  * It is distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See LICENSE-GPL-3.0.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See licenses/LICENSE-GPL-3.0.
  */
 import {CokusRandom} from "./cokus.js";
 import {sampleCategorical} from "./numeric.js";

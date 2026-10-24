@@ -188,3 +188,16 @@ module before adapting it.
 - [ ] 6.6 Evaluate correctness, browser costs and user tasks against ordinary ego node-link, RFC and simple list/tree baselines, with a matrix for shared-neighbor tasks; use attributed data and distinguish unique nodes, occurrences and edge records.
 - [ ] 6.7 Run a narrow maintainer/researcher pilot to validate a repeated investigation task; revise the representation if direction, sharing or missing context causes errors.
 - [ ] 6.8 Add one application adapter after the pilot identifies a useful task and available source, initially considering dependency impact, evidence exploration or data lineage; preserve source evidence and scope.
+
+## 7. System assurance
+
+The [assurance approach](assurance/README.md) starts from the intended local-first
+graph browser and optional future server use. It is a reviewable specification
+baseline, not a declaration that the implementation meets it.
+
+- [x] 7.1 Document system intent, usage constraints and logical architectural requirements independently of the current implementation, with stable IDs and explicit open decisions.
+- [x] 7.2 Record the assurance approach: purpose/change tracking, risk-based rigor, gap analysis, deterministic verification designs and evidence tied to the assembled deliverable.
+- [ ] 7.3 Review baseline interpretations and resolve initial workload, environment, storage/recovery and privacy policy decisions; record requirement sources and supersession explicitly.
+- [ ] 7.4 Map implementation and existing tests to the requirement IDs, with risk/assumptions, independent oracles, evidence scope and identified gaps; do not infer conformance from test counts.
+- [ ] 7.5 Implement prioritized deterministic checks, control time/randomness/scheduling where needed, and measure test sensitivity and coverage for consequential paths.
+- [ ] 7.6 Establish reproducible integrated-build evidence and appropriate independent review in the delivery workflow; separately evaluate user tasks and deployment-specific behavior.

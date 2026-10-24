@@ -127,7 +127,7 @@ The generator comes from Shawn Cokus's 1998 recoding of MT19937 (Makoto Matsumot
 and Takuji Nishimura, 1997), via [David Blei's lda-c](https://github.com/blei-lab/lda-c/blob/d8fbd6bc9adc3fc32d3d47af1460158d44c789d0/cokus.c)
 and Gregor Heinrich's Java adaptation. The upstream generator uses GNU Library
 GPL version 2 or later; [NOTICE](../NOTICE) records the source hashes and original
-notice, and [LICENSE-LGPL-2.0](../LICENSE-LGPL-2.0) contains the full license.
+notice, and [licenses/LICENSE-LGPL-2.0](../licenses/LICENSE-LGPL-2.0) contains the full license.
 
 The audited `CokusRandom` overrides both `nextInt(n)` and `nextDouble`: bounded
 integers use `floor(n*uniform)` and uniforms use one unsigned draw divided by

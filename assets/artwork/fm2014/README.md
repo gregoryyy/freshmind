@@ -11,4 +11,4 @@ These are byte-for-byte copies from the root of the author's Java reference chec
 
 The PSD files preserve the original editable documents, including whatever layers and palette information each original contains. These assets are kept in the repository; the browser does not load them automatically and the npm package does not include this archive.
 
-Original Freshmind artwork: Copyright (c) 2002–2014 Gregor Heinrich. Freshmind license: [Apache 2.0](../../../LICENSE-APACHE-2.0). Copying the originals into this port adds no generated-artwork or TypeScript authorship attribution.
+Original Freshmind artwork: Copyright (c) 2002–2014 Gregor Heinrich. Freshmind license: [Apache 2.0](../../../licenses/LICENSE-APACHE-2.0). Copying the originals into this port adds no generated-artwork or TypeScript authorship attribution.

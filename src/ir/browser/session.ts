@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later; Copyright (c) 2026 Gregor Heinrich.
- * Prototype model ownership extracted from Freshmind; see LICENSE-GPL-3.0. */
+ * Prototype model ownership extracted from Freshmind; see licenses/LICENSE-GPL-3.0. */
 import {createSearchCorpus,validateSearchRequest} from "../corpus/index.js";
 import type {SearchCorpus,SearchRequest,SearchResult} from "../corpus/index.js";
 import {LdaSearchIndex,validateLdaOptions} from "../topics/index.js";
