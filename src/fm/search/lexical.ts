@@ -55,9 +55,10 @@ export class LexicalSearchIndex {
       const length=[...row.vectors[field].values()].reduce((a,b)=>a+b,0);
       return {match,score:match?matched.reduce((sum,t)=>sum+this.weight(field,t,row.vectors[field].get(t)!),0)/Math.sqrt(Math.max(1,length)):0};
     };
-    const evaluate=(q:SearchQuery,row:Row):{match:boolean;score:number}=>{
-      if(q.kind==="term")return term(q,row);if(q.kind==="not")return {match:!evaluate(q.child,row).match,score:0};
-      const a=evaluate(q.left,row),b=evaluate(q.right,row),match=q.kind==="and"?a.match&&b.match:a.match||b.match;
+    const evaluate=(q:SearchQuery,row:Row,negated=false):{match:boolean;score:number}=>{
+      if(q.kind==="term"){const r=term(q,row);return negated?{match:!r.match,score:0}:r;}
+      if(q.kind==="not")return evaluate(q.child,row,!negated);
+      const a=evaluate(q.left,row,negated),b=evaluate(q.right,row,negated),match=(q.kind==="and")!==negated?a.match&&b.match:a.match||b.match;
       return {match,score:match?a.score+b.score:0};
     };
     return rankSearchResults(this.rows.flatMap(row=>{const r=evaluate(query,row);return r.match&&r.score>0?[{id:row.doc.id,score:r.score}]:[];}),limit);

@@ -18,6 +18,8 @@ test('search parser handles Boolean precedence, adjacency, fields, phrases and b
   assert.deepEqual(ids(i.search('topic OR graph AND layout')),['a','b','c']);
   assert.deepEqual(ids(i.search('(topic OR graph) AND label:search')),['c']);
   assert.deepEqual(ids(i.search('graph NOT id:a')),['c']);
+  assert.deepEqual(i.search('NOT NOT graph'),i.search('graph'));
+  assert.deepEqual(ids(i.search('NOT (graph OR NOT topic)')),['b']);
   assert.deepEqual(ids(i.search('graph topic')),['a','b','c']);
   assert.deepEqual(ids(i.search('hint:"of the layout"')),['c']);
   assert.deepEqual(ids(i.search('hint:"in the layout"')),[]);
@@ -73,4 +75,12 @@ test('graph result ownership, stale batches, rejection and YAML feedback preserv
   graph.findNode('b').setHint('changed');assert.throws(()=>applyGraphSearchResults(graph,q,request,results,corpus),/changed/);
   assert.ok(graph.contains(edges[0]));
   assert.throws(()=>rejectGraphSearchResult(graph,manual),/Select/);
+});
+test('a query engine switch clears prior owned results while content similarity retains other engines',()=>{
+  const graph=new FreshGraph();for(const d of docs)graph.addNode(new FreshNode(d.id,d.label));const corpus=graphSearchCorpus(graph),source=graph.findNode('a');
+  const lexical={engine:'lexical',kind:'terms',query:'graph'},lda={engine:'lda',kind:'terms',query:'graph'},result=[{id:'b',score:.8,relevance:1,rank:1}];
+  const q=createGraphQuery(graph,lexical,source);const first=applyGraphSearchResults(graph,q,lexical,result,corpus);applyGraphSearchResults(graph,q,lda,result,corpus);
+  assert.ok(!graph.contains(first[0]));assert.equal([...graph.getEdges()].filter(e=>searchResultMetadata(e)).length,1);
+  applyGraphSearchResults(graph,source,{...lexical,kind:'similarity',query:'a'},result,corpus);applyGraphSearchResults(graph,source,{...lda,kind:'similarity',query:'a'},result,corpus);
+  assert.equal([...graph.getEdges()].filter(e=>e.from===source&&searchResultMetadata(e)).length,2);
 });

@@ -4,7 +4,7 @@ Develop the browser in stages: establish a plain TouchGraph baseline, restore Fr
 
 Completed work, implementation notes, deviations, and lessons are recorded in [DONE.md](DONE.md).
 
-**Current status:** Milestones 1–3 are complete within their agreed scope. RFC includes multiple centers, stored tree/DAG/cluster memberships, importance, exclusion, structural views and reproducible comparisons, including 160 matched hybrid runs. Reproducing the original paper's figures is not required (scope decision, 2026-10-24). Milestone 4 (LDA-based visual search) has not started.
+**Current status:** Milestones 1–4 are complete within their agreed scope. RFC includes multiple centers, stored memberships, importance, exclusion, structural views and reproducible comparisons. Graph visual search includes lexical/exact-tag queries, LDA training and similarity, persisted rejection feedback, a fictional loadable library, 54 retrieval comparisons and a seven-step production walkthrough. Reproducing the original paper's figures is not required (scope decision, 2026-10-24). Limits and verification are recorded in [DONE.md](DONE.md).
 
 ## Source material
 
@@ -138,4 +138,4 @@ The LDA libraries used by the Java prototype are available as sources. Local sou
   - [x] 4.5.1 Represent term and tag queries as graph nodes linked to retrieved results. Search the complete graph, reveal results in the current view and retain context/manual relations.
   - [x] 4.5.2 Allow similarity queries from existing nodes and add links to the retrieved items. Both lexical vectors and LDA topics exclude the source and preserve RFC/lens/importance settings.
   - [x] 4.5.3 Allow removal of irrelevant result links and retain that interaction as input for future relevance feedback. Persist negative judgments through YAML and omit matching rejected items on reruns; feedback learning remains future work.
-- [ ] 4.6 Add example data and reproducible search experiments.
+- [x] 4.6 Add example data and reproducible search experiments. The [fictional topic library](../examples/search/README.md), [54-run lexical/LDA report and exact-tag controls](experiments/search/README.md), corpus/model/ranking records and [seven-step production walkthrough](search-walkthrough/index.html) are reproducible through `just search-example`, `just search-experiment` and `just search-flipbook`. Synthetic judgments and seed-dependent limits are explicit; no original figures or proprietary corpora are reproduced.

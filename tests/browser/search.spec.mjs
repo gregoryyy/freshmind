@@ -40,3 +40,11 @@ test('long worker training can be cancelled and graph replacement clears the mod
   await page.locator('#search-train').click();await expect(page.locator('#search-cancel')).toBeEnabled();await page.locator('#example-graph').selectOption('florentine');await expect(page.locator('#file-status')).toContainText('florentine.fm.yaml');
   await expect(page.locator('#search-status')).toContainText('Graph changed');await expect(page.locator('#search-cancel')).toBeDisabled();expect(errors).toEqual([]);
 });
+test('loadable fictional library supports a query engine switch without retaining mismatched query results',async({page})=>{
+  const errors=await ready(page);await page.locator('#example-graph').selectOption('graph-search');await expect(page.locator('#file-status')).toContainText('24 nodes, 28 relations');
+  await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('mira')));await page.locator('#search-query').fill('spring layout');await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText('5 results linked');
+  await page.locator('#search-engine').selectOption('lda');await page.locator('#search-section .control-subsection').evaluate(e=>e.open=true);await page.locator('#search-topics').fill('3');await page.locator('#search-iterations').fill('200');await page.locator('#search-train').click();await expect(page.locator('#search-status')).toContainText('Topic model ready');
+  await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText('5 results linked');
+  const result=await page.evaluate(()=>{const p=window.graphBrowser,q=p.findNode('query-1'),edges=[...p.getCompleteEltSet().getEdges()].filter(e=>e.from===q&&e.getData().search?.role==='result');return{nodes:p.getNodeCount(),type:q.getSemanticType(),engines:edges.map(e=>e.getData().search.request.engine),context:[...q.getEdges()].some(e=>e.getData().search?.role==='context')};});
+  expect(result).toEqual({nodes:25,type:'ldaquery',engines:Array(5).fill('lda'),context:true});expect(errors).toEqual([]);
+});

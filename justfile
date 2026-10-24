@@ -24,6 +24,18 @@ build-demo:
 test-lda-java:
     node scripts/lda-java-reference.mjs
 
+# Regenerate the fictional graph-search library without importing legacy corpora.
+search-example: build
+    node scripts/search-example.mjs
+
+# Reproduce lexical/LDA retrieval comparisons and exact-tag controls.
+search-experiment *args: build
+    node scripts/search-experiment.mjs "$@"
+
+# Capture graph query, training, similarity and feedback interactions from production.
+search-flipbook *args: build-demo
+    node scripts/flipbook.mjs --tour search "$@"
+
 # Capture a production-build walkthrough into docs/flipbook/ (PNGs, Markdown and HTML).
 flipbook *args: build-demo
     node scripts/flipbook.mjs "$@"

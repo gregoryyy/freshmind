@@ -1,0 +1,6716 @@
+{
+  "format": "freshmind-search-experiment",
+  "version": 1,
+  "fixture": "examples/search/topic-library.fm.yaml",
+  "analyzer": "fm4-text-1",
+  "modelVersion": "fm4-lda-gibbs-1",
+  "corpusSha256": "e80df358b3715cdacb48f2ae3a09765b7e3f60fc1254f8091dc6c18ff0e0cb82",
+  "corpus": {
+    "documents": [
+      {
+        "id": "bridge-1",
+        "type": "paper",
+        "label": "Topic maps",
+        "hint": "Graph layout organizes documents by latent topic mixtures. Bayesian text inference supplies word distributions; geometric spring forces and repulsion arrange the resulting graph.",
+        "tags": [
+          "topic models",
+          "visual search"
+        ]
+      },
+      {
+        "id": "bridge-2",
+        "type": "paper",
+        "label": "Semantic neighborhoods",
+        "hint": "Visual graph browsing explores semantic documents. Topic probability distributions connect word vocabulary, while spring layout preserves geometric neighborhood structure.",
+        "tags": [
+          "topic models",
+          "visual search"
+        ]
+      },
+      {
+        "id": "ecology-1",
+        "type": "paper",
+        "label": "Woodland surveys",
+        "hint": "Forest field surveys count plant species. Trees and soil describe woodland habitat and ecological diversity.",
+        "tags": [
+          "forest ecology"
+        ]
+      },
+      {
+        "id": "ecology-2",
+        "type": "paper",
+        "label": "Habitat restoration",
+        "hint": "Forest restoration supports habitat and species diversity. Woodland plants recover as soil and tree conditions improve.",
+        "tags": [
+          "forest ecology"
+        ]
+      },
+      {
+        "id": "ecology-3",
+        "type": "paper",
+        "label": "Seasonal plants",
+        "hint": "Seasonal field surveys describe forest plants. Ecological habitat and soil conditions shape woodland species diversity.",
+        "tags": [
+          "forest ecology"
+        ]
+      },
+      {
+        "id": "ecology-4",
+        "type": "paper",
+        "label": "Trees and soil",
+        "hint": "Trees connect forest soil and plant habitat. Field ecology measures woodland species and restoration diversity.",
+        "tags": [
+          "forest ecology"
+        ]
+      },
+      {
+        "id": "ecology-5",
+        "type": "paper",
+        "label": "Species diversity",
+        "hint": "Woodland habitat supports diverse plant species. Forest surveys connect ecology, soil and restoration.",
+        "tags": [
+          "forest ecology"
+        ]
+      },
+      {
+        "id": "ecology-6",
+        "type": "paper",
+        "label": "Ecological recovery",
+        "hint": "Forest restoration changes tree and plant communities. Habitat surveys measure ecological recovery and woodland species diversity.",
+        "tags": [
+          "forest ecology"
+        ]
+      },
+      {
+        "id": "elin",
+        "type": "person",
+        "label": "Elin Rowan",
+        "hint": "Forest ecology studies habitat, plants and species diversity. Woodland field surveys measure trees, soil and ecological restoration across seasons.",
+        "tags": [
+          "forest ecology"
+        ]
+      },
+      {
+        "id": "layout-1",
+        "type": "paper",
+        "label": "Spring neighborhoods",
+        "hint": "Spring forces arrange graph vertices. Repulsion separates neighbors while graph layout geometry retains readable network structure.",
+        "tags": [
+          "visual search"
+        ]
+      },
+      {
+        "id": "layout-2",
+        "type": "paper",
+        "label": "Local geometry",
+        "hint": "Graph drawing balances spring attraction and repulsion. Geometry and spatial neighborhoods guide network browsing.",
+        "tags": [
+          "visual search"
+        ]
+      },
+      {
+        "id": "layout-3",
+        "type": "paper",
+        "label": "Readable maps",
+        "hint": "Readable graph layout aligns vertices and labels. Spring forces and geometric distances preserve neighborhood context.",
+        "tags": [
+          "visual search"
+        ]
+      },
+      {
+        "id": "layout-4",
+        "type": "paper",
+        "label": "Motion and forces",
+        "hint": "Graph springs create motion. Repulsion and damping stabilize spatial graph layout while local neighborhoods remain recognizable.",
+        "tags": [
+          "visual search"
+        ]
+      },
+      {
+        "id": "layout-5",
+        "type": "paper",
+        "label": "Browsing structure",
+        "hint": "Visual network browsing explores local graph structure. Geometric spring layout preserves context around neighboring vertices.",
+        "tags": [
+          "visual search"
+        ]
+      },
+      {
+        "id": "layout-6",
+        "type": "paper",
+        "label": "Graph lenses",
+        "hint": "A spatial lens expands a graph neighborhood. Spring layout and repulsion supply graph geometry before viewing transforms.",
+        "tags": [
+          "visual search"
+        ]
+      },
+      {
+        "id": "library",
+        "type": "project",
+        "label": "Topic library",
+        "hint": "Collection root. Browse authors and their papers.",
+        "tags": []
+      },
+      {
+        "id": "mira",
+        "type": "person",
+        "label": "Mira Vega",
+        "hint": "Graph layout geometry uses spring forces, repulsion and readable network neighborhoods. Visual graph browsing preserves local structure and spatial context.",
+        "tags": [
+          "visual search"
+        ]
+      },
+      {
+        "id": "niko",
+        "type": "person",
+        "label": "Niko Chen",
+        "hint": "Probabilistic topic models describe documents with word distributions. Bayesian inference samples latent topics and retrieves text with semantic vocabulary.",
+        "tags": [
+          "topic models"
+        ]
+      },
+      {
+        "id": "topics-1",
+        "type": "paper",
+        "label": "Latent documents",
+        "hint": "Topic models represent documents as mixtures. Bayesian inference samples latent topics from word counts and document vocabulary.",
+        "tags": [
+          "topic models"
+        ]
+      },
+      {
+        "id": "topics-2",
+        "type": "paper",
+        "label": "Words and probability",
+        "hint": "Probability distributions connect words and latent topics. Topic inference retrieves documents with shared semantic vocabulary.",
+        "tags": [
+          "topic models"
+        ]
+      },
+      {
+        "id": "topics-3",
+        "type": "paper",
+        "label": "Sampling text",
+        "hint": "Gibbs sampling estimates Bayesian topic distributions. Documents share word vocabulary through latent text mixtures.",
+        "tags": [
+          "topic models"
+        ]
+      },
+      {
+        "id": "topics-4",
+        "type": "paper",
+        "label": "Semantic retrieval",
+        "hint": "Document retrieval compares probabilistic topics. Text mixtures combine word evidence and Bayesian latent inference.",
+        "tags": [
+          "topic models"
+        ]
+      },
+      {
+        "id": "topics-5",
+        "type": "paper",
+        "label": "Topic explanations",
+        "hint": "Word distributions explain latent document topics. Bayesian probability and vocabulary support interpretable text retrieval.",
+        "tags": [
+          "topic models"
+        ]
+      },
+      {
+        "id": "topics-6",
+        "type": "paper",
+        "label": "Corpus mixtures",
+        "hint": "A text corpus contains document mixtures of latent topics. Word counts drive Bayesian inference and probability estimates.",
+        "tags": [
+          "topic models"
+        ]
+      }
+    ],
+    "key": "[\"fm4-text-1\",[{\"id\":\"bridge-1\",\"type\":\"paper\",\"label\":\"Topic maps\",\"hint\":\"Graph layout organizes documents by latent topic mixtures. Bayesian text inference supplies word distributions; geometric spring forces and repulsion arrange the resulting graph.\",\"tags\":[\"topic models\",\"visual search\"]},{\"id\":\"bridge-2\",\"type\":\"paper\",\"label\":\"Semantic neighborhoods\",\"hint\":\"Visual graph browsing explores semantic documents. Topic probability distributions connect word vocabulary, while spring layout preserves geometric neighborhood structure.\",\"tags\":[\"topic models\",\"visual search\"]},{\"id\":\"ecology-1\",\"type\":\"paper\",\"label\":\"Woodland surveys\",\"hint\":\"Forest field surveys count plant species. Trees and soil describe woodland habitat and ecological diversity.\",\"tags\":[\"forest ecology\"]},{\"id\":\"ecology-2\",\"type\":\"paper\",\"label\":\"Habitat restoration\",\"hint\":\"Forest restoration supports habitat and species diversity. Woodland plants recover as soil and tree conditions improve.\",\"tags\":[\"forest ecology\"]},{\"id\":\"ecology-3\",\"type\":\"paper\",\"label\":\"Seasonal plants\",\"hint\":\"Seasonal field surveys describe forest plants. Ecological habitat and soil conditions shape woodland species diversity.\",\"tags\":[\"forest ecology\"]},{\"id\":\"ecology-4\",\"type\":\"paper\",\"label\":\"Trees and soil\",\"hint\":\"Trees connect forest soil and plant habitat. Field ecology measures woodland species and restoration diversity.\",\"tags\":[\"forest ecology\"]},{\"id\":\"ecology-5\",\"type\":\"paper\",\"label\":\"Species diversity\",\"hint\":\"Woodland habitat supports diverse plant species. Forest surveys connect ecology, soil and restoration.\",\"tags\":[\"forest ecology\"]},{\"id\":\"ecology-6\",\"type\":\"paper\",\"label\":\"Ecological recovery\",\"hint\":\"Forest restoration changes tree and plant communities. Habitat surveys measure ecological recovery and woodland species diversity.\",\"tags\":[\"forest ecology\"]},{\"id\":\"elin\",\"type\":\"person\",\"label\":\"Elin Rowan\",\"hint\":\"Forest ecology studies habitat, plants and species diversity. Woodland field surveys measure trees, soil and ecological restoration across seasons.\",\"tags\":[\"forest ecology\"]},{\"id\":\"layout-1\",\"type\":\"paper\",\"label\":\"Spring neighborhoods\",\"hint\":\"Spring forces arrange graph vertices. Repulsion separates neighbors while graph layout geometry retains readable network structure.\",\"tags\":[\"visual search\"]},{\"id\":\"layout-2\",\"type\":\"paper\",\"label\":\"Local geometry\",\"hint\":\"Graph drawing balances spring attraction and repulsion. Geometry and spatial neighborhoods guide network browsing.\",\"tags\":[\"visual search\"]},{\"id\":\"layout-3\",\"type\":\"paper\",\"label\":\"Readable maps\",\"hint\":\"Readable graph layout aligns vertices and labels. Spring forces and geometric distances preserve neighborhood context.\",\"tags\":[\"visual search\"]},{\"id\":\"layout-4\",\"type\":\"paper\",\"label\":\"Motion and forces\",\"hint\":\"Graph springs create motion. Repulsion and damping stabilize spatial graph layout while local neighborhoods remain recognizable.\",\"tags\":[\"visual search\"]},{\"id\":\"layout-5\",\"type\":\"paper\",\"label\":\"Browsing structure\",\"hint\":\"Visual network browsing explores local graph structure. Geometric spring layout preserves context around neighboring vertices.\",\"tags\":[\"visual search\"]},{\"id\":\"layout-6\",\"type\":\"paper\",\"label\":\"Graph lenses\",\"hint\":\"A spatial lens expands a graph neighborhood. Spring layout and repulsion supply graph geometry before viewing transforms.\",\"tags\":[\"visual search\"]},{\"id\":\"library\",\"type\":\"project\",\"label\":\"Topic library\",\"hint\":\"Collection root. Browse authors and their papers.\",\"tags\":[]},{\"id\":\"mira\",\"type\":\"person\",\"label\":\"Mira Vega\",\"hint\":\"Graph layout geometry uses spring forces, repulsion and readable network neighborhoods. Visual graph browsing preserves local structure and spatial context.\",\"tags\":[\"visual search\"]},{\"id\":\"niko\",\"type\":\"person\",\"label\":\"Niko Chen\",\"hint\":\"Probabilistic topic models describe documents with word distributions. Bayesian inference samples latent topics and retrieves text with semantic vocabulary.\",\"tags\":[\"topic models\"]},{\"id\":\"topics-1\",\"type\":\"paper\",\"label\":\"Latent documents\",\"hint\":\"Topic models represent documents as mixtures. Bayesian inference samples latent topics from word counts and document vocabulary.\",\"tags\":[\"topic models\"]},{\"id\":\"topics-2\",\"type\":\"paper\",\"label\":\"Words and probability\",\"hint\":\"Probability distributions connect words and latent topics. Topic inference retrieves documents with shared semantic vocabulary.\",\"tags\":[\"topic models\"]},{\"id\":\"topics-3\",\"type\":\"paper\",\"label\":\"Sampling text\",\"hint\":\"Gibbs sampling estimates Bayesian topic distributions. Documents share word vocabulary through latent text mixtures.\",\"tags\":[\"topic models\"]},{\"id\":\"topics-4\",\"type\":\"paper\",\"label\":\"Semantic retrieval\",\"hint\":\"Document retrieval compares probabilistic topics. Text mixtures combine word evidence and Bayesian latent inference.\",\"tags\":[\"topic models\"]},{\"id\":\"topics-5\",\"type\":\"paper\",\"label\":\"Topic explanations\",\"hint\":\"Word distributions explain latent document topics. Bayesian probability and vocabulary support interpretable text retrieval.\",\"tags\":[\"topic models\"]},{\"id\":\"topics-6\",\"type\":\"paper\",\"label\":\"Corpus mixtures\",\"hint\":\"A text corpus contains document mixtures of latent topics. Word counts drive Bayesian inference and probability estimates.\",\"tags\":[\"topic models\"]}]]",
+    "fingerprint": "fm4-text-1:5310:7d3cc4eb"
+  },
+  "settings": {
+    "k": 5,
+    "topics": 3,
+    "alpha": 0.1,
+    "beta": 0.01,
+    "trainingIterations": 200,
+    "queryIterations": 50,
+    "seeds": [
+      4357,
+      7,
+      13,
+      41,
+      2027
+    ]
+  },
+  "cases": [
+    {
+      "id": "layout-terms",
+      "kind": "terms",
+      "query": "spring layout",
+      "relevant": [
+        "mira",
+        "layout-1",
+        "layout-2",
+        "layout-3",
+        "layout-4",
+        "layout-5",
+        "layout-6",
+        "bridge-1",
+        "bridge-2"
+      ]
+    },
+    {
+      "id": "layout-vocabulary",
+      "kind": "terms",
+      "query": "geometry repulsion",
+      "relevant": [
+        "mira",
+        "layout-1",
+        "layout-2",
+        "layout-3",
+        "layout-4",
+        "layout-5",
+        "layout-6",
+        "bridge-1",
+        "bridge-2"
+      ]
+    },
+    {
+      "id": "topic-terms",
+      "kind": "terms",
+      "query": "latent topics",
+      "relevant": [
+        "niko",
+        "topics-1",
+        "topics-2",
+        "topics-3",
+        "topics-4",
+        "topics-5",
+        "topics-6",
+        "bridge-1",
+        "bridge-2"
+      ]
+    },
+    {
+      "id": "topic-vocabulary",
+      "kind": "terms",
+      "query": "Bayesian vocabulary",
+      "relevant": [
+        "niko",
+        "topics-1",
+        "topics-2",
+        "topics-3",
+        "topics-4",
+        "topics-5",
+        "topics-6",
+        "bridge-1",
+        "bridge-2"
+      ]
+    },
+    {
+      "id": "ecology-terms",
+      "kind": "terms",
+      "query": "forest species",
+      "relevant": [
+        "elin",
+        "ecology-1",
+        "ecology-2",
+        "ecology-3",
+        "ecology-4",
+        "ecology-5",
+        "ecology-6"
+      ]
+    },
+    {
+      "id": "ecology-vocabulary",
+      "kind": "terms",
+      "query": "habitat soil",
+      "relevant": [
+        "elin",
+        "ecology-1",
+        "ecology-2",
+        "ecology-3",
+        "ecology-4",
+        "ecology-5",
+        "ecology-6"
+      ]
+    },
+    {
+      "id": "layout-similarity",
+      "kind": "similarity",
+      "query": "layout-1",
+      "relevant": [
+        "mira",
+        "layout-2",
+        "layout-3",
+        "layout-4",
+        "layout-5",
+        "layout-6",
+        "bridge-1",
+        "bridge-2"
+      ]
+    },
+    {
+      "id": "topics-similarity",
+      "kind": "similarity",
+      "query": "topics-1",
+      "relevant": [
+        "niko",
+        "topics-2",
+        "topics-3",
+        "topics-4",
+        "topics-5",
+        "topics-6",
+        "bridge-1",
+        "bridge-2"
+      ]
+    },
+    {
+      "id": "ecology-similarity",
+      "kind": "similarity",
+      "query": "ecology-1",
+      "relevant": [
+        "elin",
+        "ecology-2",
+        "ecology-3",
+        "ecology-4",
+        "ecology-5",
+        "ecology-6"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "version": "fm4-lda-gibbs-1",
+      "options": {
+        "topics": 3,
+        "alpha": 0.1,
+        "beta": 0.01,
+        "iterations": 200,
+        "seed": 4357
+      },
+      "vocabulary": [
+        "across",
+        "aligns",
+        "around",
+        "arrange",
+        "attraction",
+        "authors",
+        "balances",
+        "bayesian",
+        "before",
+        "browse",
+        "browsing",
+        "changes",
+        "chen",
+        "collection",
+        "combine",
+        "communities",
+        "compares",
+        "conditions",
+        "connect",
+        "contains",
+        "context",
+        "corpus",
+        "count",
+        "counts",
+        "create",
+        "damping",
+        "describe",
+        "distances",
+        "distributions",
+        "diverse",
+        "diversity",
+        "document",
+        "documents",
+        "drawing",
+        "drive",
+        "ecological",
+        "ecology",
+        "elin",
+        "estimates",
+        "evidence",
+        "expands",
+        "explain",
+        "explanations",
+        "explores",
+        "field",
+        "forces",
+        "forest",
+        "from",
+        "geometric",
+        "geometry",
+        "gibbs",
+        "graph",
+        "guide",
+        "habitat",
+        "improve",
+        "inference",
+        "interpretable",
+        "labels",
+        "latent",
+        "layout",
+        "lens",
+        "lenses",
+        "library",
+        "local",
+        "maps",
+        "measure",
+        "measures",
+        "mira",
+        "mixtures",
+        "models",
+        "motion",
+        "neighborhood",
+        "neighborhoods",
+        "neighboring",
+        "neighbors",
+        "network",
+        "niko",
+        "organizes",
+        "papers",
+        "plant",
+        "plants",
+        "preserve",
+        "preserves",
+        "probabilistic",
+        "probability",
+        "readable",
+        "recognizable",
+        "recover",
+        "recovery",
+        "remain",
+        "represent",
+        "repulsion",
+        "restoration",
+        "resulting",
+        "retains",
+        "retrieval",
+        "retrieves",
+        "root",
+        "rowan",
+        "samples",
+        "sampling",
+        "seasonal",
+        "seasons",
+        "semantic",
+        "separates",
+        "shape",
+        "share",
+        "shared",
+        "soil",
+        "spatial",
+        "species",
+        "spring",
+        "springs",
+        "stabilize",
+        "structure",
+        "studies",
+        "supplies",
+        "supply",
+        "support",
+        "supports",
+        "surveys",
+        "text",
+        "through",
+        "topic",
+        "topics",
+        "transforms",
+        "tree",
+        "trees",
+        "uses",
+        "vega",
+        "vertices",
+        "viewing",
+        "visual",
+        "vocabulary",
+        "while",
+        "woodland",
+        "word",
+        "words"
+      ],
+      "documentIds": [
+        "bridge-1",
+        "bridge-2",
+        "ecology-1",
+        "ecology-2",
+        "ecology-3",
+        "ecology-4",
+        "ecology-5",
+        "ecology-6",
+        "elin",
+        "layout-1",
+        "layout-2",
+        "layout-3",
+        "layout-4",
+        "layout-5",
+        "layout-6",
+        "library",
+        "mira",
+        "niko",
+        "topics-1",
+        "topics-2",
+        "topics-3",
+        "topics-4",
+        "topics-5",
+        "topics-6"
+      ],
+      "lengths": [
+        22,
+        21,
+        15,
+        15,
+        16,
+        15,
+        14,
+        16,
+        19,
+        18,
+        14,
+        15,
+        17,
+        17,
+        16,
+        7,
+        20,
+        18,
+        17,
+        15,
+        16,
+        15,
+        15,
+        16
+      ],
+      "theta": [
+        [
+          0.004484304932735426,
+          0.452914798206278,
+          0.5426008968609866
+        ],
+        [
+          0.004694835680751174,
+          0.568075117370892,
+          0.42723004694835676
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9860139860139859,
+          0.006993006993006993,
+          0.006993006993006993
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ],
+        [
+          0.9378238341968912,
+          0.05699481865284974,
+          0.0051813471502590676
+        ],
+        [
+          0.00546448087431694,
+          0.9890710382513661,
+          0.00546448087431694
+        ],
+        [
+          0.006993006993006993,
+          0.9860139860139859,
+          0.006993006993006993
+        ],
+        [
+          0.006535947712418301,
+          0.8562091503267973,
+          0.13725490196078433
+        ],
+        [
+          0.005780346820809248,
+          0.9884393063583815,
+          0.005780346820809248
+        ],
+        [
+          0.005780346820809248,
+          0.9884393063583815,
+          0.005780346820809248
+        ],
+        [
+          0.006134969325153374,
+          0.9877300613496933,
+          0.006134969325153374
+        ],
+        [
+          0.013698630136986302,
+          0.013698630136986302,
+          0.9726027397260274
+        ],
+        [
+          0.0049261083743842365,
+          0.9901477832512315,
+          0.0049261083743842365
+        ],
+        [
+          0.11475409836065574,
+          0.00546448087431694,
+          0.8797814207650274
+        ],
+        [
+          0.005780346820809248,
+          0.005780346820809248,
+          0.9884393063583815
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ]
+      ],
+      "phi": [
+        [
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.008987364299697456,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.01788574479444741,
+          0.01788574479444741,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.026784125289197366,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.008987364299697456,
+          0.06237764726819719,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.044580886278697274,
+          0.026784125289197366,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.03568250578394732,
+          0.00008898380494749956,
+          0.06237764726819719,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.07127602776294714,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.01788574479444741,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.03568250578394732,
+          0.03568250578394732,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.008987364299697456,
+          0.01788574479444741,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.053479266773447234,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.01788574479444741,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.06237764726819719,
+          0.00008898380494749956,
+          0.07127602776294714,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.008987364299697456,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.01788574479444741,
+          0.053479266773447234,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.01788574479444741,
+          0.03568250578394732,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.00008898380494749956,
+          0.07127602776294714,
+          0.00008898380494749956,
+          0.00008898380494749956
+        ],
+        [
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.014421007318123116,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.035944898837709856,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.021595637824652028,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.014421007318123116,
+          0.00007174630506528914,
+          0.035944898837709856,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.028770268331180942,
+          0.035944898837709856,
+          0.00007174630506528914,
+          0.107691203902999,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.0574687903572966,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.028770268331180942,
+          0.014421007318123116,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.014421007318123116,
+          0.021595637824652028,
+          0.035944898837709856,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.028770268331180942,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.021595637824652028,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.028770268331180942,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.04311952934423877,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.028770268331180942,
+          0.00007174630506528914,
+          0.06464342086382552,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.035944898837709856,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.021595637824652028,
+          0.007246376811594203,
+          0.021595637824652028,
+          0.00007174630506528914,
+          0.021595637824652028,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914
+        ],
+        [
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.04958268496251238,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.014217003819493562,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.014217003819493562,
+          0.00007073136228603763,
+          0.014217003819493562,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.042509548733908616,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.02836327627670109,
+          0.04958268496251238,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.014217003819493562,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.042509548733908616,
+          0.0071438675908898006,
+          0.0071438675908898006,
+          0.0637289574197199,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.042509548733908616,
+          0.014217003819493562,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.0071438675908898006,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.014217003819493562,
+          0.035436412505304854,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.021290140048097324,
+          0.014217003819493562,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.014217003819493562,
+          0.014217003819493562,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.035436412505304854,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.0071438675908898006,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.04958268496251238,
+          0.0071438675908898006,
+          0.0637289574197199,
+          0.042509548733908616,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.042509548733908616,
+          0.00007073136228603763,
+          0.00007073136228603763,
+          0.05665582119111614,
+          0.014217003819493562
+        ]
+      ]
+    },
+    {
+      "version": "fm4-lda-gibbs-1",
+      "options": {
+        "topics": 3,
+        "alpha": 0.1,
+        "beta": 0.01,
+        "iterations": 200,
+        "seed": 7
+      },
+      "vocabulary": [
+        "across",
+        "aligns",
+        "around",
+        "arrange",
+        "attraction",
+        "authors",
+        "balances",
+        "bayesian",
+        "before",
+        "browse",
+        "browsing",
+        "changes",
+        "chen",
+        "collection",
+        "combine",
+        "communities",
+        "compares",
+        "conditions",
+        "connect",
+        "contains",
+        "context",
+        "corpus",
+        "count",
+        "counts",
+        "create",
+        "damping",
+        "describe",
+        "distances",
+        "distributions",
+        "diverse",
+        "diversity",
+        "document",
+        "documents",
+        "drawing",
+        "drive",
+        "ecological",
+        "ecology",
+        "elin",
+        "estimates",
+        "evidence",
+        "expands",
+        "explain",
+        "explanations",
+        "explores",
+        "field",
+        "forces",
+        "forest",
+        "from",
+        "geometric",
+        "geometry",
+        "gibbs",
+        "graph",
+        "guide",
+        "habitat",
+        "improve",
+        "inference",
+        "interpretable",
+        "labels",
+        "latent",
+        "layout",
+        "lens",
+        "lenses",
+        "library",
+        "local",
+        "maps",
+        "measure",
+        "measures",
+        "mira",
+        "mixtures",
+        "models",
+        "motion",
+        "neighborhood",
+        "neighborhoods",
+        "neighboring",
+        "neighbors",
+        "network",
+        "niko",
+        "organizes",
+        "papers",
+        "plant",
+        "plants",
+        "preserve",
+        "preserves",
+        "probabilistic",
+        "probability",
+        "readable",
+        "recognizable",
+        "recover",
+        "recovery",
+        "remain",
+        "represent",
+        "repulsion",
+        "restoration",
+        "resulting",
+        "retains",
+        "retrieval",
+        "retrieves",
+        "root",
+        "rowan",
+        "samples",
+        "sampling",
+        "seasonal",
+        "seasons",
+        "semantic",
+        "separates",
+        "shape",
+        "share",
+        "shared",
+        "soil",
+        "spatial",
+        "species",
+        "spring",
+        "springs",
+        "stabilize",
+        "structure",
+        "studies",
+        "supplies",
+        "supply",
+        "support",
+        "supports",
+        "surveys",
+        "text",
+        "through",
+        "topic",
+        "topics",
+        "transforms",
+        "tree",
+        "trees",
+        "uses",
+        "vega",
+        "vertices",
+        "viewing",
+        "visual",
+        "vocabulary",
+        "while",
+        "woodland",
+        "word",
+        "words"
+      ],
+      "documentIds": [
+        "bridge-1",
+        "bridge-2",
+        "ecology-1",
+        "ecology-2",
+        "ecology-3",
+        "ecology-4",
+        "ecology-5",
+        "ecology-6",
+        "elin",
+        "layout-1",
+        "layout-2",
+        "layout-3",
+        "layout-4",
+        "layout-5",
+        "layout-6",
+        "library",
+        "mira",
+        "niko",
+        "topics-1",
+        "topics-2",
+        "topics-3",
+        "topics-4",
+        "topics-5",
+        "topics-6"
+      ],
+      "lengths": [
+        22,
+        21,
+        15,
+        15,
+        16,
+        15,
+        14,
+        16,
+        19,
+        18,
+        14,
+        15,
+        17,
+        17,
+        16,
+        7,
+        20,
+        18,
+        17,
+        15,
+        16,
+        15,
+        15,
+        16
+      ],
+      "theta": [
+        [
+          0.5426008968609866,
+          0.004484304932735426,
+          0.452914798206278
+        ],
+        [
+          0.42723004694835676,
+          0.004694835680751174,
+          0.568075117370892
+        ],
+        [
+          0.006535947712418301,
+          0.9869281045751633,
+          0.006535947712418301
+        ],
+        [
+          0.07189542483660132,
+          0.9215686274509803,
+          0.006535947712418301
+        ],
+        [
+          0.006134969325153374,
+          0.9877300613496933,
+          0.006134969325153374
+        ],
+        [
+          0.006535947712418301,
+          0.9869281045751633,
+          0.006535947712418301
+        ],
+        [
+          0.006993006993006993,
+          0.9860139860139859,
+          0.006993006993006993
+        ],
+        [
+          0.006134969325153374,
+          0.9877300613496933,
+          0.006134969325153374
+        ],
+        [
+          0.0051813471502590676,
+          0.9896373056994819,
+          0.0051813471502590676
+        ],
+        [
+          0.00546448087431694,
+          0.00546448087431694,
+          0.9890710382513661
+        ],
+        [
+          0.006993006993006993,
+          0.006993006993006993,
+          0.9860139860139859
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.005780346820809248,
+          0.005780346820809248,
+          0.9884393063583815
+        ],
+        [
+          0.005780346820809248,
+          0.005780346820809248,
+          0.9884393063583815
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ],
+        [
+          0.6986301369863014,
+          0.28767123287671237,
+          0.013698630136986302
+        ],
+        [
+          0.0049261083743842365,
+          0.0049261083743842365,
+          0.9901477832512315
+        ],
+        [
+          0.9344262295081968,
+          0.06010928961748634,
+          0.00546448087431694
+        ],
+        [
+          0.9884393063583815,
+          0.005780346820809248,
+          0.005780346820809248
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ]
+      ],
+      "phi": [
+        [
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.050294159850767683,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.014421007318123116,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.014421007318123116,
+          0.00007174630506528914,
+          0.014421007318123116,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.04311952934423877,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.028770268331180942,
+          0.050294159850767683,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.014421007318123116,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.04311952934423877,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.06464342086382552,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.04311952934423877,
+          0.014421007318123116,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.014421007318123116,
+          0.035944898837709856,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.021595637824652028,
+          0.014421007318123116,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.014421007318123116,
+          0.014421007318123116,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.035944898837709856,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.007246376811594203,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.050294159850767683,
+          0.007246376811594203,
+          0.06464342086382552,
+          0.04311952934423877,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.04311952934423877,
+          0.00007174630506528914,
+          0.00007174630506528914,
+          0.0574687903572966,
+          0.014421007318123116
+        ],
+        [
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.017727994355265477,
+          0.017727994355265477,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.026547892044452282,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.061827482801199506,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.044187687422825896,
+          0.026547892044452282,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.03536778973363909,
+          0.00008819897689186806,
+          0.061827482801199506,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.07064738049038631,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.017727994355265477,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.03536778973363909,
+          0.03536778973363909,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.017727994355265477,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.0530075851120127,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.017727994355265477,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.061827482801199506,
+          0.00008819897689186806,
+          0.07064738049038631,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.008908096666078674,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.017727994355265477,
+          0.0530075851120127,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.017727994355265477,
+          0.03536778973363909,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.00008819897689186806,
+          0.07064738049038631,
+          0.00008819897689186806,
+          0.00008819897689186806
+        ],
+        [
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.014318278957116397,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.014318278957116397,
+          0.00007123521869212138,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.1069240632568742,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.05705941017238923,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.014318278957116397,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.014318278957116397,
+          0.021441800826328537,
+          0.03568884456475281,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.028565322695540674,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.04281236643396495,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.00007123521869212138,
+          0.06418293204160137,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138
+        ]
+      ]
+    },
+    {
+      "version": "fm4-lda-gibbs-1",
+      "options": {
+        "topics": 3,
+        "alpha": 0.1,
+        "beta": 0.01,
+        "iterations": 200,
+        "seed": 13
+      },
+      "vocabulary": [
+        "across",
+        "aligns",
+        "around",
+        "arrange",
+        "attraction",
+        "authors",
+        "balances",
+        "bayesian",
+        "before",
+        "browse",
+        "browsing",
+        "changes",
+        "chen",
+        "collection",
+        "combine",
+        "communities",
+        "compares",
+        "conditions",
+        "connect",
+        "contains",
+        "context",
+        "corpus",
+        "count",
+        "counts",
+        "create",
+        "damping",
+        "describe",
+        "distances",
+        "distributions",
+        "diverse",
+        "diversity",
+        "document",
+        "documents",
+        "drawing",
+        "drive",
+        "ecological",
+        "ecology",
+        "elin",
+        "estimates",
+        "evidence",
+        "expands",
+        "explain",
+        "explanations",
+        "explores",
+        "field",
+        "forces",
+        "forest",
+        "from",
+        "geometric",
+        "geometry",
+        "gibbs",
+        "graph",
+        "guide",
+        "habitat",
+        "improve",
+        "inference",
+        "interpretable",
+        "labels",
+        "latent",
+        "layout",
+        "lens",
+        "lenses",
+        "library",
+        "local",
+        "maps",
+        "measure",
+        "measures",
+        "mira",
+        "mixtures",
+        "models",
+        "motion",
+        "neighborhood",
+        "neighborhoods",
+        "neighboring",
+        "neighbors",
+        "network",
+        "niko",
+        "organizes",
+        "papers",
+        "plant",
+        "plants",
+        "preserve",
+        "preserves",
+        "probabilistic",
+        "probability",
+        "readable",
+        "recognizable",
+        "recover",
+        "recovery",
+        "remain",
+        "represent",
+        "repulsion",
+        "restoration",
+        "resulting",
+        "retains",
+        "retrieval",
+        "retrieves",
+        "root",
+        "rowan",
+        "samples",
+        "sampling",
+        "seasonal",
+        "seasons",
+        "semantic",
+        "separates",
+        "shape",
+        "share",
+        "shared",
+        "soil",
+        "spatial",
+        "species",
+        "spring",
+        "springs",
+        "stabilize",
+        "structure",
+        "studies",
+        "supplies",
+        "supply",
+        "support",
+        "supports",
+        "surveys",
+        "text",
+        "through",
+        "topic",
+        "topics",
+        "transforms",
+        "tree",
+        "trees",
+        "uses",
+        "vega",
+        "vertices",
+        "viewing",
+        "visual",
+        "vocabulary",
+        "while",
+        "woodland",
+        "word",
+        "words"
+      ],
+      "documentIds": [
+        "bridge-1",
+        "bridge-2",
+        "ecology-1",
+        "ecology-2",
+        "ecology-3",
+        "ecology-4",
+        "ecology-5",
+        "ecology-6",
+        "elin",
+        "layout-1",
+        "layout-2",
+        "layout-3",
+        "layout-4",
+        "layout-5",
+        "layout-6",
+        "library",
+        "mira",
+        "niko",
+        "topics-1",
+        "topics-2",
+        "topics-3",
+        "topics-4",
+        "topics-5",
+        "topics-6"
+      ],
+      "lengths": [
+        22,
+        21,
+        15,
+        15,
+        16,
+        15,
+        14,
+        16,
+        19,
+        18,
+        14,
+        15,
+        17,
+        17,
+        16,
+        7,
+        20,
+        18,
+        17,
+        15,
+        16,
+        15,
+        15,
+        16
+      ],
+      "theta": [
+        [
+          0.452914798206278,
+          0.4977578475336323,
+          0.04932735426008969
+        ],
+        [
+          0.5211267605633803,
+          0.4741784037558685,
+          0.004694835680751174
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006535947712418301,
+          0.07189542483660132,
+          0.9215686274509803
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006993006993006993,
+          0.006993006993006993,
+          0.9860139860139859
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ],
+        [
+          0.05699481865284974,
+          0.0051813471502590676,
+          0.9378238341968912
+        ],
+        [
+          0.9890710382513661,
+          0.00546448087431694,
+          0.00546448087431694
+        ],
+        [
+          0.9860139860139859,
+          0.006993006993006993,
+          0.006993006993006993
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9884393063583815,
+          0.005780346820809248,
+          0.005780346820809248
+        ],
+        [
+          0.9884393063583815,
+          0.005780346820809248,
+          0.005780346820809248
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ],
+        [
+          0.013698630136986302,
+          0.9726027397260274,
+          0.013698630136986302
+        ],
+        [
+          0.9901477832512315,
+          0.0049261083743842365,
+          0.0049261083743842365
+        ],
+        [
+          0.00546448087431694,
+          0.9890710382513661,
+          0.00546448087431694
+        ],
+        [
+          0.005780346820809248,
+          0.9884393063583815,
+          0.005780346820809248
+        ],
+        [
+          0.006535947712418301,
+          0.9869281045751633,
+          0.006535947712418301
+        ],
+        [
+          0.006134969325153374,
+          0.9877300613496933,
+          0.006134969325153374
+        ],
+        [
+          0.006535947712418301,
+          0.9869281045751633,
+          0.006535947712418301
+        ],
+        [
+          0.006535947712418301,
+          0.9869281045751633,
+          0.006535947712418301
+        ],
+        [
+          0.006134969325153374,
+          0.9877300613496933,
+          0.006134969325153374
+        ]
+      ],
+      "phi": [
+        [
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.014318278957116397,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.014318278957116397,
+          0.00007123521869212138,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.1069240632568742,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.05705941017238923,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.014318278957116397,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.014318278957116397,
+          0.021441800826328537,
+          0.03568884456475281,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.028565322695540674,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.04281236643396495,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.00007123521869212138,
+          0.06418293204160137,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.014318278957116397,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138
+        ],
+        [
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.04923444303975277,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.014117151285292878,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.014117151285292878,
+          0.00007023458350891979,
+          0.014117151285292878,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.042210984688860795,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.028164067987076834,
+          0.04923444303975277,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.014117151285292878,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.042210984688860795,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.06328135974153673,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.042210984688860795,
+          0.014117151285292878,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.014117151285292878,
+          0.035187526337968816,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.021140609636184856,
+          0.014117151285292878,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.014117151285292878,
+          0.014117151285292878,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.035187526337968816,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.04923444303975277,
+          0.007093692934400899,
+          0.06328135974153673,
+          0.042210984688860795,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.042210984688860795,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.05625790139064475,
+          0.014117151285292878
+        ],
+        [
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.018209820619677478,
+          0.018209820619677478,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.018209820619677478,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.06350788186265628,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.045388657365464755,
+          0.027269432868273238,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.036329045116869,
+          0.00009059612248595761,
+          0.06350788186265628,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.07256749411125205,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.018209820619677478,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.036329045116869,
+          0.036329045116869,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.018209820619677478,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.05444826961406052,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.018209820619677478,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.06350788186265628,
+          0.00009059612248595761,
+          0.07256749411125205,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.009150208371081717,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.018209820619677478,
+          0.05444826961406052,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.018209820619677478,
+          0.036329045116869,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.00009059612248595761,
+          0.07256749411125205,
+          0.00009059612248595761,
+          0.00009059612248595761
+        ]
+      ]
+    },
+    {
+      "version": "fm4-lda-gibbs-1",
+      "options": {
+        "topics": 3,
+        "alpha": 0.1,
+        "beta": 0.01,
+        "iterations": 200,
+        "seed": 41
+      },
+      "vocabulary": [
+        "across",
+        "aligns",
+        "around",
+        "arrange",
+        "attraction",
+        "authors",
+        "balances",
+        "bayesian",
+        "before",
+        "browse",
+        "browsing",
+        "changes",
+        "chen",
+        "collection",
+        "combine",
+        "communities",
+        "compares",
+        "conditions",
+        "connect",
+        "contains",
+        "context",
+        "corpus",
+        "count",
+        "counts",
+        "create",
+        "damping",
+        "describe",
+        "distances",
+        "distributions",
+        "diverse",
+        "diversity",
+        "document",
+        "documents",
+        "drawing",
+        "drive",
+        "ecological",
+        "ecology",
+        "elin",
+        "estimates",
+        "evidence",
+        "expands",
+        "explain",
+        "explanations",
+        "explores",
+        "field",
+        "forces",
+        "forest",
+        "from",
+        "geometric",
+        "geometry",
+        "gibbs",
+        "graph",
+        "guide",
+        "habitat",
+        "improve",
+        "inference",
+        "interpretable",
+        "labels",
+        "latent",
+        "layout",
+        "lens",
+        "lenses",
+        "library",
+        "local",
+        "maps",
+        "measure",
+        "measures",
+        "mira",
+        "mixtures",
+        "models",
+        "motion",
+        "neighborhood",
+        "neighborhoods",
+        "neighboring",
+        "neighbors",
+        "network",
+        "niko",
+        "organizes",
+        "papers",
+        "plant",
+        "plants",
+        "preserve",
+        "preserves",
+        "probabilistic",
+        "probability",
+        "readable",
+        "recognizable",
+        "recover",
+        "recovery",
+        "remain",
+        "represent",
+        "repulsion",
+        "restoration",
+        "resulting",
+        "retains",
+        "retrieval",
+        "retrieves",
+        "root",
+        "rowan",
+        "samples",
+        "sampling",
+        "seasonal",
+        "seasons",
+        "semantic",
+        "separates",
+        "shape",
+        "share",
+        "shared",
+        "soil",
+        "spatial",
+        "species",
+        "spring",
+        "springs",
+        "stabilize",
+        "structure",
+        "studies",
+        "supplies",
+        "supply",
+        "support",
+        "supports",
+        "surveys",
+        "text",
+        "through",
+        "topic",
+        "topics",
+        "transforms",
+        "tree",
+        "trees",
+        "uses",
+        "vega",
+        "vertices",
+        "viewing",
+        "visual",
+        "vocabulary",
+        "while",
+        "woodland",
+        "word",
+        "words"
+      ],
+      "documentIds": [
+        "bridge-1",
+        "bridge-2",
+        "ecology-1",
+        "ecology-2",
+        "ecology-3",
+        "ecology-4",
+        "ecology-5",
+        "ecology-6",
+        "elin",
+        "layout-1",
+        "layout-2",
+        "layout-3",
+        "layout-4",
+        "layout-5",
+        "layout-6",
+        "library",
+        "mira",
+        "niko",
+        "topics-1",
+        "topics-2",
+        "topics-3",
+        "topics-4",
+        "topics-5",
+        "topics-6"
+      ],
+      "lengths": [
+        22,
+        21,
+        15,
+        15,
+        16,
+        15,
+        14,
+        16,
+        19,
+        18,
+        14,
+        15,
+        17,
+        17,
+        16,
+        7,
+        20,
+        18,
+        17,
+        15,
+        16,
+        15,
+        15,
+        16
+      ],
+      "theta": [
+        [
+          0.004484304932735426,
+          0.452914798206278,
+          0.5426008968609866
+        ],
+        [
+          0.004694835680751174,
+          0.6150234741784038,
+          0.38028169014084506
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9860139860139859,
+          0.006993006993006993,
+          0.006993006993006993
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ],
+        [
+          0.9896373056994819,
+          0.0051813471502590676,
+          0.0051813471502590676
+        ],
+        [
+          0.00546448087431694,
+          0.9890710382513661,
+          0.00546448087431694
+        ],
+        [
+          0.006993006993006993,
+          0.9860139860139859,
+          0.006993006993006993
+        ],
+        [
+          0.006535947712418301,
+          0.9869281045751633,
+          0.006535947712418301
+        ],
+        [
+          0.005780346820809248,
+          0.9884393063583815,
+          0.005780346820809248
+        ],
+        [
+          0.005780346820809248,
+          0.9884393063583815,
+          0.005780346820809248
+        ],
+        [
+          0.006134969325153374,
+          0.9877300613496933,
+          0.006134969325153374
+        ],
+        [
+          0.4246575342465754,
+          0.15068493150684933,
+          0.4246575342465754
+        ],
+        [
+          0.0049261083743842365,
+          0.9901477832512315,
+          0.0049261083743842365
+        ],
+        [
+          0.06010928961748634,
+          0.00546448087431694,
+          0.9344262295081968
+        ],
+        [
+          0.005780346820809248,
+          0.005780346820809248,
+          0.9884393063583815
+        ],
+        [
+          0.07189542483660132,
+          0.006535947712418301,
+          0.9215686274509803
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ]
+      ],
+      "phi": [
+        [
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.017271008764392505,
+          0.025863550438219623,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.025863550438219623,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.0602337171335281,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.04304863378587386,
+          0.025863550438219623,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.03445609211204674,
+          0.00008592541673827119,
+          0.0602337171335281,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.06882625880735521,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.017271008764392505,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.03445609211204674,
+          0.03445609211204674,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.017271008764392505,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.05164117545970098,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.017271008764392505,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.0602337171335281,
+          0.00008592541673827119,
+          0.06882625880735521,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.008678467090565389,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.017271008764392505,
+          0.05164117545970098,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.017271008764392505,
+          0.03445609211204674,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.00008592541673827119,
+          0.06882625880735521,
+          0.00008592541673827119,
+          0.00008592541673827119
+        ],
+        [
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.014117151285292878,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.035187526337968816,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.021140609636184856,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.014117151285292878,
+          0.00007023458350891979,
+          0.035187526337968816,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.028164067987076834,
+          0.035187526337968816,
+          0.00007023458350891979,
+          0.10542210984688861,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.05625790139064475,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.028164067987076834,
+          0.014117151285292878,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.014117151285292878,
+          0.021140609636184856,
+          0.035187526337968816,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.028164067987076834,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.021140609636184856,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.028164067987076834,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.042210984688860795,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.028164067987076834,
+          0.00007023458350891979,
+          0.06328135974153673,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.035187526337968816,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.007093692934400899,
+          0.007093692934400899,
+          0.021140609636184856,
+          0.007093692934400899,
+          0.021140609636184856,
+          0.00007023458350891979,
+          0.021140609636184856,
+          0.00007023458350891979,
+          0.00007023458350891979,
+          0.00007023458350891979
+        ],
+        [
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.05216550081857419,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.007515999404673315,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.014957582973656793,
+          0.0000744158356898348,
+          0.014957582973656793,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.04472391724959071,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.029840750111623755,
+          0.05216550081857419,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.014957582973656793,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.04472391724959071,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.06704866795654116,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.04472391724959071,
+          0.014957582973656793,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.014957582973656793,
+          0.03728233368060723,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.022399166542640275,
+          0.014957582973656793,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.014957582973656793,
+          0.014957582973656793,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.03728233368060723,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.007515999404673315,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.05216550081857419,
+          0.007515999404673315,
+          0.06704866795654116,
+          0.04472391724959071,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.04472391724959071,
+          0.0000744158356898348,
+          0.0000744158356898348,
+          0.05960708438755767,
+          0.014957582973656793
+        ]
+      ]
+    },
+    {
+      "version": "fm4-lda-gibbs-1",
+      "options": {
+        "topics": 3,
+        "alpha": 0.1,
+        "beta": 0.01,
+        "iterations": 200,
+        "seed": 2027
+      },
+      "vocabulary": [
+        "across",
+        "aligns",
+        "around",
+        "arrange",
+        "attraction",
+        "authors",
+        "balances",
+        "bayesian",
+        "before",
+        "browse",
+        "browsing",
+        "changes",
+        "chen",
+        "collection",
+        "combine",
+        "communities",
+        "compares",
+        "conditions",
+        "connect",
+        "contains",
+        "context",
+        "corpus",
+        "count",
+        "counts",
+        "create",
+        "damping",
+        "describe",
+        "distances",
+        "distributions",
+        "diverse",
+        "diversity",
+        "document",
+        "documents",
+        "drawing",
+        "drive",
+        "ecological",
+        "ecology",
+        "elin",
+        "estimates",
+        "evidence",
+        "expands",
+        "explain",
+        "explanations",
+        "explores",
+        "field",
+        "forces",
+        "forest",
+        "from",
+        "geometric",
+        "geometry",
+        "gibbs",
+        "graph",
+        "guide",
+        "habitat",
+        "improve",
+        "inference",
+        "interpretable",
+        "labels",
+        "latent",
+        "layout",
+        "lens",
+        "lenses",
+        "library",
+        "local",
+        "maps",
+        "measure",
+        "measures",
+        "mira",
+        "mixtures",
+        "models",
+        "motion",
+        "neighborhood",
+        "neighborhoods",
+        "neighboring",
+        "neighbors",
+        "network",
+        "niko",
+        "organizes",
+        "papers",
+        "plant",
+        "plants",
+        "preserve",
+        "preserves",
+        "probabilistic",
+        "probability",
+        "readable",
+        "recognizable",
+        "recover",
+        "recovery",
+        "remain",
+        "represent",
+        "repulsion",
+        "restoration",
+        "resulting",
+        "retains",
+        "retrieval",
+        "retrieves",
+        "root",
+        "rowan",
+        "samples",
+        "sampling",
+        "seasonal",
+        "seasons",
+        "semantic",
+        "separates",
+        "shape",
+        "share",
+        "shared",
+        "soil",
+        "spatial",
+        "species",
+        "spring",
+        "springs",
+        "stabilize",
+        "structure",
+        "studies",
+        "supplies",
+        "supply",
+        "support",
+        "supports",
+        "surveys",
+        "text",
+        "through",
+        "topic",
+        "topics",
+        "transforms",
+        "tree",
+        "trees",
+        "uses",
+        "vega",
+        "vertices",
+        "viewing",
+        "visual",
+        "vocabulary",
+        "while",
+        "woodland",
+        "word",
+        "words"
+      ],
+      "documentIds": [
+        "bridge-1",
+        "bridge-2",
+        "ecology-1",
+        "ecology-2",
+        "ecology-3",
+        "ecology-4",
+        "ecology-5",
+        "ecology-6",
+        "elin",
+        "layout-1",
+        "layout-2",
+        "layout-3",
+        "layout-4",
+        "layout-5",
+        "layout-6",
+        "library",
+        "mira",
+        "niko",
+        "topics-1",
+        "topics-2",
+        "topics-3",
+        "topics-4",
+        "topics-5",
+        "topics-6"
+      ],
+      "lengths": [
+        22,
+        21,
+        15,
+        15,
+        16,
+        15,
+        14,
+        16,
+        19,
+        18,
+        14,
+        15,
+        17,
+        17,
+        16,
+        7,
+        20,
+        18,
+        17,
+        15,
+        16,
+        15,
+        15,
+        16
+      ],
+      "theta": [
+        [
+          0.004484304932735426,
+          0.452914798206278,
+          0.5426008968609866
+        ],
+        [
+          0.004694835680751174,
+          0.568075117370892,
+          0.42723004694835676
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ],
+        [
+          0.9869281045751633,
+          0.006535947712418301,
+          0.006535947712418301
+        ],
+        [
+          0.9860139860139859,
+          0.006993006993006993,
+          0.006993006993006993
+        ],
+        [
+          0.9877300613496933,
+          0.006134969325153374,
+          0.006134969325153374
+        ],
+        [
+          0.9896373056994819,
+          0.0051813471502590676,
+          0.0051813471502590676
+        ],
+        [
+          0.00546448087431694,
+          0.9890710382513661,
+          0.00546448087431694
+        ],
+        [
+          0.006993006993006993,
+          0.9860139860139859,
+          0.006993006993006993
+        ],
+        [
+          0.006535947712418301,
+          0.9869281045751633,
+          0.006535947712418301
+        ],
+        [
+          0.005780346820809248,
+          0.9884393063583815,
+          0.005780346820809248
+        ],
+        [
+          0.005780346820809248,
+          0.9884393063583815,
+          0.005780346820809248
+        ],
+        [
+          0.006134969325153374,
+          0.9877300613496933,
+          0.006134969325153374
+        ],
+        [
+          0.15068493150684933,
+          0.013698630136986302,
+          0.8356164383561644
+        ],
+        [
+          0.0049261083743842365,
+          0.9901477832512315,
+          0.0049261083743842365
+        ],
+        [
+          0.11475409836065574,
+          0.00546448087431694,
+          0.8797814207650274
+        ],
+        [
+          0.005780346820809248,
+          0.005780346820809248,
+          0.9884393063583815
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006535947712418301,
+          0.006535947712418301,
+          0.9869281045751633
+        ],
+        [
+          0.006134969325153374,
+          0.006134969325153374,
+          0.9877300613496933
+        ]
+      ],
+      "phi": [
+        [
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.008830215072565133,
+          0.008830215072565133,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.01757300227312467,
+          0.01757300227312467,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.02631578947368421,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.008830215072565133,
+          0.06128693827592237,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.04380136387480329,
+          0.02631578947368421,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.035058576674243745,
+          0.00008742787200559539,
+          0.06128693827592237,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.0700297254764819,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.01757300227312467,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.035058576674243745,
+          0.035058576674243745,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.008830215072565133,
+          0.01757300227312467,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.052544151075362824,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.01757300227312467,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.06128693827592237,
+          0.00008742787200559539,
+          0.0700297254764819,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.008830215072565133,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.01757300227312467,
+          0.052544151075362824,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.01757300227312467,
+          0.035058576674243745,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.00008742787200559539,
+          0.0700297254764819,
+          0.00008742787200559539,
+          0.00008742787200559539
+        ],
+        [
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.014318278957116397,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.014318278957116397,
+          0.00007123521869212138,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.1069240632568742,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.05705941017238923,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.014318278957116397,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.014318278957116397,
+          0.021441800826328537,
+          0.03568884456475281,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.028565322695540674,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.028565322695540674,
+          0.00007123521869212138,
+          0.06418293204160137,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.03568884456475281,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00719475708790426,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00719475708790426,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.021441800826328537,
+          0.00007123521869212138,
+          0.00007123521869212138,
+          0.00007123521869212138
+        ],
+        [
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.05065760948113889,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.014525220407573348,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.014525220407573348,
+          0.00007226477814713109,
+          0.014525220407573348,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.04343113166642579,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.028978176036999564,
+          0.05065760948113889,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.014525220407573348,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.04343113166642579,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.06511056511056511,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.04343113166642579,
+          0.014525220407573348,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.014525220407573348,
+          0.036204653851712676,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.021751698222286456,
+          0.014525220407573348,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.014525220407573348,
+          0.014525220407573348,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.036204653851712676,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.0072987425928602405,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.05065760948113889,
+          0.0072987425928602405,
+          0.06511056511056511,
+          0.04343113166642579,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.04343113166642579,
+          0.00007226477814713109,
+          0.00007226477814713109,
+          0.057884087295852,
+          0.014525220407573348
+        ]
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "case": "layout-terms",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "layout-1",
+          "score": 1.1503915179520299,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 1.0439762151374417,
+          "relevance": 0.9074964469452689,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 1.0108256237659907,
+          "relevance": 0.8786796564403573,
+          "rank": 3
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9806448978513028,
+          "relevance": 0.8524444787258895,
+          "rank": 4
+        },
+        {
+          "id": "mira",
+          "score": 0.9041099232557529,
+          "relevance": 0.7859149768987199,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-terms",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 2
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 3
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-1",
+          "score": 0.974670876651753,
+          "relevance": 0.9967868453836054,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-terms",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833696,
+          "relevance": 0.9982568211494807,
+          "rank": 3
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-terms",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 3
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-terms",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 3
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-terms",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 3
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-vocabulary",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 1.5937504547655181,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-6",
+          "score": 1.220600897061747,
+          "relevance": 0.765867010994095,
+          "rank": 2
+        },
+        {
+          "id": "layout-1",
+          "score": 1.1507935619129925,
+          "relevance": 0.7220663426146623,
+          "rank": 3
+        },
+        {
+          "id": "mira",
+          "score": 1.091738631690916,
+          "relevance": 0.6850122793229502,
+          "rank": 4
+        },
+        {
+          "id": "layout-4",
+          "score": 0.5512751508694097,
+          "relevance": 0.34589803517923795,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-vocabulary",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 2
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 3
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-1",
+          "score": 0.974670876651753,
+          "relevance": 0.9967868453836054,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-vocabulary",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833696,
+          "relevance": 0.9982568211494807,
+          "rank": 3
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-vocabulary",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 3
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-vocabulary",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 3
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "layout-vocabulary",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "layout-2",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "layout-6",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 3
+        },
+        {
+          "id": "layout-4",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 4
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9753604086295409,
+          "relevance": 0.9974920233276632,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-terms",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "topics-1",
+          "score": 1.244695808076055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 1.1088653214970141,
+          "relevance": 0.8908725443616652,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 1.1088653214970141,
+          "relevance": 0.8908725443616652,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 1.1088653214970141,
+          "relevance": 0.8908725443616652,
+          "rank": 4
+        },
+        {
+          "id": "topics-6",
+          "score": 1.0736542308362171,
+          "relevance": 0.8625836319765393,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-terms",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "library",
+          "score": 0.9875627654444664,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833696,
+          "relevance": 0.9884012154347055,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 0.8,
+        "recall": 0.4444444444444444,
+        "reciprocalRank": 0.5,
+        "hits": 4,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-terms",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "niko",
+          "score": 0.9868271101876079,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9891380441481785,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-terms",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "library",
+          "score": 0.9875627654444664,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9884012154347054,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 0.8,
+        "recall": 0.4444444444444444,
+        "reciprocalRank": 0.5,
+        "hits": 4,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-terms",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "niko",
+          "score": 0.9868271101876079,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9864145791483296,
+          "relevance": 0.999581962194776,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833696,
+          "relevance": 0.9891380441481786,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-terms",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "topics-2",
+          "score": 0.9769224562912848,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 1,
+          "rank": 3
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833696,
+          "relevance": 0.9991665473521755,
+          "rank": 4
+        },
+        {
+          "id": "topics-6",
+          "score": 0.9761082376833696,
+          "relevance": 0.9991665473521755,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-vocabulary",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "topics-5",
+          "score": 1.1392767705345426,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-3",
+          "score": 1.103099989750313,
+          "relevance": 0.9682458365518543,
+          "rank": 2
+        },
+        {
+          "id": "topics-1",
+          "score": 1.0701641819666587,
+          "relevance": 0.9393364366277243,
+          "rank": 3
+        },
+        {
+          "id": "niko",
+          "score": 1.0400126441056767,
+          "relevance": 0.912870929175277,
+          "rank": 4
+        },
+        {
+          "id": "topics-2",
+          "score": 0.5868772139282933,
+          "relevance": 0.5151313790528123,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-vocabulary",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "library",
+          "score": 0.9875627654444664,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833696,
+          "relevance": 0.9884012154347055,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 0.8,
+        "recall": 0.4444444444444444,
+        "reciprocalRank": 0.5,
+        "hits": 4,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-vocabulary",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "niko",
+          "score": 0.9868271101876079,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9891380441481785,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-vocabulary",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "library",
+          "score": 0.9875627654444664,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 0.989225688203835,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9884012154347054,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 0.8,
+        "recall": 0.4444444444444444,
+        "reciprocalRank": 0.5,
+        "hits": 4,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-vocabulary",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "niko",
+          "score": 0.9868271101876079,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9864145791483296,
+          "relevance": 0.999581962194776,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 0.9899631315414105,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833696,
+          "relevance": 0.9891380441481786,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "topic-vocabulary",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "topics-2",
+          "score": 0.9769224562912848,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9769224562912848,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9769224562912848,
+          "relevance": 1,
+          "rank": 3
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9761082376833696,
+          "relevance": 0.9991665473521755,
+          "rank": 4
+        },
+        {
+          "id": "topics-6",
+          "score": 0.9761082376833696,
+          "relevance": 0.9991665473521755,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.5555555555555556,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 9
+      }
+    },
+    {
+      "case": "ecology-terms",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "ecology-5",
+          "score": 1.380418014898104,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-1",
+          "score": 1.1047991132124986,
+          "relevance": 0.800336638097301,
+          "rank": 2
+        },
+        {
+          "id": "ecology-2",
+          "score": 1.1047991132124986,
+          "relevance": 0.800336638097301,
+          "rank": 3
+        },
+        {
+          "id": "ecology-4",
+          "score": 1.1047991132124986,
+          "relevance": 0.800336638097301,
+          "rank": 4
+        },
+        {
+          "id": "ecology-3",
+          "score": 1.0697171415941824,
+          "relevance": 0.7749226176776198,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-terms",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "elin",
+          "score": 0.9867951063040135,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 0.9908974354708234,
+          "rank": 2
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 3
+        },
+        {
+          "id": "ecology-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 4
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-terms",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "ecology-2",
+          "score": 0.9864145791483296,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 0.9912796919689174,
+          "rank": 2
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.9903771466301317,
+          "rank": 3
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9903771466301317,
+          "rank": 4
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9895517141749277,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-terms",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "elin",
+          "score": 0.9867951063040135,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-2",
+          "score": 0.9864145791483296,
+          "relevance": 0.9996143807835559,
+          "rank": 2
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 0.9908974354708234,
+          "rank": 3
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 4
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-terms",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "ecology-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 3
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 4
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-terms",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "ecology-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 3
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 4
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-vocabulary",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "ecology-4",
+          "score": 1.382369271991378,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-2",
+          "score": 1.3680881587297353,
+          "relevance": 0.9896691039427764,
+          "rank": 2
+        },
+        {
+          "id": "ecology-5",
+          "score": 1.1792634928570052,
+          "relevance": 0.8530741508440881,
+          "rank": 3
+        },
+        {
+          "id": "ecology-1",
+          "score": 1.1392767705345426,
+          "relevance": 0.8241479274878213,
+          "rank": 4
+        },
+        {
+          "id": "ecology-3",
+          "score": 1.103099989750313,
+          "relevance": 0.7979777994929225,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-vocabulary",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "elin",
+          "score": 0.9867951063040135,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 0.9908974354708234,
+          "rank": 2
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 3
+        },
+        {
+          "id": "ecology-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 4
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-vocabulary",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "ecology-2",
+          "score": 0.9864145791483296,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 0.9912796919689174,
+          "rank": 2
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.9903771466301317,
+          "rank": 3
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9903771466301317,
+          "rank": 4
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9895517141749277,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-vocabulary",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "elin",
+          "score": 0.9867951063040135,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-2",
+          "score": 0.9864145791483296,
+          "relevance": 0.9996143807835559,
+          "rank": 2
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 0.9908974354708234,
+          "rank": 3
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 4
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.989995238170864,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-vocabulary",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "ecology-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 3
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 4
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "ecology-vocabulary",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "ecology-5",
+          "score": 0.9778127401718055,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-1",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 2
+        },
+        {
+          "id": "ecology-2",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 3
+        },
+        {
+          "id": "ecology-4",
+          "score": 0.9769224562912848,
+          "relevance": 0.9990895149511303,
+          "rank": 4
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9761082376833695,
+          "relevance": 0.9982568211494806,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.7142857142857143,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 7
+      }
+    },
+    {
+      "case": "layout-similarity",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "mira",
+          "score": 0.46310851330818437,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-2",
+          "score": 0.32499398055793893,
+          "relevance": 0.7017663705561498,
+          "rank": 2
+        },
+        {
+          "id": "layout-3",
+          "score": 0.31979491302660873,
+          "relevance": 0.6905399141600214,
+          "rank": 3
+        },
+        {
+          "id": "layout-5",
+          "score": 0.3108646578967332,
+          "relevance": 0.6712566255284156,
+          "rank": 4
+        },
+        {
+          "id": "bridge-1",
+          "score": 0.28624527311029113,
+          "relevance": 0.618095467659442,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "layout-similarity",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "layout-4",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "mira",
+          "score": 0.999979657761052,
+          "relevance": 0.9999861315575871,
+          "rank": 3
+        },
+        {
+          "id": "layout-6",
+          "score": 0.999971699372853,
+          "relevance": 0.9999781731178661,
+          "rank": 4
+        },
+        {
+          "id": "layout-2",
+          "score": 0.9998626637013291,
+          "relevance": 0.9998691367404531,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "layout-similarity",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "layout-4",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "mira",
+          "score": 0.999979657761052,
+          "relevance": 0.9999861315575871,
+          "rank": 3
+        },
+        {
+          "id": "layout-6",
+          "score": 0.999971699372853,
+          "relevance": 0.9999781731178661,
+          "rank": 4
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9999300608978555,
+          "relevance": 0.9999365343733041,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "layout-similarity",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "layout-4",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "mira",
+          "score": 0.999979657761052,
+          "relevance": 0.9999861315575871,
+          "rank": 3
+        },
+        {
+          "id": "layout-6",
+          "score": 0.999971699372853,
+          "relevance": 0.9999781731178661,
+          "rank": 4
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9999300608978555,
+          "relevance": 0.9999365343733041,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "layout-similarity",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "layout-4",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "mira",
+          "score": 0.999979657761052,
+          "relevance": 0.9999861315575871,
+          "rank": 3
+        },
+        {
+          "id": "layout-6",
+          "score": 0.999971699372853,
+          "relevance": 0.9999781731178661,
+          "rank": 4
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9999300608978555,
+          "relevance": 0.9999365343733041,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "layout-similarity",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "layout-4",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "layout-5",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "mira",
+          "score": 0.999979657761052,
+          "relevance": 0.9999861315575871,
+          "rank": 3
+        },
+        {
+          "id": "layout-6",
+          "score": 0.999971699372853,
+          "relevance": 0.9999781731178661,
+          "rank": 4
+        },
+        {
+          "id": "layout-3",
+          "score": 0.9999300608978555,
+          "relevance": 0.9999365343733041,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "topics-similarity",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "niko",
+          "score": 0.5074753571763739,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-6",
+          "score": 0.42045299147127874,
+          "relevance": 0.8285190315658019,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.3290549790449729,
+          "relevance": 0.648415680469405,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.31838449312119405,
+          "relevance": 0.6273890714471461,
+          "rank": 4
+        },
+        {
+          "id": "topics-3",
+          "score": 0.3155091233244093,
+          "relevance": 0.6217230430260154,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "topics-similarity",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "topics-3",
+          "score": 0.9999922937914282,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-6",
+          "score": 0.9999922937914282,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 3
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 4
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "topics-similarity",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "topics-3",
+          "score": 0.9999922937914282,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-6",
+          "score": 0.9999922937914282,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 3
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 4
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "topics-similarity",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "niko",
+          "score": 0.9999935261136822,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-3",
+          "score": 0.9999922937914282,
+          "relevance": 0.999998767669768,
+          "rank": 2
+        },
+        {
+          "id": "topics-6",
+          "score": 0.9999922937914282,
+          "relevance": 0.999998767669768,
+          "rank": 3
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999725970235158,
+          "rank": 4
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999725970235158,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "topics-similarity",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "topics-3",
+          "score": 0.9999922937914282,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-6",
+          "score": 0.9999922937914282,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 3
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 4
+        },
+        {
+          "id": "niko",
+          "score": 0.9806327227135784,
+          "relevance": 0.9806402797321079,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "topics-similarity",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "topics-3",
+          "score": 0.9999922937914282,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "topics-6",
+          "score": 0.9999922937914282,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "topics-2",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 3
+        },
+        {
+          "id": "topics-4",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 4
+        },
+        {
+          "id": "topics-5",
+          "score": 0.9999661233146018,
+          "relevance": 0.9999738293214969,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.625,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 8
+      }
+    },
+    {
+      "case": "ecology-similarity",
+      "engine": "lexical",
+      "seed": null,
+      "results": [
+        {
+          "id": "ecology-4",
+          "score": 0.6026712848997081,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.5694388700280417,
+          "relevance": 0.9448581412383092,
+          "rank": 2
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.5178333066921349,
+          "relevance": 0.8592300971802709,
+          "rank": 3
+        },
+        {
+          "id": "elin",
+          "score": 0.5074649783661883,
+          "relevance": 0.8420261444024776,
+          "rank": 4
+        },
+        {
+          "id": "ecology-6",
+          "score": 0.46010783762446467,
+          "relevance": 0.7634474200990549,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.8333333333333334,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 6
+      }
+    },
+    {
+      "case": "ecology-similarity",
+      "engine": "lda",
+      "seed": 4357,
+      "results": [
+        {
+          "id": "ecology-2",
+          "score": 1,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-4",
+          "score": 1,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 3
+        },
+        {
+          "id": "ecology-6",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 4
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9999887066562674,
+          "relevance": 0.9999887066562674,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.8333333333333334,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 6
+      }
+    },
+    {
+      "case": "ecology-similarity",
+      "engine": "lda",
+      "seed": 7,
+      "results": [
+        {
+          "id": "ecology-4",
+          "score": 1,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 2
+        },
+        {
+          "id": "ecology-6",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 3
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9999887066562674,
+          "relevance": 0.9999887066562674,
+          "rank": 4
+        },
+        {
+          "id": "elin",
+          "score": 0.9998854437911416,
+          "relevance": 0.9998854437911416,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.8333333333333334,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 6
+      }
+    },
+    {
+      "case": "ecology-similarity",
+      "engine": "lda",
+      "seed": 13,
+      "results": [
+        {
+          "id": "ecology-4",
+          "score": 1,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 2
+        },
+        {
+          "id": "ecology-6",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 3
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9999887066562674,
+          "relevance": 0.9999887066562674,
+          "rank": 4
+        },
+        {
+          "id": "elin",
+          "score": 0.9829117027546416,
+          "relevance": 0.9829117027546416,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.8333333333333334,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 6
+      }
+    },
+    {
+      "case": "ecology-similarity",
+      "engine": "lda",
+      "seed": 41,
+      "results": [
+        {
+          "id": "ecology-2",
+          "score": 1,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-4",
+          "score": 1,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 3
+        },
+        {
+          "id": "ecology-6",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 4
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9999887066562674,
+          "relevance": 0.9999887066562674,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.8333333333333334,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 6
+      }
+    },
+    {
+      "case": "ecology-similarity",
+      "engine": "lda",
+      "seed": 2027,
+      "results": [
+        {
+          "id": "ecology-2",
+          "score": 1,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-4",
+          "score": 1,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "ecology-3",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 3
+        },
+        {
+          "id": "ecology-6",
+          "score": 0.9999907276869273,
+          "relevance": 0.9999907276869273,
+          "rank": 4
+        },
+        {
+          "id": "ecology-5",
+          "score": 0.9999887066562674,
+          "relevance": 0.9999887066562674,
+          "rank": 5
+        }
+      ],
+      "metrics": {
+        "precision": 1,
+        "recall": 0.8333333333333334,
+        "reciprocalRank": 1,
+        "hits": 5,
+        "returned": 5,
+        "relevant": 6
+      }
+    }
+  ],
+  "tags": [
+    {
+      "tag": "visual search",
+      "expected": 9,
+      "results": [
+        {
+          "id": "bridge-1",
+          "score": 1,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "bridge-2",
+          "score": 1,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "layout-1",
+          "score": 1,
+          "relevance": 1,
+          "rank": 3
+        },
+        {
+          "id": "layout-2",
+          "score": 1,
+          "relevance": 1,
+          "rank": 4
+        },
+        {
+          "id": "layout-3",
+          "score": 1,
+          "relevance": 1,
+          "rank": 5
+        },
+        {
+          "id": "layout-4",
+          "score": 1,
+          "relevance": 1,
+          "rank": 6
+        },
+        {
+          "id": "layout-5",
+          "score": 1,
+          "relevance": 1,
+          "rank": 7
+        },
+        {
+          "id": "layout-6",
+          "score": 1,
+          "relevance": 1,
+          "rank": 8
+        },
+        {
+          "id": "mira",
+          "score": 1,
+          "relevance": 1,
+          "rank": 9
+        }
+      ]
+    },
+    {
+      "tag": "topic models",
+      "expected": 9,
+      "results": [
+        {
+          "id": "bridge-1",
+          "score": 1,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "bridge-2",
+          "score": 1,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "niko",
+          "score": 1,
+          "relevance": 1,
+          "rank": 3
+        },
+        {
+          "id": "topics-1",
+          "score": 1,
+          "relevance": 1,
+          "rank": 4
+        },
+        {
+          "id": "topics-2",
+          "score": 1,
+          "relevance": 1,
+          "rank": 5
+        },
+        {
+          "id": "topics-3",
+          "score": 1,
+          "relevance": 1,
+          "rank": 6
+        },
+        {
+          "id": "topics-4",
+          "score": 1,
+          "relevance": 1,
+          "rank": 7
+        },
+        {
+          "id": "topics-5",
+          "score": 1,
+          "relevance": 1,
+          "rank": 8
+        },
+        {
+          "id": "topics-6",
+          "score": 1,
+          "relevance": 1,
+          "rank": 9
+        }
+      ]
+    },
+    {
+      "tag": "forest ecology",
+      "expected": 7,
+      "results": [
+        {
+          "id": "ecology-1",
+          "score": 1,
+          "relevance": 1,
+          "rank": 1
+        },
+        {
+          "id": "ecology-2",
+          "score": 1,
+          "relevance": 1,
+          "rank": 2
+        },
+        {
+          "id": "ecology-3",
+          "score": 1,
+          "relevance": 1,
+          "rank": 3
+        },
+        {
+          "id": "ecology-4",
+          "score": 1,
+          "relevance": 1,
+          "rank": 4
+        },
+        {
+          "id": "ecology-5",
+          "score": 1,
+          "relevance": 1,
+          "rank": 5
+        },
+        {
+          "id": "ecology-6",
+          "score": 1,
+          "relevance": 1,
+          "rank": 6
+        },
+        {
+          "id": "elin",
+          "score": 1,
+          "relevance": 1,
+          "rank": 7
+        }
+      ]
+    }
+  ]
+}

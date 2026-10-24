@@ -9,7 +9,8 @@ result of a hidden type.
 1. Choose **Lexical**, enter terms such as `graph AND layout`, and press **Run
    query** or Enter. A query node appears beside the selected context node, with
    relevance-labeled links to results. Select an existing query and run again to
-   replace its links; manual and context relations remain.
+   replace its links; manual and context relations remain. Switching its method
+   also updates its node type and replaces its earlier result links.
 2. For exact metadata lookup choose **Tags (exact)**. Enter whole tag values,
    separated by commas; all listed tags are required. Tags live in each node's
    `data.tags` string array, editable through the metadata inspector. Exact tag
@@ -48,8 +49,13 @@ records raw score, bounded display relevance, rank, query and corpus provenance;
 ownership uses these structured values, never the relation label. Removing or
 editing a result label does not silently change its ownership.
 
+Load **Graph search → Fictional topic library** in the example selector for a
+24-node demonstration. The [seven-step walkthrough](search-walkthrough/index.html)
+shows interactions; the [54-run comparison](experiments/search/README.md) records
+rankings, synthetic judgments, seeds and limits. Regenerate with
+`just search-example`, `just search-experiment` and `just search-flipbook`.
+
 The [source audit and numerical contract](visual-search-design.md) documents
 Lucene functionality/scoring differences, sampler provenance, licenses, limits
 and headless APIs. This is an LDA text model with exact tags, distinct from the
-thesis's ETT community model. Reproducible example data and retrieval experiments
-are tracked separately in TODO 4.6.
+thesis's ETT community model. Original-paper figures remain outside scope.

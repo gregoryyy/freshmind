@@ -78,7 +78,8 @@ applyGraphSearchResults(graph, queryNode, request, index.search(request.query), 
 `index.tags(["visual search"])` intersects whole normalized tag values;
 `index.similar(nodeId)` excludes the source. `getCorpus()` returns detached values.
 Exact `corpus.key` comparison protects stale work; compact `fingerprint` values in
-result metadata are provenance only. Query reruns replace that source's results
+result metadata are provenance only. Query-node reruns replace all that query's
+owned result links; existing-content similarity replaces that source's results
 for the selected engine. These graph commands operate on the complete graph;
 browser locality/repaint integration belongs to 4.5. Phrase positions include stop
 words, but an all-stop phrase has no searchable terms and yields no results.
@@ -183,6 +184,11 @@ a selected result relation. Preserve text input, graph selection, ordinary editi
 RFC/lens/structural controls and complete-graph saving.
 
 ## Acceptance and reproducible examples (4.6)
+
+Completed by the [fictional topic library](../examples/search/README.md),
+[54-run report and records](experiments/search/README.md) and
+[seven-step production walkthrough](search-walkthrough/index.html). Regenerate
+with `just search-example`, `just search-experiment` and `just search-flipbook`.
 
 Use new fictional documents and, optionally, only the approved Berry/NIPS-FM Java
 data. Do not inspect or distribute other legacy corpora. Record analyzer/model

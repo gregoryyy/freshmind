@@ -81,7 +81,7 @@ export class GraphSearchController {
     let owner=source;
     if(r.kind!=="similarity"){
       if(!owner||!isSearchQueryNode(owner))owner=createGraphQuery(graph,r,source);
-      else {const data=owner.getData(),search=data.search as Record<string,unknown>;owner.setData({...data,search:{...search,version:1,role:"query",request:{...r}}} as Parameters<FreshNode["setData"]>[0]);owner.setLabel(`[${r.query}]`);}
+      else {const data=owner.getData(),search=data.search as Record<string,unknown>;owner.setData({...data,search:{...search,version:1,role:"query",request:{...r}}} as Parameters<FreshNode["setData"]>[0]);owner.setLabel(`[${r.query}]`);owner.setSemanticType(r.engine==="lda"?"ldaquery":"lucenequery");}
     }
     const edges=applyGraphSearchResults(graph,owner!,r,answer.results,corpus);
     this.reveal(owner!,edges);this.publish({message:`${edges.length} result${edges.length===1?"":"s"} linked. Select a result relation to reject it.`});return edges;

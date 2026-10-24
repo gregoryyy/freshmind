@@ -24,8 +24,10 @@ import sharedTreesURL from "../docs/experiments/rfc-multifocus/shared-subtree.fm
 import exclusionURL from "../docs/experiments/rfc-exclusion/overlap-pressure.fm.yaml?url";
 import structuralURL from "../examples/rfc/structural-focus-context.fm.yaml?url";
 import showcaseURL from "../examples/rfc/research-community.fm.yaml?url";
+import searchURL from "../examples/search/topic-library.fm.yaml?url";
 
 const examples: Record<string, {url: string; companion?: string}> = {
+  "graph-search":{url:searchURL},
   "rfc-showcase":{url:showcaseURL},
   "structural-focus-context":{url:structuralURL},berry: {url: berryURL, companion: typesURL}, "nips-fm": {url: nipsURL, companion: typesURL},
   florentine: {url: florentineURL}, karate: {url: karateURL}, "les-miserables": {url: lesMiserablesURL},substructures:{url:substructuresURL},

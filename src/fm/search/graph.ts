@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: Apache-2.0; Copyright (c) 2026 Gregor Heinrich. */
 import {FreshEdge,FreshNode} from "../model/index.js";
 import type {FreshGraph,JsonValue} from "../model/index.js";
-import {graphSearchCorpus} from "./corpus.js";
+import {graphSearchCorpus,isSearchQueryNode} from "./corpus.js";
 import type {SearchCorpus,SearchRequest,SearchResult} from "./types.js";
 function record(value:JsonValue|undefined):Record<string,JsonValue>|null{return value&&typeof value==="object"&&!Array.isArray(value)?value:null;}
 export function validateSearchRequest(request:SearchRequest):SearchRequest {
@@ -30,7 +30,7 @@ export function rejectedSearchIds(source:FreshNode,request:SearchRequest):Set<st
   const feedback=record(source.getData().search)?.feedback,key=requestKey(request);
   return new Set(Array.isArray(feedback)?feedback.flatMap(f=>{const r=record(f);return r?.requestKey===key&&typeof r.target==="string"?[r.target]:[];}):[]);
 }
-/** Validates the entire batch and exact corpus before replacing only this source/engine's results. */
+/** Validates before replacing owned query links, or this engine's existing-content similarity links. */
 export function applyGraphSearchResults(graph:FreshGraph,source:FreshNode,request:SearchRequest,results:readonly SearchResult[],corpus:SearchCorpus):FreshEdge[]{
   const validated=validateSearchRequest(request);
   if(!graph.contains(source))throw new Error("Search source is outside the graph");
@@ -45,7 +45,7 @@ export function applyGraphSearchResults(graph:FreshGraph,source:FreshNode,reques
     edges.push(new FreshEdge(source,target,{label:`${validated.engine} ${r.score.toPrecision(3)}`,visual:{style:{stroke:{color:"#28845d",width:1+3*r.relevance}}},
       data:{search:{version:1,role:"result",owner:source.getID()!,target:r.id,request:{...validated},requestKey:requestKey(validated),score:r.score,relevance:r.relevance,rank:r.rank,corpus:corpus.fingerprint}}}));
   }
-  for(const edge of [...graph.getEdges()]){const s=searchResultMetadata(edge);if(edge.from===source&&record(s?.request)?.engine===validated.engine)graph.deleteEdge(edge);}
+  for(const edge of [...graph.getEdges()]){const s=searchResultMetadata(edge);if(s&&edge.from===source&&(isSearchQueryNode(source)||record(s.request)?.engine===validated.engine))graph.deleteEdge(edge);}
   for(const edge of edges)graph.addEdge(edge);
   return edges;
 }
