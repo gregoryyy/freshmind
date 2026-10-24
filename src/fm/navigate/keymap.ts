@@ -25,6 +25,7 @@ export const keymap = [
   {group: "View", keys: "+ / − (also =)", action: "Additional canvas zoom controls."},
   {group: "View", keys: "C / W", action: "Cycle default edge forms: Spider → Lens midpoint → Straight. Explicit relation overrides are preserved. C matches FM2014."},
   {group: "Pointer", keys: "Vertical scroll", action: "Increase/decrease graph spacing, keeping labels and shapes the same size."},
+  {group: "Pointer", keys: "Pointer over graph", action: "Resume keyboard control at the centered node without a click when page focus is passive. Explicit side-pane controls and editors retain focus; click or Tab into the graph to leave them."},
   {group: "Pointer", keys: "Pinch / Ctrl + wheel", action: "Scale the complete canvas around the pointer."},
   {group: "Pointer", keys: "Horizontal two-finger scroll", action: "Adjust focus + context. Diagonal wheel events use their dominant axis."},
   {group: "Pointer", keys: "Drag node / background", action: "Move a node through the viewing lenses / pan the canvas."},

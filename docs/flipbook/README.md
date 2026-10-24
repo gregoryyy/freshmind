@@ -165,3 +165,15 @@ F2 opens a graph-anchored label overlay with weight controls for either a node o
 ![Edit node details directly in an overlay](27-details-editor.png)
 
 Ctrl+Enter commits the weight. Ctrl+Space or Shift+F2 then opens the full modeless editor at the node annotation, outside the side pane. It also exposes types, visual settings, URLs and metadata. Close retains a per-item draft; Save commits and Escape cancels. The annotation shown here is still a draft.
+
+## 28. Point at the graph to control its center
+
+![Point at the graph to control its center](28-hover-keyboard.png)
+
+Close the editor, clear selection and move the pointer over a branch without clicking. Keyboard control resumes at the node in the viewport center, independently of the hovered branch. Enter acts immediately on that centered target; arrow navigation then continues from the selected node.
+
+## 29. Explicit control focus takes priority
+
+![Explicit control focus takes priority](29-control-focus.png)
+
+Focus Graph spacing in the side pane, then point back at the graph. The input keeps focus and Enter belongs to that control. Editors, buttons and summaries have the same protection. Click or Tab into the graph when ready to return keyboard control.

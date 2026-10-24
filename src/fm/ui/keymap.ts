@@ -38,7 +38,7 @@ export function bindKeymap(panel: FreshmindPanel, options: KeymapOptions = {}): 
   close.textContent = "Close key map";
   close.addEventListener("click", () => dialog.close());
   const note = owner.createElement("p");
-  note.textContent = "Graph keys apply while the graph has focus. Editor keys apply inside the active editor. Adapted from FM2014 keys.txt.";
+  note.textContent = "Point at the graph to use its keys. Explicit control/editor focus takes priority; click or Tab into the graph to leave it. Adapted from FM2014 keys.txt.";
   dialog.append(title, close, note);
   const rows = keymap.filter(row => options.includeBrowserCommands || !("browser" in row));
   for (const group of new Set(rows.map(row => row.group))) {

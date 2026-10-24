@@ -171,6 +171,18 @@ export class FreshmindPanel extends TGPanel {
   }
   /** Neighborhood origin can differ from both committed selection and the viewing-lens focus. */
   getNeighborhoodFocus(): FreshNode | null { return this.neighborhoodFocus; }
+  /** Default keyboard target in the current view; does not pan, select, or change locality. */
+  getCenteredNode():FreshNode|null {
+    this.updateDrawPositions();
+    const center=this.getDrawCenter(),focus=this.getFocus();let best:FreshNode|null=null,distance=Infinity;
+    for(const node of this.getGES().getNodes()){
+      if(!(node instanceof FreshNode))continue;
+      const p=this.drawToScreen({x:node.drawx,y:node.drawy}),d=Math.hypot(p.x-center.x,p.y-center.y);
+      if(!Number.isFinite(d))continue;
+      if(d<distance-1e-8||Math.abs(d-distance)<1e-8&&(node===focus||best!==focus&&node.getID()!<(best?.getID()??""))){best=node;distance=d;}
+    }
+    return best;
+  }
   protected override mount(container: HTMLElement): void {
     super.mount(container);
     const svg = [...container.querySelectorAll<SVGSVGElement>(":scope > svg.tg-panel")].at(-1)!;

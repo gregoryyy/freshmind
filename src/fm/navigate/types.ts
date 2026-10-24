@@ -73,6 +73,8 @@ export interface NavigationHost {
   getCompleteEltSet(): ImmutableGraphEltSet;
   getSelect(): Node | null;
   getFocus(): Node | null;
+  /** Visible node nearest the viewport center, including canvas pan/zoom; optional for custom hosts. */
+  getCenteredNode?():FreshNode|null;
   getNeighborhoodFocus(): FreshNode | null;
   getSelection(): NavigationItem | null;
   setSelect(node: Node | null): void;

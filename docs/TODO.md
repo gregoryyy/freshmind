@@ -56,6 +56,7 @@ Keep the existing TouchGraph design as the foundation. Add Freshmind through mod
   - [x] 2.3.11 Highlight selected relations on their rendered line, matching the Java selection color; replace browser bounding-box focus frames with stroke emphasis, including curves, parallel relations and self-loops on both pages.
   - [x] 2.3.12 Group left-pane controls into collapsible sections with larger headings, retaining values and keyboard access to a collapsed inspector.
   - [x] 2.3.13 Restore FM2014 quick/literal/topic query, similarity and index/training shortcuts through optional graph-scoped actions, retaining current search backends and text-input behavior.
+  - [x] 2.3.14 Let pointer entry resume graph keyboard control from the centered node without a click; preserve explicit side-pane/editor focus, selection-driven navigation, stationary-pointer recovery and listener cleanup.
 - [x] 2.4 Port labeling and the associated editors.
   - [x] 2.4.1 Restore multiline labels, node details, annotations, URLs, relation labels and hidden-link counts shown in the thesis example.
   - [x] 2.4.2 Add node/relation editors for labels, types, visual overrides and associated metadata, preserving stable IDs.

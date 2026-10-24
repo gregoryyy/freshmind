@@ -13,6 +13,8 @@ import type { NavigationHost, NavigationItem } from "../navigate/index.js";
 let nextId = 0;
 /** Attaches graph-scoped keyboard/scroll input and live status; returns complete cleanup. */
 export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigation: FreshmindNavigation, externalStatus?: HTMLElement): () => void {
+  const owner=svg.ownerDocument;
+  let pointerInside=svg.matches(":hover");
   const status = externalStatus ?? document.createElement("div");
   if (!externalStatus) {
     status.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);";
@@ -24,6 +26,20 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
   const publish = () => { status.textContent = navigation.getState().message; };
   const unsubscribe = navigation.addListener(publish); publish();
   const editable = (target: EventTarget | null) => target instanceof Element && Boolean(target.closest("input,textarea,select,[contenteditable]:not([contenteditable=false])"));
+  const passiveFocus=()=>!owner.activeElement||owner.activeElement===owner.body||owner.activeElement===owner.documentElement;
+  const selectCenter=()=>{
+    const graph=host.getGES(),center=host.getCenteredNode?.()??host.getFocus()??host.getNeighborhoodFocus();
+    const node=center&&graph.contains(center)?center:graph.getFirstNode();
+    if(node&&host.getSelection()!==node)host.setSelect(node);
+  };
+  /** Pointer ownership resumes from the center; explicit controls/editors keep their DOM focus. */
+  const activate=()=>{
+    if(!svg.isConnected||!passiveFocus())return;
+    selectCenter();focusSelection();
+  };
+  const pointerenter=(event:PointerEvent)=>{if(event.pointerType==="touch")return;pointerInside=true;activate();};
+  const pointermove=(event:PointerEvent)=>{if(event.pointerType!=="touch")activate();};
+  const pointerleave=()=>{pointerInside=false;};
   const itemAt = (target: EventTarget | null): NavigationItem | null => {
     if (!(target instanceof Element)) return null;
     const node = target.closest<SVGGElement>(".tg-node"), edge = target.closest<SVGGElement>(".fm-edge");
@@ -33,13 +49,18 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
   const focusSelection = () => {
     const item = host.getSelection();
     const selector = item ? `[data-${item instanceof FreshNode ? "node" : "edge"}-id=${CSS.escape(item.getID()!)}]` : null;
-    const target = selector ? svg.querySelector<SVGElement>(selector) : svg;
+    const target = (selector ? svg.querySelector<SVGElement>(selector) : null)??svg;
     target?.focus({ preventScroll: true });
   };
   const keydown = (event: KeyboardEvent) => {
     if (event.defaultPrevented) return;
     // Embedded editors must also bypass inherited node handlers, without suppressing native text input.
     if (editable(event.target) || event.isComposing) { event.stopPropagation(); return; }
+    // Clearing/replacing a selection must not consume the next Enter/arrow just to choose an anchor.
+    const targetKey=["Enter"," ","F2","ArrowUp","ArrowRight","ArrowDown","ArrowLeft"].includes(event.key);
+    const itemKey=!event.metaKey&&!event.altKey&&targetKey&&(!event.ctrlKey||event.key==="Enter"||event.key===" ");
+    if(!host.getSelection()&&itemKey)selectCenter();
+    if(itemKey&&event.target===svg&&host.getSelection())focusSelection();
     const modified = event.ctrlKey || event.metaKey || event.altKey;
     const before = host.getSelection(), focused = itemAt(event.target);
     let handled: boolean;
@@ -58,6 +79,11 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     }
     event.preventDefault(); event.stopImmediatePropagation();
     if (before !== host.getSelection() && svg.contains(document.activeElement)) focusSelection();
+  };
+  // DOM replacement can leave body focused while the pointer is stationary over the graph.
+  const passiveKeydown=(event:KeyboardEvent)=>{
+    if(!pointerInside||!passiveFocus()||!svg.isConnected||!svg.getClientRects().length||event.defaultPrevented||event.isComposing)return;
+    activate();keydown(event);
   };
   const click = (event: MouseEvent) => {
     if (editable(event.target)) return;
@@ -94,6 +120,8 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     refreshFocus();
   };
   svg.addEventListener("keydown", keydown, true); svg.addEventListener("click", click, true);
+  svg.addEventListener("pointerenter",pointerenter);svg.addEventListener("pointermove",pointermove);svg.addEventListener("pointerleave",pointerleave);
+  owner.addEventListener("keydown",passiveKeydown,true);
   svg.addEventListener("wheel", wheel, { capture: true, passive: false });
   svg.addEventListener("focusout", focusout); svg.addEventListener("focusin", refreshFocus);
   return () => {
@@ -101,6 +129,8 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     unsubscribe(); svg.removeEventListener("keydown", keydown, true); svg.removeEventListener("click", click, true); svg.removeEventListener("focusout", focusout);
     svg.removeEventListener("wheel", wheel, true);
     svg.removeEventListener("focusin", refreshFocus);
+    svg.removeEventListener("pointerenter",pointerenter);svg.removeEventListener("pointermove",pointermove);svg.removeEventListener("pointerleave",pointerleave);
+    owner.removeEventListener("keydown",passiveKeydown,true);
     if (!externalStatus) status.remove();
   };
 }
