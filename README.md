@@ -38,7 +38,9 @@ Node and relation weights now control added RFC stiffness through bounded import
 
 Porting and re-implementation based on the existing concepts have required only a few hours so far, including code archaeology in the original Java sources.
 
-The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. Freshmind 4 reimplements and extends the original Reinforcement Focus+Context idea from [Gregor Heinrich’s 2005 paper](docs/literature/rfc@3ia05compact.pdf), adding explicit focal target lengths, persistent tree/DAG/cluster definitions and reproducible layout comparisons.
+The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order.
+
+Freshmind 4 reimplements and extends the original Reinforcement Focus+Context idea from [Gregor Heinrich’s 2005 paper](docs/literature/rfc@3ia05compact.pdf). RFC reinforces selected graph neighborhoods while retaining their surrounding context. This implementation adds explicit focal target lengths, persistent tree/DAG/cluster definitions and reproducible layout comparisons.
 
 The [Freshmind feature design](docs/fm_port-design.md) describes the implemented typed/visual models, labeled curves, keyboard navigation, metadata/inline editors and native YAML persistence. The approved `berry` and `nips-fm` examples are converted from the Java reference; other datasets are proprietary and excluded.
 

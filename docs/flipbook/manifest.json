@@ -23,7 +23,13 @@
     "12-rfc-attraction.png",
     "13-rfc.png",
     "14-rfc-weighted.png",
-    "15-nips.png",
+    "15-multiple-foci.png",
+    "16-clusters.png",
+    "17-focal-regions.png",
+    "18-importance.png",
+    "19-structural-view.png",
+    "20-reveal-detail.png",
+    "21-nips.png",
     "README.md",
     "index.html",
     "manifest.json"
@@ -31,8 +37,8 @@
   "steps": [
     {
       "id": "browser",
-      "title": "Graph browser",
-      "caption": "The main browser opens a local neighborhood. Select nodes to inspect their connections; dragging, pinning and neighborhood controls use the same graph model.",
+      "title": "Graph browser with RFC on the center node",
+      "caption": "The graph-browser example opens with Reinforcement Focus+Context active on its central Graph browsers node. Yellow halos identify the reinforced center and its five immediate branches; the surrounding graph retains its ordinary connections and forces.",
       "file": "01-browser.png"
     },
     {
@@ -104,7 +110,7 @@
     {
       "id": "rfc",
       "title": "Single-focus comparison: length-constrained tree",
-      "caption": "The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. RFC halos fade away without a rim; focal-region exclusion remains later work.",
+      "caption": "The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. Yellow halos show reinforcement; optional focal-region exclusion is demonstrated separately below.",
       "file": "13-rfc.png"
     },
     {
@@ -114,10 +120,46 @@
       "file": "14-rfc-weighted.png"
     },
     {
+      "id": "multiple-foci",
+      "title": "Reinforce multiple stored trees",
+      "caption": "Two saved tree definitions reinforce deeper neighborhoods at the same time. Their context relations remain ordinary graph edges. Stored membership survives YAML export; active RFC centers are temporary view state. Shift+Enter can also add or remove an individual center.",
+      "file": "15-multiple-foci.png"
+    },
+    {
+      "id": "clusters",
+      "title": "Overlapping clusters and their boundaries",
+      "caption": "RFC can reinforce cyclic clusters as well as trees. These two stored clusters share a member, retain their internal relations and show translucent boundaries. Cluster rigidity controls resistance to deformation; the representative selects the group without becoming a physical anchor.",
+      "file": "16-clusters.png"
+    },
+    {
+      "id": "focal-regions",
+      "title": "Optional focal-region exclusion",
+      "caption": "Dashed physical regions show the space reserved around two reinforced structures. Optional exclusion pushes context and non-shared focal nodes away from those regions while shared members remain exempt from their own regions. The forces are soft; pinned nodes and labels can still overlap.",
+      "file": "17-focal-regions.png"
+    },
+    {
+      "id": "importance",
+      "title": "Node importance and exact weight values",
+      "caption": "Node weight scales body and label size within configured limits. Weight 1 keeps normal size and weight 0 remains visible. Optional values make weights explicit when labels differ in length. Size shows importance; yellow halos independently show RFC participation.",
+      "file": "18-importance.png"
+    },
+    {
+      "id": "structural-view",
+      "title": "Combine RFC with structural aggregation",
+      "caption": "The structural focus + context example combines a viewing lens, RFC and reversible Person/Paper leaf aggregation. Six of thirteen nodes remain visible, with seven aggregated leaves counted under their parents. The shared collaborator stays visible because it connects two semantic neighbors. The complete graph remains intact.",
+      "file": "19-structural-view.png"
+    },
+    {
+      "id": "reveal-detail",
+      "title": "Reveal aggregated detail without losing context",
+      "caption": "Select Group Beta and reveal its leaves to restore detail while retaining the current graph, focal center and lens. Nine nodes are now visible. E also reveals a selected parent's leaves; Reset structural view restores the current neighborhood without deleting semantic data.",
+      "file": "20-reveal-detail.png"
+    },
+    {
       "id": "nips",
       "title": "Browse the approved NIPS dataset",
       "caption": "NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.",
-      "file": "15-nips.png"
+      "file": "21-nips.png"
     }
   ]
 }
