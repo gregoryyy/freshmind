@@ -121,8 +121,14 @@ Only numeric arrays, seeded randomness and categorical sampling are needed in th
 sampler loop. `StopWatch`, Swing `TopicMatrixPanel`, `Vectors.print`, corpus file
 readers, `LdaTeaLeaves`, demo random permutations, configuration singletons and
 Java collection wrappers are not required runtime dependencies. Port the needed
-`CokusRandom` generator with its own source notice and fixed-vector tests; use
+`CokusRandom` generator with the upstream Cokus/MT19937 notice and fixed-vector tests; use
 ordinary TypeScript arrays/Map and explicit small numerical helpers for the rest.
+The generator comes from Shawn Cokus's 1998 recoding of MT19937 (Makoto Matsumoto
+and Takuji Nishimura, 1997), via [David Blei's lda-c](https://github.com/blei-lab/lda-c/blob/d8fbd6bc9adc3fc32d3d47af1460158d44c789d0/cokus.c)
+and Gregor Heinrich's Java adaptation. The upstream generator uses GNU Library
+GPL version 2 or later; [NOTICE](../NOTICE) records the source hashes and original
+notice, and [LICENSE-LGPL-2.0](../LICENSE-LGPL-2.0) contains the full license.
+
 The audited `CokusRandom` overrides both `nextInt(n)` and `nextDouble`: bounded
 integers use `floor(n*uniform)` and uniforms use one unsigned draw divided by
 2^32. The port preserves this mapping. `just test-lda-java` checks 10,000 draws,

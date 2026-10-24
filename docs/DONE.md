@@ -15,6 +15,12 @@ RFC experiment documentation (**3.5**) is complete for the implemented compariso
 
 Milestones **1–3** are complete within their agreed scope. Original-figure reproduction (**3.3.1**) was removed from scope at the user's request on 2026-10-24; it is not claimed as implemented. Experiment J completes the final planned RFC comparison (**3.4.2**). The [search report](experiments/search/README.md) completed the earlier prototype task **4.6**; revised milestone **4** awaits the supplied module. Earlier entries below describe the prototype at their respective checkpoints. Numerical regularity, low motion, force balance and successful synthetic retrieval checks do not establish general convergence, perceptual benefit or real-world search quality.
 
+## Cokus generator attribution correction — 2026-10-24
+
+- Corrected the generator's attribution to Shawn Cokus's 1998 recoding of MT19937 by Makoto Matsumoto and Takuji Nishimura (1997), distributed through David Blei's lda-c and the knowceans Java adaptation. The earlier copied Java wrapper notice obscured the upstream authors and license; its permissive-license description was incorrect.
+- Restored the complete upstream `cokus.c` notice under GNU Library GPL version 2 or later, recorded the pinned source and hashes, and added `LICENSE-LGPL-2.0` to repository, npm and browser distributions. Updated source, LICENSE, NOTICE, README and the source audit; generator logic and numerical records are unchanged.
+- Verification: `just check` passes all 231 core tests, type checking and library/demo builds. The pinned Java reference still matches 10,000 draws, sampler counts and fold-in. Verified identical executable generator source, upstream/Java hashes, complete upstream notice, documentation links and inclusion of the corrected NOTICE/full license in both npm and browser distributions.
+
 ## Repository agent guidance — 2026-10-24
 
 - Added root [AGENTS.md](../AGENTS.md), adapted from the neighboring Kibitz project's structure for FM4's domains, public contracts, just workflow, verification, licensing and research/search scope. Preserves the README motivation and the user-supplied retrieval direction.

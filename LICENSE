@@ -12,8 +12,15 @@ the browser build containing it is distributed under GPL-3.0-or-later with
 the individual component notices retained. Separately marked Apache files
 retain their own license. The search worker/session code extracted from the
 GPL-marked Freshmind browser controller retains GPL-3.0-or-later in
-src/ir/browser/. The CokusRandom port has its original permissive
-two-condition notice in src/ir/topics/cokus.ts and NOTICE.
+src/ir/browser/.
+
+The Cokus MT19937 generator in src/ir/topics/cokus.ts comes from Shawn
+Cokus's recoding of work by Makoto Matsumoto and Takuji Nishimura, via
+David Blei's lda-c and the knowceans Java adaptation. Its upstream license
+is GNU Library General Public License version 2 or later
+(LGPL-2.0-or-later), with full version 2 text in LICENSE-LGPL-2.0.
+The original generator notice and adaptation provenance are retained in
+src/ir/topics/cokus.ts and NOTICE.
 
 TouchGraph-derived components retain the original licenses reproduced below.
 The short headers in src/tg/ refer to this file and NOTICE. Distribute both
