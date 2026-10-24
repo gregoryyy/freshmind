@@ -19,7 +19,7 @@ export interface MotionStabilizationOptions {
 export interface MotionStabilizationState {
   enabled: boolean;
   phase: "steady" | "damping" | "recovering";
-  /** Impulse-response multiplier; observation alone never applies it to nodes. */
+  /** Impulse-response multiplier (minimum for node-local diagnostics); observation alone never applies it. */
   gain: number;
   detections: number;
   maxStepDisplacement: number;

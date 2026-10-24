@@ -47,7 +47,7 @@ Graph search uses elasticlunr for literal retrieval and local LDA for semantic r
 
 RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Point at the graph to give the centered node keyboard control; explicit control/editor focus takes priority. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
 
-**View → Layout motion → Adaptive damping** starts enabled and suppresses oscillation with or without RFC. See the [damping guide and experiment](docs/layout-damping.md).
+**View → Layout motion → Adaptive damping** starts enabled and damps oscillating nodes independently, leaving other nodes free to move, with or without RFC. See the [damping guide and experiment](docs/layout-damping.md).
 
 The other common recipes are:
 

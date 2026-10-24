@@ -16,7 +16,7 @@ export function bindMotionControls(panel:TGPanel,elements:MotionControlElements)
     const gain=s.gain>=.001?s.gain.toFixed(3):s.gain.toExponential(1);
     const text=!s.enabled?"Adaptive damping off; detection is disabled.":response==="cooling"?
       `Earlier TouchGraph cooling · ${s.detections} detections · damper ${panel.tgLayout.getState().damper.toFixed(3)}.`:!s.detections?"Adaptive damping on · watching graph motion.":
-      `${s.phase==="recovering"?"Restoring motion":s.phase==="damping"?"Damping oscillation":"Adaptive damping on"} · ${s.detections} detections · gain ${gain} · last ${s.lastTrigger}: ${s.detectedNodeIds.slice(0,4).join(", ")}${s.detectedNodeIds.length>4?", …":""}.`;
+      `${s.phase==="recovering"?"Restoring motion":s.phase==="damping"?"Damping oscillation":"Adaptive damping on"} · ${s.detections} detections · minimum gain ${gain} · last ${s.lastTrigger}: ${s.detectedNodeIds.slice(0,4).join(", ")}${s.detectedNodeIds.length>4?", …":""}.`;
     if(elements.status.textContent!==text)elements.status.textContent=text;
   };
   const change=()=>{panel.tgLayout.setAdaptiveDampingEnabled(elements.adaptiveDamping.checked);update();};

@@ -12,10 +12,15 @@
 import type {Node} from "../model/index.js";
 import type {LayoutHost,LayoutForce} from "./types.js";
 import {MotionStabilizer} from "./stabilization.js";
+import {NodeMotionStabilizer} from "./node-stabilization.js";
 import type {MotionStabilizationOptions,MotionStabilizationState} from "./stabilization.js";
 
 export type AdaptiveDampingResponse="impulse"|"cooling";
-export interface LayoutAdaptiveDampingOptions extends MotionStabilizationOptions {response?:AdaptiveDampingResponse;}
+export interface LayoutAdaptiveDampingOptions extends MotionStabilizationOptions {
+  response?:AdaptiveDampingResponse;
+  /** Independent node gains by default; graph scope preserves the earlier experiment. */
+  scope?:"node"|"graph";
+}
 
 /** Direct port of TGLayout 1.21, including Java integer repulsion arithmetic. */
 export class TGLayout {
@@ -41,7 +46,8 @@ export class TGLayout {
    */
   constructor(private readonly panel: LayoutHost, private readonly random: () => number = Math.random, adaptiveDamping:LayoutAdaptiveDampingOptions={}) {
     this.adaptiveDampingResponse=this.validateResponse(adaptiveDamping.response??"impulse");
-    this.adaptiveDamping=new MotionStabilizer(adaptiveDamping);
+    if(adaptiveDamping.scope!==undefined&&adaptiveDamping.scope!=="node"&&adaptiveDamping.scope!=="graph")throw new TypeError("adaptiveDamping.scope must be node or graph");
+    this.adaptiveDamping=adaptiveDamping.scope==="graph"?new MotionStabilizer(adaptiveDamping):new NodeMotionStabilizer(adaptiveDamping);
   }
   private validateResponse(response:AdaptiveDampingResponse):AdaptiveDampingResponse {
     if(response!=="impulse"&&response!=="cooling")throw new TypeError("adaptiveDamping.response must be impulse or cooling");

@@ -12,5 +12,6 @@
 export {TGLayout} from "./layout.js";
 export type {AdaptiveDampingResponse,LayoutAdaptiveDampingOptions} from "./layout.js";
 export {MotionStabilizer} from "./stabilization.js";
+export {NodeMotionStabilizer} from "./node-stabilization.js";
 export type {MotionStabilizationOptions,MotionStabilizationState} from "./stabilization.js";
 export type {LayoutHost,LayoutForce} from "./types.js";
