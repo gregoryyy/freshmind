@@ -5,7 +5,7 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type {FreshmindPanel} from "../panel.js";
+import type {FreshmindPanel} from "../browser/index.js";
 
 export interface StructuralViewElements {
   enabled:HTMLInputElement;hiddenNodeTypes:HTMLSelectElement;hiddenRelationTypes:HTMLSelectElement;aggregateTypes:HTMLSelectElement;

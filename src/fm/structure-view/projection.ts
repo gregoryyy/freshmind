@@ -5,8 +5,8 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type {ImmutableGraphEltSet} from "../../tg/graph.js";
-import {FreshNode,FreshEdge} from "../model.js";
+import type {ImmutableGraphEltSet} from "../../tg/graph/index.js";
+import type {FreshNode,FreshEdge} from "../model/index.js";
 
 export interface StructuralViewSettings {
   enabled:boolean;

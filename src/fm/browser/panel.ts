@@ -6,30 +6,30 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { TGPanel } from "../tg/panel.js";
-import type { TGPanelOptions } from "../tg/panel.js";
-import { Node, Edge } from "../tg/model.js";
-import { GraphEltSet } from "../tg/graph.js";
-import type {VisibleLocality,ImmutableGraphEltSet} from "../tg/graph.js";
-import { FreshNode, FreshEdge, FreshGraph } from "./model.js";
-import { TypeRegistry } from "./config/registry.js";
-import { freshmind2014Configuration } from "./config/fm2014.js";
-import { parseTypeConfiguration } from "./config/yaml.js";
-import type { CurveMode, EdgeStyle, InteractionState, NodeStyle } from "./config/types.js";
-import { FreshmindPresentation } from "./rendering/presentation.js";
-import { routeEdges } from "./rendering/geometry.js";
-import type { EdgeGeometry } from "./rendering/geometry.js";
-import { FreshmindNavigation } from "./navigation/controller.js";
-import { bindNavigation } from "./navigation/keyboard.js";
-import type { NavigationOptions } from "./navigation/types.js";
-import { RfcController } from "./rfc/controller.js";
-import type { RfcSettings,RfcExclusionSettings } from "./rfc/types.js";
-import type { RfcStabilizationOptions } from "./rfc/stabilization.js";
-import type { TGLayout } from "../tg/layout.js";
-import {StructuralViewController} from "./structure-view/controller.js";
-import {projectRfcStructure} from "./rfc/structures.js";
-import {validateNodeImportanceView} from "./rendering/importance.js";
-import type {NodeImportanceViewSettings} from "./rendering/importance.js";
+import { TGPanel } from "../../tg/browser/index.js";
+import type { TGPanelOptions } from "../../tg/browser/index.js";
+import { Node, Edge } from "../../tg/model/index.js";
+import { GraphEltSet } from "../../tg/graph/index.js";
+import type {VisibleLocality,ImmutableGraphEltSet} from "../../tg/graph/index.js";
+import { FreshNode, FreshEdge, FreshGraph } from "../model/index.js";
+import { TypeRegistry } from "../config/core.js";
+import { freshmind2014Configuration } from "../config/core.js";
+import { parseTypeConfiguration } from "../config/index.js";
+import type { CurveMode, EdgeStyle, InteractionState, NodeStyle } from "../config/core.js";
+import { FreshmindPresentation } from "../rendering/index.js";
+import { routeEdges } from "../geometry/index.js";
+import type { EdgeGeometry } from "../geometry/index.js";
+import { FreshmindNavigation } from "../navigation/index.js";
+import { bindNavigation } from "./navigation.js";
+import type { NavigationOptions } from "../navigation/index.js";
+import { RfcController } from "../rfc/index.js";
+import type { RfcSettings,RfcExclusionSettings } from "../rfc/index.js";
+import type { RfcStabilizationOptions } from "../rfc/index.js";
+import type { TGLayout } from "../../tg/layout/index.js";
+import {StructuralViewController} from "../structure-view/index.js";
+import {projectRfcStructure} from "../rfc/index.js";
+import {validateNodeImportanceView} from "../geometry/index.js";
+import type {NodeImportanceViewSettings} from "../geometry/index.js";
 
 export interface FreshmindPanelOptions extends TGPanelOptions {
   types?: TypeRegistry;

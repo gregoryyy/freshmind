@@ -7,14 +7,14 @@
  */
 
 import { select } from "d3-selection";
-import { FreshNode, FreshEdge } from "../model.js";
-import type { NodeStyle, EdgeStyle } from "../config/types.js";
-import type { EdgeGeometry } from "./geometry.js";
-import { createNodeOutline, dashArray } from "./shapes.js";
-import type { NodeOutline } from "./shapes.js";
-import {createClusterBoundary} from "./cluster-boundary.js";
-import type {RfcRegionState} from "../rfc/types.js";
-import {nodeImportanceScale} from "./importance.js";
+import { FreshNode, FreshEdge } from "../model/index.js";
+import type { NodeStyle, EdgeStyle } from "../config/core.js";
+import type { EdgeGeometry } from "../geometry/index.js";
+import { createNodeOutline, dashArray } from "../geometry/index.js";
+import type { NodeOutline } from "../geometry/index.js";
+import {createClusterBoundary} from "../geometry/index.js";
+import type {RfcRegionState} from "../rfc/index.js";
+import {nodeImportanceScale} from "../geometry/index.js";
 
 export interface ClusterRegion {id:string;nodes:FreshNode[];edges:FreshEdge[];}
 
@@ -199,7 +199,7 @@ export class FreshmindPresentation {
       .attr("font-size",12).text("⌖");
   }
   /** Counts aggregated nodes by semantic type without modifying labels or node focus bounds. */
-  paintAggregation(layer:SVGGElement,groups:readonly import("../structure-view/projection.js").AggregationGroup[],nodeOf:(id:string)=>FreshNode|null):void {
+  paintAggregation(layer:SVGGElement,groups:readonly import("../structure-view/index.js").AggregationGroup[],nodeOf:(id:string)=>FreshNode|null):void {
     const parents=[...new Set(groups.map(g=>g.parentId))].map(id=>({node:nodeOf(id)!,groups:groups.filter(g=>g.parentId===id)}));
     select(layer).selectAll<SVGTextElement,typeof parents[number]>("text.fm-aggregation-count").data(parents,p=>p.node.getID()!).join("text")
       .attr("class","fm-aggregation-count").attr("data-for-node",p=>p.node.getID()).attr("x",p=>p.node.drawx)

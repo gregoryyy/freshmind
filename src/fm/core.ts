@@ -6,30 +6,22 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-export { FreshNode, FreshEdge, FreshGraph, FreshmindDocument } from "./model.js";
-export type { Annotation, Metadata, JsonValue, FreshNodeOptions, FreshEdgeOptions } from "./model.js";
-export { TypeRegistry } from "./config/registry.js";
-export { freshmind2014Configuration } from "./config/fm2014.js";
-export * from "./config/types.js";
-export { createEdgeGeometry, routeEdges } from "./rendering/geometry.js";
-export type { EdgeGeometry, Point, WorldToDraw } from "./rendering/geometry.js";
-export {createClusterBoundary} from "./rendering/cluster-boundary.js";
-export {nodeImportanceScale} from "./rendering/importance.js";
-export type {NodeImportanceViewSettings} from "./rendering/importance.js";
-export type {ClusterBoundaryBox} from "./rendering/cluster-boundary.js";
-export { createNodeOutline, dashArray } from "./rendering/shapes.js";
-export { applyNodeEdit, applyRelationEdit } from "./editing/commands.js";
-export type { NodeEdit, RelationEdit } from "./editing/commands.js";
-export type { RelationEditContext } from "./editing/commands.js";
-export type { DocumentRecord, DocumentView, NodeRecord, EdgeRecord, LoadOptions, SaveOptions } from "./io/types.js";
-export { FreshmindNavigation } from "./navigation/controller.js";
-export { keymap } from "./navigation/keymap.js";
+export {FreshNode,FreshEdge,FreshGraph,FreshmindDocument} from "./model/index.js";
+export type {Annotation,Metadata,JsonValue,FreshNodeOptions,FreshEdgeOptions} from "./model/index.js";
+export {TypeRegistry,freshmind2014Configuration,nodeShapes,dashStyles,interactionStates,defaultNodeStyle,defaultEdgeStyle} from "./config/core.js";
+export type {NodeShape,DashStyle,CurveMode,InteractionState,DeepPartial,StrokeStyle,NodeStyle,EdgeStyle,
+  NodeImportanceMode,NodeImportanceStyle,VisualDefinition,VisualOverride,SemanticType,TypeConfiguration,VisualItem} from "./config/core.js";
+export {createEdgeGeometry,routeEdges,createClusterBoundary,nodeImportanceScale,createNodeOutline,dashArray} from "./geometry/index.js";
+export type {EdgeGeometry,Point,WorldToDraw,NodeImportanceViewSettings,ClusterBoundaryBox} from "./geometry/index.js";
+export {applyNodeEdit,applyRelationEdit} from "./editing/index.js";
+export type {NodeEdit,RelationEdit,RelationEditContext} from "./editing/index.js";
+export type {DocumentRecord,DocumentView,NodeRecord,EdgeRecord,LoadOptions,SaveOptions} from "./io/index.js";
+export {FreshmindNavigation,keymap,collectCandidates,bestCandidateIndex,screenDirection} from "./navigation/index.js";
+export type {Direction,CandidateKind,Candidate,Preselection,NavigationItem,NavigationState,NavigationOptions,
+  NavigationSettings,NavigationHost,NavigationKey,NavigationActions,NavigationClock} from "./navigation/index.js";
 export * from "./rfc/index.js";
 export * from "./structure-view/index.js";
-export {validateSubstructure, analyzeSubstructure, spanningTree, clusterStructure} from "./structures/model.js";
-export type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "./structures/model.js";
-export {clusterGraph, clusterToSubstructure, clusteringSignature} from "./clustering/index.js";
-export type {ClusterOptions, ClusterResult, GraphCluster} from "./clustering/index.js";
-export { collectCandidates, bestCandidateIndex, screenDirection } from "./navigation/candidates.js";
-export type { Direction, CandidateKind, Candidate, Preselection, NavigationItem, NavigationState, NavigationOptions,
-  NavigationSettings, NavigationHost, NavigationKey, NavigationActions, NavigationClock } from "./navigation/types.js";
+export {validateSubstructure,analyzeSubstructure,spanningTree,clusterStructure} from "./structures/index.js";
+export type {GraphSubstructure,SubstructureGraph,SubstructureTopology} from "./structures/index.js";
+export {clusterGraph,clusterToSubstructure,clusteringSignature} from "./clustering/index.js";
+export type {ClusterOptions,ClusterResult,GraphCluster} from "./clustering/index.js";

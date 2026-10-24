@@ -4,15 +4,17 @@
 
 **Freshmind 4** is a partial port of the Java-based **Freshmind** project to TypeScript and JavaScript, with additional functionality for the browser. The package uses the short name `fm4`.
 
+![Freshmind 4 graph example with RFC enabled on its central Graph browsers node](docs/flipbook/01-browser.png)
+
+The graph-browser example with Reinforcement Focus+Context (RFC) enabled on its center node. [Explore the flipbook](docs/flipbook/index.html).
+
 ## Background
 
-The original Freshmind was developed by **Gregor Heinrich** in several waves between **2002 and 2014**.
-
-The [original artwork archive](assets/artwork/fm2014/README.md) preserves Freshmind's icons, splash screen and background, including the editable Photoshop sources and a checksum manifest.
+The original Freshmind was developed by Gregor Heinrich in several waves between 2002 and 2014.
 
 The purpose of this partial port is to demonstrate Freshmind's concepts in a modern browser environment. Some of these concepts have aged well and may still be valuable more than a decade later. Freshmind 4 carries selected functionality forward and adds new capabilities for exploring these ideas.
 
-The current implementation concentrates on the graph browsing foundation: spring embedding, neighborhood exploration, and focus and context views. Its TouchGraph-derived core preserves the **1.21 API and physics**. D3 supplies SVG data joins, dragging, panning, and zooming; the ported spring embedder calculates the layout.
+The current implementation concentrates on the graph browsing foundation: spring embedding, neighborhood exploration, and focus and context views. Its TouchGraph-derived core preserves the 1.21 API and physics. D3 supplies SVG data joins, dragging, panning, and zooming; the ported spring embedder calculates the layout.
 
 ## Current features
 
@@ -36,7 +38,7 @@ Node and relation weights now control added RFC stiffness through bounded import
 
 Porting and re-implementation based on the existing concepts have required only a few hours so far, including code archaeology in the original Java sources.
 
-The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. RFC is being rebuilt from the 2005 paper.
+The Java Freshmind prototype at `../knowceans/knowceans-freshmind-2014/` is the feature reference for labels, editing, navigation, search and file I/O. The [FM 2014 source analysis](docs/fm2014_analysis.md) describes these features, unfinished functionality, dependencies, available LDA source projects and proposed port order. Freshmind 4 reimplements and extends the original Reinforcement Focus+Context idea from [Gregor Heinrich’s 2005 paper](docs/literature/rfc@3ia05compact.pdf), adding explicit focal target lengths, persistent tree/DAG/cluster definitions and reproducible layout comparisons.
 
 The [Freshmind feature design](docs/fm_port-design.md) describes the implemented typed/visual models, labeled curves, keyboard navigation, metadata/inline editors and native YAML persistence. The approved `berry` and `nips-fm` examples are converted from the Java reference; other datasets are proprietary and excluded.
 
@@ -112,7 +114,7 @@ just --list      # All recipes, including Java and browser tests
 
 PDF rendering uses Pandoc and Google Chrome, with the same print styling and Mermaid support as Kibitz. Build assets live in `scripts/pdf/`, alongside the other development tools. Install Pandoc with `brew install pandoc`; set `CHROME` to use another Chrome executable. Outputs use the source's full name (`file.md.pdf`) and unchanged PDFs are skipped. Mermaid diagrams require network access during PDF generation. Delete the PDF to rebuild after changing only an embedded image.
 
-`just flipbook` builds and serves the production demo on an available loopback port, drives it with headless Chrome, and writes the [walkthrough](docs/flipbook/README.md), numbered screenshots, an [HTML viewer](docs/flipbook/index.html) and a manifest under `docs/flipbook/`. The viewer works from disk with Previous/Next buttons, arrow keys and Home/End. Edit [scripts/flipbook/tour.mjs](scripts/flipbook/tour.mjs) to change the acts and captions, then regenerate. The tour covers browsing, both zooms, key-map help, types, editing, the node-content popup, YAML saving, RFC comparison, Florentine families and the approved Berry/NIPS-FM examples. It uses the existing Playwright dependency and Google Chrome; no separate service needs to be running.
+`just flipbook` builds and serves the production demo on an available loopback port, drives it with headless Chrome, and writes the [walkthrough](docs/flipbook/README.md), numbered screenshots, an [HTML viewer](docs/flipbook/index.html) and a manifest under `docs/flipbook/`. The viewer works from disk with Previous/Next buttons, arrow keys and Home/End. Edit [scripts/flipbook/tour.mjs](scripts/flipbook/tour.mjs) to change the acts and captions, then regenerate. The 21-step tour covers browsing, both zooms, key-map help, types, editing, the node-content popup, YAML saving, single- and multiple-focus RFC, overlapping clusters, focal-region exclusion, node importance, reversible structural aggregation, Florentine families and the approved Berry/NIPS-FM examples. It uses the existing Playwright dependency and Google Chrome; no separate service needs to be running.
 
 Use `just flipbook --output /tmp/fm4-flipbook --port 4176` to choose an output directory and port, or `--channel chromium` / `PLAYWRIGHT_CHANNEL` to select another installed Playwright browser channel. A requested busy port fails without reusing its server. Generation captures all steps before publishing; regeneration replaces its own manifest-listed files and preserves unrelated files. The command stops its local server and browser on completion or failure. Layout inputs are seeded and paused for capture; screenshots may still vary with browser/font versions.
 
@@ -269,17 +271,28 @@ Custom lenses can extend `TGAbstractLens`, implement `applyLens(point)` and `und
 ## Freshmind extensions and source structure
 
 ```text
-src/tg/                  TouchGraph model, adjacency, locality, layout, lenses and panel
-src/fm/model.ts          FreshNode, FreshEdge, FreshGraph and document aggregate
-src/fm/config/           Type contracts, validation, registry, YAML loader and fm2014 preset
-src/fm/rendering/        Pure shape/curve geometry and SVG presentation
-src/fm/navigation/       Headless candidate/controller state and graph-scoped DOM keyboard adapter
-src/fm/editing/          Shared validated edit commands
-src/fm/panel.ts          FreshmindPanel extension of TGPanel
-config/                 Authoritative YAML type configuration
+src/tg/model/           TouchGraph Node and Edge
+src/tg/graph/           Complete/visible membership, traversal and locality animation
+src/tg/layout/          Spring embedder and force/host contracts
+src/tg/lenses/          Points, lens composition and transforms
+src/tg/browser/         TouchGraph SVG panel
+src/fm/model/           FreshNode, FreshEdge, FreshGraph and document aggregate
+src/fm/config/          Type contracts, validation, registry, YAML loader and preset
+src/fm/geometry/        Pure shapes, curves, hulls and importance mapping
+src/fm/rendering/       SVG presentation
+src/fm/navigation/      Headless navigation/candidate state and key-map data
+src/fm/editing/         Atomic model edit commands
+src/fm/io/              Native YAML codec and transfer contracts
+src/fm/structures/      Persistent tree/DAG/cluster memberships
+src/fm/rfc/             Reinforcement physics, projection and controller
+src/fm/clustering/      Community/component detection
+src/fm/structure-view/  Reversible type filtering and leaf aggregation
+src/fm/browser/         FreshmindPanel, DOM keyboard/content and document adapters
+src/fm/ui/              Reusable controls and popup bindings
+config/                Authoritative YAML type configuration
 ```
 
-TouchGraph imports no Freshmind code. Freshmind extends its model/panel classes and composes the registry and presentation helpers. The package entry points `fm4` and `fm4/core` resolve directly to the TouchGraph build, alongside the explicit `fm4/tg` and `fm4/tg/core` names; no root source shims are needed. [Source dependency rules](src/README.md) describe the boundaries.
+TouchGraph imports no Freshmind code. Freshmind extends its model/panel classes and composes the registry and presentation helpers. The package entry points `fm4` and `fm4/core` resolve directly to the TouchGraph build, alongside the explicit `fm4/tg` and `fm4/tg/core` names; no root source shims are needed. [Source dependency rules](src/README.md) describe the boundaries. Each feature has a module entry point, such as `fm4/tg/graph`, `fm4/fm/model`, `fm4/fm/geometry` or `fm4/fm/browser`. `fm4/fm/config/core` supplies parser-free type configuration; `fm4/fm/config` adds its YAML loader. Existing package imports remain supported.
 
 ```ts
 import { FreshmindPanel, FreshNode, FreshEdge } from "fm4/fm";

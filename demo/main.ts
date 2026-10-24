@@ -12,7 +12,7 @@ import { SelectionEditor } from "./selection-editor.js";
 import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
-import { resourceURL } from "../src/fm/editing/details.js";
+import { resourceURL } from "../src/fm/browser/index.js";
 import "./style.css";
 
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;

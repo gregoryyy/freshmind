@@ -6,7 +6,7 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type { NodeShape, DashStyle } from "../config/types.js";
+import type { NodeShape, DashStyle } from "../config/core.js";
 export interface Point { x: number; y: number; }
 /** SVG outline and containment in node-local pixels, centered at (0, 0). */
 export interface NodeOutline { path: string; contains(point: Point): boolean; }

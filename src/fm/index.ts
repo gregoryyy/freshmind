@@ -7,12 +7,8 @@
  */
 
 export * from "./core.js";
-export { FreshmindPanel } from "./panel.js";
-export type { FreshmindPanelOptions, FreshmindSelection, SelectionListener } from "./panel.js";
-export { FreshmindPresentation } from "./rendering/presentation.js";
-export { parseTypeConfiguration } from "./config/yaml.js";
-export { parseDocument, readDocument, serializeDocument, documentToRecord } from "./io/codec.js";
-export { captureDocument, installDocument } from "./io/panel.js";
-export type { InstallDocumentOptions } from "./io/panel.js";
-export { resourceURL, renderAnnotation } from "./editing/details.js";
+export * from "./browser/index.js";
+export {FreshmindPresentation} from "./rendering/index.js";
+export {parseTypeConfiguration} from "./config/index.js";
+export {parseDocument,readDocument,serializeDocument,documentToRecord} from "./io/index.js";
 export * from "./ui/index.js";

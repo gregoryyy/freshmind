@@ -7,8 +7,8 @@
  */
 import { stringify } from "yaml";
 import type { FreshmindPanel, FreshmindDocument } from "../src/fm/index.js";
-import { parseDocument, serializeDocument } from "../src/fm/io/codec.js";
-import { captureDocument, installDocument } from "../src/fm/io/panel.js";
+import { parseDocument, serializeDocument } from "../src/fm/io/index.js";
+import { captureDocument, installDocument } from "../src/fm/browser/index.js";
 import berryURL from "../examples/fm2014/berry.fm.yaml?url";
 import nipsURL from "../examples/fm2014/nips-fm.fm.yaml?url";
 import typesURL from "../examples/fm2014/fm2014.types.yaml?url";

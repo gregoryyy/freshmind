@@ -121,7 +121,7 @@ test("RFC halos follow node shapes and routed edges beneath the graph, including
   await expect(page.locator(".fm-rfc-node-halo")).toHaveCount(7);
   await expect(page.locator(".fm-rfc-edge-halo")).toHaveCount(6);
   const geometry = await page.evaluate(async () => {
-    const p = window.graphBrowser, {createNodeOutline} = await import("/src/fm/rendering/shapes.ts");
+    const p = window.graphBrowser, {createNodeOutline} = await import("/src/fm/geometry/shapes.ts");
     p.setRotation(.6); p.setZoom(1.4); p.setCanvasZoom(1.2); p.setHyperbolic(25); p.repaint();
     const layer = document.querySelector(".fm-rfc-halos"), node = p.findNode("branch-0");
     const halo = layer.querySelector('[data-rfc-node-id="branch-0"]');

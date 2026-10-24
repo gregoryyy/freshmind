@@ -7,7 +7,7 @@
  */
 
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel, TypeRegistry } from "../src/fm/index.js";
-import type { CurveMode } from "../src/fm/config/types.js";
+import type { CurveMode } from "../src/fm/config/core.js";
 import source from "../config/fm2014.types.yaml?raw";
 import { bindZoomControls, bindKeymap } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";

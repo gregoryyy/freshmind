@@ -115,7 +115,7 @@ Source: Java `tg/Edge.setMiddle`, `getDoubleBisection`, `paintArrow`, and `Fresh
 
 ## 2.3 Navigation, keyboard preselection and selection
 
-Implemented in `src/fm/navigation/`: headless candidate geometry and controller, plus a graph-scoped DOM adapter. `FreshmindPanel.getNavigation()` exposes shared commands/settings and state subscriptions; `getNeighborhoodFocus()` records the locality origin separately from the inherited viewing-lens focus. Main-browser controls and keyboard input use the same controller. See the [completion record](DONE.md#milestone-23-freshmind-navigation--2026-10-23).
+Implemented in `src/fm/navigation/`: headless candidate geometry and controller. The graph-scoped DOM adapter lives in `src/fm/browser/navigation.ts`. `FreshmindPanel.getNavigation()` exposes shared commands/settings and state subscriptions; `getNeighborhoodFocus()` records the locality origin separately from the inherited viewing-lens focus. Main-browser controls and keyboard input use the same controller. See the [completion record](DONE.md#milestone-23-freshmind-navigation--2026-10-23).
 
 ### State and commands
 

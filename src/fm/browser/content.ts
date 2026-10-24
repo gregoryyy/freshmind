@@ -5,7 +5,7 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type { Annotation } from "../model.js";
+import type { Annotation } from "../model/index.js";
 
 /** Returns an explicitly openable web/mail URL; legacy local paths remain stored, never rewritten. */
 export function resourceURL(value: string): string | null {

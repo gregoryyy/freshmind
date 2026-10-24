@@ -6,8 +6,8 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type { Node, Edge } from "../../tg/model.js";
-import type { ImmutableGraphEltSet } from "../../tg/graph.js";
+import type { Node, Edge } from "../../tg/model/index.js";
+import type { ImmutableGraphEltSet } from "../../tg/graph/index.js";
 import type { RfcStabilizationState } from "./stabilization.js";
 
 /** Coefficients λx and λy in D² = λx·dx² + λy·dy²; values are weights, not axis scale factors. */

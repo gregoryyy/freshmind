@@ -5,8 +5,8 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type {FreshmindPanel} from "../panel.js";
-import type {NodeImportanceViewSettings} from "../rendering/importance.js";
+import type {FreshmindPanel} from "../browser/index.js";
+import type {NodeImportanceViewSettings} from "../geometry/index.js";
 export interface NodeImportanceElements {mode:HTMLSelectElement;showValues:HTMLInputElement;}
 
 /** Binds supplied display controls; programmatic preferences synchronize without taking selection/focus. */

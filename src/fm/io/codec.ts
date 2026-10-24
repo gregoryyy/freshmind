@@ -6,14 +6,14 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 import { stringify } from "yaml";
-import { FreshNode, FreshEdge, FreshmindDocument } from "../model.js";
-import { TypeRegistry } from "../config/registry.js";
-import { freshmind2014Configuration } from "../config/fm2014.js";
-import { clone, jsonData, keys, number, record, text } from "../config/validation.js";
+import { FreshNode, FreshEdge, FreshmindDocument } from "../model/index.js";
+import { TypeRegistry } from "../config/core.js";
+import { freshmind2014Configuration } from "../config/core.js";
+import { clone, jsonData, keys, number, record, text } from "../config/core.js";
 import { parseYamlValue } from "./yaml-value.js";
 import type { DocumentRecord, DocumentView, LoadOptions, SaveOptions } from "./types.js";
-import type { FreshNodeOptions, FreshEdgeOptions, Metadata } from "../model.js";
-import {validateSubstructure} from "../structures/model.js";
+import type { FreshNodeOptions, FreshEdgeOptions, Metadata } from "../model/index.js";
+import {validateSubstructure} from "../structures/index.js";
 
 function string(value: unknown, path: string): asserts value is string {
   if (typeof value !== "string") throw new TypeError(path + ": expected a string");

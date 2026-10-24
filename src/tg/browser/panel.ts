@@ -3,7 +3,7 @@
  * Copyright (c) 2001-2002 Alexander Shapiro. All rights reserved.
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  *
- * Full license terms and required notices: ../../LICENSE and ../../NOTICE.
+ * Full license terms and required notices: ../../../LICENSE and ../../../NOTICE.
  * Redistribute this source with those files.
  */
 
@@ -14,12 +14,12 @@ import type { Selection } from "d3-selection";
 import { drag } from "d3-drag";
 import { zoom, zoomIdentity } from "d3-zoom";
 import type { ZoomBehavior } from "d3-zoom";
-import { Edge, Node } from "./model.js";
-import { GraphEltSet, VisibleLocality } from "./graph.js";
-import { TGLayout } from "./layout.js";
-import { LocalityUtils } from "./locality.js";
-import { HyperLens, RotateLens, TGAbstractLens, TGLensSet, TranslateLens, ZoomLens } from "./lenses.js";
-import { TGPoint2D } from "./lenses.js";
+import { Edge, Node } from "../model/index.js";
+import { GraphEltSet, VisibleLocality } from "../graph/index.js";
+import { TGLayout } from "../layout/index.js";
+import { LocalityUtils } from "../graph/index.js";
+import { HyperLens, RotateLens, TGAbstractLens, TGLensSet, TranslateLens, ZoomLens } from "../lenses/index.js";
+import { TGPoint2D } from "../lenses/index.js";
 
 export interface GraphListener { graphMoved?(): void; graphReset?(): void; }
 export type TGInteractionMode = "navigate" | "edit";

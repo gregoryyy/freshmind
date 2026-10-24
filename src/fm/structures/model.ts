@@ -5,9 +5,9 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type {ImmutableGraphEltSet} from "../../tg/graph.js";
-import type {Node, Edge} from "../../tg/model.js";
-import {record, keys, text} from "../config/validation.js";
+import type {ImmutableGraphEltSet} from "../../tg/graph/index.js";
+import type {Node, Edge} from "../../tg/model/index.js";
+import {record, keys, text} from "../config/core.js";
 
 /** Persistent membership; references semantic identities without owning a second adjacency graph. */
 export interface GraphSubstructure {

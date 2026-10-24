@@ -5,16 +5,17 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import {VisibleLocality} from "../../tg/graph.js";
-import {Node,Edge} from "../../tg/model.js";
+import {VisibleLocality} from "../../tg/graph/index.js";
+import {Node,Edge} from "../../tg/model/index.js";
 import type {StructuralProjection} from "./projection.js";
+import type {LocalitySource} from "../model/index.js";
 
 /**
  * Membership index for the presented view; the inherited TG locality remains the
  * authoritative neighborhood. Writes through this handle go to that neighborhood.
  * Installing a projection owns visibility flags/counts, never complete adjacency.
  */
-export class StructuralLocality extends VisibleLocality {
+export class StructuralLocality extends VisibleLocality implements LocalitySource {
   constructor(private readonly source:VisibleLocality,private readonly changed:()=>void){super(source.getCompleteEltSet());}
   /** Internal editing adapter: reconnect against neighborhood membership, then repaint atomically. */
   getMutationSource():VisibleLocality{return this.source;}

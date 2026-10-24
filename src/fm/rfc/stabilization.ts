@@ -6,7 +6,7 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type { Node } from "../../tg/model.js";
+import type { Node } from "../../tg/model/index.js";
 
 export interface RfcStabilizationOptions {
   /** Experimental and disabled by default; opt in for oscillation/damping comparisons. */

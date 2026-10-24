@@ -5,7 +5,7 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type {NodeImportanceStyle} from "../config/types.js";
+import type {NodeImportanceStyle} from "../config/core.js";
 export interface NodeImportanceViewSettings {mode:"configured"|NodeImportanceStyle["mode"];showValues:boolean;}
 
 /** Copies validated panel preferences, without changing the document's configured visual styles. */

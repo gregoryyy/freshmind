@@ -6,8 +6,8 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type {Node, Edge} from "../../tg/model.js";
-import type {LayoutForce} from "../../tg/layout.js";
+import type {Node, Edge} from "../../tg/model/index.js";
+import type {LayoutForce} from "../../tg/layout/index.js";
 import {angularGapRms, applyRfcForces, branchImpulse} from "./forces.js";
 import type {RfcHost, RfcSettings, RfcState, RfcCenterState, RfcClusterSettings,RfcExclusionSettings} from "./types.js";
 import {validateCoordinateWeights} from "./metric.js";
@@ -18,8 +18,8 @@ import {projectRfcStructure, constrainedStar} from "./structures.js";
 import type {RfcProjection} from "./structures.js";
 import {applyClusterLink,applyClusterCompactness} from "./clusters.js";
 import {focalRegions,applyRegionExclusion} from "./exclusion.js";
-import {analyzeSubstructure} from "../structures/model.js";
-import type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "../structures/model.js";
+import {analyzeSubstructure} from "../structures/index.js";
+import type {GraphSubstructure, SubstructureGraph, SubstructureTopology} from "../structures/index.js";
 
 const defaults:RfcSettings={...rfcForcePresets.tree,coordinateWeights:{x:1,y:1}};
 

@@ -5,8 +5,8 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import { FreshmindDocument } from "../model.js";
-import type { FreshmindPanel } from "../panel.js";
+import { FreshmindDocument } from "../model/index.js";
+import type { FreshmindPanel } from "./panel.js";
 
 /** Captures the complete graph and effective types while retaining document metadata from the open file. */
 export function captureDocument(panel: FreshmindPanel, current?: FreshmindDocument): FreshmindDocument {

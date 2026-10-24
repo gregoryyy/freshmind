@@ -4,45 +4,14 @@
  * Copyright (c) 2001-2002 Alexander Shapiro. All rights reserved.
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  *
- * Full license terms and required notices: ../../LICENSE and ../../NOTICE.
+ * Full license terms and required notices: ../../../LICENSE and ../../../NOTICE.
  * Redistribute this source with those files.
  */
 
 // TypeScript adaptation, 2026. See NOTICE for the pinned Java reference.
 
-export class TGPoint2D {
-  x: number;
-  y: number;
-  constructor(x?: number | { x: number; y: number }, y = 0) {
-    this.x = typeof x === "object" ? x.x : x ?? 0;
-    this.y = typeof x === "object" ? x.y : y;
-  }
-  setLocation(x: number, y: number): void { this.x = x; this.y = y; }
-  setX(x: number): void { this.x = x; }
-  setY(y: number): void { this.y = y; }
-}
-
-/** In-place forward/inverse transform; subclasses should implement both directions. */
-export class TGAbstractLens {
-  applyLens(_point: TGPoint2D): void {}
-  undoLens(_point: TGPoint2D): void {}
-}
-
-/** Ordered transform composition: apply in insertion order and undo in reverse order. */
-export class TGLensSet extends TGAbstractLens {
-  private lenses: TGAbstractLens[] = [];
-  addLens(lens: TGAbstractLens): void { this.lenses.push(lens); }
-  override applyLens(point: TGPoint2D): void { for (const lens of this.lenses) lens.applyLens(point); }
-  override undoLens(point: TGPoint2D): void { for (const lens of [...this.lenses].reverse()) lens.undoLens(point); }
-  /** Returns transformed draw coordinates in a new point, leaving the input untouched. */
-  convRealToDraw(x: number | TGPoint2D, y = 0): TGPoint2D {
-    const point = new TGPoint2D(x, y); this.applyLens(point); return point;
-  }
-  /** Returns physical coordinates through the inverse chain; accuracy depends on each lens. */
-  convDrawToReal(x: number | TGPoint2D, y = 0): TGPoint2D {
-    const point = new TGPoint2D(x, y); this.undoLens(point); return point;
-  }
-}
+import {TGAbstractLens} from "./lens-set.js";
+import type {TGPoint2D} from "./point.js";
 
 /** The original HyperScroll radial transform and its 200-sample inverse table. */
 export class HyperLens extends TGAbstractLens {
@@ -97,31 +66,4 @@ export class HyperLens extends TGAbstractLens {
       point.y = point.y / distance * result;
     } else { point.x = 0; point.y = 0; }
   }
-}
-
-/** Adds an offset in the coordinate space at this lens's position in the chain. */
-export class TranslateLens extends TGAbstractLens {
-  constructor(public x = 0, public y = 0) { super(); }
-  override applyLens(point: TGPoint2D): void { point.x += this.x; point.y += this.y; }
-  override undoLens(point: TGPoint2D): void { point.x -= this.x; point.y -= this.y; }
-}
-
-/** Uniform scale; callers must keep scale nonzero for inverse transforms. */
-export class ZoomLens extends TGAbstractLens {
-  constructor(public scale = 1) { super(); }
-  override applyLens(point: TGPoint2D): void { point.x *= this.scale; point.y *= this.scale; }
-  override undoLens(point: TGPoint2D): void { point.x /= this.scale; point.y /= this.scale; }
-}
-
-/** Rotation about the current origin, with angle expressed in radians. */
-export class RotateLens extends TGAbstractLens {
-  constructor(public angle = 0) { super(); }
-  private rotate(point: TGPoint2D, angle: number): void {
-    const x = point.x;
-    const y = point.y;
-    point.x = x * Math.cos(angle) - y * Math.sin(angle);
-    point.y = x * Math.sin(angle) + y * Math.cos(angle);
-  }
-  override applyLens(point: TGPoint2D): void { this.rotate(point, this.angle); }
-  override undoLens(point: TGPoint2D): void { this.rotate(point, -this.angle); }
 }

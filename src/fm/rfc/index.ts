@@ -6,6 +6,8 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 export { RfcController } from "./controller.js";
+export {projectRfcStructure} from "./structures.js";
+export type {RfcProjection} from "./structures.js";
 export { collectFocalStar, angularGapRms, applyRfcForces } from "./forces.js";
 export { weightedDistance } from "./metric.js";
 export { rfcForcePresets } from "./presets.js";

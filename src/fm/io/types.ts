@@ -5,9 +5,9 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type { FreshNodeOptions, FreshEdgeOptions, Metadata } from "../model.js";
-import type { TypeConfiguration } from "../config/types.js";
-import type {GraphSubstructure} from "../structures/model.js";
+import type { FreshNodeOptions, FreshEdgeOptions, Metadata } from "../model/index.js";
+import type { TypeConfiguration } from "../config/core.js";
+import type {GraphSubstructure} from "../structures/index.js";
 
 /** Persistent view settings; interaction state, velocities and derived geometry are excluded. */
 export interface DocumentView {

@@ -5,7 +5,7 @@
  * Copyright (c) 2026 TypeScript port by Gregor Heinrich using Codex GPT-6.1.
  * See LICENSE-APACHE-2.0 for the license text.
  */
-import type {VisibleLocality,ImmutableGraphEltSet} from "../../tg/graph.js";
+import type {VisibleLocality,ImmutableGraphEltSet} from "../../tg/graph/index.js";
 import {StructuralLocality} from "./locality.js";
 import {projectStructuralView,structuralViewDefaults,validateStructuralView} from "./projection.js";
 import type {StructuralProjection,StructuralViewSettings} from "./projection.js";

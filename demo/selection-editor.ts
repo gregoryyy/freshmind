@@ -8,8 +8,8 @@
 import { stringify } from "yaml";
 import { FreshNode, FreshEdge, FreshmindPanel, nodeShapes, applyNodeEdit, applyRelationEdit } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode, NodeShape, Metadata, VisualOverride, NodeStyle, EdgeStyle } from "../src/fm/index.js";
-import { parseYamlValue } from "../src/fm/io/yaml-value.js";
-import { record } from "../src/fm/config/validation.js";
+import { parseYamlValue } from "../src/fm/io/index.js";
+import { record } from "../src/fm/config/core.js";
 
 type Item = FreshNode | FreshEdge;
 const ids = ["item-type", "node-shape", "edge-curve", "item-weight", "node-url", "annotation-format", "node-annotation", "edge-from", "edge-to", "edge-length", "item-visual", "item-data", "item-extensions"] as const;

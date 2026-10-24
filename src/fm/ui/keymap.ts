@@ -6,8 +6,8 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type { FreshmindPanel } from "../panel.js";
-import { keymap } from "../navigation/keymap.js";
+import type { FreshmindPanel } from "../browser/index.js";
+import { keymap } from "../navigation/index.js";
 
 export interface KeymapOptions {
   /** Optional application-owned help button. */

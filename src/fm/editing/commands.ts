@@ -6,13 +6,12 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { FreshNode, FreshEdge, FreshGraph } from "../model.js";
-import type { Annotation, Metadata } from "../model.js";
-import type { VisibleLocality } from "../../tg/graph.js";
-import type { NodeShape, CurveMode, NodeStyle, EdgeStyle } from "../config/types.js";
-import type { VisualOverride } from "../config/types.js";
-import { text, validateVisualOverride } from "../config/validation.js";
-import {StructuralLocality} from "../structure-view/locality.js";
+import { FreshNode, FreshEdge, FreshGraph,getMutationLocality } from "../model/index.js";
+import type { Annotation, Metadata } from "../model/index.js";
+import type { VisibleLocality } from "../../tg/graph/index.js";
+import type { NodeShape, CurveMode, NodeStyle, EdgeStyle } from "../config/core.js";
+import type { VisualOverride } from "../config/core.js";
+import { text, validateVisualOverride } from "../config/core.js";
 
 export interface NodeEdit {
   label: string; type: string; shape: NodeShape | null;
@@ -61,7 +60,7 @@ export function applyRelationEdit(edge: FreshEdge, edit: RelationEdit, context?:
     if (!context) throw new Error("Endpoint changes require a graph context");
     // Preserve source membership even when a structural rule currently hides a target.
     // The enclosing edit repaints after all validated mutations, avoiding partial UI updates.
-    const locality=context.locality instanceof StructuralLocality?context.locality.getMutationSource():context.locality;
+    const locality=getMutationLocality(context.locality);
     const visible = locality?.contains(edge);
     if (visible) locality!.removeEdge(edge);
     context.graph.reconnectEdge(edge, from, to);

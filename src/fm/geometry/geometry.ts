@@ -6,8 +6,8 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import type { FreshEdge, FreshNode } from "../model.js";
-import type { EdgeStyle, NodeStyle } from "../config/types.js";
+import type { FreshEdge, FreshNode } from "../model/index.js";
+import type { EdgeStyle, NodeStyle } from "../config/core.js";
 import { createNodeOutline } from "./shapes.js";
 import type { Point } from "./shapes.js";
 export type { Point } from "./shapes.js";

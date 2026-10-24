@@ -2,7 +2,7 @@
  * Prepared by Gregor Heinrich using Codex GPT-6.1. */
 import {TGLayout} from "fm4/core";
 import {FreshGraph,FreshNode,FreshEdge,RfcController,rfcForcePresets,focalRegions,regionClearance} from "fm4/fm/core";
-import {projectRfcStructure} from "../../dist/fm/rfc/structures.js";
+import {projectRfcStructure} from "fm4/fm/rfc";
 import {clusterFixture,randomSource} from "./rfc-comparison.mjs";
 
 export const exclusionModes=["baseline","rfc","context","overlap","strong"];

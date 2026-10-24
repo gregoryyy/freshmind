@@ -6,9 +6,9 @@
  * See LICENSE-APACHE-2.0 for the license text.
  */
 
-import { FreshNode } from "../model.js";
-import type { FreshmindNavigation } from "./controller.js";
-import type { NavigationHost, NavigationItem } from "./types.js";
+import { FreshNode } from "../model/index.js";
+import type { FreshmindNavigation } from "../navigation/index.js";
+import type { NavigationHost, NavigationItem } from "../navigation/index.js";
 
 let nextId = 0;
 /** Attaches graph-scoped keyboard/scroll input and live status; returns complete cleanup. */
