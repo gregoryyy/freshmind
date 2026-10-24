@@ -5,7 +5,7 @@ import {TypeRegistry,freshmind2014Configuration} from 'fm4/fm/config/core';
 import {parseDocument,serializeDocument} from 'fm4/fm/io';
 import {createSearchCorpus,LexicalSearchIndex,parseSearchQuery,searchTokens} from 'fm4/ir';
 import {graphSearchCorpus,annotationSearchText,
-  createGraphQuery,applyGraphSearchResults,rejectGraphSearchResult,searchResultMetadata} from 'fm4/fm/ir';
+  createGraphQuery,createGraphQueryDraft,applyGraphSearchResults,rejectGraphSearchResult,searchResultMetadata} from 'fm4/fm/ir';
 const docs=[
   {id:'a',type:'Paper',label:'Graph layout',hint:'springs in the graph',tags:['Visual Search','layout']},
   {id:'b',type:'paper',label:'Topic models',hint:'probabilistic topic search',tags:['search']},
@@ -14,6 +14,16 @@ const docs=[
 ];
 const index=()=>new LexicalSearchIndex(createSearchCorpus(docs));
 const ids=r=>r.map(r=>r.id).sort();
+test('empty query drafts preserve metadata/settings in YAML and never enter the retrieval corpus',()=>{
+  const graph=new FreshGraph(),context=new FreshNode('context','graph');graph.addNode(context);
+  const before=graphSearchCorpus(graph),q=createGraphQueryDraft(graph,'lda',context,{metric:'symmetric-kl',maxDistance:.6});
+  assert.deepEqual(q.getData().search,{version:1,role:'query',draft:true,request:{engine:'lda',kind:'terms',query:'',metric:'symmetric-kl',maxDistance:.6}});
+  assert.equal(graphSearchCorpus(graph).key,before.key);
+  const document=new FreshmindDocument(new TypeRegistry(freshmind2014Configuration),graph),loaded=parseDocument(serializeDocument(document));
+  assert.deepEqual(loaded.graph.findNode(q.getID()).getData(),q.getData());assert.equal(loaded.graph.edgeCount(),1);
+  assert.equal(graphSearchCorpus(loaded.graph).key,before.key);
+  assert.throws(()=>createGraphQueryDraft(graph,'lexical',context,{metric:'predictive'}),/metric/);assert.equal(graph.nodeCount(),2);
+});
 test('search parser handles Boolean precedence, adjacency, fields, phrases and bounded errors',()=>{
   const i=index();
   assert.deepEqual(ids(i.search('topic OR graph AND layout')),['a','b','c']);

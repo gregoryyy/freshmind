@@ -112,7 +112,7 @@ test("mouse and focus changes cancel candidates; text entry, Tab and browser cho
   const native=await page.locator('[data-node-id="upper"]').evaluate(node=>{
     window.graphBrowser.setInteractionMode("edit");
     return ["Backspace","Delete"].map(key=>{
-      const e=new KeyboardEvent("keydown",{key,ctrlKey:true,bubbles:true,cancelable:true});node.dispatchEvent(e);return e.defaultPrevented;
+      const e=new KeyboardEvent("keydown",{key,metaKey:true,bubbles:true,cancelable:true});node.dispatchEvent(e);return e.defaultPrevented;
     });
   });
   expect(native).toEqual([false,false]);expect((await state(page)).selected).toBe("anchor");

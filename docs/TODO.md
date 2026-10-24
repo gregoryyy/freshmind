@@ -171,6 +171,7 @@ are superseded, not silently redefined or claimed as implemented.
 - [x] 4.16 Integrate pinned npm elasticlunr with stable IDs, existing bounded query grammar, exact metadata filters and node-based literal queries; preserve independent IR ownership.
 - [x] 4.17 Add FM-style LDA distance/likelihood document and term operations, minimum document frequency, explicit metric provenance and local model save/load with freshness/cancellation guards. Defer embeddings and Java binary-model import.
 - [x] 4.18 Verify numeric reference, workers/browser lifecycle and distribution artifacts; refresh progress, guides and the production search walkthrough. Historical prototype experiment records remain reproducible with their original scorer.
+- [x] 4.19 Restore graph-native Ctrl+F/Ctrl+Shift+F query creation, moving query entry and Enter submission, F2/Ctrl+Enter reruns, direct query deletion and context return. Preserve content nodes, native text/IME ownership, corpus freshness and pending-job cancellation; route ordinary Edit-mode deletion by selected item with relation precedence.
 
 ## 5. Readability: node separation and relation-label placement
 

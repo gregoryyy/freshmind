@@ -3,17 +3,26 @@ import {FreshEdge,FreshNode} from "../model/index.js";
 import type {FreshGraph,JsonValue} from "../model/index.js";
 import {validateSearchRequest} from "../../ir/corpus/index.js";
 import {graphSearchCorpus,isSearchQueryNode} from "./corpus.js";
-import type {SearchCorpus,SearchRequest,SearchResult} from "../../ir/corpus/index.js";
+import type {SearchCorpus,SearchRequest,SearchResult,SearchEngine} from "../../ir/corpus/index.js";
 function record(value:JsonValue|undefined):Record<string,JsonValue>|null{return value&&typeof value==="object"&&!Array.isArray(value)?value:null;}
 function requestKey(request:SearchRequest):string{return JSON.stringify(validateSearchRequest(request));}
 function unusedNodeId(graph:FreshGraph):string{let n=1;while(graph.findNode(`query-${n}`))n++;return `query-${n}`;}
 /** Creates a query and optional context relation without changing source node importance. */
 export function createGraphQuery(graph:FreshGraph,request:SearchRequest,context?:FreshNode|null):FreshNode {
   const validated=validateSearchRequest(request);if(validated.kind==="similarity")throw new TypeError("Similarity uses an existing node");
+  return insertQuery(graph,validated,context);
+}
+/** An explicit empty draft is graph data, excluded from the retrieval corpus; it is never sent to an engine. */
+export function createGraphQueryDraft(graph:FreshGraph,engine:SearchEngine,context?:FreshNode|null,options:Pick<SearchRequest,"metric"|"maxDistance">={}):FreshNode {
+  if(!["lexical","lda"].includes(engine))throw new TypeError("Choose a search engine");
+  const validated=validateSearchRequest({engine,kind:"terms",query:"draft",...options});
+  return insertQuery(graph,{...validated,query:""},context,true);
+}
+function insertQuery(graph:FreshGraph,validated:SearchRequest,context?:FreshNode|null,draft=false):FreshNode {
   if(context&&!graph.contains(context))throw new Error("Query context is outside the graph");
-  const node=new FreshNode(unusedNodeId(graph),`[${validated.query}]`,{type:validated.engine==="lda"?"ldaquery":"lucenequery",
+  const node=new FreshNode(unusedNodeId(graph),draft?"[query]":`[${validated.query}]`,{type:validated.engine==="lda"?"ldaquery":"lucenequery",
     position:context?{x:context.x+80,y:context.y+40}:{x:0,y:0},
-    data:{search:{version:1,role:"query",request:{...validated}}}});
+    data:{search:{version:1,role:"query",...(draft?{draft:true}:{}),request:{...validated}}}});
   graph.addNode(node);
   if(context)graph.addEdge(new FreshEdge(context,node,{label:"query context",data:{search:{version:1,role:"context",owner:node.getID()!}}}));
   return node;

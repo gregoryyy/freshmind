@@ -62,7 +62,7 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
     if(!host.getSelection()&&itemKey)selectCenter();
     if(itemKey&&event.target===svg&&host.getSelection())focusSelection();
     const modified = event.ctrlKey || event.metaKey || event.altKey;
-    const before = host.getSelection(), focused = itemAt(event.target);
+    const before = host.getSelection(), focused = itemAt(event.target),beforeFocus=owner.activeElement;
     let handled: boolean;
     // Tab changes DOM focus alone. Enter activates a different focused item before centering it.
     if (!modified && !event.shiftKey && event.key === "Enter" && focused && focused !== before && !navigation.getState().preselection) {
@@ -78,7 +78,8 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
       return;
     }
     event.preventDefault(); event.stopImmediatePropagation();
-    if (before !== host.getSelection() && svg.contains(document.activeElement)) focusSelection();
+    // A command may deliberately open an editor inside this SVG. Keep that explicit focus handoff.
+    if (before !== host.getSelection() && owner.activeElement===beforeFocus && svg.contains(owner.activeElement)) focusSelection();
   };
   // DOM replacement can leave body focused while the pointer is stationary over the graph.
   const passiveKeydown=(event:KeyboardEvent)=>{

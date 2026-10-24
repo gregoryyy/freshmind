@@ -283,6 +283,11 @@ export class FreshmindNavigation {
   /** Handles graph-scoped keys, including Ctrl and Shift+Alt view shortcuts; other chords pass through. */
   handleKey(event: NavigationKey): boolean {
     if (this.disposed || event.metaKey || event.isComposing) return false;
+    if(!event.altKey&&!event.shiftKey&&this.host.deleteSelection&&
+      (["Delete","Backspace"].includes(event.key)||event.ctrlKey&&event.key.toLowerCase()==="d")) {
+      if(!event.repeat){this.cancel(undefined,false);this.host.deleteSelection();}
+      return true;
+    }
     if (event.altKey) {
       if (event.ctrlKey || !event.shiftKey) return false;
       if (event.key === "ArrowLeft" || event.key === "ArrowRight") this.rotateBy((event.key === "ArrowRight" ? 1 : -1) * Math.PI / 36);
@@ -298,6 +303,7 @@ export class FreshmindNavigation {
       }
       if (!event.shiftKey && (event.key === "Enter" || event.key === " ")) {
         const item = this.host.getSelection(), action = event.key === "Enter" ? this.actions.edit : this.actions.editDetails;
+        if(item&&event.key==="Enter"&&this.actions.editQuery?.(item))return true;
         if (item && action) { action(item); return true; } return false;
       }
       if (event.shiftKey) {
@@ -329,7 +335,9 @@ export class FreshmindNavigation {
       else this.host.setSelect(null);
       return true;
     }
-    if (event.key === "F2") { const item = this.host.getSelection(),action=event.shiftKey?this.actions.editDetails:this.actions.edit; if (item && action) { action(item); return true; } return false; }
+    if (event.key === "F2") { const item = this.host.getSelection(),action=event.shiftKey?this.actions.editDetails:this.actions.edit;
+      if(item&&!event.shiftKey&&this.actions.editQuery?.(item))return true;
+      if (item && action) { action(item); return true; } return false; }
     if(event.key==="/"&&this.actions.quickSearch){if(!event.repeat)this.actions.quickSearch();return true;}
     if ((event.key === "?" || event.key === "F1") && this.actions.help) { this.actions.help(); return true; }
     if (event.shiftKey || event.repeat) return false;

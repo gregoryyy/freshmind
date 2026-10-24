@@ -32,6 +32,7 @@ import {validateNodeImportanceView} from "../geometry/index.js";
 import type {NodeImportanceViewSettings} from "../geometry/index.js";
 import type {RelationLabelPlacement,OverlapBox} from "../geometry/index.js";
 import {InPlaceLabels} from "./label-editing.js";
+import {isSearchQueryNode} from "../ir/index.js";
 
 export type LabelEditingMode="on-demand"|"in-place";
 export type LabelEditListener=(item:FreshNode|FreshEdge)=>void;
@@ -72,6 +73,28 @@ export class FreshmindPanel extends TGPanel {
   private labelEditing:LabelEditingMode="on-demand";
   private labelEditors?:InPlaceLabels;
   private readonly labelEditListeners=new Set<LabelEditListener>();
+  private graphSvg?:SVGSVGElement;
+  /** Visible component lookup scoped to this panel, used by feature-owned in-graph editors. */
+  getNodeElement(node:FreshNode):SVGGElement|null {
+    if(!this.getGES().contains(node))return null;
+    return this.graphSvg?.querySelector<SVGGElement>(`.fm-node[data-node-id=${CSS.escape(node.getID()!)}]`)??null;
+  }
+  /** Query nodes are disposable while browsing; other structural deletion retains the Edit-mode gate. */
+  deleteSelection():boolean {
+    const item=this.getSelection();if(!item||!this.getCompleteEltSet().contains(item))return false;
+    const query=item instanceof FreshNode&&isSearchQueryNode(item);
+    if(!query&&this.getInteractionMode()!=="edit")return false;
+    let context:FreshNode|null=null;
+    if(query)for(const edge of item.getEdges()){
+      const search=(edge as FreshEdge).getData().search;
+      if(search&&typeof search==="object"&&!Array.isArray(search)&&search.version===1&&search.role==="context"&&search.owner===item.getID()){
+        const other=edge.getOtherEndpt(item);if(other!==item&&other instanceof FreshNode&&this.getGES().contains(other))context=other;
+      }
+    }
+    const deleted=item instanceof FreshEdge?this.deleteEdge(item):this.deleteNode(item);
+    if(context)this.setSelect(context);
+    this.repaintAfterMove();this.focusGraph();return deleted;
+  }
   /**
    * Creates an empty FreshGraph with the FM 2014 profile unless a registry is supplied.
    * Mounting is deferred until extension fields exist because painting uses virtual hooks.
@@ -214,6 +237,7 @@ export class FreshmindPanel extends TGPanel {
   protected override mount(container: HTMLElement): void {
     super.mount(container);
     const svg = [...container.querySelectorAll<SVGSVGElement>(":scope > svg.tg-panel")].at(-1)!;
+    this.graphSvg=svg;
     this.labelEditors=new InPlaceLabels(svg,this,item=>{for(const listener of this.labelEditListeners)listener(item);});
     this.unbindNavigation = bindNavigation(svg, this, this.navigation!, this.navigationStatus);
     this.repaint();

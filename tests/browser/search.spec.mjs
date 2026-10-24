@@ -53,12 +53,12 @@ test('loadable fictional library supports a query engine switch without retainin
   expect(result).toEqual({nodes:25,type:'ldaquery',engines:Array(5).fill('lda'),context:true});expect(errors).toEqual([]);
 });
 
-test('FM2014 literal search shortcuts open collapsed controls, check indexing and link term/similarity results',async({page})=>{
+test('FM2014 literal shortcuts create graph queries, check indexing and link term/similarity results',async({page})=>{
   const errors=await ready(page);await page.locator('#search-section').evaluate(e=>e.open=false);await page.locator('#graph svg').focus();
   await page.keyboard.press('Control+i');await expect(page.locator('#search-status')).toContainText('Literal index checked: 4 documents');
   expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(4);
-  await page.keyboard.press('Control+f');await expect(page.locator('#search-query')).toBeFocused();await expect(page.locator('#search-engine')).toHaveValue('lexical');
-  await page.locator('#search-query').fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText('2 results linked');
+  await page.keyboard.press('Control+f');await expect(page.getByRole('textbox',{name:'Lexical query on graph',exact:true})).toBeFocused();await expect(page.locator('#search-engine')).toHaveValue('lexical');
+  await page.getByRole('textbox',{name:'Lexical query on graph',exact:true}).fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText('2 results linked');
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('a')));await page.locator('#graph svg').focus();await page.keyboard.press('Control+r');
   await expect(page.locator('#search-status')).toContainText('result');expect(await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].some(e=>e.from.getID()==='a'&&e.getData().search?.request?.kind==='similarity'))).toBe(true);
   await page.locator('#graph svg').focus();await page.keyboard.press('/');await expect(page.locator('#search-query')).toBeFocused();await expect(page.locator('#search-query')).toHaveValue('');
@@ -71,10 +71,67 @@ test('FM2014 semantic search and training shortcuts retain the current model lif
   const errors=await ready(page);await page.locator('#search-section .control-subsection').evaluate(e=>e.open=true);
   await page.locator('#search-topics').fill('2');await page.locator('#search-iterations').fill('40');await page.locator('#search-section').evaluate(e=>e.open=false);
   await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+i');await expect(page.locator('#search-status')).toContainText('Topic model ready: 2 topics');
-  await page.keyboard.press('Control+Shift+f');await expect(page.locator('#search-query')).toBeFocused();await expect(page.locator('#search-engine')).toHaveValue('lda');
-  await page.locator('#search-query').fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText(/results? linked/);
+  await page.locator('#search-metric').selectOption('predictive');
+  await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+f');await expect(page.getByRole('textbox',{name:'LDA query on graph',exact:true})).toBeFocused();await expect(page.locator('#search-engine')).toHaveValue('lda');
+  expect(await page.evaluate(()=>window.graphBrowser.getSelect().getData().search.request.metric)).toBe('predictive');
+  await page.getByRole('textbox',{name:'LDA query on graph',exact:true}).fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText(/results? linked/);
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('a')));await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+r');await expect(page.locator('#search-status')).toContainText(/results? linked/);
   expect(await page.evaluate(()=>[...window.graphBrowser.getAllEdges()].some(e=>e.from.getID()==='a'&&e.getData().search?.request?.engine==='lda'&&e.getData().search.request.kind==='similarity'))).toBe(true);expect(errors).toEqual([]);
+});
+
+test('query entry stays on its moving node, reruns with F2 and deletes back to context without removing results',async({page},info)=>{
+  const errors=await ready(page);await page.locator('#search-section').evaluate(e=>e.open=false);await page.locator('#graph svg').focus();
+  await page.keyboard.press('Control+f');const input=page.getByRole('textbox',{name:'Lexical query on graph',exact:true});await expect(input).toBeFocused();
+  expect(await page.locator('#search-section').evaluate(e=>e.open)).toBe(false);
+  expect(await page.evaluate(()=>{const p=window.graphBrowser,q=p.getSelect();return [p.getNodeCount(),q.getID(),q.getData().search.draft,[...q.getEdges()][0].from.getID()];})).toEqual([5,'query-1',true,'b']);
+  await input.fill('graph');await page.evaluate(()=>{const p=window.graphBrowser,n=p.getSelect();n.x+=90;n.y+=45;p.setCanvasZoom(1.3);p.setHyperbolic(20);p.setRotation(.2);p.repaintAfterMove();});
+  await expect(input).toBeFocused();await expect(input).toHaveValue('graph');
+  const alignment=await input.evaluate(field=>{const p=window.graphBrowser,n=p.getSelect(),point=p.drawToScreen({x:n.drawx,y:n.drawy}),box=field.getBoundingClientRect(),svg=field.closest('svg').getBoundingClientRect();return Math.hypot(box.x+box.width/2-svg.x-point.x,box.y+box.height/2-svg.y-point.y);});expect(alignment).toBeLessThan(1);
+  await page.screenshot({path:info.outputPath('query-on-graph.png')});await input.press('Enter');await expect(input).toHaveCount(0);await expect(page.locator('#search-status')).toContainText('2 results linked');
+  await page.keyboard.press('F2');await expect(input).toHaveValue('graph');await input.fill('orchard');await input.press('Enter');await expect(page.locator('#search-status')).toContainText('1 result linked');
+  expect(await page.evaluate(()=>{const p=window.graphBrowser;return [p.getNodeCount(),[...p.findNode('query-1').getEdges()].filter(e=>e.getData().search?.role==='result').map(e=>e.to.getID())];})).toEqual([5,['d']]);
+  await page.keyboard.press('Control+Backspace');
+  expect(await page.evaluate(()=>{const p=window.graphBrowser;return {nodes:[...p.getAllNodes()].map(n=>n.getID()),edges:[...p.getAllEdges()].map(e=>e.getID()),selected:p.getSelect()?.getID()};})).toEqual({nodes:['a','b','c','d'],edges:['manual'],selected:'b'});
+  expect(errors).toEqual([]);
+});
+
+test('query deletion chords work in browse mode while text deletion, composition and side-pane focus keep input ownership',async({page})=>{
+  const errors=await ready(page),input=page.getByRole('textbox',{name:'Lexical query on graph',exact:true});
+  await page.locator('#graph svg').focus();await page.keyboard.press('Control+f');await input.fill('graph extra');await input.press('Control+Backspace');
+  expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(5);await expect(input).toBeFocused();await input.fill('graph');
+  await input.evaluate(field=>{field.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));field.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',isComposing:true,bubbles:true,cancelable:true}));});
+  await expect(input).toBeFocused();expect(await page.evaluate(()=>window.graphBrowser.getSelect().getData().search.draft)).toBe(true);
+  await input.evaluate(field=>field.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true})));await input.press('Escape');await expect(input).toHaveCount(0);
+  await page.keyboard.press('Control+Delete');expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(4);
+  for(const chord of ['Delete','Backspace','Control+d']){
+    await page.keyboard.press('Control+f');await expect(input).toBeFocused();await input.press('Escape');await page.keyboard.press(chord);expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(4);
+  }
+  await page.locator('#search-query').focus();await page.locator('#search-query').fill('native text');await page.locator('#search-query').press('Control+f');
+  expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(4);await expect(page.locator('#search-query')).toBeFocused();expect(errors).toEqual([]);
+});
+
+test('query editor supports in-place label mode, empty graphs and source replacement without stale submission',async({page})=>{
+  const errors=await ready(page);await page.evaluate(()=>window.graphBrowser.setLabelEditingMode('in-place'));await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+f');
+  const input=page.getByRole('textbox',{name:'LDA query on graph',exact:true});await expect(input).toBeFocused();await input.fill('graph');await input.press('Enter');
+  await expect(page.locator('#search-status')).toContainText('Train a topic model');expect(await page.evaluate(()=>window.graphBrowser.findNode('query-1').getLabel())).toBe('[graph]');
+  await page.locator('#graph svg').focus();await page.keyboard.press('F2');await expect(input).toHaveValue('graph');
+  await input.fill('retained draft');await page.locator('#graph svg').focus();
+  await page.evaluate(()=>window.graphBrowser.findNode('query-1').setLabel('Changed elsewhere'));
+  await page.keyboard.press('F2');await expect(input).toHaveValue('retained draft');await input.press('Enter');await expect(input).toHaveAttribute('aria-invalid','true');
+  expect(await page.evaluate(()=>window.graphBrowser.findNode('query-1').getLabel())).toBe('Changed elsewhere');await input.press('Escape');await page.keyboard.press('F2');
+  await page.evaluate(()=>window.graphBrowser.clearAll());await expect(input).toHaveCount(0);await page.locator('#graph svg').focus();await page.keyboard.press('Control+f');
+  const lexical=page.getByRole('textbox',{name:'Lexical query on graph',exact:true});await expect(lexical).toBeFocused();await lexical.fill('missing');await lexical.press('Enter');await expect(page.locator('#search-status')).toContainText('0 results linked');
+  await page.locator('#graph svg').focus();await page.keyboard.press('Control+Backspace');expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(0);
+  await page.keyboard.press('Control+f');await expect(lexical).toBeFocused();await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));await expect(lexical).toHaveCount(0);expect(errors).toEqual([]);
+});
+
+test('selected relation deletion has precedence after Tab moves focus onto a node',async({page})=>{
+  const errors=await ready(page);await page.evaluate(async()=>{const p=window.graphBrowser;await p.setLocaleAll();p.setInteractionMode('edit');p.setSelectEdge([...p.getAllEdges()].find(e=>e.getID()==='manual'));});
+  await page.locator('[data-edge-id=manual]').focus();await page.keyboard.press('Tab');
+  const focus=await page.evaluate(()=>[window.graphBrowser.getSelection().getID(),document.activeElement?.dataset.nodeId]);
+  expect(focus[0]).toBe('manual');expect(['a','b','c','d']).toContain(focus[1]);
+  await page.keyboard.press('Delete');expect(await page.evaluate(()=>[window.graphBrowser.getNodeCount(),window.graphBrowser.getEdgeCount()])).toEqual([4,0]);
+  await page.locator('#graph svg').focus();await page.keyboard.press('Control+d');expect(await page.evaluate(()=>window.graphBrowser.getNodeCount())).toBe(3);expect(errors).toEqual([]);
 });
 
 test('semantic metrics/raw values and a local model file survive save/load without document transfer',async({page},info)=>{
