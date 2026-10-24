@@ -13,32 +13,41 @@
     "02-neighborhood.png",
     "03-view-controls.png",
     "04-key-map.png",
-    "05-types.png",
-    "06-berry.png",
-    "07-public-network.png",
-    "08-inline-edit.png",
-    "09-annotation.png",
-    "10-save-yaml.png",
-    "11-rfc-baseline.png",
-    "12-rfc-attraction.png",
-    "13-rfc.png",
-    "14-rfc-weighted.png",
-    "15-multiple-foci.png",
-    "16-clusters.png",
-    "17-focal-regions.png",
-    "18-importance.png",
-    "19-structural-view.png",
-    "20-reveal-detail.png",
-    "21-nips.png",
-    "22-label-overlap.png",
-    "23-labels-separated.png",
-    "24-relation-overlap.png",
-    "25-relations-separated.png",
-    "26-label-weight.png",
-    "27-details-editor.png",
-    "28-hover-keyboard.png",
-    "29-control-focus.png",
-    "30-layout-damping.png",
+    "05-search-library.png",
+    "06-search-query-draft.png",
+    "07-search-lexical-query.png",
+    "08-search-exact-tags.png",
+    "09-search-topic-model.png",
+    "10-search-topical-query.png",
+    "11-search-node-similarity.png",
+    "12-search-rejected-result.png",
+    "13-search-delete-query.png",
+    "14-types.png",
+    "15-berry.png",
+    "16-nips.png",
+    "17-public-network.png",
+    "18-inline-edit.png",
+    "19-annotation.png",
+    "20-save-yaml.png",
+    "21-rfc-baseline.png",
+    "22-rfc-attraction.png",
+    "23-rfc.png",
+    "24-rfc-weighted.png",
+    "25-multiple-foci.png",
+    "26-clusters.png",
+    "27-focal-regions.png",
+    "28-importance.png",
+    "29-structural-view.png",
+    "30-reveal-detail.png",
+    "31-label-overlap.png",
+    "32-labels-separated.png",
+    "33-relation-overlap.png",
+    "34-relations-separated.png",
+    "35-label-weight.png",
+    "36-details-editor.png",
+    "37-hover-keyboard.png",
+    "38-control-focus.png",
+    "39-layout-damping.png",
     "README.md",
     "index.html",
     "manifest.json"
@@ -48,181 +57,274 @@
       "id": "browser",
       "title": "Graph browser with RFC on the center node",
       "caption": "The graph-browser example opens with Reinforcement Focus+Context active on its central Graph browsers node. Yellow halos identify the reinforced center and its five immediate branches; the surrounding graph retains its ordinary connections and forces.",
+      "chapter": "Explore",
       "file": "01-browser.png"
     },
     {
       "id": "neighborhood",
       "title": "Reveal the complete graph",
       "caption": "Show whole graph reveals stored nodes beyond the current neighborhood. Expansion, collapse and hiding change the visible graph while retaining the complete graph for editing and export.",
+      "chapter": "Explore",
       "file": "02-neighborhood.png"
     },
     {
       "id": "view-controls",
       "title": "Graph spacing, canvas zoom and viewing lens",
       "caption": "Graph spacing changes node distances. Canvas zoom scales shapes, labels and strokes together. The focus + context slider applies the independent nonlinear viewing lens.",
+      "chapter": "Explore",
       "file": "03-view-controls.png"
     },
     {
       "id": "key-map",
       "title": "User key map",
       "caption": "The help dialog and docs/KEYMAP.md share the same implemented command definitions, including graph spacing, canvas zoom, navigation, editing and file shortcuts.",
+      "chapter": "Explore",
       "file": "04-key-map.png"
+    },
+    {
+      "id": "search-library",
+      "title": "A searchable research library",
+      "caption": "This new fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including currently hidden items. RFC and the viewing lens remain independent controls.",
+      "chapter": "Search",
+      "file": "05-search-library.png"
+    },
+    {
+      "id": "search-query-draft",
+      "title": "Start a search directly on the graph",
+      "caption": "Select Mira Vega and press Ctrl+F. A query node appears immediately, linked to Mira as context, with its text editor on the graph. Type spring layout and press Enter to retrieve. The empty draft is excluded from the search corpus; ordinary typing and text deletion keep their normal meaning.",
+      "chapter": "Search",
+      "file": "06-search-query-draft.png"
+    },
+    {
+      "id": "search-lexical-query",
+      "title": "A term query joins its context",
+      "caption": "Enter runs the elasticlunr literal query for spring layout. The radius-two neighborhood shows ranked matches and their ordinary context; other content stays stored and searchable. Green relations carry ranked relevance alongside authored/citation links. F2 edits and reruns the query without duplicating it; the sidebar offers the same search controls.",
+      "chapter": "Search",
+      "file": "07-search-lexical-query.png"
+    },
+    {
+      "id": "search-exact-tags",
+      "title": "Whole-tag retrieval",
+      "caption": "The same query node now retrieves exact visual search tags. Tags are explicit metadata and work without topic training. The query replaces its earlier result links while retaining context and manual semantic relations.",
+      "chapter": "Search",
+      "file": "08-search-exact-tags.png"
+    },
+    {
+      "id": "search-topic-model",
+      "title": "Train and inspect topics",
+      "caption": "Three topics are trained locally for 200 serial Gibbs passes with seed 4357, alpha 0.1, beta 0.01 and minimum document frequency 2. Separate local JSON files can save/reload the model and its corpus. The most probable words make the fitted topics inspectable. This deliberately separated synthetic corpus does not establish general retrieval quality.",
+      "chapter": "Search",
+      "file": "09-search-topic-model.png"
+    },
+    {
+      "id": "search-topical-query",
+      "title": "Retrieve by inferred topics",
+      "caption": "Ctrl+Shift+F starts a separate LDA query on the graph. Enter submits geometry repulsion to the trained topic model. Symmetric KL distance in bits ranks document topic mixtures, with a strict default limit of 0.6; lower distances are better. The earlier tag query remains available. Search scores stay separate from importance and RFC physics.",
+      "chapter": "Search",
+      "file": "10-search-topical-query.png"
+    },
+    {
+      "id": "search-node-similarity",
+      "title": "Use an existing paper as the query",
+      "caption": "Select Spring neighborhoods and press Ctrl+Shift+R to retrieve similar items from its topic mixture, excluding itself. Ctrl+R provides literal similarity. Existing authored/citation relations remain. Results expand ordinary graph browsing without requiring a separate results page.",
+      "chapter": "Search",
+      "file": "11-search-node-similarity.png"
+    },
+    {
+      "id": "search-rejected-result",
+      "title": "Retain a negative judgment",
+      "caption": "Rejecting a selected green result relation removes that link and saves its source, target, query, engine and corpus provenance. Repeating the same query omits that item. Native YAML saves queries, remaining links and feedback; model JSON is saved separately through the training controls. Feedback learning remains future work.",
+      "chapter": "Search",
+      "file": "12-search-rejected-result.png"
+    },
+    {
+      "id": "search-delete-query",
+      "title": "Remove a query and keep the source graph",
+      "caption": "Select the LDA text-query node and press Ctrl+Backspace (or Ctrl+Delete) while graph focus is active. Only that query and its incident associations disappear; retrieved papers, original semantic relations, the earlier tag query and the paper-based similarity search remain. Native YAML can retain the queries and rejection judgments you choose to keep.",
+      "chapter": "Search",
+      "file": "13-search-delete-query.png"
     },
     {
       "id": "types",
       "title": "Node types and curved relations",
       "caption": "The palette page shows all 21 configured Freshmind node types, labeled curved relations, parallel edges and a self-loop. Its YAML editor applies semantic and visual configuration to the existing graph.",
-      "file": "05-types.png"
+      "chapter": "Files and content",
+      "file": "14-types.png"
     },
     {
       "id": "berry",
       "title": "Open the approved Berry example",
       "caption": "Berry is one of the two approved migrated datasets. The native YAML graph retains 21 nodes and 22 relations, annotations and original linked-resource paths.",
-      "file": "06-berry.png"
-    },
-    {
-      "id": "public-network",
-      "title": "Florentine families",
-      "caption": "This public example has 15 families and 20 undirected marriage links. Node content contains graph-derived summaries and links to the connected families, with source attribution retained in the document.",
-      "file": "07-public-network.png"
-    },
-    {
-      "id": "inline-edit",
-      "title": "Edit a multiline node label",
-      "caption": "F2 opens an inline label editor on the selected node. A draft stays separate from the model until committed; node identity, relations and annotations are retained.",
-      "file": "08-inline-edit.png"
-    },
-    {
-      "id": "annotation",
-      "title": "Annotations and item details",
-      "caption": "Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content opens the annotation overlay.",
-      "file": "09-annotation.png"
-    },
-    {
-      "id": "save-yaml",
-      "title": "Save the complete graph as YAML",
-      "caption": "Ctrl+Shift+S opens the filename dialog. Saving downloads the complete stored graph, including hidden nodes, with optional layout/view state and embedded or companion type configuration.",
-      "file": "10-save-yaml.png"
-    },
-    {
-      "id": "rfc-baseline",
-      "title": "Single-focus comparison: ordinary layout",
-      "caption": "The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Adaptive damping is off throughout the fixed-force comparison. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.",
-      "file": "11-rfc-baseline.png"
-    },
-    {
-      "id": "rfc-attraction",
-      "title": "Single-focus comparison: attraction reinforcement",
-      "caption": "Reload the identical graph, choose Attraction only and run 250 batches. This earlier preset combines attraction multiplier 3 with angular stiffness 300, without a target-length spring. Soft yellow halos identify the reinforced nodes and relations; semantic graph records remain unchanged.",
-      "file": "12-rfc-attraction.png"
-    },
-    {
-      "id": "rfc",
-      "title": "Single-focus comparison: length-constrained tree",
-      "caption": "The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. Yellow halos show reinforcement; optional focal-region exclusion is demonstrated separately below.",
-      "file": "13-rfc.png"
-    },
-    {
-      "id": "rfc-weighted",
-      "title": "Weighted RFC for horizontally extended labels",
-      "caption": "The wide-label fixture uses horizontal coordinate weight 0.25 and vertical weight 1. Equal angles are measured in weighted physical coordinates, permitting a wider focal layout while the viewing lens and both zooms stay independent. Ordinary context springs still compete with reinforcement; the metric alone does not guarantee clear space or eliminate label overlaps.",
-      "file": "14-rfc-weighted.png"
-    },
-    {
-      "id": "multiple-foci",
-      "title": "Reinforce multiple stored trees",
-      "caption": "Two saved tree definitions reinforce deeper neighborhoods at the same time. Their context relations remain ordinary graph edges. Stored membership survives YAML export; active RFC centers are temporary view state. Shift+Enter can also add or remove an individual center.",
-      "file": "15-multiple-foci.png"
-    },
-    {
-      "id": "clusters",
-      "title": "Overlapping clusters and their boundaries",
-      "caption": "RFC can reinforce cyclic clusters as well as trees. These two stored clusters share a member, retain their internal relations and show translucent boundaries. Cluster rigidity controls resistance to deformation; the representative selects the group without becoming a physical anchor.",
-      "file": "16-clusters.png"
-    },
-    {
-      "id": "focal-regions",
-      "title": "Optional focal-region exclusion",
-      "caption": "Dashed physical regions show the space reserved around two reinforced structures. Optional exclusion pushes context and non-shared focal nodes away from those regions while shared members remain exempt from their own regions. The forces are soft; pinned nodes and labels can still overlap.",
-      "file": "17-focal-regions.png"
-    },
-    {
-      "id": "importance",
-      "title": "Node importance and exact weight values",
-      "caption": "Node weight scales body and label size within configured limits. Weight 1 keeps normal size and weight 0 remains visible. Optional values make weights explicit when labels differ in length. Size shows importance; yellow halos independently show RFC participation.",
-      "file": "18-importance.png"
-    },
-    {
-      "id": "structural-view",
-      "title": "Combine RFC with structural aggregation",
-      "caption": "The structural focus + context example combines a viewing lens, RFC and reversible Person/Paper leaf aggregation. Six of thirteen nodes remain visible, with seven aggregated leaves counted under their parents. The shared collaborator stays visible because it connects two semantic neighbors. The complete graph remains intact.",
-      "file": "19-structural-view.png"
-    },
-    {
-      "id": "reveal-detail",
-      "title": "Reveal aggregated detail without losing context",
-      "caption": "Select Group Beta and reveal its leaves to restore detail while retaining the current graph, focal center and lens. Nine nodes are now visible. E also reveals a selected parent's leaves; Reset structural view restores the current neighborhood without deleting semantic data.",
-      "file": "20-reveal-detail.png"
+      "chapter": "Files and content",
+      "file": "15-berry.png"
     },
     {
       "id": "nips",
       "title": "Browse the approved NIPS dataset",
       "caption": "NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.",
-      "file": "21-nips.png"
+      "chapter": "Files and content",
+      "file": "16-nips.png"
+    },
+    {
+      "id": "public-network",
+      "title": "Florentine families",
+      "caption": "This public example has 15 families and 20 undirected marriage links. Node content contains graph-derived summaries and links to the connected families, with source attribution retained in the document.",
+      "chapter": "Files and content",
+      "file": "17-public-network.png"
+    },
+    {
+      "id": "inline-edit",
+      "title": "Edit a multiline node label",
+      "caption": "F2 opens an inline label editor on the selected node. A draft stays separate from the model until committed; node identity, relations and annotations are retained.",
+      "chapter": "Files and content",
+      "file": "18-inline-edit.png"
+    },
+    {
+      "id": "annotation",
+      "title": "Annotations and item details",
+      "caption": "Ctrl+Enter commits the label. Space or Show details opens the selected node's content in a separate, resizable popup. Internal links navigate to connected nodes; Edit content opens the annotation overlay.",
+      "chapter": "Files and content",
+      "file": "19-annotation.png"
+    },
+    {
+      "id": "save-yaml",
+      "title": "Save the complete graph as YAML",
+      "caption": "Ctrl+Shift+S opens the filename dialog. Saving downloads the complete stored graph, including hidden nodes, with optional layout/view state and embedded or companion type configuration.",
+      "chapter": "Files and content",
+      "file": "20-save-yaml.png"
+    },
+    {
+      "id": "rfc-baseline",
+      "title": "Single-focus comparison: ordinary layout",
+      "caption": "The synthetic crowded-star fixture uses a fixed center and fixed context anchors. This is the ordinary TouchGraph layout after 250 batches from the saved initial coordinates; RFC is off. Adaptive damping is off throughout the fixed-force comparison. Both comparison views use 200% graph spacing and 100% canvas zoom for readability.",
+      "chapter": "Focus + context",
+      "file": "21-rfc-baseline.png"
+    },
+    {
+      "id": "rfc-attraction",
+      "title": "Single-focus comparison: attraction reinforcement",
+      "caption": "Reload the identical graph, choose Attraction only and run 250 batches. This earlier preset combines attraction multiplier 3 with angular stiffness 300, without a target-length spring. Soft yellow halos identify the reinforced nodes and relations; semantic graph records remain unchanged.",
+      "chapter": "Focus + context",
+      "file": "22-rfc-attraction.png"
+    },
+    {
+      "id": "rfc",
+      "title": "Single-focus comparison: length-constrained tree",
+      "caption": "The default Tree structure preset combines target focal length 120, radial stiffness 1 and angular stiffness 10000. From the same starting graph and after 250 batches, the focal star is more regular. Both stronger angular constraints and the new length spring contribute. Yellow halos show reinforcement; optional focal-region exclusion is demonstrated separately below.",
+      "chapter": "Focus + context",
+      "file": "23-rfc.png"
+    },
+    {
+      "id": "rfc-weighted",
+      "title": "Weighted RFC for horizontally extended labels",
+      "caption": "The wide-label fixture uses horizontal coordinate weight 0.25 and vertical weight 1. Equal angles are measured in weighted physical coordinates, permitting a wider focal layout while the viewing lens and both zooms stay independent. Ordinary context springs still compete with reinforcement; the metric alone does not guarantee clear space or eliminate label overlaps.",
+      "chapter": "Focus + context",
+      "file": "24-rfc-weighted.png"
+    },
+    {
+      "id": "multiple-foci",
+      "title": "Reinforce multiple stored trees",
+      "caption": "Two saved tree definitions reinforce deeper neighborhoods at the same time. Their context relations remain ordinary graph edges. Stored membership survives YAML export; active RFC centers are temporary view state. Shift+Enter can also add or remove an individual center.",
+      "chapter": "Focus + context",
+      "file": "25-multiple-foci.png"
+    },
+    {
+      "id": "clusters",
+      "title": "Overlapping clusters and their boundaries",
+      "caption": "RFC can reinforce cyclic clusters as well as trees. These two stored clusters share a member, retain their internal relations and show translucent boundaries. Cluster rigidity controls resistance to deformation; the representative selects the group without becoming a physical anchor.",
+      "chapter": "Focus + context",
+      "file": "26-clusters.png"
+    },
+    {
+      "id": "focal-regions",
+      "title": "Optional focal-region exclusion",
+      "caption": "Dashed physical regions show the space reserved around two reinforced structures. Optional exclusion pushes context and non-shared focal nodes away from those regions while shared members remain exempt from their own regions. The forces are soft; pinned nodes and labels can still overlap.",
+      "chapter": "Focus + context",
+      "file": "27-focal-regions.png"
+    },
+    {
+      "id": "importance",
+      "title": "Node importance and exact weight values",
+      "caption": "Node weight scales body and label size within configured limits. Weight 1 keeps normal size and weight 0 remains visible. Optional values make weights explicit when labels differ in length. Size shows importance; yellow halos independently show RFC participation.",
+      "chapter": "Focus + context",
+      "file": "28-importance.png"
+    },
+    {
+      "id": "structural-view",
+      "title": "Combine RFC with structural aggregation",
+      "caption": "The structural focus + context example combines a viewing lens, RFC and reversible Person/Paper leaf aggregation. Six of thirteen nodes remain visible, with seven aggregated leaves counted under their parents. The shared collaborator stays visible because it connects two semantic neighbors. The complete graph remains intact.",
+      "chapter": "Focus + context",
+      "file": "29-structural-view.png"
+    },
+    {
+      "id": "reveal-detail",
+      "title": "Reveal aggregated detail without losing context",
+      "caption": "Select Group Beta and reveal its leaves to restore detail while retaining the current graph, focal center and lens. Nine nodes are now visible. E also reveals a selected parent's leaves; Reset structural view restores the current neighborhood without deleting semantic data.",
+      "chapter": "Focus + context",
+      "file": "30-reveal-detail.png"
     },
     {
       "id": "label-overlap",
       "title": "Inspect overlapping node labels",
       "caption": "The graph-browser example retains RFC on its center node. Point-based layout can leave wide node labels intersecting even when their centers are apart. Label spacing uses the measured visible bodies, including multiline labels and importance scaling.",
-      "file": "22-label-overlap.png"
+      "chapter": "Readability",
+      "file": "31-label-overlap.png"
     },
     {
       "id": "labels-separated",
       "title": "Separate overlapping nodes",
       "caption": "Separate overlapping nodes arranges visible bodies with a requested gap and pauses motion. Pinned nodes and the viewing focus stay in place; semantic relations, RFC, hidden nodes and viewing settings are retained. The status reports remaining intersections. Resuming motion or changing the view can introduce new overlaps; relation labels and crossings are separate concerns.",
-      "file": "23-labels-separated.png"
+      "chapter": "Readability",
+      "file": "32-labels-separated.png"
     },
     {
       "id": "relation-overlap",
       "title": "Inspect original relation-label positions",
       "caption": "With node bodies already separated and motion paused, turn off Avoid relation label overlaps to inspect the original midpoint-and-offset anchors. Relation text can still intersect node bodies or other relation labels. The following view uses these exact node positions and curves.",
-      "file": "24-relation-overlap.png"
+      "chapter": "Readability",
+      "file": "33-relation-overlap.png"
     },
     {
       "id": "relations-separated",
       "title": "Place relation labels near clear curve positions",
       "caption": "Avoid relation label overlaps measures SVG text and tries nearby positions along each curve and its normal. The browser enables this bounded presentation pass by default. It reduces label–node and label–label intersections in this view while retaining every label, node position and curve. Dense views can still overlap; toggling off restores original anchors.",
-      "file": "25-relations-separated.png"
+      "chapter": "Readability",
+      "file": "34-relations-separated.png"
     },
     {
       "id": "label-weight",
       "title": "Edit labels and weights together",
       "caption": "F2 opens a graph-anchored label overlay with weight controls for either a node or a relation. Ctrl+G/H adjusts the shared draft; a numeric suffix such as Graph browsers =3 also sets absolute weight on Save. The draft leaves the graph unchanged until committed; Escape cancels both label and weight.",
-      "file": "26-label-weight.png"
+      "chapter": "Editing and keyboard",
+      "file": "35-label-weight.png"
     },
     {
       "id": "details-editor",
       "title": "Edit node details directly in an overlay",
       "caption": "Ctrl+Enter commits the weight. Ctrl+Space or Shift+F2 then opens the full modeless editor at the node annotation, outside the side pane. It also exposes types, visual settings, URLs and metadata. Close retains a per-item draft; Save commits and Escape cancels. The annotation shown here is still a draft.",
-      "file": "27-details-editor.png"
+      "chapter": "Editing and keyboard",
+      "file": "36-details-editor.png"
     },
     {
       "id": "hover-keyboard",
       "title": "Point at the graph to control its center",
       "caption": "Close the editor, clear selection and move the pointer over a branch without clicking. Keyboard control resumes at the node in the viewport center, independently of the hovered branch. Enter acts immediately on that centered target; arrow navigation then continues from the selected node.",
-      "file": "28-hover-keyboard.png"
+      "chapter": "Editing and keyboard",
+      "file": "37-hover-keyboard.png"
     },
     {
       "id": "control-focus",
       "title": "Explicit control focus takes priority",
       "caption": "Focus Graph spacing in the side pane, then point back at the graph. The input keeps focus and Enter belongs to that control. Editors, buttons and summaries have the same protection. Click or Tab into the graph when ready to return keyboard control.",
-      "file": "29-control-focus.png"
+      "chapter": "Editing and keyboard",
+      "file": "38-control-focus.png"
     },
     {
       "id": "layout-damping",
       "title": "Suppress oscillation with or without RFC",
       "caption": "View → Layout motion enables general adaptive damping by default. It watches all movable visible nodes, including when RFC is off as shown here. Adaptive impulses attenuates repeated swings and gradually restores gain; Earlier TouchGraph cooling instead starts the inherited fast cooling phase after detected cycles. The status makes the active setting visible.",
-      "file": "30-layout-damping.png"
+      "chapter": "Layout motion",
+      "file": "39-layout-damping.png"
     }
   ]
 }
