@@ -11,13 +11,14 @@ export interface SearchFocusState {sourceId:string|null;resultIds:string[];disk:
 /** An invisible view constraint over accepted live results. Never inserts shapes, edges or semantic metadata. */
 export class SearchResultFocus {
   private source?:FreshNode;
+  private focusToken:symbol|null=null;
   private edges:readonly FreshEdge[]=[];
   private graph?:FreshGraph;
   private layout?:TGLayout;
   private removeConstraint?:()=>void;
   private readonly removeRfc:()=>void;
   constructor(private readonly panel:FreshmindPanel) {
-    this.removeRfc=panel.getRfc().addListener(state=>{if(this.source&&state.focusId!==this.source.getID())this.clear();});
+    this.removeRfc=panel.getRfc().addListener(state=>{if(this.source&&(state.focusId!==this.source.getID()||panel.getRfc().getFocusEdgesToken(this.source)!==this.focusToken))this.clear();});
     // Unplaceable custom lenses must not keep an otherwise settled runner busy.
     this.constraint.needsTicks=()=>this.constraint(this.panel.getGES(),this.panel.getDragNode()).size>0;
   }
@@ -26,9 +27,10 @@ export class SearchResultFocus {
     if(!edges.length)return;
     this.panel.centerOn(source,true);
     this.panel.getRfc().setFocusEdges(source,edges);
-    this.source=source;this.edges=[...edges];this.graph=this.panel.getCompleteEltSet();this.reconcile();this.panel.resetDamper();
+    const token=this.panel.getRfc().getFocusEdgesToken(source);if(token===null)return;
+    this.focusToken=token;this.source=source;this.edges=[...edges];this.graph=this.panel.getCompleteEltSet();this.reconcile();this.panel.resetDamper();
   }
-  clear():void {this.removeConstraint?.();this.removeConstraint=undefined;this.layout=undefined;this.source=undefined;this.graph=undefined;this.edges=[];}
+  clear():void {this.removeConstraint?.();this.removeConstraint=undefined;this.layout=undefined;this.source=undefined;this.focusToken=null;this.graph=undefined;this.edges=[];}
   reconcile():void {
     if(!this.source)return;
     if(this.graph!==this.panel.getCompleteEltSet()||!this.graph.contains(this.source)){this.clear();return;}

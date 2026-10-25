@@ -49,3 +49,17 @@ test('automatic focus follows graph replacement and search retains an explicit r
   expect(result.searchKind).toBe('star');expect(result.searchCount).toBe(2);expect(result.after).toMatchObject({neighborhoodDepth:2,focusId:'x'});
   expect(new Set(result.after.memberIds)).toEqual(new Set(['x','t','a','f']));expect(errors).toEqual([]);
 });
+
+test('reinforcing the same query as an ordinary two-level center releases the old result disk',async({page})=>{
+  const errors=await ready(page);await depth(page,'2');
+  await page.evaluate(()=>{window.graphBrowser.findNode('a').setLabel('amber crystal');document.querySelector('#search-section').open=true;});
+  await page.locator('#search-query').fill('amber');await page.locator('#search-run').click();await expect(page.locator('#search-status')).toContainText('1 result linked');
+  const query=await page.evaluate(()=>window.graphBrowser.getSelect().getID());
+  await page.locator('#rfc-section').evaluate(section=>section.open=true);await page.locator('#rfc-activate').click();
+  const actual=await page.evaluate(()=>{
+    const p=window.graphBrowser,q=p.getSelect(),context=p.findNode('b');context.x=q.x;context.y=q.y;
+    p.tgLayout.stopMotion();p.tgLayout.stopMotion();p.tgLayout.tick();p.repaint();
+    return {focus:p.getRfc().getState().focusId,kind:p.getRfc().getState().centers[0].kind,context:[context.x,context.y],source:[q.x,q.y]};
+  });
+  expect(actual.focus).toBe(query);expect(actual.kind).toBe('tree');expect(actual.context).toEqual(actual.source);expect(errors).toEqual([]);
+});
