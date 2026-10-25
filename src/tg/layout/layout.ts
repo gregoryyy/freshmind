@@ -10,7 +10,7 @@
 // TypeScript adaptation, 2026. See NOTICE for the pinned Java reference.
 
 import type {Node} from "../model/index.js";
-import type {LayoutHost,LayoutForce} from "./types.js";
+import type {LayoutHost,LayoutForce,LayoutConstraint} from "./types.js";
 import {MotionStabilizer} from "./stabilization.js";
 import {NodeMotionStabilizer} from "./node-stabilization.js";
 import type {MotionStabilizationOptions,MotionStabilizationState} from "./stabilization.js";
@@ -36,6 +36,7 @@ export class TGLayout {
   private running = false;
   private generation = 0;
   private readonly forces = new Map<symbol, LayoutForce>();
+  private readonly constraints = new Map<symbol, LayoutConstraint>();
   private readonly adaptiveDamping:MotionStabilizer;
   private adaptiveDampingResponse:AdaptiveDampingResponse;
 
@@ -73,6 +74,11 @@ export class TGLayout {
     const registration = Symbol();
     this.forces.set(registration, force);
     return () => { this.forces.delete(registration); };
+  }
+  /** Registers an opt-in positional constraint; the unextended Java integration path stays unchanged. */
+  addConstraint(constraint:LayoutConstraint):()=>void {
+    const registration=Symbol();this.constraints.set(registration,constraint);
+    return ()=>{this.constraints.delete(registration);};
   }
   /** Queues a rigidity change for the end of the next ten-step relax batch. */
   setRigidity(value: number): void { this.newRigidity = value; }
@@ -141,6 +147,8 @@ export class TGLayout {
 
   /** Damps/halves momentum, clamps displacement per axis, and leaves fixed/dragged positions intact. */
   private moveNodes(): void {
+    const graph=this.panel.getGES();
+    const before=this.constraints.size?new Map([...graph.getNodes()].map(n=>[n,{x:n.x,y:n.y}])):undefined;
     this.lastMaxMotion = this.maxMotion;
     let maxMotion = 0;
     this.panel.getGES().forAllNodes(node => {
@@ -155,6 +163,17 @@ export class TGLayout {
       }
       maxMotion = Math.max(distance, maxMotion);
     });
+    let constrained=false;
+    for(const constraint of this.constraints.values()) {
+      const proposals=constraint(graph,this.dragNode);
+      // Validate the whole proposal before applying any of it, including stale graph references.
+      for(const [node,point] of proposals)if(!graph.contains(node)||!Number.isFinite(point.x)||!Number.isFinite(point.y))throw new TypeError("Invalid layout constraint proposal");
+      for(const [node,point] of proposals)if(!node.fixed&&node!==this.dragNode&&(node.x!==point.x||node.y!==point.y)) {
+        node.x=point.x;node.y=point.y;node.dx=0;node.dy=0;constrained=true;
+      }
+    }
+    // A force cancelled by a boundary must not keep a stationary constrained graph awake forever.
+    if(constrained&&before){maxMotion=0;for(const [node,point] of before)maxMotion=Math.max(maxMotion,Math.hypot(node.x-point.x,node.y-point.y));}
     this.maxMotion = maxMotion;
     this.motionRatio = maxMotion > 0 ? this.lastMaxMotion / maxMotion - 1 : 0;
     this.damp();
@@ -197,7 +216,7 @@ export class TGLayout {
     this.running = true;
     const generation = ++this.generation;
     let first = true;
-    const needsTicks = () => this.adaptiveDampingResponse==="impulse"&&this.adaptiveDamping.getState().phase!=="steady"||[...this.forces.values()].some(force => force.needsTicks?.());
+    const needsTicks = () => this.adaptiveDampingResponse==="impulse"&&this.adaptiveDamping.getState().phase!=="steady"||[...this.forces.values(),...this.constraints.values()].some(extension => extension.needsTicks?.());
     const run = () => {
       if (!this.running || generation !== this.generation) return;
       if (first || needsTicks() || !(this.damper < 0.1 && this.damping && this.maxMotion < 0.001)) { first = false; this.relax(); }
