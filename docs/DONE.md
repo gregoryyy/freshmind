@@ -2,6 +2,13 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## File-level Java information — 2026-10-25
+
+- Completes **7.8**. A single `src/java-provenance.json` inventories all **147 tracked TypeScript files**, including declarations, demo, type-check fixtures and Vite config. The generated [report](assurance/JAVA-SOURCES.md) cross-links selected behavior mappings and records explicit per-file relationships/rationales plus **48 pinned Java files/bytecode members**. Existing TS licence headers and runtime source hashes are unchanged; the JSON accompanies packaged `src`.
+- Distinguishes FM2014 TouchGraph counterparts from the upstream TouchGraph revision and headless test hosts. Records the separate knowceans-ilda sampler generation, authorized Dirichlet class-byte references and Shawn Cokus → Blei lda-c → Java → TS attribution. RFC/modern geometry/workers and Graphology replacements do not acquire invented direct Java origins.
+- Verification: `just check` passes **325 core tests**, strict type checking and library/demo builds. All **48** optional original Java/bytecode hashes pass; four focused provenance cases exercise completeness, stale/invented references, composition misclassification and altered/escaping original paths. File targets, generated-report freshness and whitespace pass. No application TypeScript, numerical equations or browser behavior changed.
+- `just java-provenance` and the normal assurance-map check reject missing/stale TS entries, invented references/behavior IDs, contradictory relationships and implementation-bearing composition entries. Optional named reference roots verify all original hashes without copying external Java/JAR contents into the repository. This is auxiliary file provenance, not exhaustive function parity or a conformance verdict.
+
 ## Consequential-path verification — 2026-10-25
 
 - Completes **7.5** with four independent-oracle headless scenarios: composed complete-document preservation, atomic rejection of invalid late fields, saved stale worker callbacks and out-of-order seeded model reads. No production behavior is changed.

@@ -246,6 +246,7 @@ baseline, not a declaration that the implementation meets it.
 - [x] 7.5 Implement prioritized deterministic checks, control time/randomness/scheduling where needed, and measure test sensitivity and coverage for consequential paths. See [checks, fault sensitivity, coverage and remaining gaps](assurance/05-verification.md); this is scoped evidence, not exhaustive assurance.
 - [ ] 7.6 Establish reproducible integrated-build evidence and appropriate independent review in the delivery workflow; separately evaluate user tasks and deployment-specific behavior.
 - [x] 7.7 Repair reviewed merge regressions in demo startup/teardown, license distribution and progress documentation; add focused integrated-build and lifecycle checks. This does not complete the broader assurance work in 7.3–7.6.
+- [x] 7.8 Add auxiliary Java source information for each tracked TypeScript file, with explicit adaptations/counterparts/new code, pinned references and links to the behavior/requirement map. See [the file inventory](assurance/JAVA-SOURCES.md); completeness is checked without inferring equivalence.
 
 ## 8. Undo
 

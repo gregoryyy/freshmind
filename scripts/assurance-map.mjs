@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import {resolve,relative,isAbsolute} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
+import {checkProvenance} from './java-provenance.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const digest=s=>createHash('sha256').update(s).digest('hex');
@@ -92,6 +93,8 @@ async function main(){
   const data=JSON.parse(await readFile(resolve(root,'docs/assurance/traceability.json'),'utf8'));
   const errors=await validateMap(data,{legacyRoot:legacy>=0?resolve(args[legacy+1]):undefined});
   if(errors.length)throw new Error(errors.join('\n'));
+  await checkProvenance({directory:root,write:args.includes('--write'),
+    referenceRoots:legacy>=0?{fm2014:resolve(args[legacy+1])}:{}});
   const output=resolve(root,'docs/assurance/TRACEABILITY.md'),rendered=renderMap(data);
   if(args.includes('--write'))await writeFile(output,rendered);
   else if(await readFile(output,'utf8')!==rendered)throw new Error('TRACEABILITY.md is stale; run just assurance-map --write');
