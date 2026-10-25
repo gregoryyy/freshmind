@@ -15,6 +15,10 @@ Read the baseline in this order:
 3. [Architectural requirements](03-architecture.md): the responsibilities and
    boundaries needed to support that intent and those constraints.
 
+The [initial acceptance decisions](04-decisions.md) record the maintainer-approved
+desktop, single-user, local-file scope (2026-10-25), source distinctions and open
+decisions. They do not establish implementation conformance.
+
 The [delivery roadmap](../TODO.md), [implementation record](../DONE.md) and
 [source module map](../../src/README.md) describe delivery and implementation.
 They are evidence to examine against this baseline, not its specification.
