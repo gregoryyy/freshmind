@@ -1,0 +1,1409 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "037c7754189a90ff1de17d0cc29b7269ec65f78f",
+  "scope": "Every tracked TypeScript file, including declarations, demo, type-check fixtures and Vite config. File-level provenance/counterparts only; not exhaustive function or behavioral equivalence. Existing headers and licensing remain authoritative.",
+  "roots": {
+    "fm2014": {
+      "hint": "../knowceans/knowceans-freshmind-2014",
+      "description": "Owner-provided FM2014 source and authorized bundled Dirichlet binary."
+    },
+    "lda-reference": {
+      "hint": "../knowceans/knowceans-ilda",
+      "description": "Separately available sampler/RNG source; not the same package generation as bundled Dirichlet."
+    }
+  },
+  "origins": {
+    "fm2014:tg.Node": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/Node.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.Node",
+      "sha256": "166c4de088aa0a58222f187c0f81710d3fd1616458e65df953b40997909fbd55"
+    },
+    "fm2014:tg.Edge": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/Edge.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.Edge",
+      "sha256": "071fde9d854401758b45e3cad3dcefc4031307e8939726032a3b2a1ad6bebc94"
+    },
+    "fm2014:tg.graphelements.GraphEltSet": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/graphelements/GraphEltSet.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.graphelements.GraphEltSet",
+      "sha256": "d486f084944a3895b29c0211edcdfb85be8befd29297c104848c806b900778f6"
+    },
+    "fm2014:tg.graphelements.Locality": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/graphelements/Locality.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.graphelements.Locality",
+      "sha256": "805d5780e7e4e312c6b3832c958d98bc77ad78fe495c3419e74383309964d26b"
+    },
+    "fm2014:tg.graphelements.VisibleLocality": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/graphelements/VisibleLocality.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.graphelements.VisibleLocality",
+      "sha256": "d66853a0cf7c5fd9ecdf0677120b4ef6a060493f155509e88f4ad1d0b0de833d"
+    },
+    "fm2014:tg.LocalityUtils": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/LocalityUtils.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.LocalityUtils",
+      "sha256": "85780214548ebcf4061223441905f4e3f97d1e3fce297aad138d6d104d9b5949"
+    },
+    "fm2014:tg.graphelements.GESUtils": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/graphelements/GESUtils.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.graphelements.GESUtils",
+      "sha256": "1354a010370d18116674e76151a7819e1961067cd06070756b59392c0e8d9208"
+    },
+    "fm2014:tg.TGException": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/TGException.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.TGException",
+      "sha256": "0e840813583c8454374baec8b834ab3cf93b824be811ac4cebcee534ec5ea8d1"
+    },
+    "fm2014:tg.TGLayout": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/TGLayout.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.TGLayout",
+      "sha256": "bd7b55c7d14ecbd6bbecd57d15df29f51ed1725c5fdf8297cd005f3fb531c395"
+    },
+    "fm2014:tg.TGPoint2D": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/TGPoint2D.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.TGPoint2D",
+      "sha256": "0bcaea3335e3c1604252290928ba05fda7b4031eb514fd8884dacac97c8cce98"
+    },
+    "fm2014:tg.TGAbstractLens": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/TGAbstractLens.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.TGAbstractLens",
+      "sha256": "fac14a5d2da0ee723ce9b2505cb6a13a1678f30b24e69f1c82abf67414d595e0"
+    },
+    "fm2014:tg.TGLensSet": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/TGLensSet.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.TGLensSet",
+      "sha256": "e957500e4e967f142c36354260d68a79dc6adc434e9f5139e61de97f1460bc7d"
+    },
+    "fm2014:tg.interaction.HyperScroll": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/interaction/HyperScroll.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.interaction.HyperScroll",
+      "sha256": "f76b8e326eacf50d5deb4b94b0d2269f5214bfe6c4730f846fdf5fd2c887a4e4"
+    },
+    "fm2014:tg.interaction.HVScroll": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/interaction/HVScroll.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.interaction.HVScroll",
+      "sha256": "5ab668b95b259b9d2911aec3807fd235aa79dd26afa02c0830fb1d81a277770d"
+    },
+    "fm2014:tg.interaction.ZoomScroll": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/interaction/ZoomScroll.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.interaction.ZoomScroll",
+      "sha256": "baecba3506ee82fcdaa7305a4a17acd50d0d910b24bc7e982e83ee04f2a5ffa1"
+    },
+    "fm2014:tg.interaction.RotateScroll": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/interaction/RotateScroll.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.interaction.RotateScroll",
+      "sha256": "98a70cdb2f9bf11c6ea90c6c813bff915469d550e22bf0965390acaab0116769"
+    },
+    "fm2014:tg.TGPanel": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/TGPanel.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.TGPanel",
+      "sha256": "c2c5ff3ee043c2bc11c5539860bcdc905f54027fed4438ee43b05a3441add469"
+    },
+    "fm2014:tg.interaction.DragNodeUI": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/interaction/DragNodeUI.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.interaction.DragNodeUI",
+      "sha256": "dc824cb0924805aaabbe03120abd87b371da0d7e00685179b607fb5a905321ad"
+    },
+    "fm2014:tg.interaction.GLNavigateUI": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/interaction/GLNavigateUI.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.interaction.GLNavigateUI",
+      "sha256": "b216d05a60a3ba0cafd7badb3194d53d496c89563346f7f8ff5dfaadddf86adf"
+    },
+    "fm2014:FreshmindBrowser": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/FreshmindBrowser.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.FreshmindBrowser",
+      "sha256": "ce9a2b88a3846d60058556d2dc858285b9904a1870104a36cfaad09df60fc2fb"
+    },
+    "fm2014:FreshNode": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/FreshNode.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.FreshNode",
+      "sha256": "16f9769b27b2fc295b0c7621799878a594a7de3d895d4e6091116989840980af"
+    },
+    "fm2014:FreshEdge": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/FreshEdge.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.FreshEdge",
+      "sha256": "5879fd26cfa4275d819b8174342a825f9b5db8f0232eba530e9943bffa4bf941"
+    },
+    "fm2014:FreshCommands": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/FreshCommands.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.FreshCommands",
+      "sha256": "e11427ea99f05d15f9e712e34d670b5854db5c85a4296194a8039e18dcd43e08"
+    },
+    "fm2014:keyboard.AngleItem": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/keyboard/AngleItem.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.keyboard.AngleItem",
+      "sha256": "53ed0b5235c1943d7f4286b6efad8998480c58f9a6767175d88e75b60acee39f"
+    },
+    "fm2014:keyboard.FreshKeys": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/keyboard/FreshKeys.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.keyboard.FreshKeys",
+      "sha256": "a4812fbb79f59ca0f883b6e51f9912ccffa2f11f3d5232df0d279e6d86deb349"
+    },
+    "fm2014:ir.search.NodeQueryAdapter": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/ir/search/NodeQueryAdapter.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.ir.search.NodeQueryAdapter",
+      "sha256": "df24c1b22a4bdf3ec580b1a573b73cac49f35bf483a979744fb15309ca2c1a5d"
+    },
+    "fm2014:FreshNavigateUI": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/FreshNavigateUI.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.FreshNavigateUI",
+      "sha256": "b83ef2c5fc8b7cd8981c75233d11999fddb504de35229ec93fc885af6e64d178"
+    },
+    "fm2014:HintButton": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/HintButton.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.HintButton",
+      "sha256": "9489f035869e2810af9beb7335cf5a99b963743546d30dd217a90f7ce8294d74"
+    },
+    "fm2014:io.BrowserLauncher": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/io/BrowserLauncher.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.io.BrowserLauncher",
+      "sha256": "c7fa78b5dc1a640ed82f060ada38ee6ef8d75852b5b632067223f527fc499568"
+    },
+    "fm2014:editors.FreshNodeEditor": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/editors/FreshNodeEditor.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.editors.FreshNodeEditor",
+      "sha256": "c87ce00b31ce7c9840af937a5cc4845145549c726dc4a0128daa351ea730d80c"
+    },
+    "fm2014:editors.FreshEdgeEditor": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/editors/FreshEdgeEditor.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.editors.FreshEdgeEditor",
+      "sha256": "14ecfbc491906c5a35fd4a539dce8c13413ea5a7e6ee6b4197f3617e3758baa2"
+    },
+    "fm2014:NodeTypes": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/NodeTypes.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.NodeTypes",
+      "sha256": "16c19760a2d7b4417f2a3d647f254d6227264f1ff4b904cab0d40fd97fecde33"
+    },
+    "fm2014:EdgeTypes": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/EdgeTypes.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.EdgeTypes",
+      "sha256": "0fa0556a62a6ee48070244cb313e9c18822bd07655a16c3614c2edc593ec9be2"
+    },
+    "fm2014:ItemShapes": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/ItemShapes.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.ItemShapes",
+      "sha256": "fadb0f681db0329f07c1db52bb878def61443c89ea3e5be3026b1fdff1f0df80"
+    },
+    "fm2014:ir.search.SimpleQuery": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/ir/search/SimpleQuery.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.ir.search.SimpleQuery",
+      "sha256": "87c338b99fa03a493dea91de0b1c3349e766ef431aea670029798ac1a7375807"
+    },
+    "fm2014:ir.search.LuceneSearch": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/ir/search/LuceneSearch.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.ir.search.LuceneSearch",
+      "sha256": "e3d817013c0a4ebcd11b9f7455782269802754a4673f0a3aec2b3b967be01f11"
+    },
+    "fm2014:ir.search.LuceneSimilaritySearch": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/ir/search/LuceneSimilaritySearch.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.ir.search.LuceneSimilaritySearch",
+      "sha256": "7963f53221de636f966fc9bd693eb82ae7a98e2b587a8b07d545e95f7b62f5bf"
+    },
+    "fm2014:ir.index.IndexLdaClient": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/ir/index/IndexLdaClient.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.ir.index.IndexLdaClient",
+      "sha256": "344d0d6a1a1b5d7804566b75564eafa3648546388d6f2805bcfb55e39fe267fb"
+    },
+    "fm2014:cluster.MarkovGraphClusterer": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/cluster/MarkovGraphClusterer.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.cluster.MarkovGraphClusterer",
+      "sha256": "2b04c009259b1716f5be851be47a2c2b19664e4e1816c89e940488cbe05fdd8b"
+    },
+    "fm2014:cluster.ChineseWhispers": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/cluster/ChineseWhispers.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.cluster.ChineseWhispers",
+      "sha256": "92853496c5060ede66a1c744c670d6704f2a02de8e2c98126276dbcb197c1791"
+    },
+    "fm2014:rfc.RfcManager": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/rfc/RfcManager.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.rfc.RfcManager",
+      "sha256": "19f89007d71d362136c811669ee5d8794d2e6e9f86cf3de71d5251fc349e3d3d"
+    },
+    "fm2014:tg.FMLayout": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/tg/FMLayout.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.tg.FMLayout",
+      "sha256": "1fda5924f1d53ee16a911e1d286b429ada91528abfaa0e7eb1fb83df39be5a07"
+    },
+    "lda-reference:org.knowceans.topics.simple.LdaGibbs": {
+      "root": "lda-reference",
+      "path": "src/org/knowceans/topics/simple/LdaGibbs.java",
+      "kind": "java",
+      "symbol": "org.knowceans.topics.simple.LdaGibbs",
+      "sha256": "8d098e7377840203ec757c5b926ca6ee4aa3243e933e0b2a4d642ec56a5460ed"
+    },
+    "lda-reference:org.knowceans.util.CokusRandom": {
+      "root": "lda-reference",
+      "path": "src/org/knowceans/util/CokusRandom.java",
+      "kind": "java",
+      "symbol": "org.knowceans.util.CokusRandom",
+      "sha256": "bb553def52d76f80c77bee1949024d35daca8443fc79dfd7c8ad9e206a90af1a"
+    },
+    "binary:LdaQueryClient": {
+      "root": "fm2014",
+      "path": "lib/knowceans-corpus.jar",
+      "member": "org/knowceans/dirichlet/lda/LdaQueryClient.class",
+      "kind": "java-bytecode",
+      "symbol": "org.knowceans.dirichlet.lda.LdaQueryClient",
+      "sha256": "36318c2a37c1eb1c109efe0264076b9236b3c86c03f6970e753ce7d04cea0fec"
+    },
+    "binary:LdaTopicSimilarities": {
+      "root": "fm2014",
+      "path": "lib/knowceans-corpus.jar",
+      "member": "org/knowceans/dirichlet/lda/LdaTopicSimilarities.class",
+      "kind": "java-bytecode",
+      "symbol": "org.knowceans.dirichlet.lda.LdaTopicSimilarities",
+      "sha256": "a6b282061856da204a2fbfc5bc2f24e9c85231b0cca776a0a0fdac8caff6ceb3"
+    },
+    "binary:LdaGibbsQuerySampler": {
+      "root": "fm2014",
+      "path": "lib/knowceans-corpus.jar",
+      "member": "org/knowceans/dirichlet/lda/LdaGibbsQuerySampler.class",
+      "kind": "java-bytecode",
+      "symbol": "org.knowceans.dirichlet.lda.LdaGibbsQuerySampler",
+      "sha256": "02e2e8200a050cef468896a56902c184f4b3f884e14a93307fa022ef4ed0919a"
+    },
+    "fm2014:ir.semantic.LdaSimilaritiesFm": {
+      "root": "fm2014",
+      "path": "src/org/knowceans/freshmind/ir/semantic/LdaSimilaritiesFm.java",
+      "kind": "java",
+      "symbol": "org.knowceans.freshmind.ir.semantic.LdaSimilaritiesFm",
+      "sha256": "39ffa948aeb28a2ffc02efcced412e5e1e84e18455f1b853c039a22d4d76964c"
+    }
+  },
+  "files": {
+    "demo/file-controls.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New web application composition/control surface; no Java source translation claimed."
+    },
+    "demo/freshmind.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New web application composition/control surface; no Java source translation claimed."
+    },
+    "demo/main.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New web application composition/control surface; no Java source translation claimed."
+    },
+    "demo/rfc-showcase.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New web application composition/control surface; no Java source translation claimed."
+    },
+    "demo/selection-editor.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New web application composition/control surface; no Java source translation claimed."
+    },
+    "demo/vite-env.d.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New web application composition/control surface; no Java source translation claimed."
+    },
+    "src/fm/browser/content.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:HintButton",
+        "fm2014:io.BrowserLauncher"
+      ],
+      "behaviors": [
+        "MAP-12",
+        "MAP-13"
+      ],
+      "note": "Related node-content/resource actions; the inert annotation allowlist and explicit URL policy are new."
+    },
+    "src/fm/browser/document.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-02",
+        "MAP-02"
+      ],
+      "note": "New browser lifecycle, rendering and interaction composition; no direct Java file translation claimed."
+    },
+    "src/fm/browser/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/browser/label-editing.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:editors.FreshNodeEditor",
+        "fm2014:editors.FreshEdgeEditor"
+      ],
+      "behaviors": [],
+      "note": "Related editable Java labels; moving DOM components and lifecycle handling are a new implementation."
+    },
+    "src/fm/browser/navigation.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:FreshNavigateUI",
+        "fm2014:FreshCommands"
+      ],
+      "behaviors": [],
+      "note": "Related legacy navigation handlers; DOM event routing and focus ownership are a new browser implementation."
+    },
+    "src/fm/browser/panel.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:FreshmindBrowser",
+        "fm2014:tg.TGPanel"
+      ],
+      "behaviors": [
+        "MAP-15"
+      ],
+      "note": "Related Java browser/panel responsibilities, reorganized through narrow module contracts; not a Swing class translation."
+    },
+    "src/fm/browser/query-editor.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New browser lifecycle, rendering and interaction composition; no direct Java file translation claimed."
+    },
+    "src/fm/browser/radius-two.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New browser lifecycle, rendering and interaction composition; no direct Java file translation claimed."
+    },
+    "src/fm/browser/readability.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New browser lifecycle, rendering and interaction composition; no direct Java file translation claimed."
+    },
+    "src/fm/browser/search-focus.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New browser lifecycle, rendering and interaction composition; no direct Java file translation claimed."
+    },
+    "src/fm/browser/search.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:ir.search.NodeQueryAdapter",
+        "fm2014:ir.index.IndexLdaClient"
+      ],
+      "behaviors": [
+        "MAP-11"
+      ],
+      "note": "Related graph-search coordination; independent IR, workers, source generations and graph replacement guards are new."
+    },
+    "src/fm/browser/structural-editing.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:FreshCommands"
+      ],
+      "behaviors": [],
+      "note": "Browser routing for adapted structural commands; platform events, focus and disposal are new."
+    },
+    "src/fm/cluster/index.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:cluster.MarkovGraphClusterer",
+        "fm2014:cluster.ChineseWhispers"
+      ],
+      "behaviors": [],
+      "note": "Related clustering purpose only: current Graphology components/Louvain do not port these legacy algorithms."
+    },
+    "src/fm/config/core.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/config/fm2014.ts": {
+      "relation": "generated",
+      "origins": [],
+      "behaviors": [],
+      "note": "Generated by scripts/sync-fm-config.mjs from config/fm2014.types.yaml; that profile records migrated type values. No single Java source file is its generator."
+    },
+    "src/fm/config/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/config/registry.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:NodeTypes",
+        "fm2014:EdgeTypes"
+      ],
+      "behaviors": [],
+      "note": "Related semantic type roles; YAML inheritance and strict validation are newly implemented."
+    },
+    "src/fm/config/types.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:NodeTypes",
+        "fm2014:EdgeTypes",
+        "fm2014:ItemShapes"
+      ],
+      "behaviors": [],
+      "note": "Related type/style vocabulary, expressed as new TypeScript contracts rather than ported Java APIs."
+    },
+    "src/fm/config/validation.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New validated TypeScript type/style configuration; no direct Java file translation claimed."
+    },
+    "src/fm/config/yaml.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New validated TypeScript type/style configuration; no direct Java file translation claimed."
+    },
+    "src/fm/core.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/edit/commands.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:editors.FreshNodeEditor",
+        "fm2014:editors.FreshEdgeEditor"
+      ],
+      "behaviors": [
+        "MAP-03",
+        "MAP-03"
+      ],
+      "note": "Related editing fields; detached-candidate validation/atomic commands are current contracts."
+    },
+    "src/fm/edit/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/edit/label.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript infrastructure; no direct Java file translation claimed."
+    },
+    "src/fm/edit/structure.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:FreshCommands"
+      ],
+      "behaviors": [
+        "MAP-03",
+        "MAP-03"
+      ],
+      "note": "Adapted linked-node/sibling/link command semantics; local snapshot clipboard and atomic failure handling are current contracts."
+    },
+    "src/fm/geometry/cluster-boundary.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New measured/browser geometry helpers; no direct Java translation claimed."
+    },
+    "src/fm/geometry/geometry.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New measured/browser geometry helpers; no direct Java translation claimed."
+    },
+    "src/fm/geometry/importance.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New measured/browser geometry helpers; no direct Java translation claimed."
+    },
+    "src/fm/geometry/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/geometry/overlap.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New measured/browser geometry helpers; no direct Java translation claimed."
+    },
+    "src/fm/geometry/relation-labels.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New measured/browser geometry helpers; no direct Java translation claimed."
+    },
+    "src/fm/geometry/search-disk.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New measured/browser geometry helpers; no direct Java translation claimed."
+    },
+    "src/fm/geometry/shapes.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:ItemShapes"
+      ],
+      "behaviors": [],
+      "note": "Related Java shape vocabulary; SVG geometry/picking implementation is new."
+    },
+    "src/fm/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/io/codec.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-02",
+        "MAP-02",
+        "MAP-13"
+      ],
+      "note": "New native YAML contracts/validation, not Java XML serialization compatibility."
+    },
+    "src/fm/io/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/io/types.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New native YAML contracts/validation, not Java XML serialization compatibility."
+    },
+    "src/fm/io/yaml-value.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New native YAML contracts/validation, not Java XML serialization compatibility."
+    },
+    "src/fm/ir/corpus.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-08"
+      ],
+      "note": "New graph-to-independent-IR boundary with stable-ID/provenance guards."
+    },
+    "src/fm/ir/graph.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:ir.search.NodeQueryAdapter"
+      ],
+      "behaviors": [
+        "MAP-10",
+        "MAP-10"
+      ],
+      "note": "Adapted graph-native query/result/feedback idea; explicit metadata, exact source validity and ordinary-edge preservation replace encoded roles."
+    },
+    "src/fm/ir/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/ir/view-seeds.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New graph-to-independent-IR boundary with stable-ID/provenance guards."
+    },
+    "src/fm/model/document.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-01"
+      ],
+      "note": "New TypeScript document/options/validation ownership around adapted graph objects."
+    },
+    "src/fm/model/edge.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:FreshEdge"
+      ],
+      "behaviors": [],
+      "note": "Adapted semantic relation/curve fields with explicit stable edge identity and validated metadata."
+    },
+    "src/fm/model/graph.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-01"
+      ],
+      "note": "New TypeScript document/options/validation ownership around adapted graph objects."
+    },
+    "src/fm/model/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/model/locality.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript document/options/validation ownership around adapted graph objects."
+    },
+    "src/fm/model/metadata.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript document/options/validation ownership around adapted graph objects."
+    },
+    "src/fm/model/node.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:FreshNode"
+      ],
+      "behaviors": [],
+      "note": "Adapted semantic node fields on the shared TG node; typed validation and metadata are modern extensions."
+    },
+    "src/fm/model/types.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript document/options/validation ownership around adapted graph objects."
+    },
+    "src/fm/navigate/candidates.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:keyboard.AngleItem"
+      ],
+      "behaviors": [],
+      "note": "Adapted directional candidate intent; deterministic screen-coordinate ranking is a current implementation choice."
+    },
+    "src/fm/navigate/controller.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:FreshCommands"
+      ],
+      "behaviors": [
+        "MAP-04"
+      ],
+      "note": "Adapted navigation/preselection command semantics with explicit browser focus and lifecycle ownership."
+    },
+    "src/fm/navigate/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/navigate/keymap.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:keyboard.FreshKeys"
+      ],
+      "behaviors": [],
+      "note": "Adapted command/key intent; browser-safe changes and platform fallbacks are documented in the keyboard audit."
+    },
+    "src/fm/navigate/types.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript infrastructure; no direct Java file translation claimed."
+    },
+    "src/fm/render/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/render/presentation.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:FreshNode",
+        "fm2014:FreshEdge"
+      ],
+      "behaviors": [],
+      "note": "Related Java drawing responsibilities; SVG/D3 and measured presentation are a new implementation."
+    },
+    "src/fm/render/radius-two.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript infrastructure; no direct Java file translation claimed."
+    },
+    "src/fm/rfc/clusters.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port."
+    },
+    "src/fm/rfc/controller.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:rfc.RfcManager",
+        "fm2014:tg.FMLayout"
+      ],
+      "behaviors": [
+        "MAP-07"
+      ],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port. Java classes are historical concept references only; exact old figures are outside scope."
+    },
+    "src/fm/rfc/exclusion.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port."
+    },
+    "src/fm/rfc/forces.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:rfc.RfcManager",
+        "fm2014:tg.FMLayout"
+      ],
+      "behaviors": [],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port. Java classes are historical concept references only; exact old figures are outside scope."
+    },
+    "src/fm/rfc/importance.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port."
+    },
+    "src/fm/rfc/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/rfc/metric.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port."
+    },
+    "src/fm/rfc/presets.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port."
+    },
+    "src/fm/rfc/stabilization.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New adaptive motion detection/damping; no Java predecessor claimed. Generic inherited copyright/header text is not evidence of a function-level origin."
+    },
+    "src/fm/rfc/structures.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:rfc.RfcManager",
+        "fm2014:tg.FMLayout"
+      ],
+      "behaviors": [],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port. Java classes are historical concept references only; exact old figures are outside scope."
+    },
+    "src/fm/rfc/types.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New paper-driven RFC implementation/extension; modern forces, memberships and policies are not a Java prototype port."
+    },
+    "src/fm/struct-view/controller.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New deterministic projections/locality adapters, including the experimental radius-two study."
+    },
+    "src/fm/struct-view/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/struct-view/locality.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New deterministic projections/locality adapters, including the experimental radius-two study."
+    },
+    "src/fm/struct-view/projection.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-07"
+      ],
+      "note": "New deterministic projections/locality adapters, including the experimental radius-two study."
+    },
+    "src/fm/struct-view/radius-two.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-07"
+      ],
+      "note": "New deterministic projections/locality adapters, including the experimental radius-two study."
+    },
+    "src/fm/struct/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/struct/model.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New stable-ID tree/DAG/cluster storage and validation contracts."
+    },
+    "src/fm/ui/choice-radios.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/graph-aspect.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/fm/ui/keymap.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/label-editing.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/motion-controls.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/node-details.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/node-importance.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/numeric-sliders.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/panel-toggle.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/readability.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/rfc-controls.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/search-controls.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/structural-view.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/substructures.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/fm/ui/zoom-controls.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New caller-owned browser controls and accessible DOM bindings; no Swing component port claimed."
+    },
+    "src/ir/browser/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/ir/browser/protocol.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New worker/session lifecycle; replaces legacy threading rather than copying its lifecycle."
+    },
+    "src/ir/browser/session.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-11",
+        "MAP-12"
+      ],
+      "note": "New worker/session lifecycle; replaces legacy threading rather than copying its lifecycle."
+    },
+    "src/ir/browser/worker-client.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-11"
+      ],
+      "note": "New worker/session lifecycle; replaces legacy threading rather than copying its lifecycle."
+    },
+    "src/ir/browser/worker.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New worker/session lifecycle; replaces legacy threading rather than copying its lifecycle."
+    },
+    "src/ir/core.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/ir/corpus/corpus.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New immutable content/query contracts, analysis and exact source-snapshot identity."
+    },
+    "src/ir/corpus/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/ir/corpus/request.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New immutable content/query contracts, analysis and exact source-snapshot identity."
+    },
+    "src/ir/corpus/types.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New immutable content/query contracts, analysis and exact source-snapshot identity."
+    },
+    "src/ir/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/ir/lexical/elasticlunr-runtime.d.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "Handwritten TypeScript declaration for generated npm elasticlunr ESM. The engine is JavaScript/MIT, not Java; generator/package notices identify its source."
+    },
+    "src/ir/lexical/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/ir/lexical/lexical.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:ir.search.LuceneSearch",
+        "fm2014:ir.search.LuceneSimilaritySearch"
+      ],
+      "behaviors": [
+        "MAP-08"
+      ],
+      "note": "Elasticlunr replacement of literal/term-vector retrieval roles; Lucene scores and legacy ordinal-as-score defect are not reproduced."
+    },
+    "src/ir/lexical/query.ts": {
+      "relation": "related",
+      "origins": [
+        "fm2014:ir.search.SimpleQuery"
+      ],
+      "behaviors": [],
+      "note": "Related FM query grammar; intentionally bounded parser, not full Lucene parser parity."
+    },
+    "src/ir/topics/cokus.ts": {
+      "relation": "adapted",
+      "origins": [
+        "lda-reference:org.knowceans.util.CokusRandom"
+      ],
+      "behaviors": [],
+      "note": "Shawn Cokus MT19937 \u2192 David Blei lda-c \u2192 Gregor Heinrich Java adaptation \u2192 TypeScript. Copyright is not reassigned to the Java adapter; see NOTICE and LGPL text."
+    },
+    "src/ir/topics/gibbs.ts": {
+      "relation": "adapted",
+      "origins": [
+        "lda-reference:org.knowceans.topics.simple.LdaGibbs"
+      ],
+      "behaviors": [],
+      "note": "Port/adaptation of the separately available knowceans-ilda sampler; this is not the missing org.knowceans.dirichlet binary implementation. See the pinned sampler harness."
+    },
+    "src/ir/topics/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/ir/topics/model.ts": {
+      "relation": "reimplemented",
+      "origins": [
+        "fm2014:ir.semantic.LdaSimilaritiesFm",
+        "binary:LdaQueryClient",
+        "binary:LdaTopicSimilarities",
+        "binary:LdaGibbsQuerySampler"
+      ],
+      "behaviors": [
+        "MAP-09"
+      ],
+      "note": "Mathematical/API reimplementation checked against authorized Dirichlet bytecode on synthetic matrices, not a recovered Java source port. Binary members are pinned individually; sources/JARs are not redistributed."
+    },
+    "src/ir/topics/numeric.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript mathematical/model support; specific Java references are recorded where verified."
+    },
+    "src/ir/topics/similarities.ts": {
+      "relation": "reimplemented",
+      "origins": [
+        "fm2014:ir.semantic.LdaSimilaritiesFm",
+        "binary:LdaQueryClient",
+        "binary:LdaTopicSimilarities",
+        "binary:LdaGibbsQuerySampler"
+      ],
+      "behaviors": [
+        "MAP-09"
+      ],
+      "note": "Mathematical/API reimplementation checked against authorized Dirichlet bytecode on synthetic matrices, not a recovered Java source port. Binary members are pinned individually; sources/JARs are not redistributed."
+    },
+    "src/tg/browser/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/tg/browser/panel.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.TGPanel",
+        "fm2014:tg.interaction.DragNodeUI",
+        "fm2014:tg.interaction.GLNavigateUI"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/core.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/tg/graph/error.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.TGException"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/graph/graph.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.graphelements.GraphEltSet"
+      ],
+      "behaviors": [
+        "MAP-01"
+      ],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/graph/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/tg/graph/locality-utils.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.LocalityUtils"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/graph/locality.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.graphelements.Locality",
+        "fm2014:tg.graphelements.VisibleLocality"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/graph/traversal.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.graphelements.GESUtils"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/graph/types.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript infrastructure; no direct Java file translation claimed."
+    },
+    "src/tg/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/tg/layout/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/tg/layout/layout.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.TGLayout"
+      ],
+      "behaviors": [
+        "MAP-06"
+      ],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/layout/node-stabilization.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [
+        "MAP-06"
+      ],
+      "note": "New adaptive motion detection/damping; no Java predecessor claimed. Generic inherited copyright/header text is not evidence of a function-level origin."
+    },
+    "src/tg/layout/stabilization.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New adaptive motion detection/damping; no Java predecessor claimed. Generic inherited copyright/header text is not evidence of a function-level origin."
+    },
+    "src/tg/layout/types.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript infrastructure; no direct Java file translation claimed."
+    },
+    "src/tg/lenses/horizontal-stretch.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:FreshmindBrowser"
+      ],
+      "behaviors": [
+        "MAP-05"
+      ],
+      "note": "FreshmindBrowser.HorizontalStretchLens: fixed Java x factor 1.5 generalized to validated display aspect choices; physical coordinates stay separate."
+    },
+    "src/tg/lenses/hyperbolic.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.interaction.HyperScroll"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/lenses/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/tg/lenses/lens-set.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.TGAbstractLens",
+        "fm2014:tg.TGLensSet"
+      ],
+      "behaviors": [
+        "MAP-05"
+      ],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/lenses/point.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.TGPoint2D"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/lenses/transforms.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.interaction.HVScroll",
+        "fm2014:tg.interaction.ZoomScroll",
+        "fm2014:tg.interaction.RotateScroll"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/model/edge.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.Edge"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "src/tg/model/index.ts": {
+      "relation": "composition",
+      "origins": [],
+      "behaviors": [],
+      "note": "TypeScript public entry point/re-exports; follow its target modules for Java information."
+    },
+    "src/tg/model/node.ts": {
+      "relation": "adapted",
+      "origins": [
+        "fm2014:tg.Node"
+      ],
+      "behaviors": [],
+      "note": "Adapted TouchGraph responsibility/equations with browser/collection/scheduling extensions. These pinned files are FM2014 counterparts; the upstream TouchGraph revision and unmodified-vs-test-host distinction remain in NOTICE and tests/reference/README.md."
+    },
+    "tests/types/ir.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New external-consumer declaration fixture; no Java origin."
+    },
+    "tests/types/modules.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New external-consumer declaration fixture; no Java origin."
+    },
+    "vite.config.ts": {
+      "relation": "new",
+      "origins": [],
+      "behaviors": [],
+      "note": "New TypeScript infrastructure; no direct Java file translation claimed."
+    }
+  }
+}
