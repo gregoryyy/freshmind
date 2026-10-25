@@ -166,10 +166,10 @@ test("pinch zoom anchors the pointer; canvas pan and center retain both scales t
   const after = await worldAt(point);
   expect(after.x).toBeCloseTo(before.x, 5); expect(after.y).toBeCloseTo(before.y, 5);
   expect((await measure(page)).graph).toBe(1);
-  // Start a pan on empty background. Moving it should translate every graphic by exactly the pointer delta.
+  // Ctrl-drag retains whole-canvas translation, independently of the nonlinear viewing lens. Moving it should translate every graphic by exactly the pointer delta.
   const anchor = page.locator('[data-node-id="anchor"]'), old = await anchor.boundingBox();
-  await page.mouse.move(box.x + 20, box.y + 20); await page.mouse.down();
-  await page.mouse.move(box.x + 80, box.y + 55, { steps: 5 }); await page.mouse.up();
+  await page.keyboard.down("Control");await page.mouse.move(box.x + 20, box.y + 20); await page.mouse.down();
+  await page.mouse.move(box.x + 80, box.y + 55, { steps: 5 }); await page.mouse.up();await page.keyboard.up("Control");
   const moved = await anchor.boundingBox();
   expect(moved.x - old.x).toBeCloseTo(60, 4); expect(moved.y - old.y).toBeCloseTo(35, 4);
   const centerBefore = await page.evaluate(() => window.graphBrowser.getCenter());

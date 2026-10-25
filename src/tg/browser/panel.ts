@@ -31,6 +31,8 @@ export interface TGPanelOptions {
   onSelect?: (node: Node | null) => void;
   interactionMode?: TGInteractionMode;
   adaptiveDamping?:LayoutAdaptiveDampingOptions;
+  /** Mouse background drag: whole drawing (TG default), or graph through the viewing lenses. */
+  backgroundPan?: "canvas" | "lens";
 }
 type SvgSelection = Selection<SVGSVGElement, unknown, null, undefined>;
 type DragSubject = { x: number; y: number; node: Node };
@@ -57,6 +59,7 @@ export class TGPanel {
   private svg?: SvgSelection;
   private scene?: Selection<SVGGElement, unknown, null, undefined>;
   private canvasTransform = zoomIdentity;
+  private readonly backgroundPan: "canvas" | "lens";
   private nodeLayer?: Selection<SVGGElement, unknown, null, undefined>;
   private badgeLayer?: Selection<SVGGElement, unknown, null, undefined>;
   private edgeLayer?: Selection<SVGGElement, unknown, null, undefined>;
@@ -80,6 +83,8 @@ export class TGPanel {
    * @param options Controls layout startup, locality animation and interaction callbacks.
    */
   constructor(protected container?: HTMLElement, private readonly options: TGPanelOptions = {}) {
+    if (options.backgroundPan !== undefined && !["canvas", "lens"].includes(options.backgroundPan)) throw new TypeError("Invalid background pan mode");
+    this.backgroundPan = options.backgroundPan ?? "canvas";
     this.interactionMode = options.interactionMode ?? "navigate";
     this.hyperLens = new HyperLens(options.hyperbolic ?? 0);
     this.localityUtils = new LocalityUtils(this.visibleLocality, this, options.animateLocality ?? Boolean(container));
@@ -327,6 +332,18 @@ export class TGPanel {
   addGraphListener(listener: GraphListener): void { this.listeners.add(listener); }
   removeGraphListener(listener: GraphListener): void { this.listeners.delete(listener); }
   fireResetEvent(): void { for (const listener of this.listeners) listener.graphReset?.(); }
+  /**
+   * Scrolls the graph from one viewport point to another through the inverse standard lens chain.
+   * Mirrors Java HVScroll.scrollAtoB: change the pre-distortion offset, leaving physical
+   * positions and the finished canvas transform untouched. Custom lens chains own their input.
+   */
+  panGraphBetween(from: {x: number; y: number}, to: {x: number; y: number}): void {
+    if (![from.x, from.y, to.x, to.y].every(Number.isFinite)) throw new RangeError("Pan points must be finite");
+    const a = this.lensSet.convDrawToReal(this.screenToDraw(from)), b = this.lensSet.convDrawToReal(this.screenToDraw(to));
+    const x = this.panLens.x + (b.x - a.x) * this.zoomLens.scale;
+    const y = this.panLens.y + (b.y - a.y) * this.zoomLens.scale;
+    this.setLensPan(x, y);
+  }
   /** Returns the viewport midpoint in SVG pixels; screenToDraw maps it into renderer coordinates. */
   getDrawCenter(): TGPoint2D { return new TGPoint2D(this.width / 2, this.height / 2); }
   /** Returns the physical point beneath the viewport center through both inverse transforms. */
@@ -447,7 +464,10 @@ export class TGPanel {
     this.badgeLayer = this.scene.append("g").attr("class", "tg-hidden-counts").attr("aria-hidden", "true")
       .style("pointer-events", "none");
     this.zoomBehavior = zoom<SVGSVGElement, unknown>().scaleExtent([0.15, 5])
-      .filter(event => !event.shiftKey && (!event.ctrlKey || event.type === "wheel") && !event.button).on("zoom", event => {
+      .filter(event => !event.shiftKey && !event.button &&
+        (this.backgroundPan === "lens" && event.type === "mousedown"
+          ? event.ctrlKey && !event.metaKey && !event.altKey
+          : !event.ctrlKey || event.type === "wheel")).on("zoom", event => {
       this.canvasTransform = event.transform;
       this.repaintAfterMove();
     });
@@ -462,19 +482,36 @@ export class TGPanel {
       const node = this.addNode("New node");
       node.setLocation(position); this.setSelect(node); this.resetDamper();
     });
-    let boxStart = new TGPoint2D();
+    let boxStart = new TGPoint2D(), lastPan = new TGPoint2D();
+    let selecting = false, panGraph: GraphEltSet | null = null;
     let box: Selection<SVGRectElement, unknown, null, undefined> | undefined;
     this.svg.call(drag<SVGSVGElement, unknown>().container(this.scene.node()!)
       .subject(event => ({ x: event.x, y: event.y }))
-      .filter(event => event.shiftKey && !event.button && event.target === this.svg!.node())
+      // Touch remains with D3 zoom's existing pinch/pan handling, without competing drag listeners.
+      .touchable(() => false)
+      .filter(event => !event.button && (event.shiftKey ? event.target === this.svg!.node() :
+        this.backgroundPan === "lens" && !event.ctrlKey && !event.metaKey && !event.altKey &&
+        !(event.target instanceof Element && event.target.closest(".tg-node,input,textarea,select,[contenteditable]"))))
       .on("start", event => {
+        selecting = Boolean(event.sourceEvent.shiftKey);
+        lastPan = new TGPoint2D(event.x, event.y); panGraph = this.completeEltSet;
+        if (!selecting) return;
         boxStart = new TGPoint2D(event.x, event.y);
         box = this.scene!.append("rect").attr("class", "tg-selection-box").attr("fill", "#42674a22")
           .attr("stroke", "#42674a").style("pointer-events", "none");
       }).on("drag", event => {
+        if (!selecting) {
+          const next = new TGPoint2D(event.x, event.y);
+          if (panGraph === this.completeEltSet) this.panGraphBetween(this.drawToScreen(lastPan), this.drawToScreen(next));
+          lastPan = next; return;
+        }
         box?.attr("x", Math.min(boxStart.x, event.x)).attr("y", Math.min(boxStart.y, event.y))
           .attr("width", Math.abs(event.x - boxStart.x)).attr("height", Math.abs(event.y - boxStart.y));
-      }).on("end", event => { box?.remove(); this.multiSelect(boxStart, new TGPoint2D(event.x, event.y)); }));
+      }).on("end", event => {
+        box?.remove(); box = undefined;
+        if (selecting && panGraph === this.completeEltSet) this.multiSelect(boxStart, new TGPoint2D(event.x, event.y));
+        panGraph = null;
+      }));
     this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(container);
     this.resize();

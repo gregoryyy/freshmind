@@ -39,7 +39,8 @@ Point at the graph to give its centered node keyboard control without a click wh
 | Pointer over graph | Resume keyboard control at the centered node without a click when page focus is passive. Explicit side-pane controls and editors retain focus; click or Tab into the graph to leave them. |
 | Pinch / Ctrl + wheel | Scale the complete canvas around the pointer. |
 | Horizontal two-finger scroll | Adjust focus + context. Diagonal wheel events use their dominant axis. |
-| Drag node / background | Move a node through the viewing lenses / pan the canvas. |
+| Drag node / background | Move a node / scroll the graph through the viewing lenses. The focus distortion stays in place. |
+| Ctrl + drag background | Pan the complete finished canvas, carrying the focus distortion with it. |
 | Double-click node | Select and center it, using the same neighborhood option as Enter. Repeat on the center to replace all enabled RFC centers with this node. |
 | Shift + double-click node | Toggle the node's RFC center, keeping other centers and the visible neighborhood. |
 

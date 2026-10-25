@@ -45,7 +45,7 @@ Try **RFC → Research community showcase** to compare a plain graph, viewing le
 
 Graph search uses elasticlunr for literal retrieval and local LDA for semantic retrieval. Choose distance or likelihood ranking and save/load topic models separately from graph files. See the [browser guide](docs/graph-search.md) and [FM 2014 parity record](docs/fm2014-retrieval-parity.md) for supported operations, verification and intentional differences. Embeddings are deferred.
 
-RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Point at the graph to give the centered node keyboard control; explicit control/editor focus takes priority. Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
+RFC starts enabled on the main browser’s center node. Open **Reinforcement Focus + Context** to choose other centers or adjust its settings. Point at the graph to give the centered node keyboard control; explicit control/editor focus takes priority. Drag the background to scroll through the viewing lens; **Ctrl-drag** pans the finished canvas ([behavior](docs/background-drag.md)). Use **Key map**, **?** or **F1** for controls, or follow the [walkthrough](docs/flipbook/README.md).
 
 **View → Layout motion → Adaptive damping** starts enabled and damps oscillating nodes independently, leaving other nodes free to move, with or without RFC. See the [damping guide and experiment](docs/layout-damping.md).
 
