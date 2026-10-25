@@ -59,6 +59,12 @@ requirement is separate from evidence that it has been implemented.
 
 ## Finding what is missing
 
+The auxiliary [Java information by TypeScript file](JAVA-SOURCES.md) inventories
+every tracked TypeScript file, with explicit relationship/rationale and pinned
+reference files or binary members. Its source is [src/java-provenance.json](../../src/java-provenance.json).
+`just java-provenance` checks completeness/report freshness; `just assurance-map`
+also runs it. Original licence headers remain authoritative.
+
 The [traceability map](TRACEABILITY.md) connects all baseline IDs to selected
 current declarations, hash-pinned Java origins where applicable, TODOs, evidence
 candidates, risks, assumptions and gaps. Its [machine-readable source](traceability.json)

@@ -1,5 +1,12 @@
 # Source modules
 
+For Java source information per TypeScript file, use [java-provenance.json](java-provenance.json)
+or the searchable [file-by-file report](../docs/assurance/JAVA-SOURCES.md).
+It distinguishes adaptations, related legacy counterparts, new implementations,
+composition and generated files, with pinned Java paths/classes or authorized
+binary members. It supplements the [requirement map](../docs/assurance/TRACEABILITY.md);
+origin information does not establish behavior equivalence or change licences.
+
 The library is one ESM package with three domains: `tg/` preserves TouchGraph, `fm/` adds Freshmind graph interactions, and `ir/` owns information retrieval independently of either graph domain. Each feature directory has an `index.ts` contract. Top-level `core.ts` and `index.ts` files compose the existing public API; they do not duplicate implementations. Existing `fm4`, `fm4/core`, `fm4/tg`, `fm4/tg/core`, `fm4/fm` and `fm4/fm/core` imports retain constructor identity and their named exports.
 
 ## TouchGraph
