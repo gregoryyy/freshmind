@@ -209,7 +209,8 @@ Crossings, decorations and continuous node collision handling remain future work
 - [x] 5.7 Enable relation-label avoidance in the main browser with a reversible View control; preserve original library defaults and transient preferences across graph replacement.
 - [x] 5.8 Verify independent rectangle counts, real SVG collisions, editing/control lifecycle and production before/after captures; document limits.
 - [x] 5.9 Replace numeric sidebar settings, including search/training, with sliders and live values; use horizontal radios for short choices, make the panel retractable and repair first-click structural multiple selection. Preserve configuration/input ownership and verify pointer, keyboard, model updates and teardown.
-- [ ] 5.10 Add an overall graph aspect setting with width:height choices 3:5, 16:9 and the canvas aspect ratio; keep labels legible and separate it from RFC focal weights.
+
+- [x] 5.10 Add an overall graph aspect setting with width:height choices 3:5, 16:9 and the canvas aspect ratio; use the original FM horizontal display lens, retaining label proportions, physical layout and independent RFC weights. See [the legacy lens and limits](graph-aspect.md).
 
 ## 6. Applications and radius-two exploration
 
