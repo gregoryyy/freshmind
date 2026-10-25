@@ -27,6 +27,7 @@ const defaults:RfcSettings={...rfcForcePresets.tree,coordinateWeights:{x:1,y:1}}
 export class RfcController {
   private focus:Node|null=null;
   private readonly centers=new Map<Node,string|null>();
+  private readonly restrictedEdges=new Map<Node,readonly Edge[]>();
   private settings:RfcSettings;
   private clusterSettings:RfcClusterSettings={rigidity:1};
   private exclusionSettings:RfcExclusionSettings={enabled:false,overlap:true,strength:.25,padding:20};
@@ -70,6 +71,11 @@ export class RfcController {
   }
   private project(node:Node,id:string|null):RfcProjection {
     const definition=id?this.definition(id):null;
+    const restriction=this.restrictedEdges.get(node);
+    if(!definition&&restriction) {
+      const visible=this.host.getGES(),rootStar=constrainedStar(node,restriction.filter(e=>visible.contains(e)&&visible.contains(e.from)&&visible.contains(e.to)),this.settings.coordinateWeights);
+      return {root:node,definition:null,nodes:[node,...rootStar.branches.map(b=>b.node)],edges:rootStar.branches.map(b=>b.edge),rootStar,stars:[rootStar],targets:new Map(),targetWeights:new Map()};
+    }
     return projectRfcStructure(this.host.getCompleteEltSet(),this.host.getGES(),node,definition,this.settings.coordinateWeights,id?this.structures.get(id)?.topology:undefined);
   }
   /** Detached membership/activation snapshots. The legacy focusId/branchIds describe the primary center. */
@@ -111,8 +117,16 @@ export class RfcController {
     this.assertAlive();if(node)this.visible(node);
     const previous=node?this.centers.get(node)??null:null;
     const definition=previous&&this.definition(previous)?.rootId===node?.getID()?previous:null;
-    if(node===this.focus&&this.centers.size===(node?1:0)&&previous===definition)return;
+    if(node===this.focus&&this.centers.size===(node?1:0)&&previous===definition&&!this.restrictedEdges.size)return;
+    this.restrictedEdges.clear();
     this.centers.clear();this.focus=node;if(node)this.centers.set(node,definition);
+    this.stabilizer.reset();this.host.resetDamper();this.publish();
+  }
+  /** Exclusive transient star over explicit incident relations (for example accepted search results). */
+  setFocusEdges(node:Node,edges:readonly Edge[]):void {
+    this.assertAlive();this.visible(node);
+    if(edges.some(e=>!this.host.getCompleteEltSet().contains(e)||(e.from!==node&&e.to!==node)))throw new TypeError("Focus relations must be current and incident to the center");
+    this.centers.clear();this.restrictedEdges.clear();this.focus=node;this.centers.set(node,null);this.restrictedEdges.set(node,[...edges]);
     this.stabilizer.reset();this.host.resetDamper();this.publish();
   }
   /** Adds another center without changing locality/view or replacing existing centers. Repeats are idempotent. */
@@ -131,14 +145,14 @@ export class RfcController {
     this.assertAlive();const definition=this.definition(id);if(!definition)throw new Error(`Unknown substructure: ${id}`);
     const root=[...this.host.getCompleteEltSet().getNodes()].find(n=>n.getID()===definition.rootId)!;this.visible(root);
     if(this.centers.get(root)===id&&(additive||(root===this.focus&&this.centers.size===1)))return;
-    if(!additive)this.centers.clear();
+    if(!additive){this.centers.clear();this.restrictedEdges.clear();}else this.restrictedEdges.delete(root);
     this.centers.set(root,id);if(!additive||!this.focus)this.focus=root;
     if(additive)this.stabilizer.forgetMotion();else this.stabilizer.reset();this.host.resetDamper();this.publish();
   }
   /** Removes one stored center; remaining centers, including independently hidden ones, are retained. */
   removeFocus(node:Node|string):void {
     this.assertAlive();const target=typeof node==="string"?[...this.centers.keys()].find(n=>n.getID()===node):node;
-    if(!target||!this.centers.delete(target))return;if(this.focus===target)this.focus=this.centers.keys().next().value??null;
+    if(!target||!this.centers.delete(target))return;this.restrictedEdges.delete(target);if(this.focus===target)this.focus=this.centers.keys().next().value??null;
     this.stabilizer.forgetMotion();this.host.resetDamper();this.publish();
   }
   configure(changes:Partial<RfcSettings>):void {
@@ -165,7 +179,7 @@ export class RfcController {
     if(this.cachedGraph!==this.host.getCompleteEltSet()){this.structures.clear();this.cachedGraph=null;this.cachedRevision=-1;}
     for(const [node,id] of [...this.centers]) {
       const definition=id?this.definition(id):null;
-      if(!this.host.getCompleteEltSet().contains(node)||(id&&!definition))this.centers.delete(node);
+      if(!this.host.getCompleteEltSet().contains(node)||(id&&!definition)){this.centers.delete(node);this.restrictedEdges.delete(node);}
       else if(definition&&definition.rootId!==node.getID()) {
         const root=[...this.host.getCompleteEltSet().getNodes()].find(n=>n.getID()===definition.rootId)!;
         this.centers.delete(node);this.centers.set(root,id);if(this.focus===node)this.focus=root;
@@ -237,5 +251,5 @@ export class RfcController {
       this.stabilizer.apply([...members],this.host.getDragNode?.()??null);
     else this.stabilizer.reset();
   };
-  destroy():void {this.disposed=true;this.focus=null;this.centers.clear();this.structures.clear();this.cachedGraph=null;this.stabilizer.reset();this.listeners.clear();}
+  destroy():void {this.disposed=true;this.focus=null;this.centers.clear();this.restrictedEdges.clear();this.structures.clear();this.cachedGraph=null;this.stabilizer.reset();this.listeners.clear();}
 }

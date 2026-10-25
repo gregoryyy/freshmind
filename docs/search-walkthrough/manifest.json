@@ -26,7 +26,7 @@
     {
       "id": "library",
       "title": "A searchable research library",
-      "caption": "This fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including hidden items. The library starts without reinforcement; successful searches activate RFC around their query or similarity source.",
+      "caption": "This fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including hidden items. The library starts without reinforcement; successful searches activate RFC and an invisible result disk around their query or similarity source.",
       "file": "01-library.png"
     },
     {
@@ -38,7 +38,7 @@
     {
       "id": "lexical-query",
       "title": "A term query joins its context",
-      "caption": "Enter runs the literal query and reinforces its neighborhood around the query node. Solid green links show compact ranks (#1, #2, …); the dashed green link identifies context. Blue semantic relations remain. Hover a result for the exact engine/score. F2 edits and reruns the query without duplicating it.",
+      "caption": "Enter runs the literal query. Ranked results settle around an invisible disk centered on the query; other node bodies clear its interior. This one-hop view retains the context and all stored graph data. Solid green links show compact ranks (#1, #2, …); the dashed green link identifies context. Blue semantic relations remain. Hover a result for the exact engine/score. F2 edits and reruns the query without duplicating it.",
       "file": "03-lexical-query.png"
     },
     {
@@ -56,7 +56,7 @@
     {
       "id": "topical-query",
       "title": "Retrieve by inferred topics",
-      "caption": "Ctrl+Shift+F starts a separate LDA query. Enter submits geometry repulsion and moves RFC to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.",
+      "caption": "Ctrl+Shift+F starts a separate LDA query. The empty field says Type a semantic query. Enter submits geometry repulsion and moves RFC and the invisible result disk to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.",
       "file": "06-topical-query.png"
     },
     {

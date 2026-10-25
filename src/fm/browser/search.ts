@@ -8,6 +8,8 @@ import {SearchSession,SearchCancelledError} from "../../ir/browser/index.js";
 import type {SearchWorkerFactory} from "../../ir/browser/index.js";
 import type {LdaOptions,LdaProgress,LdaModel} from "../../ir/topics/index.js";
 import type {FreshmindPanel} from "./panel.js";
+import {SearchResultFocus} from "./search-focus.js";
+import type {SearchFocusState} from "./search-focus.js";
 export {SearchCancelledError} from "../../ir/browser/index.js";
 export type {SearchWorkerFactory} from "../../ir/browser/index.js";
 export interface GraphSearchState {busy:boolean;trained:boolean;message:string;topicWords:string[][]}
@@ -18,6 +20,7 @@ export interface GraphSearchOptions {
 /** Freshmind adapter: owns graph snapshots/results and view status; search owns workers and models. */
 export class GraphSearchController {
   private readonly session:SearchSession;
+  private readonly resultFocus:SearchResultFocus;
   private graph:FreshGraph;
   private disposed=false;
   private generation=0;
@@ -28,13 +31,17 @@ export class GraphSearchController {
   private readonly graphListener={graphMoved:()=>this.checkGraph(),graphReset:()=>this.resetGraph()};
   constructor(private readonly panel:FreshmindPanel,workerFactory?:SearchWorkerFactory,private readonly options:GraphSearchOptions={}){
     this.session=new SearchSession(workerFactory);
+    this.resultFocus=new SearchResultFocus(panel);
     this.graph=panel.getCompleteEltSet();panel.addGraphListener(this.graphListener);this.removeGraphChange=panel.addGraphChangeListener(()=>this.resetGraph());
   }
   getState():GraphSearchState{return structuredClone(this.state);}
+  /** Detached geometry diagnostics; the exclusion disk itself is never rendered. */
+  getFocusState():SearchFocusState {return this.resultFocus.getState();}
   addListener(listener:(state:GraphSearchState)=>void):()=>void {this.listeners.add(listener);listener(this.getState());return ()=>this.listeners.delete(listener);}
   private publish(changes:Partial<GraphSearchState>):void {this.state={...this.state,...changes};for(const listener of this.listeners)listener(this.getState());}
-  private resetGraph():void {this.cancel();this.graph=this.panel.getCompleteEltSet();this.session.reset();this.publish({trained:false,topicWords:[],message:"Graph changed. Search or train a topic model."});}
+  private resetGraph():void {this.resultFocus.clear();this.cancel();this.graph=this.panel.getCompleteEltSet();this.session.reset();this.publish({trained:false,topicWords:[],message:"Graph changed. Search or train a topic model."});}
   private checkGraph():void {
+    this.resultFocus.reconcile();
     if(this.graph!==this.panel.getCompleteEltSet())this.resetGraph();
     else if(this.pendingSource&&!this.graph.contains(this.pendingSource))this.cancel();
   }
@@ -94,7 +101,7 @@ export class GraphSearchController {
     }
     const edges=applyGraphSearchResults(graph,owner!,r,results,corpus);
     this.reveal(owner!,edges);
-    if(this.options.reinforceResults&&edges.length&&this.panel.getGES().contains(owner!))this.panel.getRfc().setFocus(owner!);
+    if(this.options.reinforceResults&&this.panel.getGES().contains(owner!))this.resultFocus.set(owner!,edges);
     this.publish({message:`${edges.length} result${edges.length===1?"":"s"} linked. Select a result relation to reject it.`});return edges;
   }
   /** Creates/selects the query before retrieval, so graph entry and deletion work even without a trained model. */
@@ -136,5 +143,5 @@ export class GraphSearchController {
     for(const edge of edges)locality.addNodeWithEdges(edge.to);
     this.panel.localityChanged();this.panel.setSelect(owner);this.panel.resetDamper();this.panel.repaintAfterMove();
   }
-  dispose():void {if(this.disposed)return;this.disposed=true;this.cancel();this.removeGraphChange();this.panel.removeGraphListener(this.graphListener);this.listeners.clear();this.session.dispose();}
+  dispose():void {if(this.disposed)return;this.disposed=true;this.resultFocus.dispose();this.cancel();this.removeGraphChange();this.panel.removeGraphListener(this.graphListener);this.listeners.clear();this.session.dispose();}
 }

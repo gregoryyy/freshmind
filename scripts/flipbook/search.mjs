@@ -11,7 +11,7 @@ async function neighborhood(page,id){
   await page.evaluate(async id=>{
     const p=window.graphBrowser,node=id?p.findNode(id):p.getSelect();
     if(p.getRfc().getState().focusId!==node.getID())throw new Error('Search did not reinforce its source');
-    p.fastFinishAnimation();await p.setLocale(node,2);
+    p.fastFinishAnimation();await p.setLocale(node,1);
   },id);
 }
 let semanticSnapshot, semanticQueryId;
@@ -25,7 +25,7 @@ const semantics=page=>page.evaluate(()=>{
   };
 });
 export const tour=[
-  {id:'library',title:'A searchable research library',caption:'This fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including hidden items. The library starts without reinforcement; successful searches activate RFC around their query or similarity source.',async run({page,open,advance}){
+  {id:'library',title:'A searchable research library',caption:'This fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including hidden items. The library starts without reinforcement; successful searches activate RFC and an invisible result disk around their query or similarity source.',async run({page,open,advance}){
     await open('/');await page.locator('.sidebar > details').evaluateAll(items=>items.forEach(e=>e.open=['files-section','search-section'].includes(e.id)));await page.locator('#example-graph').selectOption('graph-search');await page.waitForFunction(()=>document.querySelector('#file-status').textContent.includes('24 nodes, 28 relations'));
     // Start with a plain library; the search UI subsequently activates RFC itself.
     await page.locator('#rfc-section').evaluate(e=>e.open=true);await page.locator('#rfc-clear').click();await page.locator('#rfc-section').evaluate(e=>e.open=false);
@@ -39,7 +39,7 @@ export const tour=[
     const valid=await page.evaluate(()=>{const q=window.graphBrowser.getSelect();return q.getData().search?.draft&&[...q.getEdges()].some(e=>e.from.getID()==='mira'&&e.getData().search?.role==='context');});
     if(!valid)throw new Error('Query draft is missing its context relation');
   }},
-  {id:'lexical-query',title:'A term query joins its context',caption:'Enter runs the literal query and reinforces its neighborhood around the query node. Solid green links show compact ranks (#1, #2, …); the dashed green link identifies context. Blue semantic relations remain. Hover a result for the exact engine/score. F2 edits and reruns the query without duplicating it.',async run({page,advance}){
+  {id:'lexical-query',title:'A term query joins its context',caption:'Enter runs the literal query. Ranked results settle around an invisible disk centered on the query; other node bodies clear its interior. This one-hop view retains the context and all stored graph data. Solid green links show compact ranks (#1, #2, …); the dashed green link identifies context. Blue semantic relations remain. Hover a result for the exact engine/score. F2 edits and reruns the query without duplicating it.',async run({page,advance}){
     await page.getByRole('textbox',{name:'Lexical query on graph',exact:true}).press('Enter');await linked(page);await neighborhood(page);await advance(120);await fit(page);
   }},
   {id:'exact-tags',title:'Whole-tag retrieval',caption:'The same query node now retrieves exact visual search tags. Tags are explicit metadata and work without topic training. The query replaces its earlier result links while retaining context and manual semantic relations.',async run({page,advance}){
@@ -50,7 +50,7 @@ export const tour=[
     await page.locator('#search-topics').fill('3');await page.locator('#search-iterations').fill('200');await page.locator('#search-train').click();await page.waitForFunction(()=>document.querySelector('#search-status').textContent.includes('Topic model ready'));
     await fit(page,'training');
   }},
-  {id:'topical-query',title:'Retrieve by inferred topics',caption:'Ctrl+Shift+F starts a separate LDA query. Enter submits geometry repulsion and moves RFC to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.',async run({page,advance}){
+  {id:'topical-query',title:'Retrieve by inferred topics',caption:'Ctrl+Shift+F starts a separate LDA query. The empty field says Type a semantic query. Enter submits geometry repulsion and moves RFC and the invisible result disk to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.',async run({page,advance}){
     await page.locator('#search-section .control-subsection').evaluate(e=>e.open=false);await select(page,'mira');await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+f');
     const field=page.getByRole('textbox',{name:'LDA query on graph',exact:true});await field.fill('geometry repulsion');await field.press('Enter');await linked(page);
     semanticQueryId=await page.evaluate(()=>window.graphBrowser.getSelect().getID());await neighborhood(page,semanticQueryId);await advance(120);await fit(page);

@@ -56,7 +56,7 @@
     {
       "id": "browser",
       "title": "Graph browser with RFC on the center node",
-      "caption": "The graph-browser example opens with Reinforcement Focus+Context active on its central Graph browsers node. Yellow halos identify the reinforced center and its five immediate branches; the surrounding graph retains its ordinary connections and forces.",
+      "caption": "The graph-browser example opens with Reinforcement Focus+Context active on its central Graph browsers node. Yellow halos identify the reinforced center and its five immediate branches; the surrounding graph retains its ordinary connections. The shipped label-separation command clears body overlaps and pauses motion for this overview.",
       "chapter": "Explore",
       "file": "01-browser.png"
     },
@@ -84,7 +84,7 @@
     {
       "id": "search-library",
       "title": "A searchable research library",
-      "caption": "This fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including hidden items. The library starts without reinforcement; successful searches activate RFC around their query or similarity source.",
+      "caption": "This fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including hidden items. The library starts without reinforcement; successful searches activate RFC and an invisible result disk around their query or similarity source.",
       "chapter": "Search",
       "file": "05-search-library.png"
     },
@@ -98,7 +98,7 @@
     {
       "id": "search-lexical-query",
       "title": "A term query joins its context",
-      "caption": "Enter runs the literal query and reinforces its neighborhood around the query node. Solid green links show compact ranks (#1, #2, …); the dashed green link identifies context. Blue semantic relations remain. Hover a result for the exact engine/score. F2 edits and reruns the query without duplicating it.",
+      "caption": "Enter runs the literal query. Ranked results settle around an invisible disk centered on the query; other node bodies clear its interior. This one-hop view retains the context and all stored graph data. Solid green links show compact ranks (#1, #2, …); the dashed green link identifies context. Blue semantic relations remain. Hover a result for the exact engine/score. F2 edits and reruns the query without duplicating it.",
       "chapter": "Search",
       "file": "07-search-lexical-query.png"
     },
@@ -119,7 +119,7 @@
     {
       "id": "search-topical-query",
       "title": "Retrieve by inferred topics",
-      "caption": "Ctrl+Shift+F starts a separate LDA query. Enter submits geometry repulsion and moves RFC to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.",
+      "caption": "Ctrl+Shift+F starts a separate LDA query. The empty field says Type a semantic query. Enter submits geometry repulsion and moves RFC and the invisible result disk to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.",
       "chapter": "Search",
       "file": "10-search-topical-query.png"
     },
@@ -161,7 +161,7 @@
     {
       "id": "nips",
       "title": "Browse the approved NIPS dataset",
-      "caption": "NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.",
+      "caption": "NIPS-FM contains 3,777 nodes and 5,257 relations. This bounded neighborhood uses the label-separation command and canvas framing to make the long paper titles readable, with motion paused. All 3,777 nodes remain stored for subsequent navigation and export; this is not a whole-corpus overview.",
       "chapter": "Files and content",
       "file": "16-nips.png"
     },

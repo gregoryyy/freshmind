@@ -118,3 +118,42 @@ test('literal indexing checks the current snapshot without adding graph items an
   pending=controller.index();const cancelled=assert.rejects(pending,/cancelled/);panel.setGraphEltSet(new FreshGraph());await cancelled;
   controller.dispose();panel.destroy();
 });
+
+test('invisible search focus settles whole context bodies outside results even at zero damping, retaining pins and lifecycle guards',async()=>{
+  const {panel,controller,a,c,workers}=fixture({reinforceResults:true});
+  const pending=controller.query(request,5,a),worker=workers.at(-1);
+  worker.answer({kind:'results',results:new LexicalSearchIndex(worker.job.corpus).search('graph')});
+  const edges=await pending,q=edges[0].from;
+  assert.equal(panel.getFocus(),q);
+  assert.deepEqual(panel.getRfc().getState().branchIds.sort(),edges.map(e=>e.to.getID()).sort());
+  panel.setHyperbolic(35);panel.setRotation(.35);panel.setZoom(1.5);
+  const assertClear=()=>{
+    const state=controller.getFocusState(),disk=state.disk;assert.ok(disk);
+    for(const n of panel.getGES().getNodes()){
+      const p=panel.getLensSet().convRealToDraw(n.x,n.y);
+      if(n===q||state.resultIds.includes(n.getID()))continue;
+      // Independent rectangle/circle distance, not the geometry helper under test.
+      const distance=Math.hypot(Math.max(0,Math.abs(p.x-disk.x)-n.getWidth()/2),Math.max(0,Math.abs(p.y-disk.y)-n.getHeight()/2));
+      assert.ok(distance>=disk.radius+7.9,`${n.getID()}: ${distance} < ${disk.radius+8}`);
+    }
+  };
+  panel.tgLayout.stopMotion();panel.tgLayout.stopMotion();c.x=q.x;c.y=q.y;
+  panel.tgLayout.tick();assertClear();const positions=[...panel.getAllNodes()].map(n=>[n.x,n.y]);
+  panel.tgLayout.tick(10);assert.deepEqual([...panel.getAllNodes()].map(n=>[n.x,n.y]),positions);
+  c.fixed=true;c.x=q.x;c.y=q.y;panel.tgLayout.tick();assert.deepEqual([c.x,c.y],[q.x,q.y]);assert.ok(controller.getFocusState().blockedNodeIds.includes('c'));
+  c.fixed=false;panel.setDragNode(c);panel.tgLayout.tick();assert.ok(controller.getFocusState().blockedNodeIds.includes('c'));
+  panel.setDragNode(null);panel.tgLayout.tick();assertClear();
+  panel.getRfc().setFocus(a);assert.equal(controller.getFocusState().disk,null);
+  c.x=q.x;c.y=q.y;panel.tgLayout.stopMotion();panel.tgLayout.stopMotion();panel.tgLayout.tick();assert.deepEqual([c.x,c.y],[q.x,q.y]);
+  controller.dispose();panel.destroy();
+});
+
+test('search disk releases old object references on replacement and disposal, and follows layout replacement',async()=>{
+  const {panel,controller,a,c,workers}=fixture({reinforceResults:true});
+  const pending=controller.query(request,5,a),worker=workers.at(-1);worker.answer({kind:'results',results:new LexicalSearchIndex(worker.job.corpus).search('graph')});
+  const edges=await pending,q=edges[0].from;
+  const {TGLayout}=await import('fm4/tg/layout');const replacement=new TGLayout(panel,()=>.5);panel.setTGLayout(replacement);panel.repaintAfterMove();
+  replacement.stopMotion();replacement.stopMotion();c.x=q.x;c.y=q.y;replacement.tick();assert.notDeepEqual([c.x,c.y],[q.x,q.y]);
+  controller.dispose();c.x=q.x;c.y=q.y;replacement.tick();assert.deepEqual([c.x,c.y],[q.x,q.y]);
+  panel.setGraphEltSet(new FreshGraph());assert.equal(controller.getFocusState().disk,null);panel.destroy();
+});
