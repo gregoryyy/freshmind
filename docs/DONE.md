@@ -2,6 +2,15 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Invisible search-result disk and readable walkthroughs — 2026-10-25
+
+- Completes **4.22**. Browser search centers a successful query/similarity source and restricts its RFC star to accepted result links. Measured result bodies occupy a rank-ordered rim around an **invisible** disk; all other visible node bodies are projected outside it. No boundary/fill or synthetic semantic relation is drawn. The LDA query placeholder reads **Type a semantic query**.
+- An opt-in TG post-integration constraint validates position proposals, protects fixed/dragged nodes and clears cancelled boundary momentum; the ordinary Java path is unchanged. FM owns the result policy and lens-aware geometry. Forward checks refine the historical approximate inverse; graph replacement, deletion, layout replacement, controller disposal and RFC changes are covered. Existing RFC settings, node/edge importance, original semantic relations and retrieval scores remain intact. Centering intentionally resets pan while retaining zoom, rotation and lens strength.
+- The [search guide](graph-search.md) records limits: pins/dragging can prevent clearance, paused motion requires a tick/resume, many/wide results may need fitting, and custom noninvertible lenses cannot guarantee placement. Exterior context/body collisions and edge crossings are separate problems. This is a new view constraint, not evidence about the historical RFC equations.
+- Regenerated and visually inspected the **39-view main** and **9-view search** walkthroughs. Main overviews use the shipped label-separation command and fitting, with capture failing on remaining body overlaps; the NIPS shot retains ten readable nodes out of the complete **3,777-node / 5,257-relation** graph. Search captures use a one-hop neighborhood. Historical experiment records and slide anchors are retained.
+- Verification: **290 core tests**, strict typing and library/demo builds (`just check`); full Chrome **140 tests**, followed by **14 search tests** after the final centering adjustment; Java parity **9 scenarios / 276 layout batches / 35 lens cases**. Independent rectangle/circle checks exercise cooled damping, zoom/rotation/nonlinear lenses, pins/dragging, stale proposals and lifecycle cleanup. Both production capture recipes passed. Evidence is scoped to proposed **INT-03/06/09**, **ARC-03/04/05/07**; no general usability or assurance-conformance verdict is claimed.
+- Recorded the requested slider/structural-selection work as **5.9** and undo as milestone **8**. These remain implementation work.
+
 ## Current completion status — 2026-10-25
 
 | Milestone | Status | Completed scope |

@@ -17,7 +17,7 @@ test('search uses compact green associations, inspectable scores and RFC around 
     const p=window.graphBrowser,q=p.getSelect(),edges=[...q.getEdges()].filter(e=>e.getData().search?.role==='result');
     return {query:q.getID(),focus:p.getRfc().getState().focusId,branches:p.getRfc().getState().branchIds,results:edges.map(e=>({id:e.getID(),rank:e.getData().search.rank,score:e.getData().search.score})),context:[...q.getEdges()].find(e=>e.getData().search?.role==='context').getID()};
   });
-  expect(state.focus).toBe(state.query);expect(state.branches.sort()).toEqual(['a','b','c']);
+  expect(state.focus).toBe(state.query);expect(state.branches.sort()).toEqual(['a','c']);
   for(const result of state.results){
     const group=page.locator(`[data-edge-id="${result.id}"]`);
     await expect(group.locator('.fm-edge-label')).toHaveText(`#${result.rank}`);
@@ -113,6 +113,7 @@ test('FM2014 semantic search and training shortcuts retain the current model lif
   await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+i');await expect(page.locator('#search-status')).toContainText('Topic model ready: 2 topics');
   await selectChoice(page.locator('#search-metric'),'predictive');
   await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+f');await expect(page.getByRole('textbox',{name:'LDA query on graph',exact:true})).toBeFocused();await expect(page.locator('#search-engine')).toHaveValue('lda');
+  await expect(page.getByRole('textbox',{name:'LDA query on graph',exact:true})).toHaveAttribute('placeholder','Type a semantic query');
   expect(await page.evaluate(()=>window.graphBrowser.getSelect().getData().search.request.metric)).toBe('predictive');
   await page.getByRole('textbox',{name:'LDA query on graph',exact:true}).fill('graph');await page.keyboard.press('Enter');await expect(page.locator('#search-status')).toContainText(/results? linked/);
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('a')));await page.locator('#graph svg').focus();await page.keyboard.press('Control+Shift+r');await expect(page.locator('#search-status')).toContainText(/results? linked/);
@@ -205,4 +206,29 @@ test('semantic metrics/raw values and a local model file survive save/load witho
   await page.evaluate(()=>window.graphBrowser.findNode('a').setHint('changed corpus'));
   await page.locator('#search-load-model').setInputFiles(path);await expect(page.locator('#search-status')).toContainText('different corpus');
   expect(leaks).toEqual([]);expect(errors).toEqual([]);
+});
+
+test('search results surround an invisible disk that clears measured context bodies after cooling and lens changes',async({page})=>{
+  const errors=await ready(page);await page.locator('#search-query').fill('graph');await page.locator('#search-run').click();
+  await expect(page.locator('#search-status')).toContainText('2 results linked');
+  const inspect=async(hyper,zoom)=>page.evaluate(async({hyper,zoom})=>{
+    const p=window.graphBrowser,q=p.getSelect();await p.setLocaleAll();p.setSelect(q);p.setHyperbolic(hyper);p.setRotation(.4);p.setZoom(zoom);p.setCanvasZoom(.85);
+    p.tgLayout.stopMotion();p.tgLayout.stopMotion();
+    for(const id of ['b','d']){const node=p.findNode(id);node.x=q.x;node.y=q.y;}
+    p.repaint();p.tgLayout.tick();
+    const results=[...q.getEdges()].filter(e=>e.getData().search?.role==='result').map(e=>e.to),source=p.drawToScreen({x:q.drawx,y:q.drawy}),scale=p.getCanvasZoom();
+    const ring=Math.min(...results.map(n=>Math.hypot(n.drawx-q.drawx,n.drawy-q.drawy))),extent=Math.max(...results.map(n=>Math.hypot(n.getWidth(),n.getHeight())/2)),radius=(ring-extent-16)*scale;
+    const svg=document.querySelector('#graph svg').getBoundingClientRect();
+    const clearance=['b','d'].map(id=>{
+      const box=document.querySelector(`[data-node-id="${id}"] .fm-shape`).getBoundingClientRect();
+      const x=box.x+box.width/2-svg.x,y=box.y+box.height/2-svg.y;
+      return Math.hypot(Math.max(0,Math.abs(x-source.x)-box.width/2),Math.max(0,Math.abs(y-source.y)-box.height/2))-radius;
+    });
+    const before=[...p.getAllNodes()].map(n=>[n.x,n.y]);p.tgLayout.tick(4);
+    return {radius,clearance,stable:JSON.stringify(before)===JSON.stringify([...p.getAllNodes()].map(n=>[n.x,n.y])),regions:document.querySelectorAll('.fm-rfc-region').length};
+  },{hyper,zoom});
+  for(const [hyper,zoom] of [[47,1],[75,1.4],[0,.7]]){
+    const actual=await inspect(hyper,zoom);expect(actual.radius).toBeGreaterThan(60);expect(Math.min(...actual.clearance)).toBeGreaterThan(6);expect(actual.stable).toBe(true);expect(actual.regions).toBe(0);
+  }
+  await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));expect(errors).toEqual([]);
 });

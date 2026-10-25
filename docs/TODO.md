@@ -190,6 +190,8 @@ are superseded, not silently redefined or claimed as implemented.
 - [x] 4.20 Balance the main flipbook with an early search chapter shared with the dedicated walkthrough: graph query entry, literal/tag retrieval, LDA training/querying, node similarity, rejection and query deletion. Add chapter navigation, preserve existing slide anchors and verify captured source-content preservation.
 - [x] 4.21 Declutter search relations with compact rank labels, a consistent distinct color and inspectable exact scores; reinforce successful query/similarity neighborhoods with RFC and refresh both walkthroughs.
 
+- [x] 4.22 Place accepted results around an invisible, measured-body exclusion disk; clear other nodes despite cooled damping, retain pin/drag ownership, distinguish semantic query entry, and refresh readable production walkthroughs.
+
 ## 5. Readability: node separation and relation-label placement
 
 Improve the rendered graph without changing the TouchGraph/RFC force equations.

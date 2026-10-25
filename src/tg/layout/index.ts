@@ -14,4 +14,4 @@ export type {AdaptiveDampingResponse,LayoutAdaptiveDampingOptions} from "./layou
 export {MotionStabilizer} from "./stabilization.js";
 export {NodeMotionStabilizer} from "./node-stabilization.js";
 export type {MotionStabilizationOptions,MotionStabilizationState} from "./stabilization.js";
-export type {LayoutHost,LayoutForce} from "./types.js";
+export type {LayoutHost,LayoutForce,LayoutConstraint} from "./types.js";

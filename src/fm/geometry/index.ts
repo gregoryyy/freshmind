@@ -18,3 +18,5 @@ export {countNodeOverlaps,separateNodeOverlaps} from "./overlap.js";
 export type {OverlapBox,OverlapOptions,OverlapResult} from "./overlap.js";
 export {placeRelationLabels} from "./relation-labels.js";
 export type {RelationLabelPlacement,RelationLabelBox,RelationLabelOptions,RelationLabelResult} from "./relation-labels.js";
+export {diskBodyClearance,searchDiskGeometry,searchDiskEscape,solveDiskPosition} from "./search-disk.js";
+export type {DiskPoint,DiskBody,SearchDisk} from "./search-disk.js";
