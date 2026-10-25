@@ -4,7 +4,7 @@ import {join,resolve,relative} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawn} from 'node:child_process';
 import {tmpdir} from 'node:os';
-import {inventory,differences,sha256} from './lib/assurance-artifacts.mjs';
+import {inventory,differences,sha256,requireCapabilities} from './lib/assurance-artifacts.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const output=resolve(process.argv[2]??join(tmpdir(),'fm4-assurance-delivery-'+Date.now()));
 if(!relative(root,output).startsWith('../'))throw new Error('Evidence output must be outside the checkout');
@@ -13,8 +13,8 @@ try{await access(join(output,'evidence.json'));throw new Error('Refusing to over
 const record={schemaVersion:1,started:new Date().toISOString(),environment:{node:process.version,platform:process.platform,architecture:process.arch},commands:[],capabilities:{},review:{status:'pending',reason:'Automated execution is not independent review.'},status:'running'};
 const exists=async p=>{try{await access(join(root,p));return true;}catch(error){if(error.code==='ENOENT')return false;throw error;}};
 const npm=process.platform==='win32'?'npm.cmd':'npm';
-async function run(name,command,args){
-  const child=spawn(command,args,{cwd:root,env:process.env,stdio:['ignore','pipe','pipe'],timeout:600000});let stdout='',stderr='';
+async function run(name,command,args,extraEnv={}){
+  const child=spawn(command,args,{cwd:root,env:{...process.env,...extraEnv},stdio:['ignore','pipe','pipe'],timeout:600000});let stdout='',stderr='';
   child.stdout.on('data',c=>stdout+=c);child.stderr.on('data',c=>stderr+=c);
   const result=await new Promise((resolve,reject)=>{child.once('error',reject);child.once('exit',(code,signal)=>resolve({code,signal}));});
   const log=stdout+stderr;await writeFile(join(output,name+'.log'),log);
@@ -31,10 +31,11 @@ try{
   record.worktreeStatus=await run('worktree','git',['status','--porcelain']);record.inputs=await inputs();
   record.environment.npm=(await run('npm-version',npm,['--version'])).trim();
   await run('java-version','java',['-version']);record.environment.java=await readFile(join(output,'java-version.log'),'utf8');
+  record.capabilities={traceability:await exists('scripts/assurance-map.mjs'),criticalChecks:await exists('scripts/assurance-sensitivity.mjs'),privacyScenario:await exists('playwright.assurance.config.mjs')};
+  requireCapabilities(record.capabilities);
   // Mirrors just check / just test-java without requiring an extra CI bootstrap tool.
   await run('typecheck',npm,['run','typecheck']);await run('core',npm,['test']);await run('java',npm,['run','test:java']);
-  record.capabilities.traceability=await exists('scripts/assurance-map.mjs');
-  if(record.capabilities.traceability)await run('traceability',process.execPath,['scripts/assurance-map.mjs']);
+ await run('traceability',process.execPath,['scripts/assurance-map.mjs']);
   const builds=[];
   for(let i=1;i<=2;i++){
     await run('library-'+i,npm,['run','build']);await run('demo-'+i,npm,['run','build:demo']);
@@ -54,10 +55,8 @@ try{
   // All builds finish before browser consumers start. No subsequent builds.
   await run('production',process.execPath,['scripts/assurance-production.mjs',join(output,'production.json')]);
   await run('browser',npm,['run','test:browser','--','--workers=2','--timeout=60000']);
-  record.capabilities.criticalChecks=await exists('scripts/assurance-sensitivity.mjs');
-  if(record.capabilities.criticalChecks)await run('sensitivity',process.execPath,['scripts/assurance-sensitivity.mjs',join(output,'sensitivity.json')]);
-  record.capabilities.privacyScenario=await exists('playwright.assurance.config.mjs');
-  if(record.capabilities.privacyScenario)await run('privacy',npm,['exec','--no','--','playwright','test','--config','playwright.assurance.config.mjs']);
+ await run('sensitivity',process.execPath,['scripts/assurance-sensitivity.mjs',join(output,'sensitivity.json')]);
+ await run('privacy',npm,['exec','--no','--','playwright','test','--config','playwright.assurance.config.mjs'],{ASSURANCE_BROWSER_REPORT:join(output,'privacy-browser.json')});
   const changed=differences(record.inputs,await inputs());if(changed.length)throw new Error('Source inputs changed during evidence run: '+changed.join(', '));
   // Browser/application consumers must not silently mutate the delivered build.
   for(const kind of ['library','demo']){const changed=differences(builds[1][kind],await inventory(join(root,kind==='library'?'dist':'demo-dist')));if(changed.length)throw new Error('Artifacts changed during checks: '+changed.join(', '));}

@@ -22,11 +22,9 @@ must name a new directory outside the checkout. The runner records:
 - A smoke check of the actual production bundle: local import, emitted literal
   worker and explicit export retaining original/isolated records and zero weight.
   No `/src` module may substitute for the delivered code.
-- The complete ordinary browser suite after all builds finish. If present in the
-  checkout, the traceability validator, fault-sensitivity experiment and separate
-  production-canary suite also run. Capability flags explicitly identify absent
-  increments; absence is not evidence that a requirement passed. PR55–57 supply
-  these separately reviewed increments before full integration assessment.
+- The complete ordinary browser suite after all builds finish. The traceability validator, fault-sensitivity experiment and separate
+  production-canary suite are required capabilities. Deleting one fails the run;
+  a missing check cannot silently become a successful assurance result.
 - Command logs/digests, original/mutated hashes where applicable, browser versions,
   per-file artifact inventories, repeated-build results and failed checks. Check
   input/build hashes again after consumers finish to detect changes during a run.

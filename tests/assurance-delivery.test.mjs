@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,symlink,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {inventory,differences} from '../scripts/lib/assurance-artifacts.mjs';
+import {inventory,differences,requireCapabilities} from '../scripts/lib/assurance-artifacts.mjs';
 test('artifact comparison detects same-length changed bytes, missing and added files',async t=>{
   const root=await mkdtemp(join(tmpdir(),'fm4-artifacts-'));t.after(()=>rm(root,{recursive:true,force:true}));
   await mkdir(join(root,'nested'));await writeFile(join(root,'nested/a'),'first');
@@ -25,4 +25,10 @@ test('delivery workflow keeps untrusted PR execution read-only with immutable ac
   const steps=workflow.jobs.delivery.steps;
   for(const step of steps.filter(s=>s.uses))assert.match(step.uses,/^[^@]+@[a-f0-9]{40}$/);
   assert.equal(steps.find(s=>s.uses?.startsWith('actions/checkout@'))?.with['persist-credentials'],false);
+});
+
+test('delivery cannot pass by silently dropping an assurance capability',()=>{
+  const complete={traceability:true,criticalChecks:true,privacyScenario:true};
+  assert.doesNotThrow(()=>requireCapabilities(complete));
+  for(const key of Object.keys(complete))assert.throws(()=>requireCapabilities({...complete,[key]:false}),new RegExp(key));
 });

@@ -17,3 +17,8 @@ export function differences(a,b){
   return [...new Set([...Object.keys(a),...Object.keys(b)])].sort().filter(key=>
     !a[key]||!b[key]||a[key].bytes!==b[key].bytes||a[key].sha256!==b[key].sha256);
 }
+
+export function requireCapabilities(capabilities){
+  for(const name of ['traceability','criticalChecks','privacyScenario'])
+    if(capabilities[name]!==true)throw new Error('Required assurance capability missing: '+name);
+}
