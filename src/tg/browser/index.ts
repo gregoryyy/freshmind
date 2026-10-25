@@ -10,4 +10,4 @@
 // TypeScript adaptation, 2026. See NOTICE for the pinned Java reference.
 
 export {TGPanel} from "./panel.js";
-export type {TGPanelOptions,GraphListener,TGInteractionMode} from "./panel.js";
+export type {TGPanelOptions,GraphListener,TGInteractionMode,GraphAspectMode} from "./panel.js";

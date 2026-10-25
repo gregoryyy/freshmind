@@ -32,3 +32,7 @@ export {bindNumericSliders} from "./numeric-sliders.js";
 export {bindChoiceRadios} from "./choice-radios.js";
 export {bindPanelToggle} from "./panel-toggle.js";
 export type {RetractablePanel} from "./panel-toggle.js";
+
+
+export {bindGraphAspectControls} from "./graph-aspect.js";
+export type {GraphAspectElements} from "./graph-aspect.js";

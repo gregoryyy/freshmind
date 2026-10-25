@@ -20,7 +20,7 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 
 | Area | Current status |
 | --- | --- |
-| TouchGraph foundation | Ported graph/locality APIs, spring layout and lenses, with scoped Java compatibility checks. |
+| TouchGraph foundation | Ported graph/locality APIs, spring layout and lenses, with scoped Java compatibility checks. [Graph aspect](docs/graph-aspect.md) adds 3:5, 16:9 and canvas choices. |
 | Freshmind browser features | Types, labeled curves, navigation, overlay/moving label editors, content popups and YAML persistence. [Keyboard structural editing](docs/fm2014-keyboard-audit.md#structural-commands), local node copy/clone/link, new-document confirmation and explicit reopening focus are implemented. |
 | Reinforcement Focus + Context | Implemented planned mechanisms: multiple foci, [automatic two-level neighborhoods](docs/automatic-rfc-neighborhoods.md), stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible synthetic comparisons. |
 | Readability | Measured node-label separation with pinned/focus protection and overlap counts; automatic relation-label placement near clear curve positions. |

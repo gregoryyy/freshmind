@@ -19,10 +19,11 @@ import { GraphEltSet, VisibleLocality } from "../graph/index.js";
 import { TGLayout } from "../layout/index.js";
 import type {LayoutAdaptiveDampingOptions} from "../layout/index.js";
 import { LocalityUtils } from "../graph/index.js";
-import { HyperLens, RotateLens, TGAbstractLens, TGLensSet, TranslateLens, ZoomLens } from "../lenses/index.js";
+import { HyperLens, RotateLens, TGAbstractLens, TGLensSet, TranslateLens, ZoomLens, HorizontalStretchLens } from "../lenses/index.js";
 import { TGPoint2D } from "../lenses/index.js";
 
 export interface GraphListener { graphMoved?(): void; graphReset?(): void; }
+export type GraphAspectMode="original"|"3:5"|"16:9"|"canvas";
 export type TGInteractionMode = "navigate" | "edit";
 export interface TGPanelOptions {
   autoStart?: boolean;
@@ -31,6 +32,7 @@ export interface TGPanelOptions {
   onSelect?: (node: Node | null) => void;
   interactionMode?: TGInteractionMode;
   adaptiveDamping?:LayoutAdaptiveDampingOptions;
+  graphAspect?:GraphAspectMode;
   /** Mouse background drag: whole drawing (TG default), or graph through the viewing lenses. */
   backgroundPan?: "canvas" | "lens";
 }
@@ -44,6 +46,7 @@ export class TGPanel {
   tgLayout: TGLayout;
   readonly hyperLens: HyperLens;
   readonly rotateLens = new RotateLens();
+  private readonly aspectLens = new HorizontalStretchLens();
   private completeEltSet = new GraphEltSet();
   private visibleLocality = new VisibleLocality(this.completeEltSet);
   private localityUtils: LocalityUtils;
@@ -66,6 +69,7 @@ export class TGPanel {
   private decorationLayer?: Selection<SVGGElement, unknown, null, undefined>;
   private zoomBehavior?: ZoomBehavior<SVGSVGElement, unknown>;
   private resizeObserver?: ResizeObserver;
+  private graphAspect:GraphAspectMode="original";
   private width = 800;
   private height = 600;
   private destroyed = false;
@@ -85,10 +89,12 @@ export class TGPanel {
   constructor(protected container?: HTMLElement, private readonly options: TGPanelOptions = {}) {
     if (options.backgroundPan !== undefined && !["canvas", "lens"].includes(options.backgroundPan)) throw new TypeError("Invalid background pan mode");
     this.backgroundPan = options.backgroundPan ?? "canvas";
+    this.graphAspect=this.validateGraphAspect(options.graphAspect??"original");
     this.interactionMode = options.interactionMode ?? "navigate";
     this.hyperLens = new HyperLens(options.hyperbolic ?? 0);
     this.localityUtils = new LocalityUtils(this.visibleLocality, this, options.animateLocality ?? Boolean(container));
     this.tgLayout = new TGLayout(this,Math.random,options.adaptiveDamping);
+    this.updateGraphAspect();
     const focusLens = new class extends TGAbstractLens {
       constructor(private panel: TGPanel) { super(); }
       override applyLens(point: TGPoint2D): void {
@@ -100,7 +106,7 @@ export class TGPanel {
         point.x += focus?.x ?? 0; point.y += focus?.y ?? 0;
       }
     }(this);
-    for (const lens of [focusLens, this.zoomLens, this.panLens, this.hyperLens, this.rotateLens, this.originLens]) this.lensSet.addLens(lens);
+    for (const lens of [focusLens, this.zoomLens, this.panLens, this.hyperLens, this.rotateLens, this.aspectLens, this.originLens]) this.lensSet.addLens(lens);
     if (container) { this.mount(container); if (options.autoStart !== false) this.tgLayout.start(); }
   }
 
@@ -128,6 +134,20 @@ export class TGPanel {
    */
   setLensSet(lenses: TGLensSet): void { this.lensSet = lenses; this.repaintAfterMove(); }
   getSize(): { width: number; height: number } { return { width: this.width, height: this.height }; }
+  private validateGraphAspect(mode:GraphAspectMode):GraphAspectMode {
+    if(!["original","3:5","16:9","canvas"].includes(mode))throw new TypeError("Invalid graph aspect mode");
+    return mode;
+  }
+  private updateGraphAspect():void {
+    const ratio=this.graphAspect==="3:5"?3/5:this.graphAspect==="16:9"?16/9:this.graphAspect==="canvas"?Math.max(.01,Math.min(100,this.width/this.height)):1;
+    this.aspectLens.setRatio(ratio);
+  }
+  getGraphAspectState():{mode:GraphAspectMode;ratio:number}{return {mode:this.graphAspect,ratio:this.aspectLens.getRatio()};}
+  /** Stretches displayed x positions as FM2014 did; physical coordinates and label shapes are unchanged. */
+  setGraphAspectMode(mode:GraphAspectMode):void {
+    if(this.destroyed)throw new Error("Panel has been destroyed");
+    this.graphAspect=this.validateGraphAspect(mode);this.updateGraphAspect();this.repaintAfterMove();
+  }
   setBackColor(color: string): void { this.svg?.style("background-color", color); }
   getNodeCount(): number { return this.completeEltSet.nodeCount(); }
   getEdgeCount(): number { return this.completeEltSet.edgeCount(); }
@@ -523,6 +543,7 @@ export class TGPanel {
     const oldHeight = this.height;
     this.width = this.container.clientWidth || 800;
     this.height = this.container.clientHeight || 600;
+    this.updateGraphAspect();
     this.originLens.x = this.width / 2; this.originLens.y = this.height / 2;
     this.svg.attr("viewBox", `0 0 ${this.width} ${this.height}`);
     // Keep the canvas pan relative to the viewport center when the host changes size.
