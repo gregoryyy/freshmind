@@ -180,6 +180,10 @@ assurance-sensitivity output="/tmp/fm4-assurance-sensitivity.json": build
 test-assurance-browser: build-demo
     npx --no-install playwright test --config playwright.assurance.config.mjs
 
+# Check reviewed source/requirement/evidence references and report freshness.
+assurance-map *args:
+    node scripts/assurance-map.mjs "$@"
+
 # Check TypeScript without emitting files.
 typecheck:
     npm run typecheck

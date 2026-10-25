@@ -15,6 +15,10 @@ Read the baseline in this order:
 3. [Architectural requirements](03-architecture.md): the responsibilities and
    boundaries needed to support that intent and those constraints.
 
+The [initial acceptance decisions](04-decisions.md) record the maintainer-approved
+desktop, single-user, local-file scope (2026-10-25), source distinctions and open
+decisions. They do not establish implementation conformance.
+
 The [delivery roadmap](../TODO.md), [implementation record](../DONE.md) and
 [source module map](../../src/README.md) describe delivery and implementation.
 They are evidence to examine against this baseline, not its specification.
@@ -54,6 +58,12 @@ implementation choices can proceed within the recorded scope. Agreement on a
 requirement is separate from evidence that it has been implemented.
 
 ## Finding what is missing
+
+The [traceability map](TRACEABILITY.md) connects all baseline IDs to selected
+current declarations, hash-pinned Java origins where applicable, TODOs, evidence
+candidates, risks, assumptions and gaps. Its [machine-readable source](traceability.json)
+is checked with `just assurance-map`; mapped code changes require review. This
+first behavior-level map does not claim exhaustive function parity or conformance.
 
 For each intended workflow, examine these questions before counting tests:
 
