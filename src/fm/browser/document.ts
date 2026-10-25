@@ -11,6 +11,7 @@ import type { FreshmindPanel } from "./panel.js";
 /** Captures the complete graph and effective types while retaining document metadata from the open file. */
 export function captureDocument(panel: FreshmindPanel, current?: FreshmindDocument): FreshmindDocument {
   const snapshot = new FreshmindDocument(panel.getTypeRegistry(), panel.getCompleteEltSet());
+  if (current?.initialFocus && panel.getCompleteEltSet().findNode(current.initialFocus)) snapshot.initialFocus = current.initialFocus;
   snapshot.title = current?.title ?? "Freshmind graph";
   snapshot.data = structuredClone(current?.data ?? {}); snapshot.extensions = structuredClone(current?.extensions ?? {});
   const settings = panel.getNavigation().getState().settings, focus = panel.getNeighborhoodFocus() ?? panel.getFocus();
@@ -25,30 +26,36 @@ export function captureDocument(panel: FreshmindPanel, current?: FreshmindDocume
 export interface InstallDocumentOptions {
   /** Reinforce the document's initial focus. Activation is application policy, never restored from file data. */
   reinforceFocus?: boolean;
+  /** Caller generation guard for cancelled file loads and document replacement. */
+  isCurrent?: () => boolean;
 }
 /** Installs a validated document and view, optionally reinforcing its initial focus for browser applications. */
 export async function installDocument(panel: FreshmindPanel, document: FreshmindDocument, options: InstallDocumentOptions = {}): Promise<void> {
   panel.fastFinishAnimation(); await panel.getLocalityUtils().whenIdle();
+  if (options.isCurrent && !options.isCurrent()) return;
   panel.setGraphEltSet(document.graph); panel.setTypeRegistry(document.types);
   const view = document.view, nav = panel.getNavigation();
   await nav.configure({radius: view?.radius ?? 2, backlinks: view?.backlinks ?? true, moveToCenter: view?.moveToCenter ?? true,
     maxAddEdgeCount: view?.maxAddEdgeCount ?? 1000, maxExpandEdgeCount: view?.maxExpandEdgeCount ?? 1000});
+  if (panel.getCompleteEltSet() !== document.graph || options.isCurrent && !options.isCurrent()) return;
   panel.setZoom(view?.lenses?.zoom ?? 1); panel.setHyperbolic(view?.lenses?.hyperbolic ?? 0); panel.setRotation(view?.lenses?.rotation ?? 0);
-  const focus = (view?.focus ? document.graph.findNode(view.focus) : null) ?? (document.graph.nodeCount() ? document.graph.nodeAt(0) : null);
+  const focus = (document.initialFocus ? document.graph.findNode(document.initialFocus) : null) ?? (view?.focus ? document.graph.findNode(view.focus) : null) ?? (document.graph.nodeCount() ? document.graph.nodeAt(0) : null);
   if (focus) {
-    if (!view?.wholeGraph && (view?.focus || document.graph.nodeCount() > 100)) {
+    if (!view?.wholeGraph && (document.initialFocus || view?.focus || document.graph.nodeCount() > 100)) {
       const settings = nav.getState().settings;
       panel.setSelect(focus); panel.centerOn(focus, true);
       const pending = panel.setLocale(focus, settings.radius, settings.maxAddEdgeCount, settings.maxExpandEdgeCount, !settings.backlinks);
       panel.fastFinishAnimation(); await pending;
+      if (panel.getCompleteEltSet() !== document.graph || options.isCurrent && !options.isCurrent()) return;
       panel.fastFinishAnimation(); await panel.getLocalityUtils().whenIdle();
     } else {
       panel.getGES().addAll(); panel.setSelect(focus); panel.centerOn(focus, true);
       if (view?.wholeGraph) nav.neighborhoodChanged(2147483647, 1000, 1000, false);
     }
   } else panel.centerView();
-  if (view?.lenses?.pan) panel.setLensPan(view.lenses.pan.x, view.lenses.pan.y);
-  panel.setCanvasZoom(view?.canvas?.zoom ?? 1); panel.setCanvasPan(view?.canvas?.pan?.x ?? 0, view?.canvas?.pan?.y ?? 0);
+  if (panel.getCompleteEltSet() !== document.graph || options.isCurrent && !options.isCurrent()) return;
+  if (!document.initialFocus && view?.lenses?.pan) panel.setLensPan(view.lenses.pan.x, view.lenses.pan.y);
+  panel.setCanvasZoom(view?.canvas?.zoom ?? 1); panel.setCanvasPan(document.initialFocus ? 0 : view?.canvas?.pan?.x ?? 0, document.initialFocus ? 0 : view?.canvas?.pan?.y ?? 0);
   if (options.reinforceFocus && focus && panel.getGES().contains(focus)) panel.getRfc().setFocus(focus);
   panel.resetDamper(); panel.repaintAfterMove();
 }

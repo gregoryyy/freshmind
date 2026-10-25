@@ -6,7 +6,8 @@
  * See licenses/LICENSE-APACHE-2.0 for the license text.
  */
 import { stringify } from "yaml";
-import type { FreshmindPanel, FreshmindDocument } from "../src/fm/index.js";
+import {FreshmindDocument} from "../src/fm/model/index.js";
+import type { FreshmindPanel, FreshNode } from "../src/fm/index.js";
 import { parseDocument, serializeDocument } from "../src/fm/io/index.js";
 import { captureDocument, installDocument } from "../src/fm/browser/index.js";
 import berryURL from "../examples/fm2014/berry.fm.yaml?url";
@@ -37,7 +38,7 @@ const examples: Record<string, {url: string; companion?: string}> = {
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
 /** Browser file I/O owns only file selection/downloads; the codec remains independent of DOM and storage. */
-export function bindFileControls(panel: FreshmindPanel, loadedDocument?:(document:FreshmindDocument,example:string)=>void): void {
+export function bindFileControls(panel: FreshmindPanel, loadedDocument?:(document:FreshmindDocument,example:string)=>void): {newDocument(): void; initialFocus(node: FreshNode): void} {
   let current: FreshmindDocument | undefined, filename = "freshmind.fm.yaml", revision = 0;
   const input = get<HTMLInputElement>("open-graph-files"), status = get("file-status");
   const message = (value: string, error = false) => {status.textContent = value; status.dataset.error = String(error);};
@@ -45,7 +46,7 @@ export function bindFileControls(panel: FreshmindPanel, loadedDocument?:(documen
     const loaded = parseDocument(source, {resolveTypes: resolver});
     if (request !== revision) return;
     const focusBeforeInstall = document.activeElement;
-    await installDocument(panel, loaded, {reinforceFocus: panel.getRfc().getState().enabled});
+    await installDocument(panel, loaded, {reinforceFocus: panel.getRfc().getState().enabled, isCurrent: () => request === revision});
     if (request !== revision) return;
     current = loaded; filename = name; get<HTMLInputElement>("save-name").value = filename;
     get<HTMLSelectElement>("example-graph").value = example;
@@ -108,11 +109,38 @@ export function bindFileControls(panel: FreshmindPanel, loadedDocument?:(documen
     } catch (error) {message((error as Error).message, true);}
   };
   saveButton.addEventListener("click", save); get("save-graph").addEventListener("click", save);
+  const newDialog = document.createElement("dialog"); newDialog.className = "save-dialog"; newDialog.setAttribute("aria-label", "Create new graph");
+  const warning = document.createElement("p"); warning.textContent = "Replace this graph? Download committed changes first if needed. Unsaved editor drafts will be discarded. Downloads do not confirm that a file was saved.";
+  const backup = document.createElement("button"), discard = document.createElement("button"), keep = document.createElement("button");
+  backup.textContent = "Download current graph"; discard.textContent = "Discard and create new graph"; keep.textContent = "Cancel";
+  newDialog.append(warning, backup, discard, keep); document.body.append(newDialog);
+  backup.addEventListener("click", save); keep.addEventListener("click", () => newDialog.close());
+  discard.addEventListener("click", async () => {
+    const request = ++revision;
+    newDialog.close();
+    try {
+      const empty = new FreshmindDocument(panel.getTypeRegistry()); empty.title = "Untitled graph";
+      await load(serializeDocument(empty), "untitled.fm.yaml", () => {throw new Error("Unexpected companion file");}, request);
+    } catch (error) {if (request === revision) message((error as Error).message, true);}
+  });
+  const newDocument = () => {if (!newDialog.open) newDialog.showModal(); keep.focus();};
+  get("new-graph").addEventListener("click", newDocument);
+  const initialFocus = (node: FreshNode) => {
+    if (!panel.getCompleteEltSet().contains(node)) throw new Error("Initial focus must belong to this document");
+    current ??= captureDocument(panel);
+    current.initialFocus = node.getID()!;
+    message("Reopening focus: " + node.getLabel() + ". Save the graph to retain it.");
+  };
+  get("clear-initial-focus").addEventListener("click", () => {
+    if (current) current.initialFocus = undefined;
+    message("Reopening focus cleared; saved view focus will be used.");
+  });
   const keydown = (event: KeyboardEvent) => {
     if (event.defaultPrevented || event.altKey || event.isComposing || !(event.ctrlKey || event.metaKey)) return;
     if (event.key.toLowerCase() === "o") {event.preventDefault(); input.click();}
     else if (event.key.toLowerCase() === "s") {event.preventDefault(); if (event.shiftKey) {name.value = filename; if (!dialog.open) dialog.showModal(); name.focus(); name.select();} else save();}
   };
   document.addEventListener("keydown", keydown, true);
-  window.addEventListener("pagehide", () => {revision++; document.removeEventListener("keydown", keydown, true); dialog.remove();}, {once: true});
+  window.addEventListener("pagehide", () => {revision++; document.removeEventListener("keydown", keydown, true); dialog.remove(); newDialog.remove();}, {once: true});
+  return {newDocument, initialFocus};
 }

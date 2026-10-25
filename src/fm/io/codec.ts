@@ -57,7 +57,7 @@ function view(value: unknown, document: FreshmindDocument): DocumentView {
 export function readDocument(value: unknown, options: LoadOptions = {}): FreshmindDocument {
   jsonData(value); const root = record(value, "document");
   nonNullFields(root);
-  keys(root, ["format", "version", "title", "types", "typesFile", "nodes", "edges", "substructures", "view", "data", "extensions"], "document");
+  keys(root, ["format", "version", "title", "initialFocus", "types", "typesFile", "nodes", "edges", "substructures", "view", "data", "extensions"], "document");
   if (root.format !== "freshmind" || root.version !== 1) throw new TypeError("Expected format: freshmind and version: 1");
   if (root.types !== undefined && root.typesFile !== undefined) throw new TypeError("types and typesFile are mutually exclusive");
   let configuration: unknown = root.types ?? freshmind2014Configuration;
@@ -99,6 +99,11 @@ export function readDocument(value: unknown, options: LoadOptions = {}): Freshmi
       document.graph.setSubstructure(definition);
     }
   }
+  if (root.initialFocus !== undefined) {
+    text(root.initialFocus, "initialFocus");
+    if (!document.graph.findNode(root.initialFocus)) throw new TypeError("initialFocus: unknown node " + root.initialFocus);
+    document.initialFocus = root.initialFocus;
+  }
   if (root.view !== undefined) document.view = view(root.view, document);
   const config = document.types.getConfiguration();
   for (const node of document.graph.getNodes()) if (!Object.hasOwn(config.nodeTypes, node.getSemanticType())
@@ -124,6 +129,7 @@ export function documentToRecord(document: FreshmindDocument, options: SaveOptio
     edges: [...document.graph.getEdges()].map(e => ({id: e.getID()!, from: e.from.getID()!, to: e.to.getID()!, label: e.getLabel(),
       type: e.getSemanticType(), visual: e.getVisual(), weight: e.getWeight(), length: e.getLength(), data: e.getData(), extensions: e.getExtensions()})),
     data: clone(document.data), extensions: clone(document.extensions)};
+  if (document.initialFocus !== undefined) result.initialFocus = document.initialFocus;
   if(document.graph.getSubstructures().length)result.substructures=document.graph.getSubstructures();
   if (options.includeView !== false && document.view) result.view = clone(document.view);
   return result;

@@ -27,6 +27,7 @@
           <label class="control-label" for="example-graph">Load example</label>
           <select id="example-graph"><option value="">Choose an example…</option><optgroup label="Public networks"><option value="florentine">Florentine families</option><option value="karate">Zachary's karate club</option><option value="les-miserables">Les Misérables</option></optgroup><optgroup label="Graph search"><option value="graph-search">Fictional topic library</option></optgroup><optgroup label="RFC"><option value="rfc-showcase">Research community showcase</option><option value="structural-focus-context">Structural focus + context</option><option value="substructures">Trees and DAG</option><option value="weighted-tree">Weighted tree</option><option value="clusters">Overlapping clusters</option><option value="exclusion">Focal-region exclusion</option><option value="joined-trees">Two tree foci</option><option value="leaf-connected-trees">Trees with leaf connections</option><option value="shared-subtree">Trees with shared subtree</option></optgroup><optgroup label="Freshmind 2014"><option value="berry">berry</option><option value="nips-fm">nips-fm</option></optgroup></select>
           <input type="file" id="open-graph-files" accept=".yaml,.yml" multiple hidden />
+          <div class="editor-actions"><button id="new-graph" type="button">New graph…</button><button id="clear-initial-focus" type="button">Clear reopening focus</button></div>
           <p id="file-status" class="control-help" role="status"></p>
           <div id="rfc-showcase" hidden>
             <label class="control-label" for="rfc-showcase-view">Apply comparison view</label>
@@ -198,6 +199,12 @@
           <button id="edit-mode" class="quiet-button" aria-pressed="false">Edit graph <span aria-hidden="true">✎</span></button>
           <p id="edit-help" class="intro" hidden>Edit labels, types and shapes in the overlay. Add a node here or double-click the background. Select a source, then Shift-click a target to connect them.</p>
           <button id="add-node" class="quiet-button" hidden>Add node</button>
+          <div id="structural-commands" hidden>
+            <div class="editor-actions"><button id="command-add">New → selected</button><button id="command-parent">Selected → new</button></div>
+            <div class="editor-actions"><button id="command-sibling">New → sibling anchor</button><button id="command-sibling-parent">Sibling anchor → new</button></div>
+            <div class="editor-actions"><button id="command-link-center">Link to center</button><button id="command-copy">Copy node locally</button><button id="command-paste">Paste clone</button><button id="command-link-copy">Link copied node</button></div>
+            <button id="command-initial-focus">Use selected on reopening</button>
+          </div>
           <div aria-live="polite">
             <div class="section-label"><span id="selection-kind">SELECTED NODE</span></div>
             <h2 id="selected-name">Graph browsers</h2>

@@ -9,11 +9,10 @@ techniques and libraries, and proposes a radius-two adjacency view. Its research
 and interactive design are complete; implementation/evaluation tasks in milestone
 6 below are proposed future increments.
 
-**Current status:** Milestones 1 and 3 are complete within their agreed scope.
-Milestone 2 has types, navigation, editors and persistence, but its FM 2014
-keyboard structural-editing workflow is incomplete; the [keyboard audit](fm2014-keyboard-audit.md)
-records the remaining commands and the now-repaired deletion-target defect,
-tracked in **2.6**. Milestone 4
+**Current status:** Milestones 1–3 are complete within their agreed scope.
+Milestone 2 includes the restored FM 2014 keyboard structural-editing workflow;
+the [keyboard audit](fm2014-keyboard-audit.md#structural-commands)
+records exact source semantics and explicit browser adaptations in **2.6**. Milestone 4
 now uses elasticlunr for literal retrieval and LDA semantics for FM 2014 feature
 parity; embeddings are deferred. Tasks 4.8–4.12 describe a superseded plan, not
 unfinished requirements under the latest direction. Milestone 5 covers node and
@@ -93,12 +92,12 @@ The main browser supports inline labels/weights and full overlay edits, includin
   - [x] 2.5.6 Load the converted examples in the demo and add `just` conversion/validation recipes.
   - [x] 2.5.7 Move export settings into a dedicated Options menu with keyboard/outside dismissal and narrow-screen support.
 
-- [ ] 2.6 Restore the missing FM 2014 keyboard structural-editing workflow; the [comparison](fm2014-keyboard-audit.md) distinguishes active Java behavior, legacy defects, intended adaptations and port gaps.
+- [x] 2.6 Restore the missing FM 2014 keyboard structural-editing workflow; the [comparison](fm2014-keyboard-audit.md) distinguishes active Java behavior, legacy defects, intended adaptations and port gaps.
   - [x] 2.6.1 Audit `keys.txt` against the Java handlers and current port; reproduce routing gaps and correct completion claims. This is evidence of gaps, not their resolution.
   - [x] 2.6.2 Route deletion through a Freshmind selected-item command with edge precedence, consistent graph-root/item/Tab focus and native text/IME protection. Queries can be deleted while browsing; other structural mutations retain the Edit-mode gate. Preserve plain TouchGraph behavior.
-  - [ ] 2.6.3 Restore linked-node and sibling creation with agreed endpoint/default-label semantics, atomic validation, stable IDs, ambiguity rejection and immediate label editing; record fallbacks for reserved browser/OS chords.
-  - [ ] 2.6.4 Restore selected-to-center linking and graph clipboard copy/paste/link with explicit clone-versus-reuse, field-preservation and local-data contracts; cover stale sources and cross-document behavior.
-  - [ ] 2.6.5 Provide new-document and initial-focus commands with explicit unsaved-work handling; reconcile U and other legacy aliases, help and tests without replacing the requested modern view mappings.
+  - [x] 2.6.3 Restore linked-node and sibling creation with agreed endpoint/default-label semantics, atomic validation, stable IDs, ambiguity rejection and immediate label editing; record fallbacks for reserved browser/OS chords.
+  - [x] 2.6.4 Restore selected-to-center linking and graph clipboard copy/paste/link with explicit clone-versus-reuse, field-preservation and local-data contracts; cover stale sources and cross-document behavior.
+  - [x] 2.6.5 Provide new-document and initial-focus commands with explicit unsaved-work handling; reconcile U and other legacy aliases, help and tests without replacing the requested modern view mappings.
 
 ## 3. Add Reinforcement Focus + Context
 

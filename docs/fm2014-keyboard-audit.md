@@ -13,7 +13,7 @@ node **before** retrieval, with moving query entry, Enter submission and
 F2/Ctrl+Enter editing/rerun. See [the current workflow](graph-search.md) and the
 [implementation/verification record](DONE.md). The maintainer's clarification
 supplies the Ctrl+Backspace/Delete aliases; the supplied Java key handler lists
-Ctrl+D and plain Delete. Creation/linking/clipboard gaps remain in TODO 2.6.
+Ctrl+D and plain Delete. The subsequent [structural-command restoration](#structural-commands) completes TODO 2.6.3–2.6.5 with explicit browser adaptations.
 
 ## Sources and scope
 
@@ -168,3 +168,74 @@ derive expected records from small fixtures and the agreed intent, not merely
 assert the implementation's own command return value. This is scoped gap
 evidence for proposed assurance requirements `INT-05`, `USE-03`, `USE-04`,
 `USE-07`, `ARC-02` and `ARC-07`, not general conformance evidence.
+
+## Structural commands
+
+Restoration of TODO **2.6.3–2.6.5**.
+
+The restored commands follow the **active Java source** for endpoint order,
+including its counterintuitive `sub` / `super` names, rather than the older
+child/parent wording in `keys.txt`:
+
+| Command | Result |
+| --- | --- |
+| Ctrl+N / Ctrl+Insert | Fresh `[new]` node → selected node, relation `sub` |
+| Ctrl+M | Selected node → fresh `[new parent]` node, relation `super` |
+| Shift with those chords | Use the sole incident edge's other endpoint as anchor; count incidence in the complete graph, including hidden/parallel/reciprocal edges. Reject isolation, loops and ambiguity. |
+| Ctrl+L | Selected node → current focused center, relation `[child of]` |
+| Ctrl+C | Copy a content node's unary fields into a detached, application-local snapshot |
+| Ctrl+V | Selected node → fresh-ID clone, relation `[child of]` |
+| Ctrl+B | Selected node → original copied node, same live document only |
+| Ctrl+J | Set the selected node as this document's explicit reopening focus |
+| Ctrl+A | Open the new-document dialog; explicit discard is required |
+| U | Clear relation selection and retain its node anchor |
+
+Creation/linking, paste and initial-focus changes require **Edit graph**; local
+copy and the new-document dialog are available while browsing. Relation selection
+never silently acts on its separate node anchor. Commands ignore repeated
+creation/deletion keystrokes and composition; native text fields keep Select All,
+copy, paste and editing shortcuts. F2/Ctrl+Enter, the modern view keys and query
+shortcuts are unchanged. New nodes select and edit immediately in the configured
+moving/on-demand label editor, preserving the current view rather than starting
+a delayed Java timer or changing its neighborhood.
+
+Browser/OS accelerators such as Ctrl+N, Ctrl+Shift+N, Ctrl+L and Ctrl+J can be
+reserved before the page sees them; their delivery cannot be guaranteed.
+Keyboard-accessible buttons under **Selection → Edit graph** provide every
+structural command. **New graph…** is also under Graph files. These are the portable
+fallbacks; there are no new three-modifier chords. Ctrl on macOS retains the
+historic graph bindings; native Cmd-based text/file shortcuts remain native.
+
+The local clipboard never accesses the platform clipboard or the network. It
+retains label, type, visual overrides, annotation source, URL, weight, fixed state,
+data and extensions at copy time. A clone gets new stable IDs and a position near
+its target; it copies no incident relations, structural memberships, velocities,
+selection or render geometry. A clone can cross document boundaries or survive
+source deletion. Linking instead requires the original graph and original live
+node object, rejects stale/deleted/replaced identities, self-links and duplicate
+directed relations, and preserves all existing fields. Reverse-direction links
+remain distinct. Graph/source identity references are weak; disposal clears the
+snapshot. Query nodes use Ctrl+F rather than being copied with live search state.
+Unknown copied types retain their IDs and use the target registry's fallback.
+
+New-document replacement **always** prompts, because the application does not
+claim reliable dirty-file or durable-save detection. Download current graph
+exports committed graph data and leaves the dialog open; it cannot verify that
+the user retained the download. Cancel keeps everything; Discard creates an empty
+document retaining the current type profile and resets file metadata/name. It
+discards uncommitted editor drafts and cancels older file-load generations. There
+is no automatic recovery, browser-close warning or permission to delete a file.
+
+`initialFocus` is a validated optional native-document node ID, separate from
+`view.focus`. It takes precedence when reopening even when saved view/layout are
+omitted. Saved pan is reset so that explicit reopening focus is centered; scale and lens settings are retained. Clearing it restores last-view/first-node behavior. Capture omits a
+removed target; serializing an explicitly invalid reference rejects it. Existing
+version-1 documents without the optional field retain their behavior. An older
+strict reader may reject the added field, so clear it before exporting for such
+a reader. This is an intentional extension rather than reordering canonical
+nodes or changing identity as the Java first-node command did.
+
+These choices address proposed **INT-02/04/05/07**, **USE-01/02/03/04/07** and **ARC-01/02/07/08**:
+complete-data preservation, explicit destructive intent, native input ownership,
+local clipboard data and document-generation guards. They are scoped acceptance
+contracts, not a whole-system assurance verdict.

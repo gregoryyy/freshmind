@@ -19,7 +19,7 @@ export interface DocumentView {
 export interface NodeRecord extends FreshNodeOptions { id: string; label: string; }
 export interface EdgeRecord extends FreshEdgeOptions { id: string; from: string; to: string; }
 export interface DocumentRecord {
-  format: "freshmind"; version: 1; title?: string; types?: TypeConfiguration; typesFile?: string;
+  format: "freshmind"; version: 1; title?: string; initialFocus?: string; types?: TypeConfiguration; typesFile?: string;
   nodes: NodeRecord[]; edges: EdgeRecord[]; view?: DocumentView; data?: Metadata; extensions?: Metadata;
   substructures?: GraphSubstructure[];
 }

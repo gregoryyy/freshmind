@@ -17,8 +17,8 @@ export {countNodeOverlaps,separateNodeOverlaps} from "./geometry/index.js";
 export type {OverlapBox,OverlapOptions,OverlapResult} from "./geometry/index.js";
 export {placeRelationLabels} from "./geometry/index.js";
 export type {RelationLabelPlacement,RelationLabelBox,RelationLabelOptions,RelationLabelResult} from "./geometry/index.js";
-export {applyNodeEdit,applyRelationEdit} from "./edit/index.js";
-export type {NodeEdit,RelationEdit,RelationEditContext} from "./edit/index.js";
+export {applyNodeEdit,applyRelationEdit,createLinkedNode,linkNodes,GraphClipboard} from "./edit/index.js";
+export type {NodeEdit,RelationEdit,RelationEditContext,CreationDefaults,LinkedCreation} from "./edit/index.js";
 export type {DocumentRecord,DocumentView,NodeRecord,EdgeRecord,LoadOptions,SaveOptions} from "./io/index.js";
 export {FreshmindNavigation,keymap,collectCandidates,bestCandidateIndex,screenDirection} from "./navigate/index.js";
 export type {Direction,CandidateKind,Candidate,Preselection,NavigationItem,NavigationState,NavigationOptions,

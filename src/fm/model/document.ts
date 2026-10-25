@@ -13,6 +13,8 @@ import {FreshGraph} from "./graph.js";
 /** Document metadata aggregates the existing graph; it never duplicates live adjacency. */
 export class FreshmindDocument {
   title = "";
+  /** Explicit reopening focus, independent of the last captured view focus. */
+  initialFocus?: string;
   data: Metadata = {};
   extensions: Metadata = {};
   view?: import("../io/index.js").DocumentView;
