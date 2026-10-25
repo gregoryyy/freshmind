@@ -146,7 +146,7 @@ for (const command of ["add", "parent", "sibling", "sibling-parent", "link-cente
   get("command-" + command).addEventListener("click", () => navigation.structural(command));
 panel.addSelectionListener(selection => { updateInspector(selection); editor.show(selection); });
 radiusView = new RadiusTwoView(panel, {container:get("radius-two-view"),graphContainer:get("graph"),toggle:get<HTMLSelectElement>("exploration-view"),
-  nodeLinkElements:[document.querySelector<HTMLElement>(".canvas-tools")!,document.querySelector<HTMLElement>(".canvas-footer")!],
+  nodeLinkElements:[document.querySelector<HTMLElement>(".canvas-heading")!,document.querySelector<HTMLElement>(".canvas-tools")!,document.querySelector<HTMLElement>(".canvas-footer")!],
   editLabel:()=>editor.focusLabel(),editDetails:()=>editor.focusDetails()});
 get("item-editor-overlay").addEventListener("close",()=>radiusView?.focusSelection());
 

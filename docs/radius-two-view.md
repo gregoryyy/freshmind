@@ -1,5 +1,10 @@
 # Radius-two adjacency view: design contract
 
+The opt-in [browser implementation](radius-two-browser.md) now covers detached
+projection, bounded inspection, shared editing and retrieval seeds. This document
+retains the broader design goals; evaluation and the dependency-impact pilot
+remain separate roadmap work.
+
 Proposal, **2026-10-24**; tasks **6.2–6.6**. The [ROAD document](ROAD.md) contains
 the application rationale, related work, library comparison and proposed
 delivery order. This is a different presentation from force layout. It uses

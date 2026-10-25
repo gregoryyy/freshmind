@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: Apache-2.0; Copyright (c) 2026 Gregor Heinrich. */
 import type {FreshGraph,JsonValue} from "../model/index.js";
-import {searchResultMetadata} from "./graph.js";
+import {searchResultMetadata,isKnownSearchResult,searchResultIsCurrent,rejectedSearchIds} from "./graph.js";
 import {graphSearchCorpus,isSearchQueryNode} from "./corpus.js";
 import {validateSearchRequest} from "../../ir/corpus/index.js";
 import type {SearchRequest} from "../../ir/corpus/index.js";
@@ -12,10 +12,11 @@ function object(value:JsonValue|undefined):Record<string,JsonValue>|null {return
 /** Reuses accepted lexical/LDA result records. No retrieval, model training or new graph mutation occurs. */
 export function graphSearchViewSeeds(graph:FreshGraph,offset=0,limit=50):{items:GraphSearchSeed[];total:number;nextOffset?:number} {
   if(!Number.isSafeInteger(offset)||offset<0||!Number.isSafeInteger(limit)||limit<1||limit>100)throw new RangeError("Choose a bounded search-seed page");
-  const results=[...graph.getEdges()].filter(edge=>searchResultMetadata(edge));
+  const results=[...graph.getEdges()].filter(edge=>isKnownSearchResult(graph,edge));
   if(!results.length)return {items:[],total:0};
   const corpus=graphSearchCorpus(graph),items:GraphSearchSeed[]=[];
   for(const edge of results) {
+    if(!searchResultIsCurrent(graph,edge,corpus.key))continue;
     const s=searchResultMetadata(edge);
     if(!s || s.corpus!==corpus.fingerprint || !Number.isSafeInteger(s.rank) || (s.rank as number)<1 || typeof s.score!=="number" || !Number.isFinite(s.score) || s.score<0)continue;
     try {
@@ -24,6 +25,7 @@ export function graphSearchViewSeeds(graph:FreshGraph,offset=0,limit=50):{items:
         const current=object(edge.from.getData().search);
         if(current?.draft || JSON.stringify(validateSearchRequest(current?.request as unknown as SearchRequest))!==JSON.stringify(request))continue;
       }
+      if(rejectedSearchIds(edge.from,request).has(edge.to.getID()!))continue;
       if(request.kind==="similarity"&&request.query!==edge.from.getID())continue;
       if(s.value!==undefined&&s.metric===undefined || request.metric!==undefined&&s.metric!==request.metric || s.requestKey!==JSON.stringify(request))continue;
       if(s.metric!==undefined && (request.engine!=="lda" || !["symmetric-kl","predictive","jensen-shannon"].includes(s.metric as string) || typeof s.value!=="number" || !Number.isFinite(s.value) || s.value<0))continue;

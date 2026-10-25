@@ -1,0 +1,39 @@
+{
+  "format": "freshmind-flipbook",
+  "version": 1,
+  "build": "demo-dist",
+  "source": "scripts/flipbook/radius-two.mjs",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "browser": "155.0.8059.85",
+  "files": [
+    "01-overview.png",
+    "02-sharing.png",
+    "03-search-seed.png",
+    "README.md",
+    "index.html",
+    "manifest.json"
+  ],
+  "steps": [
+    {
+      "id": "overview",
+      "title": "A radius-two neighborhood without drawn links",
+      "caption": "Workspace has three direct neighbors on the vertical spine and two unique second-hop nodes across four occurrences. Incoming and outgoing wings retain real direction. The six-node, thirteen-relation graph includes loops, a reciprocal pair, cross-links and a zero-weight parallel relation. Selection and History remain hidden in the force view; this mode explicitly inspects the complete stored graph.",
+      "file": "01-overview.png"
+    },
+    {
+      "id": "sharing",
+      "title": "Shared identity and exact relation records",
+      "caption": "Selection appears in three cells bound to one canonical node. Selecting or focusing one occurrence highlights its siblings and witness rows. Expanded records retain both parallel relations, including weight zero, and name the actual endpoints. Inspecting a hidden node changes selection without revealing it in the original force locality.",
+      "file": "02-sharing.png"
+    },
+    {
+      "id": "search-seed",
+      "title": "Enter a neighborhood from an accepted search result",
+      "caption": "A real local lexical query for Selection creates the ordinary query/result records. The accepted result becomes the radius-two center and selected node, with its source, rank, raw score and corpus provenance retained. Seeding adds no further graph records and does not change positions or force-view visibility. LDA seeding uses the same adapter and is covered by real-worker browser checks.",
+      "file": "03-search-seed.png"
+    }
+  ]
+}

@@ -27,7 +27,7 @@
 .fm-label-editor[aria-invalid=true] { outline: 2px solid #a72b20; background: #fff0ee !important; color: #701d16 !important; }
 
 /* Detached radius-two inspection: bounded pages in fixed screen space. */
-.radius-two-view { position:absolute; inset:62px 14px 20px; z-index:2; display:flex; flex-direction:column; background:#f4f5f0; color:#243c2c; overflow:hidden; font:13px/1.4 system-ui,sans-serif; }
+.radius-two-view { position:absolute; inset:14px; z-index:2; display:flex; flex-direction:column; background:#f4f5f0; color:#243c2c; overflow:hidden; font:13px/1.4 system-ui,sans-serif; }
 .radius-two-view[hidden] { display:none; }
 .radius-two-view button, .radius-two-view select { font:inherit; border:1px solid #a5b6a3; border-radius:4px; background:#fff; color:#203e2c; padding:5px 8px; cursor:pointer; }
 .radius-two-view button:focus-visible, .radius-two-view select:focus-visible { outline:3px solid #2269aa; outline-offset:2px; }
@@ -63,4 +63,7 @@
 .r2-other h3 { font-size:14px; margin-bottom:4px; }
 .r2-other p { font-size:11px; }
 .r2-other > button { display:block; width:100%; text-align:left; overflow-wrap:anywhere; font-size:11px; margin:4px 0; }
-@media(max-width:600px) { .radius-two-view { inset:48px 6px 8px; } .r2-header h2 { font-size:14px; } .r2-help { display:none; } .r2-controls button, .r2-controls select { font-size:11px; padding:4px; } }
+@media(max-width:600px) { .radius-two-view { inset:8px 6px; } .r2-header h2 { font-size:14px; } .r2-help { display:none; } .r2-controls button, .r2-controls select { font-size:11px; padding:4px; } }
+
+.r2-card.r2-related { box-shadow:0 0 0 2px #517c8b; }
+.r2-row.r2-related-row { background-color:#e0ebe3; }

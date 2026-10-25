@@ -340,8 +340,8 @@ export class FreshmindPanel extends TGPanel {
   setSelectEdge(edge:FreshEdge|null, options: {allowHidden?: boolean} = {}):void {
     if(edge&&!(options.allowHidden?this.getCompleteEltSet():this.getGES()).contains(edge))throw new Error(options.allowHidden?"Selected relation must belong to the complete graph":"Selected edge must be visible");
     this.navigation?.cancel(undefined, false);
-    if(edge&&this.getSelect()!==edge.from&&this.getSelect()!==edge.to)super.setSelect(edge.from);
     this.completeSelection = Boolean(options.allowHidden);
+    if(edge&&this.getSelect()!==edge.from&&this.getSelect()!==edge.to)super.setSelect(edge.from);
     this.selectedEdge=edge;this.repaint();this.selectionChanged();
   }
   /** Explicit node selection also clears edge selection and delegates callbacks to TGPanel. */

@@ -8,7 +8,32 @@ export interface RadiusRenderActions {
 const clip=(value:string)=>value.length>150?value.slice(0,149)+"…":value;
 /** HTML projection only: callbacks retain all graph, command and navigation ownership. */
 export class RadiusTwoRenderer {
-  constructor(private readonly container: HTMLElement) {}
+  private hovered:string|null=null;
+  private disposed=false;
+  private cardAt(target:EventTarget|null):HTMLButtonElement|null {
+    const card=target instanceof Element?target.closest<HTMLButtonElement>(".r2-card"):null;
+    return card&&this.container.contains(card)?card:null;
+  }
+  private readonly pointerOver=(event:PointerEvent)=>{this.hovered=this.cardAt(event.target)?.dataset.radiusNodeId??null;this.highlight();};
+  private readonly pointerOut=(event:PointerEvent)=>{this.hovered=this.cardAt(event.relatedTarget)?.dataset.radiusNodeId??null;this.highlight();};
+  private readonly focusChanged=()=>{queueMicrotask(()=>{if(!this.disposed){this.hovered=null;this.highlight();}});};
+  constructor(private readonly container: HTMLElement) {
+    container.addEventListener("pointerover",this.pointerOver);container.addEventListener("pointerout",this.pointerOut);
+    container.addEventListener("focusin",this.focusChanged);container.addEventListener("focusout",this.focusChanged);
+  }
+  private highlight():void {
+    const id=this.hovered??this.cardAt(this.container.ownerDocument.activeElement)?.dataset.radiusNodeId??null;
+    for(const row of this.container.querySelectorAll(".r2-row"))row.classList.remove("r2-related-row");
+    for(const card of this.container.querySelectorAll<HTMLElement>(".r2-card")) {
+      const related=id!==null&&card.dataset.radiusNodeId===id;card.classList.toggle("r2-related",related);
+      if(related)card.closest(".r2-row")?.classList.add("r2-related-row");
+    }
+  }
+  dispose():void {
+    if(this.disposed)return;this.disposed=true;this.hovered=null;
+    this.container.removeEventListener("pointerover",this.pointerOver);this.container.removeEventListener("pointerout",this.pointerOut);
+    this.container.removeEventListener("focusin",this.focusChanged);this.container.removeEventListener("focusout",this.focusChanged);
+  }
   private element<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLElementTagNameMap[K] {
     const el=this.container.ownerDocument.createElement(tag);if(text!==undefined)el.textContent=text;return el;
   }
@@ -27,6 +52,7 @@ export class RadiusTwoRenderer {
     card?.focus({preventScroll:true});card?.scrollIntoView({block:"nearest",inline:"nearest"});
   }
   render(p:RadiusProjection,actions:RadiusRenderActions,selected:string|null,occurrence?:string):void {
+    const previousFocus=this.cardAt(this.container.ownerDocument.activeElement);
     const nodes=new Map(p.nodes.map(n=>[n.id,n])),edges=new Map(p.edgeRecords.map(e=>[e.id,e]));
     const nodeName=(id:string)=>`${nodes.get(id)!.label || "(empty label)"} [${id}]`;
     const describe=(id:string)=>{const e=edges.get(id)!;return `${clip(nodeName(e.from))} ${e.direction==="undirected"?"— undirected —":"→"} ${clip(nodeName(e.to))} · ${clip(e.label || e.type)} · type ${clip(e.type)} · weight ${e.weight} · relation ${clip(e.id)}`;};
@@ -42,11 +68,11 @@ export class RadiusTwoRenderer {
       const details=this.element("details"),summary=this.element("summary",`${label}: ${ids.length}`);details.append(summary,
         boundedList(ids,id=>this.button(clip(describe(id)),()=>actions.selectEdge(id),describe(id))));return details;
     };
-    const card=(id:string,key:string,relationIds:string[]=[],center=false)=>{
+    const card=(id:string,key:string,relationIds:string[]=[],center=false,referenceId=id)=>{
       const box=this.element("div");box.className="r2-cell";
       const n=nodes.get(id)!,button=this.button(clip(n.label || "(empty label)"),()=>actions.selectNode(id,key),`${clip(nodeName(id))} · node importance ${n.weight}${relationIds.length?" · "+relationIds.slice(0,3).map(describe).join("; ")+(relationIds.length>3?` · ${relationIds.length} records; inspect paged relations`:""):""}`);
       button.className="r2-card";button.dataset.radiusNodeId=id;button.dataset.occurrence=key;button.dataset.center=String(center);button.addEventListener("dblclick",()=>actions.pivot(id));box.append(button,this.element("small",clip(id)));
-      if(relationIds.length===1){const e=edges.get(relationIds[0])!;box.append(this.button(`${clip(e.label||e.type)} · ${e.direction==="undirected"?"—":"→"} weight ${e.weight}`,()=>actions.selectEdge(e.id),describe(e.id)));}
+      if(relationIds.length===1){const e=edges.get(relationIds[0])!;box.append(this.button(`${clip(e.label||e.type)} · ${e.direction==="undirected"?"—":e.from===e.to?"↻":e.from===referenceId?"→":"←"} weight ${e.weight}`,()=>actions.selectEdge(e.id),describe(e.id)));}
       else if(relationIds.length)box.append(relationList(relationIds,"Relations"));
       return box;
     };
@@ -62,7 +88,7 @@ export class RadiusTwoRenderer {
     const wing=(row:RadiusRow,name:RadiusWing)=>{
       const holder=this.element("div");holder.className=`r2-wing r2-${name}`;
       const cells=this.element("div");cells.className="r2-cells";
-      for(const item of row[name].items){const cell=card(item.nodeId,item.id,item.edgeIds);if(item.level==="second-step-candidate")cell.append(this.element("small","Second-step candidate; center adjacency incomplete"));
+      for(const item of row[name].items){const cell=card(item.nodeId,item.id,item.edgeIds,false,row.nodeId);if(item.level==="second-step-candidate")cell.append(this.element("small","Second-step candidate; center adjacency incomplete"));
         const rowIds=p.witnesses[item.nodeId];
         if(rowIds.length>1){const witnesses=this.element("details");witnesses.append(this.element("summary",`Via ${rowIds.length}${p.counts.complete?"":" loaded"} rows`),
           boundedList(rowIds,rowId=>this.button(clip(nodeName(rowId)),()=>actions.jumpRow(rowId),`Show witness row ${clip(nodeName(rowId))}`)));cell.append(witnesses);}
@@ -74,19 +100,21 @@ export class RadiusTwoRenderer {
     p.rows.items.forEach((row,index)=>{
       if(index===split)content.append(center);
       const line=this.element("section");line.className="r2-row";line.dataset.rowId=row.nodeId;line.setAttribute("aria-label",`Via ${nodeName(row.nodeId)}`);
-      const middle=card(row.nodeId,row.id,row.centerEdgeIds);if(row.selfEdgeIds.length)middle.append(relationList(row.selfEdgeIds,"Self relations"));if(row.crossEdgeIds.length)middle.append(relationList(row.crossEdgeIds,"Links to other direct neighbors"));
+      const middle=card(row.nodeId,row.id,row.centerEdgeIds,false,p.centerId);if(row.selfEdgeIds.length)middle.append(relationList(row.selfEdgeIds,"Self relations"));if(row.crossEdgeIds.length)middle.append(relationList(row.crossEdgeIds,"Links to other direct neighbors"));
       line.append(wing(row,"incoming"),middle,wing(row,"outgoing"));
       if(row.undirected.knownItems){const undirected=wing(row,"undirected");undirected.classList.add("r2-undirected-group");undirected.prepend(this.element("strong","Undirected relations — side has no direction meaning"));line.append(undirected);}
       content.append(line);
     });
     if(p.rows.items.length<=split)content.append(center);
     if(!p.rows.knownItems)content.append(this.element("p",p.rows.complete?"No direct neighbors under this policy.":"No direct neighbors loaded; adjacency is incomplete."));
-    const other=this.element("section");other.className="r2-other";other.append(this.element("h3","Other neighborhood relations"),this.element("p","Includes second-hop cross-links, loops and any records outside the displayed traversal witnesses. These are real relations, not links between adjacent cells."));
+    const other=this.element("details");other.className="r2-other";other.append(this.element("summary",`Other neighborhood relations: ${p.otherRelations.total??`${p.otherRelations.knownItems} loaded`}`),this.element("p","Includes second-hop cross-links, loops and any records outside the displayed traversal witnesses. These are real relations, not links between adjacent cells."));
     for(const id of p.otherRelations.items)other.append(this.button(clip(describe(id)),()=>actions.selectEdge(id),describe(id)));
     other.append(pager(p.otherRelations,actions.pageOther,"other relations"));
     const scope=this.element("p");scope.className="r2-counts";scope.textContent=`${p.counts.directNodes} direct nodes · ${p.counts.secondStepNodes} ${p.confirmedSecondHop?"unique second-hop nodes":"unique second-step candidates"} · ${p.counts.occurrences} row occurrences · ${p.counts.edgeRecords} relation records${p.counts.complete?"":" · known records only; scope incomplete"}`;
     this.container.replaceChildren(scope,pager(p.rows,actions.pageRows,"direct-neighbor rows"),content,other);
-    this.select(selected,occurrence);
+    this.hovered=null;this.select(selected,occurrence);
+    if(previousFocus)this.focus(previousFocus.dataset.radiusNodeId,previousFocus.dataset.occurrence);
+    this.highlight();
   }
   /** Roving node focus: screen position is an occurrence; semantic selection remains canonical. */
   moveFocus(event:KeyboardEvent):boolean {

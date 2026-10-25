@@ -46,3 +46,8 @@ test('graph snapshots preserve complete graph membership, coordinates and genera
   const snapshot=captureRadiusSnapshot(graph,'old'),p=projectRadiusTwo(snapshot,'a');assert.deepEqual([a.x,a.y,b.x,b.y,a.isFixed(),graph.nodeCount(),graph.edgeCount()],[12,4,-7,8,true,2,1]);assert.equal('position' in snapshot.nodes[0],false);
   const replacement=new FreshGraph();replacement.addNode(new FreshNode('a','Replacement'));const newer=projectRadiusTwo(captureRadiusSnapshot(replacement,'new'),'a');assert.equal(newer.generation,'new');assert.equal(newer.nodes[0].label,'Replacement');assert.equal(p.nodes.find(n=>n.id==='a').label,'A');assert.equal(p.generation,'old');
 });
+
+test('prototype-like canonical identities remain ordinary nodes and witness records',()=>{
+  const source={generation:'prototype-ids',complete:true,nodes:['center','constructor','toString','__proto__'].map(id=>({id,label:id,type:'service',weight:1})),edges:[['c1','center','constructor'],['c2','center','toString'],['a','constructor','__proto__'],['b','toString','__proto__']].map(([id,from,to])=>({id,from,to,label:id,type:'calls',weight:0,direction:'directed'}))};
+  const p=projectRadiusTwo(source,'center');assert.deepEqual(p.witnesses.__proto__,['constructor','toString']);assert.equal(Object.hasOwn(p.witnesses,'__proto__'),true);assert.equal(p.counts.secondStepNodes,1);assert.equal(p.counts.occurrences,2);assert.equal(p.counts.edgeRecords,4);
+});

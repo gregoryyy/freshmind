@@ -226,8 +226,8 @@ export class TGLayout {
     // Unlike a Java thread, scheduling yields to the caller before the first batch.
     this.timer = setTimeout(run, 0);
   }
-  /** Cancels scheduling, including callbacks invalidated by a stop/restart during repaint. */
   /** Read-only lifecycle state for callers that temporarily suspend layout. */
   isRunning(): boolean { return this.running; }
+  /** Cancels scheduling, including callbacks invalidated by a stop/restart during repaint. */
   stop(): void { this.running = false; this.generation++; clearTimeout(this.timer); this.timer = undefined; }
 }

@@ -43,15 +43,15 @@ export class RadiusTwoView {
     listen(this.direction,"change",()=>this.attempt(()=>{this.pushHistory();this.settings={direction:this.direction.value as RadiusOptions["direction"]};this.seed=undefined;this.render();this.focusSelection();}));
     controls.append(this.back,this.forward,button("Use selected node",()=>this.useSelected()),button("Refresh snapshot",()=>this.refresh()),this.direction,button("Return to graph",()=>this.setEnabled(false)));
     this.status=element("p");this.status.setAttribute("role","status");
-    const help=element("p","Complete stored graph; type filtering in the force view is independent. Arrows move focus, Space selects, Enter pivots, Home targets the center, Page Up/Down pages rows, F2 edits in the shared overlay. Refresh updates the frozen snapshot.");help.className="r2-help";
+    const help=element("p","Complete stored graph; force-view filters are independent. Arrows move focus, Space selects, Enter pivots. F2 edits; refresh after changes.");help.className="r2-help";
     const search=element("details"),summary=element("summary","Search result seeds");this.seeds=element("select");this.seeds.setAttribute("aria-label","Search result seed");
     this.seedStatus=element("span");this.provenance=element("p");
     search.append(summary,this.seeds,button("Previous seeds",()=>this.seedPaging(-50)),button("Next seeds",()=>this.seedPaging(50)),this.seedStatus,this.provenance);
-    listen(this.seeds,"change",()=>this.attempt(()=>{const seed=this.seedPage[Number(this.seeds.value)];if(!seed)return;
+    listen(this.seeds,"change",()=>this.attempt(()=>{if(this.seeds.value==="")return;const seed=this.seedPage[Number(this.seeds.value)];if(!seed)return;
       // Capture a fresh generation before adopting a result, never graft a stale source onto an older snapshot.
       const valid=graphSearchViewSeeds(this.panel.getCompleteEltSet(),this.seedOffset).items.find(s=>s.edgeId===seed.edgeId&&JSON.stringify(s)===JSON.stringify(seed));
       if(!valid)throw new Error("Search seed changed or became stale; refresh the results");
-      this.refresh(seed.nodeId);this.seed=valid;this.showProvenance();this.focusSelection();}));
+      this.refresh(seed.nodeId);this.seed=valid;const index=this.seedPage.findIndex(item=>item.edgeId===valid.edgeId);this.seeds.value=index<0?"":String(index);this.selectNode(seed.nodeId,JSON.stringify(["center",seed.nodeId]));this.showProvenance();this.focusSelection();}));
     header.append(this.title,controls,this.status,help,search);this.body=element("div");this.body.className="r2-body";this.renderer=new RadiusTwoRenderer(this.body);this.root.replaceChildren(header,this.body);
     listen(options.toggle,"change",()=>this.attempt(()=>this.setEnabled(options.toggle.value==="radius-two")));
     listen(this.root,"focusin",event=>{const target=event.target;if(target instanceof HTMLElement&&target.matches(".r2-card"))this.occurrence=target.dataset.occurrence;});
@@ -88,6 +88,7 @@ export class RadiusTwoView {
         const anchor=this.previousAnchor&&this.panel.getGES().contains(this.previousAnchor)?this.previousAnchor:null;this.panel.setSelect(anchor);
         if(this.previous instanceof FreshEdge&&this.panel.getGES().contains(this.previous))this.panel.setSelectEdge(this.previous);
       } else if(current instanceof FreshEdge)this.panel.setSelectEdge(current);
+      else this.panel.setSelect(current);
       if(this.wasRunning)this.panel.tgLayout.start();this.panel.focusGraph();
     }
   }
@@ -129,7 +130,7 @@ export class RadiusTwoView {
     this.back.disabled=!this.history.length;this.forward.disabled=!this.future.length;
     if(!this.center){this.title.textContent="Radius-two adjacency — empty graph";this.body.textContent="No graph nodes. Return to graph to create or open a document.";this.status.textContent="Empty document.";return;}
     this.projection=projectRadiusTwo(this.snapshot,this.center,{...this.settings,rowLimit:this.rowLimit,cellLimit:this.cellLimit});
-    this.title.textContent=`Radius two · ${this.nodes.get(this.center)?.getLabel()||this.center}`;this.status.textContent=`Frozen ${this.snapshot.generation} · ${this.projection.direction} traversal. Row and cell order is type, label, canonical ID.`;
+    this.title.textContent=`Radius two · ${this.nodes.get(this.center)?.getLabel()||this.center}`;this.status.textContent=`Snapshot of the complete stored graph · ${this.projection.direction} paths.`;
     const graph=this.graph,revision=++this.renderRevision;
     const guard=<T extends unknown[]>(action:(...args:T)=>void)=>(...args:T)=>{if(!this.disposed&&this.active&&graph===this.panel.getCompleteEltSet()&&revision===this.renderRevision)this.attempt(()=>action(...args));};
     const selected=this.panel.getSelection();
@@ -147,7 +148,7 @@ export class RadiusTwoView {
     const page=graphSearchViewSeeds(this.graph,this.seedOffset);this.seedPage=page.items;this.seedTotal=page.total;this.seeds.replaceChildren();
     const placeholder=this.root.ownerDocument.createElement("option");placeholder.value="";placeholder.textContent="Choose an accepted lexical/LDA result…";this.seeds.append(placeholder);
     this.seedPage.forEach((seed,i)=>{const option=this.root.ownerDocument.createElement("option");option.value=String(i);option.textContent=`${seed.request.engine} · ${seed.request.query.slice(0,60)} · #${seed.rank} ${this.graph.findNode(seed.nodeId)!.getLabel().slice(0,80)}`;this.seeds.append(option);});this.seeds.disabled=!page.items.length;
-    this.seedStatus.textContent=`${page.items.length?this.seedOffset+1:0}–${this.seedOffset+page.items.length} / ${page.total} current results. Stale/malformed results are not seeds.`;
+    this.seedStatus.textContent=page.total?`${page.items.length?this.seedOffset+1:0}–${this.seedOffset+page.items.length} / ${page.total} verified results.`:"Run a search for verified result seeds. Saved results remain browsable in the graph.";
   }
   private seedPaging(delta:number):void {if(delta<0)this.seedOffset=Math.max(0,this.seedOffset+delta);else if(this.seedOffset+delta<this.seedTotal)this.seedOffset+=delta;this.updateSeeds();}
   private showProvenance():void {this.provenance.textContent=this.seed?`${this.seed.request.engine} · ${this.seed.request.kind} “${this.seed.request.query}” · source ${this.seed.sourceId} · result ${this.seed.nodeId} · rank ${this.seed.rank} · raw score ${this.seed.score}${this.seed.metric?` · ${this.seed.metric} ${this.seed.value}`:""} · corpus ${this.seed.corpus}`:"No retrieval seed selected. A query node can also be used directly as the center.";}
@@ -155,11 +156,11 @@ export class RadiusTwoView {
     if(event.defaultPrevented||event.isComposing||event.target instanceof Element&&event.target.closest("input,textarea,select,[contenteditable]"))return;
     const card=event.target instanceof HTMLElement?event.target.closest<HTMLButtonElement>(".r2-card"):null;
     if(!event.ctrlKey&&!event.altKey&&!event.metaKey&&!event.shiftKey&&this.renderer.moveFocus(event)){event.preventDefault();return;}
-    if(event.key==="Home"&&!event.ctrlKey&&!event.altKey&&!event.metaKey){event.preventDefault();this.renderer.focus(this.center,JSON.stringify(["center",this.center]));return;}
-    if((event.key==="PageDown"||event.key==="PageUp")&&!event.ctrlKey&&!event.altKey&&!event.metaKey){event.preventDefault();this.attempt(()=>{const current=this.settings.rowOffset??0,offset=event.key==="PageUp"?Math.max(0,current-this.rowLimit):this.projection?.rows.nextOffset;if(offset!==undefined){this.settings={...this.settings,rowOffset:offset};this.render();this.focusSelection();}});return;}
-    if(card&&event.key==="Enter"&&!event.ctrlKey&&!event.altKey&&!event.metaKey){event.preventDefault();this.attempt(()=>this.pivot(card.dataset.radiusNodeId!));return;}
+    if(event.key==="Home"&&!event.ctrlKey&&!event.altKey&&!event.metaKey&&!event.shiftKey){event.preventDefault();this.renderer.focus(this.center,JSON.stringify(["center",this.center]));return;}
+    if((event.key==="PageDown"||event.key==="PageUp")&&!event.ctrlKey&&!event.altKey&&!event.metaKey&&!event.shiftKey){event.preventDefault();this.attempt(()=>{const current=this.settings.rowOffset??0,offset=event.key==="PageUp"?Math.max(0,current-this.rowLimit):this.projection?.rows.nextOffset;if(offset!==undefined){this.settings={...this.settings,rowOffset:offset};this.render();this.focusSelection();}});return;}
+    if(card&&event.key==="Enter"&&!event.ctrlKey&&!event.altKey&&!event.metaKey&&!event.shiftKey){event.preventDefault();this.attempt(()=>this.pivot(card.dataset.radiusNodeId!));return;}
     if(event.key==="F2"&&!event.ctrlKey&&!event.metaKey&&!event.altKey||event.ctrlKey&&!event.metaKey&&!event.altKey&&!event.shiftKey&&(event.key==="Enter"||event.key===" ")){event.preventDefault();this.attempt(()=>event.shiftKey||event.key===" "?this.options.editDetails():this.options.editLabel());return;}
-    if(event.altKey&&!event.ctrlKey&&!event.metaKey&&["ArrowLeft","ArrowRight"].includes(event.key)){event.preventDefault();this.attempt(()=>event.key==="ArrowLeft"?this.goBack():this.goForward());}
+    if(event.altKey&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&["ArrowLeft","ArrowRight"].includes(event.key)){event.preventDefault();this.attempt(()=>event.key==="ArrowLeft"?this.goBack():this.goForward());}
   }
-  dispose():void {if(this.disposed)return;if(this.active)this.setEnabled(false);this.disposed=true;cancelAnimationFrame(this.frame);this.observer.disconnect();for(const remove of this.removers)remove();this.nodes.clear();this.edges.clear();this.snapshot=undefined;this.projection=undefined;this.root.replaceChildren();}
+  dispose():void {if(this.disposed)return;if(this.active)this.setEnabled(false);this.disposed=true;cancelAnimationFrame(this.frame);this.observer.disconnect();this.renderer.dispose();for(const remove of this.removers)remove();this.nodes.clear();this.edges.clear();this.snapshot=undefined;this.projection=undefined;this.history=[];this.future=[];this.previous=null;this.previousAnchor=null;this.seed=undefined;this.seedPage=[];this.seedOffset=0;this.seedTotal=0;this.center="";this.occurrence=undefined;this.settings={};this.renderRevision++;this.root.replaceChildren();}
 }
