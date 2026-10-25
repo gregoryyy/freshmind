@@ -2,6 +2,13 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Requirement and source traceability — 2026-10-25
+
+- Completes **7.4**: all **33** baseline IDs map through **16** behavior groups to selected current declarations, existing evidence candidates, TODOs, risk, assumptions, failure consequences, independent expectations and gaps. Hash-pinned Java origins distinguish adaptations, replacements and reimplementations; new and future requirements do not acquire invented predecessors. The implementation baseline is main `a0b4bfb`.
+- `just assurance-map` checks IDs, declaration existence with the TypeScript parser, reviewed source hashes, TODO/file references and generated-report freshness. `--legacy-root` optionally verifies original Java hashes without redistributing source/JARs or requiring the sibling checkout in ordinary checks. Negative checks reject unknown IDs, invented declarations, changed code, escaping paths, unmapped requirements and unsupported pass claims.
+- Verification: `just check` passes **317 core tests**, strict types and library/demo builds; optional original-Java hash validation passes. Changed-document local targets and whitespace pass. No runtime/browser behavior changed.
+- This is a behavior/subsystem map with selected named functions/classes, not exhaustive private-function coverage. Listed tests are evidence candidates, not an assertion that all requirements pass. README motivation/just recipes and historical reports are retained.
+
 ## In-graph r=2 tree control and experimental table — 2026-10-25
 
 - Completes **3.8** following the maintainer's interaction correction. **View → Reinforced neighborhood → r=2 tree** surfaces the existing automatic two-level RFC mechanism alongside activation/removal and live status. It retains normal graph rendering, selection, navigation and editing. One level remains the initial policy; visibility depth, stored/search scope, force settings and graph data keep their existing semantics.
