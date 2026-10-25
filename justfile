@@ -172,6 +172,10 @@ rfc-paper: rfc-experiment rfc-multifocus-experiment rfc-plot rfc-figures
 preview *args: build-demo
     npx --no-install vite preview --host 127.0.0.1 "$@"
 
+# Check reviewed source/requirement/evidence references and report freshness.
+assurance-map *args:
+    node scripts/assurance-map.mjs "$@"
+
 # Check TypeScript without emitting files.
 typecheck:
     npm run typecheck

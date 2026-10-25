@@ -59,6 +59,12 @@ requirement is separate from evidence that it has been implemented.
 
 ## Finding what is missing
 
+The [traceability map](TRACEABILITY.md) connects all baseline IDs to selected
+current declarations, hash-pinned Java origins where applicable, TODOs, evidence
+candidates, risks, assumptions and gaps. Its [machine-readable source](traceability.json)
+is checked with `just assurance-map`; mapped code changes require review. This
+first behavior-level map does not claim exhaustive function parity or conformance.
+
 For each intended workflow, examine these questions before counting tests:
 
 1. What must a person accomplish, and how can they recognize success?
