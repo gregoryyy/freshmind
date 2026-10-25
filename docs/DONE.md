@@ -2,6 +2,12 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Initial assurance scope review — 2026-10-25
+
+- Completes **7.3**. Records the maintainer's explicit acceptance of desktop, single-user local files, explicit save/export, no autosave/crash-recovery promise, no telemetry/remote graph transfer and no size guarantee beyond measured fixtures. Decision IDs retain sources, acceptance consequences, supersession rules and future choices.
+- Separates approved scope and explicit product instructions from derived baseline formulations; no blanket baseline approval or conformance claim. Undo, broader environments, workload budgets, future server authority and human application validation remain visible.
+- Documentation-only change; local Markdown targets and whitespace checked. Existing completion tags **milestone1–milestone5** were verified against the published annotated tags; no incomplete whole milestone was tagged.
+
 ## In-graph r=2 tree control and experimental table — 2026-10-25
 
 - Completes **3.8** following the maintainer's interaction correction. **View → Reinforced neighborhood → r=2 tree** surfaces the existing automatic two-level RFC mechanism alongside activation/removal and live status. It retains normal graph rendering, selection, navigation and editing. One level remains the initial policy; visibility depth, stored/search scope, force settings and graph data keep their existing semantics.
