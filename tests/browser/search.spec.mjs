@@ -16,7 +16,7 @@ test('search uses compact green associations, inspectable scores and RFC around 
     const p=window.graphBrowser,q=p.getSelect(),edges=[...q.getEdges()].filter(e=>e.getData().search?.role==='result');
     return {query:q.getID(),focus:p.getRfc().getState().focusId,branches:p.getRfc().getState().branchIds,results:edges.map(e=>({id:e.getID(),rank:e.getData().search.rank,score:e.getData().search.score})),context:[...q.getEdges()].find(e=>e.getData().search?.role==='context').getID()};
   });
-  expect(state.focus).toBe(state.query);expect(state.branches.sort()).toEqual(['a','b','c']);
+  expect(state.focus).toBe(state.query);expect(state.branches.sort()).toEqual(['a','c']); // Context b is retained, but is not a result.
   for(const result of state.results){
     const group=page.locator(`[data-edge-id="${result.id}"]`);
     await expect(group.locator('.fm-edge-label')).toHaveText(`#${result.rank}`);

@@ -31,7 +31,11 @@ export function constrainedStar(center:Node,edges:Iterable<Edge>,weights:Coordin
 }
 /** Projects persistent membership onto visible members, retaining complete-graph DAG ranks and slots. */
 export function projectRfcStructure(complete:ImmutableGraphEltSet,visible:ImmutableGraphEltSet,root:Node,
-  definition:GraphSubstructure|null,weights:CoordinateWeights,cachedTopology?:SubstructureTopology):RfcProjection {
+  definition:GraphSubstructure|null,weights:CoordinateWeights,cachedTopology?:SubstructureTopology,neighborhoodDepth:1|2=1):RfcProjection {
+  if(!definition&&neighborhoodDepth===2) {
+    const automatic=automaticTree(visible,root);
+    return projectRfcStructure(complete,visible,root,automatic.definition,weights,automatic.topology);
+  }
   if(!definition) {
     const rootStar=collectFocalStar(visible,root,weights);
     return {root,definition,nodes:[root,...rootStar.branches.map(b=>b.node)].filter(n=>rfcNodeImportance(n)>0),edges:rootStar.branches.map(b=>b.edge),targetWeights:new Map(),rootStar,stars:[rootStar],targets:new Map()};
@@ -53,5 +57,33 @@ export function projectRfcStructure(complete:ImmutableGraphEltSet,visible:Immuta
         targets.set(topology.nodes.get(id)!,{x:(index-(ids.length-1)/2)*1.25/Math.sqrt(weights.x),y:rank/Math.sqrt(weights.y)});
     }
   }
-  return {root,definition,nodes,edges,targetWeights,rootStar,stars:definition.kind==="tree"?nodes.map(n=>constrainedStar(n,edges,weights)):[],targets};
+  return {root,definition,nodes,edges,targetWeights,rootStar,stars:definition.kind==="tree"?treeStars(nodes,edges,weights):[],targets};
+}
+
+/** Radius-two BFS over positive-strength visible relations, ignoring semantic direction.
+ * Parent and parallel-edge ties use stable IDs; all non-tree relations remain ordinary context.
+ * Uses existing adjacency and never inserts a persistent structure or synthetic relation.
+ */
+function automaticTree(visible:ImmutableGraphEltSet,root:Node):{definition:GraphSubstructure;topology:SubstructureTopology} {
+  const nodes=new Map<string,Node>([[root.getID()!,root]]),edges=new Map<string,Edge>(),levels=new Map<string,number>([[root.getID()!,0]]);
+  const compare=(a:string,b:string)=>a<b?-1:a>b?1:0;
+  const queue=[root];
+  for(let index=0;index<queue.length;index++) {
+    const center=queue[index]!,level=levels.get(center.getID()!)!;
+    if(level===2)continue;
+    const neighbors=[...center.getEdges()].filter(edge=>visible.contains(edge)&&visible.contains(edge.from)&&visible.contains(edge.to)&&rfcRelationStrength(edge)>0)
+      .map(edge=>({node:edge.getOtherEndpt(center),edge}))
+      .sort((a,b)=>compare(a.node.getID()!,b.node.getID()!)||compare(a.edge.getID()!,b.edge.getID()!));
+    for(const {node,edge} of neighbors)if(!nodes.has(node.getID()!)) {
+      nodes.set(node.getID()!,node);edges.set(edge.getID()!,edge);levels.set(node.getID()!,level+1);queue.push(node);
+    }
+  }
+  return {definition:{id:`automatic:${root.getID()!}`,label:"Automatic two-level neighborhood",kind:"tree",rootId:root.getID()!,nodeIds:[...nodes.keys()],edgeIds:[...edges.keys()]},topology:{nodes,edges,levels}};
+}
+
+/** Build incidence once rather than rescanning a large tree for each local angular star. */
+function treeStars(nodes:readonly Node[],edges:readonly Edge[],weights:CoordinateWeights):FocalStar[] {
+  const incident=new Map(nodes.map(node=>[node,[] as Edge[]]));
+  for(const edge of edges){incident.get(edge.from)?.push(edge);incident.get(edge.to)?.push(edge);}
+  return nodes.map(node=>constrainedStar(node,incident.get(node)!,weights));
 }

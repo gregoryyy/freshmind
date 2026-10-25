@@ -52,6 +52,10 @@ flipbook *args: build-demo
 rfc-showcase *args: build-demo
     node scripts/flipbook.mjs --tour rfc-showcase "$@"
 
+# Capture the automatic two-level, multiple-center RFC example from the production browser.
+rfc-neighborhoods-preview: build-demo
+    node scripts/rfc-neighborhoods-preview.mjs
+
 # Regenerate the headless preset and documentation from the Freshmind type YAML.
 sync-fm-config:
     npm run sync:fm-config

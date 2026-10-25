@@ -27,7 +27,6 @@ import type { RfcSettings,RfcExclusionSettings } from "../rfc/index.js";
 import type { RfcStabilizationOptions } from "../rfc/index.js";
 import type { TGLayout } from "../../tg/layout/index.js";
 import {StructuralViewController} from "../struct-view/index.js";
-import {projectRfcStructure} from "../rfc/index.js";
 import {validateNodeImportanceView} from "../geometry/index.js";
 import type {NodeImportanceViewSettings} from "../geometry/index.js";
 import type {RelationLabelPlacement,OverlapBox} from "../geometry/index.js";
@@ -197,9 +196,8 @@ export class FreshmindPanel extends TGPanel {
     for(const activation of state?.centers??[]) {
       const root=graph.findNode(activation.focusId);if(!root||!source.contains(root))continue;
       centers.push(activation.focusId);
-      const definition=activation.structureId?graph.getSubstructure(activation.structureId):null;
-      const projection=projectRfcStructure(graph,source,root,definition,state!.settings.coordinateWeights);
-      for(const node of projection.nodes)protectedIds.add(node.getID()!);
+      const projection=this.rfc!.projectFocus(root,source);
+      for(const node of projection?.nodes??[])protectedIds.add(node.getID()!);
     }
     return {centers,protectedIds};
   }

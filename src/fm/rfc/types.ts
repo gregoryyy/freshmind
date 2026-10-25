@@ -47,6 +47,8 @@ export interface RfcBranch { node: Node; edge: Edge; angle: number; }
 /** Ephemeral references to existing graph members, never a second graph or adjacency owner. */
 export interface FocalStar { center: Node; branches: RfcBranch[]; coordinateWeights: CoordinateWeights; }
 export interface RfcState {
+  /** Automatic weak-neighborhood radius for implicit centers; stored/explicit memberships are unchanged. */
+  neighborhoodDepth:1|2;
   focusId: string | null;
   enabled: boolean;
   active: boolean;

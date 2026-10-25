@@ -94,7 +94,7 @@ export class GraphSearchController {
     }
     const edges=applyGraphSearchResults(graph,owner!,r,results,corpus);
     this.reveal(owner!,edges);
-    if(this.options.reinforceResults&&edges.length&&this.panel.getGES().contains(owner!))this.panel.getRfc().setFocus(owner!);
+    if(this.options.reinforceResults&&edges.length&&this.panel.getGES().contains(owner!))this.panel.getRfc().setFocusEdges(owner!,edges);
     this.publish({message:`${edges.length} result${edges.length===1?"":"s"} linked. Select a result relation to reject it.`});return edges;
   }
   /** Creates/selects the query before retrieval, so graph entry and deletion work even without a trained model. */

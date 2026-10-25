@@ -158,6 +158,8 @@ The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-fo
 
 - [x] 3.6 Preserve context progress during adaptive damping: use independent node gains/recovery, verify RFC clearing and real label geometry, retain historical shared-gain experiments and document limits.
 
+- [x] 3.7 Derive automatic two-level neighborhoods (children and grandchildren) for each ordinary RFC center, including multiple centers and shared members. Use deterministic projection with explicit direction/cycle handling; preserve stored structures and search-result focus, and verify layout and interaction. See [the contract and example](automatic-rfc-neighborhoods.md).
+
 ## 4. Graph visual search
 
 Use **elasticlunr** as the literal engine and implement **LDA semantic retrieval**
@@ -204,6 +206,8 @@ Crossings, decorations and continuous node collision handling remain future work
 - [x] 5.6 Cache measured SVG text and share chosen anchors with rendering and inline relation editors through lenses, parallel edges and self-loops.
 - [x] 5.7 Enable relation-label avoidance in the main browser with a reversible View control; preserve original library defaults and transient preferences across graph replacement.
 - [x] 5.8 Verify independent rectangle counts, real SVG collisions, editing/control lifecycle and production before/after captures; document limits.
+
+- [ ] 5.10 Add an overall graph aspect setting with width:height choices 3:5, 16:9 and the canvas aspect ratio; keep labels legible and separate it from RFC focal weights.
 
 ## 6. Applications and radius-two exploration
 
