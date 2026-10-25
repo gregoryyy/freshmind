@@ -3,7 +3,7 @@
 TODO **7.4**. Generated from [traceability.json](traceability.json) by
 `just assurance-map --write`; validate with `just assurance-map`.
 
-Implementation baseline: `a0b4bfb60f785877f7552603d066163bdfad33be`. Behavior/subsystem map with selected named functions/classes, not exhaustive Java/TypeScript function parity. References identify evidence candidates; execution and adequate coverage must be assessed separately.
+Implementation baseline: `0f77c536a14630e3db2284f440b40c3d0291c3a8`. Behavior/subsystem map with selected named functions/classes, not exhaustive Java/TypeScript function parity. References identify evidence candidates; execution and adequate coverage must be assessed separately.
 
 Original Java files are identified by fully qualified symbols and SHA-256. They
 remain in the owner’s local reference checkout; no JARs or decompiled code are
@@ -74,7 +74,7 @@ Assumptions: One complete local document; stable string identities; supported na
 
 Failure consequence: Hidden or parallel information lost or identities confused during viewing/export.
 
-Evidence candidates: [tests/persistence.test.mjs](../../tests/persistence.test.mjs), [tests/core.test.mjs](../../tests/core.test.mjs).
+Evidence candidates: [tests/persistence.test.mjs](../../tests/persistence.test.mjs), [tests/core.test.mjs](../../tests/core.test.mjs), [tests/assurance-critical.test.mjs](../../tests/assurance-critical.test.mjs).
 
 Independent expectation: Hand-authored node/edge records including isolated nodes, loops, parallel relations and hidden membership.
 
@@ -101,11 +101,11 @@ Assumptions: Explicit user file selection/export; format version 1; no durable-s
 
 Failure consequence: User believes unsaved memory is durable, or a save/load changes supported information.
 
-Evidence candidates: [tests/persistence.test.mjs](../../tests/persistence.test.mjs), [tests/browser/editing-io.spec.mjs](../../tests/browser/editing-io.spec.mjs).
+Evidence candidates: [tests/persistence.test.mjs](../../tests/persistence.test.mjs), [tests/browser/editing-io.spec.mjs](../../tests/browser/editing-io.spec.mjs), [tests/assurance-critical.test.mjs](../../tests/assurance-critical.test.mjs), [tests/assurance-browser/local.spec.mjs](../../tests/assurance-browser/local.spec.mjs), [docs/assurance/evidence/7.5-browser.json](../../docs/assurance/evidence/7.5-browser.json).
 
 Independent expectation: Explicit fixture schema and original field values; rejected imports preserve the prior graph. Download initiation is not a durability oracle.
 
-**Gaps/limits:** No crash-safe save, autosave or secure-erasure claim. Storage effects of the assembled local workflow need observation. Native YAML is a new format rather than a Java serialization clone.
+**Gaps/limits:** No crash-safe save, autosave or secure-erasure claim. One production canary workflow observes no storage writes; this is not universal storage/confidentiality evidence. Native YAML is a new format, not a Java serialization clone.
 
 ## MAP-03
 
@@ -130,11 +130,11 @@ Assumptions: Single-user edits; current object identities; ordinary allocation s
 
 Failure consequence: Partial mutation, unintended edits or inability to recover intentional changes.
 
-Evidence candidates: [tests/label-commands.test.mjs](../../tests/label-commands.test.mjs), [tests/structural-editing.test.mjs](../../tests/structural-editing.test.mjs), [tests/browser/editor-shortcuts.spec.mjs](../../tests/browser/editor-shortcuts.spec.mjs).
+Evidence candidates: [tests/label-commands.test.mjs](../../tests/label-commands.test.mjs), [tests/structural-editing.test.mjs](../../tests/structural-editing.test.mjs), [tests/browser/editor-shortcuts.spec.mjs](../../tests/browser/editor-shortcuts.spec.mjs), [tests/assurance-critical.test.mjs](../../tests/assurance-critical.test.mjs).
 
 Independent expectation: Independent field/end-point expectations, stale-object and injected insertion-failure cases.
 
-**Gaps/limits:** Undo remains absent; command/revision coverage is partial. Invalid edits need systematic full-record preservation checks.
+**Gaps/limits:** Undo remains absent; global command/revision coverage is partial. ASSURE-02 verifies full-record/incidence preservation for specified invalid drafts, not every possible mutation/failure.
 
 ## MAP-04
 
@@ -333,7 +333,7 @@ Assumptions: Worker/job ownership and source generations are checked; effects ca
 
 Failure consequence: Old work mutates a new document or leaked workers/listeners repeat commands.
 
-Evidence candidates: [tests/ir-browser.test.mjs](../../tests/ir-browser.test.mjs), [tests/search-browser-controller.test.mjs](../../tests/search-browser-controller.test.mjs), [tests/structural-editing.test.mjs](../../tests/structural-editing.test.mjs).
+Evidence candidates: [tests/ir-browser.test.mjs](../../tests/ir-browser.test.mjs), [tests/search-browser-controller.test.mjs](../../tests/search-browser-controller.test.mjs), [tests/structural-editing.test.mjs](../../tests/structural-editing.test.mjs), [tests/assurance-critical.test.mjs](../../tests/assurance-critical.test.mjs).
 
 Independent expectation: Controlled workers and deferred reads delivered after cancellation/replacement/disposal; explicit active-owner expectations.
 
@@ -358,11 +358,11 @@ Assumptions: Application assets are served locally or from the trusted distribut
 
 Failure consequence: Private graph/query/model data leaves the device or persists without a declared policy.
 
-Evidence candidates: [tests/browser/content.spec.mjs](../../tests/browser/content.spec.mjs), [tests/module-boundaries.test.mjs](../../tests/module-boundaries.test.mjs).
+Evidence candidates: [tests/browser/content.spec.mjs](../../tests/browser/content.spec.mjs), [tests/module-boundaries.test.mjs](../../tests/module-boundaries.test.mjs), [tests/assurance-browser/local.spec.mjs](../../tests/assurance-browser/local.spec.mjs), [docs/assurance/evidence/7.5-browser.json](../../docs/assurance/evidence/7.5-browser.json).
 
 Independent expectation: Explicit allowed application requests and synthetic canary graph/query/model content; observe actual production browser effects.
 
-**Gaps/limits:** Existing sanitizer/import checks are not end-to-end privacy evidence. Network, storage and logs need an integrated canary scenario; no encryption/secure-erasure claim.
+**Gaps/limits:** The scoped production canary workflow observes network, storage, console and WebSockets; positive controls detect attempted same-origin/external transfers. Other paths, browser/OS services and adversarial channels remain unassessed; no encryption/secure-erasure claim.
 
 ## MAP-13
 
@@ -383,7 +383,7 @@ Assumptions: Imported labels, markup, URLs and files are hostile even on the loc
 
 Failure consequence: Imported data executes code, triggers a network request or corrupts the accepted document.
 
-Evidence candidates: [tests/browser/content.spec.mjs](../../tests/browser/content.spec.mjs), [tests/persistence.test.mjs](../../tests/persistence.test.mjs).
+Evidence candidates: [tests/browser/content.spec.mjs](../../tests/browser/content.spec.mjs), [tests/persistence.test.mjs](../../tests/persistence.test.mjs), [tests/assurance-browser/local.spec.mjs](../../tests/assurance-browser/local.spec.mjs), [docs/assurance/evidence/7.5-browser.json](../../docs/assurance/evidence/7.5-browser.json).
 
 Independent expectation: Hostile synthetic labels, markup, URL protocols, malformed records and explicit expected rejection/inert display.
 
@@ -431,21 +431,21 @@ Assumptions: Public contracts are the supported composition boundary; browser ef
 
 Failure consequence: Duplicate state ownership, hidden effects or an assembled build behaves differently from checked modules.
 
-Evidence candidates: [tests/module-boundaries.test.mjs](../../tests/module-boundaries.test.mjs), [tests/distribution.test.mjs](../../tests/distribution.test.mjs), [tests/browser/freshmind.spec.mjs](../../tests/browser/freshmind.spec.mjs).
+Evidence candidates: [tests/module-boundaries.test.mjs](../../tests/module-boundaries.test.mjs), [tests/distribution.test.mjs](../../tests/distribution.test.mjs), [tests/browser/freshmind.spec.mjs](../../tests/browser/freshmind.spec.mjs), [tests/assurance-delivery.test.mjs](../../tests/assurance-delivery.test.mjs), [docs/assurance/06-delivery.md](../../docs/assurance/06-delivery.md).
 
 Independent expectation: Independent dependency rules, public export/constructor inventory, cold headless imports and original license texts.
 
-**Gaps/limits:** Acyclic imports alone do not prove mutation ownership. Reproducible assembled-build evidence and independent review remain necessary.
+**Gaps/limits:** Dependency rules and repeated assembled-build/browser checks are scoped evidence, not proof of mutation ownership. Independent review remains pending; repeatability within one environment is not hermetic/cross-platform reproducibility.
 
 ## MAP-16
 
-**Evidence and attribution** — new; risk: high; status: not-implemented.
+**Evidence and attribution** — new; risk: high; status: partial-evidence.
 
 Requirements: USE-11, USE-12. TODO: 7.4, 7.6.
 
 Current declarations:
 
-No function-level implementation claimed.
+- [scripts/lib/assurance-artifacts.mjs#inventory](../../scripts/lib/assurance-artifacts.mjs)
 
 Origins:
 
@@ -455,8 +455,8 @@ Assumptions: Pinned inputs and original attribution texts are available; toolcha
 
 Failure consequence: Unsupported correctness claims or missing notices in the actual distribution.
 
-Evidence candidates: [tests/distribution.test.mjs](../../tests/distribution.test.mjs), [tests/compatibility.test.mjs](../../tests/compatibility.test.mjs).
+Evidence candidates: [tests/distribution.test.mjs](../../tests/distribution.test.mjs), [tests/compatibility.test.mjs](../../tests/compatibility.test.mjs), [tests/assurance-delivery.test.mjs](../../tests/assurance-delivery.test.mjs), [docs/assurance/06-delivery.md](../../docs/assurance/06-delivery.md).
 
 Independent expectation: Original license bytes, pinned reference scenarios, exact inputs/versions and evidence hashes rather than test counts.
 
-**Gaps/limits:** Repository fixtures and experiment reports are scoped records, not blanket conformance or independent review.
+**Gaps/limits:** Delivery records preserve exact inputs/artifacts and review-pending status; independent review and human task validation remain missing. Historical experimental evidence retains its original scope.

@@ -172,6 +172,10 @@ rfc-paper: rfc-experiment rfc-multifocus-experiment rfc-plot rfc-figures
 preview *args: build-demo
     npx --no-install vite preview --host 127.0.0.1 "$@"
 
+# Record sequential checks, repeated-build hashes and pending independent review.
+assurance-delivery *args:
+    node scripts/assurance-delivery.mjs "$@"
+
 # Measure specified assertion fault sensitivity on disposable compiled copies.
 assurance-sensitivity output="/tmp/fm4-assurance-sensitivity.json": build
     node scripts/assurance-sensitivity.mjs {{quote(output)}}

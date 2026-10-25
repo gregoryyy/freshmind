@@ -151,6 +151,11 @@ percentages and test counts are supporting evidence, not completeness criteria.
 
 ## Evidence and release decisions
 
+The [delivery and independent-review protocol](06-delivery.md) describes the
+sequential repeated-build workflow, actual-distribution smoke, retained evidence
+and reviewer record. Automation does not supply independent approval; that
+acceptance step remains explicit.
+
 For each requirement, keep a row containing its source/status, assumptions,
 failure consequence, verification method, test/artifact reference, exact commit
 and build, result and unresolved limitations. Use statuses such as **not

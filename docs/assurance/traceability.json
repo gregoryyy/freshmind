@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationBaseline": "a0b4bfb60f785877f7552603d066163bdfad33be",
+  "implementationBaseline": "0f77c536a14630e3db2284f440b40c3d0291c3a8",
   "scope": "Behavior/subsystem map with selected named functions/classes, not exhaustive Java/TypeScript function parity. References identify evidence candidates; execution and adequate coverage must be assessed separately.",
   "baseline": {
     "docs/assurance/01-intent.md": "bb1c34c80ca6dd5eabb2c9dc1b2fd4a3209a1ebdba41f20e7a4d509b04935b47",
@@ -235,7 +235,8 @@
       ],
       "evidence": [
         "tests/persistence.test.mjs",
-        "tests/core.test.mjs"
+        "tests/core.test.mjs",
+        "tests/assurance-critical.test.mjs"
       ],
       "todos": [
         "1.1",
@@ -301,7 +302,10 @@
       ],
       "evidence": [
         "tests/persistence.test.mjs",
-        "tests/browser/editing-io.spec.mjs"
+        "tests/browser/editing-io.spec.mjs",
+        "tests/assurance-critical.test.mjs",
+        "tests/assurance-browser/local.spec.mjs",
+        "docs/assurance/evidence/7.5-browser.json"
       ],
       "todos": [
         "2.5",
@@ -312,7 +316,7 @@
       "relation": "new",
       "origins": [],
       "oracle": "Explicit fixture schema and original field values; rejected imports preserve the prior graph. Download initiation is not a durability oracle.",
-      "gaps": "No crash-safe save, autosave or secure-erasure claim. Storage effects of the assembled local workflow need observation. Native YAML is a new format rather than a Java serialization clone.",
+      "gaps": "No crash-safe save, autosave or secure-erasure claim. One production canary workflow observes no storage writes; this is not universal storage/confidentiality evidence. Native YAML is a new format, not a Java serialization clone.",
       "status": "partial-evidence",
       "assumptions": "Explicit user file selection/export; format version 1; no durable-save acknowledgement from the OS.",
       "failureConsequence": "User believes unsaved memory is durable, or a save/load changes supported information."
@@ -350,7 +354,8 @@
       "evidence": [
         "tests/label-commands.test.mjs",
         "tests/structural-editing.test.mjs",
-        "tests/browser/editor-shortcuts.spec.mjs"
+        "tests/browser/editor-shortcuts.spec.mjs",
+        "tests/assurance-critical.test.mjs"
       ],
       "todos": [
         "2.6",
@@ -380,7 +385,7 @@
         }
       ],
       "oracle": "Independent field/end-point expectations, stale-object and injected insertion-failure cases.",
-      "gaps": "Undo remains absent; command/revision coverage is partial. Invalid edits need systematic full-record preservation checks.",
+      "gaps": "Undo remains absent; global command/revision coverage is partial. ASSURE-02 verifies full-record/incidence preservation for specified invalid drafts, not every possible mutation/failure.",
       "status": "partial-evidence",
       "assumptions": "Single-user edits; current object identities; ordinary allocation succeeds; rejected commands must remain atomic.",
       "failureConsequence": "Partial mutation, unintended edits or inability to recover intentional changes."
@@ -725,7 +730,8 @@
       "evidence": [
         "tests/ir-browser.test.mjs",
         "tests/search-browser-controller.test.mjs",
-        "tests/structural-editing.test.mjs"
+        "tests/structural-editing.test.mjs",
+        "tests/assurance-critical.test.mjs"
       ],
       "todos": [
         "4.18",
@@ -761,7 +767,9 @@
       ],
       "evidence": [
         "tests/browser/content.spec.mjs",
-        "tests/module-boundaries.test.mjs"
+        "tests/module-boundaries.test.mjs",
+        "tests/assurance-browser/local.spec.mjs",
+        "docs/assurance/evidence/7.5-browser.json"
       ],
       "todos": [
         "7.3",
@@ -771,7 +779,7 @@
       "relation": "new",
       "origins": [],
       "oracle": "Explicit allowed application requests and synthetic canary graph/query/model content; observe actual production browser effects.",
-      "gaps": "Existing sanitizer/import checks are not end-to-end privacy evidence. Network, storage and logs need an integrated canary scenario; no encryption/secure-erasure claim.",
+      "gaps": "The scoped production canary workflow observes network, storage, console and WebSockets; positive controls detect attempted same-origin/external transfers. Other paths, browser/OS services and adversarial channels remain unassessed; no encryption/secure-erasure claim.",
       "status": "partial-evidence",
       "assumptions": "Application assets are served locally or from the trusted distribution; graph/query data must remain local.",
       "failureConsequence": "Private graph/query/model data leaves the device or persists without a declared policy."
@@ -797,7 +805,9 @@
       ],
       "evidence": [
         "tests/browser/content.spec.mjs",
-        "tests/persistence.test.mjs"
+        "tests/persistence.test.mjs",
+        "tests/assurance-browser/local.spec.mjs",
+        "docs/assurance/evidence/7.5-browser.json"
       ],
       "todos": [
         "2.4",
@@ -852,7 +862,9 @@
       "evidence": [
         "tests/module-boundaries.test.mjs",
         "tests/distribution.test.mjs",
-        "tests/browser/freshmind.spec.mjs"
+        "tests/browser/freshmind.spec.mjs",
+        "tests/assurance-delivery.test.mjs",
+        "docs/assurance/06-delivery.md"
       ],
       "todos": [
         "7.6"
@@ -861,7 +873,7 @@
       "relation": "new",
       "origins": [],
       "oracle": "Independent dependency rules, public export/constructor inventory, cold headless imports and original license texts.",
-      "gaps": "Acyclic imports alone do not prove mutation ownership. Reproducible assembled-build evidence and independent review remain necessary.",
+      "gaps": "Dependency rules and repeated assembled-build/browser checks are scoped evidence, not proof of mutation ownership. Independent review remains pending; repeatability within one environment is not hermetic/cross-platform reproducibility.",
       "status": "partial-evidence",
       "assumptions": "Public contracts are the supported composition boundary; browser effects must remain explicit.",
       "failureConsequence": "Duplicate state ownership, hidden effects or an assembled build behaves differently from checked modules."
@@ -873,10 +885,18 @@
         "USE-11",
         "USE-12"
       ],
-      "implementation": [],
+      "implementation": [
+        {
+          "path": "scripts/lib/assurance-artifacts.mjs",
+          "symbol": "inventory",
+          "sha256": "de73a3dc29dd85e5f86fdac2af9595cfe3598a42c0405bf7af1cc0e177f37d51"
+        }
+      ],
       "evidence": [
         "tests/distribution.test.mjs",
-        "tests/compatibility.test.mjs"
+        "tests/compatibility.test.mjs",
+        "tests/assurance-delivery.test.mjs",
+        "docs/assurance/06-delivery.md"
       ],
       "todos": [
         "7.4",
@@ -886,8 +906,8 @@
       "relation": "new",
       "origins": [],
       "oracle": "Original license bytes, pinned reference scenarios, exact inputs/versions and evidence hashes rather than test counts.",
-      "gaps": "Repository fixtures and experiment reports are scoped records, not blanket conformance or independent review.",
-      "status": "not-implemented",
+      "gaps": "Delivery records preserve exact inputs/artifacts and review-pending status; independent review and human task validation remain missing. Historical experimental evidence retains its original scope.",
+      "status": "partial-evidence",
       "assumptions": "Pinned inputs and original attribution texts are available; toolchain/environment are recorded.",
       "failureConsequence": "Unsupported correctness claims or missing notices in the actual distribution."
     }
