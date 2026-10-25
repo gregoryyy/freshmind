@@ -7,7 +7,9 @@ Completed work, implementation notes, deviations, and lessons are recorded in [D
 The [ROAD document](ROAD.md) researches modern applications, RFC/visual-search
 techniques and libraries, and proposes a radius-two adjacency view. Its research
 and interactive design are complete. Milestone 6 now includes the opt-in
-radius-two browser; comparative evaluation and the public dependency pilot remain.
+experimental neighbor-table study and software comparisons. Initial maintainer
+feedback favors radius-two RFC reinforcement directly in the existing graph;
+the revised public dependency pilot remains open.
 
 **Current status:** Milestones 1–3 are complete within their agreed scope.
 Milestone 2 includes the restored FM 2014 keyboard structural-editing workflow;
@@ -159,6 +161,7 @@ The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-fo
 - [x] 3.6 Preserve context progress during adaptive damping: use independent node gains/recovery, verify RFC clearing and real label geometry, retain historical shared-gain experiments and document limits.
 
 - [x] 3.7 Derive automatic two-level neighborhoods (children and grandchildren) for each ordinary RFC center, including multiple centers and shared members. Use deterministic projection with explicit direction/cycle handling; preserve stored structures and search-result focus, and verify layout and interaction. See [the contract and example](automatic-rfc-neighborhoods.md).
+- [x] 3.8 Surface the in-graph **r=2 tree** RFC option, activation/removal and live status directly in View; retain the separate neighbor table under Experimental studies and mark it experimental while active. Preserve existing projection/force rules and record the maintainer's revised interaction intent.
 
 ## 4. Graph visual search
 
@@ -215,8 +218,10 @@ Crossings, decorations and continuous node collision handling remain future work
 ## 6. Applications and radius-two exploration
 
 The [research roadmap](ROAD.md) and [design contract](radius-two-view.md) define
-this direction. The implemented projection/browser remains distinct from the
-evaluation and pilot below. Keep retrieval behind IR contracts; use the elasticlunr
+this direction. The separate table is retained as an experimental study; the
+preferred interaction reinforces an r=2 tree in the graph. The
+[initial maintainer feedback](experiments/radius-two/FEEDBACK.md) revises the pilot
+without claiming task validation. Keep retrieval behind IR contracts; use the elasticlunr
 and LDA capabilities described above. Embedding retrieval remains deferred.
 
 - [x] 6.1 Research high-value application workflows, RFC/visual-search state of the art and available libraries, with primary sources and explicit shortcomings; extend [ROAD Appendix A](ROAD.md#appendix-a-related-work-before-2024) with pre-2024 work and distinguish close comparisons from adjacent techniques.
@@ -224,8 +229,8 @@ and LDA capabilities described above. Embedding retrieval remains deferred.
 - [x] 6.3 Implement a detached, deterministic radius-two projection with stable identities, explicit occurrence/edge records, direction/filter policies and incomplete-page contracts; verify graph/coordinate preservation and graph-replacement behavior.
 - [x] 6.4 Add an opt-in bounded browser view with measured/virtual rows and cells, paging, selection, pivot/history, accessible navigation and shared overlay editing; preserve the current RFC/lens view.
 - [x] 6.5 Connect existing retrieval results as view seeds without changing IR ownership; use the LDA adapter and preserve query provenance, cancellation and stale-result guards.
-- [ ] 6.6 Evaluate correctness, browser costs and user tasks against ordinary ego node-link, RFC and simple list/tree baselines, with a matrix for shared-neighbor tasks; use attributed data and distinguish unique nodes, occurrences and edge records.
-- [ ] 6.7 Run a narrow maintainer/researcher pilot to validate a repeated investigation task; revise the representation if direction, sharing or missing context causes errors.
+- [x] 6.6 Evaluate correctness, browser costs and user tasks against ordinary ego node-link, RFC and simple list/tree baselines, with a matrix for shared-neighbor tasks; use attributed data and distinguish unique nodes, occurrences and edge records. The [software/analytical report](experiments/radius-two/README.md) remains experimental study evidence, distinct from human task results.
+- [ ] 6.7 Run a narrow maintainer/researcher pilot to validate a repeated investigation task; revise the representation if direction, sharing or missing context causes errors. [Initial feedback](experiments/radius-two/FEEDBACK.md) favors in-graph r=2 RFC; use the [revised protocol](experiments/radius-two/PILOT.md). A full task session remains pending.
 - [ ] 6.8 Add one application adapter after the pilot identifies a useful task and available source, initially considering dependency impact, evidence exploration or data lineage; preserve source evidence and scope.
 
 ## 7. System assurance

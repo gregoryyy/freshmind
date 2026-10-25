@@ -1,6 +1,13 @@
-# Radius-two browser
+# Experimental radius-two neighbor table
 
-Choose **View → Exploration view → Radius two**. The center sits among a vertical
+This separate display is retained as an **experimental study** following the
+[maintainer feedback](experiments/radius-two/FEEDBACK.md). For the preferred
+in-graph interaction, choose **View → Reinforced neighborhood → r=2 tree**;
+see [automatic RFC neighborhoods](automatic-rfc-neighborhoods.md).
+
+To inspect the study, choose **View → Experimental studies → Neighbor table
+(experimental)**. Its heading remains marked experimental while active.
+The center sits among a vertical
 spine of direct neighbors; each row's incoming and outgoing second-hop neighbors
 appear to its left and right. No drawn links imply connections between adjacent
 cells. This is a fixed screen-space alternative to the existing graph/RFC view.

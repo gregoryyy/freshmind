@@ -69,6 +69,7 @@ for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Co
 let allVisible = false;
 let paused = false;
 const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status"),relationLabelPlacement:"avoid-overlap",adaptiveDamping:{enabled:true} });
+let radiusView: RadiusTwoView | undefined;
 const controlsPanel=bindPanelToggle(get("controls-panel"),get<HTMLButtonElement>("controls-toggle"),document.querySelector("main")!);
 const disposeAspect=bindGraphAspectControls(panel,{mode:get<HTMLSelectElement>("graph-aspect"),value:get<HTMLOutputElement>("graph-aspect-value")});
 const disposeMotion=bindMotionControls(panel,{adaptiveDamping:get<HTMLInputElement>("adaptive-damping"),response:get<HTMLSelectElement>("damping-response"),status:get("adaptive-damping-status")});
@@ -100,6 +101,11 @@ const disposeRfc = bindRfcControls(panel, {
   excludeContext:get<HTMLInputElement>("rfc-exclusion"),excludeOverlap:get<HTMLInputElement>("rfc-overlap-exclusion"),
   exclusionStrength:get<HTMLInputElement>("rfc-exclusion-strength"),exclusionPadding:get<HTMLInputElement>("rfc-exclusion-padding"),
   neighborhoodDepth:get<HTMLSelectElement>("rfc-neighborhood-depth"),
+  showGraph:()=>{
+    const active=document.activeElement;radiusView?.setEnabled(false);
+    // A radius radio retains explicit panel ownership; activation focuses the graph itself.
+    if(active instanceof HTMLElement&&active.isConnected&&get("controls-panel").contains(active))active.focus({preventScroll:true});
+  },
   addCenter:get<HTMLButtonElement>("rfc-add-center"),centers:get<HTMLSelectElement>("rfc-centers"),removeCenter:get<HTMLButtonElement>("rfc-remove-center"),
   xWeight: get<HTMLInputElement>("rfc-x-weight"), yWeight: get<HTMLInputElement>("rfc-y-weight")
 });
@@ -122,7 +128,6 @@ const disposeStructuralView=bindStructuralViewControls(panel,{
 });
 panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
-let radiusView: RadiusTwoView | undefined;
 const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); radiusView?.markChanged(); });
 const disposeLabelEditing=bindLabelEditingControls(panel,{mode:get<HTMLSelectElement>("label-editing-mode"),status:get("label-editing-status")});
 const navigation = panel.getNavigation();

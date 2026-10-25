@@ -1,8 +1,14 @@
 # Radius-two dependency-analysis evaluation
 
+**Status update, 2026-10-25:** the separate neighbor table is retained as an
+**experimental study**. [Initial maintainer feedback](FEEDBACK.md) favors
+[r=2 tree reinforcement directly in the graph](../../automatic-rfc-neighborhoods.md).
+The measurements and images below describe the earlier pinned study build;
+they are retained unchanged. The [revised pilot](PILOT.md) prioritizes the graph.
+
 TODO **6.6**, 2026-10-25. This is a software correctness/cost comparison and an
 analytical task walkthrough. **No participant has completed the maintainer pilot.**
-The human usefulness question remains **6.7**, with its [protocol](PILOT.md).
+The human task-validation question remains **6.7**, with its [protocol](PILOT.md).
 [Open the five-view gallery](index.html).
 
 ## Application and public source

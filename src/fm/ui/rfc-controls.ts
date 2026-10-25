@@ -25,6 +25,8 @@ export interface RfcControlElements {
   addCenter?:HTMLButtonElement;
   centers?:HTMLSelectElement;
   neighborhoodDepth?:HTMLSelectElement;
+  /** Hosts with experimental displays can restore the ordinary graph before a graph action. */
+  showGraph?():void;
   removeCenter?:HTMLButtonElement;
   xWeight?: HTMLInputElement;
   yWeight?: HTMLInputElement;
@@ -83,14 +85,14 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
     let message = !state.enabled ? "RFC off." : !state.active
       ? `RFC paused: ${label} is outside the visible neighborhood.`
       : `RFC: ${label} · ${state.branchIds.length} visible ${state.branchIds.length === 1 ? "branch" : "branches"}.`;
-    if(state.active&&state.centers.length===1&&!state.centers[0]?.structureId&&state.centers[0]?.kind==="tree")message=`RFC: ${label} · ${state.memberIds.length} automatic two-level members.`;
+    if(state.active&&state.centers.length===1&&!state.centers[0]?.structureId&&state.centers[0]?.kind==="tree")message=`RFC r=2 tree: ${label} · ${state.memberIds.length} reinforced nodes.`;
     if(state.centers.length>1)message=state.active?`RFC: ${state.centers.length} centers · ${state.memberIds.length} reinforced nodes.`:"RFC paused: all centers are outside the visible neighborhood.";
     else if(state.active&&state.centers[0]?.structureId)message=`RFC: ${panel.getCompleteEltSet().getSubstructure(state.centers[0].structureId)?.label} · ${state.memberIds.length} ${state.centers[0].kind} members.`;
     if (state.active && state.stabilization.phase !== "steady") message = message.slice(0,-1)
       + (state.stabilization.phase === "damping" ? " · damping oscillation." : " · restoring motion.");
     if (elements.status.textContent !== message) elements.status.textContent = message;
   };
-  const activate = () => { const node = panel.getSelection(); if (node instanceof FreshNode) rfc.setFocus(node); panel.focusGraph(); };
+  const activate = () => { elements.showGraph?.(); const node = panel.getSelection(); if (node instanceof FreshNode) rfc.setFocus(node); panel.focusGraph(); };
   const clear = () => { rfc.setFocus(null); panel.focusGraph(); };
   elements.activate.addEventListener("click", activate);
   elements.clear.addEventListener("click", clear);
@@ -116,7 +118,7 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
   }
   if(elements.neighborhoodDepth) {
     const control=elements.neighborhoodDepth;
-    const change=()=>{rfc.setNeighborhoodDepth(Number(control.value) as 1|2);panel.repaintAfterMove();};
+    const change=()=>{const depth=Number(control.value) as 1|2;elements.showGraph?.();rfc.setNeighborhoodDepth(depth);panel.repaintAfterMove();};
     control.addEventListener("change",change);removers.push(()=>control.removeEventListener("change",change));
   }
   const addCenter=()=>{panel.getNavigation().addRfcCenter();panel.focusGraph();};

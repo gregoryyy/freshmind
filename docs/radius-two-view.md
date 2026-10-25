@@ -1,6 +1,12 @@
 # Radius-two adjacency view: design contract
 
-The opt-in [browser implementation](radius-two-browser.md) now covers detached
+**Current status:** this separate representation is an **experimental study**.
+The [maintainer feedback](experiments/radius-two/FEEDBACK.md) prefers an r=2 tree
+reinforced directly in the existing graph, exposed through
+[View → Reinforced neighborhood](automatic-rfc-neighborhoods.md). Retain this
+design and implementation for comparison; do not treat it as the primary workflow.
+
+The opt-in [study implementation](radius-two-browser.md) covers detached
 projection, bounded inspection, shared editing and retrieval seeds. This document
 retains the broader design goals; evaluation and the dependency-impact pilot
 remain separate roadmap work.

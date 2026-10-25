@@ -43,8 +43,16 @@
           </div>
           </details>
           <details class="sidebar-section" id="view-section" open><summary>View</summary>
-          <label class="control-label" for="exploration-view">Exploration view</label>
-          <select id="exploration-view"><option value="node-link" data-short-label="Graph">Graph with RFC / viewing lenses</option><option value="radius-two" data-short-label="Radius two">Radius-two adjacency</option></select>
+          <label class="control-label" for="rfc-neighborhood-depth">Reinforced neighborhood</label>
+          <select id="rfc-neighborhood-depth" aria-describedby="rfc-neighborhood-help"><option value="1" data-short-label="r=1">Direct neighbors (r=1)</option><option value="2" data-short-label="r=2 tree">Two-hop tree (r=2)</option></select>
+          <p id="rfc-neighborhood-help" class="control-help">r=2 reinforces visible neighbors and their neighbors as a tree in this graph. Use neighborhood depth below to show more nodes.</p>
+          <div class="editor-actions"><button type="button" id="rfc-activate">Reinforce selected node</button><button type="button" id="rfc-clear" disabled>Remove RFC</button></div>
+          <p id="rfc-status" class="control-help" role="status" aria-live="polite">RFC off.</p>
+          <details class="control-subsection" id="experimental-studies"><summary>Experimental studies</summary>
+            <label class="control-label" for="exploration-view">Study display</label>
+            <select id="exploration-view"><option value="node-link" data-short-label="Graph">Graph</option><option value="radius-two" data-short-label="Neighbor table (experimental)">Neighbor table (experimental)</option></select>
+            <p class="control-help">The separate radius-two table is retained as an experimental study. Reinforced neighborhoods above stay in the graph.</p>
+          </details>
           <label class="control-label" for="label-editing-mode">Label editing</label>
           <select id="label-editing-mode" aria-describedby="label-editing-help"><option value="on-demand">On demand (F2)</option><option value="in-place">In place</option></select>
           <p id="label-editing-help" class="control-help">In place: click node or relation text to edit while it moves. Leaving the label saves; Escape cancels. Ctrl/Cmd+Enter saves a node; Enter also saves a relation. Drag nodes by their body.</p>
@@ -136,9 +144,7 @@
           </details>
           <details class="sidebar-section" id="rfc-section"><summary><span>Reinforcement Focus + Context</span> <output id="rfc-indicator">On</output></summary>
             <p class="control-help">Reinforces visible branches or stored trees, DAGs and clusters in the physical layout.</p>
-            <div class="editor-actions"><button type="button" id="rfc-activate">Reinforce selected node</button><button type="button" id="rfc-clear" disabled>Remove RFC</button></div>
             <div class="editor-actions"><button type="button" id="rfc-add-center">Add RFC center</button></div>
-            <label class="control-label" for="rfc-neighborhood-depth">Automatic neighborhood</label><select id="rfc-neighborhood-depth"><option value="1">One level</option><option value="2">Two levels</option></select>
             <label class="control-label" for="rfc-centers">RFC centers</label><select id="rfc-centers"></select>
             <button type="button" id="rfc-remove-center">Remove selected RFC center</button>
             <p class="control-help">Shift+Enter or Shift+double-click toggles a center and keeps the others. Ordinary RFC activation replaces all centers.</p>
@@ -154,7 +160,6 @@
             <label class="control-label" for="rfc-x-weight">Horizontal coordinate weight</label><input id="rfc-x-weight" type="number" min="0.01" max="100" step="any" value="1" required />
             <label class="control-label" for="rfc-y-weight">Vertical coordinate weight</label><input id="rfc-y-weight" type="number" min="0.01" max="100" step="any" value="1" required />
             <p class="control-help">Weights of 1 use ordinary distances. Horizontal 0.25 with vertical 1 favors a focal layout twice as wide.</p>
-            <p id="rfc-status" class="control-help" role="status" aria-live="polite">RFC off.</p>
             <p class="control-help">When RFC is on, press Return or double-click the current center again to reinforce it. Yellow halos mark the reinforced nodes and relations.</p>
             </details>
             <details class="control-subsection"><summary>Focal regions</summary>
