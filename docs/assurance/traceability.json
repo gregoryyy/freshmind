@@ -1,0 +1,895 @@
+{
+  "schemaVersion": 1,
+  "implementationBaseline": "a0b4bfb60f785877f7552603d066163bdfad33be",
+  "scope": "Behavior/subsystem map with selected named functions/classes, not exhaustive Java/TypeScript function parity. References identify evidence candidates; execution and adequate coverage must be assessed separately.",
+  "baseline": {
+    "docs/assurance/01-intent.md": "bb1c34c80ca6dd5eabb2c9dc1b2fd4a3209a1ebdba41f20e7a4d509b04935b47",
+    "docs/assurance/02-usage-constraints.md": "cdc8b85c494c09549772cd0b3846a851ee7adedc8676114a13445bc3b0a55ba4",
+    "docs/assurance/03-architecture.md": "0fbabc25bc34de1c5960586f33e54a8b7707bfc7f87093d679f53264a6c6f852"
+  },
+  "requirements": {
+    "INT-01": {
+      "title": "Understand and navigate relationships",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "INT-02": {
+      "title": "Preserve information",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "INT-03": {
+      "title": "Provide useful focus and context",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "INT-04": {
+      "title": "Maintain orientation and interaction ownership",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "INT-05": {
+      "title": "Support deliberate authoring",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "INT-06": {
+      "title": "Combine retrieval and exploration",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "INT-07": {
+      "title": "Keep local use self-contained",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "INT-08": {
+      "title": "Allow future server-backed use",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "INT-09": {
+      "title": "Make results inspectable",
+      "definition": "docs/assurance/01-intent.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-01": {
+      "title": "Explicit data boundaries",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-02": {
+      "title": "Honest storage and confidentiality claims",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-03": {
+      "title": "Lossless supported operations",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-04": {
+      "title": "Controlled changes and failures",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-05": {
+      "title": "Imported content is data",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-06": {
+      "title": "Explicit readability and workload limits",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-07": {
+      "title": "Predictable lifecycle and input ownership",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-08": {
+      "title": "Accessible meaning",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-09": {
+      "title": "Bounded retrieval claims",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-10": {
+      "title": "Explicit server authority",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-11": {
+      "title": "Reproducible, scoped claims",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "USE-12": {
+      "title": "Attribution travels with distribution",
+      "definition": "docs/assurance/02-usage-constraints.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-01": {
+      "title": "One authoritative semantic document per revision",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-02": {
+      "title": "Validated command boundary",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-03": {
+      "title": "Derived views retain provenance",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-04": {
+      "title": "Separate semantic, layout and screen coordinates",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-05": {
+      "title": "Bounded layout with explicit constraints",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-06": {
+      "title": "Retrieval behind a document-independent contract",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-07": {
+      "title": "Explicit session and asynchronous ownership",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-08": {
+      "title": "Local effects isolated from network effects",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-09": {
+      "title": "Validate at trust boundaries",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-10": {
+      "title": "Future remote authority is versioned and scoped",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-11": {
+      "title": "Verifiable dependency and effect boundaries",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    },
+    "ARC-12": {
+      "title": "Inspectable composition and distribution",
+      "definition": "docs/assurance/03-architecture.md",
+      "sourceStatus": "derived formulation; explicit purpose and scope sources remain distinct",
+      "review": "mapped, not conformance-assessed"
+    }
+  },
+  "mappings": [
+    {
+      "id": "MAP-01",
+      "title": "Canonical graph identity and membership",
+      "requirements": [
+        "INT-02",
+        "ARC-01",
+        "USE-03"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/model/graph.ts",
+          "symbol": "FreshGraph",
+          "sha256": "2ae26f5bc87990938f9ac329e69ce672c86528d6f8d0e92e6eac37c9f446cba5"
+        },
+        {
+          "path": "src/fm/model/document.ts",
+          "symbol": "FreshmindDocument",
+          "sha256": "975d8b9a94987897a74a8fb8b93292d7c62b70734fe96c15262a7f3f0a32ced6"
+        },
+        {
+          "path": "src/tg/graph/graph.ts",
+          "symbol": "GraphEltSet",
+          "sha256": "c27bd70e1f4100f21415a0d186154994a13152d58afc87bd90c6b9c295907103"
+        }
+      ],
+      "evidence": [
+        "tests/persistence.test.mjs",
+        "tests/core.test.mjs"
+      ],
+      "todos": [
+        "1.1",
+        "2.5",
+        "7.5"
+      ],
+      "risk": "high",
+      "relation": "adapted",
+      "origins": [
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/FreshNode.java",
+          "symbol": "org.knowceans.freshmind.FreshNode",
+          "sha256": "16f9769b27b2fc295b0c7621799878a594a7de3d895d4e6091116989840980af"
+        },
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/FreshEdge.java",
+          "symbol": "org.knowceans.freshmind.FreshEdge",
+          "sha256": "5879fd26cfa4275d819b8174342a825f9b5db8f0232eba530e9943bffa4bf941"
+        },
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/tg/graphelements/GraphEltSet.java",
+          "symbol": "org.knowceans.freshmind.tg.graphelements.GraphEltSet",
+          "sha256": "d486f084944a3895b29c0211edcdfb85be8befd29297c104848c806b900778f6"
+        }
+      ],
+      "oracle": "Hand-authored node/edge records including isolated nodes, loops, parallel relations and hidden membership.",
+      "gaps": "Canonical round trips are scoped evidence; source-code mutation paths are not all mediated by a revisioned command boundary.",
+      "status": "partial-evidence",
+      "assumptions": "One complete local document; stable string identities; supported native fields only.",
+      "failureConsequence": "Hidden or parallel information lost or identities confused during viewing/export."
+    },
+    {
+      "id": "MAP-02",
+      "title": "Native persistence and honest save status",
+      "requirements": [
+        "USE-02",
+        "INT-07"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/io/codec.ts",
+          "symbol": "parseDocument",
+          "sha256": "2f8753a1d0552dfb671adbf111f1380b9453570cad55b1230a312a05be7701a8"
+        },
+        {
+          "path": "src/fm/io/codec.ts",
+          "symbol": "serializeDocument",
+          "sha256": "2f8753a1d0552dfb671adbf111f1380b9453570cad55b1230a312a05be7701a8"
+        },
+        {
+          "path": "src/fm/browser/document.ts",
+          "symbol": "captureDocument",
+          "sha256": "4c6d2033d03cac660ee2a80be763630d7fe91ed0f7cde3c22d83a97137916345"
+        },
+        {
+          "path": "src/fm/browser/document.ts",
+          "symbol": "installDocument",
+          "sha256": "4c6d2033d03cac660ee2a80be763630d7fe91ed0f7cde3c22d83a97137916345"
+        }
+      ],
+      "evidence": [
+        "tests/persistence.test.mjs",
+        "tests/browser/editing-io.spec.mjs"
+      ],
+      "todos": [
+        "2.5",
+        "7.3",
+        "7.5"
+      ],
+      "risk": "high",
+      "relation": "new",
+      "origins": [],
+      "oracle": "Explicit fixture schema and original field values; rejected imports preserve the prior graph. Download initiation is not a durability oracle.",
+      "gaps": "No crash-safe save, autosave or secure-erasure claim. Storage effects of the assembled local workflow need observation. Native YAML is a new format rather than a Java serialization clone.",
+      "status": "partial-evidence",
+      "assumptions": "Explicit user file selection/export; format version 1; no durable-save acknowledgement from the OS.",
+      "failureConsequence": "User believes unsaved memory is durable, or a save/load changes supported information."
+    },
+    {
+      "id": "MAP-03",
+      "title": "Deliberate atomic editing",
+      "requirements": [
+        "INT-05",
+        "USE-04",
+        "ARC-02"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/edit/commands.ts",
+          "symbol": "applyNodeEdit",
+          "sha256": "86d5e341eb444608bf74b141818ff8905134d494438d3ea44a186f4f924ddc82"
+        },
+        {
+          "path": "src/fm/edit/commands.ts",
+          "symbol": "applyRelationEdit",
+          "sha256": "86d5e341eb444608bf74b141818ff8905134d494438d3ea44a186f4f924ddc82"
+        },
+        {
+          "path": "src/fm/edit/structure.ts",
+          "symbol": "createLinkedNode",
+          "sha256": "df94f490c68d82639bd56bce5a551fff2db74d24fe33dc56291c409098d77578"
+        },
+        {
+          "path": "src/fm/edit/structure.ts",
+          "symbol": "GraphClipboard",
+          "sha256": "df94f490c68d82639bd56bce5a551fff2db74d24fe33dc56291c409098d77578"
+        }
+      ],
+      "evidence": [
+        "tests/label-commands.test.mjs",
+        "tests/structural-editing.test.mjs",
+        "tests/browser/editor-shortcuts.spec.mjs"
+      ],
+      "todos": [
+        "2.6",
+        "8.1",
+        "8.2"
+      ],
+      "risk": "high",
+      "relation": "adapted",
+      "origins": [
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/FreshCommands.java",
+          "symbol": "org.knowceans.freshmind.FreshCommands",
+          "sha256": "e11427ea99f05d15f9e712e34d670b5854db5c85a4296194a8039e18dcd43e08"
+        },
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/editors/FreshNodeEditor.java",
+          "symbol": "org.knowceans.freshmind.editors.FreshNodeEditor",
+          "sha256": "c87ce00b31ce7c9840af937a5cc4845145549c726dc4a0128daa351ea730d80c"
+        },
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/editors/FreshEdgeEditor.java",
+          "symbol": "org.knowceans.freshmind.editors.FreshEdgeEditor",
+          "sha256": "14ecfbc491906c5a35fd4a539dce8c13413ea5a7e6ee6b4197f3617e3758baa2"
+        }
+      ],
+      "oracle": "Independent field/end-point expectations, stale-object and injected insertion-failure cases.",
+      "gaps": "Undo remains absent; command/revision coverage is partial. Invalid edits need systematic full-record preservation checks.",
+      "status": "partial-evidence",
+      "assumptions": "Single-user edits; current object identities; ordinary allocation succeeds; rejected commands must remain atomic.",
+      "failureConsequence": "Partial mutation, unintended edits or inability to recover intentional changes."
+    },
+    {
+      "id": "MAP-04",
+      "title": "Graph navigation and focus ownership",
+      "requirements": [
+        "INT-01",
+        "INT-04",
+        "USE-08"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/navigate/controller.ts",
+          "symbol": "FreshmindNavigation",
+          "sha256": "f61cff913736108005c1df0cd64c5147649fd2123958c1e948a0ba5c21c06281"
+        }
+      ],
+      "evidence": [
+        "tests/navigation.test.mjs",
+        "tests/browser/hover-keyboard.spec.mjs",
+        "tests/browser/editor-shortcuts.spec.mjs"
+      ],
+      "todos": [
+        "2.6",
+        "9.1",
+        "9.4"
+      ],
+      "risk": "medium",
+      "relation": "adapted",
+      "origins": [
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/keyboard/FreshKeys.java",
+          "symbol": "org.knowceans.freshmind.keyboard.FreshKeys",
+          "sha256": "a4812fbb79f59ca0f883b6e51f9912ccffa2f11f3d5232df0d279e6d86deb349"
+        },
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/FreshCommands.java",
+          "symbol": "org.knowceans.freshmind.FreshCommands",
+          "sha256": "e11427ea99f05d15f9e712e34d670b5854db5c85a4296194a8039e18dcd43e08"
+        }
+      ],
+      "oracle": "Literal Java command bodies and key map, plus explicit current selection/text-focus rules.",
+      "gaps": "OS-reserved chord delivery, assistive technology, touch and human discoverability remain unassessed.",
+      "status": "partial-evidence",
+      "assumptions": "Application receives the event; explicit control/text focus takes precedence over graph focus.",
+      "failureConsequence": "Commands target the wrong item, consume text input, or prevent accessible navigation."
+    },
+    {
+      "id": "MAP-05",
+      "title": "Lens coordinate contracts",
+      "requirements": [
+        "ARC-04"
+      ],
+      "implementation": [
+        {
+          "path": "src/tg/lenses/lens-set.ts",
+          "symbol": "TGLensSet",
+          "sha256": "7ecab7b5451eab4f7b6856c1adbcbca67a40c7eba1b9d2ce678b093026d84b76"
+        },
+        {
+          "path": "src/tg/lenses/horizontal-stretch.ts",
+          "symbol": "HorizontalStretchLens",
+          "sha256": "b0ee9fcc84c0cadd40e5c2502023e739037a9ff299650a1100674d5fd18df17e"
+        }
+      ],
+      "evidence": [
+        "tests/graph-aspect.test.mjs",
+        "tests/compatibility.test.mjs",
+        "tests/background-pan.test.mjs"
+      ],
+      "todos": [
+        "1.1",
+        "5.10"
+      ],
+      "risk": "medium",
+      "relation": "adapted",
+      "origins": [
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/FreshmindBrowser.java",
+          "symbol": "org.knowceans.freshmind.FreshmindBrowser.HorizontalStretchLens",
+          "sha256": "ce9a2b88a3846d60058556d2dc858285b9904a1870104a36cfaad09df60fc2fb"
+        },
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/tg/TGLensSet.java",
+          "symbol": "org.knowceans.freshmind.tg.TGLensSet",
+          "sha256": "e957500e4e967f142c36354260d68a79dc6adc434e9f5139e61de97f1460bc7d"
+        }
+      ],
+      "oracle": "Analytic forward/inverse coordinates and pinned Java reference; fixed 1.5 horizontal stretch generalized to explicit factors.",
+      "gaps": "Nonlinear/custom lenses do not imply exact invertibility or unconstrained collision clearance.",
+      "status": "partial-evidence",
+      "assumptions": "Declared lens order and valid factors; custom lenses require separate contracts.",
+      "failureConsequence": "Picking/editing disagrees with drawing or screen transforms alter semantic state."
+    },
+    {
+      "id": "MAP-06",
+      "title": "Bounded layout and independent damping",
+      "requirements": [
+        "USE-06",
+        "ARC-05"
+      ],
+      "implementation": [
+        {
+          "path": "src/tg/layout/layout.ts",
+          "symbol": "TGLayout",
+          "sha256": "5d793b4220a952cebf81279fd2cdeff66659c1aa62bd9ab10f45cc249091d130"
+        },
+        {
+          "path": "src/tg/layout/node-stabilization.ts",
+          "symbol": "NodeMotionStabilizer",
+          "sha256": "3f9fb916d1e37315eae7ef0a12b7fdec01d76697061cb01362ce75290f0dfe22"
+        }
+      ],
+      "evidence": [
+        "tests/compatibility.test.mjs",
+        "tests/layout-damping.test.mjs",
+        "tests/search-disk.test.mjs",
+        "tests/readability.test.mjs"
+      ],
+      "todos": [
+        "3.6",
+        "5.1",
+        "7.3"
+      ],
+      "risk": "medium",
+      "relation": "adapted",
+      "origins": [
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/tg/TGLayout.java",
+          "symbol": "org.knowceans.freshmind.tg.TGLayout",
+          "sha256": "bd7b55c7d14ecbd6bbecd57d15df29f51ed1725c5fdf8297cd005f3fb531c395"
+        }
+      ],
+      "oracle": "Pinned upstream Java layout for ordinary forces; prescribed oscillator/drift inputs and analytic rectangle/disk fixtures for extensions.",
+      "gaps": "No general workload/latency or arbitrary-graph convergence guarantee; import/render global resource limits still need assessment.",
+      "status": "partial-evidence",
+      "assumptions": "Fixed seed, initial coordinates, visible membership, constraints and integration-step budget.",
+      "failureConsequence": "Unbounded work, unreadable placement, stalled context or movement of protected nodes."
+    },
+    {
+      "id": "MAP-07",
+      "title": "RFC and derived structural views",
+      "requirements": [
+        "INT-03",
+        "ARC-03"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/rfc/controller.ts",
+          "symbol": "RfcController",
+          "sha256": "bc8a2ded5ca1bc62fb2040a2d1fde5600dc0ba678f36e34ffff1d1aacbc734a8"
+        },
+        {
+          "path": "src/fm/struct-view/radius-two.ts",
+          "symbol": "projectRadiusTwo",
+          "sha256": "0cf399c26f4b72f0539ded4121d5a93cae3efd0bb814303cbe4867398ea296e6"
+        },
+        {
+          "path": "src/fm/struct-view/projection.ts",
+          "symbol": "projectStructuralView",
+          "sha256": "db1f2c65365653c9ec6804ed20edd946bf5e83ec1b95f8cb1c6357a0e3bf90fe"
+        }
+      ],
+      "evidence": [
+        "tests/rfc-automatic.test.mjs",
+        "tests/radius-two.test.mjs",
+        "tests/structural-view.test.mjs"
+      ],
+      "todos": [
+        "3.7",
+        "6.3",
+        "6.7"
+      ],
+      "risk": "medium",
+      "relation": "new",
+      "origins": [],
+      "oracle": "Explicit adjacency/occurrence/witness tables; source preservation; RFC paper equations and prescribed trees, not pixel recreation.",
+      "gaps": "Preferred in-graph r=2 dependency-impact task awaits human observations. RFC is a reimplementation/extension of the paper, not a claimed Java function port.",
+      "status": "partial-evidence",
+      "assumptions": "Explicit loaded/visible source scope; deterministic node/edge order and configured page budgets.",
+      "failureConsequence": "Users infer false relationships or completeness from a derived or partial view."
+    },
+    {
+      "id": "MAP-08",
+      "title": "Literal retrieval replacement",
+      "requirements": [
+        "INT-06",
+        "ARC-06"
+      ],
+      "implementation": [
+        {
+          "path": "src/ir/lexical/lexical.ts",
+          "symbol": "LexicalSearchIndex",
+          "sha256": "06ea47437b5ee24e8c6be94bd5e4b61e6735f0ad059ab3e9a928759a9e130399"
+        },
+        {
+          "path": "src/fm/ir/corpus.ts",
+          "symbol": "graphSearchCorpus",
+          "sha256": "c61796f360a5dfc875bc9b7a751ea0cd81df9aaf817860cf828a04f639fa71e8"
+        }
+      ],
+      "evidence": [
+        "tests/search.test.mjs",
+        "tests/retrieval-parity.test.mjs",
+        "tests/module-boundaries.test.mjs"
+      ],
+      "todos": [
+        "4.13",
+        "4.16"
+      ],
+      "risk": "high",
+      "relation": "replaced",
+      "origins": [
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/ir/search/LuceneSearch.java",
+          "symbol": "org.knowceans.freshmind.ir.search.LuceneSearch",
+          "sha256": "e3d817013c0a4ebcd11b9f7455782269802754a4673f0a3aec2b3b967be01f11"
+        }
+      ],
+      "oracle": "Hand-specified lexical fixtures and independent provider/graph ownership contracts.",
+      "gaps": "Elasticlunr is intentionally not Lucene scoring parity; real-world relevance needs judged queries.",
+      "status": "partial-evidence",
+      "assumptions": "Current eligible content snapshot; no query/result nodes in the indexed content corpus.",
+      "failureConsequence": "Private content leaks across provider boundaries or unrelated source records enter ranking."
+    },
+    {
+      "id": "MAP-09",
+      "title": "LDA retrieval and corrected legacy similarities",
+      "requirements": [
+        "USE-09"
+      ],
+      "implementation": [
+        {
+          "path": "src/ir/topics/model.ts",
+          "symbol": "LdaQueryClient",
+          "sha256": "c8e1bc9099fc6b6474860b4d11a128e5b9154b120d4b0c3799702063df3f4638"
+        },
+        {
+          "path": "src/ir/topics/similarities.ts",
+          "symbol": "LdaSimilarities",
+          "sha256": "4fd687d2330946baee1d26cb4b908e015286897ae699588dd2183770f4b6e8ca"
+        }
+      ],
+      "evidence": [
+        "tests/retrieval-parity.test.mjs",
+        "tests/topics.test.mjs"
+      ],
+      "todos": [
+        "4.14",
+        "4.15"
+      ],
+      "risk": "high",
+      "relation": "reimplemented",
+      "origins": [
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/ir/semantic/LdaSimilaritiesFm.java",
+          "symbol": "org.knowceans.freshmind.ir.semantic.LdaSimilaritiesFm",
+          "sha256": "39ffa948aeb28a2ffc02efcced412e5e1e84e18455f1b853c039a22d4d76964c"
+        }
+      ],
+      "oracle": "Owner-authorized binary harness on synthetic probability matrices, plus independent distance formulas. See retrieval parity record.",
+      "gaps": "Source-only wrapper is not the missing Dirichlet implementation; binary hashes/oracle limits are pinned by the harness. No general topic/relevance-quality claim.",
+      "status": "partial-evidence",
+      "assumptions": "Validated model matrices, vocabulary and corpus identity; declared distance metric and inference seed.",
+      "failureConsequence": "Stale/mismatched model silently produces misleading similarities or ranking."
+    },
+    {
+      "id": "MAP-10",
+      "title": "Graph query provenance and feedback",
+      "requirements": [
+        "INT-09"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/ir/graph.ts",
+          "symbol": "applyGraphSearchResults",
+          "sha256": "cd05968df3eb04bdf9a5f4dc2cbf6444aa3918db8eddce59e54e99e840afc832"
+        },
+        {
+          "path": "src/fm/ir/graph.ts",
+          "symbol": "rejectGraphSearchResult",
+          "sha256": "cd05968df3eb04bdf9a5f4dc2cbf6444aa3918db8eddce59e54e99e840afc832"
+        }
+      ],
+      "evidence": [
+        "tests/search.test.mjs",
+        "tests/radius-two-seeds.test.mjs"
+      ],
+      "todos": [
+        "4.17",
+        "6.5"
+      ],
+      "risk": "high",
+      "relation": "adapted",
+      "origins": [
+        {
+          "kind": "java",
+          "path": "src/org/knowceans/freshmind/ir/search/NodeQueryAdapter.java",
+          "symbol": "org.knowceans.freshmind.ir.search.NodeQueryAdapter",
+          "sha256": "df24c1b22a4bdf3ec580b1a573b73cac49f35bf483a979744fb15309ca2c1a5d"
+        }
+      ],
+      "oracle": "Explicit expected query/context/result roles, content membership and source freshness, including known corpus-fingerprint collision.",
+      "gaps": "Imported result metadata is data, not trusted evidence. Exported findings do not establish domain truth.",
+      "status": "partial-evidence",
+      "assumptions": "Accepted results belong to the live graph and exact eligible content snapshot.",
+      "failureConsequence": "Retrieved associations masquerade as facts or feedback deletes ordinary relations."
+    },
+    {
+      "id": "MAP-11",
+      "title": "Cancellation, replacement and teardown",
+      "requirements": [
+        "USE-07",
+        "ARC-07"
+      ],
+      "implementation": [
+        {
+          "path": "src/ir/browser/worker-client.ts",
+          "symbol": "SearchWorkerClient",
+          "sha256": "926cefc895b5e281d3a2fa5b6cf81823cdfcfb8b8e53dddb37ed768a481c418c"
+        },
+        {
+          "path": "src/ir/browser/session.ts",
+          "symbol": "SearchSession",
+          "sha256": "b9e41eba307422d8a2c6de73b54be2718257d52cc98955af91ed38abc3834cbd"
+        },
+        {
+          "path": "src/fm/browser/search.ts",
+          "symbol": "GraphSearchController",
+          "sha256": "3a1037dc6e56a78700ff4c27a95a6874fd28e90c59f6dbb5feec5ea55da06964"
+        }
+      ],
+      "evidence": [
+        "tests/ir-browser.test.mjs",
+        "tests/search-browser-controller.test.mjs",
+        "tests/structural-editing.test.mjs"
+      ],
+      "todos": [
+        "4.18",
+        "7.5"
+      ],
+      "risk": "high",
+      "relation": "new",
+      "origins": [],
+      "oracle": "Controlled workers and deferred reads delivered after cancellation/replacement/disposal; explicit active-owner expectations.",
+      "gaps": "No wall-clock sleeps are an oracle for race freedom. Exhaustive scheduling and every UI lifecycle path are not covered.",
+      "status": "partial-evidence",
+      "assumptions": "Worker/job ownership and source generations are checked; effects can be driven by a controlled scheduler.",
+      "failureConsequence": "Old work mutates a new document or leaked workers/listeners repeat commands."
+    },
+    {
+      "id": "MAP-12",
+      "title": "Local privacy and network isolation",
+      "requirements": [
+        "USE-01",
+        "ARC-08"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/browser/content.ts",
+          "symbol": "resourceURL",
+          "sha256": "5ed767bfb3c3a419308857032d11e2aaf1ded8748ef7ce65331ac7d98b0b9591"
+        },
+        {
+          "path": "src/ir/browser/session.ts",
+          "symbol": "SearchSession",
+          "sha256": "b9e41eba307422d8a2c6de73b54be2718257d52cc98955af91ed38abc3834cbd"
+        }
+      ],
+      "evidence": [
+        "tests/browser/content.spec.mjs",
+        "tests/module-boundaries.test.mjs"
+      ],
+      "todos": [
+        "7.3",
+        "7.5"
+      ],
+      "risk": "high",
+      "relation": "new",
+      "origins": [],
+      "oracle": "Explicit allowed application requests and synthetic canary graph/query/model content; observe actual production browser effects.",
+      "gaps": "Existing sanitizer/import checks are not end-to-end privacy evidence. Network, storage and logs need an integrated canary scenario; no encryption/secure-erasure claim.",
+      "status": "partial-evidence",
+      "assumptions": "Application assets are served locally or from the trusted distribution; graph/query data must remain local.",
+      "failureConsequence": "Private graph/query/model data leaves the device or persists without a declared policy."
+    },
+    {
+      "id": "MAP-13",
+      "title": "Untrusted content and validation",
+      "requirements": [
+        "USE-05",
+        "ARC-09"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/browser/content.ts",
+          "symbol": "renderAnnotation",
+          "sha256": "5ed767bfb3c3a419308857032d11e2aaf1ded8748ef7ce65331ac7d98b0b9591"
+        },
+        {
+          "path": "src/fm/io/codec.ts",
+          "symbol": "readDocument",
+          "sha256": "2f8753a1d0552dfb671adbf111f1380b9453570cad55b1230a312a05be7701a8"
+        }
+      ],
+      "evidence": [
+        "tests/browser/content.spec.mjs",
+        "tests/persistence.test.mjs"
+      ],
+      "todos": [
+        "2.4",
+        "7.5"
+      ],
+      "risk": "high",
+      "relation": "new",
+      "origins": [],
+      "oracle": "Hostile synthetic labels, markup, URL protocols, malformed records and explicit expected rejection/inert display.",
+      "gaps": "No complete threat-model or global parser resource-limit audit. Test hostile content in the production build as well as isolated helpers.",
+      "status": "partial-evidence",
+      "assumptions": "Imported labels, markup, URLs and files are hostile even on the local device.",
+      "failureConsequence": "Imported data executes code, triggers a network request or corrupts the accepted document."
+    },
+    {
+      "id": "MAP-14",
+      "title": "Future server authority",
+      "requirements": [
+        "INT-08",
+        "USE-10",
+        "ARC-10"
+      ],
+      "implementation": [],
+      "evidence": [],
+      "todos": [
+        "7.3",
+        "7.6"
+      ],
+      "risk": "high",
+      "relation": "new",
+      "origins": [],
+      "oracle": "Future server-side allowed/denied access, revision/conflict and partial-result fixtures. Client-only tests cannot validate authority.",
+      "gaps": "Not implemented or accepted as an initial delivery capability. Authentication, tenant isolation, retention and concurrency policy require a separate specification.",
+      "status": "not-implemented",
+      "assumptions": "Future mode only; server boundary and authentication/authorization policies not yet specified.",
+      "failureConsequence": "Unauthorized cross-user access or conflicting/partial remote data accepted as complete."
+    },
+    {
+      "id": "MAP-15",
+      "title": "Architectural ownership and composition",
+      "requirements": [
+        "ARC-11",
+        "ARC-12"
+      ],
+      "implementation": [
+        {
+          "path": "src/fm/browser/panel.ts",
+          "symbol": "FreshmindPanel",
+          "sha256": "42a28ba5cb3eb38b6f56bc67259a7eae340b55342e60fcf298307dfb3d8bfaf9"
+        }
+      ],
+      "evidence": [
+        "tests/module-boundaries.test.mjs",
+        "tests/distribution.test.mjs",
+        "tests/browser/freshmind.spec.mjs"
+      ],
+      "todos": [
+        "7.6"
+      ],
+      "risk": "high",
+      "relation": "new",
+      "origins": [],
+      "oracle": "Independent dependency rules, public export/constructor inventory, cold headless imports and original license texts.",
+      "gaps": "Acyclic imports alone do not prove mutation ownership. Reproducible assembled-build evidence and independent review remain necessary.",
+      "status": "partial-evidence",
+      "assumptions": "Public contracts are the supported composition boundary; browser effects must remain explicit.",
+      "failureConsequence": "Duplicate state ownership, hidden effects or an assembled build behaves differently from checked modules."
+    },
+    {
+      "id": "MAP-16",
+      "title": "Evidence and attribution",
+      "requirements": [
+        "USE-11",
+        "USE-12"
+      ],
+      "implementation": [],
+      "evidence": [
+        "tests/distribution.test.mjs",
+        "tests/compatibility.test.mjs"
+      ],
+      "todos": [
+        "7.4",
+        "7.6"
+      ],
+      "risk": "high",
+      "relation": "new",
+      "origins": [],
+      "oracle": "Original license bytes, pinned reference scenarios, exact inputs/versions and evidence hashes rather than test counts.",
+      "gaps": "Repository fixtures and experiment reports are scoped records, not blanket conformance or independent review.",
+      "status": "not-implemented",
+      "assumptions": "Pinned inputs and original attribution texts are available; toolchain/environment are recorded.",
+      "failureConsequence": "Unsupported correctness claims or missing notices in the actual distribution."
+    }
+  ]
+}
