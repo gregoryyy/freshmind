@@ -36,7 +36,7 @@ for (const url of ["/", "/freshmind.html"]) test(`edge selection and keyboard fo
       const selected=await snapshot(edge);
       expect(selected.stroke).toBe("#ff0000");expect(selected.arrow).toBe(selected.stroke);
       expect(selected.d).toBe(before.d);expect(selected.outline).toBe("none");
-      await page.locator("#curve").focus();
+      await page.locator("#curve-choices input:checked, #curve:not([hidden])").focus();
       await expect.poll(async()=>{const s=await snapshot(edge);return s.width===s.baseWidth;}).toBe(true);
       expect((await snapshot(edge)).stroke).toBe("#ff0000");
     }

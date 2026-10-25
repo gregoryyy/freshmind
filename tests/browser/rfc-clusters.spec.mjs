@@ -1,3 +1,4 @@
+import {fillNumeric,selectChoice} from "../../scripts/browser-controls.mjs";
 import {test,expect} from "@playwright/test";
 import {readFile} from "node:fs/promises";
 import {parseDocument} from "fm4/fm/io";
@@ -15,7 +16,7 @@ async function ready(page) {
 test("overlapping clusters retain cycles, share halos, and use a representative rather than a force anchor",async({page},info)=>{
   const errors=await ready(page);
   for(const id of ["research-cluster","applications-cluster"]) {
-    await page.getByLabel("Substructure",{exact:true}).selectOption(id);
+    await selectChoice(page.getByLabel("Substructure",{exact:true}),id);
     await page.getByRole("button",{name:"Reinforce substructure",exact:true}).click();
   }
   const snapshot=()=>page.evaluate(()=>{
@@ -28,7 +29,7 @@ test("overlapping clusters retain cycles, share halos, and use a representative 
   expect(initial.state.memberIds).toHaveLength(7);expect(initial.state.radialEdgeIds).toHaveLength(12);
   await expect(page.locator(".fm-rfc-node-halo")).toHaveCount(7);await expect(page.locator(".fm-rfc-edge-halo")).toHaveCount(12);
   await expect(page.locator(".fm-node")).toHaveCount(9);await expect(page.locator(".fm-edge")).toHaveCount(15);
-  await page.getByLabel("Substructure",{exact:true}).selectOption("research-cluster");
+  await selectChoice(page.getByLabel("Substructure",{exact:true}),"research-cluster");
   await expect(page.getByLabel("Structure kind",{exact:true})).toHaveValue("cluster");
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode("c")));
   await page.getByRole("button",{name:"Use selected node as representative",exact:true}).click();
@@ -46,7 +47,7 @@ test("overlapping clusters retain cycles, share halos, and use a representative 
 
 test("manual clusters accept disconnected members and survive editing and YAML reload",async({page})=>{
   const errors=await ready(page);
-  await page.getByLabel("Structure kind",{exact:true}).selectOption("cluster");
+  await selectChoice(page.getByLabel("Structure kind",{exact:true}),"cluster");
   await page.getByLabel("Substructure name",{exact:true}).fill("Manual group");
   await page.getByRole("button",{name:"Create from visible graph",exact:true}).click();
   await expect(page.getByLabel("Substructure",{exact:true})).toHaveValue("s1");
@@ -72,7 +73,7 @@ test("manual clusters accept disconnected members and survive editing and YAML r
 test("cluster enclosures contain bodies and curves, follow lenses and movement, and expose independent rigidity",async({page},info)=>{
   const errors=await ready(page);
   for(const id of ["research-cluster","applications-cluster"]) {
-    await page.getByLabel("Substructure",{exact:true}).selectOption(id);
+    await selectChoice(page.getByLabel("Substructure",{exact:true}),id);
     await page.getByRole("button",{name:"Reinforce substructure",exact:true}).click();
   }
   const boundaries=page.locator(".fm-cluster-boundary");await expect(boundaries).toHaveCount(2);
@@ -104,7 +105,7 @@ test("cluster enclosures contain bodies and curves, follow lenses and movement, 
   records=await inspect();expect(records.every(r=>r.contains)).toBe(true);expect(records.map(r=>r.path)).not.toEqual(lensPaths);
   const input=page.getByLabel("Cluster rigidity",{exact:true});await expect(input).toHaveValue("1");
   const force=()=>page.evaluate(()=>{const p=window.graphBrowser;for(const n of p.getAllNodes())n.dx=n.dy=0;p.getRfc().apply(p.getGES(),1);return [...p.getAllNodes()].map(n=>[n.dx,n.dy]);});
-  const rigid=await force();await input.fill("0");await input.press("Tab");expect(await force()).not.toEqual(rigid);
+  const rigid=await force();await fillNumeric(input,"0");await input.press("Tab");expect(await force()).not.toEqual(rigid);
   await page.evaluate(()=>window.graphBrowser.getRfc().configureClusters({rigidity:.7}));await expect(input).toHaveValue("0.7");
   await page.evaluate(()=>{const p=window.graphBrowser;p.setZoom(1);p.setHyperbolic(0);p.setRotation(0);p.setCanvasZoom(.85);p.centerView();});
   await page.screenshot({path:info.outputPath("cluster-boundaries.png")});

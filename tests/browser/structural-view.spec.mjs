@@ -1,3 +1,4 @@
+import {fillNumeric} from "../../scripts/browser-controls.mjs";
 import {test,expect} from '@playwright/test';
 
 async function ready(page) {
@@ -21,7 +22,7 @@ test('typed aggregation preserves labels and graph data, exposes parent counts, 
   expect(await page.evaluate(()=>[...window.graphBrowser.getAllNodes()].map(n=>[n.getID(),n.getLabel(),n.x,n.y]))).toEqual(before);
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('beta')));
   await page.getByRole('button',{name:'Reveal selected parent’s leaves',exact:true}).click();await expect(page.locator('#structural-status')).toContainText('9 of 13');
-  await page.getByLabel('Detail radius around centers',{exact:true}).fill('0');await page.getByLabel('Detail radius around centers',{exact:true}).blur();
+  await fillNumeric(page.getByLabel('Detail radius around centers',{exact:true}),'0');await page.getByLabel('Detail radius around centers',{exact:true}).blur();
   await page.evaluate(()=>{const p=window.graphBrowser;p.setSelect(p.findNode('alpha'));p.focusGraph();});await page.keyboard.press('e');
   await expect(page.locator('[data-node-id="alice"]')).toBeVisible();
   await page.getByRole('button',{name:'Reset structural view',exact:true}).click();await expect(page.locator('.tg-node')).toHaveCount(13);
@@ -55,10 +56,10 @@ test('controls include unknown semantic IDs, validate atomically, reset on docum
   const errors=await ready(page);await enable(page);
   await page.evaluate(()=>{const p=window.graphBrowser;p.findNode('alice').setSemanticType('custom actor');p.repaintAfterMove();});
   await expect(page.locator('#structural-aggregate-types option[value="custom actor"]')).toHaveCount(1);
-  await page.getByLabel('Detail radius around centers',{exact:true}).fill('9');await page.getByLabel('Detail radius around centers',{exact:true}).blur();
+  await fillNumeric(page.getByLabel('Detail radius around centers',{exact:true}),'9');await page.getByLabel('Detail radius around centers',{exact:true}).blur();
   expect(await page.locator('#structural-detail-radius').evaluate(e=>e.validationMessage)).toContain('Detail radius');
   expect(await page.evaluate(()=>window.graphBrowser.getStructuralView().getState().settings.detailRadius)).toBe(1);
-  await page.getByLabel('Detail radius around centers',{exact:true}).fill('2');await page.getByLabel('Detail radius around centers',{exact:true}).blur();
+  await fillNumeric(page.getByLabel('Detail radius around centers',{exact:true}),'2');await page.getByLabel('Detail radius around centers',{exact:true}).blur();
   const result=await page.evaluate(async()=>{
     const {bindStructuralViewControls}=await import('/src/fm/ui/structural-view.ts'),p=window.graphBrowser;
     const e={enabled:document.createElement('input'),hiddenNodeTypes:document.createElement('select'),hiddenRelationTypes:document.createElement('select'),aggregateTypes:document.createElement('select'),

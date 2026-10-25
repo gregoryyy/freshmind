@@ -1,3 +1,4 @@
+import {selectChoice} from "../../scripts/browser-controls.mjs";
 import { test, expect } from "@playwright/test";
 
 async function ready(page) {
@@ -181,7 +182,7 @@ test("main browser exposes all curve modes through the same graph and preserves 
   const positions = await page.evaluate(() => [...window.graphBrowser.getAllNodes()].map(n => [n.x,n.y]));
   const measurements = [];
   for (const mode of ["spider", "lens", "straight"]) {
-    await page.getByLabel("Edge curves", {exact:true}).selectOption(mode);
+    await selectChoice(page.getByLabel("Edge curves", {exact:true}),mode);
     measurements.push(await page.evaluate(() => {
       const p=window.graphBrowser,e=[...p.getGES().getEdges()].find(e=>e.from.getID()==="topic-1"&&e.to.getID()==="node-1-1"),g=p.getEdgeGeometry(e);
       return {path:g.path,curve:p.getEdgeStyle(e).curve,delta:Math.hypot(g.midpoint.x-(e.from.drawx+e.to.drawx)/2,g.midpoint.y-(e.from.drawy+e.to.drawy)/2)};
@@ -204,7 +205,7 @@ test("edge-form keys update the browser selector and geometry while editors keep
   await expect(page.locator(".fm-edge-path").first()).not.toHaveAttribute("d", original);
   await page.keyboard.press("c"); await expect(selector).toHaveValue("straight");
   await page.keyboard.press("w"); await expect(selector).toHaveValue("spider");
-  await selector.selectOption("lens");
+  await selectChoice(selector,"lens");
   await page.evaluate(() => window.graphBrowser.focusGraph());
   await page.keyboard.press("w"); await expect(selector).toHaveValue("straight");
   const label = page.getByLabel("Node label", {exact:true});
@@ -258,7 +259,7 @@ test("relation selection drives editing and per-relation curve overrides can be 
   await page.getByLabel("Relation label",{exact:true}).press("Enter");
   await expect(edge.locator(".fm-edge-label")).toHaveText("references");await expect(edge).toHaveAttribute("data-semantic-type","cites");
   expect(await page.evaluate(id=>{const p=window.graphBrowser,e=[...p.getAllEdges()].find(e=>e.getID()===id);return p.getEdgeStyle(e).curve;},id)).toBe("straight");
-  await page.getByLabel("Edge curves",{exact:true}).selectOption("lens");
+  await selectChoice(page.getByLabel("Edge curves",{exact:true}),"lens");
   await page.locator("#edit-item").click();await page.getByLabel("Relation curve",{exact:true}).selectOption("");
   await page.getByRole("button",{name:"Save changes",exact:true}).click();
   expect(await page.evaluate(id=>{const p=window.graphBrowser,e=[...p.getAllEdges()].find(e=>e.getID()===id);return p.getEdgeStyle(e).curve;},id)).toBe("lens");

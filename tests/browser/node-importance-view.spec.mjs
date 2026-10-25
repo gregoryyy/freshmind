@@ -1,3 +1,4 @@
+import {selectChoice} from "../../scripts/browser-controls.mjs";
 import {test,expect} from '@playwright/test';
 
 async function ready(page) {
@@ -19,9 +20,9 @@ const metrics=page=>page.evaluate(()=>[...document.querySelectorAll('.fm-node')]
 test('weight scales body and glyphs within bounds, keeps zero visible and exposes exact values outside focus bounds',async({page},info)=>{
   const errors=await ready(page),scaled=await metrics(page);expect(scaled.map(n=>n.scale)).toEqual([.85,.91,1,1.4,1.5]);
   for(const n of scaled){expect(n.textScale).toBeCloseTo(n.scale,6);expect(n.label).toBe('Same label');}
-  await page.getByLabel('Importance display',{exact:true}).selectOption('none');const uniform=await metrics(page);
+  await selectChoice(page.getByLabel('Importance display',{exact:true}),'none');const uniform=await metrics(page);
   for(let i=0;i<scaled.length;i++){expect(scaled[i].width/uniform[i].width).toBeCloseTo(scaled[i].scale,6);expect(scaled[i].height/uniform[i].height).toBeCloseTo(scaled[i].scale,6);}
-  await page.getByLabel('Importance display',{exact:true}).selectOption('size');await page.getByLabel('Show node weight values',{exact:true}).check();
+  await selectChoice(page.getByLabel('Importance display',{exact:true}),'size');await page.getByLabel('Show node weight values',{exact:true}).check();
   await expect(page.locator('.fm-node-weight')).toHaveCount(5);await expect(page.locator('[data-weight-node="n0"]')).toHaveText('w: 0');
   await expect(page.locator('[data-node-id="n3"]')).toHaveAccessibleName(/weight 9/);
   const result=await page.locator('[data-node-id="n3"]').evaluate(e=>({body:e.querySelector('.fm-shape').getBBox().width,group:e.getBBox().width,nested:!!e.querySelector('.fm-node-weight')}));

@@ -1,3 +1,4 @@
+import {fillNumeric,selectChoice} from "../browser-controls.mjs";
 /* Freshmind. Apache-2.0. Copyright (c) 2002-2014, 2026 Gregor Heinrich.
  * TypeScript port by Gregor Heinrich using Codex GPT-6.1. */
 import {fileURLToPath} from "node:url";
@@ -226,7 +227,7 @@ const browserSteps = [
     async run({page, advance}) {
       await openRfc(page, weightedExample);
       const weight = page.getByLabel("Horizontal coordinate weight", {exact: true});
-      await weight.fill("0.25"); await weight.press("Tab");
+      await fillNumeric(weight,"0.25"); await weight.press("Tab");
       await page.getByRole("button", {name: "Reinforce selected node", exact: true}).click();
       await advance(250);
       await page.locator(".sidebar").evaluate(sidebar => { sidebar.scrollTop = 0; });
@@ -242,7 +243,7 @@ const browserSteps = [
       await sidebar(page, "rfc-section");
       await page.getByText("Force settings", {exact: true}).click();
       await page.getByText("Substructures", {exact: true}).click();
-      await page.getByLabel("Substructure", {exact: true}).selectOption(structure);
+      await selectChoice(page.getByLabel("Substructure", {exact: true}),structure);
       await page.waitForFunction(() => window.graphBrowser.getRfc().getState().centers.filter(center => center.active).length === 2);
     }
   },
@@ -256,7 +257,7 @@ const browserSteps = [
       await sidebar(page, "rfc-section");
       await page.getByText("Force settings", {exact: true}).click();
       await page.getByText("Substructures", {exact: true}).click();
-      await page.getByLabel("Substructure", {exact: true}).selectOption(structure);
+      await selectChoice(page.getByLabel("Substructure", {exact: true}),structure);
       await page.waitForFunction(() => document.querySelectorAll(".fm-cluster-boundary").length === 2);
     }
   },
@@ -409,7 +410,7 @@ const browserSteps = [
       await page.locator("#adaptive-damping").evaluate(e=>{e.closest("details").open=true;});
       await page.evaluate(()=>window.graphBrowser.getRfc().setFocus(null));
       await page.getByLabel("Adaptive damping",{exact:true}).check();
-      await page.getByLabel("Damping response",{exact:true}).selectOption("impulse");
+      await selectChoice(page.getByLabel("Damping response",{exact:true}),"impulse");
       const valid=await page.evaluate(()=>{const p=window.graphBrowser;return p.tgLayout.getAdaptiveDampingState().enabled&&!p.getRfc().getState().enabled;});
       if(!valid)throw new Error("General damping depends on RFC activation");
     }

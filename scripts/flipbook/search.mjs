@@ -1,3 +1,4 @@
+import {fillNumeric,selectChoice} from "../browser-controls.mjs";
 /* Freshmind. Apache-2.0. Copyright (c) 2026 Gregor Heinrich. */
 async function fit(page,section='search'){await page.evaluate(section=>{
   const p=window.graphBrowser,nodes=[...p.getGES().getNodes()];p.setCanvasZoom(1);p.setCanvasPan(0,0);p.repaint();
@@ -43,11 +44,11 @@ export const tour=[
     await page.getByRole('textbox',{name:'Lexical query on graph',exact:true}).press('Enter');await linked(page);await neighborhood(page);await advance(120);await fit(page);
   }},
   {id:'exact-tags',title:'Whole-tag retrieval',caption:'The same query node now retrieves exact visual search tags. Tags are explicit metadata and work without topic training. The query replaces its earlier result links while retaining context and manual semantic relations.',async run({page,advance}){
-    await page.locator('#search-kind').selectOption('tags');await page.locator('#search-query').fill('visual search');await page.locator('#search-run').click();await linked(page);await neighborhood(page);await advance(80);await fit(page);
+    await selectChoice(page.locator('#search-kind'),'tags');await page.locator('#search-query').fill('visual search');await page.locator('#search-run').click();await linked(page);await neighborhood(page);await advance(80);await fit(page);
   }},
   {id:'topic-model',title:'Train and inspect topics',caption:'Three topics are trained locally for 200 serial Gibbs passes with seed 4357, alpha 0.1, beta 0.01 and minimum document frequency 2. Separate local JSON files can save/reload the model and its corpus. The most probable words make the fitted topics inspectable. This deliberately separated synthetic corpus does not establish general retrieval quality.',async run({page}){
-    await page.locator('#search-engine').selectOption('lda');await page.locator('#search-kind').selectOption('terms');await page.locator('#search-query').fill('geometry repulsion');await page.locator('#search-section .control-subsection').evaluate(e=>e.open=true);
-    await page.locator('#search-topics').fill('3');await page.locator('#search-iterations').fill('200');await page.locator('#search-train').click();await page.waitForFunction(()=>document.querySelector('#search-status').textContent.includes('Topic model ready'));
+    await selectChoice(page.locator('#search-engine'),'lda');await selectChoice(page.locator('#search-kind'),'terms');await page.locator('#search-query').fill('geometry repulsion');await page.locator('#search-section .control-subsection').evaluate(e=>e.open=true);
+    await fillNumeric(page.locator('#search-topics'),'3');await fillNumeric(page.locator('#search-iterations'),'200');await page.locator('#search-train').click();await page.waitForFunction(()=>document.querySelector('#search-status').textContent.includes('Topic model ready'));
     await fit(page,'training');
   }},
   {id:'topical-query',title:'Retrieve by inferred topics',caption:'Ctrl+Shift+F starts a separate LDA query. The empty field says Type a semantic query. Enter submits geometry repulsion and moves RFC and the invisible result disk to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.',async run({page,advance}){

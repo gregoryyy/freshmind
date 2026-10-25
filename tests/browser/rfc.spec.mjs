@@ -1,3 +1,4 @@
+import {fillNumeric} from "../../scripts/browser-controls.mjs";
 import {test, expect} from "@playwright/test";
 import {fileURLToPath} from "node:url";
 import {readFile} from "node:fs/promises";
@@ -29,13 +30,13 @@ test("RFC controls activate and configure physical reinforcement without changin
   expect((await state(page)).focusId).toBe("center"); expect((await state(page)).branchIds).toHaveLength(6);
   await expect(page.locator("#rfc-status")).toContainText("Focal project · 6 visible branches");
   await page.getByRole("button", {name: "Reinforce selected node", exact: true}).click();
-  await page.getByLabel("Attraction multiplier",{exact:true}).fill("4"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
-  await page.getByLabel("Angular stiffness").fill("400"); await page.getByLabel("Angular stiffness").press("Tab");
+  await fillNumeric(page.getByLabel("Attraction multiplier",{exact:true}),"4"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
+  await fillNumeric(page.getByLabel("Angular stiffness"),"400"); await page.getByLabel("Angular stiffness").press("Tab");
   expect((await state(page)).settings).toEqual({springMultiplier: 4, radialStiffness:1,radialLength:120,angularStiffness: 400, coordinateWeights: {x: 1, y: 1}});
-  await page.getByLabel("Attraction multiplier",{exact:true}).fill("0"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
+  await fillNumeric(page.getByLabel("Attraction multiplier",{exact:true}),"0"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
   expect((await state(page)).settings.springMultiplier).toBe(4);
   expect(await page.getByLabel("Attraction multiplier",{exact:true}).evaluate(input => input.validationMessage)).toContain("springMultiplier");
-  await page.getByLabel("Attraction multiplier",{exact:true}).fill("3"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
+  await fillNumeric(page.getByLabel("Attraction multiplier",{exact:true}),"3"); await page.getByLabel("Attraction multiplier",{exact:true}).press("Tab");
   const view = await page.evaluate(() => {
     const p = window.graphBrowser, before = p.getRfc().getState().angularGapRms;
     p.tgLayout.tick(50);
@@ -73,11 +74,11 @@ test("hidden RFC centers suspend and resume; choosing another center and opening
 test("weighted RFC controls change physical geometry without changing lenses or semantic records",async({page})=>{
   const errors=await ready(page),original=await record(page);
   await page.getByRole("button",{name:"Reinforce selected node",exact:true}).click();
-  const weight=page.getByLabel("Horizontal coordinate weight",{exact:true});await weight.fill("0.25");await weight.press("Tab");
+  const weight=page.getByLabel("Horizontal coordinate weight",{exact:true});await fillNumeric(weight,"0.25");await weight.press("Tab");
   expect((await state(page)).settings.coordinateWeights).toEqual({x:.25,y:1});
-  await weight.fill("0");await weight.press("Tab");expect((await state(page)).settings.coordinateWeights.x).toBe(.25);
+  await fillNumeric(weight,"0");await weight.press("Tab");expect((await state(page)).settings.coordinateWeights.x).toBe(.25);
   expect(await weight.evaluate(input=>input.validationMessage)).toContain("coordinateWeights.x");
-  await weight.fill("0.25");await weight.press("Tab");
+  await fillNumeric(weight,"0.25");await weight.press("Tab");
   const change=await page.evaluate(()=>{
     const p=window.graphBrowser,before=[...p.getAllNodes()].map(n=>[n.x,n.y]);
     p.setZoom(1.5);p.setCanvasZoom(1.2);p.setRotation(.4);p.setHyperbolic(35);const settings=p.getRfc().getState().settings;
@@ -91,17 +92,17 @@ test("weighted RFC controls change physical geometry without changing lenses or 
 test("tree and attraction presets preserve focus/metric, expose length stiffness and leave semantic lengths unchanged",async({page})=>{
   const errors=await ready(page),original=await record(page);
   await page.getByRole("button",{name:"Reinforce selected node",exact:true}).click();
-  await page.getByLabel("Horizontal coordinate weight",{exact:true}).fill("0.25");await page.getByLabel("Horizontal coordinate weight",{exact:true}).press("Tab");
+  await fillNumeric(page.getByLabel("Horizontal coordinate weight",{exact:true}),"0.25");await page.getByLabel("Horizontal coordinate weight",{exact:true}).press("Tab");
   const tree=page.getByRole("button",{name:"Tree structure",exact:true}),attraction=page.getByRole("button",{name:"Attraction only",exact:true});
   await attraction.click();await expect(attraction).toHaveAttribute("aria-pressed","true");
   expect((await state(page)).settings).toMatchObject({radialStiffness:0,angularStiffness:300,coordinateWeights:{x:.25,y:1}});
   await tree.click();await expect(tree).toHaveAttribute("aria-pressed","true");
   expect(await state(page)).toMatchObject({focusId:"center",settings:{radialStiffness:1,radialLength:120,angularStiffness:10000,coordinateWeights:{x:.25,y:1}}});
   const length=page.getByLabel("Target focal length",{exact:true}),stiffness=page.getByLabel("Radial stiffness",{exact:true});
-  await length.fill("150");await length.press("Tab");await stiffness.fill("1.5");await stiffness.press("Tab");
+  await fillNumeric(length,"150");await length.press("Tab");await fillNumeric(stiffness,"1.5");await stiffness.press("Tab");
   expect((await state(page)).settings).toMatchObject({radialLength:150,radialStiffness:1.5});await expect(tree).toHaveAttribute("aria-pressed","false");
   for(const [input,value,field] of [[length,"0","radialLength"],[stiffness,"3","radialStiffness"]]){
-    await input.fill(value);await input.press("Tab");expect(await input.evaluate(i=>i.validationMessage)).toContain(field);
+    await fillNumeric(input,value);await input.press("Tab");expect(await input.evaluate(i=>i.validationMessage)).toContain(field);
   }
   expect((await state(page)).settings).toMatchObject({radialLength:150,radialStiffness:1.5});
   await tree.click();await expect(page.locator("#graph svg")).toBeFocused();

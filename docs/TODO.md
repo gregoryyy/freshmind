@@ -158,6 +158,8 @@ The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-fo
 
 - [x] 3.6 Preserve context progress during adaptive damping: use independent node gains/recovery, verify RFC clearing and real label geometry, retain historical shared-gain experiments and document limits.
 
+- [ ] 3.7 Derive automatic two-level neighborhoods (children and grandchildren) for each ordinary RFC center, including multiple centers and shared members. Define deterministic projection, direction and cycle handling; preserve stored structures and search-result focus, and verify layout and interaction.
+
 ## 4. Graph visual search
 
 Use **elasticlunr** as the literal engine and implement **LDA semantic retrieval**
@@ -207,7 +209,7 @@ Crossings, decorations and continuous node collision handling remain future work
 - [x] 5.7 Enable relation-label avoidance in the main browser with a reversible View control; preserve original library defaults and transient preferences across graph replacement.
 - [x] 5.8 Verify independent rectangle counts, real SVG collisions, editing/control lifecycle and production before/after captures; document limits.
 
-- [ ] 5.9 Replace numeric sidebar controls with labeled sliders and live values, including search/training settings; diagnose and fix first-click/multiple-selection structural focus + context input, with real pointer/keyboard regression checks.
+- [x] 5.9 Replace numeric sidebar settings, including search/training, with sliders and live values; use horizontal radios for short choices, make the panel retractable and repair first-click structural multiple selection. Preserve configuration/input ownership and verify pointer, keyboard, model updates and teardown.
 
 ## 6. Applications and radius-two exploration
 

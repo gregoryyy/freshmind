@@ -1,3 +1,4 @@
+import {selectChoice} from "../../scripts/browser-controls.mjs";
 import {test,expect} from "@playwright/test";
 import {readFile} from "node:fs/promises";
 import {parseDocument} from "fm4/fm/io";
@@ -19,7 +20,7 @@ for (const example of ["joined-trees", "leaf-connected-trees", "shared-subtree"]
   await page.getByText("Substructures",{exact:true}).click();
   const selector=page.getByLabel("Substructure",{exact:true});
   for (const id of ["a-tree","b-tree"]) {
-    await selector.selectOption(id);
+    await selectChoice(selector,id);
     await page.getByRole("button",{name:"Reinforce substructure",exact:true}).click();
   }
   const s=await state(page), shared=example==="shared-subtree";
@@ -59,7 +60,7 @@ for(const gesture of ["Shift+Enter","Shift+double-click"])test(`${gesture} toggl
   await toggle("dag-root");expect((await state(page)).enabled).toBe(false);
   await expect(page.locator(".fm-rfc-node-halo")).toHaveCount(0);
   await toggle("tree-root");await toggle("dag-root");
-  await page.getByLabel("RFC centers",{exact:true}).selectOption("dag-root");
+  await selectChoice(page.getByLabel("RFC centers",{exact:true}),"dag-root");
   await page.getByRole("button",{name:"Remove selected RFC center",exact:true}).click();
   expect((await state(page)).centers.map(c=>c.focusId)).toEqual(["tree-root"]);
   expect(await page.evaluate(()=>[window.graphBrowser.getCompleteEltSet().nodeCount(),window.graphBrowser.getCompleteEltSet().edgeCount()])).toEqual([12,13]);
@@ -93,7 +94,7 @@ for(const gesture of ["Enter","double-click"])test(`${gesture} RFC activation re
 test("stored tree and DAG definitions reinforce full memberships, share halos and suspend independently",async({page},testInfo)=>{
   const errors=await ready(page);await page.getByText("Substructures",{exact:true}).click();
   const list=page.getByLabel("Substructure",{exact:true}),render=page.getByRole("button",{name:"Reinforce substructure",exact:true});
-  await list.selectOption("dag-example");await render.click();await list.selectOption("tree-example");await render.click();
+  await selectChoice(list,"dag-example");await render.click();await selectChoice(list,"tree-example");await render.click();
   const active=await state(page);expect(active.centers).toHaveLength(2);expect(new Set(active.memberIds).size).toBe(12);expect(new Set(active.radialEdgeIds).size).toBe(12);
   await expect(page.locator('.fm-rfc-node-halo[data-rfc-node-id="shared"]')).toHaveCount(1);
   await expect(page.locator(".fm-rfc-node-halo")).toHaveCount(12);await expect(page.locator(".fm-rfc-edge-halo")).toHaveCount(12);
@@ -139,13 +140,13 @@ test("manual tree membership editing persists through YAML without saving active
 
 test("cluster controls identify communities and retain their internal links in a stored RFC cluster",async({page})=>{
   const errors=await ready(page,"karate");await page.getByText("Graph clusters",{exact:true}).click();
-  await page.getByLabel("Clustering scope",{exact:true}).selectOption("complete");
+  await selectChoice(page.getByLabel("Clustering scope",{exact:true}),"complete");
   await page.getByLabel("Community resolution",{exact:true}).fill("0");
-  await page.getByLabel("Clustering algorithm",{exact:true}).selectOption("components");
+  await selectChoice(page.getByLabel("Clustering algorithm",{exact:true}),"components");
   await expect(page.getByLabel("Community resolution",{exact:true})).toBeDisabled();
   await page.getByRole("button",{name:"Detect clusters",exact:true}).click();
   await expect(page.locator("#cluster-select option")).toHaveCount(1);
-  await page.getByLabel("Clustering algorithm",{exact:true}).selectOption("louvain");
+  await selectChoice(page.getByLabel("Clustering algorithm",{exact:true}),"louvain");
   await page.getByLabel("Community resolution",{exact:true}).fill("1");
   await page.getByRole("button",{name:"Detect clusters",exact:true}).click();
   expect(await page.locator("#cluster-select option").count()).toBeGreaterThan(1);await expect(page.locator("#cluster-members")).toContainText("nodes:");
@@ -158,7 +159,7 @@ test("cluster controls identify communities and retain their internal links in a
 
 test("cluster proposals reject changed graph topology and graph replacement clears their controls",async({page})=>{
   const errors=await ready(page,"karate");await page.getByText("Graph clusters",{exact:true}).click();
-  await page.getByLabel("Clustering scope",{exact:true}).selectOption("complete");await page.getByRole("button",{name:"Detect clusters",exact:true}).click();
+  await selectChoice(page.getByLabel("Clustering scope",{exact:true}),"complete");await page.getByRole("button",{name:"Detect clusters",exact:true}).click();
   await page.evaluate(()=>{window.graphBrowser.addNode("new");window.graphBrowser.repaintAfterMove();});
   await page.getByRole("button",{name:"Render cluster with RFC",exact:true}).click();
   await expect(page.locator("#rfc-structure-status")).toContainText("detect clusters again");expect((await state(page)).enabled).toBe(false);

@@ -27,7 +27,13 @@ export function bindStructuralViewControls(panel:FreshmindPanel,e:StructuralView
       [e.aggregateTypes,nodeTypes,s.aggregateTypes,config.nodeTypes],[e.hiddenRelationTypes,relationTypes,s.hiddenRelationTypes,config.relationTypes]] as const) {
       const options=types.map(type=>({type,label:`${definitions[type]?.label??type} (${type})`})),key=JSON.stringify(options);
       if(select.dataset.types!==key){select.replaceChildren(...options.map(({type,label})=>{const o=document.createElement("option");o.value=type;o.textContent=label;return o;}));select.dataset.types=key;}
-      for(const option of select.options)option.selected=selected.includes(option.value);
+      // Native multi-select commits after the pointer gesture. Motion must not overwrite
+      // its tentative selection between pointer-down and change.
+      const selectionKey=JSON.stringify(selected.slice().sort());
+      if(select.dataset.selection!==selectionKey||select.dataset.selectionTypes!==key){
+        for(const option of select.options)if(option.selected!==selected.includes(option.value))option.selected=selected.includes(option.value);
+        select.dataset.selection=selectionKey;select.dataset.selectionTypes=key;
+      }
     }
     const selected=panel.getSelect()?.getID();
     e.reveal.disabled=!state.groups.some(g=>g.parentId===selected);
