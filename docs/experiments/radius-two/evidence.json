@@ -1,0 +1,987 @@
+{
+  "format": "fm4-radius-two-evaluation",
+  "version": 1,
+  "source": {
+    "repository": "https://github.com/gregoryyy/freshmind",
+    "commit": "0657e401ecde25352444280e5079c123b399b3e2",
+    "path": "package-lock.json",
+    "sha256": "ac301d8fea3412c3c0365c9a2b84cb822a8ff16bea6a7b26c10bfa1de2ae3523",
+    "scope": "Root dependencies and their installed dependencies/peers; dev-only roots excluded. No package code executed."
+  },
+  "counts": {
+    "nodes": 22,
+    "relations": 38,
+    "dependency": 32,
+    "peer": 6
+  },
+  "scope": {
+    "nodes": [
+      "node_modules/d3-color",
+      "node_modules/d3-dispatch",
+      "node_modules/d3-drag",
+      "node_modules/d3-ease",
+      "node_modules/d3-interpolate",
+      "node_modules/d3-selection",
+      "node_modules/d3-timer",
+      "node_modules/d3-transition",
+      "node_modules/d3-zoom"
+    ],
+    "relations": [
+      "node_modules/d3-drag:dependencies:d3-dispatch",
+      "node_modules/d3-drag:dependencies:d3-selection",
+      "node_modules/d3-interpolate:dependencies:d3-color",
+      "node_modules/d3-transition:dependencies:d3-color",
+      "node_modules/d3-transition:dependencies:d3-dispatch",
+      "node_modules/d3-transition:dependencies:d3-ease",
+      "node_modules/d3-transition:dependencies:d3-interpolate",
+      "node_modules/d3-transition:dependencies:d3-timer",
+      "node_modules/d3-transition:peerDependencies:d3-selection",
+      "node_modules/d3-zoom:dependencies:d3-dispatch",
+      "node_modules/d3-zoom:dependencies:d3-drag",
+      "node_modules/d3-zoom:dependencies:d3-interpolate",
+      "node_modules/d3-zoom:dependencies:d3-selection",
+      "node_modules/d3-zoom:dependencies:d3-transition"
+    ],
+    "uniqueSecondHop": 3,
+    "occurrences": 4
+  },
+  "tasks": [
+    {
+      "id": "direct-dependants",
+      "center": "node_modules/d3-dispatch",
+      "direction": "incoming",
+      "answer": [
+        "d3-drag",
+        "d3-transition",
+        "d3-zoom"
+      ],
+      "limit": "Names installed packages declaring a direct dependency; does not prove a runtime failure."
+    },
+    {
+      "id": "transitive-impact",
+      "center": "node_modules/d3-dispatch",
+      "direction": "incoming",
+      "answer": [
+        "fm4"
+      ],
+      "limit": "One distinct second-hop dependant reached through two first-hop witnesses: d3-drag and d3-zoom."
+    },
+    {
+      "id": "shared-dependency",
+      "center": "node_modules/d3-zoom",
+      "direction": "outgoing",
+      "answer": [
+        "d3-color via d3-interpolate",
+        "d3-color via d3-transition"
+      ],
+      "limit": "Two occurrences are one installed package. A peer relation is a distinct relation kind."
+    },
+    {
+      "id": "missing-context",
+      "center": "node_modules/d3-color",
+      "direction": "incoming",
+      "answer": [
+        "fm4 is three hops away; absent from this view"
+      ],
+      "limit": "Radius-two absence cannot establish no transitive impact."
+    }
+  ],
+  "projection": {
+    "generation": "pinned-public-lock",
+    "centerId": "node_modules/d3-zoom",
+    "direction": "outgoing",
+    "directNodeIds": [
+      "node_modules/d3-dispatch",
+      "node_modules/d3-drag",
+      "node_modules/d3-interpolate",
+      "node_modules/d3-selection",
+      "node_modules/d3-transition"
+    ],
+    "nodes": [
+      {
+        "id": "node_modules/d3-color",
+        "label": "d3-color 3.1.0",
+        "type": "package",
+        "weight": 1
+      },
+      {
+        "id": "node_modules/d3-dispatch",
+        "label": "d3-dispatch 3.0.1",
+        "type": "package",
+        "weight": 1
+      },
+      {
+        "id": "node_modules/d3-drag",
+        "label": "d3-drag 3.0.0",
+        "type": "package",
+        "weight": 1
+      },
+      {
+        "id": "node_modules/d3-ease",
+        "label": "d3-ease 3.0.1",
+        "type": "package",
+        "weight": 1
+      },
+      {
+        "id": "node_modules/d3-interpolate",
+        "label": "d3-interpolate 3.0.1",
+        "type": "package",
+        "weight": 1
+      },
+      {
+        "id": "node_modules/d3-selection",
+        "label": "d3-selection 3.0.0",
+        "type": "package",
+        "weight": 1
+      },
+      {
+        "id": "node_modules/d3-timer",
+        "label": "d3-timer 3.0.1",
+        "type": "package",
+        "weight": 1
+      },
+      {
+        "id": "node_modules/d3-transition",
+        "label": "d3-transition 3.0.1",
+        "type": "package",
+        "weight": 1
+      },
+      {
+        "id": "node_modules/d3-zoom",
+        "label": "d3-zoom 3.0.0",
+        "type": "package",
+        "weight": 1
+      }
+    ],
+    "edgeRecords": [
+      {
+        "id": "node_modules/d3-drag:dependencies:d3-dispatch",
+        "from": "node_modules/d3-drag",
+        "to": "node_modules/d3-dispatch",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-drag:dependencies:d3-selection",
+        "from": "node_modules/d3-drag",
+        "to": "node_modules/d3-selection",
+        "label": "3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-interpolate:dependencies:d3-color",
+        "from": "node_modules/d3-interpolate",
+        "to": "node_modules/d3-color",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-transition:dependencies:d3-color",
+        "from": "node_modules/d3-transition",
+        "to": "node_modules/d3-color",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-transition:dependencies:d3-dispatch",
+        "from": "node_modules/d3-transition",
+        "to": "node_modules/d3-dispatch",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-transition:dependencies:d3-ease",
+        "from": "node_modules/d3-transition",
+        "to": "node_modules/d3-ease",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-transition:dependencies:d3-interpolate",
+        "from": "node_modules/d3-transition",
+        "to": "node_modules/d3-interpolate",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-transition:dependencies:d3-timer",
+        "from": "node_modules/d3-transition",
+        "to": "node_modules/d3-timer",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-transition:peerDependencies:d3-selection",
+        "from": "node_modules/d3-transition",
+        "to": "node_modules/d3-selection",
+        "label": "2 - 3",
+        "type": "peer",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-zoom:dependencies:d3-dispatch",
+        "from": "node_modules/d3-zoom",
+        "to": "node_modules/d3-dispatch",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-zoom:dependencies:d3-drag",
+        "from": "node_modules/d3-zoom",
+        "to": "node_modules/d3-drag",
+        "label": "2 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-zoom:dependencies:d3-interpolate",
+        "from": "node_modules/d3-zoom",
+        "to": "node_modules/d3-interpolate",
+        "label": "1 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-zoom:dependencies:d3-selection",
+        "from": "node_modules/d3-zoom",
+        "to": "node_modules/d3-selection",
+        "label": "2 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      },
+      {
+        "id": "node_modules/d3-zoom:dependencies:d3-transition",
+        "from": "node_modules/d3-zoom",
+        "to": "node_modules/d3-transition",
+        "label": "2 - 3",
+        "type": "dependency",
+        "weight": 10,
+        "direction": "directed"
+      }
+    ],
+    "centerSelfEdgeIds": [],
+    "rows": {
+      "items": [
+        {
+          "id": "[\"radius-one\",\"node_modules/d3-dispatch\"]",
+          "nodeId": "node_modules/d3-dispatch",
+          "centerEdgeIds": [
+            "node_modules/d3-zoom:dependencies:d3-dispatch"
+          ],
+          "selfEdgeIds": [],
+          "crossEdgeIds": [
+            "node_modules/d3-drag:dependencies:d3-dispatch",
+            "node_modules/d3-transition:dependencies:d3-dispatch"
+          ],
+          "incoming": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          },
+          "outgoing": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          },
+          "undirected": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          }
+        },
+        {
+          "id": "[\"radius-one\",\"node_modules/d3-drag\"]",
+          "nodeId": "node_modules/d3-drag",
+          "centerEdgeIds": [
+            "node_modules/d3-zoom:dependencies:d3-drag"
+          ],
+          "selfEdgeIds": [],
+          "crossEdgeIds": [
+            "node_modules/d3-drag:dependencies:d3-dispatch",
+            "node_modules/d3-drag:dependencies:d3-selection"
+          ],
+          "incoming": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          },
+          "outgoing": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          },
+          "undirected": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          }
+        },
+        {
+          "id": "[\"radius-one\",\"node_modules/d3-interpolate\"]",
+          "nodeId": "node_modules/d3-interpolate",
+          "centerEdgeIds": [
+            "node_modules/d3-zoom:dependencies:d3-interpolate"
+          ],
+          "selfEdgeIds": [],
+          "crossEdgeIds": [
+            "node_modules/d3-transition:dependencies:d3-interpolate"
+          ],
+          "incoming": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          },
+          "outgoing": {
+            "items": [
+              {
+                "id": "[\"radius-two\",\"node_modules/d3-interpolate\",\"outgoing\",\"node_modules/d3-color\"]",
+                "nodeId": "node_modules/d3-color",
+                "rowId": "node_modules/d3-interpolate",
+                "wing": "outgoing",
+                "level": "second-hop",
+                "edgeIds": [
+                  "node_modules/d3-interpolate:dependencies:d3-color"
+                ]
+              }
+            ],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 1,
+            "total": 1,
+            "hasMore": false,
+            "complete": true
+          },
+          "undirected": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          }
+        },
+        {
+          "id": "[\"radius-one\",\"node_modules/d3-selection\"]",
+          "nodeId": "node_modules/d3-selection",
+          "centerEdgeIds": [
+            "node_modules/d3-zoom:dependencies:d3-selection"
+          ],
+          "selfEdgeIds": [],
+          "crossEdgeIds": [
+            "node_modules/d3-drag:dependencies:d3-selection",
+            "node_modules/d3-transition:peerDependencies:d3-selection"
+          ],
+          "incoming": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          },
+          "outgoing": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          },
+          "undirected": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          }
+        },
+        {
+          "id": "[\"radius-one\",\"node_modules/d3-transition\"]",
+          "nodeId": "node_modules/d3-transition",
+          "centerEdgeIds": [
+            "node_modules/d3-zoom:dependencies:d3-transition"
+          ],
+          "selfEdgeIds": [],
+          "crossEdgeIds": [
+            "node_modules/d3-transition:dependencies:d3-dispatch",
+            "node_modules/d3-transition:dependencies:d3-interpolate",
+            "node_modules/d3-transition:peerDependencies:d3-selection"
+          ],
+          "incoming": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          },
+          "outgoing": {
+            "items": [
+              {
+                "id": "[\"radius-two\",\"node_modules/d3-transition\",\"outgoing\",\"node_modules/d3-color\"]",
+                "nodeId": "node_modules/d3-color",
+                "rowId": "node_modules/d3-transition",
+                "wing": "outgoing",
+                "level": "second-hop",
+                "edgeIds": [
+                  "node_modules/d3-transition:dependencies:d3-color"
+                ]
+              },
+              {
+                "id": "[\"radius-two\",\"node_modules/d3-transition\",\"outgoing\",\"node_modules/d3-ease\"]",
+                "nodeId": "node_modules/d3-ease",
+                "rowId": "node_modules/d3-transition",
+                "wing": "outgoing",
+                "level": "second-hop",
+                "edgeIds": [
+                  "node_modules/d3-transition:dependencies:d3-ease"
+                ]
+              },
+              {
+                "id": "[\"radius-two\",\"node_modules/d3-transition\",\"outgoing\",\"node_modules/d3-timer\"]",
+                "nodeId": "node_modules/d3-timer",
+                "rowId": "node_modules/d3-transition",
+                "wing": "outgoing",
+                "level": "second-hop",
+                "edgeIds": [
+                  "node_modules/d3-transition:dependencies:d3-timer"
+                ]
+              }
+            ],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 3,
+            "total": 3,
+            "hasMore": false,
+            "complete": true
+          },
+          "undirected": {
+            "items": [],
+            "offset": 0,
+            "limit": 4,
+            "knownItems": 0,
+            "total": 0,
+            "hasMore": false,
+            "complete": true
+          }
+        }
+      ],
+      "offset": 0,
+      "limit": 12,
+      "knownItems": 5,
+      "total": 5,
+      "hasMore": false,
+      "complete": true
+    },
+    "otherRelations": {
+      "items": [],
+      "offset": 0,
+      "limit": 20,
+      "knownItems": 0,
+      "total": 0,
+      "hasMore": false,
+      "complete": true
+    },
+    "counts": {
+      "directNodes": 5,
+      "secondStepNodes": 3,
+      "occurrences": 4,
+      "edgeRecords": 14,
+      "complete": true
+    },
+    "confirmedSecondHop": true,
+    "witnesses": {
+      "node_modules/d3-color": [
+        "node_modules/d3-interpolate",
+        "node_modules/d3-transition"
+      ],
+      "node_modules/d3-ease": [
+        "node_modules/d3-transition"
+      ],
+      "node_modules/d3-timer": [
+        "node_modules/d3-transition"
+      ]
+    }
+  },
+  "synthetic": [
+    {
+      "degree": 100,
+      "nodes": 102,
+      "edges": 200,
+      "samplesMs": [
+        0.9072500000000048,
+        0.5996250000000032,
+        0.5795420000000036,
+        0.5402909999999963,
+        0.4964999999999975
+      ]
+    },
+    {
+      "degree": 300,
+      "nodes": 302,
+      "edges": 600,
+      "samplesMs": [
+        1.6425420000000202,
+        1.6292500000000132,
+        1.4603330000000199,
+        2.2596249999999998,
+        1.1241250000000207
+      ]
+    },
+    {
+      "degree": 1000,
+      "nodes": 1002,
+      "edges": 2000,
+      "samplesMs": [
+        3.6247079999999983,
+        3.367541000000017,
+        3.498750000000001,
+        3.171333000000004,
+        2.938625000000002
+      ]
+    },
+    {
+      "degree": 5000,
+      "nodes": 5002,
+      "edges": 10000,
+      "samplesMs": [
+        30.52283399999999,
+        22.00612499999997,
+        17.54512500000004,
+        16.172833000000026,
+        17.33729199999999
+      ]
+    }
+  ],
+  "browser": {
+    "version": "155.0.8059.85",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v25.6.1",
+    "applicationCommit": "e45c48a9cd0ec52a799cc68083b120a97bcc8e7d",
+    "applicationDirty": false,
+    "buildHashes": [
+      {
+        "file": "index.html",
+        "sha256": "8311fc98af228a45ba1aa54ca99cd3c7625f51c413ac22d64418ea5bea4ae5d8"
+      },
+      {
+        "file": "assets/freshmind-2J9M2BHI.js",
+        "sha256": "618e0b22b05e4a743558fae83392084703b3a358014249861dcc66e1ff82e1da"
+      },
+      {
+        "file": "assets/freshmind-BXV0ohzx.css",
+        "sha256": "704550c10f3c27dfa0071035a00d4de926cd21263f943c0db6b8d4eb4194cd3e"
+      },
+      {
+        "file": "assets/index-BrpimJ_5.js",
+        "sha256": "9ec742a5a096f3d3dec4f53a2f5e49557ad750e6cf2a446ed15b167522a56898"
+      },
+      {
+        "file": "assets/style-CXIGFCbe.js",
+        "sha256": "de974e34e86f8c13bc5199e78d2f1c3b8e565d5e088d4733e7515672f82bfac7"
+      },
+      {
+        "file": "assets/style-DQM37XIt.css",
+        "sha256": "a6d5013d16382e9685eb5141766fb3a98096829af6861c7a487457d3a693a01f"
+      },
+      {
+        "file": "assets/worker-b7OxfYtD.js",
+        "sha256": "3535c490f28b4beb9ae2d9725598c0fb3b45f27a9e7a6b7f05afb0e2491af00d"
+      }
+    ],
+    "method": "One warm-up and five measured operations in one Chrome process; two requestAnimationFrame callbacks. Ego/RFC include 100 synchronous layout batches, not a convergence criterion. Radius mode includes complete-snapshot capture and traversal selection. DOM is representation subtree, including collapsed descendants. List/matrix are comparison prototypes, not product views. These are different operations, not a speed ranking.",
+    "measurements": [
+      {
+        "mode": "ego",
+        "warmup": 1,
+        "samples": [
+          {
+            "elapsedMs": 914.1000001430511,
+            "layoutMs": 903.5,
+            "elements": 161,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          },
+          {
+            "elapsedMs": 929.7999999523163,
+            "layoutMs": 917.7000000476837,
+            "elements": 161,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          },
+          {
+            "elapsedMs": 920.2000000476837,
+            "layoutMs": 906,
+            "elements": 161,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          },
+          {
+            "elapsedMs": 894.1999998092651,
+            "layoutMs": 880,
+            "elements": 161,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          },
+          {
+            "elapsedMs": 895.7999999523163,
+            "layoutMs": 880.2000000476837,
+            "elements": 161,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          }
+        ],
+        "shape": {
+          "elapsedMs": 895.7999999523163,
+          "layoutMs": 880.2000000476837,
+          "elements": 161,
+          "nodeCards": 9,
+          "visibleNodes": 9,
+          "visibleEdges": 14,
+          "semanticPreservation": true,
+          "positionPreservation": false
+        }
+      },
+      {
+        "mode": "rfc",
+        "warmup": 1,
+        "samples": [
+          {
+            "elapsedMs": 1010.2000000476837,
+            "layoutMs": 984.7000000476837,
+            "elements": 176,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          },
+          {
+            "elapsedMs": 983.5,
+            "layoutMs": 963.5,
+            "elements": 176,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          },
+          {
+            "elapsedMs": 996,
+            "layoutMs": 975.0999999046326,
+            "elements": 176,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          },
+          {
+            "elapsedMs": 996.7000000476837,
+            "layoutMs": 972.3000001907349,
+            "elements": 176,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          },
+          {
+            "elapsedMs": 992.5,
+            "layoutMs": 971.7000000476837,
+            "elements": 176,
+            "nodeCards": 9,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": false
+          }
+        ],
+        "shape": {
+          "elapsedMs": 992.5,
+          "layoutMs": 971.7000000476837,
+          "elements": 176,
+          "nodeCards": 9,
+          "visibleNodes": 9,
+          "visibleEdges": 14,
+          "semanticPreservation": true,
+          "positionPreservation": false
+        }
+      },
+      {
+        "mode": "radius-two",
+        "warmup": 1,
+        "samples": [
+          {
+            "elapsedMs": 13.5,
+            "layoutMs": null,
+            "elements": 107,
+            "nodeCards": 5,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 13.800000190734863,
+            "layoutMs": null,
+            "elements": 107,
+            "nodeCards": 5,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 13.299999952316284,
+            "layoutMs": null,
+            "elements": 107,
+            "nodeCards": 5,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 13.099999904632568,
+            "layoutMs": null,
+            "elements": 107,
+            "nodeCards": 5,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 12.700000047683716,
+            "layoutMs": null,
+            "elements": 107,
+            "nodeCards": 5,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          }
+        ],
+        "shape": {
+          "elapsedMs": 12.700000047683716,
+          "layoutMs": null,
+          "elements": 107,
+          "nodeCards": 5,
+          "visibleNodes": 9,
+          "visibleEdges": 14,
+          "semanticPreservation": true,
+          "positionPreservation": true
+        }
+      },
+      {
+        "mode": "list-tree",
+        "warmup": 1,
+        "samples": [
+          {
+            "elapsedMs": 10.599999904632568,
+            "layoutMs": null,
+            "elements": 34,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 22.09999990463257,
+            "layoutMs": null,
+            "elements": 34,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 23.09999990463257,
+            "layoutMs": null,
+            "elements": 34,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 23,
+            "layoutMs": null,
+            "elements": 34,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 21.200000047683716,
+            "layoutMs": null,
+            "elements": 34,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          }
+        ],
+        "shape": {
+          "elapsedMs": 21.200000047683716,
+          "layoutMs": null,
+          "elements": 34,
+          "nodeCards": 0,
+          "visibleNodes": 9,
+          "visibleEdges": 14,
+          "semanticPreservation": true,
+          "positionPreservation": true
+        }
+      },
+      {
+        "mode": "matrix",
+        "warmup": 1,
+        "samples": [
+          {
+            "elapsedMs": 20.90000009536743,
+            "layoutMs": null,
+            "elements": 113,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 16.09999990463257,
+            "layoutMs": null,
+            "elements": 113,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 21.300000190734863,
+            "layoutMs": null,
+            "elements": 113,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 21.600000143051147,
+            "layoutMs": null,
+            "elements": 113,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          },
+          {
+            "elapsedMs": 21.799999952316284,
+            "layoutMs": null,
+            "elements": 113,
+            "nodeCards": 0,
+            "visibleNodes": 9,
+            "visibleEdges": 14,
+            "semanticPreservation": true,
+            "positionPreservation": true
+          }
+        ],
+        "shape": {
+          "elapsedMs": 21.799999952316284,
+          "layoutMs": null,
+          "elements": 113,
+          "nodeCards": 0,
+          "visibleNodes": 9,
+          "visibleEdges": 14,
+          "semanticPreservation": true,
+          "positionPreservation": true
+        }
+      }
+    ]
+  }
+}
