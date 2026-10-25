@@ -102,7 +102,7 @@ export class FreshmindPanel extends TGPanel {
    */
   constructor(container?:HTMLElement,options:FreshmindPanelOptions={}) {
     // Mount after extension fields are initialized: base mounting calls virtual paint hooks.
-    super(undefined,{...options,animateLocality:options.animateLocality??Boolean(container)});
+    super(undefined,{...options,backgroundPan:options.backgroundPan??"lens",animateLocality:options.animateLocality??Boolean(container)});
     this.types=options.types??new TypeRegistry(freshmind2014Configuration);
     this.nodeImportance=validateNodeImportanceView({...this.nodeImportance,...options.nodeImportance});
     if(options.labelEditing!==undefined){

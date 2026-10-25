@@ -99,6 +99,8 @@ The main browser supports inline labels/weights and full overlay edits, includin
   - [x] 2.6.4 Restore selected-to-center linking and graph clipboard copy/paste/link with explicit clone-versus-reuse, field-preservation and local-data contracts; cover stale sources and cross-document behavior.
   - [x] 2.6.5 Provide new-document and initial-focus commands with explicit unsaved-work handling; reconcile U and other legacy aliases, help and tests without replacing the requested modern view mappings.
 
+- [x] 2.7 Restore lens-aware background dragging from FM2014; retain whole-canvas pan with Ctrl-drag and plain TG defaults. Verify inverse transforms, physical/data preservation, node dragging, Shift-selection, native editor ownership and Java compatibility. See [the analysis and contract](background-drag.md).
+
 ## 3. Add Reinforcement Focus + Context
 
 Rebuild this mechanism from GH's 2005 paper. The FM 2014 RFC prototype is historical context, not the implementation specification. RFC reinforces recognizable local structures through additional layout forces; it can be combined with the viewing lens and structural filtering. Keep reinforcement constraints separate from persistent semantic graph relations.
