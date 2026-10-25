@@ -211,8 +211,8 @@ test('semantic metrics/raw values and a local model file survive save/load witho
 test('search results surround an invisible disk that clears measured context bodies after cooling and lens changes',async({page})=>{
   const errors=await ready(page);await page.locator('#search-query').fill('graph');await page.locator('#search-run').click();
   await expect(page.locator('#search-status')).toContainText('2 results linked');
-  const inspect=async(hyper,zoom)=>page.evaluate(async({hyper,zoom})=>{
-    const p=window.graphBrowser,q=p.getSelect();await p.setLocaleAll();p.setSelect(q);p.setHyperbolic(hyper);p.setRotation(.4);p.setZoom(zoom);p.setCanvasZoom(.85);
+  const inspect=async(hyper,zoom,aspect="original")=>page.evaluate(async({hyper,zoom,aspect})=>{
+    const p=window.graphBrowser,q=p.getSelect();await p.setLocaleAll();p.setSelect(q);p.setGraphAspectMode(aspect);p.setHyperbolic(hyper);p.setRotation(.4);p.setZoom(zoom);p.setCanvasZoom(.85);
     p.tgLayout.stopMotion();p.tgLayout.stopMotion();
     for(const id of ['b','d']){const node=p.findNode(id);node.x=q.x;node.y=q.y;}
     p.repaint();p.tgLayout.tick();
@@ -226,9 +226,9 @@ test('search results surround an invisible disk that clears measured context bod
     });
     const before=[...p.getAllNodes()].map(n=>[n.x,n.y]);p.tgLayout.tick(4);
     return {radius,clearance,stable:JSON.stringify(before)===JSON.stringify([...p.getAllNodes()].map(n=>[n.x,n.y])),regions:document.querySelectorAll('.fm-rfc-region').length};
-  },{hyper,zoom});
-  for(const [hyper,zoom] of [[47,1],[75,1.4],[0,.7]]){
-    const actual=await inspect(hyper,zoom);expect(actual.radius).toBeGreaterThan(60);expect(Math.min(...actual.clearance)).toBeGreaterThan(6);expect(actual.stable).toBe(true);expect(actual.regions).toBe(0);
+  },{hyper,zoom,aspect});
+  for(const [hyper,zoom,aspect] of [[47,1,"original"],[75,1.4,"original"],[0,.7,"original"],[47,1,"3:5"],[75,1.4,"16:9"],[0,.7,"canvas"]]){
+    const actual=await inspect(hyper,zoom,aspect);expect(actual.radius).toBeGreaterThan(60);expect(Math.min(...actual.clearance)).toBeGreaterThan(6);expect(actual.stable).toBe(true);expect(actual.regions).toBe(0);
   }
   await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));expect(errors).toEqual([]);
 });

@@ -2,8 +2,9 @@ import {test,expect} from '@playwright/test';
 async function ready(page){const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.waitForFunction(()=>window.graphBrowser?.getRfc().getState().active);
   await page.evaluate(async()=>{const p=window.graphBrowser;p.fastFinishAnimation();await p.getLocalityUtils().whenIdle();p.tgLayout.stop();p.setHyperbolic(70);p.setRotation(.4);p.setZoom(1.3);p.setCanvasZoom(1.4);p.setCanvasPan(10,-12);p.repaintAfterMove();});return errors;}
 async function state(page){return page.evaluate(()=>{const p=window.graphBrowser;return {positions:[...p.getAllNodes()].map(n=>[n.getID(),n.x,n.y]),lens:p.getLensPan(),canvas:p.getCanvasPan(),zoom:[p.getZoom(),p.getCanvasZoom(),p.getHyperbolic(),p.getRotation()]};});}
-test('default background drag moves through the lens; Ctrl-drag preserves whole-canvas translation',async({page})=>{
+for(const aspect of ['original','3:5','16:9'])test(`background drag through the lens and Ctrl canvas dragging retain aspect ${aspect}`,async({page})=>{
   const errors=await ready(page),svg=page.locator('#graph svg'),box=await svg.boundingBox(),start={x:30,y:35},end={x:95,y:75};
+  await page.evaluate(aspect=>window.graphBrowser.setGraphAspectMode(aspect),aspect);
   const before=await state(page),world=await page.evaluate(start=>{const p=window.graphBrowser;return p.getLensSet().convDrawToReal(p.screenToDraw(start));},start);
   await page.mouse.move(box.x+start.x,box.y+start.y);await page.mouse.down();await page.mouse.move(box.x+end.x,box.y+end.y,{steps:6});await page.mouse.up();
   const after=await state(page);expect(after.lens).not.toEqual(before.lens);expect(after.canvas).toEqual(before.canvas);expect(after.positions).toEqual(before.positions);expect(after.zoom).toEqual(before.zoom);

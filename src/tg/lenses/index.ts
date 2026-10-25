@@ -14,3 +14,5 @@ export {TGPoint2D} from "./point.js";
 export {TGAbstractLens,TGLensSet} from "./lens-set.js";
 export {HyperLens} from "./hyperbolic.js";
 export {TranslateLens,ZoomLens,RotateLens} from "./transforms.js";
+
+export {HorizontalStretchLens} from "./horizontal-stretch.js";

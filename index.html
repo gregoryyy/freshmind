@@ -57,6 +57,9 @@
           <label class="control-label lens-label" for="hyper">Focus + context <output id="hyper-value">60%</output></label>
           <input type="range" id="hyper" min="0" max="100" value="60" step="1" />
           <div class="range-labels"><span>Undistorted</span><span>Strong lens</span></div>
+          <label class="control-label" for="graph-aspect">Graph aspect</label>
+          <select id="graph-aspect" aria-describedby="graph-aspect-value"><option value="original">Original</option><option value="3:5">3:5</option><option value="16:9">16:9</option><option value="canvas">Canvas</option></select>
+          <output id="graph-aspect-value" class="control-help">Original positions</output>
           <details class="control-subsection" open><summary>Layout motion</summary>
             <label class="pin-control"><input id="adaptive-damping" type="checkbox" checked /> Adaptive damping</label>
             <label class="control-label" for="damping-response">Damping response</label>
