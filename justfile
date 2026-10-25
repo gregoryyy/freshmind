@@ -172,6 +172,14 @@ rfc-paper: rfc-experiment rfc-multifocus-experiment rfc-plot rfc-figures
 preview *args: build-demo
     npx --no-install vite preview --host 127.0.0.1 "$@"
 
+# Measure specified assertion fault sensitivity on disposable compiled copies.
+assurance-sensitivity output="/tmp/fm4-assurance-sensitivity.json": build
+    node scripts/assurance-sensitivity.mjs {{quote(output)}}
+
+# Observe the assembled production browser with public synthetic privacy canaries.
+test-assurance-browser: build-demo
+    npx --no-install playwright test --config playwright.assurance.config.mjs
+
 # Check TypeScript without emitting files.
 typecheck:
     npm run typecheck

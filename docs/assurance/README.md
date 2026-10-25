@@ -101,6 +101,10 @@ Neither reference establishes compliance, privacy or security for this project.
 
 ## Designing deterministic implementation checks
 
+The [prioritized verification record](05-verification.md) specifies independent
+oracles, controlled callback ordering, a production local-data workflow, privacy
+observer negative controls and a bounded mutation/coverage experiment.
+
 Determinism means that a recorded input, operation sequence and controlled
 environment have an explicit, repeatable expected outcome. It does not require
 byte-identical screenshots or floating-point output across all platforms.
