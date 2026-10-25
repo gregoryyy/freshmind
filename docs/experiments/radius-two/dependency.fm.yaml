@@ -1,0 +1,1200 @@
+format: freshmind
+version: 1
+title: ""
+types:
+  format: freshmind-types
+  version: 1
+  id: freshmind-2014
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      importance:
+        mode: size
+        minScale: 0.85
+        maxScale: 1.5
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#0000b0"
+        width: 1
+        dash: solid
+      arrow:
+        placement: middle
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: fm4
+    label: fm4 0.1.0
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 230
+      "y": 0
+    data:
+      package:
+        name: fm4
+        version: 0.1.0
+        path: ""
+        license: SEE LICENSE IN LICENSE
+        integrity: ""
+    extensions: {}
+  - id: node_modules/d3-color
+    label: d3-color 3.1.0
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 220.6833839313344
+      "y": 64.79848807352883
+    data:
+      package:
+        name: d3-color
+        version: 3.1.0
+        path: node_modules/d3-color
+        license: ISC
+        integrity: sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==
+    extensions: {}
+  - id: node_modules/d3-dispatch
+    label: d3-dispatch 3.0.1
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 193.48831255117167
+      "y": 124.34738801478744
+    data:
+      package:
+        name: d3-dispatch
+        version: 3.0.1
+        path: node_modules/d3-dispatch
+        license: ISC
+        integrity: sha512-rzUyPU/S7rwUflMyLc1ETDeBj0NRuHKKAcvukozwhshr6g6c5d8zh4c2gQjY2bZ0dXeGLWc1PF174P2tVvKhfg==
+    extensions: {}
+  - id: node_modules/d3-drag
+    label: d3-drag 3.0.0
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 150.61796880741556
+      "y": 173.8224021014794
+    data:
+      package:
+        name: d3-drag
+        version: 3.0.0
+        path: node_modules/d3-drag
+        license: ISC
+        integrity: sha512-pWbUJLdETVA8lQNJecMxoXfH6x+mO2UQo8rSmZ+QqxcbyA3hfeprFgIT//HW2nlHChWeIIMwS2Fq+gEARkhTkg==
+    extensions: {}
+  - id: node_modules/d3-ease
+    label: d3-ease 3.0.1
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 95.54545299043389
+      "y": 209.2153589315392
+    data:
+      package:
+        name: d3-ease
+        version: 3.0.1
+        path: node_modules/d3-ease
+        license: BSD-3-Clause
+        integrity: sha512-wR/XK3D3XcLIZwpbvQwQ5fK+8Ykds1ip7A2Txe0yxncXSdq1L9skcG7blcedkOX+ZcgxGAmLX1FrRGbADwzi0w==
+    extensions: {}
+  - id: node_modules/d3-interpolate
+    label: d3-interpolate 3.0.1
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 32.73241280285558
+      "y": 227.65893163261453
+    data:
+      package:
+        name: d3-interpolate
+        version: 3.0.1
+        path: node_modules/d3-interpolate
+        license: ISC
+        integrity: sha512-3bYs1rOD33uo8aqJfKP3JWPAibgw8Zm2+L9vBKEHJ2Rg+viTR7o5Mmv5mZcieN+FRYaAOWX5SJATX6k1PWz72g==
+    extensions: {}
+  - id: node_modules/d3-selection
+    label: d3-selection 3.0.0
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -32.73241280285555
+      "y": 227.65893163261455
+    data:
+      package:
+        name: d3-selection
+        version: 3.0.0
+        path: node_modules/d3-selection
+        license: ISC
+        integrity: sha512-fmTRWbNMmsmWq6xJV8D19U/gw/bwrHfNXxrIN+HfZgnzqTHp9jOmKMhsTUjXOJnZOdZY9Q28y4yebKzqDKlxlQ==
+    extensions: {}
+  - id: node_modules/d3-timer
+    label: d3-timer 3.0.1
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -95.54545299043386
+      "y": 209.21535893153924
+    data:
+      package:
+        name: d3-timer
+        version: 3.0.1
+        path: node_modules/d3-timer
+        license: ISC
+        integrity: sha512-ndfJ/JxxMd3nw31uyKoY2naivF+r29V+Lc0svZxe1JvvIRmi8hUsrMvdOwgS1o6uBHmiz91geQ0ylPP0aj1VUA==
+    extensions: {}
+  - id: node_modules/d3-transition
+    label: d3-transition 3.0.1
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -150.61796880741554
+      "y": 173.82240210147944
+    data:
+      package:
+        name: d3-transition
+        version: 3.0.1
+        path: node_modules/d3-transition
+        license: ISC
+        integrity: sha512-ApKvfjsSR6tg06xrL434C0WydLr7JewBB3V+/39RMHsaXTOG0zmt/OAXeng5M5LBm0ojmxJrpomQVZ1aPvBL4w==
+    extensions: {}
+  - id: node_modules/d3-zoom
+    label: d3-zoom 3.0.0
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -193.48831255117165
+      "y": 124.34738801478748
+    data:
+      package:
+        name: d3-zoom
+        version: 3.0.0
+        path: node_modules/d3-zoom
+        license: ISC
+        integrity: sha512-b8AmV3kfQaqWAuacbPuNbL6vahnOJflOhexLzMMNLga62+/nh0JzvJ0aO/5a5MVgUFGS7Hu1P9P03o3fJkDCyw==
+    extensions: {}
+  - id: node_modules/elasticlunr
+    label: elasticlunr 0.9.5
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -220.6833839313344
+      "y": 64.79848807352883
+    data:
+      package:
+        name: elasticlunr
+        version: 0.9.5
+        path: node_modules/elasticlunr
+        license: MIT
+        integrity: sha512-5YM9LFQgVYfuLNEoqMqVWIBuF2UNCA+xu/jz1TyryLN/wmBcQSb+GNAwvLKvEpGESwgGN8XA1nbLAt6rKlyHYQ==
+    extensions: {}
+  - id: node_modules/events
+    label: events 3.3.0
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -230
+      "y": 1.3030739464590354e-13
+    data:
+      package:
+        name: events
+        version: 3.3.0
+        path: node_modules/events
+        license: MIT
+        integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
+    extensions: {}
+  - id: node_modules/graphology
+    label: graphology 0.26.0
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -220.68338393133442
+      "y": -64.79848807352876
+    data:
+      package:
+        name: graphology
+        version: 0.26.0
+        path: node_modules/graphology
+        license: MIT
+        integrity: sha512-8SSImzgUUYC89Z042s+0r/vMibY7GX/Emz4LDO5e7jYXhuoWfHISPFJYjpRLUSJGq6UQ6xlenvX1p/hJdfXuXg==
+    extensions: {}
+  - id: node_modules/graphology-communities-louvain
+    label: graphology-communities-louvain 2.0.2
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -193.48831255117167
+      "y": -124.34738801478744
+    data:
+      package:
+        name: graphology-communities-louvain
+        version: 2.0.2
+        path: node_modules/graphology-communities-louvain
+        license: MIT
+        integrity: sha512-zt+2hHVPYxjEquyecxWXoUoIuN/UvYzsvI7boDdMNz0rRvpESQ7+e+Ejv6wK7AThycbZXuQ6DkG8NPMCq6XwoA==
+    extensions: {}
+  - id: node_modules/graphology-components
+    label: graphology-components 1.5.4
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -150.6179688074156
+      "y": -173.82240210147938
+    data:
+      package:
+        name: graphology-components
+        version: 1.5.4
+        path: node_modules/graphology-components
+        license: MIT
+        integrity: sha512-O37vC226wgnN0C6FUWHNe4fbTzaF51CcQjwX3naId/QTzH/PkUtXaanCShj9ws5Vju+z4u3zvSeEZE84Bo9jlA==
+    extensions: {}
+  - id: node_modules/graphology-indices
+    label: graphology-indices 0.17.0
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -95.54545299043404
+      "y": -209.21535893153913
+    data:
+      package:
+        name: graphology-indices
+        version: 0.17.0
+        path: node_modules/graphology-indices
+        license: MIT
+        integrity: sha512-A7RXuKQvdqSWOpn7ZVQo4S33O0vCfPBnUSf7FwE0zNCasqwZVUaCXePuWo5HBpWw68KJcwObZDHpFk6HKH6MYQ==
+    extensions: {}
+  - id: node_modules/graphology-types
+    label: graphology-types 0.24.8
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -32.7324128028556
+      "y": -227.65893163261453
+    data:
+      package:
+        name: graphology-types
+        version: 0.24.8
+        path: node_modules/graphology-types
+        license: MIT
+        integrity: sha512-hDRKYXa8TsoZHjgEaysSRyPdT6uB78Ci8WnjgbStlQysz7xR52PInxNsmnB7IBOM1BhikxkNyCVEFgmPKnpx3Q==
+    extensions: {}
+  - id: node_modules/graphology-utils
+    label: graphology-utils 2.5.2
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 32.73241280285552
+      "y": -227.65893163261455
+    data:
+      package:
+        name: graphology-utils
+        version: 2.5.2
+        path: node_modules/graphology-utils
+        license: MIT
+        integrity: sha512-ckHg8MXrXJkOARk56ZaSCM1g1Wihe2d6iTmz1enGOz4W/l831MBCKSayeFQfowgF8wd+PQ4rlch/56Vs/VZLDQ==
+    extensions: {}
+  - id: node_modules/mnemonist
+    label: mnemonist 0.39.8
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 95.54545299043379
+      "y": -209.21535893153927
+    data:
+      package:
+        name: mnemonist
+        version: 0.39.8
+        path: node_modules/mnemonist
+        license: MIT
+        integrity: sha512-vyWo2K3fjrUw8YeeZ1zF0fy6Mu59RHokURlld8ymdUPjMlD9EC9ov1/YPqTgqRvUN9nTr3Gqfz29LYAmu0PHPQ==
+    extensions: {}
+  - id: node_modules/obliterator
+    label: obliterator 2.0.5
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 150.61796880741545
+      "y": -173.8224021014795
+    data:
+      package:
+        name: obliterator
+        version: 2.0.5
+        path: node_modules/obliterator
+        license: MIT
+        integrity: sha512-42CPE9AhahZRsMNslczq0ctAEtqk8Eka26QofnqC346BZdHDySk3LWka23LI7ULIw11NmltpiLagIq8gBozxTw==
+    extensions: {}
+  - id: node_modules/pandemonium
+    label: pandemonium 2.4.1
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 193.48831255117167
+      "y": -124.34738801478741
+    data:
+      package:
+        name: pandemonium
+        version: 2.4.1
+        path: node_modules/pandemonium
+        license: MIT
+        integrity: sha512-wRqjisUyiUfXowgm7MFH2rwJzKIr20rca5FsHXCMNm1W5YPP1hCtrZfgmQ62kP7OZ7Xt+cR858aB28lu5NX55g==
+    extensions: {}
+  - id: node_modules/yaml
+    label: yaml 2.9.1
+    type: package
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 220.6833839313344
+      "y": -64.79848807352884
+    data:
+      package:
+        name: yaml
+        version: 2.9.1
+        path: node_modules/yaml
+        license: ISC
+        integrity: sha512-3NxN8+78OdzbT7C/WjGsyfPAtJaN3FNDsWxv7Y7mcDsT/oOmgW8BpyQQFFBnvZE3j9Y2Sdz1ULFLezL7Eb2yFw==
+    extensions: {}
+edges:
+  - id: fm4:dependencies:d3-drag
+    from: fm4
+    to: node_modules/d3-drag
+    label: ^3.0.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^3.0.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: fm4:dependencies:d3-selection
+    from: fm4
+    to: node_modules/d3-selection
+    label: ^3.0.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^3.0.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: fm4:dependencies:d3-zoom
+    from: fm4
+    to: node_modules/d3-zoom
+    label: ^3.0.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^3.0.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: fm4:dependencies:elasticlunr
+    from: fm4
+    to: node_modules/elasticlunr
+    label: 0.9.5
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 0.9.5
+      sourceKind: dependencies
+    extensions: {}
+  - id: fm4:dependencies:graphology
+    from: fm4
+    to: node_modules/graphology
+    label: ^0.26.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^0.26.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: fm4:dependencies:graphology-communities-louvain
+    from: fm4
+    to: node_modules/graphology-communities-louvain
+    label: ^2.0.2
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^2.0.2
+      sourceKind: dependencies
+    extensions: {}
+  - id: fm4:dependencies:graphology-components
+    from: fm4
+    to: node_modules/graphology-components
+    label: ^1.5.4
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^1.5.4
+      sourceKind: dependencies
+    extensions: {}
+  - id: fm4:dependencies:yaml
+    from: fm4
+    to: node_modules/yaml
+    label: ^2.9.1
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^2.9.1
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-drag:dependencies:d3-dispatch
+    from: node_modules/d3-drag
+    to: node_modules/d3-dispatch
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-drag:dependencies:d3-selection
+    from: node_modules/d3-drag
+    to: node_modules/d3-selection
+    label: "3"
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: "3"
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-zoom:dependencies:d3-dispatch
+    from: node_modules/d3-zoom
+    to: node_modules/d3-dispatch
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-zoom:dependencies:d3-drag
+    from: node_modules/d3-zoom
+    to: node_modules/d3-drag
+    label: 2 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 2 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-zoom:dependencies:d3-interpolate
+    from: node_modules/d3-zoom
+    to: node_modules/d3-interpolate
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-zoom:dependencies:d3-selection
+    from: node_modules/d3-zoom
+    to: node_modules/d3-selection
+    label: 2 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 2 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-zoom:dependencies:d3-transition
+    from: node_modules/d3-zoom
+    to: node_modules/d3-transition
+    label: 2 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 2 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology:dependencies:events
+    from: node_modules/graphology
+    to: node_modules/events
+    label: ^3.3.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^3.3.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology:peerDependencies:graphology-types
+    from: node_modules/graphology
+    to: node_modules/graphology-types
+    label: ">=0.24.0"
+    type: peer
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ">=0.24.0"
+      sourceKind: peerDependencies
+    extensions: {}
+  - id: node_modules/graphology-communities-louvain:dependencies:graphology-indices
+    from: node_modules/graphology-communities-louvain
+    to: node_modules/graphology-indices
+    label: ^0.17.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^0.17.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology-communities-louvain:dependencies:graphology-utils
+    from: node_modules/graphology-communities-louvain
+    to: node_modules/graphology-utils
+    label: ^2.4.4
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^2.4.4
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology-communities-louvain:dependencies:mnemonist
+    from: node_modules/graphology-communities-louvain
+    to: node_modules/mnemonist
+    label: ^0.39.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^0.39.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology-communities-louvain:dependencies:pandemonium
+    from: node_modules/graphology-communities-louvain
+    to: node_modules/pandemonium
+    label: ^2.4.1
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^2.4.1
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology-communities-louvain:peerDependencies:graphology-types
+    from: node_modules/graphology-communities-louvain
+    to: node_modules/graphology-types
+    label: ">=0.19.0"
+    type: peer
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ">=0.19.0"
+      sourceKind: peerDependencies
+    extensions: {}
+  - id: node_modules/graphology-components:dependencies:graphology-indices
+    from: node_modules/graphology-components
+    to: node_modules/graphology-indices
+    label: ^0.17.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^0.17.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology-components:dependencies:graphology-utils
+    from: node_modules/graphology-components
+    to: node_modules/graphology-utils
+    label: ^2.1.2
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^2.1.2
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology-components:peerDependencies:graphology-types
+    from: node_modules/graphology-components
+    to: node_modules/graphology-types
+    label: ">=0.19.0"
+    type: peer
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ">=0.19.0"
+      sourceKind: peerDependencies
+    extensions: {}
+  - id: node_modules/d3-interpolate:dependencies:d3-color
+    from: node_modules/d3-interpolate
+    to: node_modules/d3-color
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-transition:dependencies:d3-color
+    from: node_modules/d3-transition
+    to: node_modules/d3-color
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-transition:dependencies:d3-dispatch
+    from: node_modules/d3-transition
+    to: node_modules/d3-dispatch
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-transition:dependencies:d3-ease
+    from: node_modules/d3-transition
+    to: node_modules/d3-ease
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-transition:dependencies:d3-interpolate
+    from: node_modules/d3-transition
+    to: node_modules/d3-interpolate
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-transition:dependencies:d3-timer
+    from: node_modules/d3-transition
+    to: node_modules/d3-timer
+    label: 1 - 3
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 1 - 3
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/d3-transition:peerDependencies:d3-selection
+    from: node_modules/d3-transition
+    to: node_modules/d3-selection
+    label: 2 - 3
+    type: peer
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: 2 - 3
+      sourceKind: peerDependencies
+    extensions: {}
+  - id: node_modules/graphology-indices:dependencies:graphology-utils
+    from: node_modules/graphology-indices
+    to: node_modules/graphology-utils
+    label: ^2.4.2
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^2.4.2
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology-indices:dependencies:mnemonist
+    from: node_modules/graphology-indices
+    to: node_modules/mnemonist
+    label: ^0.39.0
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^0.39.0
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/graphology-indices:peerDependencies:graphology-types
+    from: node_modules/graphology-indices
+    to: node_modules/graphology-types
+    label: ">=0.20.0"
+    type: peer
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ">=0.20.0"
+      sourceKind: peerDependencies
+    extensions: {}
+  - id: node_modules/graphology-utils:peerDependencies:graphology-types
+    from: node_modules/graphology-utils
+    to: node_modules/graphology-types
+    label: ">=0.23.0"
+    type: peer
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ">=0.23.0"
+      sourceKind: peerDependencies
+    extensions: {}
+  - id: node_modules/mnemonist:dependencies:obliterator
+    from: node_modules/mnemonist
+    to: node_modules/obliterator
+    label: ^2.0.1
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^2.0.1
+      sourceKind: dependencies
+    extensions: {}
+  - id: node_modules/pandemonium:dependencies:mnemonist
+    from: node_modules/pandemonium
+    to: node_modules/mnemonist
+    label: ^0.39.2
+    type: dependency
+    visual: {}
+    weight: 10
+    length: 40
+    data:
+      requirement: ^0.39.2
+      sourceKind: dependencies
+    extensions: {}
+data: {}
+extensions: {}

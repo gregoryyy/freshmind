@@ -30,6 +30,8 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 
 See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Feature delivery is distinct from conformance to the [assurance baseline](docs/assurance/README.md); that audit has not been completed. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes. **View → Label spacing** offers paused node separation and automatic relation-label placement; see the [readability guide](docs/readability.md).
 
+The [radius-two task/cost comparison](docs/experiments/radius-two/README.md) evaluates the browser in [PR51](https://github.com/gregoryyy/freshmind/pull/51) against a public dependency graph and four baselines. These are software checks and analytical task answers; the [maintainer pilot](docs/experiments/radius-two/PILOT.md) still needs actual observations.
+
 ## Run the browser
 
 Use the repository's `just` recipes:

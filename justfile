@@ -52,6 +52,10 @@ flipbook *args: build-demo
 controls-showcase *args: build-demo
     node scripts/flipbook.mjs --tour controls "$@"
 
+# Evaluate a built radius-two application checkout (PR51 or later), without rebuilding it.
+radius-two-evaluation app="." output="docs/experiments/radius-two":
+    node scripts/radius-two-evaluation.mjs {{quote(app)}} {{quote(output)}}
+
 # Capture the six-view research-community RFC/hybrid showcase from the production browser.
 rfc-showcase *args: build-demo
     node scripts/flipbook.mjs --tour rfc-showcase "$@"
