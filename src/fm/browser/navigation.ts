@@ -34,7 +34,7 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
   };
   /** Pointer ownership resumes from the center; explicit controls/editors keep their DOM focus. */
   const activate=()=>{
-    if(!svg.isConnected||!passiveFocus())return;
+    if(!svg.isConnected||svg.closest("[inert]")||!passiveFocus())return;
     selectCenter();focusSelection();
   };
   const pointerenter=(event:PointerEvent)=>{if(event.pointerType==="touch")return;pointerInside=true;activate();};
@@ -83,7 +83,7 @@ export function bindNavigation(svg: SVGSVGElement, host: NavigationHost, navigat
   };
   // DOM replacement can leave body focused while the pointer is stationary over the graph.
   const passiveKeydown=(event:KeyboardEvent)=>{
-    if(!pointerInside||!passiveFocus()||!svg.isConnected||!svg.getClientRects().length||event.defaultPrevented||event.isComposing)return;
+    if(!pointerInside||!passiveFocus()||!svg.isConnected||svg.closest("[inert]")||!svg.getClientRects().length||event.defaultPrevented||event.isComposing)return;
     activate();keydown(event);
   };
   const click = (event: MouseEvent) => {

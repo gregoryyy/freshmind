@@ -254,9 +254,11 @@ export class TGPanel {
       && node.drawy > Math.min(from.y, to.y) && node.drawy < Math.max(from.y, to.y));
     this.setSelect(candidates[Math.trunc(Math.random() * candidates.length)] ?? null);
   }
+  /** Narrow hook for composed views that explicitly select complete-graph items. */
+  protected selectionIsValid(node: Node): boolean { return this.getGES().contains(node); }
   /** Clear references after removals, without selecting a new node during an animation. */
   localityChanged(): void {
-    if (this.selected && !this.getGES().contains(this.selected)) this.clearSelect();
+    if (this.selected && !this.selectionIsValid(this.selected)) this.clearSelect();
     if (this.focus && !this.getGES().contains(this.focus)) this.focus = null;
     if (this.dragNode && !this.getGES().contains(this.dragNode)) this.setDragNode(null);
     if (this.mouseOverN && !this.getGES().contains(this.mouseOverN)) this.mouseOverN = null;

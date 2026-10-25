@@ -1,0 +1,21 @@
+/* SPDX-License-Identifier: Apache-2.0; Copyright (c) 2026 Gregor Heinrich. */
+import assert from 'node:assert/strict';
+import {fileURLToPath} from 'node:url';
+import {selectChoice} from '../browser-controls.mjs';
+const example=fileURLToPath(new URL('../../examples/radius-two/workspace.fm.yaml',import.meta.url));
+const source=page=>page.evaluate(()=>{const p=window.graphBrowser;return {nodes:p.getNodeCount(),edges:p.getEdgeCount(),positions:[...p.getAllNodes()].map(n=>[n.getID(),n.x,n.y]),visible:[...p.getGES().getNodes()].map(n=>n.getID())};});
+let before;
+export const tour=[
+  {id:'overview',title:'A radius-two neighborhood without drawn links',caption:'Workspace has three direct neighbors on the vertical spine and two unique second-hop nodes across four occurrences. Incoming and outgoing wings retain real direction. The six-node, thirteen-relation graph includes loops, a reciprocal pair, cross-links and a zero-weight parallel relation. Selection and History remain hidden in the force view; this mode explicitly inspects the complete stored graph.',async run({page,open,advance}){
+    await open('/');await page.locator('#open-graph-files').setInputFiles(example);await page.waitForFunction(()=>window.graphBrowser.getNodeCount()===6&&window.graphBrowser.getEdgeCount()===13);await advance(0);
+    await page.evaluate(()=>{const p=window.graphBrowser;p.getGES().removeNode(p.findNode('selection'));p.getGES().removeNode(p.findNode('history'));p.localityChanged();p.setSelect(p.findNode('workspace'));p.repaint();for(const section of document.querySelectorAll('.sidebar > details'))section.open=section.id==='view-section';});
+    before=await source(page);await selectChoice(page.locator('#exploration-view'),'radius-two');await page.waitForFunction(()=>document.querySelector('#radius-two-view .r2-counts')?.textContent.includes('3 direct nodes · 2 unique second-hop nodes · 4 row occurrences · 13 relation records'));assert.deepEqual(await source(page),before);
+  }},
+  {id:'sharing',title:'Shared identity and exact relation records',caption:'Selection appears in three cells bound to one canonical node. Selecting or focusing one occurrence highlights its siblings and witness rows. Expanded records retain both parallel relations, including weight zero, and name the actual endpoints. Inspecting a hidden node changes selection without revealing it in the original force locality.',async run({page}){
+    const root=page.locator('#radius-two-view');await root.locator('.r2-card[data-radius-node-id="selection"]').first().click();await root.getByText('Relations: 2',{exact:true}).click();await root.getByText('Via 2 rows',{exact:true}).first().click();assert.deepEqual(await source(page),before);
+  }},
+  {id:'search-seed',title:'Enter a neighborhood from an accepted search result',caption:'A real local lexical query for Selection creates the ordinary query/result records. The accepted result becomes the radius-two center and selected node, with its source, rank, raw score and corpus provenance retained. Seeding adds no further graph records and does not change positions or force-view visibility. LDA seeding uses the same adapter and is covered by real-worker browser checks.',async run({page}){
+    const root=page.locator('#radius-two-view');await root.getByRole('button',{name:'Return to graph',exact:true}).click();await page.locator('#search-section').evaluate(section=>section.open=true);await page.locator('#search-query').fill('Selection');await page.locator('#search-run').click();await page.waitForFunction(()=>document.querySelector('#search-status').textContent.includes('1 result linked'));
+    const searched=await source(page);await selectChoice(page.locator('#exploration-view'),'radius-two');await root.getByText('Search result seeds',{exact:true}).click();await root.getByLabel('Search result seed',{exact:true}).selectOption('0');await page.waitForFunction(()=>window.graphBrowser.getSelect()?.getID()==='selection');assert.deepEqual(await source(page),searched);await page.locator('#search-section').evaluate(section=>section.open=false);
+  }}
+];
