@@ -15,7 +15,7 @@ export interface GraphSearchElements {
   minDocumentFrequency?:HTMLInputElement;
 }
 /** Caller-owned elements; this binding owns/disposes its controller and listeners. */
-export function bindGraphSearchControls(panel:FreshmindPanel,e:GraphSearchElements,controller=new GraphSearchController(panel)):()=>void {
+export function bindGraphSearchControls(panel:FreshmindPanel,e:GraphSearchElements,controller=new GraphSearchController(panel,undefined,{reinforceResults:true})):()=>void {
   const removers:(()=>void)[]=[];
   const listen=(target:HTMLElement,event:string,handler:EventListener)=>{target.addEventListener(event,handler);removers.push(()=>target.removeEventListener(event,handler));};
   let disposed=false,errorMessage="";

@@ -11,6 +11,10 @@ import type {FreshmindPanel} from "./panel.js";
 export {SearchCancelledError} from "../../ir/browser/index.js";
 export type {SearchWorkerFactory} from "../../ir/browser/index.js";
 export interface GraphSearchState {busy:boolean;trained:boolean;message:string;topicWords:string[][]}
+export interface GraphSearchOptions {
+  /** Focus successful results with the existing RFC settings; browser controls enable this by default. */
+  reinforceResults?:boolean;
+}
 /** Freshmind adapter: owns graph snapshots/results and view status; search owns workers and models. */
 export class GraphSearchController {
   private readonly session:SearchSession;
@@ -22,7 +26,7 @@ export class GraphSearchController {
   private readonly removeGraphChange:()=>void;
   private state:GraphSearchState={busy:false,trained:false,message:"Choose terms or tags to search the graph.",topicWords:[]};
   private readonly graphListener={graphMoved:()=>this.checkGraph(),graphReset:()=>this.resetGraph()};
-  constructor(private readonly panel:FreshmindPanel,workerFactory?:SearchWorkerFactory){
+  constructor(private readonly panel:FreshmindPanel,workerFactory?:SearchWorkerFactory,private readonly options:GraphSearchOptions={}){
     this.session=new SearchSession(workerFactory);
     this.graph=panel.getCompleteEltSet();panel.addGraphListener(this.graphListener);this.removeGraphChange=panel.addGraphChangeListener(()=>this.resetGraph());
   }
@@ -89,7 +93,9 @@ export class GraphSearchController {
       else this.commitQuery(owner,r);
     }
     const edges=applyGraphSearchResults(graph,owner!,r,results,corpus);
-    this.reveal(owner!,edges);this.publish({message:`${edges.length} result${edges.length===1?"":"s"} linked. Select a result relation to reject it.`});return edges;
+    this.reveal(owner!,edges);
+    if(this.options.reinforceResults&&edges.length&&this.panel.getGES().contains(owner!))this.panel.getRfc().setFocus(owner!);
+    this.publish({message:`${edges.length} result${edges.length===1?"":"s"} linked. Select a result relation to reject it.`});return edges;
   }
   /** Creates/selects the query before retrieval, so graph entry and deletion work even without a trained model. */
   createQuery(engine:SearchEngine,context:FreshNode|null=this.panel.getSelect() as FreshNode|null,options:Pick<SearchRequest,"metric"|"maxDistance">={}):FreshNode {

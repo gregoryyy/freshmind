@@ -41,7 +41,7 @@ available in editors. See the [key map](KEYMAP.md).
 
 1. Choose **Lexical**, enter terms such as `graph AND layout`, and press **Run
    query** or Enter. A query node appears beside the selected context node, with
-   relevance-labeled links to results. Select an existing query and run again to
+   green rank links (`#1`, `#2`, …) to results. Select an existing query and run again to
    replace its links; manual and context relations remain. Switching its method
    also updates its node type and replaces its earlier result links.
 2. For exact metadata lookup choose **Tags (exact)**. Enter whole tag values,
@@ -56,12 +56,21 @@ available in editors. See the [key map](KEYMAP.md).
    documents. Retrain after changing graph text or tags.
 4. Select a content node and press **Find similar nodes** to attach neighbors
    directly to it. The source is excluded. Lexical similarity queries the source label/content terms;
-   LDA compares document topic distributions. Neither changes node importance or
-   turns RFC on. The existing lens, RFC and structural controls remain independent.
+   LDA compares document topic distributions. Neither changes node importance.
+   Successful searches activate RFC around the query node or existing similarity
+   source, replacing earlier focal activations and retaining the current force,
+   coordinate-weight and lens settings. Empty/error/cancelled searches do not
+   select a new RFC center. Use the ordinary RFC controls to clear or adjust it.
 5. Select a green result relation and press **Reject selected result**. Its link
    disappears and the negative judgment is retained. Future runs of that query
    omit the rejected item. Ordinary hide/collapse actions do not record feedback.
    This collects input for future learning; it does not train a feedback model.
+
+Embedding applications that construct `GraphSearchController` directly retain
+explicit RFC ownership by default. Its optional third constructor argument,
+`{reinforceResults: true}`, opts into the browser controls' automatic focus policy.
+The controller uses existing RFC settings; it does not substitute a preset or
+change semantic weights to obtain the layout.
 
 Lexical queries support `AND`, `OR`, `NOT`, grouping, quoted phrases, trailing
 prefixes and the `content:`, `label:`, `hint:`, `id:`, `type:` and `tag:` fields.
@@ -71,8 +80,15 @@ type:paper`. Unsupported fuzzy/range/boost/wildcard forms report an error.
 All-stop/OOV text produces no results. LDA accepts ordinary query words, not the
 lexical Boolean grammar. Maximum displayed results is 1–100 (default 5).
 
+Result links use solid green strokes, arrows and short rank labels; the context
+link is dashed green with no painted label. Existing semantic relation styles
+remain. Hover a result for its engine, rank, metric and exact score; the same
+description is available to keyboard/assistive-technology users. Full provenance
+remains in relation metadata and YAML. Previously saved relation labels/styles
+are retained until their search is rerun.
+
 For LDA, choose **FM 2014 symmetric KL distance**, **Predictive likelihood** or
-**Bounded Jensen–Shannon distance**. Labels and metadata record the metric and
+**Bounded Jensen–Shannon distance**. Tooltips and metadata record the metric and
 raw value. Lower distances are better; higher likelihoods are better. The optional
 strict distance limit defaults to 0.6 for text queries and 0.2 for node similarity;
 likelihood ranking ignores it. Display relevance is relative, not calibrated.

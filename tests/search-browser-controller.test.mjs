@@ -5,13 +5,31 @@ import {FreshNode,FreshGraph,FreshEdge} from 'fm4/fm/model';
 import {graphSearchCorpus,searchResultMetadata} from 'fm4/fm/ir';
 import {LexicalSearchIndex} from 'fm4/ir/lexical';
 import {trainLda} from 'fm4/ir/topics';
-function fixture(){
+function fixture(options={}){
   const panel=new FreshmindPanel(),a=panel.addNode(new FreshNode('a','graph layout')),b=panel.addNode(new FreshNode('b','graph spring')),c=panel.addNode(new FreshNode('c','topic model'));
   const manual=panel.addEdge(new FreshEdge(a,c,{label:'manual'})),workers=[];
-  const controller=new GraphSearchController(panel,()=>{const w={onmessage:null,onerror:null,terminated:false,postMessage(job){this.job=job;},terminate(){this.terminated=true;},answer(data){this.onmessage?.({data});}};workers.push(w);return w;});
+  const controller=new GraphSearchController(panel,()=>{const w={onmessage:null,onerror:null,terminated:false,postMessage(job){this.job=job;},terminate(){this.terminated=true;},answer(data){this.onmessage?.({data});}};workers.push(w);return w;},options);
   return {panel,a,b,c,manual,controller,workers};
 }
 const request={engine:'lexical',kind:'terms',query:'graph'};
+test('opt-in search RFC follows successful queries and similarity, retaining settings and rejecting late focus changes',async()=>{
+  const {panel,controller,a,workers}=fixture({reinforceResults:true});
+  panel.getRfc().configure({radialLength:180,coordinateWeights:{x:.25,y:1}});panel.getRfc().setFocus(a);
+  const settings=panel.getRfc().getState().settings;
+  let pending=controller.query(request,5,a),worker=workers.at(-1);
+  worker.answer({kind:'results',results:new LexicalSearchIndex(worker.job.corpus).search('graph')});
+  const edges=await pending,q=edges[0].from;
+  assert.equal(panel.getRfc().getState().focusId,q.getID());assert.deepEqual(panel.getRfc().getState().settings,settings);
+  assert.ok(panel.getRfc().getState().branchIds.includes('b'));
+  pending=controller.query({...request,kind:'similarity',query:'a'},5,a);worker=workers.at(-1);
+  worker.answer({kind:'results',results:new LexicalSearchIndex(worker.job.corpus).similar('a')});await pending;
+  assert.equal(panel.getRfc().getState().focusId,'a');
+  pending=controller.query({...request,query:'missing'},5,q);worker=workers.at(-1);worker.answer({kind:'results',results:[]});await pending;
+  assert.equal(panel.getRfc().getState().focusId,'a');
+  pending=controller.query(request,5,q);const rejected=assert.rejects(pending,/cancelled/);worker=workers.at(-1);const late=worker.onmessage;
+  controller.cancel();await rejected;late({data:{kind:'results',results:[]}});assert.equal(panel.getRfc().getState().focusId,'a');
+  controller.dispose();panel.destroy();
+});
 test('query shortcuts can create a visible empty draft before retrieval without changing the content corpus',()=>{
   const {controller,panel,a,workers,manual}=fixture();panel.setSelect(a);
   const corpus=graphSearchCorpus(panel.getCompleteEltSet()),q=controller.createQuery('lexical');

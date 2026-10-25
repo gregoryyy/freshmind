@@ -52,7 +52,7 @@ The help dialog and docs/KEYMAP.md share the same implemented command definition
 
 ![A searchable research library](05-search-library.png)
 
-This new fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including currently hidden items. RFC and the viewing lens remain independent controls.
+This fictional graph contains 24 nodes and 28 semantic relations: three researchers, eighteen papers, two bridge papers and a collection. Labels, annotations and exact tags are searchable, including hidden items. The library starts without reinforcement; successful searches activate RFC around their query or similarity source.
 
 ## 6. Start a search directly on the graph
 
@@ -68,7 +68,7 @@ Select Mira Vega and press Ctrl+F. A query node appears immediately, linked to M
 
 ![A term query joins its context](07-search-lexical-query.png)
 
-Enter runs the elasticlunr literal query for spring layout. The radius-two neighborhood shows ranked matches and their ordinary context; other content stays stored and searchable. Green relations carry ranked relevance alongside authored/citation links. F2 edits and reruns the query without duplicating it; the sidebar offers the same search controls.
+Enter runs the literal query and reinforces its neighborhood around the query node. Solid green links show compact ranks (#1, #2, …); the dashed green link identifies context. Blue semantic relations remain. Hover a result for the exact engine/score. F2 edits and reruns the query without duplicating it.
 
 ## 8. Whole-tag retrieval
 
@@ -92,7 +92,7 @@ Three topics are trained locally for 200 serial Gibbs passes with seed 4357, alp
 
 ![Retrieve by inferred topics](10-search-topical-query.png)
 
-Ctrl+Shift+F starts a separate LDA query on the graph. Enter submits geometry repulsion to the trained topic model. Symmetric KL distance in bits ranks document topic mixtures, with a strict default limit of 0.6; lower distances are better. The earlier tag query remains available. Search scores stay separate from importance and RFC physics.
+Ctrl+Shift+F starts a separate LDA query. Enter submits geometry repulsion and moves RFC to this query. Green rank labels stay short; hovering reveals symmetric KL distance in bits (lower is better, default limit 0.6). The earlier tag query stays available. Relevance does not change node importance or RFC stiffness.
 
 ## 11. Use an existing paper as the query
 
@@ -100,7 +100,7 @@ Ctrl+Shift+F starts a separate LDA query on the graph. Enter submits geometry re
 
 ![Use an existing paper as the query](11-search-node-similarity.png)
 
-Select Spring neighborhoods and press Ctrl+Shift+R to retrieve similar items from its topic mixture, excluding itself. Ctrl+R provides literal similarity. Existing authored/citation relations remain. Results expand ordinary graph browsing without requiring a separate results page.
+Select Spring neighborhoods and press Ctrl+Shift+R to retrieve topic similarities and reinforce a neighborhood around this paper. Ctrl+R provides literal similarity. Compact green ranked links stay distinct from existing blue authored/citation relations. No separate results page is needed.
 
 ## 12. Retain a negative judgment
 
