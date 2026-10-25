@@ -34,7 +34,9 @@ The zero-weight context node stays visible without reinforcement.
   Graph replacement clears activations while retaining the panel's depth choice.
 - Stored tree/DAG/cluster memberships retain their explicit definitions. Search
   result focus retains its explicit one-level result star, so context nodes and
-  result neighbors do not become results through this option.
+  result neighbors do not become results through this option. Explicitly
+  reinforcing that same node as an ordinary or stored center replaces the search
+  activation and releases its invisible result disk.
 
 Multiple trees use the existing deduplicated radial constraints and shared-member
 angular ownership. They remain deformable: members are not pinned or copied, and
@@ -51,7 +53,10 @@ separately from numerical force presets. `getState().neighborhoodDepth` exposes
 it. `projectFocus(node, locality)` projects an active center into a supplied
 read-only locality, allowing structural aggregation to protect grandchildren
 from the unfiltered source. Explicit type filters continue to take precedence.
-No settings, structures or synthetic relations are written into graph files.
+A search constraint follows its specific explicit-star activation, identified by
+`getFocusEdgesToken(node)`, and releases when that activation is replaced even if
+the center ID is unchanged. No settings, structures or synthetic relations are
+written into graph files.
 
 The default controller and `projectRfcStructure` retain their original one-level
 path. Tree incidence is built once for angular stars rather than rescanning all

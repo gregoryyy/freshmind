@@ -29,6 +29,7 @@ export class RfcController {
   private focus:Node|null=null;
   private readonly centers=new Map<Node,string|null>();
   private readonly restrictedEdges=new Map<Node,readonly Edge[]>();
+  private readonly focusEdgeTokens=new WeakMap<Node,symbol>();
   private settings:RfcSettings;
   private neighborhoodDepth:1|2=1;
   private clusterSettings:RfcClusterSettings={rigidity:1};
@@ -135,11 +136,15 @@ export class RfcController {
     this.centers.clear();this.focus=node;if(node)this.centers.set(node,definition);
     this.stabilizer.reset();this.host.resetDamper();this.publish();
   }
+  /** Opaque identity of the current explicit-star activation; null for ordinary/stored/deleted centers. */
+  getFocusEdgesToken(node:Node):symbol|null {
+    return !this.disposed&&this.host.getCompleteEltSet().contains(node)&&this.centers.has(node)&&this.restrictedEdges.has(node)?this.focusEdgeTokens.get(node)??null:null;
+  }
   /** Exclusive transient star over explicit incident relations (for example accepted search results). */
   setFocusEdges(node:Node,edges:readonly Edge[]):void {
     this.assertAlive();this.visible(node);
     if(edges.some(e=>!this.host.getCompleteEltSet().contains(e)||(e.from!==node&&e.to!==node)))throw new TypeError("Focus relations must be current and incident to the center");
-    this.centers.clear();this.restrictedEdges.clear();this.focus=node;this.centers.set(node,null);this.restrictedEdges.set(node,[...edges]);
+    this.centers.clear();this.restrictedEdges.clear();this.focus=node;this.centers.set(node,null);this.restrictedEdges.set(node,[...edges]);this.focusEdgeTokens.set(node,Symbol());
     this.stabilizer.reset();this.host.resetDamper();this.publish();
   }
   /** Adds another center without changing locality/view or replacing existing centers. Repeats are idempotent. */

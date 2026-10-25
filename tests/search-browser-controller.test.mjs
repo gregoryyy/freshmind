@@ -157,3 +157,33 @@ test('search disk releases old object references on replacement and disposal, an
   controller.dispose();c.x=q.x;c.y=q.y;replacement.tick();assert.deepEqual([c.x,c.y],[q.x,q.y]);
   panel.setGraphEltSet(new FreshGraph());assert.equal(controller.getFocusState().disk,null);panel.destroy();
 });
+
+test('same-center ordinary/stored activation releases the search disk while depth changes and added centers retain it',async()=>{
+  for(const activation of ['ordinary','stored','explicit','same-explicit']) {
+    const {panel,controller,a,c,workers}=fixture({reinforceResults:true});
+    try {
+      const pending=controller.query(request,5,a),worker=workers.at(-1);worker.answer({kind:'results',results:new LexicalSearchIndex(worker.job.corpus).search('graph')});
+      const edges=await pending,q=edges[0].from,rfc=panel.getRfc();
+      rfc.setNeighborhoodDepth(2);assert.ok(controller.getFocusState().disk);assert.equal(rfc.getState().centers[0].kind,'star');
+      rfc.addFocus(c);assert.ok(controller.getFocusState().disk);
+      if(activation==='ordinary')rfc.setFocus(q);
+      else if(activation==='explicit'||activation==='same-explicit')rfc.setFocusEdges(q,activation==='explicit'?[edges[0]]:edges);
+      else {
+        const relation=panel.addEdge(new FreshEdge(q,c,{id:'explicit-scope'}));
+        panel.getCompleteEltSet().setSubstructure({id:'explicit',label:'Explicit',kind:'tree',rootId:q.getID(),nodeIds:[q.getID(),c.getID()],edgeIds:[relation.getID()]});
+        rfc.activateSubstructure('explicit');
+      }
+      assert.equal(rfc.getState().focusId,q.getID());assert.equal(controller.getFocusState().disk,null,`${activation} scope must release old result geometry`);
+      c.x=q.x;c.y=q.y;panel.tgLayout.stopMotion();panel.tgLayout.stopMotion();panel.tgLayout.tick();assert.deepEqual([c.x,c.y],[q.x,q.y]);
+    } finally {controller.dispose();panel.destroy();}
+  }
+});
+
+test('a host listener replacing search activation synchronously retains its ordinary RFC choice',async()=>{
+  const {panel,controller,a,workers}=fixture({reinforceResults:true}),rfc=panel.getRfc();rfc.setNeighborhoodDepth(2);
+  const remove=rfc.addListener(state=>{const node=panel.findNode(state.focusId);if(node&&rfc.getFocusEdgesToken(node)!==null)rfc.setFocus(node);});
+  try {
+    const pending=controller.query(request,5,a),worker=workers.at(-1);worker.answer({kind:'results',results:new LexicalSearchIndex(worker.job.corpus).search('graph')});
+    const edges=await pending;assert.ok(edges.length);assert.equal(rfc.getState().centers[0].kind,'tree');assert.equal(controller.getFocusState().disk,null);
+  } finally {remove();controller.dispose();panel.destroy();}
+});

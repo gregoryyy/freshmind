@@ -85,7 +85,9 @@ leave context labels trapped inside. It checks forward-projected placement
 through the current lenses rather than trusting the historical approximate
 inverse alone. Rim positioning overrides competing forces at its boundary;
 this is an added search presentation policy, separate from historical RFC
-force equations. Clearing/changing the primary RFC center, replacing the graph
+force equations. Clearing/changing the primary RFC center, switching that same
+node to ordinary or stored RFC, replacing its explicit relation scope, replacing
+the graph
 or disposing the search controller releases it. A successful empty result batch
 also releases the disk. Rejected/deleted result links leave the active rim.
 
