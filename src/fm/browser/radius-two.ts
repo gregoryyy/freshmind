@@ -95,18 +95,20 @@ export class RadiusTwoView {
   /** Indicates that an accepted edit/job may have changed the frozen snapshot; never rearranges a target. */
   markChanged():void {if(this.active){this.status.textContent="Graph/view changed. Refresh to update this frozen snapshot.";}}
   private graphChanged():void {
+    if(this.active&&this.body.contains(this.root.ownerDocument.activeElement))this.root.focus({preventScroll:true});
     this.graph=this.panel.getCompleteEltSet();this.snapshot=undefined;this.projection=undefined;this.history=[];this.future=[];this.nodes.clear();this.edges.clear();this.previous=null;this.previousAnchor=null;this.seed=undefined;this.seedPage=[];this.seeds.replaceChildren();this.seeds.disabled=true;this.provenance.textContent="";this.renderRevision++;
     if(this.active){this.panel.tgLayout.stop();this.body.replaceChildren();this.status.textContent="Document replaced; preparing its neighborhood.";this.schedule(()=>this.refresh());}
   }
   refresh(centerId?:string):void {
     if(!this.active||this.disposed)return;
+    const focused=this.root.ownerDocument.activeElement,restoreFocus=focused===this.root||this.body.contains(focused);
     this.renderRevision++;this.body.replaceChildren();this.snapshot=undefined;this.projection=undefined;
     this.graph=this.panel.getCompleteEltSet();this.snapshot=captureRadiusSnapshot(this.graph,`radius:${++this.revision}`);
     this.nodes=new Map([...this.graph.getNodes()].map(n=>[n.getID()!,n]));this.edges=new Map([...this.graph.getEdges()].map(e=>[e.getID()!,e]));
     const selected=this.panel.getSelection(),fallback=selected instanceof FreshNode?selected.getID():this.panel.getSelect()?.getID();
     this.center=centerId??(this.nodes.has(this.center)?this.center:fallback??this.graph.getFirstNode()?.getID()??"");
     this.settings={direction:this.direction.value as RadiusOptions["direction"]};this.history=[];this.future=[];this.occurrence=undefined;this.seed=undefined;this.seedOffset=0;
-    this.render();this.updateSeeds();this.showProvenance();
+    this.render();this.updateSeeds();this.showProvenance();if(restoreFocus)this.focusSelection();
   }
   private inspection():Inspection {const item=this.panel.getSelection();return {center:this.center,options:structuredClone(this.settings),selected:item?{kind:item instanceof FreshNode?"node":"edge",id:item.getID()!}:null,occurrence:this.occurrence,seed:this.seed?structuredClone(this.seed):undefined};}
   private pushHistory():void {this.history.push(this.inspection());if(this.history.length>100)this.history.shift();this.future=[];}

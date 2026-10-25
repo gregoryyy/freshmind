@@ -6,8 +6,8 @@ Completed work, implementation notes, deviations, and lessons are recorded in [D
 
 The [ROAD document](ROAD.md) researches modern applications, RFC/visual-search
 techniques and libraries, and proposes a radius-two adjacency view. Its research
-and interactive design are complete; implementation/evaluation tasks in milestone
-6 below are proposed future increments.
+and interactive design are complete. Milestone 6 now includes the opt-in
+radius-two browser; comparative evaluation and the public dependency pilot remain.
 
 **Current status:** Milestones 1–3 are complete within their agreed scope.
 Milestone 2 includes the restored FM 2014 keyboard structural-editing workflow;
@@ -215,8 +215,8 @@ Crossings, decorations and continuous node collision handling remain future work
 ## 6. Applications and radius-two exploration
 
 The [research roadmap](ROAD.md) and [design contract](radius-two-view.md) define
-this direction. Completed research/design is distinct from the proposed
-implementation below. Keep retrieval behind IR contracts; use the elasticlunr
+this direction. The implemented projection/browser remains distinct from the
+evaluation and pilot below. Keep retrieval behind IR contracts; use the elasticlunr
 and LDA capabilities described above. Embedding retrieval remains deferred.
 
 - [x] 6.1 Research high-value application workflows, RFC/visual-search state of the art and available libraries, with primary sources and explicit shortcomings; extend [ROAD Appendix A](ROAD.md#appendix-a-related-work-before-2024) with pre-2024 work and distinguish close comparisons from adjacent techniques.
