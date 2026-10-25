@@ -65,6 +65,8 @@ positions/damping, reversible display positions, independent layout/document
 replacement and detached state. Browser checks cover control choices, label
 measurements, serialized data, actual node dragging through the inverse,
 background and Ctrl-drag under different aspect factors, viewport resizing,
-external updates and retired controls. The pinned Java suite checks the original
+external updates and retired controls. Search-disk checks also verify whole-body
+clearance and settled positions through 3:5, 16:9 and Canvas factors. The pinned
+Java suite checks the original
 default lens/layout path. These are scoped functional checks, without a claim
 of an exact final graph ellipse or perceptual benefit.
