@@ -1,6 +1,7 @@
 import {readdir,readFile,lstat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {join} from 'node:path';
+import {stripVTControlCharacters} from 'node:util';
 export const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 export async function inventory(directory,prefix=''){
   const result={};
@@ -22,3 +23,5 @@ export function requireCapabilities(capabilities){
   for(const name of ['traceability','criticalChecks','privacyScenario'])
     if(capabilities[name]!==true)throw new Error('Required assurance capability missing: '+name);
 }
+
+export function previewReady(output,url){return stripVTControlCharacters(output).includes(url);}

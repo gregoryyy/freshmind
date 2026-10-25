@@ -4,6 +4,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {chromium,expect} from '@playwright/test';
 import {parseDocument} from '../dist/fm/io/index.js';
+import {previewReady} from './lib/assurance-artifacts.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const port=Number(process.env.PLAYWRIGHT_PORT??4190);
 if(!Number.isInteger(port)||port<1||port>65535)throw new Error('Invalid PLAYWRIGHT_PORT');
@@ -15,7 +16,7 @@ try{
   // Wait for this owned server's readiness, never attach silently to another process.
   await new Promise((resolve,reject)=>{
     const timeout=setTimeout(()=>reject(new Error('Preview readiness timed out: '+output)),15000);
-    const ready=()=>{if(output.includes(base)){clearTimeout(timeout);resolve();}};
+    const ready=()=>{if(previewReady(output,base)){clearTimeout(timeout);resolve();}};
     server.stdout.on('data',ready);ready();server.once('exit',code=>{clearTimeout(timeout);reject(new Error(`Preview exited (${code}): ${output}`));});
   });
   browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHANNEL?{channel:process.env.PLAYWRIGHT_CHANNEL}:{})});

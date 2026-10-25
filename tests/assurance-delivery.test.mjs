@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,symlink,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import {inventory,differences,requireCapabilities} from '../scripts/lib/assurance-artifacts.mjs';
+import {inventory,differences,requireCapabilities,previewReady} from '../scripts/lib/assurance-artifacts.mjs';
 test('artifact comparison detects same-length changed bytes, missing and added files',async t=>{
   const root=await mkdtemp(join(tmpdir(),'fm4-artifacts-'));t.after(()=>rm(root,{recursive:true,force:true}));
   await mkdir(join(root,'nested'));await writeFile(join(root,'nested/a'),'first');
@@ -31,4 +31,10 @@ test('delivery cannot pass by silently dropping an assurance capability',()=>{
   const complete={traceability:true,criticalChecks:true,privacyScenario:true};
   assert.doesNotThrow(()=>requireCapabilities(complete));
   for(const key of Object.keys(complete))assert.throws(()=>requireCapabilities({...complete,[key]:false}),new RegExp(key));
+});
+
+test('preview readiness accepts colored CI URLs and rejects another port',()=>{
+  const colored='  \u001b[32m➜\u001b[39m  \u001b[1mLocal\u001b[22m:   \u001b[36mhttp://127.0.0.1:\u001b[1m4190\u001b[22m/\u001b[39m';
+  assert.equal(previewReady(colored,'http://127.0.0.1:4190'),true);
+  assert.equal(previewReady(colored,'http://127.0.0.1:4189'),false);
 });
