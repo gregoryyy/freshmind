@@ -1,13 +1,26 @@
 # Automatic two-level RFC neighborhoods
 
-In **Reinforcement Focus + Context**, set **Automatic neighborhood → Two levels**.
-Each ordinary center then reinforces its visible children and grandchildren,
-without first saving a substructure. **Add RFC center** retains
+In **View → Reinforced neighborhood**, choose **r=2 tree**. The existing graph
+reinforces each ordinary center's visible neighbors and their neighbors; the
+nodes, edges, keyboard navigation and editing stay in the graph. Use **Reinforce
+selected node** to activate or transfer reinforcement explicitly. The status
+directly below the controls identifies the current center or multiple centers.
+
+This surfaces the existing automatic two-level RFC tree, without first saving a
+substructure or switching displays. In **Reinforcement Focus + Context**, **Add RFC center** retains
 other centers; their trees can share the original node and relation objects.
-Choose **One level** to return to the previous immediate-neighbor behavior.
+Choose **r=1** to return to the immediate-neighbor behavior.
 The initial setting remains one level for compatibility with existing views and
 recorded comparisons. The choice applies to current and subsequently added
 ordinary centers in the current panel session.
+
+The radius controls reinforcement inside the visible locality. **Neighborhood
+depth** controls which nodes are shown; use at least two hops to see hidden
+grandchildren. Existing explicit type filters, stored structures and search-result
+scope retain their own rules. The separate **View → Experimental studies →
+Neighbor table (experimental)** is retained for research; it is not required for
+radius-two graph reinforcement. While that table is open, changing the graph's
+reinforcement radius or choosing **Reinforce selected node** returns to the graph.
 
 ![Two automatic neighborhoods sharing members](automatic-rfc/two-centers.png)
 

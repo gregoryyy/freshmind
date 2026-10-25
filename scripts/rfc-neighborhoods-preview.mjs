@@ -6,6 +6,7 @@ import {chromium} from '@playwright/test';
 import {FreshGraph,FreshNode,FreshEdge,FreshmindDocument,TypeRegistry,freshmind2014Configuration} from 'fm4/fm/core';
 import {serializeDocument} from 'fm4/fm/io';
 import {automaticRfcFixture} from '../tests/fixtures/automatic-rfc.mjs';
+import {selectChoice} from './browser-controls.mjs';
 const folder=fileURLToPath(new URL('../docs/automatic-rfc/',import.meta.url));
 await mkdir(folder,{recursive:true});
 const graph=automaticRfcFixture({FreshGraph,FreshNode,FreshEdge});
@@ -28,9 +29,12 @@ try {
   await page.waitForFunction(()=>document.querySelector('#file-status').textContent.includes('8 nodes, 11 relations'));
   await page.evaluate(async()=>{
     const p=window.graphBrowser;p.fastFinishAnimation();await p.getLocalityUtils().whenIdle();p.tgLayout.stop();p.setHyperbolic(0);p.setZoom(2);
-    p.getRfc().setNeighborhoodDepth(2);p.getRfc().setFocus(p.findNode('r'));p.getRfc().addFocus(p.findNode('x'));
+    for(const section of document.querySelectorAll('.sidebar > details'))section.open=section.id==='view-section';
+  });
+  await selectChoice(page.locator('#rfc-neighborhood-depth'),'2');
+  await page.evaluate(()=>{
+    const p=window.graphBrowser;p.getRfc().setFocus(p.findNode('r'));p.getRfc().addFocus(p.findNode('x'));
     p.tgLayout.tick(80);p.repaint();
-    for(const section of document.querySelectorAll('.sidebar > details'))section.open=Boolean(section.querySelector('#rfc-status'));
     document.querySelector('#separate-labels').click();
   });
   await page.evaluate(async()=>{

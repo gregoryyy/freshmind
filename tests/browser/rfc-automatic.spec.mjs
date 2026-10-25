@@ -18,7 +18,7 @@ test('automatic two-level control reinforces both neighborhoods without editing 
   const errors=await ready(page);
   const snapshot=()=>page.evaluate(async()=>{const {captureDocument,documentToRecord}=await import('/src/fm/index.ts');return documentToRecord(captureDocument(window.graphBrowser),{includeView:false});});
   const before=await snapshot();await depth(page,'2');
-  await expect(page.locator('#rfc-status')).toContainText('5 automatic two-level members');
+  await expect(page.locator('#rfc-status')).toContainText('RFC r=2 tree: r · 5 reinforced nodes');
   await expect(page.locator('.fm-rfc-node-halo')).toHaveCount(5);await expect(page.locator('.fm-rfc-edge-halo')).toHaveCount(4);
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode('x')));
   await page.locator('#rfc-add-center').click();
@@ -62,4 +62,30 @@ test('reinforcing the same query as an ordinary two-level center releases the ol
     return {focus:p.getRfc().getState().focusId,kind:p.getRfc().getState().centers[0].kind,context:[context.x,context.y],source:[q.x,q.y]};
   });
   expect(actual.focus).toBe(query);expect(actual.kind).toBe('tree');expect(actual.context).toEqual(actual.source);expect(errors).toEqual([]);
+});
+
+test('r=2 tree is available directly in View while the separate table is an experimental study',async({page})=>{
+  const errors=await ready(page);
+  await page.locator('#rfc-section').evaluate(section=>section.open=false);
+  const choices=page.getByRole('group',{name:'Reinforced neighborhood',exact:true});
+  await expect(choices).toBeVisible();await expect(page.locator('#experimental-studies')).not.toHaveAttribute('open','');
+  await expect(page.getByRole('radio',{name:'Neighbor table (experimental)',exact:true})).not.toBeVisible();
+  const before=await page.evaluate(async()=>{const {captureDocument,documentToRecord}=await import('/src/fm/index.ts');return documentToRecord(captureDocument(window.graphBrowser),{includeView:false});});
+  await choices.getByRole('radio',{name:'Two-hop tree (r=2)',exact:true}).click();
+  await expect(page.locator('#rfc-status')).toContainText('r=2 tree');await expect(page.locator('.fm-rfc-node-halo')).toHaveCount(5);
+  await expect(page.locator('#graph')).toBeVisible();await expect(page.locator('#radius-two-view')).not.toBeVisible();
+  await expect(page.locator('#exploration-view')).toHaveValue('node-link');
+  // Keyboard radius changes retain focus on the chosen control.
+  await page.keyboard.press('ArrowLeft');await expect(page.locator('.fm-rfc-node-halo')).toHaveCount(3);
+  await expect(choices.getByRole('radio',{name:'Direct neighbors (r=1)',exact:true})).toBeFocused();
+  await page.keyboard.press('ArrowRight');await expect(page.locator('.fm-rfc-node-halo')).toHaveCount(5);
+  await page.locator('#rfc-clear').click();await expect(page.locator('#rfc-status')).toHaveText('RFC off.');
+  await page.locator('#rfc-activate').click();await expect(page.locator('.fm-rfc-node-halo')).toHaveCount(5);
+  const after=await page.evaluate(async()=>{const {captureDocument,documentToRecord}=await import('/src/fm/index.ts');return documentToRecord(captureDocument(window.graphBrowser),{includeView:false});});expect(after).toEqual(before);
+  await page.getByText('Experimental studies',{exact:true}).click();await page.getByRole('radio',{name:'Neighbor table (experimental)',exact:true}).click();
+  await expect(page.locator('#radius-two-view h2')).toContainText('Experimental neighbor table');await expect(page.locator('#graph')).not.toBeVisible();
+  await choices.getByRole('radio',{name:'Direct neighbors (r=1)',exact:true}).click();await expect(page.locator('#graph')).toBeVisible();await expect(page.locator('#radius-two-view')).not.toBeVisible();await expect(page.locator('.fm-rfc-node-halo')).toHaveCount(3);
+  await expect(choices.getByRole('radio',{name:'Direct neighbors (r=1)',exact:true})).toBeFocused();
+  await page.keyboard.press('ArrowRight');await expect(page.locator('.fm-rfc-node-halo')).toHaveCount(5);
+  expect(errors).toEqual([]);
 });

@@ -7,11 +7,11 @@ async function ready(page){const errors=[];page.on('pageerror',e=>errors.push(e.
     for(const [id,from,to] of [['ca','c','a'],['bc','b','c'],['cd','c','d'],['ad','a','d'],['ax1','a','x'],['ax2','a','x'],['xa','x','a'],['bx','b','x'],['by','b','y'],['xy','x','y'],['aa','a','a'],['cc','c','c'],['yy','y','y']])g.addEdge(new FreshEdge(g.findNode(from),g.findNode(to),{id,label:`calls ${id}`,weight:id==='ax2'?0:10}));
     p.setGraphEltSet(g);p.getGES().addAll();p.getGES().removeNode(g.findNode('x'));p.getGES().removeNode(g.findNode('y'));p.setSelect(g.findNode('c'));p.centerOn(g.findNode('c'),true);p.setZoom(1.3);p.setHyperbolic(60);p.setRotation(.2);p.setCanvasZoom(1.4);p.setCanvasPan(22,-9);p.setLensPan(4,5);p.getRfc().setFocus(g.findNode('c'));p.repaintAfterMove();
     window.radiusOriginal=()=>({record:documentToRecord(captureDocument(p)),visible:[...p.getGES().getNodes()].map(n=>n.getID()),edges:[...p.getGES().getEdges()].map(e=>e.getID()),rfc:p.getRfc().getState().centers});window.radiusBefore=window.radiusOriginal();
-  });return errors;
+  });await page.getByText('Experimental studies',{exact:true}).click();return errors;
 }
 const root=page=>page.locator('#radius-two-view');const card=(page,id)=>root(page).locator(`.r2-card[data-radius-node-id="${id}"]`);
 test('radius-two rows preserve source/lenses, share selection and edit hidden relations in the existing overlay',async({page})=>{
-  const errors=await ready(page);await selectChoice(page.locator('#exploration-view'),'radius-two');await expect(root(page)).toBeVisible();await expect(root(page).locator('.r2-counts')).toContainText('3 direct nodes · 2 unique second-hop nodes · 4 row occurrences · 13 relation records');
+  const errors=await ready(page);await selectChoice(page.locator('#exploration-view'),'radius-two');await expect(root(page)).toBeVisible();await expect(root(page).locator('h2')).toContainText('Experimental neighbor table');await expect(root(page).locator('.r2-counts')).toContainText('3 direct nodes · 2 unique second-hop nodes · 4 row occurrences · 13 relation records');
   await expect(card(page,'x')).toHaveCount(3);await card(page,'x').first().click();await expect(root(page).locator('.r2-card[data-radius-node-id="x"][aria-pressed="true"]')).toHaveCount(3);
   expect(await page.evaluate(()=>window.graphBrowser.getGES().contains(window.graphBrowser.findNode('x')))).toBe(false);
   const bundle=root(page).getByText('Relations: 2',{exact:true});await bundle.click();const edge=root(page).locator('button:not(.r2-card)[aria-label$="relation ax2"]');await expect(edge).toContainText('weight 0');await edge.click();

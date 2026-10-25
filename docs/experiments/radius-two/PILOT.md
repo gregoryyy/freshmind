@@ -1,16 +1,24 @@
 # Dependency-impact pilot protocol
 
-TODO **6.7**. **Blocked pending a maintainer/researcher session and observations.**
-No participant results have been collected. The user chose dependency impact
+TODO **6.7**. Initial [maintainer feedback](FEEDBACK.md) found the separate-view UX
+unsatisfactory and prefers an r=2 tree reinforced directly in the existing graph.
+The table remains an experimental study. **A full task session is still pending**;
+no task answers, timings or accuracy results have been collected. The user chose
+dependency impact
 analysis using a public dependency graph; the [evaluation](README.md) supplies
 that graph and exact answer oracles. Automated checks cannot supply human errors,
 confidence, discoverability or whether this investigation is useful repeatedly.
 
 ## Session setup
 
-Use the radius-two browser from [PR51](https://github.com/gregoryyy/freshmind/pull/51)
-and this evaluation's [native graph](dependency.fm.yaml). After both PRs are
-merged, `just dev` opens the normal application; open this YAML file. Use the
+Use the normal graph with **View → Reinforced neighborhood → r=2 tree** and this
+evaluation's [native graph](dependency.fm.yaml). `just dev` serves the application;
+open this YAML file. Use **Reinforce selected node** to activate a selected center;
+set **Neighborhood depth** to at least two to show its neighbors' neighbors.
+Use **Show whole graph** when the investigation needs context beyond that locality.
+The automatic tree uses both directions for layout; original semantic arrows
+retain dependency direction. Record whether that distinction causes confusion.
+Optionally use the
 [five comparison pictures](index.html) for the shared-neighbor baseline exercise.
 The list/tree and matrix are static comparison prototypes, not equally developed
 interactive applications; do not compare their interaction times with the product.
@@ -30,22 +38,25 @@ it can assess navigation/discoverability, not uncued task accuracy.
 1. In the full graph, identify d3-dispatch. Determine which installed packages
    depend on it directly and which additional package depends on it in two hops.
    State the direction convention and what evidence supports the answer.
-2. Inspect d3-zoom's outgoing radius-two neighborhood. Find a package shared by
-   multiple direct neighbors, name the witnesses and count unique second-hop
-   packages separately from their occurrences. Inspect the relation involving
+2. Reinforce d3-zoom as an r=2 tree and inspect its outgoing relations. Find a
+   package shared by multiple direct neighbors, identify each shared package once
+   and name its direct-neighbor routes. Inspect the relation involving
    a peer requirement and explain how its meaning differs from a normal dependency.
-3. Change center to d3-color and inspect incoming paths. Can this local view
-   determine whether fm4 might be affected? Find enough additional context to
-   explain the limit, rather than concluding from absence.
-4. Compare the d3-zoom screenshots in ego, RFC, radius-two, list/tree and matrix.
+3. Change the reinforced center to d3-color and inspect incoming paths. Does its
+   two-hop focal tree establish whether fm4 might be affected? Inspect wider,
+   unreinforced context or expand the visible neighborhood as needed to explain
+   the limit, rather than concluding from focal membership alone.
+4. Optionally compare the historical d3-zoom screenshots in ego, RFC, experimental
+   table, list/tree and matrix.
    Describe which makes sharing/direction clearest, what was hard to locate,
    and one investigation you would repeat with this representation.
 
-For the product, pause motion if useful, select a node, and choose
-**View → Exploration view → Radius two**. **Use selected node** adopts a newly
-selected center. Choose incoming/outgoing traversal; use page controls, witness
-lists, Enter pivot, Back and the details overlay as needed. On returning to the
-graph, inspect whether its original context and selection remain intelligible.
+For the main workflow, pause motion if useful, select a node and use **Reinforce
+selected node**; **r=2 tree** keeps the graph visible. Use normal graph navigation,
+centering, details and editing, checking whether the intended center and original
+relations remain understandable. If comparing the table, explicitly open
+**View → Experimental studies → Neighbor table (experimental)**; its paging,
+witness lists and traversal controls apply only to that study.
 
 For more than one participant, rotate which representation is shown first and
 record the order. This narrow pilot identifies errors and needed changes; it is
@@ -57,7 +68,7 @@ is difficult to select, record the intervention rather than silently skipping it
 - Build / browser / viewport; informed or uncued; representation order:
 - Familiarity and relevance to a repeated investigation:
 - Task 1 answer, direction explanation, help/missteps, confidence:
-- Task 2 answer, unique-vs-occurrence explanation, peer interpretation, paging/sharing problems:
+- Task 2 answer, shared-package explanation, peer interpretation, graph navigation and visibility-depth problems; table occurrences/paging only if tested:
 - Task 3 conclusion and evidence; any false inference from missing context:
 - Task 4 preference with reasons and a concrete repeated task:
 - Lost place, wrong item edited, stale selection or unexpected source changes:

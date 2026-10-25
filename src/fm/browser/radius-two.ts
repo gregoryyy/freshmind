@@ -31,11 +31,11 @@ export class RadiusTwoView {
   private savedGraph={visibility:"",inert:false,aria:null as string|null};
   private rowLimit=6;private cellLimit=2;
   constructor(private readonly panel:FreshmindPanel,private readonly options:RadiusTwoViewOptions) {
-    this.graph=panel.getCompleteEltSet();this.root=options.container;this.root.classList.add("radius-two-view");this.root.hidden=true;this.root.tabIndex=0;this.root.setAttribute("aria-label","Radius-two adjacency view");
+    this.graph=panel.getCompleteEltSet();this.root=options.container;this.root.classList.add("radius-two-view");this.root.hidden=true;this.root.tabIndex=0;this.root.setAttribute("aria-label","Experimental neighbor table");
     const doc=this.root.ownerDocument,element=<K extends keyof HTMLElementTagNameMap>(tag:K,text?:string)=>{const el=doc.createElement(tag);if(text!==undefined)el.textContent=text;return el;};
     const listen=(target:EventTarget,name:string,listener:EventListener)=>{target.addEventListener(name,listener);this.removers.push(()=>target.removeEventListener(name,listener));};
     const button=(text:string,action:()=>void)=>{const b=element("button",text);b.type="button";listen(b,"click",()=>this.attempt(action));return b;};
-    const header=element("header");header.className="r2-header";this.title=element("h2","Radius-two adjacency");
+    const header=element("header");header.className="r2-header";this.title=element("h2","Experimental neighbor table");
     const controls=element("div");controls.className="r2-controls";
     this.back=button("Back",()=>this.goBack());this.forward=button("Forward",()=>this.goForward());
     this.direction=element("select");this.direction.setAttribute("aria-label","Radius-two traversal");
@@ -43,7 +43,7 @@ export class RadiusTwoView {
     listen(this.direction,"change",()=>this.attempt(()=>{this.pushHistory();this.settings={direction:this.direction.value as RadiusOptions["direction"]};this.seed=undefined;this.render();this.focusSelection();}));
     controls.append(this.back,this.forward,button("Use selected node",()=>this.useSelected()),button("Refresh snapshot",()=>this.refresh()),this.direction,button("Return to graph",()=>this.setEnabled(false)));
     this.status=element("p");this.status.setAttribute("role","status");
-    const help=element("p","Complete stored graph; force-view filters are independent. Arrows move focus, Space selects, Enter pivots. F2 edits; refresh after changes.");help.className="r2-help";
+    const help=element("p","Experimental study of the complete stored graph; graph filters are independent. Arrows move focus, Space selects, Enter pivots. F2 edits; refresh after changes.");help.className="r2-help";
     const search=element("details"),summary=element("summary","Search result seeds");this.seeds=element("select");this.seeds.setAttribute("aria-label","Search result seed");
     this.seedStatus=element("span");this.provenance=element("p");
     search.append(summary,this.seeds,button("Previous seeds",()=>this.seedPaging(-50)),button("Next seeds",()=>this.seedPaging(50)),this.seedStatus,this.provenance);
@@ -130,9 +130,9 @@ export class RadiusTwoView {
   private render():void {
     if(!this.active||!this.snapshot)return;
     this.back.disabled=!this.history.length;this.forward.disabled=!this.future.length;
-    if(!this.center){this.title.textContent="Radius-two adjacency — empty graph";this.body.textContent="No graph nodes. Return to graph to create or open a document.";this.status.textContent="Empty document.";return;}
+    if(!this.center){this.title.textContent="Experimental neighbor table — empty graph";this.body.textContent="No graph nodes. Return to graph to create or open a document.";this.status.textContent="Empty document.";return;}
     this.projection=projectRadiusTwo(this.snapshot,this.center,{...this.settings,rowLimit:this.rowLimit,cellLimit:this.cellLimit});
-    this.title.textContent=`Radius two · ${this.nodes.get(this.center)?.getLabel()||this.center}`;this.status.textContent=`Snapshot of the complete stored graph · ${this.projection.direction} paths.`;
+    this.title.textContent=`Experimental neighbor table · ${this.nodes.get(this.center)?.getLabel()||this.center}`;this.status.textContent=`Snapshot of the complete stored graph · ${this.projection.direction} paths.`;
     const graph=this.graph,revision=++this.renderRevision;
     const guard=<T extends unknown[]>(action:(...args:T)=>void)=>(...args:T)=>{if(!this.disposed&&this.active&&graph===this.panel.getCompleteEltSet()&&revision===this.renderRevision)this.attempt(()=>action(...args));};
     const selected=this.panel.getSelection();

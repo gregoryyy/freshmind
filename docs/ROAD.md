@@ -130,6 +130,14 @@ justify GPU rendering. Benchmark the actual workload before any migration.
 
 ## Radius-two design
 
+**Maintainer direction, 2026-10-25:** radius-two interaction should reinforce a
+tree directly in the existing graph. **View → Reinforced neighborhood → r=2 tree**
+exposes the [automatic two-level RFC layout](automatic-rfc-neighborhoods.md).
+The separate table below is retained as an **experimental study**, under
+**View → Experimental studies**, rather than the primary graph interaction.
+[Initial feedback and revised pilot](experiments/radius-two/FEEDBACK.md) record
+the purpose change; existing design/comparison artifacts remain study evidence.
+
 ![Radius-two design: Checkout in the central spine, four direct-neighbor rows, relationship labels and weights on horizontal second-hop entries, and shared Identity occurrences highlighted.](design/radius-two/preview.png)
 
 Open the [interactive design](design/radius-two/index.html) locally. It uses only

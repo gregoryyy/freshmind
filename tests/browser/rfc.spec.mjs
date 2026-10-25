@@ -66,7 +66,7 @@ test("hidden RFC centers suspend and resume; choosing another center and opening
   await page.getByRole("button", {name: "Reinforce selected node", exact: true}).click();
   expect((await state(page)).focusId).toBe("context-0"); expect((await state(page)).branchIds).toHaveLength(3);
   await page.locator("#open-graph-files").setInputFiles(example);
-  expect(await state(page)).toMatchObject({enabled:true,focusId:"center"});
+  await expect.poll(()=>state(page)).toMatchObject({enabled:true,focusId:"center"});
   expect((await state(page)).centers).toHaveLength(1);
   expect(errors).toEqual([]);
 });
