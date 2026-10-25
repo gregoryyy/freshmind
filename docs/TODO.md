@@ -241,7 +241,7 @@ baseline, not a declaration that the implementation meets it.
 
 - [x] 7.1 Document system intent, usage constraints and logical architectural requirements independently of the current implementation, with stable IDs and explicit open decisions.
 - [x] 7.2 Record the assurance approach: purpose/change tracking, risk-based rigor, gap analysis, deterministic verification designs and evidence tied to the assembled deliverable.
-- [ ] 7.3 Review baseline interpretations and resolve initial workload, environment, storage/recovery and privacy policy decisions; record requirement sources and supersession explicitly.
+- [x] 7.3 Review baseline interpretations and resolve initial workload, environment, storage/recovery and privacy policy decisions; record requirement sources and supersession explicitly. See the [accepted initial scope](assurance/04-decisions.md); derived requirements and future extensions remain distinguished.
 - [x] 7.4 Map implementation and existing tests to the requirement IDs, with risk/assumptions, independent oracles, evidence scope and identified gaps; do not infer conformance from test counts. The [traceability map](assurance/TRACEABILITY.md) covers all 33 IDs with selected functions/classes and pinned Java origins; exhaustive function parity is not claimed.
 - [ ] 7.5 Implement prioritized deterministic checks, control time/randomness/scheduling where needed, and measure test sensitivity and coverage for consequential paths.
 - [ ] 7.6 Establish reproducible integrated-build evidence and appropriate independent review in the delivery workflow; separately evaluate user tasks and deployment-specific behavior.
