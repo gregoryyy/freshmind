@@ -2,6 +2,14 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Interaction UX review roadmap addition — 2026-10-25
+
+Added the requested pointer/keyboard/touch and mixed-input review as **milestone 9**,
+with the control panel first and in-place node/edge editing evaluated through
+Fitts' law, choice/steering models, interaction heuristics and accessibility
+criteria. The [plan](ROAD.md#interaction-ux-review) specifies tasks, evidence and
+follow-up fixes; all review/implementation tasks remain unchecked. Documentation
+links/anchors and whitespace were checked; no runtime behavior changed.
 ## Radius-two task/cost evaluation and pilot preparation — 2026-10-25
 
 - Completes the software/analytical comparison in **6.6**. The [report](experiments/radius-two/README.md) pins the public Freshmind lockfile, a 22-package/38-relation fixture and the PR51 application at **e45c48a**. Installed dependency and peer records retain their source requirements and identities. This fixture-specific converter executes no package code and does not claim to deliver the later application adapter.
