@@ -109,3 +109,17 @@ h2 { font-family: "Manrope", sans-serif; font-size: 21px; letter-spacing: -.7px;
 @media (max-width: 600px) { main { display: flex; flex-direction: column; height: auto; } .sidebar { border-right: 0; border-bottom: 1px solid #dce1d7; overflow-y: visible; } .intro { max-width: none; margin-bottom: 22px; } .inspector { margin-top: 20px; } .connection-section, .connections, .attribution, .connection-label { display: none; } .workspace { height: 68dvh; min-height: 500px; order: -1; } .canvas-footer { left: 18px; right: 18px; } #graph { inset: 60px 0 100px; } }
 
 @media (max-width: 600px) { .topbar { padding: 0 12px; gap: 10px; } .document-tools { gap: 4px; } .document-tools button { font-size: 10px; padding: 6px; } .options-menu { right: 12px; } }
+.numeric-slider { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; margin-bottom: 12px; }
+.numeric-slider input[type=range] { margin: 8px 0; min-width: 0; height: 22px; }
+.numeric-slider .slider-custom { grid-column: 1 / -1; margin: 0; }
+.numeric-slider .slider-value { min-width: 42px; text-align: right; overflow-wrap: anywhere; }
+.numeric-slider input[type=range]:focus-visible { outline: 3px solid #6cb08b; outline-offset: 3px; }
+.choice-control { border: 0; padding: 0; margin: 20px 0 12px; min-width: 0; }
+.choice-control legend { font-size: 12px; font-weight: 500; margin-bottom: 9px; padding: 0; }
+.choice-options { display: flex; flex-wrap: wrap; gap: 6px 10px; }
+.choice-option { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; min-height: 28px; max-width: 100%; overflow-wrap: anywhere; }
+.choice-option input { flex: 0 0 auto; accent-color: #42674a; margin: 0; }
+.choice-control:disabled { opacity: .6; }
+main.controls-collapsed { grid-template-columns: minmax(0,1fr); }
+.topbar .document-tools { min-width: 0; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 600px) { main.controls-collapsed .workspace { height: calc(100dvh - 65px); } }

@@ -1,3 +1,4 @@
+import {fillNumeric} from "../../scripts/browser-controls.mjs";
 import { test, expect } from "@playwright/test";
 
 async function ready(page) {
@@ -135,7 +136,7 @@ test("details, pan-only centering and radius/backlink/timeout controls share key
   await page.keyboard.press("b");await expect(page.locator("#backlinks")).not.toBeChecked();
   await expect(page.locator('[data-node-id="upper"]')).toHaveCount(0);
   await page.locator("summary").filter({hasText:"Navigation options"}).click();
-  await page.locator("#candidate-timeout").fill("100");await page.locator("#candidate-timeout").press("Tab");
+  await fillNumeric(page.locator("#candidate-timeout"),"100");await page.locator("#candidate-timeout").press("Tab");
   await page.evaluate(()=>window.graphBrowser.setSelect(window.graphBrowser.findNode("anchor")));
   // Capture immediate feedback in the same event turn: the 100 ms inactivity
   // timer can expire before a separate browser-protocol assertion under load.

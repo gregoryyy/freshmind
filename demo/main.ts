@@ -9,7 +9,7 @@
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
 import { SelectionEditor } from "./selection-editor.js";
-import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls,bindGraphSearchControls,bindReadabilityControls,bindLabelEditingControls,bindMotionControls } from "../src/fm/ui/index.js";
+import { bindChoiceRadios, bindPanelToggle, bindNumericSliders, bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls,bindGraphSearchControls,bindReadabilityControls,bindLabelEditingControls,bindMotionControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
 import {bindRfcShowcase} from "./rfc-showcase.js";
@@ -68,12 +68,14 @@ for (const [from, to] of [["Focus + context", "Lens pipeline"], ["Dragging", "Co
 let allVisible = false;
 let paused = false;
 const panel = new FreshmindPanel(get("graph"), { hyperbolic: 60, navigationStatus: get("navigation-status"),relationLabelPlacement:"avoid-overlap",adaptiveDamping:{enabled:true} });
+const controlsPanel=bindPanelToggle(get("controls-panel"),get<HTMLButtonElement>("controls-toggle"),document.querySelector("main")!);
 const disposeMotion=bindMotionControls(panel,{adaptiveDamping:get<HTMLInputElement>("adaptive-damping"),response:get<HTMLSelectElement>("damping-response"),status:get("adaptive-damping-status")});
 const disposeReadability=bindReadabilityControls(panel,{separate:get<HTMLButtonElement>("separate-labels"),gap:get<HTMLInputElement>("label-gap"),status:get("readability-status"),relationLabels:get<HTMLInputElement>("avoid-relation-labels")},result=>{
   if(result.moved){paused=true;get("motion").textContent="Resume motion";}
 });
 const disposeImportance=bindNodeImportanceControls(panel,{mode:get<HTMLSelectElement>("node-importance-mode"),showValues:get<HTMLInputElement>("show-node-weights")});
 const disposeSearch=bindGraphSearchControls(panel,{
+  showControls:()=>controlsPanel.show(),
   engine:get<HTMLSelectElement>("search-engine"),kind:get<HTMLSelectElement>("search-kind"),query:get<HTMLInputElement>("search-query"),limit:get<HTMLInputElement>("search-limit"),
   run:get<HTMLButtonElement>("search-run"),similar:get<HTMLButtonElement>("search-similar"),reject:get<HTMLButtonElement>("search-reject"),train:get<HTMLButtonElement>("search-train"),cancel:get<HTMLButtonElement>("search-cancel"),
   topics:get<HTMLInputElement>("search-topics"),iterations:get<HTMLInputElement>("search-iterations"),seed:get<HTMLInputElement>("search-seed"),alpha:get<HTMLInputElement>("search-alpha"),beta:get<HTMLInputElement>("search-beta"),
@@ -267,10 +269,12 @@ get("motion").addEventListener("click", () => {
   get("motion").textContent = paused ? "Resume motion" : "Pause motion";
   panel.focusGraph();
 });
+const disposeSliders=bindNumericSliders(panel,document.querySelector<HTMLElement>(".sidebar")!);
+const disposeChoices=bindChoiceRadios(panel,document.querySelector<HTMLElement>(".sidebar")!);
 // Useful for experimenting with the library from the browser console.
 Object.assign(window, { graphBrowser: panel });
 void focusOn(root).then(() => {
   if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
 });
-window.addEventListener("pagehide", () => { disposeStructuralEditing(); disposeMotion(); disposeLabelEditing(); disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeChoices(); disposeSliders(); controlsPanel.dispose(); disposeStructuralEditing(); disposeMotion(); disposeLabelEditing(); disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

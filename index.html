@@ -10,7 +10,7 @@
     <div class="app">
       <header class="topbar">
         <a class="brand" href="/" aria-label="fm4 home"><span class="brand-mark">f</span> fm4 <span class="tag">GRAPH BROWSER</span></a>
-        <div class="document-tools"><button id="open-graph">Open YAML</button><button id="save-graph">Save YAML</button><button id="keymap-help">Key map</button><button id="options-toggle" popovertarget="browser-options">Options</button></div>
+        <div class="document-tools"><button id="open-graph">Open YAML</button><button id="save-graph">Save YAML</button><button id="keymap-help">Key map</button><button id="controls-toggle" type="button" aria-controls="controls-panel" aria-expanded="true" aria-label="Hide controls">Controls</button><button id="options-toggle" popovertarget="browser-options">Options</button></div>
       </header>
       <div id="browser-options" class="options-menu" popover role="dialog" aria-labelledby="options-title">
         <div class="options-heading"><h2 id="options-title">Options</h2><button type="button" popovertarget="browser-options" popovertargetaction="hide" aria-label="Close options">×</button></div>
@@ -21,7 +21,7 @@
         </fieldset>
       </div>
       <main>
-        <aside class="sidebar">
+        <aside id="controls-panel" class="sidebar">
           <details class="sidebar-section" id="files-section" open><summary>Graph files</summary>
           <p class="control-help"><a href="/freshmind.html">Type palette &amp; YAML configuration →</a></p>
           <label class="control-label" for="example-graph">Load example</label>
@@ -60,7 +60,7 @@
           <details class="control-subsection" open><summary>Layout motion</summary>
             <label class="pin-control"><input id="adaptive-damping" type="checkbox" checked /> Adaptive damping</label>
             <label class="control-label" for="damping-response">Damping response</label>
-            <select id="damping-response"><option value="impulse">Adaptive impulses</option><option value="cooling">Earlier TouchGraph cooling</option></select>
+            <select id="damping-response"><option value="impulse">Adaptive impulses</option><option value="cooling" data-short-label="Earlier cooling">Earlier TouchGraph cooling</option></select>
             <p class="control-help">Damps swinging nodes while other nodes keep moving, with or without RFC. After quiet motion, each node gradually regains normal movement.</p>
             <p class="control-help">Earlier cooling starts TouchGraph's existing settling behavior after repeated swings. It slows the whole graph.</p>
             <p id="adaptive-damping-status" class="control-help" role="status">Adaptive damping on · watching graph motion.</p>
@@ -80,7 +80,7 @@
           <p id="curve-help" class="control-help">Spider bends relations into branching curves. Drag nodes diagonally to see the bend.</p>
           <details class="control-subsection"><summary>Node importance</summary>
             <label class="control-label" for="node-importance-mode">Importance display</label>
-            <select id="node-importance-mode"><option value="configured">Use type configuration</option><option value="size">Body and label size</option><option value="none">Uniform size</option><option value="legacy">Legacy halo</option></select>
+            <select id="node-importance-mode"><option value="configured" data-short-label="Type defaults">Use type configuration</option><option value="size" data-short-label="Weighted size">Body and label size</option><option value="none">Uniform size</option><option value="legacy">Legacy halo</option></select>
             <label class="pin-control"><input id="show-node-weights" type="checkbox" /> Show node weight values</label>
             <p class="control-help">Weight 1 has normal size; lower weights are smaller and higher weights larger, within configured limits. Yellow halos show RFC participation.</p>
           </details>
@@ -91,8 +91,8 @@
             <label class="control-label" for="search-kind">Query kind</label><select id="search-kind"><option value="terms">Terms</option><option value="tags">Tags (exact)</option></select>
             <label class="control-label" for="search-query">Query</label><input id="search-query" type="text" maxlength="4096" required placeholder="graph AND layout" aria-describedby="search-help" />
             <p id="search-help" class="control-help">Search all stored nodes, including hidden items. Literal queries support phrases and AND/OR/NOT. Tags match whole values, separated by commas. Run again on a selected query to refresh its links.</p>
-            <label class="control-label" for="search-metric">LDA ranking</label><select id="search-metric"><option value="symmetric-kl">FM 2014 symmetric KL distance</option><option value="predictive">Predictive likelihood</option><option value="jensen-shannon">Bounded Jensen–Shannon distance</option></select>
-            <label class="control-label" for="search-distance">Maximum semantic distance (optional)</label><input id="search-distance" type="number" min="0" step="any" placeholder="Query 0.6 · similarity 0.2" />
+            <label class="control-label" for="search-metric">LDA ranking</label><select id="search-metric"><option value="symmetric-kl" data-short-label="Symmetric KL">FM 2014 symmetric KL distance</option><option value="predictive" data-short-label="Predictive">Predictive likelihood</option><option value="jensen-shannon" data-short-label="Jensen–Shannon">Bounded Jensen–Shannon distance</option></select>
+            <label class="control-label" for="search-distance">Maximum semantic distance (optional)</label><input id="search-distance" data-slider-optional="true" type="number" min="0" step="any" placeholder="Query 0.6 · similarity 0.2" />
             <p class="control-help">Smaller distances and larger likelihoods rank first. Distance limits are strict and do not apply to likelihood ranking. Result relations retain the metric and raw value. Embedding retrieval is deferred.</p>
             <label class="control-label" for="search-limit">Maximum results</label><input id="search-limit" type="number" min="1" max="100" step="1" value="5" required />
             <div class="editor-actions"><button id="search-run" type="button">Run query</button><button id="search-similar" type="button">Find similar nodes</button></div>

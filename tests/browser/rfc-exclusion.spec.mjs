@@ -1,3 +1,4 @@
+import {fillNumeric} from "../../scripts/browser-controls.mjs";
 import {test,expect} from "@playwright/test";
 
 async function ready(page) {
@@ -17,15 +18,15 @@ test("exclusion controls configure paused physical regions, reject invalid input
   const errors=await ready(page),regions=page.locator(".fm-exclusion-region");await expect(regions).toHaveCount(0);
   const original=await page.evaluate(()=>[...window.graphBrowser.getAllNodes()].map(n=>[n.getID(),n.x,n.y]));
   await page.getByLabel("Keep context outside focal regions",{exact:true}).check();await expect(regions).toHaveCount(2);
-  await page.getByLabel("Exclusion strength",{exact:true}).fill("0.6");await page.getByLabel("Exclusion strength",{exact:true}).blur();
-  await page.getByLabel("Region padding",{exact:true}).fill("30");await page.getByLabel("Region padding",{exact:true}).blur();
+  await fillNumeric(page.getByLabel("Exclusion strength",{exact:true}),"0.6");await page.getByLabel("Exclusion strength",{exact:true}).blur();
+  await fillNumeric(page.getByLabel("Region padding",{exact:true}),"30");await page.getByLabel("Region padding",{exact:true}).blur();
   await page.getByLabel("Exclude non-shared focal nodes from overlaps",{exact:true}).uncheck();
   expect(await page.evaluate(()=>window.graphBrowser.getRfc().getState().exclusionSettings)).toEqual({enabled:true,overlap:false,strength:.6,padding:30});
   expect(await page.evaluate(()=>[...window.graphBrowser.getAllNodes()].map(n=>[n.getID(),n.x,n.y]))).toEqual(original);
-  await page.getByLabel("Region padding",{exact:true}).fill("0");await page.getByLabel("Region padding",{exact:true}).blur();
+  await fillNumeric(page.getByLabel("Region padding",{exact:true}),"0");await page.getByLabel("Region padding",{exact:true}).blur();
   expect(await page.locator("#rfc-exclusion-padding").evaluate(e=>e.validationMessage)).toContain("padding");
   expect(await page.evaluate(()=>window.graphBrowser.getRfc().getState().exclusionSettings.padding)).toBe(30);
-  await page.getByLabel("Region padding",{exact:true}).fill("20");await page.getByLabel("Region padding",{exact:true}).blur();
+  await fillNumeric(page.getByLabel("Region padding",{exact:true}),"20");await page.getByLabel("Region padding",{exact:true}).blur();
   await page.getByLabel("Exclude non-shared focal nodes from overlaps",{exact:true}).check();
   await page.screenshot({path:info.outputPath("exclusion-controls.png")});
   await page.getByRole("button",{name:"Remove RFC",exact:true}).click();await expect(regions).toHaveCount(0);

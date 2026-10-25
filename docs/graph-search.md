@@ -12,7 +12,8 @@ Explicit structural type filters still apply; remove a filter to inspect a
 result of a hidden type.
 
 With the graph focused, **Ctrl+F** creates a lexical query node beside the
-selected context; **Ctrl+Shift+F** creates an LDA query node. Type directly on
+selected context; **Ctrl+Shift+F** creates an LDA query node whose empty input says
+**Type a semantic query**. Type directly on
 the node and press **Enter** to search. The input moves with its node through
 layout and view transforms; the side pane can stay collapsed. **F2** or
 **Ctrl+Enter** on a query reopens its query input and reruns the same node when
@@ -59,7 +60,10 @@ available in editors. See the [key map](KEYMAP.md).
    LDA compares document topic distributions. Neither changes node importance.
    Successful searches activate RFC around the query node or existing similarity
    source, replacing earlier focal activations and retaining the current force,
-   coordinate-weight and lens settings. Empty/error/cancelled searches do not
+   coordinate-weight, lens strength, rotation and zoom settings. The source is
+   centered in the view (pan resets) and becomes the center-node keyboard target.
+   Only accepted result relations belong to
+   the search RFC star; the context relation stays ordinary. Empty/error/cancelled searches do not
    select a new RFC center. Use the ordinary RFC controls to clear or adjust it.
 5. Select a green result relation and press **Reject selected result**. Its link
    disappears and the negative judgment is retained. Future runs of that query
@@ -69,8 +73,30 @@ available in editors. See the [key map](KEYMAP.md).
 Embedding applications that construct `GraphSearchController` directly retain
 explicit RFC ownership by default. Its optional third constructor argument,
 `{reinforceResults: true}`, opts into the browser controls' automatic focus policy.
-The controller uses existing RFC settings; it does not substitute a preset or
-change semantic weights to obtain the layout.
+The controller retains existing RFC settings and semantic weights. Successful
+nonempty searches also enable an **invisible exclusion disk** centered on their
+query or similarity source. Results occupy a rank-ordered rim sized from their
+measured label bodies; every other visible node body is moved outside the disk.
+The query/source itself is exempt. No disk, boundary, fill or synthetic relation
+is drawn. Ordinary authored edges can cross the interior.
+
+This opt-in view constraint runs after TG integration, so a cooled damper cannot
+leave context labels trapped inside. It checks forward-projected placement
+through the current lenses rather than trusting the historical approximate
+inverse alone. Rim positioning overrides competing forces at its boundary;
+this is an added search presentation policy, separate from historical RFC
+force equations. Clearing/changing the primary RFC center, replacing the graph
+or disposing the search controller releases it. A successful empty result batch
+also releases the disk. Rejected/deleted result links leave the active rim.
+
+Pinned nodes and the node being dragged retain their positions, even if that
+prevents clearance; `getFocusState().blockedNodeIds` reports these constraints.
+Release or unpin them to clear the area. An intentionally paused layout needs
+resuming or ticking. Extremely many/wide results may need canvas fitting or a
+smaller result limit. Custom singular/noninvertible lenses cannot guarantee
+placement. This does not guarantee separation among all exterior context nodes
+or remove edge crossings. Plain TG and direct controllers without
+`reinforceResults` retain their previous layout path.
 
 Lexical queries support `AND`, `OR`, `NOT`, grouping, quoted phrases, trailing
 prefixes and the `content:`, `label:`, `hint:`, `id:`, `type:` and `tag:` fields.

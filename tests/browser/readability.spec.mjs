@@ -1,3 +1,4 @@
+import {fillNumeric} from "../../scripts/browser-controls.mjs";
 import {test,expect} from '@playwright/test';
 
 async function overlaps(page){return page.locator('.fm-node .fm-shape').evaluateAll(elements=>{
@@ -46,7 +47,7 @@ test('invalid gaps do not arrange nodes and disposed caller-owned controls stop 
   await page.evaluate(()=>window.graphBrowser.tgLayout.stop());
   await page.locator('#view-section').evaluate(e=>e.open=true);await page.getByText('Label spacing',{exact:true}).click();
   const before=await page.evaluate(()=>[...window.graphBrowser.getAllNodes()].map(n=>[n.x,n.y]));
-  await page.getByLabel('Gap between nodes',{exact:true}).fill('-1');await page.getByRole('button',{name:'Separate overlapping nodes',exact:true}).click();
+  await fillNumeric(page.getByLabel('Gap between nodes',{exact:true}),'-1');await page.getByRole('button',{name:'Separate overlapping nodes',exact:true}).click();
   expect(await page.evaluate(()=>[...window.graphBrowser.getAllNodes()].map(n=>[n.x,n.y]))).toEqual(before);
   const result=await page.evaluate(async()=>{
     const {bindReadabilityControls}=await import('/src/fm/ui/index.ts');

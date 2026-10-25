@@ -190,6 +190,8 @@ are superseded, not silently redefined or claimed as implemented.
 - [x] 4.20 Balance the main flipbook with an early search chapter shared with the dedicated walkthrough: graph query entry, literal/tag retrieval, LDA training/querying, node similarity, rejection and query deletion. Add chapter navigation, preserve existing slide anchors and verify captured source-content preservation.
 - [x] 4.21 Declutter search relations with compact rank labels, a consistent distinct color and inspectable exact scores; reinforce successful query/similarity neighborhoods with RFC and refresh both walkthroughs.
 
+- [x] 4.22 Place accepted results around an invisible, measured-body exclusion disk; clear other nodes despite cooled damping, retain pin/drag ownership, distinguish semantic query entry, and refresh readable production walkthroughs.
+
 ## 5. Readability: node separation and relation-label placement
 
 Improve the rendered graph without changing the TouchGraph/RFC force equations.
@@ -206,7 +208,7 @@ Crossings, decorations and continuous node collision handling remain future work
 - [x] 5.6 Cache measured SVG text and share chosen anchors with rendering and inline relation editors through lenses, parallel edges and self-loops.
 - [x] 5.7 Enable relation-label avoidance in the main browser with a reversible View control; preserve original library defaults and transient preferences across graph replacement.
 - [x] 5.8 Verify independent rectangle counts, real SVG collisions, editing/control lifecycle and production before/after captures; document limits.
-
+- [x] 5.9 Replace numeric sidebar settings, including search/training, with sliders and live values; use horizontal radios for short choices, make the panel retractable and repair first-click structural multiple selection. Preserve configuration/input ownership and verify pointer, keyboard, model updates and teardown.
 - [ ] 5.10 Add an overall graph aspect setting with width:height choices 3:5, 16:9 and the canvas aspect ratio; keep labels legible and separate it from RFC focal weights.
 
 ## 6. Applications and radius-two exploration
@@ -238,3 +240,8 @@ baseline, not a declaration that the implementation meets it.
 - [ ] 7.5 Implement prioritized deterministic checks, control time/randomness/scheduling where needed, and measure test sensitivity and coverage for consequential paths.
 - [ ] 7.6 Establish reproducible integrated-build evidence and appropriate independent review in the delivery workflow; separately evaluate user tasks and deployment-specific behavior.
 - [x] 7.7 Repair reviewed merge regressions in demo startup/teardown, license distribution and progress documentation; add focused integrated-build and lifecycle checks. This does not complete the broader assurance work in 7.3–7.6.
+
+## 8. Undo
+
+- [ ] 8.1 Define undo/redo coverage and retention for intentional graph edits, including compound operations, document replacement, retrieval mutations and layout/navigation boundaries; keep local/private data handling explicit.
+- [ ] 8.2 Implement bounded local undo/redo with clear commands and deterministic checks for restoration, stable identities, invalidation and teardown; document supported operations and limitations.

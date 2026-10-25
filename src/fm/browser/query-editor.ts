@@ -23,7 +23,8 @@ export class GraphQueryEditor {
     const owner=group.ownerDocument,box=owner.createElementNS("http://www.w3.org/2000/svg","foreignObject"),field=owner.createElement("input");
     box.classList.add("fm-query-editor");box.setAttribute("x","-120");box.setAttribute("y","-16");box.setAttribute("width","240");box.setAttribute("height","32");
     const draft=this.drafts.get(node);
-    field.type="text";field.maxLength=4096;field.value=draft?.text??text;field.placeholder="Type a query";
+    field.type="text";field.maxLength=4096;field.value=draft?.text??text;
+    field.placeholder=node.getSemanticType()==="ldaquery"?"Type a semantic query":"Type a query";
     field.setAttribute("aria-label",node.getSemanticType()==="ldaquery"?"LDA query on graph":"Lexical query on graph");
     field.setAttribute("aria-keyshortcuts","Enter Escape");field.title="Enter searches; Escape cancels editing. After leaving the input, Ctrl+Backspace/Delete removes this query.";
     field.style.cssText="box-sizing:border-box;width:240px;height:32px;padding:3px 6px;border:2px solid #42674a;border-radius:5px;background:#fff;color:#172c22;font:16px sans-serif;user-select:text;cursor:text;";

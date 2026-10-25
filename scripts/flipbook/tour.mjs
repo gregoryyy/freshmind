@@ -1,3 +1,4 @@
+import {fillNumeric,selectChoice} from "../browser-controls.mjs";
 /* Freshmind. Apache-2.0. Copyright (c) 2002-2014, 2026 Gregor Heinrich.
  * TypeScript port by Gregor Heinrich using Codex GPT-6.1. */
 import {fileURLToPath} from "node:url";
@@ -70,6 +71,17 @@ async function frame(page, spacing = 1) {
   }, spacing);
 }
 
+/** Use the shipped readability command; fail the walkthrough instead of publishing cluttered overview bodies. */
+async function readableOverview(page, spacing=1) {
+  await frame(page,spacing);
+  const previous=await page.locator("#view-section, #readability-section").evaluateAll(items=>items.map(e=>({id:e.id,open:e.open})));
+  await page.locator("#view-section, #readability-section").evaluateAll(items=>items.forEach(e=>e.open=true));
+  await page.getByRole("button",{name:"Separate overlapping nodes",exact:true}).click();
+  await frame(page,spacing);
+  await page.locator("#view-section, #readability-section").evaluateAll((items,states)=>items.forEach(e=>e.open=states.find(s=>s.id===e.id).open),previous);
+  const remaining=await overlaps(page);if(remaining)throw new Error(`Overview still has ${remaining} overlapping node bodies`);
+}
+
 /** Waits for the actual replacement, including when reopening a file with the same name and focus ID. */
 async function openRfc(page, example = rfcExample) {
   const previous = await page.evaluateHandle(() => window.graphBrowser.getCompleteEltSet());
@@ -84,7 +96,7 @@ async function openRfc(page, example = rfcExample) {
 const browserSteps = [
   {
     id: "browser", title: "Graph browser with RFC on the center node",
-    caption: "The graph-browser example opens with Reinforcement Focus+Context active on its central Graph browsers node. Yellow halos identify the reinforced center and its five immediate branches; the surrounding graph retains its ordinary connections and forces.",
+    caption: "The graph-browser example opens with Reinforcement Focus+Context active on its central Graph browsers node. Yellow halos identify the reinforced center and its five immediate branches; the surrounding graph retains its ordinary connections. The shipped label-separation command clears body overlaps and pauses motion for this overview.",
     async run({page, open, advance}) {
       await open("/");
       await page.waitForFunction(() => window.graphBrowser.getRfc().getState().focusId === "root");
@@ -93,6 +105,7 @@ const browserSteps = [
         const panel = window.graphBrowser;
         panel.setSelect(panel.findNode("root")); panel.centerOn(panel.findNode("root"), true);
       });
+      await readableOverview(page);
       await sidebar(page, "rfc-section");
       await page.waitForFunction(() => document.querySelectorAll(".fm-rfc-node-halo").length === 6);
       await page.evaluate(() => document.activeElement?.blur());
@@ -103,7 +116,7 @@ const browserSteps = [
     caption: "Show whole graph reveals stored nodes beyond the current neighborhood. Expansion, collapse and hiding change the visible graph while retaining the complete graph for editing and export.",
     async run({page, advance}) {
       await sidebar(page, "files-section", "view-section");
-      await page.getByRole("button", {name: "Show whole graph"}).click(); await advance(60);
+      await page.getByRole("button", {name: "Show whole graph"}).click(); await advance(60); await readableOverview(page);
     }
   },
   {
@@ -112,7 +125,7 @@ const browserSteps = [
     async run({page}) {
       await page.getByLabel("Graph spacing").fill("120");
       await page.getByRole("button", {name: "Canvas zoom in", exact: true}).click();
-      await page.locator("#hyper").fill("40");
+      await page.locator("#hyper").fill("40"); await readableOverview(page,1.2);
     }
   },
   {
@@ -132,7 +145,7 @@ const browserSteps = [
       await open("/");
       await page.locator("#example-graph").selectOption("berry");
       await page.waitForFunction(() => document.querySelector("#file-status").textContent.includes("21 nodes, 22 relations"));
-      await advance(80);
+      await advance(80); await readableOverview(page);
     }
   },
   {
@@ -142,7 +155,7 @@ const browserSteps = [
       await sidebar(page, "files-section", "selection-section");
       await page.locator("#example-graph").selectOption("florentine");
       await page.waitForFunction(() => document.querySelector("#file-status").textContent.includes("15 nodes, 20 relations"));
-      await advance(80);
+      await advance(80); await readableOverview(page);
     }
   },
   {
@@ -214,7 +227,7 @@ const browserSteps = [
     async run({page, advance}) {
       await openRfc(page, weightedExample);
       const weight = page.getByLabel("Horizontal coordinate weight", {exact: true});
-      await weight.fill("0.25"); await weight.press("Tab");
+      await fillNumeric(weight,"0.25"); await weight.press("Tab");
       await page.getByRole("button", {name: "Reinforce selected node", exact: true}).click();
       await advance(250);
       await page.locator(".sidebar").evaluate(sidebar => { sidebar.scrollTop = 0; });
@@ -230,7 +243,7 @@ const browserSteps = [
       await sidebar(page, "rfc-section");
       await page.getByText("Force settings", {exact: true}).click();
       await page.getByText("Substructures", {exact: true}).click();
-      await page.getByLabel("Substructure", {exact: true}).selectOption(structure);
+      await selectChoice(page.getByLabel("Substructure", {exact: true}),structure);
       await page.waitForFunction(() => window.graphBrowser.getRfc().getState().centers.filter(center => center.active).length === 2);
     }
   },
@@ -244,7 +257,7 @@ const browserSteps = [
       await sidebar(page, "rfc-section");
       await page.getByText("Force settings", {exact: true}).click();
       await page.getByText("Substructures", {exact: true}).click();
-      await page.getByLabel("Substructure", {exact: true}).selectOption(structure);
+      await selectChoice(page.getByLabel("Substructure", {exact: true}),structure);
       await page.waitForFunction(() => document.querySelectorAll(".fm-cluster-boundary").length === 2);
     }
   },
@@ -300,12 +313,12 @@ const browserSteps = [
   },
   {
     id: "nips", title: "Browse the approved NIPS dataset",
-    caption: "NIPS-FM contains 3,777 nodes and 5,257 relations. Opening it starts with a bounded neighborhood; the full graph remains stored for subsequent navigation and export.",
+    caption: "NIPS-FM contains 3,777 nodes and 5,257 relations. This bounded neighborhood uses the label-separation command and canvas framing to make the long paper titles readable, with motion paused. All 3,777 nodes remain stored for subsequent navigation and export; this is not a whole-corpus overview.",
     async run({page, advance}) {
       await sidebar(page, "files-section", "view-section");
       await example(page, "nips-fm");
       await page.waitForFunction(() => document.querySelector("#file-status").textContent.includes("3777 nodes, 5257 relations"));
-      await advance(80);
+      await advance(80); await readableOverview(page,2);
       await page.locator(".sidebar").evaluate(sidebar => { sidebar.scrollTop = 0; });
     }
   },
@@ -397,7 +410,7 @@ const browserSteps = [
       await page.locator("#adaptive-damping").evaluate(e=>{e.closest("details").open=true;});
       await page.evaluate(()=>window.graphBrowser.getRfc().setFocus(null));
       await page.getByLabel("Adaptive damping",{exact:true}).check();
-      await page.getByLabel("Damping response",{exact:true}).selectOption("impulse");
+      await selectChoice(page.getByLabel("Damping response",{exact:true}),"impulse");
       const valid=await page.evaluate(()=>{const p=window.graphBrowser;return p.tgLayout.getAdaptiveDampingState().enabled&&!p.getRfc().getState().enabled;});
       if(!valid)throw new Error("General damping depends on RFC activation");
     }

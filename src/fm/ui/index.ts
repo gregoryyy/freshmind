@@ -28,3 +28,7 @@ export {bindReadabilityControls} from "./readability.js";
 export type {ReadabilityElements} from "./readability.js";
 export {bindLabelEditingControls} from "./label-editing.js";
 export type {LabelEditingElements} from "./label-editing.js";
+export {bindNumericSliders} from "./numeric-sliders.js";
+export {bindChoiceRadios} from "./choice-radios.js";
+export {bindPanelToggle} from "./panel-toggle.js";
+export type {RetractablePanel} from "./panel-toggle.js";

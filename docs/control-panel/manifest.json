@@ -1,0 +1,46 @@
+{
+  "format": "freshmind-flipbook",
+  "version": 1,
+  "build": "demo-dist",
+  "source": "scripts/flipbook/controls.mjs",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "browser": "155.0.8059.85",
+  "files": [
+    "01-layout.png",
+    "02-search.png",
+    "03-training.png",
+    "04-retracted.png",
+    "README.md",
+    "index.html",
+    "manifest.json"
+  ],
+  "steps": [
+    {
+      "id": "layout",
+      "title": "Layout controls as sliders and horizontal choices",
+      "caption": "The weighted-tree example is paused and its measured labels separated with the shipped readability command. RFC settings use sliders with live values. Short choices use horizontal radio groups; large example/substructure inventories keep menus. These are presentation controls over the existing graph and configuration owners.",
+      "file": "01-layout.png"
+    },
+    {
+      "id": "search",
+      "title": "Search methods, metrics and result limits",
+      "caption": "Lexical/LDA and term/tag choices are directly visible. The LDA metric names remain available to assistive technology and on hover. An unchecked custom-distance limit retains the engine defaults; selecting a metric or moving a slider keeps the existing retrieval boundary.",
+      "file": "02-search.png"
+    },
+    {
+      "id": "training",
+      "title": "Topic-model settings remain local and inspectable",
+      "caption": "Topics, passes, random seed, vocabulary frequency and priors use sliders and live values. Wide magnitude ranges use logarithmic scales; integer arrows retain exact increments, including the random seed. The graph is not searched or retrained for this control demonstration.",
+      "file": "03-training.png"
+    },
+    {
+      "id": "retracted",
+      "title": "Retract the controls and keep the document",
+      "caption": "Controls hides the panel and gives the graph its width. Settings, open sections and scroll position remain available when it reopens; quick search reveals its query field. Collapsing changes viewport geometry, preserving physical node coordinates and semantic data. The preference is session-only.",
+      "file": "04-retracted.png"
+    }
+  ]
+}
