@@ -2,6 +2,12 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Consequential-path verification — 2026-10-25
+
+- Completes **7.5** with four independent-oracle headless scenarios: composed complete-document preservation, atomic rejection of invalid late fields, saved stale worker callbacks and out-of-order seeded model reads. No production behavior is changed.
+- Adds two production-browser scenarios for local file import, hostile content, overlay editing, literal/LDA workers, explicit graph/model exports and invalid replacement, plus positive controls proving the privacy observer catches attempted same-origin/external transfers. Observes attempted requests, logs, WebSockets, persistent-storage effects and service workers; synthetic canaries remain local except in explicit downloaded files. Chrome checks pass **2/2**.
+- `just check` passes **318 core tests**, strict types and library/demo builds. After strengthening the composed-layout fixture with fixed distinct positions, disabled adaptive clocks and an actual-movement assertion, its four-case baseline and all three fault checks pass again. No TG equations changed; Java reference code is unchanged.
+- A disposable-build sensitivity runner detects **3/3** specified assertion faults after **4/4** baseline scenarios pass. Retained hashes and scoped V8 line/branch coverage identify substantial unexercised paths in the new four-case subset; no full-project coverage, universal privacy or race-freedom claim. The [verification record](assurance/05-verification.md) documents reproduction, budgets and gaps.
 ## Requirement and source traceability — 2026-10-25
 
 - Completes **7.4**: all **33** baseline IDs map through **16** behavior groups to selected current declarations, existing evidence candidates, TODOs, risk, assumptions, failure consequences, independent expectations and gaps. Hash-pinned Java origins distinguish adaptations, replacements and reimplementations; new and future requirements do not acquire invented predecessors. The implementation baseline is main `a0b4bfb`.

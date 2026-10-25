@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "node": "v25.6.1",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "sourceCommit": "a0b4bfb60f785877f7552603d066163bdfad33be",
+  "testSha256": "9ae6e5abd1cbc817b0ea051cfef1ea54fab32c0fc2d7d0bfb57a31bb9f62be94",
+  "coverageScope": [
+    "dist/fm/edit/commands.js",
+    "dist/ir/browser/worker-client.js",
+    "dist/ir/browser/session.js"
+  ],
+  "coverageReport": "# Subtest: ASSURE-01 hidden/parallel/loop semantic records survive composed views and native round trips\n# Subtest: ASSURE-02 invalid late fields preserve every accepted record and adjacency\n# Subtest: ASSURE-03 already-queued callbacks cannot report progress or finish newer jobs\n# Subtest: ASSURE-04 out-of-order model reads cannot replace the latest accepted session model\n# tests 4\n# suites 0\n# pass 4\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 374.089708\n# start of coverage report\n# ----------------------------------------------------------------------------\n# file                | line % | branch % | funcs % | uncovered lines\n# ----------------------------------------------------------------------------\n# dist                |        |          |         | \n#  fm                 |        |          |         | \n#   edit              |        |          |         | \n#    commands.js      |  62.22 |    52.17 |   66.67 | 13-23 33-34 58-59 70-88\n#  ir                 |        |          |         | \n#   browser           |        |          |         | \n#    session.js       |  56.18 |    71.43 |   71.43 | 19-27 29-41 43-59\n#    worker-client.js |  82.93 |    75.00 |   91.67 | 6-7 27-29 48-54 65-66\n# ----------------------------------------------------------------------------\n# all files           |  66.67 |    66.67 |   79.31 | \n# ----------------------------------------------------------------------------\n# end of coverage report",
+  "baseline": "passed",
+  "mutations": [
+    {
+      "id": "early-node-write",
+      "file": "dist/fm/edit/commands.js",
+      "originalSha256": "b05eb19e5d058659289672822d0135d1ba5de2ca997ad6d78dcddaf9c0934035",
+      "mutatedSha256": "a51fcc7d953fd8997cfbb5b2ad20ac1acaa2a5c4cb4a8b8d105aa3b941f5ccb1",
+      "expectedCase": "ASSURE-02",
+      "detected": true
+    },
+    {
+      "id": "stale-worker-callback",
+      "file": "dist/ir/browser/worker-client.js",
+      "originalSha256": "b3a5504ec66c9fa796e4e0a68466ca2e7ac302cff47fc2c324cbd55cbf933a9d",
+      "mutatedSha256": "a1b442a45db49caa41b3cf2eb38e2ca1d646aeb12fde129b887363af6cd38b5c",
+      "expectedCase": "ASSURE-03",
+      "detected": true
+    },
+    {
+      "id": "late-model-read",
+      "file": "dist/ir/browser/session.js",
+      "originalSha256": "65d9f27dba9c55976823e22885508b1f2b48880e0688039b520f82ea7699caf2",
+      "mutatedSha256": "0296291c5924a6f3fddb2c4c6a200684d5c704c81f54716b6c2ead879dea4733",
+      "expectedCase": "ASSURE-04",
+      "detected": true
+    }
+  ],
+  "limits": "Three specified faults and four independent-oracle scenarios. Not exhaustive mutation/branch coverage, race freedom or a conformance verdict."
+}

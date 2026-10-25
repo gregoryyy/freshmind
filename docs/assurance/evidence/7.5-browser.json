@@ -1,0 +1,61 @@
+{
+  "implementationBaseline": "a0b4bfb60f785877f7552603d066163bdfad33be",
+  "tests": [
+    {
+      "title": "ASSURE-05 production local import, hostile content, edits, lexical/LDA workers and explicit exports preserve privacy",
+      "status": "passed"
+    },
+    {
+      "title": "ASSURE-06 privacy observer detects attempted same-origin and external canary transfer",
+      "status": "passed"
+    }
+  ],
+  "observations": {
+    "browser": "155.0.8059.85",
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4189/",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:4189/assets/index-BLtlAon2.js",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:4189/assets/style-CXIGFCbe.js",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:4189/assets/style-DQM37XIt.css",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:4189/assets/worker-b7OxfYtD.js",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:4189/assets/worker-b7OxfYtD.js",
+        "method": "GET"
+      },
+      {
+        "url": "http://127.0.0.1:4189/assets/worker-b7OxfYtD.js",
+        "method": "GET"
+      }
+    ],
+    "storage": {
+      "local": {},
+      "session": {},
+      "databases": [],
+      "caches": [],
+      "effects": [],
+      "serviceWorkers": 0
+    },
+    "limits": "One synthetic production workflow; no extension/OS/other-browser or universal privacy claim."
+  },
+  "inputs": {
+    "package-lock.json": "ac301d8fea3412c3c0365c9a2b84cb822a8ff16bea6a7b26c10bfa1de2ae3523",
+    "tests/assurance-browser/local.spec.mjs": "49d66744408d2fef2256ff278162e8f4e5b8e21bbda4052b13d2c143b8af6999",
+    "playwright.assurance.config.mjs": "5d1dd82fb9da4e1a1689cfe61fe43e80d0357a461feda663614b8640cb0123c8"
+  },
+  "limits": "Synthetic local production workflow only; test code is identified by hash independently of the implementation baseline."
+}
