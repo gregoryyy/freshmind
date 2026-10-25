@@ -7,6 +7,7 @@
  */
 
 import type {Node, Edge} from "../../tg/model/index.js";
+import type {ImmutableGraphEltSet} from "../../tg/graph/index.js";
 import type {LayoutForce} from "../../tg/layout/index.js";
 import {angularGapRms, applyRfcForces, branchImpulse} from "./forces.js";
 import type {RfcHost, RfcSettings, RfcState, RfcCenterState, RfcClusterSettings,RfcExclusionSettings} from "./types.js";
@@ -29,6 +30,7 @@ export class RfcController {
   private readonly centers=new Map<Node,string|null>();
   private readonly restrictedEdges=new Map<Node,readonly Edge[]>();
   private settings:RfcSettings;
+  private neighborhoodDepth:1|2=1;
   private clusterSettings:RfcClusterSettings={rigidity:1};
   private exclusionSettings:RfcExclusionSettings={enabled:false,overlap:true,strength:.25,padding:20};
   private disposed=false;
@@ -69,14 +71,25 @@ export class RfcController {
     return [...this.centers].filter(([node,id])=>this.host.getCompleteEltSet().contains(node)&&(!id||this.definition(id)?.rootId===node.getID()))
       .sort(([a],[b])=>a===this.focus?-1:b===this.focus?1:0);
   }
-  private project(node:Node,id:string|null):RfcProjection {
+  private project(node:Node,id:string|null,visible:ImmutableGraphEltSet=this.host.getGES()):RfcProjection {
     const definition=id?this.definition(id):null;
     const restriction=this.restrictedEdges.get(node);
     if(!definition&&restriction) {
-      const visible=this.host.getGES(),rootStar=constrainedStar(node,restriction.filter(e=>visible.contains(e)&&visible.contains(e.from)&&visible.contains(e.to)),this.settings.coordinateWeights);
+      const rootStar=constrainedStar(node,restriction.filter(e=>visible.contains(e)&&visible.contains(e.from)&&visible.contains(e.to)),this.settings.coordinateWeights);
       return {root:node,definition:null,nodes:[node,...rootStar.branches.map(b=>b.node)],edges:rootStar.branches.map(b=>b.edge),rootStar,stars:[rootStar],targets:new Map(),targetWeights:new Map()};
     }
-    return projectRfcStructure(this.host.getCompleteEltSet(),this.host.getGES(),node,definition,this.settings.coordinateWeights,id?this.structures.get(id)?.topology:undefined);
+    return projectRfcStructure(this.host.getCompleteEltSet(),visible,node,definition,this.settings.coordinateWeights,id?this.structures.get(id)?.topology:undefined,this.neighborhoodDepth);
+  }
+  /** Projects an active center into a caller-supplied locality (for structural-view protection). */
+  projectFocus(node:Node,visible:ImmutableGraphEltSet=this.host.getGES()):RfcProjection|null {
+    if(!this.centers.has(node)||!this.host.getCompleteEltSet().contains(node)||!visible.contains(node))return null;
+    return this.project(node,this.centers.get(node)!,visible);
+  }
+  /** Changes implicit centers only; stored structures and explicit result stars retain their scope. */
+  setNeighborhoodDepth(depth:1|2):void {
+    this.assertAlive();if(depth!==1&&depth!==2)throw new RangeError("RFC neighborhood depth must be 1 or 2");
+    if(depth===this.neighborhoodDepth)return;
+    this.neighborhoodDepth=depth;this.stabilizer.forgetMotion();this.host.resetDamper();this.publish();
   }
   /** Detached membership/activation snapshots. The legacy focusId/branchIds describe the primary center. */
   getState():RfcState {
@@ -84,12 +97,12 @@ export class RfcController {
     for(const [node,id] of entries) {
       const active=this.host.getGES().contains(node),projection=active?this.project(node,id):null;
       if(projection)projections.push(projection);
-      centers.push({focusId:node.getID()!,structureId:id,kind:id?this.definition(id)!.kind:"star",active,
+      centers.push({focusId:node.getID()!,structureId:id,kind:id?this.definition(id)!.kind:!this.restrictedEdges.has(node)&&this.neighborhoodDepth===2?"tree":"star",active,
         memberIds:projection?.nodes.map(n=>n.getID()!)??[],edgeIds:projection?.edges.map(e=>e.getID()!)??[],
         angularGapRms:projection&&projection.definition?.kind!=="dag"&&projection.definition?.kind!=="cluster"?angularGapRms(projection.rootStar):null});
     }
     const primary=focus&&this.host.getGES().contains(focus)?this.project(focus,entries[0][1]):null;
-    return {focusId:focus?.getID()??null,enabled:entries.length>0,active:centers.some(c=>c.active),centers,
+    return {neighborhoodDepth:this.neighborhoodDepth,focusId:focus?.getID()??null,enabled:entries.length>0,active:centers.some(c=>c.active),centers,
       branchIds:primary?.rootStar.branches.map(b=>b.node.getID()!)??[],
       memberIds:[...new Set(projections.flatMap(p=>p.nodes.map(n=>n.getID()!)))],
       radialEdgeIds:[...new Set(projections.flatMap(p=>p.edges.map(e=>e.getID()!)))],

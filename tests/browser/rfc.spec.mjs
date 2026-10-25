@@ -202,16 +202,19 @@ test("reusable RFC control bindings dispose without clearing separately owned co
     const activate = document.createElement("button"), clear = document.createElement("button"), status = document.createElement("p");
     const springMultiplier = document.createElement("input"), angularStiffness = document.createElement("input"), clusterRigidity=document.createElement("input");
     springMultiplier.type = angularStiffness.type = clusterRigidity.type = "number";
-    const dispose = bindRfcControls(panel, {activate, clear, status, springMultiplier, angularStiffness,clusterRigidity});
+    const neighborhoodDepth=document.createElement("select");
+    for(const depth of [1,2]){const option=document.createElement("option");option.value=String(depth);neighborhoodDepth.append(option);}
+    const dispose = bindRfcControls(panel, {activate, clear, status, springMultiplier, angularStiffness,clusterRigidity,neighborhoodDepth});
     activate.click(); const active = panel.getRfc().getState().enabled;
     panel.getRfc().configureClusters({rigidity:.5});
     dispose(); dispose(); clear.click(); springMultiplier.value = "10"; springMultiplier.dispatchEvent(new Event("change"));
     clusterRigidity.value="2";clusterRigidity.dispatchEvent(new Event("change"));
+    neighborhoodDepth.value="2";neighborhoodDepth.dispatchEvent(new Event("change"));
     const retained = panel.getRfc().getState(); panel.getRfc().setFocus(null); panel.repaintAfterMove();
     const staleStatus = status.textContent;
     activate.click(); const removed = !panel.getRfc().getState().enabled;
     panel.destroy();
-    return {active, retained: retained.enabled && retained.settings.springMultiplier === 1&&retained.clusterSettings.rigidity===.5, staleStatus, removed};
+    return {active, retained: retained.enabled && retained.settings.springMultiplier === 1&&retained.clusterSettings.rigidity===.5&&retained.neighborhoodDepth===1, staleStatus, removed};
   });
   expect(result).toEqual({active: true, retained: true, staleStatus: "RFC: center · 1 visible branch.", removed: true});
 });

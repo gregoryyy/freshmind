@@ -24,6 +24,7 @@ export interface RfcControlElements {
   adaptiveDamping?: HTMLInputElement;
   addCenter?:HTMLButtonElement;
   centers?:HTMLSelectElement;
+  neighborhoodDepth?:HTMLSelectElement;
   removeCenter?:HTMLButtonElement;
   xWeight?: HTMLInputElement;
   yWeight?: HTMLInputElement;
@@ -43,6 +44,7 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
   let centerSignature="";
   const update = () => {
     const state = rfc.getState(), selected = panel.getSelection();
+    if(elements.neighborhoodDepth)elements.neighborhoodDepth.value=String(state.neighborhoodDepth);
     const indicator=state.active?"On":state.enabled?"Paused":"Off";
     if(elements.indicator&&elements.indicator.textContent!==indicator)elements.indicator.textContent=indicator;
     elements.activate.disabled = !(selected instanceof FreshNode) || !panel.getGES().contains(selected);
@@ -81,6 +83,7 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
     let message = !state.enabled ? "RFC off." : !state.active
       ? `RFC paused: ${label} is outside the visible neighborhood.`
       : `RFC: ${label} · ${state.branchIds.length} visible ${state.branchIds.length === 1 ? "branch" : "branches"}.`;
+    if(state.active&&state.centers.length===1&&!state.centers[0]?.structureId&&state.centers[0]?.kind==="tree")message=`RFC: ${label} · ${state.memberIds.length} automatic two-level members.`;
     if(state.centers.length>1)message=state.active?`RFC: ${state.centers.length} centers · ${state.memberIds.length} reinforced nodes.`:"RFC paused: all centers are outside the visible neighborhood.";
     else if(state.active&&state.centers[0]?.structureId)message=`RFC: ${panel.getCompleteEltSet().getSubstructure(state.centers[0].structureId)?.label} · ${state.memberIds.length} ${state.centers[0].kind} members.`;
     if (state.active && state.stabilization.phase !== "steady") message = message.slice(0,-1)
@@ -110,6 +113,11 @@ export function bindRfcControls(panel: FreshmindPanel, elements: RfcControlEleme
       catch(error){input.setCustomValidity(error instanceof Error?error.message:String(error));input.reportValidity();}};
     input.addEventListener("input",reset);input.addEventListener("change",change);
     removers.push(()=>{input.removeEventListener("input",reset);input.removeEventListener("change",change);input.setCustomValidity("");});
+  }
+  if(elements.neighborhoodDepth) {
+    const control=elements.neighborhoodDepth;
+    const change=()=>{rfc.setNeighborhoodDepth(Number(control.value) as 1|2);panel.repaintAfterMove();};
+    control.addEventListener("change",change);removers.push(()=>control.removeEventListener("change",change));
   }
   const addCenter=()=>{panel.getNavigation().addRfcCenter();panel.focusGraph();};
   const removeCenter=()=>{if(elements.centers?.value)rfc.removeFocus(elements.centers.value);panel.focusGraph();};
