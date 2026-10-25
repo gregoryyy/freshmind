@@ -1,3 +1,4 @@
+import {selectChoice} from "../../scripts/browser-controls.mjs";
 import {test,expect} from "@playwright/test";
 
 test("overlay node/relation weights change added RFC forces and zero importance retains ordinary graph context",async({page},info)=>{
@@ -34,7 +35,7 @@ test("weighted tree example preserves all stored memberships while highlighting 
   await page.waitForFunction(()=>window.graphBrowser?.getRfc().getState().active);await page.evaluate(()=>window.graphBrowser.tgLayout.stop());
   await page.locator("#example-graph").selectOption("weighted-tree");await expect(page.locator("#file-status")).toContainText("7 nodes, 6 relations");
   await page.getByText("Reinforcement Focus + Context",{exact:true}).click();await page.getByText("Substructures",{exact:true}).click();
-  await page.getByLabel("Substructure",{exact:true}).selectOption("weighted-tree");await page.getByRole("button",{name:"Reinforce substructure",exact:true}).click();
+  await selectChoice(page.getByLabel("Substructure",{exact:true}),"weighted-tree");await page.getByRole("button",{name:"Reinforce substructure",exact:true}).click();
   const state=await page.evaluate(()=>{const p=window.graphBrowser,s=p.getRfc().getState(),definition=p.getCompleteEltSet().getSubstructure("weighted-tree");return {edges:s.radialEdgeIds,nodes:s.memberIds,members:definition.nodeIds.length,relations:definition.edgeIds.length};});
   expect(state.edges.sort()).toEqual(["aa1","bb1","ra","rb"]);expect(state.nodes.sort()).toEqual(["a","a1","b","b1","root"]);
   expect(state.members).toBe(7);expect(state.relations).toBe(6);

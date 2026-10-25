@@ -6,6 +6,8 @@ import {GraphSearchController,SearchCancelledError} from "../browser/index.js";
 import type {FreshmindPanel} from "../browser/index.js";
 import {GraphQueryEditor} from "../browser/index.js";
 export interface GraphSearchElements {
+  /** Reveal caller-owned collapsed controls when a sidebar search command needs them. */
+  showControls?:()=>void;
   engine:HTMLSelectElement;kind:HTMLSelectElement;query:HTMLInputElement;limit:HTMLInputElement;
   run:HTMLButtonElement;similar:HTMLButtonElement;reject:HTMLButtonElement;train:HTMLButtonElement;cancel:HTMLButtonElement;
   topics:HTMLInputElement;iterations:HTMLInputElement;seed:HTMLInputElement;alpha:HTMLInputElement;beta:HTMLInputElement;
@@ -68,6 +70,7 @@ export function bindGraphSearchControls(panel:FreshmindPanel,e:GraphSearchElemen
     void controller.loadModel(async()=>JSON.parse(await file.text()) as unknown).catch(showError);
   });
   const reveal=(target:HTMLElement=e.query)=>{
+    e.showControls?.();
     for(let ancestor=target.parentElement;ancestor;ancestor=ancestor.parentElement)if(ancestor instanceof HTMLDetailsElement)ancestor.open=true;
     target.scrollIntoView({block:"nearest"});
   };

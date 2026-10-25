@@ -1,3 +1,4 @@
+import {selectChoice} from "../../scripts/browser-controls.mjs";
 import {test,expect} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 async function ready(page){
@@ -57,7 +58,7 @@ test('reopening focus is independent of view and new-document replacement requir
   await expect(page.locator('#save-name')).toHaveValue('untitled.fm.yaml');expect(await page.evaluate(()=>window.graphBrowser.getSelection())).toBe(null);expect(errors).toEqual([]);
 });
 test('moving-label creation keeps editor focus and graph commands respect composition and relation selection',async({page})=>{
-  const errors=await ready(page);await page.locator('#edit-mode').click();await page.locator('#label-editing-mode').selectOption('in-place');
+  const errors=await ready(page);await page.locator('#edit-mode').click();await selectChoice(page.locator('#label-editing-mode'),'in-place');
   await page.locator('#command-parent').focus();await page.keyboard.press('Enter');
   const id=await page.evaluate(()=>window.graphBrowser.getSelection().getID()),field=page.locator(`[data-node-id="${id}"] .fm-label-editor`);
   await expect(field).toBeFocused();await expect(field).toHaveValue('[new parent]');await field.fill('Moving child');await field.press('Control+Enter');

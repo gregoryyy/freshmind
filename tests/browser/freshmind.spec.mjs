@@ -1,3 +1,4 @@
+import {selectChoice} from "../../scripts/browser-controls.mjs";
 import { test, expect } from "@playwright/test";
 
 async function ready(page) {
@@ -40,7 +41,7 @@ test("YAML configuration reload applies styles atomically and preserves graph co
 test("curves, hit paths and label anchors follow lens changes and relation edits",async({page})=>{
   const errors=await ready(page),path=page.locator('[data-edge-id="authored"] .fm-edge-path');
   const before=await path.getAttribute("d");await page.locator("#hyper").fill("80");expect(await path.getAttribute("d")).not.toBe(before);
-  await page.locator("#curve").selectOption("lens");
+  await selectChoice(page.locator("#curve"),"lens");
   const agreement=await page.evaluate(()=>{
     const p=window.freshmindBrowser,e=[...p.getAllEdges()].find(e=>e.getID()==="authored"),g=p.getEdgeGeometry(e);
     const middle=p.getLensSet().convRealToDraw((e.from.x+e.to.x)/2,(e.from.y+e.to.y)/2);

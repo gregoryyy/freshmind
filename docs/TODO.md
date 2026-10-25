@@ -158,6 +158,8 @@ The [RFC design](rfc-design.md), [single-focus report](experiments/rfc-single-fo
 
 - [x] 3.6 Preserve context progress during adaptive damping: use independent node gains/recovery, verify RFC clearing and real label geometry, retain historical shared-gain experiments and document limits.
 
+- [ ] 3.7 Derive automatic two-level neighborhoods (children and grandchildren) for each ordinary RFC center, including multiple centers and shared members. Define deterministic projection, direction and cycle handling; preserve stored structures and search-result focus, and verify layout and interaction.
+
 ## 4. Graph visual search
 
 Use **elasticlunr** as the literal engine and implement **LDA semantic retrieval**
@@ -205,6 +207,8 @@ Crossings, decorations and continuous node collision handling remain future work
 - [x] 5.7 Enable relation-label avoidance in the main browser with a reversible View control; preserve original library defaults and transient preferences across graph replacement.
 - [x] 5.8 Verify independent rectangle counts, real SVG collisions, editing/control lifecycle and production before/after captures; document limits.
 
+- [x] 5.9 Replace numeric sidebar settings, including search/training, with sliders and live values; use horizontal radios for short choices, make the panel retractable and repair first-click structural multiple selection. Preserve configuration/input ownership and verify pointer, keyboard, model updates and teardown.
+
 ## 6. Applications and radius-two exploration
 
 The [research roadmap](ROAD.md) and [design contract](radius-two-view.md) define
@@ -234,3 +238,8 @@ baseline, not a declaration that the implementation meets it.
 - [ ] 7.5 Implement prioritized deterministic checks, control time/randomness/scheduling where needed, and measure test sensitivity and coverage for consequential paths.
 - [ ] 7.6 Establish reproducible integrated-build evidence and appropriate independent review in the delivery workflow; separately evaluate user tasks and deployment-specific behavior.
 - [x] 7.7 Repair reviewed merge regressions in demo startup/teardown, license distribution and progress documentation; add focused integrated-build and lifecycle checks. This does not complete the broader assurance work in 7.3–7.6.
+
+## 8. Undo
+
+- [ ] 8.1 Define undo/redo coverage and retention for intentional graph edits, including compound operations, document replacement, retrieval mutations and layout/navigation boundaries; keep local/private data handling explicit.
+- [ ] 8.2 Implement bounded local undo/redo with clear commands and deterministic checks for restoration, stable identities, invalidation and teardown; document supported operations and limitations.

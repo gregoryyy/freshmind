@@ -1,3 +1,4 @@
+import {selectChoice} from "../../scripts/browser-controls.mjs";
 import {test,expect} from "@playwright/test";
 
 test("default general damping detects ordinary TouchGraph oscillation with RFC off and survives document replacement",async({page})=>{
@@ -13,7 +14,7 @@ test("default general damping detects ordinary TouchGraph oscillation with RFC o
   });
   expect(result.rfc).toBe(false);expect(result.damping.detections).toBeGreaterThan(0);expect(result.damping.gain).toBeLessThan(1);
   await expect(page.locator("#adaptive-damping-status")).toContainText("detections");
-  await page.getByLabel("Damping response",{exact:true}).selectOption("cooling");
+  await selectChoice(page.getByLabel("Damping response",{exact:true}),"cooling");
   await expect(page.locator("#adaptive-damping-status")).toContainText("Earlier TouchGraph cooling");
   expect(await page.evaluate(()=>window.graphBrowser.tgLayout.getAdaptiveDampingResponse())).toBe("cooling");
   await page.locator("#example-graph").selectOption("karate");

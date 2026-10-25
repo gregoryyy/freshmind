@@ -48,6 +48,10 @@ search-flipbook *args: build-demo
 flipbook *args: build-demo
     node scripts/flipbook.mjs "$@"
 
+# Capture sliders, horizontal choices and the retractable control panel.
+controls-showcase *args: build-demo
+    node scripts/flipbook.mjs --tour controls "$@"
+
 # Capture the six-view research-community RFC/hybrid showcase from the production browser.
 rfc-showcase *args: build-demo
     node scripts/flipbook.mjs --tour rfc-showcase "$@"

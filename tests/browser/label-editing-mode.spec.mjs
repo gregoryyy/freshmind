@@ -1,3 +1,4 @@
+import {selectChoice} from "../../scripts/browser-controls.mjs";
 import {test,expect} from '@playwright/test';
 async function ready(page,url='/') {
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(url);
@@ -13,7 +14,7 @@ async function ready(page,url='/') {
     graph.addEdge(new FreshEdge(a,b,{id:'edit-empty',label:''}));
     p.setGraphEltSet(graph);p.getGES().addAll();p.setZoom(1);p.setCanvasZoom(1);p.setHyperbolic(0);p.setRotation(0);p.centerView();p.setSelect(a);p.repaintAfterMove();
   });
-  await page.locator('#label-editing-mode').selectOption('in-place');return errors;
+  await selectChoice(page.locator('#label-editing-mode'),'in-place');return errors;
 }
 const node=page=>page.locator('[data-node-id="edit-a"] .fm-label-editor');
 const edge=page=>page.locator('[data-edge-id="edit-edge"] .fm-label-editor');
@@ -45,7 +46,7 @@ for(const url of ['/','/freshmind.html']) {
 test('native label input suppresses graph gestures and saves on blur with atomic weight validation',async({page})=>{
   const errors=await ready(page);
   await node(page).fill('Draft =-1');await node(page).press('Control+Enter');await expect(node(page)).toHaveAttribute('aria-invalid','true');expect((await values(page)).node).toEqual(['Alpha',1]);
-  await page.locator('#label-editing-mode').selectOption('on-demand');await expect(page.locator('#label-editing-mode')).toHaveValue('in-place');await expect(page.locator('#label-editing-status')).toContainText('nonnegative');
+  await selectChoice(page.locator('#label-editing-mode'),'on-demand');await expect(page.locator('#label-editing-mode')).toHaveValue('in-place');await expect(page.locator('#label-editing-status')).toContainText('nonnegative');
   await node(page).fill('Accepted =0');await edge(page).focus();expect((await values(page)).node).toEqual(['Accepted',0]);
   await edge(page).fill('Plain <img src=x onerror=alert(1)>');await edge(page).press('Enter');expect((await values(page)).edge[0]).toContain('<img');expect(await page.locator('#graph img').count()).toBe(0);
   await node(page).focus();const before=await page.evaluate(()=>{const p=window.graphBrowser;return [p.getFocus()?.getID(),p.getNodeCount(),p.getZoom(),p.getCanvasZoom()];});
@@ -100,9 +101,9 @@ test('F2 and weight commands use moving labels while details remain in the overl
   await page.locator('#graph svg').focus();await page.keyboard.press('Control+g');await expect(node(page)).toBeFocused();await node(page).press('Control+Enter');expect((await values(page)).node).toEqual(['Alpha',1.1]);
   await page.locator('#graph svg').focus();await page.keyboard.press('Control+Space');await expect(page.locator('#item-editor-overlay')).toBeVisible();await expect(page.getByLabel('Annotation',{exact:true})).toBeFocused();
   await page.keyboard.press('Escape');expect(errors).toEqual([]);
-  await page.locator('#label-editing-mode').selectOption('on-demand');await page.locator('#graph svg').focus();await page.keyboard.press('F2');
+  await selectChoice(page.locator('#label-editing-mode'),'on-demand');await page.locator('#graph svg').focus();await page.keyboard.press('F2');
   await page.getByLabel('Inline node label',{exact:true}).fill('Retained overlay draft');
-  await page.locator('#label-editing-mode').selectOption('in-place');await expect(page.locator('.inline-editor')).toHaveCount(0);
+  await selectChoice(page.locator('#label-editing-mode'),'in-place');await expect(page.locator('.inline-editor')).toHaveCount(0);
   await page.locator('#graph svg').focus();await page.keyboard.press('Control+Space');await expect(page.getByLabel('Node label',{exact:true})).toHaveValue('Retained overlay draft');await page.keyboard.press('Escape');
 });
 
