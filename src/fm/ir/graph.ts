@@ -4,6 +4,13 @@ import type {FreshGraph,JsonValue} from "../model/index.js";
 import {validateSearchRequest} from "../../ir/corpus/index.js";
 import {graphSearchCorpus,isSearchQueryNode} from "./corpus.js";
 import type {SearchCorpus,SearchRequest,SearchResult,SearchEngine} from "../../ir/corpus/index.js";
+// Session-only evidence for graph-owned result batches, never serialized into user data.
+// One exact corpus key per live graph avoids retaining a key for every historical request.
+const acceptedResults=new WeakMap<FreshGraph,{key:string;edges:WeakMap<FreshEdge,string>}>();
+export function isKnownSearchResult(graph:FreshGraph,edge:FreshEdge):boolean{return acceptedResults.get(graph)?.edges.has(edge)??false;}
+export function searchResultIsCurrent(graph:FreshGraph,edge:FreshEdge,key:string):boolean {
+  const evidence=acceptedResults.get(graph);return evidence?.key===key&&evidence.edges.get(edge)===JSON.stringify(edge.getData().search);
+}
 function record(value:JsonValue|undefined):Record<string,JsonValue>|null{return value&&typeof value==="object"&&!Array.isArray(value)?value:null;}
 function requestKey(request:SearchRequest):string{return JSON.stringify(validateSearchRequest(request));}
 function unusedNodeId(graph:FreshGraph):string{let n=1;while(graph.findNode(`query-${n}`))n++;return `query-${n}`;}
@@ -55,8 +62,10 @@ export function applyGraphSearchResults(graph:FreshGraph,source:FreshNode,reques
     edges.push(new FreshEdge(source,target,{label:`#${r.rank}`,visual:{style:{stroke:{color:"#28845d",width:1+3*r.relevance},label:{color:"#28845d"}}},
       data:{search:{version:1,role:"result",owner:source.getID()!,target:r.id,request:{...validated},requestKey:requestKey(validated),score:r.score,relevance:r.relevance,rank:r.rank,corpus:corpus.fingerprint,...details}}}));
   }
-  for(const edge of [...graph.getEdges()]){const s=searchResultMetadata(edge);if(s&&edge.from===source&&(isSearchQueryNode(source)||record(s.request)?.engine===validated.engine))graph.deleteEdge(edge);}
-  for(const edge of edges)graph.addEdge(edge);
+  for(const edge of [...graph.getEdges()]){const s=searchResultMetadata(edge);if(s&&edge.from===source&&(isSearchQueryNode(source)||record(s.request)?.engine===validated.engine)){graph.deleteEdge(edge);acceptedResults.get(graph)?.edges.delete(edge);}}
+  let evidence=acceptedResults.get(graph);
+  if(!evidence||evidence.key!==corpus.key){evidence={key:corpus.key,edges:new WeakMap()};acceptedResults.set(graph,evidence);}
+  for(const edge of edges){graph.addEdge(edge);evidence.edges.set(edge,JSON.stringify(edge.getData().search));}
   return edges;
 }
 /** Records a negative judgment before removing an owned result; no model training is implied. */
@@ -65,5 +74,5 @@ export function rejectGraphSearchResult(graph:FreshGraph,edge:FreshEdge):void {
   const data=edge.from.getData(),search=record(data.search)??{},feedback=Array.isArray(search.feedback)?search.feedback:[];
   const entry={target:edge.to.getID()!,requestKey:result.requestKey!,request:result.request!,corpus:result.corpus!,judgment:"irrelevant"};
   edge.from.setData({...data,search:{...search,feedback:[...feedback.filter(f=>{const r=record(f);return r?.target!==entry.target||r.requestKey!==entry.requestKey;}),entry]}});
-  graph.deleteEdge(edge);
+  graph.deleteEdge(edge);acceptedResults.get(graph)?.edges.delete(edge);
 }

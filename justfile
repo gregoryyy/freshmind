@@ -48,9 +48,17 @@ search-flipbook *args: build-demo
 flipbook *args: build-demo
     node scripts/flipbook.mjs "$@"
 
+# Capture fixed-space radius-two browsing, shared identity and retrieval seeds.
+radius-two-flipbook *args: build-demo
+    node scripts/flipbook.mjs --tour radius-two "$@"
+
 # Capture sliders, horizontal choices and the retractable control panel.
 controls-showcase *args: build-demo
     node scripts/flipbook.mjs --tour controls "$@"
+
+# Evaluate a built radius-two application checkout (PR51 or later), without rebuilding it.
+radius-two-evaluation app="." output="docs/experiments/radius-two":
+    node scripts/radius-two-evaluation.mjs {{quote(app)}} {{quote(output)}}
 
 # Capture the six-view research-community RFC/hybrid showcase from the production browser.
 rfc-showcase *args: build-demo

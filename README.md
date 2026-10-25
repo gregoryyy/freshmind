@@ -25,10 +25,12 @@ Freshmind 4 reimplements and extends the original Reinforcement Focus+Context id
 | Reinforcement Focus + Context | Implemented planned mechanisms: multiple foci, [automatic two-level neighborhoods](docs/automatic-rfc-neighborhoods.md), stored structures, clustering, importance weights, optional region exclusion and reversible type filtering/leaf aggregation, with reproducible synthetic comparisons. |
 | Readability | Measured node-label separation with pinned/focus protection and overlap counts; automatic relation-label placement near clear curve positions. |
 | Graph visual search | Elasticlunr literal retrieval and FM 2014-style LDA semantics, with [query entry directly on graph nodes](docs/graph-search.md), metrics, local models and feedback; results surround an invisible exclusion disk that clears other node bodies. Embeddings deferred. |
-| Application research and alternative views | Literature/application review and radius-two design/mockup complete; production implementation and evaluation remain pending. |
+| Application research and alternative views | Research/design and an opt-in [radius-two browser](docs/radius-two-browser.md) are implemented, including shared identities, paging, overlay editing and lexical/LDA result seeds. Comparative evaluation and the public dependency-impact pilot remain pending. |
 | System assurance | [Intent, constraints, architecture and verification approach](docs/assurance/README.md) documented for review. Implementation mapping, risk assessment and conformance checks remain pending. |
 
 See the [roadmap](docs/TODO.md) for agreed scope and the [implementation record](docs/DONE.md) for verification and compatibility limits. Feature delivery is distinct from conformance to the [assurance baseline](docs/assurance/README.md); that audit has not been completed. Experiments use small synthetic graphs and corpora; they do not establish general convergence, perceptual benefit or retrieval quality. The layout uses point-based forces, so labels can overlap, and pairwise repulsion is quadratic in visible nodes. **View → Label spacing** offers paused node separation and automatic relation-label placement; see the [readability guide](docs/readability.md).
+
+The [radius-two task/cost comparison](docs/experiments/radius-two/README.md) evaluates the browser in [PR51](https://github.com/gregoryyy/freshmind/pull/51) against a public dependency graph and four baselines. These are software checks and analytical task answers; the [maintainer pilot](docs/experiments/radius-two/PILOT.md) still needs actual observations.
 
 ## Run the browser
 
@@ -91,7 +93,7 @@ panel.getRfc().setFocus(person); // Library applications opt in to RFC.
 | Topic | Reference |
 | --- | --- |
 | System intent, constraints and assurance | [Assurance approach and baseline](docs/assurance/README.md) |
-| Application research and future layouts | [ROAD: use cases, related work and libraries](docs/ROAD.md), [radius-two view design](docs/radius-two-view.md) |
+| Application research and future layouts | [ROAD: use cases, related work and libraries](docs/ROAD.md), [radius-two view design](docs/radius-two-view.md), [browser guide](docs/radius-two-browser.md) |
 | Browser controls and examples | [Key map](docs/KEYMAP.md), [walkthrough](docs/flipbook/README.md) |
 | Freshmind models, types, navigation, editing and YAML | [Feature design](docs/fm_port-design.md) |
 | Source modules and package entry points | [Module map](src/README.md) |

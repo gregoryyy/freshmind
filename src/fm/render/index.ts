@@ -8,3 +8,5 @@
 
 export {FreshmindPresentation} from "./presentation.js";
 export type {ClusterRegion,EdgeInteraction} from "./presentation.js";
+export {RadiusTwoRenderer} from "./radius-two.js";
+export type {RadiusRenderActions} from "./radius-two.js";

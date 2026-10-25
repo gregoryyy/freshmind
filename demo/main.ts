@@ -8,6 +8,7 @@
 
 import { FreshNode, FreshEdge, FreshGraph, FreshmindPanel } from "../src/fm/index.js";
 import type { FreshmindSelection, CurveMode } from "../src/fm/index.js";
+import {RadiusTwoView} from "../src/fm/browser/index.js";
 import { SelectionEditor } from "./selection-editor.js";
 import { bindGraphAspectControls, bindChoiceRadios, bindPanelToggle, bindNumericSliders, bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls, bindNodeDetails,bindStructuralViewControls,bindNodeImportanceControls,bindGraphSearchControls,bindReadabilityControls,bindLabelEditingControls,bindMotionControls } from "../src/fm/ui/index.js";
 import "../src/fm/ui/style.css";
@@ -121,7 +122,8 @@ const disposeStructuralView=bindStructuralViewControls(panel,{
 });
 panel.setGraphEltSet(graph);
 panel.addGraphListener({ graphMoved: () => { updateCounts(); updateViewControls(); } });
-const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); });
+let radiusView: RadiusTwoView | undefined;
+const editor = new SelectionEditor(panel, () => { updateInspector(panel.getSelection()); updateCounts(); radiusView?.markChanged(); });
 const disposeLabelEditing=bindLabelEditingControls(panel,{mode:get<HTMLSelectElement>("label-editing-mode"),status:get("label-editing-status")});
 const navigation = panel.getNavigation();
 const disposeDetails = bindNodeDetails(panel, {graph: get("graph"), onNodeLink: focusOn, onEdit: () => editor.focusDetails()});
@@ -143,6 +145,10 @@ const disposeStructuralEditing = bindStructuralEditing(panel, {editLabel: () => 
 for (const command of ["add", "parent", "sibling", "sibling-parent", "link-center", "copy", "paste", "link-copy", "initial-focus"] as const)
   get("command-" + command).addEventListener("click", () => navigation.structural(command));
 panel.addSelectionListener(selection => { updateInspector(selection); editor.show(selection); });
+radiusView = new RadiusTwoView(panel, {container:get("radius-two-view"),graphContainer:get("graph"),toggle:get<HTMLSelectElement>("exploration-view"),
+  nodeLinkElements:[document.querySelector<HTMLElement>(".canvas-heading")!,document.querySelector<HTMLElement>(".canvas-tools")!,document.querySelector<HTMLElement>(".canvas-footer")!],
+  editLabel:()=>editor.focusLabel(),editDetails:()=>editor.focusDetails()});
+get("item-editor-overlay").addEventListener("close",()=>radiusView?.focusSelection());
 
 /** Reflects lens and default edge-form changes from keyboard, controls or configuration reloads. */
 function updateViewControls(): void {
@@ -273,9 +279,9 @@ get("motion").addEventListener("click", () => {
 const disposeSliders=bindNumericSliders(panel,document.querySelector<HTMLElement>(".sidebar")!);
 const disposeChoices=bindChoiceRadios(panel,document.querySelector<HTMLElement>(".sidebar")!);
 // Useful for experimenting with the library from the browser console.
-Object.assign(window, { graphBrowser: panel });
+Object.assign(window, { graphBrowser: panel, radiusTwoView: radiusView });
 void focusOn(root).then(() => {
   if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
 });
-window.addEventListener("pagehide", () => { disposeChoices(); disposeSliders(); controlsPanel.dispose(); disposeStructuralEditing(); disposeAspect(); disposeMotion(); disposeLabelEditing(); disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { radiusView?.dispose(); disposeChoices(); disposeSliders(); controlsPanel.dispose(); disposeStructuralEditing(); disposeAspect(); disposeMotion(); disposeLabelEditing(); disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });
