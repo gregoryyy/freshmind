@@ -227,5 +227,7 @@ export class TGLayout {
     this.timer = setTimeout(run, 0);
   }
   /** Cancels scheduling, including callbacks invalidated by a stop/restart during repaint. */
+  /** Read-only lifecycle state for callers that temporarily suspend layout. */
+  isRunning(): boolean { return this.running; }
   stop(): void { this.running = false; this.generation++; clearTimeout(this.timer); this.timer = undefined; }
 }

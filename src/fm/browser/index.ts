@@ -18,3 +18,5 @@ export {separateNodeLabels} from "./readability.js";
 export type {LabelSeparationResult} from "./readability.js";
 export {bindStructuralEditing} from "./structural-editing.js";
 export type {StructuralEditingOptions} from "./structural-editing.js";
+export {RadiusTwoView} from "./radius-two.js";
+export type {RadiusTwoViewOptions} from "./radius-two.js";
