@@ -54,6 +54,7 @@ export class FreshmindPanel extends TGPanel {
   private types: TypeRegistry;
   private readonly presentation=new FreshmindPresentation();
   private selectedEdge: FreshEdge|null=null;
+  private completeSelection = false;
   private readonly selectionListeners = new Set<SelectionListener>();
   private readonly graphChangeListeners=new Set<()=>void>();
   private navigation?: FreshmindNavigation;
@@ -333,21 +334,30 @@ export class FreshmindPanel extends TGPanel {
    * Selects a visible relation, retaining an incident selected node as the navigation anchor.
    * If necessary, selects its source through TGPanel before applying edge highlighting.
    * @param edge Relation to select, or null to clear edge selection while keeping the node anchor.
+   * @param options Detached views may explicitly select a hidden complete-graph relation without revealing it.
    * @throws {Error} If edge is not in the visible locality.
    */
-  setSelectEdge(edge:FreshEdge|null):void {
-    if(edge&&!this.getGES().contains(edge))throw new Error("Selected edge must be visible");
+  setSelectEdge(edge:FreshEdge|null, options: {allowHidden?: boolean} = {}):void {
+    if(edge&&!(options.allowHidden?this.getCompleteEltSet():this.getGES()).contains(edge))throw new Error(options.allowHidden?"Selected relation must belong to the complete graph":"Selected edge must be visible");
     this.navigation?.cancel(undefined, false);
+    this.completeSelection = Boolean(options.allowHidden);
     if(edge&&this.getSelect()!==edge.from&&this.getSelect()!==edge.to)super.setSelect(edge.from);
     this.selectedEdge=edge;this.repaint();this.selectionChanged();
   }
   /** Explicit node selection also clears edge selection and delegates callbacks to TGPanel. */
-  override setSelect(node:Node|null):void{this.navigation?.cancel(undefined,false);this.selectedEdge=null;super.setSelect(node);this.selectionChanged();}
+  override setSelect(node:Node|null, options:{allowHidden?:boolean}={}):void {
+    if(options.allowHidden&&node&&(!(node instanceof FreshNode)||!this.getCompleteEltSet().contains(node)))throw new Error("Selected node must belong to the complete graph");
+    this.navigation?.cancel(undefined,false);this.selectedEdge=null;this.completeSelection=Boolean(node&&options.allowHidden);super.setSelect(node);this.selectionChanged();
+  }
+  protected override selectionIsValid(node:Node):boolean {
+    return this.completeSelection?this.getCompleteEltSet().contains(node):super.selectionIsValid(node);
+  }
+
   /** Clears hidden edge selection/geometry after the base panel reconciles its references. */
   override localityChanged():void {
     this.structuralView?.refresh();
     super.localityChanged();
-    if(this.selectedEdge&&!this.getGES().contains(this.selectedEdge)){
+    if(this.selectedEdge&&!(this.completeSelection?this.getCompleteEltSet():this.getGES()).contains(this.selectedEdge)){
       this.selectedEdge=null;this.selectionChanged();
     }
     for(const edge of this.getCompleteEltSet().getEdges())if(edge instanceof FreshEdge&&!this.getGES().contains(edge))edge.setGeometry(null);

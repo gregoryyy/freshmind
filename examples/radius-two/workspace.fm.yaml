@@ -1,0 +1,514 @@
+format: freshmind
+version: 1
+title: Fictional workspace relationships
+types:
+  format: freshmind-types
+  version: 1
+  id: freshmind-2014
+  defaults:
+    nodeType: default
+    relationType: default
+    nodeVisual: default
+    edgeVisual: default
+  nodeTypes:
+    default:
+      label: Default
+      visual: default
+    paper:
+      label: Paper
+      visual: paper
+    person:
+      label: Person
+      visual: person
+    idea:
+      label: Idea
+      visual: idea
+    task:
+      label: Task
+      visual: task
+    topic:
+      label: Topic
+      visual: topic
+    project:
+      label: Project
+      visual: project
+    software:
+      label: Software
+      visual: software
+    simplequery:
+      label: Simple query
+      visual: simplequery
+      queryKind: simple
+    lucenequery:
+      label: Lucene query
+      visual: lucenequery
+      queryKind: lucene
+    ldaquery:
+      label: LDA query
+      visual: ldaquery
+      queryKind: lda
+    group:
+      label: Group
+      visual: group
+    event:
+      label: Event
+      visual: event
+    presentation:
+      label: Presentation
+      visual: presentation
+    concept:
+      label: Concept
+      visual: concept
+    annot:
+      label: Annotation
+      visual: annot
+    decision:
+      label: Decision
+      visual: decision
+    proposal:
+      label: Proposal
+      visual: proposal
+    question:
+      label: Question
+      visual: question
+    location:
+      label: Location
+      visual: location
+    time:
+      label: Time
+      visual: time
+  relationTypes:
+    default:
+      label: Relation
+      visual: default
+    authored:
+      label: Authored
+      visual: default
+    cites:
+      label: Cites
+      visual: default
+  nodeVisuals:
+    default:
+      shape: rectangle
+      fill: "#a03000"
+      text:
+        color: "#ffffff"
+        font: bold 13px Arial, sans-serif
+      stroke:
+        color: "#000000"
+        width: 1
+        dash: solid
+      label:
+        maxWidth: 150
+        paddingX: 8
+        paddingY: 4
+      halo:
+        enabled: true
+        opacity: 0.3
+      importance:
+        mode: size
+        minScale: 0.85
+        maxScale: 1.5
+      states:
+        fixed:
+          fill: "#0000ff"
+        selected:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        hover:
+          fill: "#ffff00"
+          text:
+            color: "#171717"
+        preselected:
+          fill: "#ff9000"
+          text:
+            color: "#171717"
+        activeCandidate:
+          stroke:
+            color: "#183b2b"
+            width: 3
+    paper:
+      extends: default
+      shape: double-trapezoid-vertical
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    person:
+      extends: default
+      shape: rounded-rectangle
+      fill: "#30a000"
+      text:
+        color: "#171717"
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    idea:
+      extends: default
+      shape: double-trapezoid-horizontal
+      fill: "#0030a0"
+      states:
+        fixed:
+          fill: "#ff00ff"
+          text:
+            color: "#171717"
+    task:
+      extends: default
+      shape: inverted-trapezoid
+      fill: "#303000"
+      states:
+        fixed:
+          fill: "#00ff00"
+          text:
+            color: "#171717"
+    topic:
+      extends: default
+      shape: rounded-rectangle
+      states:
+        fixed:
+          fill: "#888888"
+          text:
+            color: "#171717"
+    project:
+      extends: default
+      shape: rounded-rectangle
+    software:
+      extends: default
+      shape: parallelogram-right
+      states:
+        fixed:
+          fill: "#00ffff"
+          text:
+            color: "#171717"
+    query:
+      extends: default
+      shape: ellipse
+      fill: "#00ff00"
+      text:
+        color: "#0000ff"
+      states:
+        fixed:
+          fill: "#00ff00"
+    simplequery:
+      extends: query
+      stroke:
+        dash: dashed
+    lucenequery:
+      extends: query
+      stroke:
+        dash: long-dashed
+    ldaquery:
+      extends: query
+      stroke:
+        dash: dash-dotted
+    group:
+      extends: default
+      shape: ellipse
+      fill: "#88ff88"
+      text:
+        color: "#222288"
+      states:
+        fixed:
+          fill: "#88ff88"
+        selected:
+          fill: "#ffff88"
+        hover:
+          fill: "#ffff88"
+    event:
+      extends: query
+      stroke:
+        dash: solid
+    presentation:
+      extends: query
+      shape: double-trapezoid-vertical
+    concept:
+      extends: query
+      shape: parallelogram-right
+    annot:
+      extends: query
+      shape: parallelogram-left
+    decision:
+      extends: query
+      shape: convex-rectangle
+    proposal:
+      extends: query
+      shape: inverted-trapezoid
+    question:
+      extends: query
+      shape: trapezoid
+    location:
+      extends: query
+      shape: convex-rectangle
+    time:
+      extends: query
+      shape: concave-rectangle
+  edgeVisuals:
+    default:
+      curve: spider
+      stroke:
+        color: "#0000b0"
+        width: 1
+        dash: solid
+      arrow:
+        placement: middle
+        size: 5
+      label:
+        font: 12px Arial, sans-serif
+        color: "#0000b0"
+        offset:
+          x: 2
+          "y": 12
+      states:
+        hover:
+          stroke:
+            color: "#ff3030"
+        selected:
+          stroke:
+            color: "#ff0000"
+        preselected:
+          stroke:
+            color: "#ff9000"
+        activeCandidate:
+          stroke:
+            color: "#ffdd55"
+            width: 3
+nodes:
+  - id: workspace
+    label: Workspace
+    type: project
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": 0
+    data: {}
+    extensions: {}
+  - id: render
+    label: Renderer
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -100
+      "y": -70
+    data: {}
+    extensions: {}
+  - id: navigate
+    label: Navigation
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 100
+      "y": -70
+    data: {}
+    extensions: {}
+  - id: edit
+    label: Editor
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 0
+      "y": 100
+    data: {}
+    extensions: {}
+  - id: selection
+    label: Selection
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: -180
+      "y": -160
+    data: {}
+    extensions: {}
+  - id: history
+    label: History
+    type: idea
+    visual: {}
+    annotation:
+      format: text
+      text: ""
+    url: ""
+    weight: 1
+    fixed: false
+    position:
+      x: 180
+      "y": -160
+    data: {}
+    extensions: {}
+edges:
+  - id: wr
+    from: workspace
+    to: render
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: nw
+    from: navigate
+    to: workspace
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: we
+    from: workspace
+    to: edit
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: re
+    from: render
+    to: edit
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: rs1
+    from: render
+    to: selection
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: rs2
+    from: render
+    to: selection
+    label: uses
+    type: default
+    visual: {}
+    weight: 0
+    length: 40
+    data: {}
+    extensions: {}
+  - id: sr
+    from: selection
+    to: render
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: ns
+    from: navigate
+    to: selection
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: nh
+    from: navigate
+    to: history
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: sh
+    from: selection
+    to: history
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: rr
+    from: render
+    to: render
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: ww
+    from: workspace
+    to: workspace
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+  - id: hh
+    from: history
+    to: history
+    label: uses
+    type: default
+    visual: {}
+    weight: 10
+    length: 40
+    data: {}
+    extensions: {}
+data:
+  provenance: Original fictional graph for radius-two interaction checks, not an application dependency dataset.
+extensions: {}
+initialFocus: workspace
+view:
+  focus: workspace
+  wholeGraph: true
+  radius: 2
+  lenses:
+    zoom: 1
+    hyperbolic: 0
+    rotation: 0
+  canvas:
+    zoom: 1

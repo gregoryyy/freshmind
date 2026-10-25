@@ -6,8 +6,8 @@ Completed work, implementation notes, deviations, and lessons are recorded in [D
 
 The [ROAD document](ROAD.md) researches modern applications, RFC/visual-search
 techniques and libraries, and proposes a radius-two adjacency view. Its research
-and interactive design are complete; implementation/evaluation tasks in milestone
-6 below are proposed future increments.
+and interactive design are complete. Milestone 6 now includes the opt-in
+radius-two browser; comparative evaluation and the public dependency pilot remain.
 
 **Current status:** Milestones 1–3 are complete within their agreed scope.
 Milestone 2 includes the restored FM 2014 keyboard structural-editing workflow;
@@ -215,17 +215,17 @@ Crossings, decorations and continuous node collision handling remain future work
 ## 6. Applications and radius-two exploration
 
 The [research roadmap](ROAD.md) and [design contract](radius-two-view.md) define
-this direction. Completed research/design is distinct from the proposed
-implementation below. Keep retrieval behind IR contracts; use the elasticlunr
+this direction. The implemented projection/browser remains distinct from the
+evaluation and pilot below. Keep retrieval behind IR contracts; use the elasticlunr
 and LDA capabilities described above. Embedding retrieval remains deferred.
 
 - [x] 6.1 Research high-value application workflows, RFC/visual-search state of the art and available libraries, with primary sources and explicit shortcomings; extend [ROAD Appendix A](ROAD.md#appendix-a-related-work-before-2024) with pre-2024 work and distinguish close comparisons from adjacent techniques.
 - [x] 6.2 Design the orthogonal radius-two view: vertical direct neighbors, horizontal second-hop occurrences, relationship labels/weights, shared identity, non-row relations, bounded data access and keyboard/overlay integration. Provide an interactive fictional mockup.
-- [ ] 6.3 Implement a detached, deterministic radius-two projection with stable identities, explicit occurrence/edge records, direction/filter policies and incomplete-page contracts; verify graph/coordinate preservation and graph-replacement behavior.
-- [ ] 6.4 Add an opt-in bounded browser view with measured/virtual rows and cells, paging, selection, pivot/history, accessible navigation and shared overlay editing; preserve the current RFC/lens view.
-- [ ] 6.5 Connect existing retrieval results as view seeds without changing IR ownership; use the LDA adapter and preserve query provenance, cancellation and stale-result guards.
-- [x] 6.6 Evaluate correctness, browser costs and user tasks against ordinary ego node-link, RFC and simple list/tree baselines, with a matrix for shared-neighbor tasks; use attributed data and distinguish unique nodes, occurrences and edge records. The [software evaluation](experiments/radius-two/README.md) targets the browser in PR51; task analysis is distinct from human results in 6.7.
-- [ ] 6.7 Run a narrow maintainer/researcher pilot to validate a repeated investigation task; revise the representation if direction, sharing or missing context causes errors. **Blocked pending participant observations** using the [public dependency-impact protocol](experiments/radius-two/PILOT.md); no human results are claimed.
+- [x] 6.3 Implement a detached, deterministic radius-two projection with stable identities, explicit occurrence/edge records, direction/filter policies and incomplete-page contracts; verify graph/coordinate preservation and graph-replacement behavior.
+- [x] 6.4 Add an opt-in bounded browser view with measured/virtual rows and cells, paging, selection, pivot/history, accessible navigation and shared overlay editing; preserve the current RFC/lens view.
+- [x] 6.5 Connect existing retrieval results as view seeds without changing IR ownership; use the LDA adapter and preserve query provenance, cancellation and stale-result guards.
+- [ ] 6.6 Evaluate correctness, browser costs and user tasks against ordinary ego node-link, RFC and simple list/tree baselines, with a matrix for shared-neighbor tasks; use attributed data and distinguish unique nodes, occurrences and edge records.
+- [ ] 6.7 Run a narrow maintainer/researcher pilot to validate a repeated investigation task; revise the representation if direction, sharing or missing context causes errors.
 - [ ] 6.8 Add one application adapter after the pilot identifies a useful task and available source, initially considering dependency impact, evidence exploration or data lineage; preserve source evidence and scope.
 
 ## 7. System assurance

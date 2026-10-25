@@ -9,3 +9,5 @@ export {StructuralViewController} from "./controller.js";
 export type {StructuralViewState,StructuralViewHost} from "./controller.js";
 export {projectStructuralView,validateStructuralView,structuralViewDefaults} from "./projection.js";
 export type {StructuralProjection,StructuralViewSettings,AggregationGroup} from "./projection.js";
+export {captureRadiusSnapshot,projectRadiusTwo} from "./radius-two.js";
+export type {RadiusNode,RadiusEdge,RadiusSnapshot,RadiusPage,RadiusWing,RadiusOccurrence,RadiusRow,RadiusOptions,RadiusProjection} from "./radius-two.js";

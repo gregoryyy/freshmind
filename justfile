@@ -48,6 +48,10 @@ search-flipbook *args: build-demo
 flipbook *args: build-demo
     node scripts/flipbook.mjs "$@"
 
+# Capture fixed-space radius-two browsing, shared identity and retrieval seeds.
+radius-two-flipbook *args: build-demo
+    node scripts/flipbook.mjs --tour radius-two "$@"
+
 # Capture sliders, horizontal choices and the retractable control panel.
 controls-showcase *args: build-demo
     node scripts/flipbook.mjs --tour controls "$@"

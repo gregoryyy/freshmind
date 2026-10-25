@@ -43,6 +43,8 @@
           </div>
           </details>
           <details class="sidebar-section" id="view-section" open><summary>View</summary>
+          <label class="control-label" for="exploration-view">Exploration view</label>
+          <select id="exploration-view"><option value="node-link" data-short-label="Graph">Graph with RFC / viewing lenses</option><option value="radius-two" data-short-label="Radius two">Radius-two adjacency</option></select>
           <label class="control-label" for="label-editing-mode">Label editing</label>
           <select id="label-editing-mode" aria-describedby="label-editing-help"><option value="on-demand">On demand (F2)</option><option value="in-place">In place</option></select>
           <p id="label-editing-help" class="control-help">In place: click node or relation text to edit while it moves. Leaving the label saves; Escape cancels. Ctrl/Cmd+Enter saves a node; Enter also saves a relation. Drag nodes by their body.</p>
@@ -233,6 +235,7 @@
         <section class="workspace" aria-label="Graph workspace">
           <div class="canvas-heading"><span id="graph-count"></span></div>
           <div id="graph"></div>
+          <section id="radius-two-view" hidden></section>
           <div class="canvas-tools" role="group" aria-label="Canvas zoom"><button id="zoom-in" aria-label="Canvas zoom in" title="Canvas zoom in (Shift+Option/Alt+↑ or +)">+</button><button id="zoom-reset" aria-label="Reset canvas zoom" title="Reset canvas zoom to 100% (Ctrl+Shift+1)">100%</button><button id="zoom-out" aria-label="Canvas zoom out" title="Canvas zoom out (Shift+Option/Alt+↓ or −)">−</button><button id="center" aria-label="Center view" title="Center view">◎</button></div>
           <div class="canvas-footer"><span>Scroll ↑/↓: graph spacing · Scroll ←/→: focus + context · Pinch: canvas zoom · F2 to edit</span><button id="motion">Pause motion</button></div>
         </section>
