@@ -16,3 +16,5 @@ export {GraphQueryEditor} from "./query-editor.js";
 export type {GraphSearchState,GraphSearchOptions,SearchWorkerFactory} from "./search.js";
 export {separateNodeLabels} from "./readability.js";
 export type {LabelSeparationResult} from "./readability.js";
+export {bindStructuralEditing} from "./structural-editing.js";
+export type {StructuralEditingOptions} from "./structural-editing.js";

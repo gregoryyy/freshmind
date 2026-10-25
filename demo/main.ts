@@ -13,7 +13,7 @@ import { bindZoomControls, bindKeymap, bindRfcControls, bindSubstructureControls
 import "../src/fm/ui/style.css";
 import { bindFileControls } from "./file-controls.js";
 import {bindRfcShowcase} from "./rfc-showcase.js";
-import { resourceURL } from "../src/fm/browser/index.js";
+import { bindStructuralEditing, resourceURL } from "../src/fm/browser/index.js";
 import "./style.css";
 
 const get = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -108,7 +108,7 @@ const disposeStructures=bindSubstructureControls(panel,{
 });
 const showcase=bindRfcShowcase(panel,{container:get("rfc-showcase"),mode:get<HTMLSelectElement>("rfc-showcase-view"),
   fit:get<HTMLButtonElement>("rfc-showcase-fit"),caption:get("rfc-showcase-caption")});
-bindFileControls(panel,showcase.loaded);
+const fileControls = bindFileControls(panel,showcase.loaded);
 const disposeStructuralView=bindStructuralViewControls(panel,{
   enabled:get<HTMLInputElement>("structural-enabled"),hiddenNodeTypes:get<HTMLSelectElement>("structural-node-types"),
   hiddenRelationTypes:get<HTMLSelectElement>("structural-relation-types"),aggregateTypes:get<HTMLSelectElement>("structural-aggregate-types"),
@@ -134,6 +134,10 @@ navigation.addListener(state => {
     if (document.activeElement !== get(id)) get<HTMLInputElement>(id).value = String(value);
   updateDetails(); updateCounts();
 });
+const disposeStructuralEditing = bindStructuralEditing(panel, {editLabel: () => editor.openInline(), changed: updateCounts,
+  initialFocus: fileControls.initialFocus, newDocument: fileControls.newDocument});
+for (const command of ["add", "parent", "sibling", "sibling-parent", "link-center", "copy", "paste", "link-copy", "initial-focus"] as const)
+  get("command-" + command).addEventListener("click", () => navigation.structural(command));
 panel.addSelectionListener(selection => { updateInspector(selection); editor.show(selection); });
 
 /** Reflects lens and default edge-form changes from keyboard, controls or configuration reloads. */
@@ -243,6 +247,7 @@ get("edit-mode").addEventListener("click", () => {
   get("edit-mode").setAttribute("aria-pressed", String(editing));
   get("edit-help").hidden = !editing;
   get("add-node").hidden = !editing;
+  get("structural-commands").hidden = !editing;
   get("delete-item").hidden = !editing;
   panel.focusGraph();
 });
@@ -266,5 +271,5 @@ Object.assign(window, { graphBrowser: panel });
 void focusOn(root).then(() => {
   if(panel.getCompleteEltSet()===graph&&panel.getGES().contains(root))panel.getRfc().setFocus(root);
 });
-window.addEventListener("pagehide", () => { disposeMotion(); disposeLabelEditing(); disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
+window.addEventListener("pagehide", () => { disposeStructuralEditing(); disposeMotion(); disposeLabelEditing(); disposeReadability(); disposeSearch(); showcase.dispose(); disposeImportance(); disposeStructuralView(); disposeDetails(); disposeStructures(); disposeRfc(); disposeKeymap(); disposeZoom(); panel.destroy(); }, { once: true });
 document.fonts.ready.then(() => { if (allVisible) updateCounts(); panel.repaint(); });

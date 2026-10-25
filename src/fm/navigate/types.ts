@@ -67,6 +67,7 @@ export interface NavigationActions {
   editQuery?(item:NavigationItem):boolean;
   help?(): void; openResource?(): void; reverseRelation?(): void;
   quickSearch?():void; search?(semantic:boolean):void; similar?(semantic:boolean):void; index?(semantic:boolean):void;
+  structural?(command: "add" | "parent" | "sibling" | "sibling-parent" | "link-center" | "copy" | "paste" | "link-copy" | "initial-focus" | "new-document"): string | void;
   adjustWeight?(item:NavigationItem,direction:1|-1):void;
 }
 /** Existing panel owners supply graph, selection, view and locality operations. */

@@ -280,6 +280,14 @@ export class FreshmindNavigation {
   private run(operation: Promise<void>): void {
     void operation.catch(error => { if (!this.disposed) { this.message = error instanceof Error ? error.message : String(error); this.publish(); } });
   }
+  /** Shared entry for shortcuts and keyboard-accessible command buttons. */
+  structural(command: Parameters<NonNullable<NavigationActions["structural"]>>[0]): void {
+    if (this.disposed || !this.actions.structural) return;
+    this.cancel(undefined, false);
+    try {const message = this.actions.structural(command); if (message) {this.message = message; this.publish();}} catch (error) {
+      this.message = error instanceof Error ? error.message : String(error); this.publish();
+    }
+  }
   /** Handles graph-scoped keys, including Ctrl and Shift+Alt view shortcuts; other chords pass through. */
   handleKey(event: NavigationKey): boolean {
     if (this.disposed || event.metaKey || event.isComposing) return false;
@@ -296,6 +304,11 @@ export class FreshmindNavigation {
       return true;
     }
     if (event.ctrlKey) {
+      const keyName = event.key.toLowerCase();
+      const creation = keyName === "n" || keyName === "insert" ? "add" : keyName === "m" ? "parent" : undefined;
+      const command = creation ? (event.shiftKey ? creation === "add" ? "sibling" : "sibling-parent" : creation) :
+        !event.shiftKey ? ({l:"link-center", c:"copy", v:"paste", b:"link-copy", j:"initial-focus", a:"new-document"} as const)[keyName as "l"] : undefined;
+      if (command && this.actions.structural) {if (!event.repeat) this.structural(command); return true;}
       const key=event.key.toLowerCase(),action=key==="f"?this.actions.search:key==="r"?this.actions.similar:key==="i"?this.actions.index:undefined;
       if(action){if(!event.repeat)action(Boolean(event.shiftKey));return true;}
       if(!event.shiftKey&&(key==="g"||key==="h")&&this.actions.adjustWeight){
@@ -328,6 +341,9 @@ export class FreshmindNavigation {
       if (this.pending) this.confirm();
       else if (event.key === "Enter") this.run(this.centerSelection()); else this.toggleDetails();
       return true;
+    }
+    if (!event.shiftKey && event.key.toLowerCase() === "u") {
+      this.host.setSelectEdge(null); return true;
     }
     if (event.key === "Escape") {
       if (this.pending) this.cancel("Preselection canceled.");
