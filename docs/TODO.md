@@ -246,3 +246,17 @@ baseline, not a declaration that the implementation meets it.
 
 - [ ] 8.1 Define undo/redo coverage and retention for intentional graph edits, including compound operations, document replacement, retrieval mutations and layout/navigation boundaries; keep local/private data handling explicit.
 - [ ] 8.2 Implement bounded local undo/redo with clear commands and deterministic checks for restoration, stable identities, invalidation and teardown; document supported operations and limitations.
+
+## 9. Interaction UX review
+
+Review pointer, keyboard, touch and their combinations, prioritizing the control
+panel and in-place node/relation editing. The [review plan](ROAD.md#interaction-ux-review)
+uses Fitts' law and complementary interaction principles to frame observations;
+adding this milestone does not claim the review or resulting changes are complete.
+
+- [ ] 9.1 Inventory interaction states and task paths across mouse/trackpad, keyboard-only, touch and mixed input; record focus/selection ownership, gesture conflicts, modifier complexity, discoverability and platform/browser differences.
+- [ ] 9.2 Review the control panel first: grouping and choice overload, sliders/radios/multiple selection, actual hit surfaces and first-gesture response, precise value adjustment, feedback, retraction/reopening, scrolling and narrow-screen reachability. Compare pointer, keyboard and touch operation without prescribing a replacement control type in advance.
+- [ ] 9.3 Evaluate in-place node and edge editing against on-demand overlays using Fitts' law, moving-target acquisition, target width/distance, caret/text selection, dragging-versus-editing, commit/cancel and accidental activation. Include layout motion, lenses/zoom, IME and touch keyboards.
+- [ ] 9.4 Review input combinations and handoffs: pointer selection followed by shortcuts, graph/panel/editor focus transitions, modifier-drag, scrolling/pinch versus graph gestures, touch without hover, and recovery after cancellation or document replacement. Check accessible non-drag alternatives and visible focus.
+- [ ] 9.5 Produce a prioritized findings report with reproducible tasks, device/input coverage, acquisition/action counts, completion times, errors and user observations. Apply choice/steering models and usability heuristics where relevant; distinguish model predictions, deterministic checks and human evidence.
+- [ ] 9.6 Implement evidence-backed improvements in separate scoped PRs, add interaction regressions for the affected states, and repeat the reviewed tasks; document unresolved tradeoffs and coverage gaps.

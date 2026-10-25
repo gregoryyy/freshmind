@@ -201,6 +201,50 @@ incomplete or incorrect answers. Test keyboard and non-hover interactions. A
 small pilot helps refine the design; general performance claims require a
 properly designed study.
 
+## Interaction UX review
+
+Requested follow-up, **2026-10-25**; [TODO milestone 9](TODO.md#9-interaction-ux-review).
+Review the interaction as a whole across **pointer, keyboard, touch and their
+combinations**, starting with the control panel. This is planned review work,
+separate from the radius-two application pilot and its domain-task questions.
+
+| Priority | Review questions |
+| --- | --- |
+| **Control panel first** | Can users find the relevant setting, acquire its actual clickable surface and change it on the first gesture? Review sliders, radios and multiple selection, grouping, feedback, precise adjustment, collapse/reopen behavior, scrolling, focus return and narrow-screen reach. Retain the requested control choices unless evidence supports a change. |
+| **In-place node and edge editing** | How far must users travel to acquire a label, and how large/stable is its effective target? Compare in-place and overlay task paths while the layout moves and lenses/zoom change. Examine caret placement, text selection, relation targets, body dragging, commit/cancel, IME, touch selection handles and the on-screen keyboard. |
+| **Input handoffs** | Does a selected/focused item remain the intended command target when switching from pointer to keyboard, graph to panel/editor, or touch to a hardware keyboard? Review modifiers, pan/drag/selection conflicts, wheel/pinch ownership, cancellation and document replacement. Touch tasks must not depend on hover. |
+
+Use these complementary foundations as questions to test, rather than automatic
+proof that a design is good:
+
+- **Fitts' law:** target distance and effective width for acquiring labels and
+  controls. Measure real hit regions, including label-to-control associations,
+  rather than just painted bounds. Treat moving graph labels as an additional
+  experimental condition; do not assume a stationary-target model predicts them.
+  [Fitts (1954)](https://doi.org/10.1037/h0055392).
+- **Choice and steering:** assess the effort of finding a command among choices,
+  and constrained pointer paths where relevant. Inspect grouping and recognition
+  as well as the number of options; count actions and hand movements between
+  keyboard and pointer for representative tasks.
+  [Hick (1952)](https://journals.sagepub.com/doi/pdf/10.1080/17470215208416600),
+  [Accot & Zhai (1997), Beyond Fitts' Law](https://citeseerx.ist.psu.edu/document?doi=c55bfa1f5f3c8aa97a102ef88dba0026041c38b7&repid=rep1&type=pdf).
+- **Interaction heuristics and accessibility:** visibility of state, consistency,
+  direct manipulation, error prevention/recovery, recognition rather than recall,
+  keyboard operation, visible/unobscured focus, target size, concurrent input
+  mechanisms and alternatives to dragging.
+  [Nielsen's heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/),
+  [WCAG 2.2](https://www.w3.org/TR/WCAG22/).
+
+Deliver an interaction/state matrix and prioritized findings tied to reproducible
+tasks. Record device/browser, input combinations, novice/experienced use, target
+acquisition, action counts, task time, errors, assistance and unintended edits.
+Use deterministic tests for hit surfaces, focus routing, gesture ownership and
+commit/cancel; use actual participant observations for comprehension and effort.
+Implement scoped fixes with regression checks, then repeat the tasks. Preserve
+graph information and make unresolved tradeoffs explicit; neither model-based
+estimates nor automated event playback establish usability or accessibility
+conformance by themselves.
+
 ## Research scope and open decisions
 
 The survey searched the original RFC concept and adjacent work on constrained

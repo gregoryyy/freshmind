@@ -2,6 +2,15 @@
 
 This is the implementation record for [TODO.md](TODO.md). Entries include completed work, implementation decisions, deviations, and lessons. Earlier steps have been backfilled from the initial development work and Git history; they are retrospective records, not additional implementation claims.
 
+## Interaction UX review roadmap addition — 2026-10-25
+
+Added the requested pointer/keyboard/touch and mixed-input review as **milestone 9**,
+with the control panel first and in-place node/edge editing evaluated through
+Fitts' law, choice/steering models, interaction heuristics and accessibility
+criteria. The [plan](ROAD.md#interaction-ux-review) specifies tasks, evidence and
+follow-up fixes; all review/implementation tasks remain unchecked. Documentation
+links/anchors and whitespace were checked; no runtime behavior changed.
+
 ## Invisible search-result disk and readable walkthroughs — 2026-10-25
 
 - Completes **4.22**. Browser search centers a successful query/similarity source and restricts its RFC star to accepted result links. Measured result bodies occupy a rank-ordered rim around an **invisible** disk; all other visible node bodies are projected outside it. No boundary/fill or synthetic semantic relation is drawn. The LDA query placeholder reads **Type a semantic query**.
